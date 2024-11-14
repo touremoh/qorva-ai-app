@@ -1,0 +1,11 @@
+{
+  "login": {
+    "title": "Accesso",
+    "subtitle": "Accedi al tuo account",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "signInButton": "Accedi",
+    "noAccount": "Non hai ancora un account?",
+    "signUpButton": "Registrati"
+  }
+}
