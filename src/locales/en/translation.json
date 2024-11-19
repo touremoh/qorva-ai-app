@@ -7,5 +7,28 @@
     "signInButton": "Sign In",
     "noAccount": "Don’t have an account yet?",
     "signUpButton": "Sign Up"
+  },
+  "registration": {
+    "title": "User Registration",
+    "userInfo": "User Information",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Professional Email",
+    "password": "Password",
+    "repeatPassword": "Repeat Password",
+    "position": "Position in Company",
+    "companyInfo": "Company Information",
+    "companyName": "Company Name",
+    "website": "Company Website",
+    "selectIndustry": "Select Industry",
+    "registerButton": "Register",
+    "successMessage": "Registration successful!",
+    "freeTrialTitle": "Try Us for Free!",
+    "freeTrial": "Enjoy a 1-month free trial with full access to all features",
+    "cancelAnytimeTitle": "No Commitments!",
+    "cancelAnytime": "Flexibility guaranteed - cancel your subscription at any time, hassle-free",
+    "dataDeletedTitle": "Your Privacy Matters!",
+    "dataDeleted": "Rest assured, all your data will be permanently deleted after cancellation to protect your privacy"
   }
 }
+

@@ -7,5 +7,27 @@
     "signInButton": "Se connecter",
     "noAccount": "Vous n'avez pas encore de compte?",
     "signUpButton": "S'inscrire"
+  },
+  "registration": {
+    "title": "Inscription Utilisateur",
+    "userInfo": "Informations Utilisateur",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "email": "Email Professionnel",
+    "password": "Mot de Passe",
+    "repeatPassword": "Répétez le Mot de Passe",
+    "position": "Poste dans l'Entreprise",
+    "companyInfo": "Informations sur l'Entreprise",
+    "companyName": "Nom de l'Entreprise",
+    "website": "Site Web de l'Entreprise",
+    "selectIndustry": "Sélectionner l'Industrie",
+    "registerButton": "S'inscrire",
+    "successMessage": "Inscription réussie!",
+    "freeTrialTitle": "Essayez Gratuitement!",
+    "freeTrial": "Profitez d'un essai gratuit d'un mois avec accès complet à toutes les fonctionnalités",
+    "cancelAnytimeTitle": "Aucun Engagement!",
+    "cancelAnytime": "Flexibilité garantie - annulez votre abonnement à tout moment, sans tracas",
+    "dataDeletedTitle": "Votre Vie Privée Compte!",
+    "dataDeleted": "Soyez assuré que toutes vos données seront définitivement supprimées après l'annulation pour protéger votre vie privée"
   }
 }

@@ -7,5 +7,27 @@
     "signInButton": "Anmelden",
     "noAccount": "Noch kein Konto?",
     "signUpButton": "Registrieren"
+  },
+  "registration": {
+    "title": "Benutzerregistrierung",
+    "userInfo": "Benutzerinformationen",
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "email": "Berufliche E-Mail",
+    "password": "Passwort",
+    "repeatPassword": "Passwort wiederholen",
+    "position": "Position im Unternehmen",
+    "companyInfo": "Unternehmensinformationen",
+    "companyName": "Name des Unternehmens",
+    "website": "Unternehmenswebsite",
+    "selectIndustry": "Branche auswählen",
+    "registerButton": "Registrieren",
+    "successMessage": "Registrierung erfolgreich!",
+    "freeTrialTitle": "Testen Sie uns kostenlos!",
+    "freeTrial": "Genießen Sie eine 1-monatige kostenlose Testversion mit vollem Zugriff auf alle Funktionen",
+    "cancelAnytimeTitle": "Keine Verpflichtungen!",
+    "cancelAnytime": "Flexibilität garantiert - kündigen Sie Ihr Abonnement jederzeit, ohne Probleme",
+    "dataDeletedTitle": "Ihre Privatsphäre zählt!",
+    "dataDeleted": "Seien Sie versichert, dass alle Ihre Daten nach der Kündigung dauerhaft gelöscht werden, um Ihre Privatsphäre zu schützen"
   }
 }

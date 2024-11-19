@@ -1,115 +1,213 @@
-import React from 'react';
-import {Container, Grid2, Typography, TextField, Button, Box, InputAdornment} from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Grid2, Typography, TextField, Button, Box, InputAdornment, IconButton } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from '../../../components/languages/LanguageSwitcher.jsx';
 import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from '@mui/icons-material/Lock';
+import BusinessIcon from '@mui/icons-material/Business';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-const Registration = () => {
+const UserRegistration = () => {
+	const { t } = useTranslation();
+	const navigate = useNavigate();
+	const [userInfo, setUserInfo] = useState({
+		firstName: '',
+		lastName: '',
+		email: '',
+		password: '',
+		companyName: ''
+	});
+	const [showPassword, setShowPassword] = useState(false);
+	const [currentMessage, setCurrentMessage] = useState(0);
+	const messages = [
+		{
+			title: t('registration.freeTrialTitle'),
+			message: t('registration.freeTrial')
+		},
+		{
+			title: t('registration.cancelAnytimeTitle'),
+			message: t('registration.cancelAnytime')
+		},
+		{
+			title: t('registration.dataDeletedTitle'),
+			message: t('registration.dataDeleted')
+		}
+	];
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			setCurrentMessage((prev) => (prev + 1) % messages.length);
+		}, 5000);
+		return () => clearInterval(interval);
+	}, [messages.length]);
+
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setUserInfo((prevState) => ({ ...prevState, [name]: value }));
+	};
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		try {
+			const response = await axios.post(`${process.env.REACT_APP_API_REGISTER_URL}`, userInfo);
+			if (response.status === 200) {
+				alert(t('registration.successMessage'));
+				navigate('/login');
+			}
+		} catch (error) {
+			console.error("Registration failed", error);
+		}
+	};
+
+	const togglePasswordVisibility = () => {
+		setShowPassword((prev) => !prev);
+	};
+
 	return (
-		<Container maxWidth="xl" style={{ height: '50vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-			<Box sx={{ width: '100%', maxWidth: '700px', color: '', boxShadow: 3, borderRadius: 2, overflow: 'hidden' }}>
-				<Grid2 container style={{ padding: '2rem', backgroundColor: '#ffffff' }}>
-					<Grid2 item xs={12} style={{ alignContent: 'center', alignItems: 'center', textAlign: 'center', color: '#232F3E', width: '100%' }}>
-						<Typography variant="h4" gutterBottom>
-							Register
-						</Typography>
-						<Typography variant="subtitle1" gutterBottom>
-							Create your account
-						</Typography>
-					</Grid2>
-					<Grid2 item xs={12}>
-						<Box component="form" sx={{ mt: 3, width: '100%' }}>
-							<TextField
-								label="First Name"
-								variant="filled"
-								fullWidth
-								required
-								margin="normal"
-								slotProps={{
-									input: {
-										startAdornment: (
-											<InputAdornment position="start">
-												<PersonIcon style={{color: 'green'}} />
-											</InputAdornment>
-										)
-									}
-								}}
-							/>
-							<TextField
-								label="Last Name"
-								variant="filled"
-								fullWidth
-								required
-								margin="normal"
-								slotProps={{
-									input: {
-										startAdornment: (
-											<InputAdornment position="start">
-												<PersonIcon style={{color: 'green'}} />
-											</InputAdornment>
-										)
-									}
-								}}
-							/>
-							<TextField
-								label="Professional Email"
-								variant="filled"
-								fullWidth
-								required
-								margin="normal"
-								slotProps={{
-									input: {
-										startAdornment: (
-											<InputAdornment position="start">
-												<EmailIcon style={{color: 'green'}} />
-											</InputAdornment>
-										)
-									}
-								}}
-							/>
-							<TextField
-								label="Password"
-								type="password"
-								variant="filled"
-								fullWidth
-								required
-								margin="normal"
-								slotProps={{
-									input: {
-										startAdornment: (
-											<InputAdornment position="start">
-												<LockIcon style={{color: 'green'}} />
-											</InputAdornment>
-										)
-									}
-								}}
-							/>
-							<TextField
-								label="Repeat Password"
-								type="password"
-								variant="filled"
-								fullWidth
-								required
-								margin="normal"
-								slotProps={{
-									input: {
-										startAdornment: (
-											<InputAdornment position="start">
-												<LockIcon style={{color: 'green'}} />
-											</InputAdornment>
-										),
-									}
-								}}
-							/>
-							<Button type="submit" fullWidth variant="contained" sx={{ backgroundColor: '#629C44', mt: 5 }}>
-								Register
-							</Button>
+		<Grid2 container sx={{ width: '100vw', height: '100vh', overflow: 'hidden', position: 'absolute', top: 0, left: 0 }}>
+			{/* Section 1: Animated Sales Messages */}
+			<Grid2 item xs={4.8} sx={{ width: '40%', height: '100%', backgroundColor: '#232F3E', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+				<Typography variant="h4" align="center" gutterBottom sx={{color: '#FF9900', fontFamily: 'Arial' }}>
+					{messages[currentMessage].title}
+				</Typography>
+				<Typography variant="h5" align="center" sx={{ fontStyle: 'italic', fontFamily: 'Arial' }}>
+					{messages[currentMessage].message}
+				</Typography>
+			</Grid2>
+
+			{/* Section 2: User Registration Form */}
+			<Grid2 item xs={7.2} sx={{ display: 'flex', alignItems: 'center', backgroundColor: 'white', justifyContent: 'center', width: '60%' }}>
+				<Box sx={{ boxShadow: 3, borderRadius: 2, padding: 4, color: '#232F3E', backgroundColor: 'white', width: '60%' }}>
+					<Typography variant="h4" gutterBottom>
+						{t('registration.title')}
+					</Typography>
+					<form onSubmit={handleSubmit}>
+						<Grid2 container spacing={2}>
+							<Grid2 item xs={12} sx={{ width: '48.8%' }}>
+								<TextField
+									label={t('registration.firstName')}
+									name="firstName"
+									variant="filled"
+									fullWidth
+									required
+									value={userInfo.firstName}
+									onChange={handleChange}
+									slotProps={{
+										input: {
+											startAdornment: (
+												<InputAdornment position="start">
+													<PersonIcon style={{ color: 'green' }} />
+												</InputAdornment>
+											)
+										}
+									}}
+								/>
+							</Grid2>
+							<Grid2 item xs={12} sx={{ width: '48.8%' }}>
+								<TextField
+									label={t('registration.lastName')}
+									name="lastName"
+									variant="filled"
+									fullWidth
+									required
+									value={userInfo.lastName}
+									onChange={handleChange}
+									slotProps={{
+										input: {
+											startAdornment: (
+												<InputAdornment position="start">
+													<PersonIcon style={{color: 'green'}}/>
+												</InputAdornment>
+											)
+										}
+									}}
+								/>
+							</Grid2>
+							<Grid2 item xs={12} sx={{ width: '100%' }}>
+									<TextField
+										label={t('registration.email')}
+										name="email"
+										type="email"
+										variant="filled"
+										fullWidth
+										required
+										value={userInfo.email}
+										onChange={handleChange}
+										slotProps={{
+											input: {
+												startAdornment: (
+													<InputAdornment position="start">
+														<EmailIcon style={{color: 'green'}}/>
+													</InputAdornment>
+												)
+											}
+										}}
+									/>
+							</Grid2>
+							<Grid2 item xs={12} sx={{ width: '100%' }}>
+								<TextField
+									label={t('registration.password')}
+									name="password"
+									type={showPassword ? 'text' : 'password'}
+									variant="filled"
+									fullWidth
+									required
+									value={userInfo.password}
+									onChange={handleChange}
+									slotProps={{
+										input: {
+											startAdornment: (
+												<InputAdornment position="start">
+													<LockIcon style={{ color: 'green' }} />
+												</InputAdornment>
+											),
+											endAdornment: (
+												<InputAdornment position="end">
+													<IconButton onClick={togglePasswordVisibility} edge="end">
+														{showPassword ? <VisibilityOff /> : <Visibility />}
+													</IconButton>
+												</InputAdornment>
+											)
+										}
+									}}
+								/>
+							</Grid2>
+							<Grid2 item xs={12} sx={{ width: '100%' }}>
+								<TextField
+									label={t('registration.companyName')}
+									name="companyName"
+									variant="filled"
+									fullWidth
+									required
+									value={userInfo.companyName}
+									onChange={handleChange}
+									slotProps={{
+										input: {
+											startAdornment: (
+												<InputAdornment position="start">
+													<BusinessIcon style={{color: 'green'}}/>
+												</InputAdornment>
+											)
+										}
+									}}
+								/>
+							</Grid2>
+						</Grid2>
+						<Button type="submit" fullWidth variant="contained" sx={{ mt: 4, backgroundColor: '#629C44' }}>
+							{t('registration.registerButton')}
+						</Button>
+						<Box sx={{ mt: 2 }}>
+							<LanguageSwitcher />
 						</Box>
-					</Grid2>
-				</Grid2>
-			</Box>
-		</Container>
+					</form>
+				</Box>
+			</Grid2>
+		</Grid2>
 	);
 };
 
-export default Registration;
+export default UserRegistration;
