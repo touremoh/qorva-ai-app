@@ -1,7 +1,7 @@
 {
   "login": {
-    "title": "Entrar",
-    "subtitle": "Entre na sua conta",
+    "title": "Login",
+    "subtitle": "Faça login na sua conta",
     "emailLabel": "Email",
     "passwordLabel": "Senha",
     "signInButton": "Entrar",
@@ -11,23 +11,34 @@
   "registration": {
     "title": "Registro de Usuário",
     "userInfo": "Informações do Usuário",
-    "firstName": "Primeiro Nome",
+    "firstName": "Nome",
     "lastName": "Sobrenome",
     "email": "Email Profissional",
     "password": "Senha",
-    "repeatPassword": "Repetir Senha",
+    "repeatPassword": "Repita a Senha",
     "position": "Posição na Empresa",
     "companyInfo": "Informações da Empresa",
     "companyName": "Nome da Empresa",
     "website": "Site da Empresa",
-    "selectIndustry": "Selecionar Indústria",
-    "registerButton": "Registrar-se",
+    "selectIndustry": "Selecione o Setor",
+    "registerButton": "Registrar",
     "successMessage": "Registro bem-sucedido!",
-    "freeTrialTitle": "Experimente-nos Gratuitamente!",
-    "freeTrial": "Desfrute de um mês de teste gratuito com acesso total a todas as funcionalidades",
+    "freeTrialTitle": "Experimente Gratuitamente!",
+    "freeTrial": "Desfrute de um mês de teste gratuito com acesso completo a todos os recursos",
     "cancelAnytimeTitle": "Sem Compromissos!",
     "cancelAnytime": "Flexibilidade garantida - cancele sua assinatura a qualquer momento, sem complicações",
     "dataDeletedTitle": "Sua Privacidade Importa!",
-    "dataDeleted": "Tenha certeza de que todos os seus dados serão excluídos permanentemente após o cancelamento para proteger sua privacidade"
+    "dataDeleted": "Tenha certeza de que todos os seus dados serão permanentemente excluídos após o cancelamento para proteger sua privacidade"
+  },
+  "header": {
+    "screening": "Screening",
+    "jobs": "Empregos",
+    "cvs": "CVs",
+    "analytics": "Análise",
+    "accountSettings": "Configurações da Conta",
+    "logout": "Sair"
+  },
+  "footer": {
+    "rightsReserved": "Qorva AI. Todos os direitos reservados."
   }
 }

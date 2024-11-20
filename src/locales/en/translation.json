@@ -29,6 +29,16 @@
     "cancelAnytime": "Flexibility guaranteed - cancel your subscription at any time, hassle-free",
     "dataDeletedTitle": "Your Privacy Matters!",
     "dataDeleted": "Rest assured, all your data will be permanently deleted after cancellation to protect your privacy"
+  },
+  "header": {
+    "screening": "Screening",
+    "jobs": "Jobs",
+    "cvs": "CVs",
+    "analytics": "Analytics",
+    "accountSettings": "Account Settings",
+    "logout": "Logout"
+  },
+  "footer": {
+    "rightsReserved": "Qorva AI. All rights reserved."
   }
 }
-

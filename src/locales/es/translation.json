@@ -1,33 +1,44 @@
 {
   "login": {
     "title": "Iniciar sesión",
-    "subtitle": "Inicia sesión en tu cuenta",
+    "subtitle": "Inicie sesión en su cuenta",
     "emailLabel": "Correo electrónico",
     "passwordLabel": "Contraseña",
     "signInButton": "Iniciar sesión",
-    "noAccount": "¿No tienes una cuenta?",
+    "noAccount": "¿Aún no tienes una cuenta?",
     "signUpButton": "Regístrate"
   },
   "registration": {
-    "title": "Registro de Usuario",
-    "userInfo": "Información del Usuario",
+    "title": "Registro de usuario",
+    "userInfo": "Información del usuario",
     "firstName": "Nombre",
     "lastName": "Apellido",
-    "email": "Correo Electrónico Profesional",
+    "email": "Correo electrónico profesional",
     "password": "Contraseña",
-    "repeatPassword": "Repetir Contraseña",
-    "position": "Posición en la Empresa",
-    "companyInfo": "Información de la Empresa",
-    "companyName": "Nombre de la Empresa",
-    "website": "Sitio Web de la Empresa",
-    "selectIndustry": "Seleccionar Industria",
+    "repeatPassword": "Repita la contraseña",
+    "position": "Posición en la empresa",
+    "companyInfo": "Información de la empresa",
+    "companyName": "Nombre de la empresa",
+    "website": "Sitio web de la empresa",
+    "selectIndustry": "Seleccionar industria",
     "registerButton": "Registrarse",
     "successMessage": "¡Registro exitoso!",
-    "freeTrialTitle": "¡Pruébanos Gratis!",
-    "freeTrial": "Disfruta de un mes de prueba gratis con acceso completo a todas las funciones",
-    "cancelAnytimeTitle": "¡Sin Compromisos!",
-    "cancelAnytime": "Flexibilidad garantizada - cancela tu suscripción en cualquier momento, sin complicaciones",
-    "dataDeletedTitle": "¡Tu Privacidad Importa!",
-    "dataDeleted": "Ten la seguridad de que todos tus datos serán eliminados permanentemente después de la cancelación para proteger tu privacidad"
+    "freeTrialTitle": "¡Pruébenos gratis!",
+    "freeTrial": "Disfrute de un mes de prueba gratuita con acceso completo a todas las funciones",
+    "cancelAnytimeTitle": "¡Sin compromisos!",
+    "cancelAnytime": "Flexibilidad garantizada: cancele su suscripción en cualquier momento, sin problemas",
+    "dataDeletedTitle": "¡Su privacidad es importante!",
+    "dataDeleted": "Tenga la seguridad de que todos sus datos se eliminarán de forma permanente tras la cancelación para proteger su privacidad"
+  },
+  "header": {
+    "screening": "Screening",
+    "jobs": "Empleos",
+    "cvs": "CVs",
+    "analytics": "Análisis",
+    "accountSettings": "Configuración de la cuenta",
+    "logout": "Cerrar sesión"
+  },
+  "footer": {
+    "rightsReserved": "Qorva AI. Todos los derechos reservados."
   }
 }

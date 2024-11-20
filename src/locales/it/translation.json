@@ -16,19 +16,29 @@
     "email": "Email Professionale",
     "password": "Password",
     "repeatPassword": "Ripeti Password",
-    "position": "Posizione in Azienda",
+    "position": "Posizione nell'Azienda",
     "companyInfo": "Informazioni sull'Azienda",
     "companyName": "Nome dell'Azienda",
     "website": "Sito Web dell'Azienda",
-    "selectIndustry": "Seleziona Industria",
+    "selectIndustry": "Seleziona il Settore",
     "registerButton": "Registrati",
     "successMessage": "Registrazione avvenuta con successo!",
-    "freeTrialTitle": "Prova Gratis!",
-    "freeTrial": "Goditi una prova gratuita di 1 mese con accesso completo a tutte le funzionalità",
+    "freeTrialTitle": "Prova Gratuita!",
+    "freeTrial": "Goditi un mese di prova gratuita con accesso completo a tutte le funzionalità",
     "cancelAnytimeTitle": "Nessun Impegno!",
-    "cancelAnytime": "Flessibilità garantita - cancella l'abbonamento in qualsiasi momento, senza problemi",
-    "dataDeletedTitle": "La tua Privacy Conta!",
-    "dataDeleted": "Sii certo che tutti i tuoi dati saranno eliminati definitivamente dopo la cancellazione per proteggere la tua privacy"
+    "cancelAnytime": "Flessibilità garantita - annulla l'abbonamento in qualsiasi momento, senza problemi",
+    "dataDeletedTitle": "La Tua Privacy Conta!",
+    "dataDeleted": "Stai tranquillo, tutti i tuoi dati saranno eliminati definitivamente dopo la cancellazione per proteggere la tua privacy"
+  },
+  "header": {
+    "screening": "Screening",
+    "jobs": "Lavori",
+    "cvs": "CVs",
+    "analytics": "Analisi",
+    "accountSettings": "Impostazioni Account",
+    "logout": "Disconnetti"
+  },
+  "footer": {
+    "rightsReserved": "Qorva AI. Tutti i diritti riservati."
   }
-
 }

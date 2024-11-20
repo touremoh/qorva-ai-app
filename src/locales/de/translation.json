@@ -13,21 +13,32 @@
     "userInfo": "Benutzerinformationen",
     "firstName": "Vorname",
     "lastName": "Nachname",
-    "email": "Berufliche E-Mail",
+    "email": "Geschäftliche E-Mail",
     "password": "Passwort",
     "repeatPassword": "Passwort wiederholen",
     "position": "Position im Unternehmen",
     "companyInfo": "Unternehmensinformationen",
-    "companyName": "Name des Unternehmens",
-    "website": "Unternehmenswebsite",
+    "companyName": "Firmenname",
+    "website": "Firmenwebsite",
     "selectIndustry": "Branche auswählen",
     "registerButton": "Registrieren",
     "successMessage": "Registrierung erfolgreich!",
     "freeTrialTitle": "Testen Sie uns kostenlos!",
-    "freeTrial": "Genießen Sie eine 1-monatige kostenlose Testversion mit vollem Zugriff auf alle Funktionen",
+    "freeTrial": "Genießen Sie einen kostenlosen Testmonat mit vollem Zugriff auf alle Funktionen",
     "cancelAnytimeTitle": "Keine Verpflichtungen!",
-    "cancelAnytime": "Flexibilität garantiert - kündigen Sie Ihr Abonnement jederzeit, ohne Probleme",
+    "cancelAnytime": "Flexibilität garantiert - kündigen Sie Ihr Abonnement jederzeit ohne Aufwand",
     "dataDeletedTitle": "Ihre Privatsphäre zählt!",
-    "dataDeleted": "Seien Sie versichert, dass alle Ihre Daten nach der Kündigung dauerhaft gelöscht werden, um Ihre Privatsphäre zu schützen"
+    "dataDeleted": "Seien Sie sicher, dass alle Ihre Daten nach der Kündigung endgültig gelöscht werden, um Ihre Privatsphäre zu schützen"
+  },
+  "header": {
+    "screening": "Screening",
+    "jobs": "Jobs",
+    "cvs": "Lebensläufe",
+    "analytics": "Analysen",
+    "accountSettings": "Kontoeinstellungen",
+    "logout": "Abmelden"
+  },
+  "footer": {
+    "rightsReserved": "Qorva AI. Alle Rechte vorbehalten."
   }
 }

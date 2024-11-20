@@ -1,17 +1,17 @@
-import React, { useState } from 'react'
+// eslint-disable-next-line no-unused-vars
+import React from 'react'
 import './App.css'
-import {Paper, Typography} from "@mui/material";
+import {Typography} from "@mui/material";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from "./views/pages/login/Login.jsx";
 import Register from "./views/pages/register/Register.jsx";
+import DefaultLayout from "./layout/DefaultLayout.jsx";
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (
+    return (
       <Router>
           <Routes>
-              <Route path="/" element={<Paper elevation={3} sx={{padding: 3}}><Typography variant="h5">Admin Page</Typography> </Paper>} />
+              <Route path="/" element={<DefaultLayout />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
           </Routes>

@@ -1,9 +1,11 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import { Select, MenuItem, FormControl } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { FlagIcon } from 'react-flag-kit';
 
-const LanguageSwitcher = () => {
+// eslint-disable-next-line react/prop-types
+const LanguageSwitcher = ({textColor = 'black'}) => {
 	const { i18n } = useTranslation();
 	const [language, setLanguage] = useState(i18n.language);
 
@@ -24,8 +26,9 @@ const LanguageSwitcher = () => {
 					display: 'flex',
 					alignItems: 'center',
 					'& .MuiOutlinedInput-notchedOutline': {
-						border: 'none',
+						border: 'none'
 					},
+					color: textColor
 				}}
 			>
 				<MenuItem value="en">
