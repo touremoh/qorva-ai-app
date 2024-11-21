@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import LanguageSwitcher from '../../components/languages/LanguageSwitcher.jsx';
 import { useTranslation } from 'react-i18next';
 
-const AppHeader = ({ onMenuItemClick, onLanguageChange }) => {
+const AppHeader = ({ onMenuItemClick }) => {
 	const { t } = useTranslation();
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [drawerOpen, setDrawerOpen] = useState(false);
@@ -36,9 +36,9 @@ const AppHeader = ({ onMenuItemClick, onLanguageChange }) => {
 					Qorva
 				</Typography>
 				<Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 2, marginLeft: { xs: 1, md: 5 } }}>
-					<Link href="#" color="inherit" underline="none" variant="button" onClick={() => handleMenuItemClick('screening')}>{t('header.screening')}</Link>
 					<Link href="#" color="inherit" underline="none" variant="button" onClick={() => handleMenuItemClick('jobs')}>{t('header.jobs')}</Link>
 					<Link href="#" color="inherit" underline="none" variant="button" onClick={() => handleMenuItemClick('cvs')}>{t('header.cvs')}</Link>
+					<Link href="#" color="inherit" underline="none" variant="button" onClick={() => handleMenuItemClick('screening')}>{t('header.screening')}</Link>
 					<Link href="#" color="inherit" underline="none" variant="button" onClick={() => handleMenuItemClick('analytics')}>{t('header.analytics')}</Link>
 				</Box>
 				<Box sx={{ display: { xs: 'flex', md: 'none' }, marginLeft: 0 }}>
@@ -48,14 +48,14 @@ const AppHeader = ({ onMenuItemClick, onLanguageChange }) => {
 					<Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
 						<Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)}>
 							<List>
-								<ListItem button onClick={() => handleMenuItemClick('screening')}>
-									<ListItemText primary={t('header.screening')} />
-								</ListItem>
 								<ListItem button onClick={() => handleMenuItemClick('jobs')}>
 									<ListItemText primary={t('header.jobs')} />
 								</ListItem>
 								<ListItem button onClick={() => handleMenuItemClick('cvs')}>
 									<ListItemText primary={t('header.cvs')} />
+								</ListItem>
+								<ListItem button onClick={() => handleMenuItemClick('screening')}>
+									<ListItemText primary={t('header.screening')} />
 								</ListItem>
 								<ListItem button onClick={() => handleMenuItemClick('analytics')}>
 									<ListItemText primary={t('header.analytics')} />
@@ -65,7 +65,7 @@ const AppHeader = ({ onMenuItemClick, onLanguageChange }) => {
 					</Drawer>
 				</Box>
 				<Box sx={{ display: 'flex', alignItems: 'center', marginLeft: 'auto', gap: 2 }}>
-					<LanguageSwitcher textColor={'white'} onLanguageChange={onLanguageChange} />
+					<LanguageSwitcher textColor={'white'} />
 					<IconButton onClick={handleMenuOpen} color="inherit">
 						<Avatar alt="User Icon" />
 					</IconButton>
@@ -73,11 +73,11 @@ const AppHeader = ({ onMenuItemClick, onLanguageChange }) => {
 						anchorEl={anchorEl}
 						open={Boolean(anchorEl)}
 						onClose={handleMenuClose}
-						anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+						anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
 						transformOrigin={{ vertical: 'top', horizontal: 'right' }}
 					>
-						<MenuItem onClick={handleMenuClose}>{t('header.accountSettings')}</MenuItem>
-						<MenuItem onClick={handleMenuClose}>{t('header.logout')}</MenuItem>
+						<MenuItem onClick={() => handleMenuItemClick('accountSettings')}>{t('header.accountSettings')}</MenuItem>
+						<MenuItem onClick={() => handleMenuItemClick('logout')}>{t('header.logout')}</MenuItem>
 					</Menu>
 				</Box>
 			</Toolbar>

@@ -3,7 +3,7 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
-const AppFooter = ({ language }) => {
+const AppFooter = () => {
 	const { t } = useTranslation();
 
 	const currentYear = () => {

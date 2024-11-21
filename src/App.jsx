@@ -1,7 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
 import './App.css'
-import {Typography} from "@mui/material";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from "./views/pages/login/Login.jsx";
 import Register from "./views/pages/register/Register.jsx";

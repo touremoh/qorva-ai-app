@@ -40,5 +40,15 @@
   },
   "footer": {
     "rightsReserved": "Qorva AI. Todos os direitos reservados."
+  },
+  "jobContent": {
+    "createJobPost": "Criar uma oferta de emprego",
+    "jobTitle": "Título",
+    "jobDescription": "Descrição",
+    "postJob": "Salvar",
+    "noJobPosts": "Nenhuma oferta de emprego disponível",
+    "selectJobToSeeDetails": "Selecione um emprego para ver os detalhes",
+    "jobListTitle": "Lista de empregos",
+    "jobDetailsTitle": "Detalhes do emprego"
   }
 }

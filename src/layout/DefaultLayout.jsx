@@ -7,28 +7,22 @@ import AppContent from '../components/contents/AppContent.jsx';
 
 const DefaultLayout = () => {
 	const [content, setContent] = useState(null);
-	const [language, setLanguage] = useState('en');
 
 	const handleMenuItemClick = (menuItem) => {
 		console.log(menuItem);
 		setContent(menuItem);
 	};
 
-	const handleLanguageChange = (languageCode) => {
-		console.log(languageCode);
-		setLanguage(languageCode);
-	};
-
 	return (
 		<Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
 			{/* Section 1: Header */}
-			<AppHeader onMenuItemClick={handleMenuItemClick} onLanguageChange={handleLanguageChange} />
+			<AppHeader onMenuItemClick={handleMenuItemClick} />
 
 			{/* Section 2: Content */}
-			<AppContent content={content} language={language} />
+			<AppContent content={content} />
 
 			{/* Section 3: Footer */}
-			<AppFooter language={language} />
+			<AppFooter />
 		</Box>
 	);
 };
