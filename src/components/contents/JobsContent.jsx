@@ -32,21 +32,7 @@ const JobContent = () => {
 	const [openModal, setOpenModal] = useState(false);
 	const [editModalOpen, setEditModalOpen] = useState(false);
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-	const [jobs, setJobs] = useState([
-			{
-				id: 1,
-				title: "Software Engineer",
-				description: "Looking for a highly skilled software engineer to work on a variety of web projects.",
-				status: "open"
-			},
-			{
-				id: 2,
-				title: "Data Analyst",
-				description: "Seeking a data analyst with experience in data visualization and statistical analysis.",
-				status: "open"
-			}
-		]
-	);
+	const [jobs, setJobs] = useState([]);
 	const [selectedJob, setSelectedJob] = useState(null);
 	const [jobTitle, setJobTitle] = useState('');
 	const [jobDescription, setJobDescription] = useState('');
