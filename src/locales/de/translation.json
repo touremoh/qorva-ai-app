@@ -42,13 +42,17 @@
     "rightsReserved": "Qorva AI. Alle Rechte vorbehalten."
   },
   "jobContent": {
-    "createJobPost": "Stellenangebot erstellen",
+    "createJobPost": "Jobangebot erstellen",
     "jobTitle": "Titel",
     "jobDescription": "Beschreibung",
     "postJob": "Speichern",
-    "noJobPosts": "Keine Stellenangebote verfügbar",
-    "selectJobToSeeDetails": "Wählen Sie einen Job aus, um Details anzuzeigen",
-    "jobListTitle": "Stellenliste",
-    "jobDetailsTitle": "Stellendetails"
+    "noJobPosts": "Keine Jobangebote verfügbar",
+    "selectJobToSeeDetails": "Wählen Sie einen Job, um Details anzuzeigen",
+    "jobListTitle": "Jobliste",
+    "jobDetailsTitle": "Jobdetails",
+    "deleteJobTitle": "Jobangebot löschen",
+    "deleteJobConfirmation": "Sind Sie sicher, dass Sie dieses Jobangebot löschen möchten?",
+    "cancel": "Abbrechen",
+    "confirm": "Bestätigen"
   }
 }

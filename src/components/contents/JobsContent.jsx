@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import {
 	Box,
@@ -10,18 +11,27 @@ import {
 	IconButton,
 	Typography,
 	Paper,
-	Divider
+	Divider,
+	Switch,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogContentText,
+	DialogTitle
 } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import EditIcon from '@mui/icons-material/Edit';
 import { useTranslation } from 'react-i18next';
+import DeleteIcon from '@mui/icons-material/Delete';
+//import axios from 'axios';
 
 
 const JobContent = () => {
 	const { t } = useTranslation();
 	const [openModal, setOpenModal] = useState(false);
 	const [editModalOpen, setEditModalOpen] = useState(false);
+	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 	const [jobs, setJobs] = useState([
 			{
 				id: 1,
@@ -41,10 +51,20 @@ const JobContent = () => {
 	const [jobTitle, setJobTitle] = useState('');
 	const [jobDescription, setJobDescription] = useState('');
 
+
+	const handleOpenEditModal = () => {
+		if (selectedJob) {
+			setJobTitle(selectedJob.title);
+			setJobDescription(selectedJob.description);
+			setEditModalOpen(true);
+		}
+	};
+
 	const handleOpenModal = () => setOpenModal(true);
 	const handleCloseModal = () => setOpenModal(false);
-	const handleOpenEditModal = () => setEditModalOpen(true);
 	const handleCloseEditModal = () => setEditModalOpen(false);
+	const handleOpenDeleteDialog = () => setDeleteDialogOpen(true);
+	const handleCloseDeleteDialog = () => setDeleteDialogOpen(false);
 
 	const handleCreateJob = () => {
 		if (jobTitle && jobDescription) {
@@ -72,6 +92,38 @@ const JobContent = () => {
 			setJobs(updatedJobs);
 			setSelectedJob({ ...selectedJob, title: jobTitle, description: jobDescription });
 			handleCloseEditModal();
+		}
+	};
+
+	const handleToggleJobStatus = async () => {
+		if (selectedJob) {
+			const updatedStatus = selectedJob.status === 'open' ? 'closed' : 'open';
+			try {
+				// await axios.patch(`${process.env.REACT_APP_API_UPDATE_JOB_POST_URL}/${selectedJob.id}`, {
+				// 	status: updatedStatus
+				// });
+				const updatedJobs = jobs.map((job) =>
+					job.id === selectedJob.id ? { ...job, status: updatedStatus } : job
+				);
+				setJobs(updatedJobs);
+				setSelectedJob({ ...selectedJob, status: updatedStatus });
+			} catch (error) {
+				console.error('Error updating job status:', error);
+			}
+		}
+	};
+
+	const handleDeleteJob = async () => {
+		if (selectedJob) {
+			try {
+				// await axios.delete(`${process.env.REACT_APP_API_DELETE_JOB_POST_URL}/${selectedJob.id}`);
+				const updatedJobs = jobs.filter((job) => job.id !== selectedJob.id);
+				setJobs(updatedJobs);
+				setSelectedJob(null);
+				handleCloseDeleteDialog();
+			} catch (error) {
+				console.error('Error deleting job post:', error);
+			}
 		}
 	};
 
@@ -174,16 +226,16 @@ const JobContent = () => {
 						label={t('jobContent.jobTitle')}
 						fullWidth
 						margin="normal"
-						value={selectedJob ? selectedJob.title : ''}
+						value={jobTitle}
 						onChange={(e) => setJobTitle(e.target.value)}
 					/>
 					<TextField
 						label={t('jobContent.jobDescription')}
 						fullWidth
 						margin="normal"
-						multiline
-						rows={5}
-						value={selectedJob ? selectedJob.description : ''}
+						multiline={true}
+						minRows={10}
+						value={jobDescription}
 						onChange={(e) => setJobDescription(e.target.value)}
 						sx={{resize: 'vertical'}}
 					/>
@@ -248,13 +300,27 @@ const JobContent = () => {
 						<>
 							<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
 								<Typography variant="h5">{selectedJob.title}</Typography>
-								<IconButton edge="end">
-									<FiberManualRecordIcon color={selectedJob.status === 'open' ? 'success' : 'error'} />
-								</IconButton>
+								<Switch
+									checked={selectedJob.status === 'open'}
+									onChange={handleToggleJobStatus}
+									color="success"
+									sx={{ borderRadius: 5 }}
+								/>
 							</Box>
-							<Typography variant="inherit" align={'justify'} sx={{ mt: 2 }}>
+							<Typography variant="inherit" align={'justify'} sx={{ mt: 2, height: '83%' }}>
 								{selectedJob.description}
 							</Typography>
+
+							<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 0}}>
+								<div></div>
+								<IconButton
+									edge="end"
+									color="error"
+									onClick={handleOpenDeleteDialog} >
+									<DeleteIcon />
+								</IconButton>
+
+							</Box>
 						</>
 					) : (
 						<Typography variant="body1">
@@ -263,6 +329,27 @@ const JobContent = () => {
 					)}
 				</Paper>
 			</Box>
+
+			{/* Dialog for Confirming Deletion */}
+			<Dialog
+				open={deleteDialogOpen}
+				onClose={handleCloseDeleteDialog}
+			>
+				<DialogTitle>{t('jobContent.deleteJobTitle')}</DialogTitle>
+				<DialogContent>
+					<DialogContentText>
+						{t('jobContent.deleteJobConfirmation')}
+					</DialogContentText>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={handleCloseDeleteDialog} color="primary">
+						{t('jobContent.cancel')}
+					</Button>
+					<Button onClick={handleDeleteJob} color="error">
+						{t('jobContent.confirm')}
+					</Button>
+				</DialogActions>
+			</Dialog>
 		</Box>
 	);
 };

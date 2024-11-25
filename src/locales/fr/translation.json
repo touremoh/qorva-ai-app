@@ -47,8 +47,12 @@
     "jobDescription": "Description",
     "postJob": "Enregistrer",
     "noJobPosts": "Aucune offre d'emploi disponible",
-    "selectJobToSeeDetails": "Sélectionnez un poste pour voir les détails",
+    "selectJobToSeeDetails": "Sélectionnez un emploi pour voir les détails",
     "jobListTitle": "Liste des emplois",
-    "jobDetailsTitle": "Détails de l'emploi"
+    "jobDetailsTitle": "Détails de l'emploi",
+    "deleteJobTitle": "Supprimer l'offre d'emploi",
+    "deleteJobConfirmation": "Êtes-vous sûr de vouloir supprimer cette offre d'emploi ?",
+    "cancel": "Annuler",
+    "confirm": "Confirmer"
   }
 }

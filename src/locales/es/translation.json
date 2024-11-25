@@ -49,6 +49,10 @@
     "noJobPosts": "No hay ofertas de trabajo disponibles",
     "selectJobToSeeDetails": "Seleccione un trabajo para ver los detalles",
     "jobListTitle": "Lista de trabajos",
-    "jobDetailsTitle": "Detalles del trabajo"
+    "jobDetailsTitle": "Detalles del trabajo",
+    "deleteJobTitle": "Eliminar oferta de trabajo",
+    "deleteJobConfirmation": "¿Está seguro de que desea eliminar esta oferta de trabajo?",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar"
   }
 }

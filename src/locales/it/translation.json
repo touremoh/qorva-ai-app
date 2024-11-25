@@ -42,13 +42,17 @@
     "rightsReserved": "Qorva AI. Tutti i diritti riservati."
   },
   "jobContent": {
-    "createJobPost": "Crea un'offerta di lavoro",
+    "createJobPost": "Crea offerta di lavoro",
     "jobTitle": "Titolo",
     "jobDescription": "Descrizione",
     "postJob": "Salva",
     "noJobPosts": "Nessuna offerta di lavoro disponibile",
     "selectJobToSeeDetails": "Seleziona un lavoro per vedere i dettagli",
-    "jobListTitle": "Elenco dei lavori",
-    "jobDetailsTitle": "Dettagli del lavoro"
+    "jobListTitle": "Lista dei lavori",
+    "jobDetailsTitle": "Dettagli del lavoro",
+    "deleteJobTitle": "Elimina offerta di lavoro",
+    "deleteJobConfirmation": "Sei sicuro di voler eliminare questa offerta di lavoro?",
+    "cancel": "Annulla",
+    "confirm": "Conferma"
   }
 }
