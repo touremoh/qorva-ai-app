@@ -49,6 +49,9 @@ const LanguageSwitcher = ({textColor = 'black'}) => {
 				<MenuItem value="it">
 					<FlagIcon code="IT" size={20} style={{ marginRight: 8 }} />Italiano
 				</MenuItem>
+				<MenuItem value="nl">
+					<FlagIcon code="NL" size={20} style={{ marginRight: 8 }} />Nederlands
+				</MenuItem>
 			</Select>
 		</FormControl>
 	);
