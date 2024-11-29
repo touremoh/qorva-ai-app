@@ -2,7 +2,7 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import JobContent from "./JobsContent.jsx";
-import AppCVContent from "./AppCVContent.jsx";
+import AppCVContent from "./cv/AppCVContent.jsx";
 
 const AppContent = ({ content }) => {
 	const renderContent = () => {

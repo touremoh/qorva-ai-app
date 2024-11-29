@@ -62,6 +62,8 @@
     "noCVEntries": "No hay entradas de CV disponibles",
     "cvListTitle": "Lista de CV",
     "cvDetailsTitle": "Detalles del CV",
+    "personalInformation": "Información personal",
+    "details": "Detalles",
     "name": "Nombre completo",
     "title": "Rol o posición",
     "contactInfo": {

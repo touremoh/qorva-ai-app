@@ -21,10 +21,13 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
+import AppCVDetails from "./AppCVDetails.jsx";
+import cvEntriesMock    from "../../../mocks.js";
+import EditIcon from "@mui/icons-material/Edit";
 
 const AppCVContent = () => {
 	const { t } = useTranslation();
-	const [cvEntries, setCvEntries] = useState([]);
+	const [cvEntries, setCvEntries] = useState(cvEntriesMock);
 	const [selectedCV, setSelectedCV] = useState(null);
 	const [openUploadModal, setOpenUploadModal] = useState(false);
 	const [openCollectionModal, setOpenCollectionModal] = useState(false);
@@ -34,6 +37,7 @@ const AppCVContent = () => {
 	const handleUploadCV = (event) => {
 		const file = event.target.files[0];
 		if (file) {
+			console.log('Uploading file: ', file);
 			// Handle file upload logic here
 		}
 	};
@@ -106,7 +110,7 @@ const AppCVContent = () => {
 						top: '50%',
 						left: '50%',
 						transform: 'translate(-50%, -50%)',
-						width: { xs: '90%', md: '40%' },
+						width: { xs: '100%', md: '40%' },
 						backgroundColor: 'white',
 						color: '#232F3E',
 						boxShadow: 24,
@@ -164,7 +168,7 @@ const AppCVContent = () => {
 			{/* Section 2: CV Entries List and Details */}
 			<Box sx={{ display: 'flex', width: '100%', mt: 4 }}>
 				{/* Section 2.1: CV List */}
-				<Box sx={{ width: '40%', height: '60vh', backgroundColor: 'white', padding: 2, boxShadow: 1, overflowY: 'scroll' }}>
+				<Box sx={{ width: '25%', height: '75vh', backgroundColor: 'white', padding: 2, boxShadow: 1, overflowY: 'scroll' }}>
 					<Typography variant="h5" gutterBottom>
 						{t('appCVContent.cvListTitle')}
 					</Typography>
@@ -183,7 +187,7 @@ const AppCVContent = () => {
 									onClick={() => setSelectedCV(cv)}
 									sx={{ cursor: 'pointer' }}
 								>
-									<ListItemText primary={cv.personal_information.name} secondary={cv.personal_information.role} />
+									<ListItemText primary={cv.personalInformation.name} secondary={cv.personalInformation.role} />
 									<IconButton edge="end" color="error" onClick={() => setDeleteDialogOpen(true)}>
 										<DeleteIcon />
 									</IconButton>
@@ -194,25 +198,14 @@ const AppCVContent = () => {
 				</Box>
 
 				{/* Section 2.2: CV Details */}
-				<Paper sx={{ width: '55%', height: '60vh', padding: 2, boxShadow: 3, overflowY: 'scroll', backgroundColor: 'white', marginLeft: 5 }}>
+				<Paper sx={{ width: '75%', height: '75vh', padding: 2, boxShadow: 3, overflowY: 'scroll', backgroundColor: 'white', marginLeft: 5, alignItems: 'left' }}>
 					<Typography variant="h5" gutterBottom>
 						{t('appCVContent.cvDetailsTitle')}
 					</Typography>
-					<Divider sx={{ marginBottom: 3 }} />
+					<Divider sx={{marginBottom: 3}} />
 					{selectedCV ? (
 						<>
-							<Typography variant="h6">{selectedCV.personal_information.name}</Typography>
-							<Typography variant="subtitle1">{selectedCV.personal_information.role}</Typography>
-							<Typography variant="body2" sx={{ mt: 2 }}>
-								{selectedCV.personal_information.summary}
-							</Typography>
-							{/* Render other CV details similarly */}
-							<Box sx={{ marginTop: 4 }}>
-								<Typography variant="h6">{t('appCVContent.attachment')}</Typography>
-								<a href={selectedCV.attachment} target="_blank" rel="noopener noreferrer">
-									{t('appCVContent.viewAttachment')}
-								</a>
-							</Box>
+							<AppCVDetails cv={selectedCV} />
 						</>
 					) : (
 						<Typography variant="body1">
@@ -243,4 +236,4 @@ const AppCVContent = () => {
 	);
 };
 
-export default AppCVContent
+export default AppCVContent;
