@@ -57,8 +57,6 @@
   },
   "appCVContent": {
     "createCVEntry": "Create CV Entry",
-    "createCVCollection": "Create CV Collection",
-    "collectionName": "Collection Name",
     "noCVEntries": "No CV entries available",
     "cvListTitle": "CV List",
     "cvDetailsTitle": "CV Details",
@@ -129,14 +127,13 @@
     "cancel": "Cancel",
     "confirm": "Confirm",
     "uploadCV": "Upload CV",
-    "createCollection": "Create Collection",
-    "saveCollection": "Save Collection",
     "attachment": "Attachment",
     "viewAttachment": "View Attachment",
     "selectCVToSeeDetails": "Select a CV to see details",
     "deleteCVTitle": "Delete CV",
     "updateTags": "Update Tags",
-    "search": "Search"
+    "search": "Search",
+    "saveAndClose": "Save and Close"
   }
 }
 

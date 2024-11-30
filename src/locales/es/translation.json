@@ -136,6 +136,7 @@
     "selectCVToSeeDetails": "Seleccione un CV para ver los detalles",
     "deleteCVTitle": "Eliminar CV",
     "updateTags": "Actualizar tags",
-    "search": "Buscar"
+    "search": "Buscar",
+    "saveAndClose": "Guardar y Cerrar"
   }
 }

@@ -136,6 +136,7 @@
     "selectCVToSeeDetails": "Selecteer een CV om details te bekijken",
     "deleteCVTitle": "CV verwijderen",
     "updateTags": "Tags bijwerken",
-    "search": "Zoeken"
+    "search": "Zoeken",
+    "saveAndClose": "Opslaan en Sluiten"
   }
 }

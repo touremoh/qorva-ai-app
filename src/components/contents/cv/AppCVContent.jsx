@@ -1,13 +1,9 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import {
 	Box,
 	Button,
 	Modal,
-	TextField,
-	List,
-	ListItem,
-	ListItemText,
-	IconButton,
 	Typography,
 	Paper,
 	Divider,
@@ -18,11 +14,10 @@ import {
 	DialogTitle,
 } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import AppCVDetails from "./AppCVDetails.jsx";
-import cvEntriesMock    from "../../../mocks.js";
+import cvEntriesMock from "../../../mocks.js";
 import AppCVEntries from "./AppCVEntries.jsx";
 
 const AppCVContent = () => {
@@ -30,23 +25,16 @@ const AppCVContent = () => {
 	const [cvEntries, setCvEntries] = useState(cvEntriesMock);
 	const [selectedCV, setSelectedCV] = useState(null);
 	const [openUploadModal, setOpenUploadModal] = useState(false);
-	const [openCollectionModal, setOpenCollectionModal] = useState(false);
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-	const [collectionName, setCollectionName] = useState('');
+	const [selectedFile, setSelectedFile] = useState(null);
 
 	const handleUploadCV = (event) => {
 		const file = event.target.files[0];
 		if (file) {
+			setSelectedFile(file);
 			console.log('Uploading file: ', file);
 			// Handle file upload logic here
 		}
-	};
-
-	const handleOpenCollectionModal = () => setOpenCollectionModal(true);
-	const handleCloseCollectionModal = () => setOpenCollectionModal(false);
-	const handleCreateCollection = () => {
-		// Logic for creating a CV collection
-		handleCloseCollectionModal();
 	};
 
 	const handleDeleteCV = async () => {
@@ -80,7 +68,7 @@ const AppCVContent = () => {
 				padding: 2,
 			}}
 		>
-			{/* Section 1: Buttons for CV Upload and Collection */}
+			{/* Section 1: Buttons for CV Upload */}
 			<Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-start', mb: 2 }}>
 				<Button
 					startIcon={<AddCircleIcon />}
@@ -116,57 +104,34 @@ const AppCVContent = () => {
 						accept="application/pdf"
 						onChange={handleUploadCV}
 					/>
-				</Box>
-			</Modal>
-
-			{/* Modal for Creating CV Collection */}
-			<Modal open={openCollectionModal} onClose={handleCloseCollectionModal}>
-				<Box
-					sx={{
-						position: 'absolute',
-						top: '50%',
-						left: '50%',
-						transform: 'translate(-50%, -50%)',
-						width: { xs: '90%', md: '40%' },
-						backgroundColor: 'white',
-						color: '#232F3E',
-						boxShadow: 24,
-						p: 4,
-					}}
-				>
-					<Typography variant="h6" gutterBottom>
-						{t('appCVContent.createCollection')}
-					</Typography>
-					<TextField
-						label={t('appCVContent.collectionName')}
-						fullWidth
-						margin="normal"
-						value={collectionName}
-						onChange={(e) => setCollectionName(e.target.value)}
-					/>
-					<Button
-						variant="contained"
-						color="primary"
-						fullWidth
-						sx={{ mt: 2 }}
-						onClick={handleCreateCollection}
-					>
-						{t('appCVContent.saveCollection')}
-					</Button>
+					{selectedFile && (
+						<Button
+							variant="contained"
+							color="primary"
+							fullWidth
+							sx={{ mt: 2 }}
+							onClick={() => {
+								setOpenUploadModal(false);
+								setSelectedFile(null);
+							}}
+						>
+							{t('appCVContent.saveAndClose')}
+						</Button>
+					)}
 				</Box>
 			</Modal>
 
 			{/* Section 2: CV Entries List and Details */}
 			<Box sx={{ display: 'flex', width: '100%', mt: 4 }}>
 				{/* Section 2.1: CV List */}
-				<AppCVEntries  cvEntries={cvEntries} setDeleteDialogOpen={setDeleteDialogOpen} setSelectedCV={setSelectedCV} />
+				<AppCVEntries cvEntries={cvEntries} setDeleteDialogOpen={setDeleteDialogOpen} setSelectedCV={setSelectedCV} />
 
 				{/* Section 2.2: CV Details */}
 				<Paper sx={{ width: '70%', height: '75vh', padding: 2, boxShadow: 3, overflowY: 'scroll', backgroundColor: 'white', marginLeft: 5, alignItems: 'left' }}>
 					<Typography variant="h5" gutterBottom>
 						{t('appCVContent.cvDetailsTitle')}
 					</Typography>
-					<Divider sx={{marginBottom: 3}} />
+					<Divider sx={{ marginBottom: 3 }} />
 					{selectedCV ? (
 						<>
 							<AppCVDetails cv={selectedCV} />
