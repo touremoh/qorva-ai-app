@@ -135,6 +135,7 @@
     "viewAttachment": "Ver adjunto",
     "selectCVToSeeDetails": "Seleccione un CV para ver los detalles",
     "deleteCVTitle": "Eliminar CV",
-    "updateTags": "Actualizar tags"
+    "updateTags": "Actualizar tags",
+    "search": "Buscar"
   }
 }

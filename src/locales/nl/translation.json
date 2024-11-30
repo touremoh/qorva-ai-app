@@ -135,6 +135,7 @@
     "viewAttachment": "Bekijk bijlage",
     "selectCVToSeeDetails": "Selecteer een CV om details te bekijken",
     "deleteCVTitle": "CV verwijderen",
-    "updateTags": "Tags bijwerken"
+    "updateTags": "Tags bijwerken",
+    "search": "Zoeken"
   }
 }
