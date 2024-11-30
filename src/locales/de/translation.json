@@ -134,6 +134,7 @@
     "attachment": "Anhang",
     "viewAttachment": "Anhang anzeigen",
     "selectCVToSeeDetails": "Wählen Sie ein CV aus, um Details zu sehen",
-    "deleteCVTitle": "CV löschen"
+    "deleteCVTitle": "CV löschen",
+    "updateTags": "Tags aktualisieren"
   }
 }

@@ -23,7 +23,7 @@ import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import AppCVDetails from "./AppCVDetails.jsx";
 import cvEntriesMock    from "../../../mocks.js";
-import EditIcon from "@mui/icons-material/Edit";
+import AppCVEntries from "./AppCVEntries.jsx";
 
 const AppCVContent = () => {
 	const { t } = useTranslation();
@@ -90,15 +90,6 @@ const AppCVContent = () => {
 					sx={{ borderRadius: '50px', mr: 2 }}
 				>
 					{t('appCVContent.uploadCV')}
-				</Button>
-				<Button
-					startIcon={<AddCircleIcon />}
-					variant="contained"
-					color="success"
-					onClick={handleOpenCollectionModal}
-					sx={{ borderRadius: '50px' }}
-				>
-					{t('appCVContent.createCollection')}
 				</Button>
 			</Box>
 
@@ -168,37 +159,10 @@ const AppCVContent = () => {
 			{/* Section 2: CV Entries List and Details */}
 			<Box sx={{ display: 'flex', width: '100%', mt: 4 }}>
 				{/* Section 2.1: CV List */}
-				<Box sx={{ width: '25%', height: '75vh', backgroundColor: 'white', padding: 2, boxShadow: 1, overflowY: 'scroll' }}>
-					<Typography variant="h5" gutterBottom>
-						{t('appCVContent.cvListTitle')}
-					</Typography>
-					<Divider />
-					{cvEntries.length === 0 ? (
-						<Typography variant="body1">
-							{t('appCVContent.noCVEntries')}
-						</Typography>
-					) : (
-						<List>
-							{cvEntries.map((cv, index) => (
-								<ListItem
-									divider={true}
-									button
-									key={index}
-									onClick={() => setSelectedCV(cv)}
-									sx={{ cursor: 'pointer' }}
-								>
-									<ListItemText primary={cv.personalInformation.name} secondary={cv.personalInformation.role} />
-									<IconButton edge="end" color="error" onClick={() => setDeleteDialogOpen(true)}>
-										<DeleteIcon />
-									</IconButton>
-								</ListItem>
-							))}
-						</List>
-					)}
-				</Box>
+				<AppCVEntries  cvEntries={cvEntries} setDeleteDialogOpen={setDeleteDialogOpen} setSelectedCV={setSelectedCV} />
 
 				{/* Section 2.2: CV Details */}
-				<Paper sx={{ width: '75%', height: '75vh', padding: 2, boxShadow: 3, overflowY: 'scroll', backgroundColor: 'white', marginLeft: 5, alignItems: 'left' }}>
+				<Paper sx={{ width: '70%', height: '75vh', padding: 2, boxShadow: 3, overflowY: 'scroll', backgroundColor: 'white', marginLeft: 5, alignItems: 'left' }}>
 					<Typography variant="h5" gutterBottom>
 						{t('appCVContent.cvDetailsTitle')}
 					</Typography>
