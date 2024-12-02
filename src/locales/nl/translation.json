@@ -33,8 +33,8 @@
   "header": {
     "screening": "Screening",
     "jobs": "Vacatures",
-    "cvs": "CV's",
-    "analytics": "Analytics",
+    "cvs": "CV-bibliotheek",
+    "analytics": "Insights",
     "accountSettings": "Accountinstellingen",
     "logout": "Uitloggen"
   },

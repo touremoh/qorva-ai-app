@@ -1,8 +1,10 @@
 import { AppBar, Avatar, Box, IconButton, Menu, MenuItem, Toolbar, Typography, Link, Drawer, List, ListItem, ListItemText } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
+// eslint-disable-next-line no-unused-vars
 import React, { useState } from "react";
 import LanguageSwitcher from '../../components/languages/LanguageSwitcher.jsx';
 import { useTranslation } from 'react-i18next';
+import {COMP_ID_SCREENING, COMP_ID_CVLIB, COMP_ID_INSIGHTS, COMP_ID_SETTINGS, COMP_ID_JOBS, COMP_ID_LOGOUT} from "../../constants.js";
 
 const AppHeader = ({ onMenuItemClick }) => {
 	const { t } = useTranslation();
@@ -32,14 +34,14 @@ const AppHeader = ({ onMenuItemClick }) => {
 	return (
 		<AppBar position="fixed" sx={{ backgroundColor: '#232F3E' }}>
 			<Toolbar sx={{ width: { xs: 'calc(100% - 120px)', md: '70%' }, marginLeft: { md: '15%' }, marginRight: { md: '15%' }, justifyContent: 'space-between' }}>
-				<Typography variant="h6" component="div">
+				<Typography variant="h4" component="div" sx={{fontFamily: 'Raleway'}}>
 					Qorva
 				</Typography>
 				<Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 2, marginLeft: { xs: 1, md: 5 } }}>
-					<Link href="#" color="inherit" underline="none" variant="button" onClick={() => handleMenuItemClick('jobs')}>{t('header.jobs')}</Link>
-					<Link href="#" color="inherit" underline="none" variant="button" onClick={() => handleMenuItemClick('cvs')}>{t('header.cvs')}</Link>
-					<Link href="#" color="inherit" underline="none" variant="button" onClick={() => handleMenuItemClick('screening')}>{t('header.screening')}</Link>
-					<Link href="#" color="inherit" underline="none" variant="button" onClick={() => handleMenuItemClick('analytics')}>{t('header.analytics')}</Link>
+					<Link href="#" color="inherit" underline="none" variant="button" onClick={() => handleMenuItemClick(COMP_ID_SCREENING)}>{t('header.screening')}</Link>
+					<Link href="#" color="inherit" underline="none" variant="button" onClick={() => handleMenuItemClick(COMP_ID_JOBS)}>{t('header.jobs')}</Link>
+					<Link href="#" color="inherit" underline="none" variant="button" onClick={() => handleMenuItemClick(COMP_ID_CVLIB)}>{t('header.cvs')}</Link>
+					<Link href="#" color="inherit" underline="none" variant="button" onClick={() => handleMenuItemClick(COMP_ID_INSIGHTS)}>{t('header.analytics')}</Link>
 				</Box>
 				<Box sx={{ display: { xs: 'flex', md: 'none' }, marginLeft: 0 }}>
 					<IconButton color="inherit" onClick={toggleDrawer(true)}>
@@ -48,16 +50,16 @@ const AppHeader = ({ onMenuItemClick }) => {
 					<Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
 						<Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)}>
 							<List>
-								<ListItem button onClick={() => handleMenuItemClick('jobs')}>
-									<ListItemText primary={t('header.jobs')} />
-								</ListItem>
-								<ListItem button onClick={() => handleMenuItemClick('cvs')}>
-									<ListItemText primary={t('header.cvs')} />
-								</ListItem>
-								<ListItem button onClick={() => handleMenuItemClick('screening')}>
+								<ListItem button onClick={() => handleMenuItemClick(COMP_ID_SCREENING)}>
 									<ListItemText primary={t('header.screening')} />
 								</ListItem>
-								<ListItem button onClick={() => handleMenuItemClick('analytics')}>
+								<ListItem button onClick={() => handleMenuItemClick(COMP_ID_JOBS)}>
+									<ListItemText primary={t('header.jobs')} />
+								</ListItem>
+								<ListItem button onClick={() => handleMenuItemClick(COMP_ID_CVLIB)}>
+									<ListItemText primary={t('header.cvs')} />
+								</ListItem>
+								<ListItem button onClick={() => handleMenuItemClick(COMP_ID_INSIGHTS)}>
 									<ListItemText primary={t('header.analytics')} />
 								</ListItem>
 							</List>
@@ -76,8 +78,8 @@ const AppHeader = ({ onMenuItemClick }) => {
 						anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
 						transformOrigin={{ vertical: 'top', horizontal: 'right' }}
 					>
-						<MenuItem onClick={() => handleMenuItemClick('accountSettings')}>{t('header.accountSettings')}</MenuItem>
-						<MenuItem onClick={() => handleMenuItemClick('logout')}>{t('header.logout')}</MenuItem>
+						<MenuItem onClick={() => handleMenuItemClick(COMP_ID_SETTINGS)}>{t('header.accountSettings')}</MenuItem>
+						<MenuItem onClick={() => handleMenuItemClick(COMP_ID_LOGOUT)}>{t('header.logout')}</MenuItem>
 					</Menu>
 				</Box>
 			</Toolbar>
