@@ -25,10 +25,13 @@ const LanguageSwitcher = ({textColor = 'black'}) => {
 				sx={{
 					display: 'flex',
 					alignItems: 'center',
+					color: textColor,
+					'& .MuiSvgIcon-root': {
+						color: textColor // Set arrow icon color to white
+					},
 					'& .MuiOutlinedInput-notchedOutline': {
 						border: 'none'
 					},
-					color: textColor
 				}}
 			>
 				<MenuItem value="en">

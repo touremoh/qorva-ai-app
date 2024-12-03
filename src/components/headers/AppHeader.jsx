@@ -69,7 +69,7 @@ const AppHeader = ({ onMenuItemClick }) => {
 				<Box sx={{ display: 'flex', alignItems: 'center', marginLeft: 'auto', gap: 2 }}>
 					<LanguageSwitcher textColor={'white'} />
 					<IconButton onClick={handleMenuOpen} color="inherit">
-						<Avatar alt="User Icon" />
+						<Avatar alt="User Icon" sx={{ color: 'white' }} />
 					</IconButton>
 					<Menu
 						anchorEl={anchorEl}
