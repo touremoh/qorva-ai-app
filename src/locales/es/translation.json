@@ -138,5 +138,28 @@
     "updateTags": "Actualizar tags",
     "search": "Buscar",
     "saveAndClose": "Guardar y Cerrar"
+  },
+  "appCVScreening": {
+    "selectJobPost": "Seleccionar Oferta de Trabajo",
+    "selectCVs": "Seleccionar Currículums",
+    "analyzeCVs": "Analizar Currículums",
+    "noJobPostSelected": "No se ha seleccionado ninguna oferta de trabajo",
+    "analysisResults": "Resultados del Análisis",
+    "noAnalysisResult": "No hay resultados de análisis disponibles",
+    "selectAll": "Seleccionar todo",
+    "searchCVs": "Buscar CVs por Nombre, Rol o Habilidades",
+    "analyzedResults": "Resultados Analizados",
+    "analysisDetails": "Detalles del Análisis",
+    "skillsMatch": "Coincidencia de Habilidades",
+    "exceedsRequirements": "Supera los Requisitos",
+    "lackingSkills": "Habilidades Faltantes",
+    "experienceAlignment": "Alineación de la Experiencia",
+    "overallSummary": "Resumen General",
+    "score": "Puntuación",
+    "pointsForImprovement": "Puntos para Mejorar",
+    "interviewQuestions": "Preguntas de Entrevista",
+    "skillsBasedQuestions": "Preguntas Basadas en Habilidades",
+    "strengthBasedQuestions": "Preguntas sobre Fortalezas",
+    "gapExplorationQuestions": "Preguntas para Explorar Brechas"
   }
 }

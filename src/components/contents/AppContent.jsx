@@ -4,12 +4,13 @@ import { Box, Typography } from '@mui/material';
 import JobContent from "./JobsContent.jsx";
 import AppCVContent from "./cv/AppCVContent.jsx";
 import {COMP_ID_SCREENING, COMP_ID_CVLIB, COMP_ID_INSIGHTS, COMP_ID_SETTINGS, COMP_ID_JOBS, COMP_ID_LOGOUT} from "../../constants.js";
+import AppCVScreening from "./screening/AppCVScreening.jsx";
 
 const AppContent = ({ content }) => {
 	const renderContent = () => {
 		switch (content) {
 			case COMP_ID_SCREENING:
-				return <Typography variant="h4">Screening Section Content</Typography>;
+				return <AppCVScreening />;
 			case COMP_ID_JOBS:
 				return <JobContent />;
 			case COMP_ID_CVLIB:
@@ -21,7 +22,7 @@ const AppContent = ({ content }) => {
 			case COMP_ID_LOGOUT:
 				return <Typography variant="h4">You have been logged out</Typography>;
 			default:
-				return <Typography variant="h4">Screening Section Content</Typography>;;
+				return <AppCVScreening />;
 		}
 	};
 

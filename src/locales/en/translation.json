@@ -134,6 +134,29 @@
     "updateTags": "Update Tags",
     "search": "Search",
     "saveAndClose": "Save and Close"
+  },
+  "appCVScreening": {
+    "selectJobPost": "Select Job Post",
+    "selectCVs": "Select CVs",
+    "analyzeCVs": "Analyze CVs",
+    "noJobPostSelected": "No Job Post Selected",
+    "analysisResults": "Analysis Results",
+    "noAnalysisResult": "No Analysis Result Available",
+    "selectAll": "Select All",
+    "searchCVs": "Search CVs by Name, Role or Skills",
+    "analyzedResults": "Analyzed Results",
+    "analysisDetails": "Analysis Details",
+    "skillsMatch": "Skills Match",
+    "exceedsRequirements": "Exceeds Requirements",
+    "lackingSkills": "Lacking Skills",
+    "experienceAlignment": "Experience Alignment",
+    "overallSummary": "Overall Summary",
+    "score": "Score",
+    "pointsForImprovement": "Points for Improvement",
+    "interviewQuestions": "Interview Questions",
+    "skillsBasedQuestions": "Skills-Based Questions",
+    "strengthBasedQuestions": "Strength-Based Questions",
+    "gapExplorationQuestions": "Gap Exploration Questions"
   }
 }
 

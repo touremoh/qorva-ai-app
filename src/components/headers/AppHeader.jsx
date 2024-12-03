@@ -34,7 +34,7 @@ const AppHeader = ({ onMenuItemClick }) => {
 	return (
 		<AppBar position="fixed" sx={{ backgroundColor: '#232F3E' }}>
 			<Toolbar sx={{ width: { xs: 'calc(100% - 120px)', md: '70%' }, marginLeft: { md: '15%' }, marginRight: { md: '15%' }, justifyContent: 'space-between' }}>
-				<Typography variant="h4" component="div" sx={{fontFamily: 'Raleway'}}>
+				<Typography variant="h4" component="div" sx={{fontFamily: 'Arial'}}>
 					Qorva
 				</Typography>
 				<Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 2, marginLeft: { xs: 1, md: 5 } }}>

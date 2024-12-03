@@ -138,5 +138,29 @@
     "updateTags": "Tags bijwerken",
     "search": "Zoeken",
     "saveAndClose": "Opslaan en Sluiten"
+  },
+  "appCVScreening": {
+    "selectJobPost": "Selecteer Vacature",
+    "selectCVs": "Selecteer CV's",
+    "analyzeCVs": "Analyseer CV's",
+    "noJobPostSelected": "Geen vacature geselecteerd",
+    "analysisResults": "Analyseresultaten",
+    "noAnalysisResult": "Geen analyse resultaten beschikbaar",
+    "selectAll": "Alles selecteren",
+    "searchCVs": "Zoek CV's op Naam, Rol of Vaardigheden",
+    "analyzedResults": "Geanalyseerde Resultaten",
+    "analysisDetails": "Analyse Details",
+    "skillsMatch": "Vaardigheden Overeenkomst",
+    "exceedsRequirements": "Overschrijdt Vereisten",
+    "lackingSkills": "Ontbrekende Vaardigheden",
+    "experienceAlignment": "Ervaring Overeenstemming",
+    "overallSummary": "Algemene Samenvatting",
+    "score": "Score",
+    "pointsForImprovement": "Verbeterpunten",
+    "interviewQuestions": "Interviewvragen",
+    "skillsBasedQuestions": "Vaardigheden Gebaseerde Vragen",
+    "strengthBasedQuestions": "Sterkte Gebaseerde Vragen",
+    "gapExplorationQuestions": "Vragen voor het Onderzoeken van Hiaten"
   }
+
 }

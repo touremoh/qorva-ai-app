@@ -138,5 +138,28 @@
     "updateTags": "Aggiorna tag",
     "search": "Cerca",
     "saveAndClose": "Salva e Chiudi"
+  },
+  "appCVScreening": {
+    "selectJobPost": "Seleziona Annuncio di Lavoro",
+    "selectCVs": "Seleziona CV",
+    "analyzeCVs": "Analizza CV",
+    "noJobPostSelected": "Nessun annuncio di lavoro selezionato",
+    "analysisResults": "Risultati dell'analisi",
+    "noAnalysisResult": "Nessun risultato di analisi disponibile",
+    "selectAll": "Seleziona tutto",
+    "searchCVs": "Cerca CV per Nome, Ruolo o Competenze",
+    "analyzedResults": "Risultati Analizzati",
+    "analysisDetails": "Dettagli dell'Analisi",
+    "skillsMatch": "Corrispondenza delle Competenze",
+    "exceedsRequirements": "Supera i Requisiti",
+    "lackingSkills": "Competenze Mancanti",
+    "experienceAlignment": "Allineamento dell'Esperienza",
+    "overallSummary": "Riassunto Generale",
+    "score": "Punteggio",
+    "pointsForImprovement": "Punti di Miglioramento",
+    "interviewQuestions": "Domande per il Colloquio",
+    "skillsBasedQuestions": "Domande Basate sulle Competenze",
+    "strengthBasedQuestions": "Domande sulle Forze",
+    "gapExplorationQuestions": "Domande per Esplorare le Lacune"
   }
 }

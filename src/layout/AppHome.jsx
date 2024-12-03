@@ -5,7 +5,7 @@ import AppHeader from '../components/headers/AppHeader.jsx';
 import AppFooter from '../components/footer/AppFooter.jsx';
 import AppContent from '../components/contents/AppContent.jsx';
 
-const DefaultLayout = () => {
+const AppHome = () => {
 	const [content, setContent] = useState(null);
 
 	const handleMenuItemClick = (menuItem) => {
@@ -27,4 +27,4 @@ const DefaultLayout = () => {
 	);
 };
 
-export default DefaultLayout;
+export default AppHome;
