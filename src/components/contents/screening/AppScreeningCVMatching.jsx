@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Typography, Divider, List, ListItem, ListItemText } from '@mui/material';
+import { Box, Typography, Divider, List, ListItem, ListItemText, Chip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
@@ -12,7 +12,9 @@ const AppScreeningCVMatching = ({ analysisResults }) => {
 	};
 
 	// Sorting the analysis results in descending order based on the score
-	const sortedResults = analysisResults ? [...analysisResults].sort((a, b) => parseFloat(b.overall_summary.score) - parseFloat(a.overall_summary.score)) : [];
+	const sortedResults = analysisResults
+		? [...analysisResults].sort((a, b) => parseFloat(b.overall_summary.score) - parseFloat(a.overall_summary.score))
+		: [];
 
 	return (
 		<Box sx={{ display: 'flex', width: '76%', height: '70vh', overflow: 'hidden', padding: 2, boxShadow: 1, backgroundColor: 'white', marginLeft: 2 }}>
@@ -32,8 +34,26 @@ const AppScreeningCVMatching = ({ analysisResults }) => {
 								onClick={() => handleListItemClick(result)}
 								divider
 								selected={selectedResult && selectedResult.candidate_name === result.candidate_name}
-								sx={{ cursor: 'pointer' }}
+								sx={{
+									cursor: 'pointer',
+									position: 'relative',
+									'&:hover': { backgroundColor: '#f5f5f5' },
+								}}
 							>
+								{/* Green Badge */}
+								{selectedResult && selectedResult.candidate_name === result.candidate_name && (
+									<Chip
+										sx={{
+											position: 'absolute',
+											left: 0,
+											top: '50%',
+											transform: 'translateY(-50%)',
+											backgroundColor: 'green',
+											width: '5px',
+											height: '100%',
+										}}
+									/>
+								)}
 								<ListItemText
 									primary={
 										<Box sx={{ display: 'flex', justifyContent: 'space-between' }}>

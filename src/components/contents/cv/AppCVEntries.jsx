@@ -11,7 +11,8 @@ import {
 	Menu,
 	MenuItem,
 	TextField,
-	Pagination
+	Pagination,
+	Chip
 } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
@@ -84,6 +85,11 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen }) => {
 		setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
 	};
 
+	const handleCVSelection = (cv) => {
+		setSelectedCV(cv);
+		setSelectedCVId(cv.id);
+	};
+
 	return (
 		<Box sx={{ width: '30%', height: '75vh', backgroundColor: 'white', padding: 2, boxShadow: 1 }}>
 			<Typography variant="h5" gutterBottom>
@@ -120,9 +126,26 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen }) => {
 							divider={true}
 							button
 							key={index}
-							onClick={() => setSelectedCV(cv)}
-							sx={{ cursor: 'pointer' }}
+							onClick={() => handleCVSelection(cv)}
+							sx={{
+								cursor: 'pointer',
+								position: 'relative',
+							}}
 						>
+							{/* Green Badge */}
+							{selectedCVId === cv.id && (
+								<Chip
+									sx={{
+										position: 'absolute',
+										left: 0,
+										top: '50%',
+										transform: 'translateY(-50%)',
+										backgroundColor: 'green',
+										width: '5px',
+										height: '100%',
+									}}
+								/>
+							)}
 							<ListItemText
 								primary={cv.personalInformation.name}
 								secondary={`${cv.personalInformation.role} - ${new Date(cv.lastUpdatedAt).toLocaleDateString()}`}
