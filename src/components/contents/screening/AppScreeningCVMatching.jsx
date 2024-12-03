@@ -32,6 +32,7 @@ const AppScreeningCVMatching = ({ analysisResults }) => {
 								onClick={() => handleListItemClick(result)}
 								divider
 								selected={selectedResult && selectedResult.candidate_name === result.candidate_name}
+								sx={{ cursor: 'pointer' }}
 							>
 								<ListItemText
 									primary={
@@ -39,9 +40,9 @@ const AppScreeningCVMatching = ({ analysisResults }) => {
 											<span>{result.candidate_name}</span>
 											<span
 												style={{
-													color: parseFloat(result.overall_summary.score) >= 80
+													color: parseFloat(result.overall_summary.score) >= 70
 														? 'green'
-														: parseFloat(result.overall_summary.score) >= 50
+														: parseFloat(result.overall_summary.score) >= 40
 															? 'orange'
 															: 'red',
 												}}
@@ -61,7 +62,7 @@ const AppScreeningCVMatching = ({ analysisResults }) => {
 			<Box sx={{ flex: 1, padding: 3, overflowY: 'scroll', height: '100%' }}>
 				{selectedResult ? (
 					<>
-						<Typography variant="h6" gutterBottom>
+						<Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
 							{t('appCVScreening.analysisDetails')}
 						</Typography>
 						<Divider sx={{ marginBottom: 2 }} />
