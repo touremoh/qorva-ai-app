@@ -169,7 +169,10 @@
     "interviewQuestions": "Vorgeschlagene Fragen zur Interviewvorbereitung",
     "skillsBasedQuestions": "Fähigkeitsbasierte Fragen",
     "strengthBasedQuestions": "Stärkenbasierte Fragen",
-    "gapExplorationQuestions": "Fragen zur Lückenanalyse"
+    "gapExplorationQuestions": "Fragen zur Lückenanalyse",
+    "saveReport": "Bericht speichern",
+    "reportName": "Berichtsname",
+    "submit": "Einreichen"
   },
   "appReportContent": {
     "reportListTitle": "Liste der Berichte",

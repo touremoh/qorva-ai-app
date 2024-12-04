@@ -90,6 +90,7 @@ const AppCVScreening = () => {
 				handleCVSelectChange={handleCVSelectChange}
 				handleJobPostChange={handleJobPostChange}
 				selectedJobPost={selectedJobPost}
+				analyzedResults={analysisResult}
 			/>
 
 			{/* Section B: Job Post Details and Analytics */}

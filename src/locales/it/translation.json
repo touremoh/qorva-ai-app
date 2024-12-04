@@ -169,7 +169,10 @@
     "interviewQuestions": "Domande suggerite per la preparazione del colloquio",
     "skillsBasedQuestions": "Domande Basate sulle Competenze",
     "strengthBasedQuestions": "Domande sulle Forze",
-    "gapExplorationQuestions": "Domande per Esplorare le Lacune"
+    "gapExplorationQuestions": "Domande per Esplorare le Lacune",
+    "saveReport": "Salva rapporto",
+    "reportName": "Nome del rapporto",
+    "submit": "Inviare"
   },
   "appReportContent": {
     "reportListTitle": "Elenco dei Rapporti",

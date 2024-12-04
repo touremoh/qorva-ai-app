@@ -169,7 +169,10 @@
     "interviewQuestions": "Voorgestelde vragen voor interviewvoorbereiding",
     "skillsBasedQuestions": "Vaardigheden Gebaseerde Vragen",
     "strengthBasedQuestions": "Sterkte Gebaseerde Vragen",
-    "gapExplorationQuestions": "Vragen voor het Onderzoeken van Hiaten"
+    "gapExplorationQuestions": "Vragen voor het Onderzoeken van Hiaten",
+    "saveReport": "Rapport opslaan",
+    "reportName": "Rapportnaam",
+    "submit": "Indienen"
   },
   "appReportContent": {
     "reportListTitle": "Lijst van Rapporten",

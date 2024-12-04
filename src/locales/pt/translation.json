@@ -169,7 +169,10 @@
     "interviewQuestions": "Perguntas sugeridas para a preparação da entrevista",
     "skillsBasedQuestions": "Perguntas Baseadas em Habilidades",
     "strengthBasedQuestions": "Perguntas sobre Pontos Fortes",
-    "gapExplorationQuestions": "Perguntas para Explorar Lacunas"
+    "gapExplorationQuestions": "Perguntas para Explorar Lacunas",
+    "saveReport": "Salvar relatório",
+    "reportName": "Nome do relatório",
+    "submit": "Enviar"
   },
   "appReportContent": {
     "reportListTitle": "Lista de Relatórios",

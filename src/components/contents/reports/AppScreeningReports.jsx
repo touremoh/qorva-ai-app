@@ -59,7 +59,7 @@ const AppScreeningReports = () => {
 	return (
 		<Box sx={{ display: 'flex', width: '70vw' }}>
 			{/* Section 1: List of Reports */}
-			<Box sx={{ width: '24%', height: '75vh', backgroundColor: 'white', padding: 2, boxShadow: 1, position: 'relative' }}>
+			<Box sx={{ width: '24%', height: '75vh', backgroundColor: 'white', padding: 2, boxShadow: 1, position: 'relative', color: '#232F3E' }}>
 				<Typography variant="h5" gutterBottom>
 					{t('appReportContent.reportListTitle')}
 				</Typography>

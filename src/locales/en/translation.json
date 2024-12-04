@@ -165,7 +165,10 @@
     "interviewQuestions": "Suggested Questions for Interview Preparation",
     "skillsBasedQuestions": "Skills-Based Questions",
     "strengthBasedQuestions": "Strength-Based Questions",
-    "gapExplorationQuestions": "Gap Exploration Questions"
+    "gapExplorationQuestions": "Gap Exploration Questions",
+    "saveReport": "Save Report",
+    "reportName": "Report Name",
+    "submit": "Save"
   },
   "appReportContent": {
     "reportListTitle": "List of Reports",

@@ -9,15 +9,19 @@ import {
 	Checkbox,
 	ListItemText,
 	Button,
-	TextField
+	TextField,
+	Modal,
+	Typography
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
-const AppScreeningCommands = ({ jobPosts, cvEntries, selectedJobPost, handleJobPostChange, selectedCVs, handleCVSelectChange, handleAnalyzeCVs }) => {
+const AppScreeningCommands = ({ jobPosts, cvEntries, selectedJobPost, handleJobPostChange, selectedCVs, handleCVSelectChange, handleAnalyzeCVs, analyzedResults }) => {
 	const { t } = useTranslation();
 	const [searchTerm, setSearchTerm] = useState('');
 	const [selectAll, setSelectAll] = useState(false);
+	const [saveReportModalOpen, setSaveReportModalOpen] = useState(false);
+	const [reportName, setReportName] = useState('');
 
 	// Filter CV entries based on the search term or key skills
 	const filteredCVEntries = cvEntries.filter(cv =>
@@ -29,7 +33,6 @@ const AppScreeningCommands = ({ jobPosts, cvEntries, selectedJobPost, handleJobP
 	);
 
 	const handleSearchChange = (event) => {
-		console.log('Key pressed:', event.key);
 		setSearchTerm(event.target.value);
 	};
 
@@ -44,6 +47,28 @@ const AppScreeningCommands = ({ jobPosts, cvEntries, selectedJobPost, handleJobP
 
 	const handleKeyDown = (event) => {
 		event.stopPropagation(); // Prevent the event from bubbling up and triggering other handlers.
+	};
+
+	const handleSaveReportClick = () => {
+		setSaveReportModalOpen(true);
+	};
+
+	const handleSaveReportSubmit = () => {
+		if (reportName.trim()) {
+			const reportData = {
+				id: new Date().getTime().toString(), // Example ID, could be a UUID
+				reportName,
+				reportDetails: analyzedResults,
+				createdAt: new Date().toISOString(),
+			};
+
+			// Send the reportData to the backend (Example API call)
+			console.log("Saving Report Data to Backend:", reportData);
+			// You can replace the above console log with an API call to save the report
+
+			setSaveReportModalOpen(false);
+			setReportName('');
+		}
 	};
 
 	return (
@@ -65,7 +90,7 @@ const AppScreeningCommands = ({ jobPosts, cvEntries, selectedJobPost, handleJobP
 			</FormControl>
 
 			{/* Multi-Select Dropdown for CVs */}
-			<FormControl sx={{ width: '55%', marginRight: 2 }}>
+			<FormControl sx={{ width: '50%', marginRight: 2 }}>
 				<InputLabel>{t('appCVScreening.selectCVs')}</InputLabel>
 				<Select
 					multiple
@@ -120,7 +145,7 @@ const AppScreeningCommands = ({ jobPosts, cvEntries, selectedJobPost, handleJobP
 
 			{/* Analyze Button */}
 			<Button
-				sx={{ width: '20%' }}
+				sx={{ width: '12%', marginRight: 1 }}
 				variant="contained"
 				color="warning"
 				onClick={handleAnalyzeCVs}
@@ -128,6 +153,58 @@ const AppScreeningCommands = ({ jobPosts, cvEntries, selectedJobPost, handleJobP
 			>
 				{t('appCVScreening.analyzeCVs')}
 			</Button>
+
+			{/* Save Report Button */}
+			<Button
+				sx={{ width: '12%' }}
+				variant="contained"
+				color="success"
+				onClick={handleSaveReportClick}
+				disabled={!analyzedResults || analyzedResults.length === 0}
+			>
+				{t('appCVScreening.saveReport')}
+			</Button>
+
+			{/* Save Report Modal */}
+			<Modal
+				open={saveReportModalOpen}
+				onClose={() => setSaveReportModalOpen(false)}
+				aria-labelledby="save-report-modal"
+			>
+				<Box
+					sx={{
+						position: 'absolute',
+						top: '50%',
+						left: '50%',
+						transform: 'translate(-50%, -50%)',
+						width: 400,
+						backgroundColor: 'background.paper',
+						boxShadow: 24,
+						p: 4,
+						borderRadius: 1,
+					}}
+				>
+					<Typography variant="h6" component="h2" sx={{ mb: 2 }}>
+						{t('appCVScreening.saveReport')}
+					</Typography>
+					<TextField
+						fullWidth
+						variant="outlined"
+						label={t('appCVScreening.reportName')}
+						value={reportName}
+						onChange={(e) => setReportName(e.target.value)}
+						sx={{ mb: 2 }}
+					/>
+					<Button
+						variant="contained"
+						color="success"
+						fullWidth
+						onClick={handleSaveReportSubmit}
+					>
+						{t('appCVScreening.submit')}
+					</Button>
+				</Box>
+			</Modal>
 		</Box>
 	);
 };
@@ -157,7 +234,8 @@ AppScreeningCommands.propTypes = {
 	handleJobPostChange: PropTypes.func.isRequired,
 	selectedCVs: PropTypes.arrayOf(PropTypes.string).isRequired,
 	handleCVSelectChange: PropTypes.func.isRequired,
-	handleAnalyzeCVs: PropTypes.func.isRequired
+	handleAnalyzeCVs: PropTypes.func.isRequired,
+	analyzedResults: PropTypes.object, // Added for analyzed results
 };
 
 export default AppScreeningCommands;
