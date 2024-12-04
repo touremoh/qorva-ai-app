@@ -67,6 +67,7 @@
     "name": "Volledige naam",
     "title": "Rol of functie",
     "contactInfo": {
+      "title": "Contactgegevens",
       "phone": "Telefoonnummer",
       "email": "E-mailadres",
       "linkedin": "LinkedIn-profiel",
@@ -74,6 +75,7 @@
       "website": "Persoonlijke website of portfolio"
     },
     "availability": {
+      "title": "Beschikbaarheid",
       "interviews": "Beschikbaarheid voor interviews",
       "startDate": "Beschikbaarheid om te starten"
     },
@@ -137,7 +139,14 @@
     "deleteCVTitle": "CV verwijderen",
     "updateTags": "Tags bijwerken",
     "search": "Zoeken",
-    "saveAndClose": "Opslaan en Sluiten"
+    "saveAndClose": "Opslaan en Sluiten",
+    "skillsAndQualifications": "Vaardigheden en Kwalificaties",
+    "tags": "Tags",
+    "lastUpdatedAt": "Laatst bijgewerkt op",
+    "profiles": "Profielen",
+    "areasOfExpertise": "Expertisegebieden",
+    "keyResponsibilities": "Kernverantwoordelijkheden",
+    "downloadCV": "CV downloaden"
   },
   "appCVScreening": {
     "selectJobPost": "Selecteer Vacature",

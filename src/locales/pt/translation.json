@@ -67,6 +67,7 @@
     "name": "Nome completo",
     "title": "Função ou posição",
     "contactInfo": {
+      "title": "Informações de contato",
       "phone": "Número de telefone",
       "email": "Endereço de e-mail",
       "linkedin": "Perfil no LinkedIn",
@@ -74,6 +75,7 @@
       "website": "Site pessoal ou portfólio"
     },
     "availability": {
+      "title": "Disponibilidade",
       "interviews": "Disponibilidade para entrevistas",
       "startDate": "Disponibilidade para começar"
     },
@@ -137,7 +139,14 @@
     "deleteCVTitle": "Excluir CV",
     "updateTags": "Atualizar tags",
     "search": "Pesquisar",
-    "saveAndClose": "Salvar e Fechar"
+    "saveAndClose": "Salvar e Fechar",
+    "skillsAndQualifications": "Habilidades e Qualificações",
+    "tags": "Etiquetas",
+    "lastUpdatedAt": "Última atualização",
+    "profiles": "Perfis",
+    "areasOfExpertise": "Áreas de Especialização",
+    "keyResponsibilities": "Principais Responsabilidades",
+    "downloadCV": "Baixar CV"
   },
   "appCVScreening": {
     "selectJobPost": "Selecionar Vaga de Emprego",
