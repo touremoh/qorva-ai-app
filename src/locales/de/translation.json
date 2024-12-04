@@ -34,7 +34,7 @@
     "screening": "Screening",
     "jobs": "Jobs",
     "cvs": "Lebenslaufbibliothek",
-    "analytics": "Insights",
+    "reports": "Berichte",
     "accountSettings": "Kontoeinstellungen",
     "logout": "Abmelden"
   },
@@ -170,5 +170,10 @@
     "skillsBasedQuestions": "Fähigkeitsbasierte Fragen",
     "strengthBasedQuestions": "Stärkenbasierte Fragen",
     "gapExplorationQuestions": "Fragen zur Lückenanalyse"
+  },
+  "appReportContent": {
+    "reportListTitle": "Liste der Berichte",
+    "search": "Berichte suchen",
+    "generatedOn": "Erstellt am"
   }
 }

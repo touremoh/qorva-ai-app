@@ -34,7 +34,7 @@
     "screening": "Screening",
     "jobs": "Offres d'emploi",
     "cvs": "CVthèque",
-    "analytics": "Insights",
+    "reports": "Rapports",
     "accountSettings": "Paramètres du compte",
     "logout": "Se déconnecter"
   },
@@ -170,5 +170,10 @@
     "skillsBasedQuestions": "Questions Basées sur les Compétences",
     "strengthBasedQuestions": "Questions sur les Points Forts",
     "gapExplorationQuestions": "Questions pour Explorer les Lacunes"
+  },
+  "appReportContent": {
+    "reportListTitle": "Liste des Rapports",
+    "search": "Rechercher des Rapports",
+    "generatedOn": "Généré le"
   }
 }

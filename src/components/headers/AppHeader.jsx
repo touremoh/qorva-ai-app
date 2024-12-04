@@ -4,7 +4,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import React, { useState } from "react";
 import LanguageSwitcher from '../../components/languages/LanguageSwitcher.jsx';
 import { useTranslation } from 'react-i18next';
-import {COMP_ID_SCREENING, COMP_ID_CVLIB, COMP_ID_INSIGHTS, COMP_ID_SETTINGS, COMP_ID_JOBS, COMP_ID_LOGOUT} from "../../constants.js";
+import {COMP_ID_SCREENING, COMP_ID_CVLIB, COMP_ID_REPORTS, COMP_ID_SETTINGS, COMP_ID_JOBS, COMP_ID_LOGOUT} from "../../constants.js";
 
 const AppHeader = ({ onMenuItemClick }) => {
 	const { t } = useTranslation();
@@ -41,7 +41,7 @@ const AppHeader = ({ onMenuItemClick }) => {
 					<Link href="#" color="inherit" underline="none" variant="button" onClick={() => handleMenuItemClick(COMP_ID_SCREENING)}>{t('header.screening')}</Link>
 					<Link href="#" color="inherit" underline="none" variant="button" onClick={() => handleMenuItemClick(COMP_ID_JOBS)}>{t('header.jobs')}</Link>
 					<Link href="#" color="inherit" underline="none" variant="button" onClick={() => handleMenuItemClick(COMP_ID_CVLIB)}>{t('header.cvs')}</Link>
-					<Link href="#" color="inherit" underline="none" variant="button" onClick={() => handleMenuItemClick(COMP_ID_INSIGHTS)}>{t('header.analytics')}</Link>
+					<Link href="#" color="inherit" underline="none" variant="button" onClick={() => handleMenuItemClick(COMP_ID_REPORTS)}>{t('header.reports')}</Link>
 				</Box>
 				<Box sx={{ display: { xs: 'flex', md: 'none' }, marginLeft: 0 }}>
 					<IconButton color="inherit" onClick={toggleDrawer(true)}>
@@ -59,7 +59,7 @@ const AppHeader = ({ onMenuItemClick }) => {
 								<ListItem button onClick={() => handleMenuItemClick(COMP_ID_CVLIB)}>
 									<ListItemText primary={t('header.cvs')} />
 								</ListItem>
-								<ListItem button onClick={() => handleMenuItemClick(COMP_ID_INSIGHTS)}>
+								<ListItem button onClick={() => handleMenuItemClick(COMP_ID_REPORTS)}>
 									<ListItemText primary={t('header.analytics')} />
 								</ListItem>
 							</List>

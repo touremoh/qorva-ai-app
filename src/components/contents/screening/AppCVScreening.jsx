@@ -1,16 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from 'react';
-import {
-	Box,
-	Typography,
-	Divider,
-	Button,
-	InputLabel,
-	MenuItem,
-	Checkbox,
-	ListItemText,
-	OutlinedInput,
-} from '@mui/material';
+import { Box } from '@mui/material';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import {cvEntriesMock, mockJobs, candidatesEvaluation} from "../../../mocks.js";

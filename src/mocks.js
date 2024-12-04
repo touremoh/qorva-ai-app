@@ -560,5 +560,46 @@ export const candidatesEvaluation = [
 	}
 ];
 
+
+
+export const SCREENING_REPORTS = [
+	{
+		id: "id1",
+		reportName: "Report for Software Engineer Position",
+		reportDetails: candidatesEvaluation,
+		createdAt: "2024-12-07T00:00:00.000Z",
+	},
+	{
+		id: "id2",
+		reportName: "Report for Data Analyst Position",
+		reportDetails: candidatesEvaluation,
+		createdAt: "2024-12-08T00:00:00.000Z",
+	},
+	{
+		id: "id3",
+		reportName: "Report for Accounting Position",
+		reportDetails: candidatesEvaluation,
+		createdAt: "2024-12-09T00:00:00.000Z",
+	},
+	{
+		id: "id4",
+		reportName: "Report for Web Developer Position",
+		reportDetails: candidatesEvaluation,
+		createdAt: "2024-12-10T00:00:00.000Z",
+	},
+	{
+		id: "id5",
+		reportName: "Report for Marketing Position",
+		reportDetails: candidatesEvaluation,
+		createdAt: "2024-12-11T00:00:00.000Z",
+	},
+	{
+		id: "id6",
+		reportName: "Report for Manager Position",
+		reportDetails: candidatesEvaluation,
+		createdAt: "2024-12-12T00:00:00.000Z",
+	}
+];
+
 export default cvEntriesMock;
 

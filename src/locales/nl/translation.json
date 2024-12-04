@@ -34,7 +34,7 @@
     "screening": "Screening",
     "jobs": "Vacatures",
     "cvs": "CV-bibliotheek",
-    "analytics": "Insights",
+    "reports": "Rapporten",
     "accountSettings": "Accountinstellingen",
     "logout": "Uitloggen"
   },
@@ -170,6 +170,11 @@
     "skillsBasedQuestions": "Vaardigheden Gebaseerde Vragen",
     "strengthBasedQuestions": "Sterkte Gebaseerde Vragen",
     "gapExplorationQuestions": "Vragen voor het Onderzoeken van Hiaten"
+  },
+  "appReportContent": {
+    "reportListTitle": "Lijst van Rapporten",
+    "search": "Rapporten Zoeken",
+    "generatedOn": "Gegenereerd op"
   }
 
 }

@@ -34,7 +34,7 @@
     "screening": "Screening",
     "jobs": "Jobs",
     "cvs": "CV Library",
-    "analytics": "Insights",
+    "reports": "Reports",
     "accountSettings": "Account Settings",
     "logout": "Logout"
   },
@@ -166,6 +166,11 @@
     "skillsBasedQuestions": "Skills-Based Questions",
     "strengthBasedQuestions": "Strength-Based Questions",
     "gapExplorationQuestions": "Gap Exploration Questions"
+  },
+  "appReportContent": {
+    "reportListTitle": "List of Reports",
+    "search": "Search Reports",
+    "generatedOn": "Generated on"
   }
 }
 

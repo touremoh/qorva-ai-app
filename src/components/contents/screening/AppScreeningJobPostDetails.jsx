@@ -7,7 +7,7 @@ const AppScreeningJobPostDetails = ({ selectedJobDetails }) => {
 	const { t } = useTranslation();
 
 	return (
-		<Box sx={{ width: '24%', height: '70vh', backgroundColor: 'white', padding: 2, boxShadow: 1, overflowY: 'scroll' }}>
+		<Box sx={{ width: '24%', height: '75vh', backgroundColor: 'white', padding: 2, boxShadow: 1, overflowY: 'scroll' }}>
 			{selectedJobDetails ? (
 				<>
 					<Typography variant="h6" gutterBottom>

@@ -17,7 +17,7 @@ const AppScreeningCVMatching = ({ analysisResults }) => {
 		: [];
 
 	return (
-		<Box sx={{ display: 'flex', width: '76%', height: '70vh', overflow: 'hidden', padding: 2, boxShadow: 1, backgroundColor: 'white', marginLeft: 2 }}>
+		<Box sx={{ display: 'flex', width: '76%', height: '75vh', overflow: 'hidden', padding: 2, boxShadow: 1, backgroundColor: 'white', marginLeft: 2 }}>
 			{/* Part 1: List of Analyzed Results (Tabs) */}
 			<Box sx={{ width: '30%', borderRight: '1px solid lightgray' }}>
 				<Typography variant="h6" sx={{ padding: 2, fontWeight: 'bold' }}>
