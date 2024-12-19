@@ -28,7 +28,13 @@
     "cancelAnytimeTitle": "Geen verplichtingen!",
     "cancelAnytime": "Flexibiliteit gegarandeerd - annuleer uw abonnement op elk moment zonder gedoe",
     "dataDeletedTitle": "Uw privacy is belangrijk!",
-    "dataDeleted": "Wees gerust, al uw gegevens worden permanent verwijderd na annulering om uw privacy te beschermen"
+    "dataDeleted": "Wees gerust, al uw gegevens worden permanent verwijderd na annulering om uw privacy te beschermen",
+    "success": {
+      "title": "Registratie succesvol!",
+      "message": "Uw registratie is succesvol voltooid.",
+      "confirmationEmail": "Een bevestigingsmail is naar uw inbox verzonden.",
+      "signInLink": "Klik hier om in te loggen en de applicatie te gebruiken."
+    }
   },
   "header": {
     "screening": "Screening",
@@ -178,6 +184,21 @@
     "reportListTitle": "Lijst van Rapporten",
     "search": "Rapporten Zoeken",
     "generatedOn": "Gegenereerd op"
+  },
+  "errors": {
+    "404": {
+      "title": "Pagina niet gevonden",
+      "message": "De pagina die u probeerde te openen, bestaat niet."
+    },
+    "500": {
+      "title": "Serverfout",
+      "message": "Er is een onverwachte fout opgetreden op de server."
+    },
+    "generic": {
+      "title": "Fout",
+      "message": "Er is iets misgegaan. Probeer het later opnieuw."
+    },
+    "contactSupport": "Als het probleem aanhoudt, neem dan contact op met de ondersteuning."
   }
 
 }

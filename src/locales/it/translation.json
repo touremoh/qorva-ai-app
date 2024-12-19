@@ -28,7 +28,13 @@
     "cancelAnytimeTitle": "Nessun Impegno!",
     "cancelAnytime": "Flessibilità garantita - annulla l'abbonamento in qualsiasi momento, senza problemi",
     "dataDeletedTitle": "La Tua Privacy Conta!",
-    "dataDeleted": "Stai tranquillo, tutti i tuoi dati saranno eliminati definitivamente dopo la cancellazione per proteggere la tua privacy"
+    "dataDeleted": "Stai tranquillo, tutti i tuoi dati saranno eliminati definitivamente dopo la cancellazione per proteggere la tua privacy",
+    "success": {
+      "title": "Registrazione completata!",
+      "message": "La tua registrazione è stata completata con successo.",
+      "confirmationEmail": "Una e-mail di conferma è stata inviata alla tua casella di posta.",
+      "signInLink": "Clicca qui per accedere e iniziare a utilizzare l'applicazione."
+    }
   },
   "header": {
     "screening": "Screening",
@@ -178,5 +184,20 @@
     "reportListTitle": "Elenco dei Rapporti",
     "search": "Cerca Rapporti",
     "generatedOn": "Generato il"
+  },
+  "errors": {
+    "404": {
+      "title": "Pagina non trovata",
+      "message": "La pagina che stavi cercando di accedere non esiste."
+    },
+    "500": {
+      "title": "Errore del server",
+      "message": "Si è verificato un errore imprevisto sul server."
+    },
+    "generic": {
+      "title": "Errore",
+      "message": "Qualcosa è andato storto. Per favore riprova più tardi."
+    },
+    "contactSupport": "Se il problema persiste, contatta l'assistenza."
   }
 }

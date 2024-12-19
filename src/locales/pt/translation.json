@@ -28,7 +28,13 @@
     "cancelAnytimeTitle": "Sem Compromissos!",
     "cancelAnytime": "Flexibilidade garantida - cancele sua assinatura a qualquer momento, sem complicações",
     "dataDeletedTitle": "Sua Privacidade Importa!",
-    "dataDeleted": "Tenha certeza de que todos os seus dados serão permanentemente excluídos após o cancelamento para proteger sua privacidade"
+    "dataDeleted": "Tenha certeza de que todos os seus dados serão permanentemente excluídos após o cancelamento para proteger sua privacidade",
+    "success": {
+      "title": "Registro bem-sucedido!",
+      "message": "Seu registro foi concluído com sucesso.",
+      "confirmationEmail": "Um e-mail de confirmação foi enviado para sua caixa de entrada.",
+      "signInLink": "Clique aqui para fazer login e começar a usar o aplicativo."
+    }
   },
   "header": {
     "screening": "Screening",
@@ -178,5 +184,21 @@
     "reportListTitle": "Lista de Relatórios",
     "search": "Buscar Relatórios",
     "generatedOn": "Gerado em"
+  },
+  "errors": {
+    "404": {
+      "title": "Página não encontrada",
+      "message": "A página que você tentou acessar não existe."
+    },
+    "500": {
+      "title": "Erro do servidor",
+      "message": "Ocorreu um erro inesperado no servidor."
+    },
+    "generic": {
+      "title": "Erro",
+      "message": "Algo deu errado. Por favor, tente novamente mais tarde."
+    },
+    "contactSupport": "Se o problema persistir, entre em contato com o suporte."
   }
+
 }

@@ -28,7 +28,13 @@
     "cancelAnytimeTitle": "Keine Verpflichtungen!",
     "cancelAnytime": "Flexibilität garantiert - kündigen Sie Ihr Abonnement jederzeit ohne Aufwand",
     "dataDeletedTitle": "Ihre Privatsphäre zählt!",
-    "dataDeleted": "Seien Sie sicher, dass alle Ihre Daten nach der Kündigung endgültig gelöscht werden, um Ihre Privatsphäre zu schützen"
+    "dataDeleted": "Seien Sie sicher, dass alle Ihre Daten nach der Kündigung endgültig gelöscht werden, um Ihre Privatsphäre zu schützen",
+    "success": {
+      "title": "Registrierung erfolgreich!",
+      "message": "Ihre Registrierung wurde erfolgreich abgeschlossen.",
+      "confirmationEmail": "Eine Bestätigungs-E-Mail wurde an Ihren Posteingang gesendet.",
+      "signInLink": "Klicken Sie hier, um sich anzumelden und die Anwendung zu nutzen."
+    }
   },
   "header": {
     "screening": "Screening",
@@ -178,5 +184,21 @@
     "reportListTitle": "Liste der Berichte",
     "search": "Berichte suchen",
     "generatedOn": "Erstellt am"
+  },
+  "errors": {
+    "404": {
+      "title": "Seite nicht gefunden",
+      "message": "Die Seite, die Sie aufrufen wollten, existiert nicht."
+    },
+    "500": {
+      "title": "Serverfehler",
+      "message": "Ein unerwarteter Fehler ist auf dem Server aufgetreten."
+    },
+    "generic": {
+      "title": "Fehler",
+      "message": "Etwas ist schiefgelaufen. Bitte versuchen Sie es später erneut."
+    },
+    "contactSupport": "Wenn das Problem weiterhin besteht, wenden Sie sich bitte an den Support."
   }
+
 }

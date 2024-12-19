@@ -28,7 +28,13 @@
     "cancelAnytimeTitle": "¡Sin compromisos!",
     "cancelAnytime": "Flexibilidad garantizada: cancele su suscripción en cualquier momento, sin problemas",
     "dataDeletedTitle": "¡Su privacidad es importante!",
-    "dataDeleted": "Tenga la seguridad de que todos sus datos se eliminarán de forma permanente tras la cancelación para proteger su privacidad"
+    "dataDeleted": "Tenga la seguridad de que todos sus datos se eliminarán de forma permanente tras la cancelación para proteger su privacidad",
+    "success": {
+      "title": "¡Registro exitoso!",
+      "message": "Su registro se completó con éxito.",
+      "confirmationEmail": "Se ha enviado un correo electrónico de confirmación a su bandeja de entrada.",
+      "signInLink": "Haga clic aquí para iniciar sesión y comenzar a usar la aplicación."
+    }
   },
   "header": {
     "screening": "Screening",
@@ -178,5 +184,20 @@
     "reportListTitle": "Lista de Informes",
     "search": "Buscar Informes",
     "generatedOn": "Generado el"
+  },
+  "errors": {
+    "404": {
+      "title": "Página no encontrada",
+      "message": "La página que intentaba acceder no existe."
+    },
+    "500": {
+      "title": "Error del servidor",
+      "message": "Ocurrió un error inesperado en el servidor."
+    },
+    "generic": {
+      "title": "Error",
+      "message": "Algo salió mal. Por favor, inténtelo de nuevo más tarde."
+    },
+    "contactSupport": "Si el problema persiste, póngase en contacto con el soporte técnico."
   }
 }
