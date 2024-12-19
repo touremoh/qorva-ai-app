@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { Container, Grid2, Typography, TextField, Button, Box, InputAdornment, MenuItem, Select, FormControl } from '@mui/material';
+import { Container, Grid2, Typography, TextField, Button, Box, InputAdornment } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import LockIcon from "@mui/icons-material/Lock";
 import EmailIcon from "@mui/icons-material/Email";
-import axios from 'axios';
+import CircularProgress from "@mui/material/CircularProgress";
+import apiClient from "../../../../axiosConfig.js";
+
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../../../components/languages/LanguageSwitcher.jsx';
 
@@ -12,34 +14,40 @@ const Login = () => {
 	const navigate = useNavigate();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [loading, setLoading] = useState(false); // State for loader
 
 	const handleSignUpClick = () => {
 		navigate('/register');
 	};
 
-	const handleSignInClick = async (e) => {
+	const handleLogin = async (e) => {
 		e.preventDefault();
+		setLoading(true); // Show loader
 		try {
-			// Encrypt the password (dummy method for now)
-			const encryptedPassword = encryptPassword(password);
-
-			// Send login data to backend
-			const response = await axios.post(`${process.env.REACT_APP_API_LOGIN_URL}`, {
-				email,
-				password: encryptedPassword
+			const response = await apiClient.post(import.meta.env.VITE_APP_API_LOGIN_URL, {
+				email: email,
+				rawPassword: password,
 			});
 
-			if (response.status === 200) {
+			if (response.status === 200 && response.data?.data?.access_token) {
+				const { access_token, expires_in } = response.data.data;
+
+				// Save the access token and expiration time in localStorage
+				localStorage.setItem('authToken', access_token);
+				localStorage.setItem('tokenExpiry', expires_in);
+
+				console.log('Login successful. Access token saved.');
+
+				// Redirect to the home page
 				navigate('/');
+			} else {
+				console.error('Unexpected response format', response);
 			}
 		} catch (error) {
-			console.error("Login failed", error);
+			console.error('Login failed:', error.message);
+		} finally {
+			setLoading(false); // Hide loader
 		}
-	};
-
-	const encryptPassword = (password) => {
-		// Dummy encryption logic - to be updated later
-		return password.split('').reverse().join('');
 	};
 
 	return (
@@ -61,7 +69,7 @@ const Login = () => {
 						<Typography variant="subtitle1" gutterBottom>
 							{t('login.subtitle')}
 						</Typography>
-						<Box component="form" sx={{ mt: 3, width: '100%', maxWidth: '700px' }} onSubmit={handleSignInClick}>
+						<Box component="form" sx={{ mt: 3, width: '100%', maxWidth: '700px' }} onSubmit={handleLogin}>
 							<TextField
 								label={t('login.emailLabel')}
 								variant="filled"
@@ -99,8 +107,14 @@ const Login = () => {
 									}
 								}}
 							/>
-							<Button type="submit" fullWidth variant="contained" sx={{ backgroundColor: '#629C44', mt: 2 }}>
-								{t('login.signInButton')}
+							<Button
+								type="submit"
+								fullWidth
+								variant="contained"
+								sx={{ backgroundColor: '#629C44', mt: 2 }}
+								disabled={loading} // Disable button during loading
+							>
+								{loading ? <CircularProgress size={24} color="inherit" /> : t('login.signInButton')}
 							</Button>
 							<Box sx={{ mt: 3 }}>
 								<LanguageSwitcher />
