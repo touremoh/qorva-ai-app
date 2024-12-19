@@ -1,7 +1,8 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from 'react';
-import { Grid2, Typography, TextField, Button, Box, InputAdornment, IconButton } from '@mui/material';
+import { Grid2, Typography, TextField, Button, Box, InputAdornment, IconButton, CircularProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import apiClient from '../../../../axiosConfig.js';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../../../components/languages/LanguageSwitcher.jsx';
 import PersonIcon from '@mui/icons-material/Person';
@@ -12,7 +13,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 const UserRegistration = () => {
-	const { t } = useTranslation();
+	const { t, i18n } = useTranslation();
 	const navigate = useNavigate();
 	const [userInfo, setUserInfo] = useState({
 		firstName: '',
@@ -23,6 +24,7 @@ const UserRegistration = () => {
 	});
 	const [showPassword, setShowPassword] = useState(false);
 	const [currentMessage, setCurrentMessage] = useState(0);
+	const [loading, setLoading] = useState(false); // State for loader
 	const messages = [
 		{
 			title: t('registration.freeTrialTitle'),
@@ -38,6 +40,9 @@ const UserRegistration = () => {
 		}
 	];
 
+	// List of accepted languages
+	const acceptedLanguages = ['en', 'fr', 'de', 'es', 'pt', 'it', 'nl'];
+
 	useEffect(() => {
 		const interval = setInterval(() => {
 			setCurrentMessage((prev) => (prev + 1) % messages.length);
@@ -52,14 +57,41 @@ const UserRegistration = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		setLoading(true); // Show loader
 		try {
-			const response = await axios.post(`${process.env.REACT_APP_API_REGISTER_URL}`, userInfo);
+			// Detect the current language and set it in the headers
+			const currentLang = acceptedLanguages.includes(i18n.language) ? i18n.language : 'en';
+
+			const response = await apiClient.post(
+				import.meta.env.VITE_APP_API_REGISTER_URL,
+				userInfo,
+				{
+					headers: {
+						'Accept-Language': currentLang,
+					},
+				}
+			);
+
 			if (response.status === 200) {
-				alert(t('registration.successMessage'));
-				navigate('/login');
+				navigate('/success');
+			} else {
+				navigate('/error', {
+					state: {
+						errorCode: response.status,
+						errorMessage: t('registration.errorMessage'),
+					},
+				});
 			}
 		} catch (error) {
-			console.error("Registration failed", error);
+			console.error('Registration failed', error);
+			navigate('/error', {
+				state: {
+					errorCode: error.response?.status || 500,
+					errorMessage: error.message || t('registration.errorMessage'),
+				},
+			});
+		} finally {
+			setLoading(false); // Hide loader
 		}
 	};
 
@@ -71,7 +103,7 @@ const UserRegistration = () => {
 		<Grid2 container sx={{ width: '100vw', height: '100vh', overflow: 'hidden', position: 'absolute', top: 0, left: 0 }}>
 			{/* Section 1: Animated Sales Messages */}
 			<Grid2 item xs={4.8} sx={{ width: '40%', height: '100%', backgroundColor: '#232F3E', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
-				<Typography variant="h4" align="center" gutterBottom sx={{color: '#FF9900', fontFamily: 'Arial' }}>
+				<Typography variant="h4" align="center" gutterBottom sx={{ color: '#FF9900', fontFamily: 'Arial' }}>
 					{messages[currentMessage].title}
 				</Typography>
 				<Typography variant="h5" align="center" sx={{ fontStyle: 'italic', fontFamily: 'Arial' }}>
@@ -120,7 +152,7 @@ const UserRegistration = () => {
 										input: {
 											startAdornment: (
 												<InputAdornment position="start">
-													<PersonIcon style={{color: 'green'}}/>
+													<PersonIcon style={{ color: 'green' }} />
 												</InputAdornment>
 											)
 										}
@@ -128,25 +160,25 @@ const UserRegistration = () => {
 								/>
 							</Grid2>
 							<Grid2 item xs={12} sx={{ width: '100%' }}>
-									<TextField
-										label={t('registration.email')}
-										name="email"
-										type="email"
-										variant="filled"
-										fullWidth
-										required
-										value={userInfo.email}
-										onChange={handleChange}
-										slotProps={{
-											input: {
-												startAdornment: (
-													<InputAdornment position="start">
-														<EmailIcon style={{color: 'green'}}/>
-													</InputAdornment>
-												)
-											}
-										}}
-									/>
+								<TextField
+									label={t('registration.email')}
+									name="email"
+									type="email"
+									variant="filled"
+									fullWidth
+									required
+									value={userInfo.email}
+									onChange={handleChange}
+									slotProps={{
+										input: {
+											startAdornment: (
+												<InputAdornment position="start">
+													<EmailIcon style={{ color: 'green' }} />
+												</InputAdornment>
+											)
+										}
+									}}
+								/>
 							</Grid2>
 							<Grid2 item xs={12} sx={{ width: '100%' }}>
 								<TextField
@@ -189,7 +221,7 @@ const UserRegistration = () => {
 										input: {
 											startAdornment: (
 												<InputAdornment position="start">
-													<BusinessIcon style={{color: 'green'}}/>
+													<BusinessIcon style={{ color: 'green' }} />
 												</InputAdornment>
 											)
 										}
@@ -197,8 +229,14 @@ const UserRegistration = () => {
 								/>
 							</Grid2>
 						</Grid2>
-						<Button type="submit" fullWidth variant="contained" sx={{ mt: 4, backgroundColor: '#629C44' }}>
-							{t('registration.registerButton')}
+						<Button
+							type="submit"
+							fullWidth
+							variant="contained"
+							sx={{ mt: 4, backgroundColor: '#629C44' }}
+							disabled={loading} // Disable button during loading
+						>
+							{loading ? <CircularProgress size={24} color="inherit" /> : t('registration.registerButton')}
 						</Button>
 						<Box sx={{ mt: 2 }}>
 							<LanguageSwitcher />

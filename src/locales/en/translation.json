@@ -28,7 +28,13 @@
     "cancelAnytimeTitle": "No Commitments!",
     "cancelAnytime": "Flexibility guaranteed - cancel your subscription at any time, hassle-free",
     "dataDeletedTitle": "Your Privacy Matters!",
-    "dataDeleted": "Rest assured, all your data will be permanently deleted after cancellation to protect your privacy"
+    "dataDeleted": "Rest assured, all your data will be permanently deleted after cancellation to protect your privacy",
+    "success": {
+      "title": "Registration Successful!",
+      "message": "Your registration was completed successfully.",
+      "confirmationEmail": "A confirmation email has been sent to your inbox.",
+      "signInLink": "Click here to sign in and start using the application."
+    }
   },
   "header": {
     "screening": "Screening",
@@ -174,6 +180,21 @@
     "reportListTitle": "List of Reports",
     "search": "Search Reports",
     "generatedOn": "Generated on"
+  },
+  "errors": {
+    "404": {
+      "title": "Page Not Found",
+      "message": "The page you were trying to access does not exist."
+    },
+    "500": {
+      "title": "Server Error",
+      "message": "An unexpected error occurred on the server."
+    },
+    "generic": {
+      "title": "Error",
+      "message": "Something went wrong. Please try again later."
+    },
+    "contactSupport": "If the issue persists, please contact support."
   }
 }
 

@@ -42,9 +42,23 @@ const Login = () => {
 				navigate('/');
 			} else {
 				console.error('Unexpected response format', response);
+				// Redirect to the error page
+				navigate('/error', {
+					state: {
+						errorCode: response.status,
+						errorMessage: t('errors.generic.message')
+					},
+				});
 			}
 		} catch (error) {
 			console.error('Login failed:', error.message);
+			// Redirect to the error page
+			navigate('/error', {
+				state: {
+					errorCode: error.response?.status || 500,
+					errorMessage: error.message || t('errors.generic.message')
+				},
+			});
 		} finally {
 			setLoading(false); // Hide loader
 		}
