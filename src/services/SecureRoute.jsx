@@ -16,12 +16,19 @@ const SecureRoute = ({ children }) => {
 		if (!isTokenValid()) {
 			// Redirect to login if token is invalid or expired
 			console.log('Token is invalid or expired. Redirecting to login.');
+			localStorage.removeItem('authToken');
+			localStorage.removeItem('tokenExpiry');
 			navigate('/login');
 		}
 	}, [navigate]);
 
 	// Prevent rendering while checking the token
-	if (!isTokenValid()) return null;
+	if (!isTokenValid()) {
+		console.log('Token is invalid or expired. Redirecting to login.');
+		localStorage.removeItem('authToken');
+		localStorage.removeItem('tokenExpiry');
+		return null;
+	}
 
 	return children;
 };

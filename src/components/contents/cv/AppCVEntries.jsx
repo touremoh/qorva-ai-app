@@ -39,10 +39,9 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen }) => {
 	});
 
 	// Filtering CV entries based on search term
-	const filteredCVEntries = sortedCVEntries.filter(
-		(cv) =>
-			cv.personalInformation.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-			cv.personalInformation.role.toLowerCase().includes(searchTerm.toLowerCase())
+	const filteredCVEntries = sortedCVEntries.filter((cv) =>
+		cv.personalInformation?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+		cv.personalInformation?.role.toLowerCase().includes(searchTerm.toLowerCase())
 	);
 
 	// Calculating pagination data
@@ -91,7 +90,7 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen }) => {
 	};
 
 	return (
-		<Box sx={{ width: '30%', height: '75vh', backgroundColor: 'white', padding: 2, boxShadow: 1 }}>
+		<Box sx={{ width: '30%', height: '75vh', backgroundColor: 'white', padding: 2, boxShadow: 1}}>
 			<Typography variant="h5" gutterBottom>
 				{t('appCVContent.cvListTitle')}
 			</Typography>
@@ -124,7 +123,7 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen }) => {
 					{paginatedCVEntries.map((cv, index) => (
 						<ListItem
 							divider={true}
-							button
+							button={"true"}
 							key={index}
 							onClick={() => handleCVSelection(cv)}
 							sx={{
@@ -191,7 +190,7 @@ AppCVEntries.propTypes = {
 				role: PropTypes.string.isRequired,
 			}).isRequired,
 			lastUpdatedAt: PropTypes.string.isRequired,
-			_id: PropTypes.string.isRequired,
+			id: PropTypes.string.isRequired,
 		})
 	).isRequired,
 	setSelectedCV: PropTypes.func.isRequired,

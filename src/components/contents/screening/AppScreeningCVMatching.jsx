@@ -79,7 +79,7 @@ const AppScreeningCVMatching = ({ analysisResults }) => {
 			</Box>
 
 			{/* Part 2: Detailed Analysis Results */}
-			<Box sx={{ flex: 1, padding: 3, overflowY: 'scroll', height: '100%' }}>
+			<Box sx={{ flex: 1, padding: 3, overflowY: 'scroll', height: '100%', textAlign: 'justify' }}>
 				{selectedResult ? (
 					<>
 						<Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>

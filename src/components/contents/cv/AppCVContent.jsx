@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 	Box,
 	Button,
@@ -12,35 +12,91 @@ import {
 	DialogContent,
 	DialogContentText,
 	DialogTitle,
+	CircularProgress
 } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useTranslation } from 'react-i18next';
-import axios from 'axios';
 import AppCVDetails from "./AppCVDetails.jsx";
-import cvEntriesMock from "../../../mocks.js";
 import AppCVEntries from "./AppCVEntries.jsx";
+import apiClient, { apiFormDataClient } from "../../../../axiosConfig.js";
 
 const AppCVContent = () => {
 	const { t } = useTranslation();
-	const [cvEntries, setCvEntries] = useState(cvEntriesMock);
+	const [cvEntries, setCvEntries] = useState([]);
 	const [selectedCV, setSelectedCV] = useState(null);
 	const [openUploadModal, setOpenUploadModal] = useState(false);
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-	const [selectedFile, setSelectedFile] = useState(null);
+	const [selectedFiles, setSelectedFiles] = useState([]);
+	const [isUploading, setIsUploading] = useState(false);
 
-	const handleUploadCV = (event) => {
-		const file = event.target.files[0];
-		if (file) {
-			setSelectedFile(file);
-			console.log('Uploading file: ', file);
-			// Handle file upload logic here
+	// Fetch CV entries from the API
+	useEffect(() => {
+		const fetchCVEntries = async () => {
+			try {
+				const response = await apiClient.get(import.meta.env.VITE_APP_API_CV_URL, {
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+					},
+				});
+				setCvEntries(response.data.data.content);
+			} catch (error) {
+				console.error('Error fetching CV entries:', error);
+			}
+		};
+		fetchCVEntries();
+	}, []);
+
+	const handleFileSelect = (event) => {
+		const files = Array.from(event.target.files);
+		const validFiles = files.filter(
+			(file) => file.type === 'application/pdf' || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+		);
+		if (validFiles.length > 10) {
+			console.error('You can upload a maximum of 10 files at a time.');
+			return;
+		}
+		setSelectedFiles(validFiles);
+	};
+
+	const handleUploadCV = async () => {
+		if (selectedFiles.length === 0) {
+			console.error('No files selected.');
+			return;
+		}
+		try {
+			setIsUploading(true);
+
+			const formData = new FormData();
+			selectedFiles.forEach((file) => formData.append('files', file));
+
+			await apiFormDataClient.post(
+				import.meta.env.VITE_APP_API_CV_UPLOAD_URL,
+				formData,
+				{
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+					},
+				}
+			).then(response => {
+				setSelectedFiles([]);
+				setCvEntries(cvEntries.concat(response.data));
+			});
+		} catch (error) {
+			console.error('Error uploading files:', error);
+		} finally {
+			setIsUploading(false);
+			setOpenUploadModal(false);
 		}
 	};
 
 	const handleDeleteCV = async () => {
 		if (selectedCV) {
 			try {
-				await axios.delete(`${process.env.REACT_APP_API_DELETE_CV_ENTRY_URL}/${selectedCV.id}`);
+				await apiClient.delete(`${import.meta.env.VITE_APP_API_CV_URL}/${selectedCV.id}`, {
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+					},
+				});
 				const updatedEntries = cvEntries.filter((cv) => cv.id !== selectedCV.id);
 				setCvEntries(updatedEntries);
 				setSelectedCV(null);
@@ -76,13 +132,14 @@ const AppCVContent = () => {
 					color="success"
 					onClick={() => setOpenUploadModal(true)}
 					sx={{ borderRadius: '50px', mr: 2 }}
+					disabled={isUploading}
 				>
-					{t('appCVContent.uploadCV')}
+					{isUploading ? <CircularProgress size={24} /> : t('appCVContent.uploadCV')}
 				</Button>
 			</Box>
 
 			{/* Modal for Uploading CV */}
-			<Modal open={openUploadModal} onClose={() => setOpenUploadModal(false)}>
+			<Modal open={openUploadModal} onClose={() => !isUploading && setOpenUploadModal(false)}>
 				<Box
 					sx={{
 						position: 'absolute',
@@ -101,22 +158,32 @@ const AppCVContent = () => {
 					</Typography>
 					<input
 						type="file"
-						accept="application/pdf"
-						onChange={handleUploadCV}
+						accept=".pdf,.docx"
+						multiple
+						onChange={handleFileSelect}
+						disabled={isUploading}
 					/>
-					{selectedFile && (
-						<Button
-							variant="contained"
-							color="primary"
-							fullWidth
-							sx={{ mt: 2 }}
-							onClick={() => {
-								setOpenUploadModal(false);
-								setSelectedFile(null);
-							}}
-						>
-							{t('appCVContent.saveAndClose')}
-						</Button>
+					{selectedFiles.length > 0 && (
+						<Box>
+							<Button
+								variant="contained"
+								color="primary"
+								fullWidth
+								sx={{ mt: 2 }}
+								onClick={handleUploadCV}
+								disabled={isUploading}
+							>
+								{isUploading ? <CircularProgress size={24} /> : t('appCVContent.uploadFiles')}
+							</Button>
+							{isUploading && (
+								<Typography
+									variant="body2"
+									sx={{ mt: 2, textAlign: 'center', color: 'gray' }}
+								>
+									{t('appCVContent.uploadInProgress')}
+								</Typography>
+							)}
+						</Box>
 					)}
 				</Box>
 			</Modal>
@@ -153,10 +220,10 @@ const AppCVContent = () => {
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={() => setDeleteDialogOpen(false)} color="primary">
+					<Button onClick={() => setDeleteDialogOpen(false)} color="primary" disabled={isUploading}>
 						{t('appCVContent.cancel')}
 					</Button>
-					<Button onClick={handleDeleteCV} color="error">
+					<Button onClick={handleDeleteCV} color="error" disabled={isUploading}>
 						{t('appCVContent.confirm')}
 					</Button>
 				</DialogActions>

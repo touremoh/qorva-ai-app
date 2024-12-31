@@ -59,7 +59,9 @@
     "deleteJobTitle": "Vacature verwijderen",
     "deleteJobConfirmation": "Weet u zeker dat u deze vacature wilt verwijderen?",
     "cancel": "Annuleren",
-    "confirm": "Bevestigen"
+    "confirm": "Bevestigen",
+    "editJobPost": "Vacature bewerken",
+    "updateJobPost": "Vacature bijwerken"
   },
   "appCVContent": {
     "createCVEntry": "CV-item aanmaken",
@@ -152,7 +154,9 @@
     "profiles": "Profielen",
     "areasOfExpertise": "Expertisegebieden",
     "keyResponsibilities": "Kernverantwoordelijkheden",
-    "downloadCV": "CV downloaden"
+    "downloadCV": "CV downloaden",
+    "uploadFiles": "Bestanden uploaden",
+    "uploadInProgress": "Upload bezig, even geduld alstublieft..."
   },
   "appCVScreening": {
     "selectJobPost": "Selecteer Vacature",

@@ -59,7 +59,9 @@
     "deleteJobTitle": "Supprimer l'offre d'emploi",
     "deleteJobConfirmation": "Êtes-vous sûr de vouloir supprimer cette offre d'emploi ?",
     "cancel": "Annuler",
-    "confirm": "Confirmer"
+    "confirm": "Confirmer",
+    "editJobPost": "Modifier l'offre",
+    "updateJobPost": "Mettre à jour l'offre"
   },
   "appCVContent": {
     "createCVEntry": "Ajouter un CV",
@@ -152,7 +154,9 @@
     "profiles": "Profils",
     "areasOfExpertise": "Domaines d'expertise",
     "keyResponsibilities": "Responsabilités principales",
-    "downloadCV": "Télécharger le CV"
+    "downloadCV": "Télécharger le CV",
+    "uploadFiles": "Charger les fichiers",
+    "uploadInProgress": "Chargement en cours, veuillez patienter.."
   },
   "appCVScreening": {
     "selectJobPost": "Sélectionner une offre d'emploi",

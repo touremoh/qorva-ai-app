@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
 	Box,
 	Button,
@@ -17,15 +16,16 @@ import {
 	DialogActions,
 	DialogContent,
 	DialogContentText,
-	DialogTitle
+	DialogTitle,
 } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import EditIcon from '@mui/icons-material/Edit';
-import { useTranslation } from 'react-i18next';
 import DeleteIcon from '@mui/icons-material/Delete';
-//import axios from 'axios';
-
+import { useTranslation } from 'react-i18next';
+import apiClient from "../../../axiosConfig.js";
+import { default as ReactQuill } from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const JobContent = () => {
 	const { t } = useTranslation();
@@ -36,15 +36,19 @@ const JobContent = () => {
 	const [selectedJob, setSelectedJob] = useState(null);
 	const [jobTitle, setJobTitle] = useState('');
 	const [jobDescription, setJobDescription] = useState('');
+	const editorRef = useRef(null);
 
-
-	const handleOpenEditModal = () => {
-		if (selectedJob) {
-			setJobTitle(selectedJob.title);
-			setJobDescription(selectedJob.description);
-			setEditModalOpen(true);
-		}
-	};
+	useEffect(() => {
+		const fetchJobs = async () => {
+			try {
+				const response = await apiClient.get(import.meta.env.VITE_APP_API_JOB_POSTS_URL);
+				setJobs(response.data.data.content);
+			} catch (error) {
+				console.error('Error fetching job posts:', error.toJSON());
+			}
+		};
+		fetchJobs();
+	}, []);
 
 	const handleOpenModal = () => setOpenModal(true);
 	const handleCloseModal = () => setOpenModal(false);
@@ -52,32 +56,66 @@ const JobContent = () => {
 	const handleOpenDeleteDialog = () => setDeleteDialogOpen(true);
 	const handleCloseDeleteDialog = () => setDeleteDialogOpen(false);
 
-	const handleCreateJob = () => {
+	const handleCreateJob = async () => {
 		if (jobTitle && jobDescription) {
-			const newJob = {
-				title: jobTitle,
-				description: jobDescription,
-				status: 'open',
-			};
-			setJobs([...jobs, newJob]);
-			setJobTitle('');
-			setJobDescription('');
-			handleCloseModal();
+			const newJob = { title: jobTitle, description: jobDescription, status: 'open' };
+			try {
+				const response = await apiClient.post(import.meta.env.VITE_APP_API_JOB_POSTS_URL, newJob);
+				const createdJob = response.data?.data || null;
+				if (createdJob) {
+					setJobs((prevJobs) => [...prevJobs, createdJob]);
+					setJobTitle('');
+					setJobDescription('');
+					handleCloseModal();
+				}
+			} catch (error) {
+				console.error('Error creating job post:', error);
+			}
 		}
 	};
 
-	const handleJobClick = (job) => {
-		setSelectedJob(job);
+
+	const handleEditJob = async () => {
+		if (selectedJob && jobTitle && jobDescription) {
+			const updatedJob = {
+				...selectedJob, // Keep existing job details
+				title: jobTitle, // Updated title
+				description: jobDescription, // Updated description from ReactQuill
+			};
+
+			try {
+				console.log('Updated job:', updatedJob);
+				await apiClient.put(`${import.meta.env.VITE_APP_API_JOB_POSTS_URL}/${selectedJob.id}`, updatedJob);
+
+				// Update the job in the state
+				const updatedJobs = jobs.map((job) =>
+					job.id === selectedJob.id ? updatedJob : job
+				);
+				setJobs(updatedJobs);
+
+				// Update the selected job
+				setSelectedJob(updatedJob);
+
+				handleCloseEditModal();
+			} catch (error) {
+				console.error('Error updating job post:', error);
+			}
+		} else {
+			console.error('Job title or description is missing.');
+		}
 	};
 
-	const handleEditJob = () => {
+
+	const handleDeleteJob = async () => {
 		if (selectedJob) {
-			const updatedJobs = jobs.map((job) =>
-				job.id === selectedJob.id ? { ...job, title: jobTitle, description: jobDescription } : job
-			);
-			setJobs(updatedJobs);
-			setSelectedJob({ ...selectedJob, title: jobTitle, description: jobDescription });
-			handleCloseEditModal();
+			try {
+				await apiClient.delete(`${import.meta.env.VITE_APP_API_JOB_POSTS_URL}/${selectedJob.id}`);
+				setJobs(jobs.filter((job) => job.id !== selectedJob.id));
+				setSelectedJob(null);
+				handleCloseDeleteDialog();
+			} catch (error) {
+				console.error('Error deleting job post:', error);
+			}
 		}
 	};
 
@@ -85,9 +123,9 @@ const JobContent = () => {
 		if (selectedJob) {
 			const updatedStatus = selectedJob.status === 'open' ? 'closed' : 'open';
 			try {
-				// await axios.patch(`${process.env.REACT_APP_API_UPDATE_JOB_POST_URL}/${selectedJob.id}`, {
-				// 	status: updatedStatus
-				// });
+				await apiClient.patch(`${import.meta.env.VITE_APP_API_JOB_POSTS_URL}/${selectedJob.id}`, {
+					status: updatedStatus,
+				});
 				const updatedJobs = jobs.map((job) =>
 					job.id === selectedJob.id ? { ...job, status: updatedStatus } : job
 				);
@@ -99,18 +137,10 @@ const JobContent = () => {
 		}
 	};
 
-	const handleDeleteJob = async () => {
-		if (selectedJob) {
-			try {
-				// await axios.delete(`${process.env.REACT_APP_API_DELETE_JOB_POST_URL}/${selectedJob.id}`);
-				const updatedJobs = jobs.filter((job) => job.id !== selectedJob.id);
-				setJobs(updatedJobs);
-				setSelectedJob(null);
-				handleCloseDeleteDialog();
-			} catch (error) {
-				console.error('Error deleting job post:', error);
-			}
-		}
+	const handleJobClick = (job) => {
+		setSelectedJob(job);
+		setJobTitle(job.title);
+		setJobDescription(job.description);
 	};
 
 	return (
@@ -125,25 +155,21 @@ const JobContent = () => {
 				flexDirection: 'column',
 				alignItems: 'center',
 				justifyContent: 'flex-start',
-				backgroundColor: 'transparent',
 				color: '#232F3E',
 				padding: 2,
 			}}
 		>
-			{/* Section 1: Create Job Button */}
 			<Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-start', mb: 2 }}>
 				<Button
 					startIcon={<AddCircleIcon />}
 					variant="contained"
 					color="success"
 					onClick={handleOpenModal}
-					sx={{ borderRadius: '50px' }}
 				>
 					{t('jobContent.createJobPost')}
 				</Button>
 			</Box>
 
-			{/* Modal for Creating Job Post */}
 			<Modal open={openModal} onClose={handleCloseModal}>
 				<Box
 					sx={{
@@ -153,7 +179,6 @@ const JobContent = () => {
 						transform: 'translate(-50%, -50%)',
 						width: { xs: '90%', md: '40%' },
 						backgroundColor: 'white',
-						color: '#232F3E',
 						boxShadow: 24,
 						p: 4,
 					}}
@@ -168,15 +193,13 @@ const JobContent = () => {
 						value={jobTitle}
 						onChange={(e) => setJobTitle(e.target.value)}
 					/>
-					<TextField
-						label={t('jobContent.jobDescription')}
-						fullWidth
-						margin="normal"
-						multiline
-						rows={4}
+
+					<ReactQuill
+						ref={editorRef}
+						theme="snow"
 						value={jobDescription}
-						onChange={(e) => setJobDescription(e.target.value)}
-						sx={{ resize: 'both' }}
+						onChange={setJobDescription}
+						style={{ height: '600px', marginBottom: '20px' }}
 					/>
 					<Button
 						variant="contained"
@@ -190,7 +213,6 @@ const JobContent = () => {
 				</Box>
 			</Modal>
 
-			{/* Modal for Editing Job Post */}
 			<Modal open={editModalOpen} onClose={handleCloseEditModal}>
 				<Box
 					sx={{
@@ -200,13 +222,13 @@ const JobContent = () => {
 						transform: 'translate(-50%, -50%)',
 						width: { xs: '90%', md: '40%' },
 						backgroundColor: 'white',
+						color: 'black',
 						boxShadow: 24,
-						color: '#232F3E',
 						p: 4,
 					}}
 				>
 					<Typography variant="h6" gutterBottom>
-						{t('jobContent.createJobPost')}
+						{t('jobContent.editJobPost')}
 					</Typography>
 					<TextField
 						label={t('jobContent.jobTitle')}
@@ -215,15 +237,13 @@ const JobContent = () => {
 						value={jobTitle}
 						onChange={(e) => setJobTitle(e.target.value)}
 					/>
-					<TextField
-						label={t('jobContent.jobDescription')}
-						fullWidth
-						margin="normal"
-						multiline={true}
-						minRows={10}
+
+					<ReactQuill
+						ref={editorRef}
+						theme="snow"
 						value={jobDescription}
-						onChange={(e) => setJobDescription(e.target.value)}
-						sx={{resize: 'vertical'}}
+						onChange={setJobDescription}
+						style={{ height: '600px', marginBottom: '20px' }}
 					/>
 					<Button
 						variant="contained"
@@ -232,105 +252,84 @@ const JobContent = () => {
 						sx={{ mt: 2 }}
 						onClick={handleEditJob}
 					>
-						{t('jobContent.postJob')}
+						{t('jobContent.updateJobPost')}
 					</Button>
 				</Box>
 			</Modal>
 
-			{/* Section 2: Job Listings and Details */}
 			<Box sx={{ display: 'flex', width: '100%', mt: 4 }}>
-				{/* Section 2.1: Job List */}
-				<Box sx={{ width: '40%', height: '70vh', backgroundColor: 'white', padding: 2, boxShadow: 1, overflowY: 'scroll' }}>
+				{/* Job List */}
+				<Box sx={{ width: '40%', height: '75vh', backgroundColor: 'white', padding: 2, boxShadow: 1, overflowY: 'scroll' }}>
 					<Typography variant="h5" gutterBottom>
 						{t('jobContent.jobListTitle')}
 					</Typography>
 					<Divider />
 					{jobs.length === 0 ? (
-						<Typography variant="body1">
-							{t('jobContent.noJobPosts')}
-						</Typography>
+						<Typography>{t('jobContent.noJobPosts')}</Typography>
 					) : (
 						<List>
 							{jobs.map((job, index) => (
-								<ListItem
-									divider={true}
-									button
-									key={index}
-									onClick={() => handleJobClick(job)}
-									sx={{ cursor: 'pointer' }}
-								>
-									<ListItemText primary={job.title} />
-									<IconButton edge="end">
-										<FiberManualRecordIcon color={job.status === 'open' ? 'success' : 'error'} />
-									</IconButton>
-								</ListItem>
+								<React.Fragment key={job.id || index}>
+									<ListItem button={"true"} onClick={() => handleJobClick(job)} sx={{cursor: 'pointer', position: 'relative'}}>
+										<ListItemText primary={job.title} />
+										<IconButton>
+											<FiberManualRecordIcon color={job.status === 'open' ? 'success' : 'error'} />
+										</IconButton>
+									</ListItem>
+									<Divider />
+								</React.Fragment>
 							))}
 						</List>
 					)}
 				</Box>
 
-				{/* Section 2.2: Job Details */}
-				<Paper sx={{ width: '55%', height: '70vh', padding: 2, boxShadow: 3, overflowY: 'scroll', backgroundColor: 'white', marginLeft: 5 }}>
-					<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-						<Typography variant="h5" gutterBottom>
-							{t('jobContent.jobDetailsTitle')}
-						</Typography>
-						{selectedJob && (
-							<IconButton edge="end" onClick={handleOpenEditModal}>
-								<EditIcon />
-							</IconButton>
-						)}
-					</Box>
-					<Divider sx={{marginBottom: 3}} />
+				{/* Job Details */}
+				<Paper sx={{ width: '55%', height: '75vh', padding: 2, boxShadow: 1, overflowY: 'scroll', marginLeft: 5 }}>
 					{selectedJob ? (
 						<>
-							<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-								<Typography variant="h5">{selectedJob.title}</Typography>
+							<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 								<Switch
 									checked={selectedJob.status === 'open'}
 									onChange={handleToggleJobStatus}
 									color="success"
-									sx={{ borderRadius: 5 }}
 								/>
+								<IconButton onClick={() => setEditModalOpen(true)}>
+									<EditIcon />
+								</IconButton>
 							</Box>
-							<Typography variant="inherit" align={'justify'} sx={{ mt: 2, height: '83%' }}>
-								{selectedJob.description}
+							<Typography variant="h5" gutterBottom sx={{textAlign: 'justify'}}>
+								{selectedJob.title}
 							</Typography>
+							<Typography
+								component="div"
+								dangerouslySetInnerHTML={{ __html: selectedJob?.description }}
+								sx={{
+									textAlign: 'justify', // Justify text
+									lineHeight: 1.5, // Adjust line height for better readability
+									marginTop: 2, // Add spacing from the title
+									color: '#333', // Optional: Set a readable color
+								}}
+							/>
 
-							<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 0}}>
-								<div></div>
-								<IconButton
-									edge="end"
-									color="error"
-									onClick={handleOpenDeleteDialog} >
+							<Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 2 }}>
+								<IconButton color="error" onClick={handleOpenDeleteDialog}>
 									<DeleteIcon />
 								</IconButton>
-
 							</Box>
 						</>
 					) : (
-						<Typography variant="body1">
-							{t('jobContent.selectJobToSeeDetails')}
-						</Typography>
+						<Typography>{t('jobContent.selectJobToSeeDetails')}</Typography>
 					)}
 				</Paper>
 			</Box>
 
-			{/* Dialog for Confirming Deletion */}
-			<Dialog
-				open={deleteDialogOpen}
-				onClose={handleCloseDeleteDialog}
-			>
+			<Dialog open={deleteDialogOpen} onClose={handleCloseDeleteDialog}>
 				<DialogTitle>{t('jobContent.deleteJobTitle')}</DialogTitle>
 				<DialogContent>
-					<DialogContentText>
-						{t('jobContent.deleteJobConfirmation')}
-					</DialogContentText>
+					<DialogContentText>{t('jobContent.deleteJobConfirmation')}</DialogContentText>
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={handleCloseDeleteDialog} color="primary">
-						{t('jobContent.cancel')}
-					</Button>
+					<Button onClick={handleCloseDeleteDialog}>{t('jobContent.cancel')}</Button>
 					<Button onClick={handleDeleteJob} color="error">
 						{t('jobContent.confirm')}
 					</Button>

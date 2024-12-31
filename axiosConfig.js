@@ -10,4 +10,12 @@ const apiClient = axios.create({
 	},
 });
 
+export const apiFormDataClient = axios.create({
+	baseURL: import.meta.env.VITE_APP_API_BASE_URL, // Base URL for your backend
+	headers: {
+		'Content-Type': 'multipart/form-data',
+		Authorization: authToken ? `Bearer ${authToken}` : '',
+	},
+});
+
 export default apiClient;

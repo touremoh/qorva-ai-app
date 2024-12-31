@@ -24,6 +24,7 @@ const AppCVDetails = ({ cv }) => {
 					overflowY: 'auto',
 					padding: 2,
 					borderRight: '1px solid lightgray',
+					textAlign: 'left'
 				}}
 			>
 				<Typography variant="h5" sx={{ fontWeight: 'bold', marginBottom: 2 }}>
@@ -157,7 +158,7 @@ const AppCVDetails = ({ cv }) => {
 				sx={{
 					flex: 2,
 					overflowY: 'auto',
-					padding: 2,
+					padding: 2
 				}}
 			>
 				<Typography variant="h5" sx={{ fontWeight: 'bold', marginBottom: 2 }}>

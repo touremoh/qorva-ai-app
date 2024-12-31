@@ -13,5 +13,8 @@ export default defineConfig({
       },
     },
   },
+  optimizeDeps: {
+    include: ['react-quill'], // Ensure react-quill is pre-bundled
+  },
 });
 

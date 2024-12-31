@@ -59,7 +59,9 @@
     "deleteJobTitle": "Delete Job Post",
     "deleteJobConfirmation": "Are you sure you want to delete this job post?",
     "cancel": "Cancel",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "editJobPost": "Edit Job Post",
+    "updateJobPost": "Update Job Post"
   },
   "appCVContent": {
     "createCVEntry": "Create CV Entry",
@@ -148,7 +150,9 @@
     "profiles": "Profiles",
     "areasOfExpertise": "Areas of Expertise",
     "keyResponsibilities": "Key Responsibilities",
-    "downloadCV": "Download CV"
+    "downloadCV": "Download CV",
+    "uploadFiles": "Upload Files",
+    "uploadInProgress": "Upload in progress, please wait..."
   },
   "appCVScreening": {
     "selectJobPost": "Select Job Post",

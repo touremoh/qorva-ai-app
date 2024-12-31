@@ -59,7 +59,9 @@
     "deleteJobTitle": "Excluir oferta de emprego",
     "deleteJobConfirmation": "Tem certeza de que deseja excluir esta oferta de emprego?",
     "cancel": "Cancelar",
-    "confirm": "Confirmar"
+    "confirm": "Confirmar",
+    "editJobPost": "Editar anúncio de emprego",
+    "updateJobPost": "Atualizar anúncio de emprego"
   },
   "appCVContent": {
     "createCVEntry": "Criar entrada de CV",
@@ -152,7 +154,9 @@
     "profiles": "Perfis",
     "areasOfExpertise": "Áreas de Especialização",
     "keyResponsibilities": "Principais Responsabilidades",
-    "downloadCV": "Baixar CV"
+    "downloadCV": "Baixar CV",
+    "uploadFiles": "Fazer upload de arquivos",
+    "uploadInProgress": "Upload bezig, even geduld alstublieft..."
   },
   "appCVScreening": {
     "selectJobPost": "Selecionar Vaga de Emprego",

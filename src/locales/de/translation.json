@@ -59,7 +59,9 @@
     "deleteJobTitle": "Jobangebot löschen",
     "deleteJobConfirmation": "Sind Sie sicher, dass Sie dieses Jobangebot löschen möchten?",
     "cancel": "Abbrechen",
-    "confirm": "Bestätigen"
+    "confirm": "Bestätigen",
+    "editJobPost": "Stellenanzeige bearbeiten",
+    "updateJobPost": "Stellenanzeige aktualisieren"
   },
   "appCVContent": {
     "createCVEntry": "CV-Eintrag erstellen",
@@ -152,7 +154,9 @@
     "profiles": "Profile",
     "areasOfExpertise": "Fachgebiete",
     "keyResponsibilities": "Hauptverantwortlichkeiten",
-    "downloadCV": "Lebenslauf herunterladen"
+    "downloadCV": "Lebenslauf herunterladen",
+    "uploadFiles": "Dateien hochladen",
+    "uploadInProgress": "Hochladen läuft, bitte warten..."
   },
   "appCVScreening": {
     "selectJobPost": "Stellenanzeige auswählen",
