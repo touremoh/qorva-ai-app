@@ -156,7 +156,8 @@
     "keyResponsibilities": "Responsabilidades clave",
     "downloadCV": "Descargar CV",
     "uploadFiles": "Subir archivos",
-    "uploadInProgress": "Subida en progreso, por favor espera..."
+    "uploadInProgress": "Subida en progreso, por favor espera...",
+    "uploadCVInfo": "Puede cargar varios CV a la vez (Máximo de 10 archivos). Solo se aceptan formatos .pdf y .docx."
   },
   "appCVScreening": {
     "selectJobPost": "Seleccionar Oferta de Trabajo",

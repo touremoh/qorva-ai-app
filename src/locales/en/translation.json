@@ -152,7 +152,8 @@
     "keyResponsibilities": "Key Responsibilities",
     "downloadCV": "Download CV",
     "uploadFiles": "Upload Files",
-    "uploadInProgress": "Upload in progress, please wait..."
+    "uploadInProgress": "Upload in progress, please wait...",
+    "uploadCVInfo": "You can upload multiple CVs at once (Up to 10 files). Only .pdf and .docx formats are accepted."
   },
   "appCVScreening": {
     "selectJobPost": "Select Job Post",

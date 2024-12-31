@@ -156,7 +156,8 @@
     "keyResponsibilities": "Kernverantwoordelijkheden",
     "downloadCV": "CV downloaden",
     "uploadFiles": "Bestanden uploaden",
-    "uploadInProgress": "Upload bezig, even geduld alstublieft..."
+    "uploadInProgress": "Upload bezig, even geduld alstublieft...",
+    "uploadCVInfo": "U kunt meerdere cv's tegelijk uploaden (Maximum van 10 bestanden). Alleen .pdf- en .docx-indelingen worden geaccepteerd."
   },
   "appCVScreening": {
     "selectJobPost": "Selecteer Vacature",

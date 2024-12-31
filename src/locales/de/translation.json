@@ -156,7 +156,8 @@
     "keyResponsibilities": "Hauptverantwortlichkeiten",
     "downloadCV": "Lebenslauf herunterladen",
     "uploadFiles": "Dateien hochladen",
-    "uploadInProgress": "Hochladen läuft, bitte warten..."
+    "uploadInProgress": "Hochladen läuft, bitte warten...",
+    "uploadCVInfo": "Sie können mehrere Lebensläufe gleichzeitig hochladen (Max 10 Dateien). Nur .pdf- und .docx-Formate werden akzeptiert."
   },
   "appCVScreening": {
     "selectJobPost": "Stellenanzeige auswählen",

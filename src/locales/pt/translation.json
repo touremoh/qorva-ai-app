@@ -156,7 +156,8 @@
     "keyResponsibilities": "Principais Responsabilidades",
     "downloadCV": "Baixar CV",
     "uploadFiles": "Fazer upload de arquivos",
-    "uploadInProgress": "Upload bezig, even geduld alstublieft..."
+    "uploadInProgress": "Upload bezig, even geduld alstublieft...",
+    "uploadCVInfo": "Você pode carregar vários currículos de uma vez (Máximo de 10 arquivos). Somente formatos .pdf e .docx são aceitos."
   },
   "appCVScreening": {
     "selectJobPost": "Selecionar Vaga de Emprego",

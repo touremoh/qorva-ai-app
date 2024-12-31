@@ -156,6 +156,9 @@ const AppCVContent = () => {
 					<Typography variant="h6" gutterBottom>
 						{t('appCVContent.uploadCV')}
 					</Typography>
+					<Typography color={"textSecondary"} gutterBottom>
+						{t('appCVContent.uploadCVInfo')}
+					</Typography>
 					<input
 						type="file"
 						accept=".pdf,.docx"
