@@ -8,10 +8,22 @@ const SecureHomePage = ({ children }) => {
 	const token = localStorage.getItem('authToken');
 	const tokenExpiry = localStorage.getItem('tokenExpiry');
 
-	// Check token validity
-	const isTokenValid = () => {
-		const now = Date.now();
-		return token && tokenExpiry && now < tokenExpiry;
+	// Check token validity via API call
+	const isTokenValid = async () => {
+		try {
+			if (!token) return false;
+
+			const response = await apiClient.post(import.meta.env.VITE_APP_API_LOGIN_VALIDATE_URL, null, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+
+			return response.data?.data === true;
+		} catch (error) {
+			console.error('Error validating token:', error);
+			return false;
+		}
 	};
 
 	useEffect(() => {

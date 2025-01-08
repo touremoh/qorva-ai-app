@@ -11,23 +11,28 @@ import {
 	Button,
 	TextField,
 	Modal,
-	Typography
+	Typography, CircularProgress
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
+import target from "quill/blots/break.js";
+import apiClient from "../../../../axiosConfig.js";
 
-const AppScreeningCommands = ({ jobPosts, cvEntries, selectedJobPost, handleJobPostChange, selectedCVs, handleCVSelectChange, handleAnalyzeCVs, analyzedResults }) => {
+const AppScreeningCommands = ({ jobPosts, cvEntries, selectedJobPost, handleJobPostChange, selectedCVs, handleCVSelectChange, handleAnalyzeCVs, analyzedResults, analyzeButtonDisabled, saveReportButtonDisabled }) => {
 	const { t } = useTranslation();
 	const [searchTerm, setSearchTerm] = useState('');
 	const [selectAll, setSelectAll] = useState(false);
 	const [saveReportModalOpen, setSaveReportModalOpen] = useState(false);
 	const [reportName, setReportName] = useState('');
+	const [successModalOpen, setSuccessModalOpen] = useState(false);
+
+
 
 	// Filter CV entries based on the search term or key skills
 	const filteredCVEntries = cvEntries.filter(cv =>
-		cv.personalInformation.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-		cv.personalInformation.role.toLowerCase().includes(searchTerm.toLowerCase()) ||
-		cv.keySkills.some(skill =>
+		cv.personalInformation?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+		cv.personalInformation?.role.toLowerCase().includes(searchTerm.toLowerCase()) ||
+		cv.keySkills?.some(skill =>
 			skill.skills.some(s => s.toLowerCase().includes(searchTerm.toLowerCase()))
 		)
 	);
@@ -53,23 +58,41 @@ const AppScreeningCommands = ({ jobPosts, cvEntries, selectedJobPost, handleJobP
 		setSaveReportModalOpen(true);
 	};
 
-	const handleSaveReportSubmit = () => {
+	const handleSaveReportSubmit = async () => {
 		if (reportName.trim()) {
-			const reportData = {
-				id: new Date().getTime().toString(), // Example ID, could be a UUID
-				reportName,
-				reportDetails: analyzedResults,
-				createdAt: new Date().toISOString(),
-			};
+			try {
+				// Construct the report data payload
+				const reportData = {
+					reportName: reportName.trim(),
+					status: 'PERMANENT',
+				};
 
-			// Send the reportData to the backend (Example API call)
-			console.log("Saving Report Data to Backend:", reportData);
-			// You can replace the above console log with an API call to save the report
+				// Send PATCH request to the backend
+				const response = await apiClient.patch(
+					`${import.meta.env.VITE_APP_API_REPORT_URL}/${analyzedResults.id}`, // Include ID in the endpoint path
+					reportData, // Send the report data payload
+					{
+						headers: {
+							'Content-Type': 'application/json',
+						},
+					}
+				);
 
-			setSaveReportModalOpen(false);
-			setReportName('');
+				if (response.status === 200) {
+					console.log('Report saved successfully!')
+					// Show a success popup
+					setSuccessModalOpen(true);
+					setSaveReportModalOpen(false);
+					setReportName('');
+				} else {
+					console.error('Failed to update report:', response);
+				}
+			} catch (error) {
+				console.error('Error updating the report:', error);
+			}
 		}
 	};
+
 
 	return (
 		<Box sx={{ display: 'flex', width: '100%', marginBottom: 3 }}>
@@ -90,10 +113,10 @@ const AppScreeningCommands = ({ jobPosts, cvEntries, selectedJobPost, handleJobP
 			</FormControl>
 
 			{/* Multi-Select Dropdown for CVs */}
-			<FormControl sx={{ width: '50%', marginRight: 2 }}>
+			<FormControl sx={{ width: '50%', marginRight: 2}}>
 				<InputLabel>{t('appCVScreening.selectCVs')}</InputLabel>
 				<Select
-					multiple
+					multiple={true}
 					value={selectedCVs}
 					onChange={handleCVSelectChange}
 					input={<OutlinedInput label={t('appCVScreening.selectCVs')} />}
@@ -103,6 +126,14 @@ const AppScreeningCommands = ({ jobPosts, cvEntries, selectedJobPost, handleJobP
 							return selectedCv ? selectedCv.personalInformation.name : id;
 						}).join(', ')
 					}
+					MenuProps={{
+						PaperProps: {
+							style: {
+								maxHeight: 600, // Adjust the max height as needed
+								overflow: 'auto',
+							},
+						},
+					}}
 				>
 					{/* Search Box */}
 					<Box sx={{ padding: 1 }}>
@@ -149,9 +180,9 @@ const AppScreeningCommands = ({ jobPosts, cvEntries, selectedJobPost, handleJobP
 				variant="contained"
 				color="warning"
 				onClick={handleAnalyzeCVs}
-				disabled={!selectedJobPost || selectedCVs.length === 0}
+				disabled={!selectedJobPost || analyzeButtonDisabled}
 			>
-				{t('appCVScreening.analyzeCVs')}
+				{analyzeButtonDisabled ? <CircularProgress size={30} />: t('appCVScreening.analyzeCVs')}
 			</Button>
 
 			{/* Save Report Button */}
@@ -160,16 +191,17 @@ const AppScreeningCommands = ({ jobPosts, cvEntries, selectedJobPost, handleJobP
 				variant="contained"
 				color="success"
 				onClick={handleSaveReportClick}
-				disabled={!analyzedResults || analyzedResults.length === 0}
+				disabled={!analyzedResults || analyzedResults.length === 0 || saveReportButtonDisabled}
 			>
 				{t('appCVScreening.saveReport')}
 			</Button>
 
 			{/* Save Report Modal */}
 			<Modal
-				open={saveReportModalOpen}
-				onClose={() => setSaveReportModalOpen(false)}
-				aria-labelledby="save-report-modal"
+				open={successModalOpen}
+				onClose={() => setSuccessModalOpen(false)}
+				aria-labelledby="success-modal-title"
+				aria-describedby="success-modal-description"
 			>
 				<Box
 					sx={{
@@ -182,26 +214,22 @@ const AppScreeningCommands = ({ jobPosts, cvEntries, selectedJobPost, handleJobP
 						boxShadow: 24,
 						p: 4,
 						borderRadius: 1,
+						textAlign: 'center',
+						color: 'black',
 					}}
 				>
-					<Typography variant="h6" component="h2" sx={{ mb: 2 }}>
-						{t('appCVScreening.saveReport')}
+					<Typography id="success-modal-title" variant="h6" component="h2" sx={{ mb: 2 }}>
+						{t('appCVScreening.reportSaveSuccessTitle')}
 					</Typography>
-					<TextField
-						fullWidth
-						variant="outlined"
-						label={t('appCVScreening.reportName')}
-						value={reportName}
-						onChange={(e) => setReportName(e.target.value)}
-						sx={{ mb: 2 }}
-					/>
+					<Typography id="success-modal-description" sx={{ mb: 3 }}>
+						{t('appCVScreening.reportSaveSuccessMessage')}
+					</Typography>
 					<Button
 						variant="contained"
-						color="success"
-						fullWidth
-						onClick={handleSaveReportSubmit}
+						color="primary"
+						onClick={() => setSuccessModalOpen(false)}
 					>
-						{t('appCVScreening.submit')}
+						{t('appCVScreening.close')}
 					</Button>
 				</Box>
 			</Modal>
@@ -236,6 +264,8 @@ AppScreeningCommands.propTypes = {
 	handleCVSelectChange: PropTypes.func.isRequired,
 	handleAnalyzeCVs: PropTypes.func.isRequired,
 	analyzedResults: PropTypes.object, // Added for analyzed results
+	analyzeButtonDisabled: PropTypes.bool, // Added for analyzed results
+	saveReportButtonDisabled: PropTypes.bool
 };
 
 export default AppScreeningCommands;

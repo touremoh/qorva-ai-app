@@ -38,15 +38,16 @@ const JobContent = () => {
 	const [jobDescription, setJobDescription] = useState('');
 	const editorRef = useRef(null);
 
+	const fetchJobs = async () => {
+		try {
+			const response = await apiClient.get(import.meta.env.VITE_APP_API_JOB_POSTS_URL);
+			setJobs(response.data.data.content);
+		} catch (error) {
+			console.error('Error fetching job posts:', error.toJSON());
+		}
+	};
+
 	useEffect(() => {
-		const fetchJobs = async () => {
-			try {
-				const response = await apiClient.get(import.meta.env.VITE_APP_API_JOB_POSTS_URL);
-				setJobs(response.data.data.content);
-			} catch (error) {
-				console.error('Error fetching job posts:', error.toJSON());
-			}
-		};
 		fetchJobs();
 	}, []);
 
@@ -180,6 +181,7 @@ const JobContent = () => {
 						width: { xs: '90%', md: '40%' },
 						backgroundColor: 'white',
 						boxShadow: 24,
+						color: 'black',
 						p: 4,
 					}}
 				>
@@ -199,7 +201,7 @@ const JobContent = () => {
 						theme="snow"
 						value={jobDescription}
 						onChange={setJobDescription}
-						style={{ height: '600px', marginBottom: '20px' }}
+						style={{ height: '600px', marginBottom: '20px', color: 'black' }}
 					/>
 					<Button
 						variant="contained"
@@ -243,7 +245,7 @@ const JobContent = () => {
 						theme="snow"
 						value={jobDescription}
 						onChange={setJobDescription}
-						style={{ height: '600px', marginBottom: '20px' }}
+						style={{ height: '600px', marginBottom: '20px', color: 'black' }}
 					/>
 					<Button
 						variant="contained"

@@ -1,44 +1,55 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from 'react';
-import { Box } from '@mui/material';
-import axios from 'axios';
-import { useTranslation } from 'react-i18next';
-import {cvEntriesMock, mockJobs, candidatesEvaluation} from "../../../mocks.js";
+import { Box, CircularProgress, Button } from '@mui/material';
+// import { useTranslation } from 'react-i18next';
 import AppScreeningCommands from "./AppScreeningCommands.jsx";
 import AppScreeningJobPostDetails from "./AppScreeningJobPostDetails.jsx";
-import AppScreeningCVMatching from "./AppScreeningCVMatching.jsx";
+import AppScreeningReportDetails from "./AppScreeningReportDetails.jsx";
+import apiClient from "../../../../axiosConfig.js";
+import i18n from "../../../i18n.js";
 
 const AppCVScreening = () => {
-	const { t } = useTranslation();
-	const [jobPosts, setJobPosts] = useState(mockJobs);
-	const [cvEntries, setCvEntries] = useState(cvEntriesMock);
+	// const { t } = useTranslation();
+	const [jobPosts, setJobPosts] = useState([]);
+	const [cvEntries, setCvEntries] = useState([]);
 	const [selectedJobPost, setSelectedJobPost] = useState('');
 	const [selectedCVs, setSelectedCVs] = useState([]);
 	const [selectedJobDetails, setSelectedJobDetails] = useState(null);
 	const [analysisResult, setAnalysisResult] = useState([]);
+	const [loading, setLoading] = useState(false);
+	const [isReportAvailable, setIsReportAvailable] = useState(false);
+	const [saveReportButtonDisabled, setSaveReportButtonDisabled] = useState(true);
 
 	// Fetch job posts and CV entries from backend API
+	const fetchJobs = async () => {
+		try {
+			const response = await apiClient.get(import.meta.env.VITE_APP_API_JOB_POSTS_URL);
+			setJobPosts(response.data?.data.content);
+		} catch (error) {
+			console.error('Error fetching job posts:', error.toJSON());
+		}
+	};
+
+	const fetchCVEntries = async (pageNumber = 0, pageSize = 500) => {
+		try {
+			const response = await apiClient.get(import.meta.env.VITE_APP_API_CV_URL, {
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+				},
+				params: {
+					pageNumber,
+					pageSize
+				}
+			});
+			setCvEntries(response.data?.data.content);
+		} catch (error) {
+			console.error('Error fetching CV entries:', error);
+		}
+	};
+
 	useEffect(() => {
-		const fetchJobPosts = async () => {
-			try {
-				const response = await axios.get('/api/job-posts');
-				setJobPosts(response.data);
-			} catch (error) {
-				console.error('Error fetching job posts:', error);
-			}
-		};
-
-		const fetchCVEntries = async () => {
-			try {
-				const response = await axios.get('/api/cv-entries');
-				setCvEntries(response.data);
-			} catch (error) {
-				console.error('Error fetching CV entries:', error);
-			}
-		};
-
-		// fetchJobPosts();
-		//fetchCVEntries();
+		fetchJobs();
+		fetchCVEntries();
 	}, []);
 
 	const handleJobPostChange = (event) => {
@@ -52,15 +63,30 @@ const AppCVScreening = () => {
 	};
 
 	const handleAnalyzeCVs = async () => {
+		setLoading(true);
+		setSaveReportButtonDisabled(true);
 		try {
-			// const response = await axios.post('/api/analyze-cv', {
-			// 	jobPostId: selectedJobPost,
-			// 	cvIds: selectedCVs,
-			// });
-			// setAnalysisResult(response.data);
-			setAnalysisResult(candidatesEvaluation);
+
+			const response = await apiClient.post(import.meta.env.VITE_APP_API_GEN_REPORT_URL,
+				{
+					jobPostId: selectedJobPost,
+					cvIDs: selectedCVs
+				},
+				{
+					headers: {
+						'Accept-Language': i18n.language
+					}
+				}
+			);
+			if (response.status === 200) {
+				setAnalysisResult(response.data.data);
+				setIsReportAvailable(true);
+				setSaveReportButtonDisabled(false);
+			}
 		} catch (error) {
 			console.error('Error analyzing CVs:', error);
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -91,6 +117,8 @@ const AppCVScreening = () => {
 				handleJobPostChange={handleJobPostChange}
 				selectedJobPost={selectedJobPost}
 				analyzedResults={analysisResult}
+				analyzeButtonDisabled={loading}
+				saveReportButtonDisabled={saveReportButtonDisabled}
 			/>
 
 			{/* Section B: Job Post Details and Analytics */}
@@ -99,7 +127,7 @@ const AppCVScreening = () => {
 				<AppScreeningJobPostDetails selectedJobDetails={selectedJobDetails} />
 
 				{/* Section C: Analysis Result */}
-				<AppScreeningCVMatching analysisResults={analysisResult}/>
+				<AppScreeningReportDetails reportData={analysisResult} />
 			</Box>
 		</Box>
 	);

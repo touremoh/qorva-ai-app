@@ -164,7 +164,7 @@
     "selectCVs": "Seleccionar Currículums",
     "analyzeCVs": "Analizar Currículums",
     "noJobPostSelected": "No se ha seleccionado ninguna oferta de trabajo",
-    "analysisResults": "Resultados del Análisis",
+    "reportData": "Resultados del Análisis",
     "noAnalysisResult": "No hay resultados de análisis disponibles",
     "selectAll": "Seleccionar todo",
     "searchCVs": "Buscar CVs por Nombre, Rol o Habilidades",
@@ -183,12 +183,16 @@
     "gapExplorationQuestions": "Preguntas para Explorar Brechas",
     "saveReport": "Guardar informe",
     "reportName": "Nombre del informe",
-    "submit": "Enviar"
+    "submit": "Enviar",
+    "reportSaveSuccessTitle": "Informe guardado con éxito",
+    "reportSaveSuccessMessage": "Su informe ha sido guardado y ahora está disponible en sus registros.",
+    "close": "Cerrar"
   },
   "appReportContent": {
     "reportListTitle": "Lista de Informes",
     "search": "Buscar Informes",
-    "generatedOn": "Generado el"
+    "generatedOn": "Generado el",
+    "updatedOn": "Actualizado el"
   },
   "errors": {
     "404": {

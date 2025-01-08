@@ -28,28 +28,34 @@ const AppCVContent = () => {
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 	const [selectedFiles, setSelectedFiles] = useState([]);
 	const [isUploading, setIsUploading] = useState(false);
+	const FILE_TYPE_PDF = 'application/pdf';
+	const FILE_TYPE_WORD = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
 
-	// Fetch CV entries from the API
+	const fetchCVEntries = async (pageNumber = 0, pageSize = 10) => {
+		try {
+			const response = await apiClient.get(import.meta.env.VITE_APP_API_CV_URL, {
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+				},
+				params: {
+					pageNumber,
+					pageSize
+				}
+			});
+			setCvEntries(response.data.data.content);
+		} catch (error) {
+			console.error('Error fetching CV entries:', error);
+		}
+	};
+
 	useEffect(() => {
-		const fetchCVEntries = async () => {
-			try {
-				const response = await apiClient.get(import.meta.env.VITE_APP_API_CV_URL, {
-					headers: {
-						Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-					},
-				});
-				setCvEntries(response.data.data.content);
-			} catch (error) {
-				console.error('Error fetching CV entries:', error);
-			}
-		};
-		fetchCVEntries();
+		fetchCVEntries(0,500);
 	}, []);
 
 	const handleFileSelect = (event) => {
 		const files = Array.from(event.target.files);
 		const validFiles = files.filter(
-			(file) => file.type === 'application/pdf' || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+			(file) => file.type === FILE_TYPE_PDF || file.type === FILE_TYPE_WORD
 		);
 		if (validFiles.length > 10) {
 			console.error('You can upload a maximum of 10 files at a time.');
@@ -69,7 +75,7 @@ const AppCVContent = () => {
 			const formData = new FormData();
 			selectedFiles.forEach((file) => formData.append('files', file));
 
-			await apiFormDataClient.post(
+			const response = await apiFormDataClient.post(
 				import.meta.env.VITE_APP_API_CV_UPLOAD_URL,
 				formData,
 				{
@@ -77,10 +83,12 @@ const AppCVContent = () => {
 						Authorization: `Bearer ${localStorage.getItem('authToken')}`,
 					},
 				}
-			).then(response => {
+			);
+			// Fetch the updated CV list after successful upload
+			if (response.status === 200) {
+				await fetchCVEntries(0, 500);
 				setSelectedFiles([]);
-				setCvEntries(cvEntries.concat(response.data));
-			});
+			}
 		} catch (error) {
 			console.error('Error uploading files:', error);
 		} finally {

@@ -1,16 +1,16 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Typography, Divider, List, ListItem, ListItemText, IconButton, TextField, Chip, Pagination } from '@mui/material';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import AppScreeningCVMatching from '../screening/AppScreeningCVMatching';
-import { SCREENING_REPORTS } from "../../../mocks.js";
+import AppScreeningReportDetails from '../screening/AppScreeningReportDetails.jsx';
+import apiClient from '../../../../axiosConfig.js';
 
 const AppScreeningReports = () => {
 	const { t } = useTranslation();
+	const [reports, setReports] = useState([]);
 	const [selectedReport, setSelectedReport] = useState(null);
 	const [searchTerm, setSearchTerm] = useState('');
 	const [sortOrder, setSortOrder] = useState('desc');
@@ -18,12 +18,27 @@ const AppScreeningReports = () => {
 
 	const reportsPerPage = 50;
 
-	// Sorting the reports by creation date based on sortOrder state
-	const sortedReports = [...SCREENING_REPORTS].sort((a, b) => {
+	// Fetch reports from backend
+	useEffect(() => {
+		const fetchReports = async () => {
+			try {
+				const response = await apiClient.get(import.meta.env.VITE_APP_API_REPORT_URL);
+				const reportData = response.data.data.content;
+				setReports(reportData);
+			} catch (error) {
+				console.error('Error fetching reports:', error);
+			}
+		};
+
+		fetchReports();
+	}, []);
+
+	// Sorting the reports by lastUpdatedAt based on sortOrder state
+	const sortedReports = [...reports].sort((a, b) => {
 		if (sortOrder === 'asc') {
-			return new Date(a.createdAt) - new Date(b.createdAt);
+			return new Date(a.lastUpdatedAt) - new Date(b.lastUpdatedAt);
 		} else {
-			return new Date(b.createdAt) - new Date(a.createdAt);
+			return new Date(b.lastUpdatedAt) - new Date(a.lastUpdatedAt);
 		}
 	});
 
@@ -84,8 +99,8 @@ const AppScreeningReports = () => {
 					{paginatedReports.map((report) => (
 						<ListItem
 							key={report.id}
-							button
-							divider
+							button={true}
+							divider={true}
 							onClick={() => handleReportSelection(report)}
 							sx={{
 								cursor: 'pointer',
@@ -108,7 +123,7 @@ const AppScreeningReports = () => {
 							)}
 							<ListItemText
 								primary={report.reportName}
-								secondary={`${t('appReportContent.generatedOn')}: ${new Date(report.createdAt).toLocaleDateString()}`}
+								secondary={`${t('appReportContent.updatedOn')}: ${new Date(report.lastUpdatedAt).toLocaleDateString()}`}
 							/>
 						</ListItem>
 					))}
@@ -128,7 +143,7 @@ const AppScreeningReports = () => {
 			</Box>
 
 			{/* Section 2: Report Details */}
-			<AppScreeningCVMatching analysisResults={selectedReport?.reportDetails} />
+			<AppScreeningReportDetails reportData={selectedReport} />
 		</Box>
 	);
 };

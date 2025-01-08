@@ -160,7 +160,7 @@
     "selectCVs": "Select CVs",
     "analyzeCVs": "Analyze CVs",
     "noJobPostSelected": "No Job Post Selected",
-    "analysisResults": "Analysis Results",
+    "reportData": "Analysis Results",
     "noAnalysisResult": "No Analysis Result Available",
     "selectAll": "Select All",
     "searchCVs": "Search CVs by Name, Role or Skills",
@@ -179,12 +179,16 @@
     "gapExplorationQuestions": "Gap Exploration Questions",
     "saveReport": "Save Report",
     "reportName": "Report Name",
-    "submit": "Save"
+    "submit": "Save",
+    "reportSaveSuccessTitle": "Report Saved Successfully",
+    "reportSaveSuccessMessage": "Your report has been saved and is now available in your records.",
+    "close": "Close"
   },
   "appReportContent": {
     "reportListTitle": "List of Reports",
     "search": "Search Reports",
-    "generatedOn": "Generated on"
+    "generatedOn": "Generated on",
+    "updatedOn": "Updated On"
   },
   "errors": {
     "404": {

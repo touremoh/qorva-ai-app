@@ -164,7 +164,7 @@
     "selectCVs": "Selecteer CV's",
     "analyzeCVs": "Analyseer CV's",
     "noJobPostSelected": "Geen vacature geselecteerd",
-    "analysisResults": "Analyseresultaten",
+    "reportData": "Analyseresultaten",
     "noAnalysisResult": "Geen analyse resultaten beschikbaar",
     "selectAll": "Alles selecteren",
     "searchCVs": "Zoek CV's op Naam, Rol of Vaardigheden",
@@ -183,12 +183,16 @@
     "gapExplorationQuestions": "Vragen voor het Onderzoeken van Hiaten",
     "saveReport": "Rapport opslaan",
     "reportName": "Rapportnaam",
-    "submit": "Indienen"
+    "submit": "Indienen",
+    "reportSaveSuccessTitle": "Rapport succesvol opgeslagen",
+    "reportSaveSuccessMessage": "Uw rapport is opgeslagen en is nu beschikbaar in uw archieven.",
+    "close": "Sluiten"
   },
   "appReportContent": {
     "reportListTitle": "Lijst van Rapporten",
     "search": "Rapporten Zoeken",
-    "generatedOn": "Gegenereerd op"
+    "generatedOn": "Gegenereerd op",
+    "updatedOn": "Bijgewerkt op"
   },
   "errors": {
     "404": {

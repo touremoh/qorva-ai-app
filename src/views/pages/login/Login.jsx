@@ -23,6 +23,7 @@ const Login = () => {
 	const handleLogin = async (e) => {
 		e.preventDefault();
 		setLoading(true); // Show loader
+
 		try {
 			const response = await apiClient.post(import.meta.env.VITE_APP_API_LOGIN_URL, {
 				email: email,
@@ -32,7 +33,6 @@ const Login = () => {
 			if (response.status === 200 && response.data?.data?.access_token) {
 				const { access_token, expires_in } = response.data.data;
 
-				// Save the access token and expiration time in localStorage
 				localStorage.setItem('authToken', access_token);
 				localStorage.setItem('tokenExpiry', expires_in);
 

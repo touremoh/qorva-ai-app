@@ -14,7 +14,16 @@ const AppScreeningJobPostDetails = ({ selectedJobDetails }) => {
 						{selectedJobDetails.title}
 					</Typography>
 					<Divider sx={{ marginBottom: 2 }} />
-					<Typography variant="body1">{selectedJobDetails.description}</Typography>
+					<Typography
+						component="div"
+						dangerouslySetInnerHTML={{ __html: selectedJobDetails?.description }}
+						sx={{
+							textAlign: 'justify', // Justify text
+							lineHeight: 1.5, // Adjust line height for better readability
+							marginTop: 2, // Add spacing from the title
+							color: '#333', // Optional: Set a readable color
+						}}
+					/>
 				</>
 			) : (
 				<Typography variant="body1">

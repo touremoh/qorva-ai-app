@@ -27,7 +27,7 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen }) => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [sortOrder, setSortOrder] = useState('desc'); // Sorting order state
 
-	const entriesPerPage = 100;
+	const entriesPerPage = 50;
 
 	// Sorting CV entries by last updated date based on sortOrder state
 	const sortedCVEntries = [...cvEntries].sort((a, b) => {

@@ -164,7 +164,7 @@
     "selectCVs": "Seleziona CV",
     "analyzeCVs": "Analizza CV",
     "noJobPostSelected": "Nessun annuncio di lavoro selezionato",
-    "analysisResults": "Risultati dell'analisi",
+    "reportData": "Risultati dell'analisi",
     "noAnalysisResult": "Nessun risultato di analisi disponibile",
     "selectAll": "Seleziona tutto",
     "searchCVs": "Cerca CV per Nome, Ruolo o Competenze",
@@ -183,12 +183,16 @@
     "gapExplorationQuestions": "Domande per Esplorare le Lacune",
     "saveReport": "Salva rapporto",
     "reportName": "Nome del rapporto",
-    "submit": "Inviare"
+    "submit": "Inviare",
+    "reportSaveSuccessTitle": "Rapporto salvato con successo",
+    "reportSaveSuccessMessage": "Il tuo rapporto è stato salvato ed è ora disponibile nei tuoi archivi.",
+    "close": "Chiudi"
   },
   "appReportContent": {
     "reportListTitle": "Elenco dei Rapporti",
     "search": "Cerca Rapporti",
-    "generatedOn": "Generato il"
+    "generatedOn": "Generato il",
+    "updatedOn": "Aggiornato il"
   },
   "errors": {
     "404": {

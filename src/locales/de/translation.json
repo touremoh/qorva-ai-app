@@ -164,7 +164,7 @@
     "selectCVs": "Lebensläufe auswählen",
     "analyzeCVs": "Lebensläufe analysieren",
     "noJobPostSelected": "Keine Stellenanzeige ausgewählt",
-    "analysisResults": "Analyseergebnisse",
+    "reportData": "Analyseergebnisse",
     "noAnalysisResult": "Keine Analyseergebnisse verfügbar",
     "selectAll": "Alles auswählen",
     "searchCVs": "Suchen Sie Lebensläufe nach Name, Rolle oder Fähigkeiten",
@@ -183,12 +183,16 @@
     "gapExplorationQuestions": "Fragen zur Lückenanalyse",
     "saveReport": "Bericht speichern",
     "reportName": "Berichtsname",
-    "submit": "Einreichen"
+    "submit": "Einreichen",
+    "reportSaveSuccessTitle": "Bericht erfolgreich gespeichert",
+    "reportSaveSuccessMessage": "Ihr Bericht wurde gespeichert und ist nun in Ihren Unterlagen verfügbar.",
+    "close": "Schließen"
   },
   "appReportContent": {
     "reportListTitle": "Liste der Berichte",
     "search": "Berichte suchen",
-    "generatedOn": "Erstellt am"
+    "generatedOn": "Erstellt am",
+    "updatedOn": "Aktualisiert am"
   },
   "errors": {
     "404": {
