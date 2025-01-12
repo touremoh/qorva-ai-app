@@ -110,15 +110,6 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 		handleMenuClose();
 	};
 
-	// const handleSearchChange = (event) => {
-	// 	setSearchTerm(event.target.value);
-	// 	setCurrentPage(1); // Reset to the first page after a search
-	// };
-	//
-	// const handlePageChange = (event, value) => {
-	// 	setCurrentPage(value);
-	// };
-
 	const handleSortToggle = () => {
 		setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
 	};

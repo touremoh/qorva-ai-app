@@ -119,6 +119,7 @@ const AppCVScreening = () => {
 				analyzedResults={analysisResult}
 				analyzeButtonDisabled={loading}
 				saveReportButtonDisabled={saveReportButtonDisabled}
+				setCVEntries={setCvEntries}
 			/>
 
 			{/* Section B: Job Post Details and Analytics */}

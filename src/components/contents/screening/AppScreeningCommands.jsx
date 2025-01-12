@@ -18,7 +18,7 @@ import PropTypes from 'prop-types';
 import target from "quill/blots/break.js";
 import apiClient from "../../../../axiosConfig.js";
 
-const AppScreeningCommands = ({ jobPosts, cvEntries, selectedJobPost, handleJobPostChange, selectedCVs, handleCVSelectChange, handleAnalyzeCVs, analyzedResults, analyzeButtonDisabled, saveReportButtonDisabled }) => {
+const AppScreeningCommands = ({ jobPosts, cvEntries, selectedJobPost, handleJobPostChange, selectedCVs, handleCVSelectChange, handleAnalyzeCVs, analyzedResults, analyzeButtonDisabled, saveReportButtonDisabled, setCVEntries }) => {
 	const { t } = useTranslation();
 	const [searchTerm, setSearchTerm] = useState('');
 	const [selectAll, setSelectAll] = useState(false);
@@ -26,25 +26,35 @@ const AppScreeningCommands = ({ jobPosts, cvEntries, selectedJobPost, handleJobP
 	const [reportName, setReportName] = useState('');
 	const [successModalOpen, setSuccessModalOpen] = useState(false);
 
+	const entriesPerPage = 50;
+
 
 
 	// Filter CV entries based on the search term or key skills
-	const filteredCVEntries = cvEntries.filter(cv =>
-		cv.personalInformation?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-		cv.personalInformation?.role.toLowerCase().includes(searchTerm.toLowerCase()) ||
-		cv.keySkills?.some(skill =>
-			skill.skills.some(s => s.toLowerCase().includes(searchTerm.toLowerCase()))
-		)
-	);
-
-	const handleSearchChange = (event) => {
-		setSearchTerm(event.target.value);
+	const handleSearchChange = async (event) => {
+		const searchValue = event.target.value;
+		setSearchTerm(searchValue);
+		try {
+			const response = await apiClient.get(`${import.meta.env.VITE_APP_API_CV_URL}/search`, {
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+				},
+				params: {
+					pageNumber: 0,
+					pageSize: entriesPerPage,
+					searchTerms: searchValue.trim(),
+				},
+			});
+			setCVEntries(response.data.data.content); // Update the entries in the parent component
+		} catch (error) {
+			console.error('Error during search:', error);
+		}
 	};
 
 	const handleSelectAllChange = (event) => {
 		setSelectAll(event.target.checked);
 		if (event.target.checked) {
-			handleCVSelectChange({ target: { value: filteredCVEntries.map(cv => cv.id) } });
+			handleCVSelectChange({ target: { value: cvEntries.map(cv => cv.id) } });
 		} else {
 			handleCVSelectChange({ target: { value: [] } });
 		}
@@ -56,6 +66,7 @@ const AppScreeningCommands = ({ jobPosts, cvEntries, selectedJobPost, handleJobP
 
 	const handleSaveReportClick = () => {
 		setSaveReportModalOpen(true);
+		//handleSaveReportSubmit().then(r => console.log(r));
 	};
 
 	const handleSaveReportSubmit = async () => {
@@ -157,7 +168,7 @@ const AppScreeningCommands = ({ jobPosts, cvEntries, selectedJobPost, handleJobP
 					</MenuItem>
 
 					{/* CV List Items */}
-					{filteredCVEntries.map((cv) => (
+					{cvEntries.map((cv) => (
 						<MenuItem key={cv.id} value={cv.id}>
 							<Checkbox checked={selectedCVs.indexOf(cv.id) > -1} />
 							<ListItemText
@@ -197,6 +208,45 @@ const AppScreeningCommands = ({ jobPosts, cvEntries, selectedJobPost, handleJobP
 			</Button>
 
 			{/* Save Report Modal */}
+			<Modal
+				open={saveReportModalOpen}
+				onClose={() => setSaveReportModalOpen(false)}
+				aria-labelledby="save-report-modal"
+			>
+				<Box
+					sx={{
+						position: 'absolute',
+						top: '50%',
+						left: '50%',
+						transform: 'translate(-50%, -50%)',
+						width: 400,
+						backgroundColor: 'background.paper',
+						boxShadow: 24,
+						p: 4,
+						borderRadius: 1,
+					}}
+				>
+					<Typography variant="h6" component="h2" sx={{ mb: 2 }}>
+						{t('appCVScreening.saveReport')}
+					</Typography>
+					<TextField
+						fullWidth
+						variant="outlined"
+						label={t('appCVScreening.reportName')}
+						value={reportName}
+						onChange={(e) => setReportName(e.target.value)}
+						sx={{ mb: 2 }}
+					/>
+					<Button
+						variant="contained"
+						color="success"
+						fullWidth
+						onClick={handleSaveReportSubmit}
+					>
+						{t('appCVScreening.submit')}
+					</Button>
+				</Box>
+			</Modal>
 			<Modal
 				open={successModalOpen}
 				onClose={() => setSuccessModalOpen(false)}
