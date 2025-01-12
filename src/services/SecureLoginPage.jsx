@@ -9,9 +9,11 @@ const SecureLoginPage = ({ children }) => {
 	// Check token validity via API call
 	const isTokenValid = async () => {
 		try {
-			if (!token) return false;
-
-			const response = await apiClient.post(import.meta.env.VITE_APP_API_LOGIN_VALIDATE_URL, null, {
+			if (!token) {
+				console.log('Login - Token is null', token);
+				return false;
+			}
+			const response = await apiClient.post(import.meta.env.VITE_APP_API_VALIDATE_TOKEN_URL, null, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
@@ -32,7 +34,6 @@ const SecureLoginPage = ({ children }) => {
 				navigate('/');
 			} else {
 				console.log('Token is invalid or expired. Redirecting to login.');
-				localStorage.removeItem('authToken');
 				navigate('/login');
 			}
 		};

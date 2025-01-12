@@ -98,20 +98,20 @@ const AppScreeningReportDetails = ({ reportData }) => {
 							</Typography>
 						</Box>
 
+						{/* Experience Alignment */}
+						<Box sx={{ border: '1px solid lightgray', borderRadius: '8px', padding: 2, marginBottom: 2 }}>
+							<Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+								{t('appCVScreening.experienceAlignment')}
+							</Typography>
+							<Typography variant="body2">{selectedResult.experienceAlignment.summary}</Typography>
+						</Box>
+
 						{/* Skills Match */}
 						<Box sx={{ border: '1px solid lightgray', borderRadius: '8px', padding: 2, marginBottom: 2 }}>
 							<Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
 								{t('appCVScreening.skillsMatch')}
 							</Typography>
 							<Typography variant="body2">{selectedResult.skillsMatch.summary}</Typography>
-						</Box>
-
-						{/* Exceeds Requirements */}
-						<Box sx={{ border: '1px solid lightgray', borderRadius: '8px', padding: 2, marginBottom: 2 }}>
-							<Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-								{t('appCVScreening.exceedsRequirements')}
-							</Typography>
-							<Typography variant="body2">{selectedResult.exceedsRequirements.summary}</Typography>
 						</Box>
 
 						{/* Lacking Skills */}
@@ -122,12 +122,12 @@ const AppScreeningReportDetails = ({ reportData }) => {
 							<Typography variant="body2">{selectedResult.lackingSkills.summary}</Typography>
 						</Box>
 
-						{/* Experience Alignment */}
+						{/* Exceeds Requirements */}
 						<Box sx={{ border: '1px solid lightgray', borderRadius: '8px', padding: 2, marginBottom: 2 }}>
 							<Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-								{t('appCVScreening.experienceAlignment')}
+								{t('appCVScreening.exceedsRequirements')}
 							</Typography>
-							<Typography variant="body2">{selectedResult.experienceAlignment.summary}</Typography>
+							<Typography variant="body2">{selectedResult.exceedsRequirements.summary}</Typography>
 						</Box>
 
 						{/* Interview Questions */}

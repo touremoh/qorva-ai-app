@@ -18,16 +18,62 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { useTranslation } from 'react-i18next';
+import apiClient from "../../../../axiosConfig.js";
 
-const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen }) => {
+const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntries }) => {
 	const { t } = useTranslation();
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [selectedCVId, setSelectedCVId] = useState(null);
 	const [searchTerm, setSearchTerm] = useState('');
 	const [currentPage, setCurrentPage] = useState(1);
 	const [sortOrder, setSortOrder] = useState('desc'); // Sorting order state
+	const [totalPages, setTotalPages] = useState(0);
 
-	const entriesPerPage = 50;
+	const entriesPerPage = 100;
+
+	// Handle search functionality
+	const handleSearchChange = async (event) => {
+		const searchValue = event.target.value;
+		setSearchTerm(searchValue);
+		setCurrentPage(1); // Reset to the first page after a search
+		try {
+			const response = await apiClient.get(`${import.meta.env.VITE_APP_API_CV_URL}/search`, {
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+				},
+				params: {
+					pageNumber: 0,
+					pageSize: entriesPerPage,
+					searchTerms: searchValue.trim(),
+				},
+			});
+			setCVEntries(response.data.data.content); // Update the entries in the parent component
+			setTotalPages(response.data.data.totalPages);
+		} catch (error) {
+			console.error('Error during search:', error);
+		}
+	};
+
+	// Handle pagination change
+	const handlePageChange = async (event, page) => {
+		setCurrentPage(page);
+		try {
+			const response = await apiClient.get(`${import.meta.env.VITE_APP_API_CV_URL}/search`, {
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+				},
+				params: {
+					pageNumber: page - 1,
+					pageSize: entriesPerPage,
+					searchTerms: searchTerm,
+				},
+			});
+			setCVEntries(response.data.data.content); // Update the entries in the parent component
+			setTotalPages(response.data.data.totalPages);
+		} catch (error) {
+			console.error('Error fetching paginated data:', error);
+		}
+	};
 
 	// Sorting CV entries by last updated date based on sortOrder state
 	const sortedCVEntries = [...cvEntries].sort((a, b) => {
@@ -38,15 +84,8 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen }) => {
 		}
 	});
 
-	// Filtering CV entries based on search term
-	const filteredCVEntries = sortedCVEntries.filter((cv) =>
-		cv.personalInformation?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-		cv.personalInformation?.role.toLowerCase().includes(searchTerm.toLowerCase())
-	);
-
 	// Calculating pagination data
-	const totalPages = Math.ceil(filteredCVEntries.length / entriesPerPage);
-	const paginatedCVEntries = filteredCVEntries.slice(
+	const paginatedCVEntries = sortedCVEntries.slice(
 		(currentPage - 1) * entriesPerPage,
 		currentPage * entriesPerPage
 	);
@@ -71,14 +110,14 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen }) => {
 		handleMenuClose();
 	};
 
-	const handleSearchChange = (event) => {
-		setSearchTerm(event.target.value);
-		setCurrentPage(1); // Reset to the first page after a search
-	};
-
-	const handlePageChange = (event, value) => {
-		setCurrentPage(value);
-	};
+	// const handleSearchChange = (event) => {
+	// 	setSearchTerm(event.target.value);
+	// 	setCurrentPage(1); // Reset to the first page after a search
+	// };
+	//
+	// const handlePageChange = (event, value) => {
+	// 	setCurrentPage(value);
+	// };
 
 	const handleSortToggle = () => {
 		setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
@@ -97,24 +136,22 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen }) => {
 			<Divider />
 
 			{/* Search Box and Sort Icon */}
-			{cvEntries.length > 0 && (
-				<Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 1 }}>
-					<TextField
-						label={t('appCVContent.search')}
-						variant="outlined"
-						sx={{ width: '100%' }}
-						margin="normal"
-						value={searchTerm}
-						onChange={handleSearchChange}
-					/>
-					<IconButton onClick={handleSortToggle} sx={{ marginLeft: 1 }}>
-						{sortOrder === 'asc' ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />}
-					</IconButton>
-				</Box>
-			)}
+			<Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 1 }}>
+				<TextField
+					label={t('appCVContent.search')}
+					variant="outlined"
+					sx={{ width: '100%' }}
+					margin="normal"
+					value={searchTerm}
+					onChange={handleSearchChange}
+				/>
+				<IconButton onClick={handleSortToggle} sx={{ marginLeft: 1 }}>
+					{sortOrder === 'asc' ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />}
+				</IconButton>
+			</Box>
 
 			{/* CV Entries List */}
-			{filteredCVEntries.length === 0 ? (
+			{sortedCVEntries.length === 0 ? (
 				<Typography variant="body1">
 					{t('appCVContent.noCVEntries')}
 				</Typography>
@@ -122,8 +159,8 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen }) => {
 				<List sx={{ overflowY: 'scroll', height: 'calc(73vh - 150px)' }}>
 					{paginatedCVEntries.map((cv, index) => (
 						<ListItem
-							divider={true}
-							button={"true"}
+							divider
+							button="true"
 							key={index}
 							onClick={() => handleCVSelection(cv)}
 							sx={{
@@ -195,6 +232,7 @@ AppCVEntries.propTypes = {
 	).isRequired,
 	setSelectedCV: PropTypes.func.isRequired,
 	setDeleteDialogOpen: PropTypes.func.isRequired,
+	setCVEntries: PropTypes.func.isRequired,
 };
 
 export default AppCVEntries;

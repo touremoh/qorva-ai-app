@@ -31,7 +31,7 @@ const AppCVContent = () => {
 	const FILE_TYPE_PDF = 'application/pdf';
 	const FILE_TYPE_WORD = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
 
-	const fetchCVEntries = async (pageNumber = 0, pageSize = 10) => {
+	const fetchCVEntries = async (pageNumber = 0, pageSize = 100) => {
 		try {
 			const response = await apiClient.get(import.meta.env.VITE_APP_API_CV_URL, {
 				headers: {
@@ -49,7 +49,7 @@ const AppCVContent = () => {
 	};
 
 	useEffect(() => {
-		fetchCVEntries(0,500);
+		fetchCVEntries(0,100);
 	}, []);
 
 	const handleFileSelect = (event) => {
@@ -202,7 +202,12 @@ const AppCVContent = () => {
 			{/* Section 2: CV Entries List and Details */}
 			<Box sx={{ display: 'flex', width: '100%', mt: 4 }}>
 				{/* Section 2.1: CV List */}
-				<AppCVEntries cvEntries={cvEntries} setDeleteDialogOpen={setDeleteDialogOpen} setSelectedCV={setSelectedCV} />
+				<AppCVEntries
+					cvEntries={cvEntries}
+					setDeleteDialogOpen={setDeleteDialogOpen}
+					setSelectedCV={setSelectedCV}
+					setCVEntries={setCvEntries}
+				/>
 
 				{/* Section 2.2: CV Details */}
 				<Paper sx={{ width: '70%', height: '75vh', padding: 2, boxShadow: 3, overflowY: 'scroll', backgroundColor: 'white', marginLeft: 5, alignItems: 'left' }}>

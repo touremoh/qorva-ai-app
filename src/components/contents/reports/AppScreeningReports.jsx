@@ -99,8 +99,8 @@ const AppScreeningReports = () => {
 					{paginatedReports.map((report) => (
 						<ListItem
 							key={report.id}
-							button={true}
-							divider={true}
+							button="true"
+							divider
 							onClick={() => handleReportSelection(report)}
 							sx={{
 								cursor: 'pointer',
