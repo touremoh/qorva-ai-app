@@ -15,7 +15,7 @@ const AppCVScreening = () => {
 	const [selectedJobPost, setSelectedJobPost] = useState('');
 	const [selectedCVs, setSelectedCVs] = useState([]);
 	const [selectedJobDetails, setSelectedJobDetails] = useState(null);
-	const [analysisResult, setAnalysisResult] = useState([]);
+	const [analysisResult, setAnalysisResult] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [isReportAvailable, setIsReportAvailable] = useState(false);
 	const [saveReportButtonDisabled, setSaveReportButtonDisabled] = useState(true);

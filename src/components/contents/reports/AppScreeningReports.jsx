@@ -15,6 +15,7 @@ const AppScreeningReports = () => {
 	const [searchTerm, setSearchTerm] = useState('');
 	const [sortOrder, setSortOrder] = useState('desc');
 	const [currentPage, setCurrentPage] = useState(1);
+	const [totalPages, setTotalPages] = useState(0);
 
 	const reportsPerPage = 50;
 
@@ -29,8 +30,7 @@ const AppScreeningReports = () => {
 				console.error('Error fetching reports:', error);
 			}
 		};
-
-		fetchReports();
+		fetchReports().then(response => console.log(response));
 	}, []);
 
 	// Sorting the reports by lastUpdatedAt based on sortOrder state
@@ -42,21 +42,32 @@ const AppScreeningReports = () => {
 		}
 	});
 
-	// Filtering the reports based on search term
-	const filteredReports = sortedReports.filter((report) =>
-		report.reportName.toLowerCase().includes(searchTerm.toLowerCase())
-	);
-
 	// Calculating pagination data
-	const totalPages = Math.ceil(filteredReports.length / reportsPerPage);
-	const paginatedReports = filteredReports.slice(
+	const paginatedReports = sortedReports.slice(
 		(currentPage - 1) * reportsPerPage,
 		currentPage * reportsPerPage
 	);
 
-	const handleSearchChange = (event) => {
-		setSearchTerm(event.target.value);
-		setCurrentPage(1);
+	const handleSearchChange = async (event) => {
+		const searchValue = event.target.value;
+		setSearchTerm(searchValue);
+		setCurrentPage(1); // Reset to the first page after a search
+		try {
+			const response = await apiClient.get(`${import.meta.env.VITE_APP_API_REPORT_URL}/search`, {
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+				},
+				params: {
+					pageNumber: 0,
+					pageSize: reportsPerPage,
+					searchTerms: searchValue.trim(),
+				}
+			});
+			setReports(response.data.data.content); // Update the entries in the parent component
+			setTotalPages(response.data.data.totalPages);
+		} catch (error) {
+			console.error('Error during search:', error);
+		}
 	};
 
 	const handleSortToggle = () => {
@@ -151,33 +162,41 @@ const AppScreeningReports = () => {
 AppScreeningReports.propTypes = {
 	analysisResults: PropTypes.arrayOf(
 		PropTypes.shape({
-			job_title: PropTypes.string.isRequired,
-			candidate_name: PropTypes.string.isRequired,
-			skills_match: PropTypes.shape({
-				summary: PropTypes.string.isRequired,
-				degree_of_match: PropTypes.string.isRequired,
-			}).isRequired,
-			exceeds_requirements: PropTypes.shape({
-				summary: PropTypes.string.isRequired,
-			}).isRequired,
-			lacking_skills: PropTypes.shape({
-				summary: PropTypes.string.isRequired,
-			}).isRequired,
-			experience_alignment: PropTypes.shape({
-				summary: PropTypes.string.isRequired,
-			}).isRequired,
-			overall_summary: PropTypes.shape({
-				summary: PropTypes.string.isRequired,
-				score: PropTypes.string.isRequired,
-				points_for_improvement: PropTypes.arrayOf(PropTypes.string).isRequired,
-			}).isRequired,
-			interview_questions: PropTypes.shape({
-				skills_based_questions: PropTypes.arrayOf(PropTypes.string).isRequired,
-				strength_based_questions: PropTypes.arrayOf(PropTypes.string).isRequired,
-				gap_exploration_questions: PropTypes.arrayOf(PropTypes.string).isRequired,
-			}).isRequired,
-		})
+			id: PropTypes.string.isRequired,
+			reportName: PropTypes.string.isRequired,
+			companyId: PropTypes.string.isRequired,
+			reportDetails: PropTypes.arrayOf(
+				PropTypes.shape({
+					jobTitle: PropTypes.string.isRequired,
+					candidateName: PropTypes.string.isRequired,
+					skillsMatch: PropTypes.shape({
+						summary: PropTypes.string.isRequired,
+						degreeOfMatch: PropTypes.number.isRequired,
+					}).isRequired,
+					exceedsRequirements: PropTypes.shape({
+						summary: PropTypes.string.isRequired,
+					}).isRequired,
+					lackingSkills: PropTypes.shape({
+						summary: PropTypes.string.isRequired,
+					}).isRequired,
+					experienceAlignment: PropTypes.shape({
+						summary: PropTypes.string.isRequired,
+					}).isRequired,
+					overallSummary: PropTypes.shape({
+						summary: PropTypes.string.isRequired,
+						score: PropTypes.number.isRequired,
+						pointsForImprovement: PropTypes.arrayOf(PropTypes.string).isRequired,
+					}).isRequired,
+					interviewQuestions: PropTypes.shape({
+						skillsBasedQuestions: PropTypes.arrayOf(PropTypes.string).isRequired,
+						strengthBasedQuestions: PropTypes.arrayOf(PropTypes.string).isRequired,
+						gapExplorationQuestions: PropTypes.arrayOf(PropTypes.string).isRequired,
+					}),
+				})
+			),
+		}).isRequired
 	),
 };
+
 
 export default AppScreeningReports;

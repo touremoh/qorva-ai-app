@@ -272,7 +272,7 @@ const JobContent = () => {
 						<List>
 							{jobs.map((job, index) => (
 								<React.Fragment key={job.id || index}>
-									<ListItem button={"true"} onClick={() => handleJobClick(job)} sx={{cursor: 'pointer', position: 'relative'}}>
+									<ListItem button="true" onClick={() => handleJobClick(job)} sx={{cursor: 'pointer', position: 'relative'}}>
 										<ListItemText primary={job.title} />
 										<IconButton>
 											<FiberManualRecordIcon color={job.status === 'open' ? 'success' : 'error'} />

@@ -293,7 +293,7 @@ AppScreeningCommands.propTypes = {
 			id: PropTypes.string.isRequired,
 			title: PropTypes.string.isRequired
 		})
-	).isRequired,
+	),
 	cvEntries: PropTypes.arrayOf(
 		PropTypes.shape({
 			id: PropTypes.string.isRequired,
@@ -305,15 +305,15 @@ AppScreeningCommands.propTypes = {
 				PropTypes.shape({
 					skills: PropTypes.arrayOf(PropTypes.string).isRequired
 				})
-			).isRequired
+			)
 		})
 	).isRequired,
-	selectedJobPost: PropTypes.string.isRequired,
-	handleJobPostChange: PropTypes.func.isRequired,
-	selectedCVs: PropTypes.arrayOf(PropTypes.string).isRequired,
-	handleCVSelectChange: PropTypes.func.isRequired,
-	handleAnalyzeCVs: PropTypes.func.isRequired,
-	analyzedResults: PropTypes.object, // Added for analyzed results
+	selectedJobPost: PropTypes.string,
+	handleJobPostChange: PropTypes.func,
+	selectedCVs: PropTypes.arrayOf(PropTypes.string),
+	handleCVSelectChange: PropTypes.func,
+	handleAnalyzeCVs: PropTypes.func,
+	analyzedResults: PropTypes.arrayOf(PropTypes.object), // Added for analyzed results
 	analyzeButtonDisabled: PropTypes.bool, // Added for analyzed results
 	saveReportButtonDisabled: PropTypes.bool
 };

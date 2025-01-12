@@ -14,9 +14,6 @@ const SecureHomePage = ({ children }) => {
 				console.log('Home - Token is null', token);
 				return false;
 			}
-			console.log('Home - Token exists - Validating token:', token);
-
-			console.log('Token exists - Validating token:', token);
 			const response = await apiClient.post(import.meta.env.VITE_APP_API_VALIDATE_TOKEN_URL, null, {
 				headers: {
 					Authorization: `Bearer ${token}`,

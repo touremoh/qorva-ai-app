@@ -29,9 +29,9 @@ const AppScreeningReportDetails = ({ reportData }) => {
 					{sortedResults.map((result, index) => (
 						<ListItem
 							key={index}
-							button={true}
+							button="true"
 							onClick={() => handleListItemClick(result)}
-							divider={true}
+							divider
 							selected={selectedResult?.id === result.id}
 							sx={{
 								cursor: 'pointer',
@@ -181,7 +181,10 @@ const AppScreeningReportDetails = ({ reportData }) => {
 };
 
 AppScreeningReportDetails.propTypes = {
-	reportData: PropTypes.shape({
+	reportData:	PropTypes.shape({
+		id: PropTypes.string.isRequired,
+		reportName: PropTypes.string.isRequired,
+		companyId: PropTypes.string.isRequired,
 		reportDetails: PropTypes.arrayOf(
 			PropTypes.shape({
 				jobTitle: PropTypes.string.isRequired,
@@ -208,10 +211,12 @@ AppScreeningReportDetails.propTypes = {
 					skillsBasedQuestions: PropTypes.arrayOf(PropTypes.string).isRequired,
 					strengthBasedQuestions: PropTypes.arrayOf(PropTypes.string).isRequired,
 					gapExplorationQuestions: PropTypes.arrayOf(PropTypes.string).isRequired,
-				}).isRequired,
+				}),
 			})
-		)
-	})
+		),
+	}),
 };
+
+
 
 export default AppScreeningReportDetails;
