@@ -87,8 +87,8 @@ const Login = () => {
 							<TextField
 								label={t('login.emailLabel')}
 								variant="filled"
-								fullWidth
-								required
+								fullWidth={true}
+								required={true}
 								margin="normal"
 								value={email}
 								onChange={(e) => setEmail(e.target.value)}
@@ -106,8 +106,8 @@ const Login = () => {
 								label={t('login.passwordLabel')}
 								type="password"
 								variant="filled"
-								fullWidth
-								required
+								fullWidth={true}
+								required={true}
 								margin="normal"
 								value={password}
 								onChange={(e) => setPassword(e.target.value)}
@@ -123,7 +123,7 @@ const Login = () => {
 							/>
 							<Button
 								type="submit"
-								fullWidth
+								fullWidth={true}
 								variant="contained"
 								sx={{ backgroundColor: '#629C44', mt: 2 }}
 								disabled={loading} // Disable button during loading
