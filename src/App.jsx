@@ -8,7 +8,7 @@ import AppHome from "./layout/AppHome.jsx";
 import SecureHomePage from "./services/SecureHomePage.jsx";
 import ErrorPage from "./views/pages/errors/ErrorPage.jsx";
 import RegistrationSuccessful from "./views/pages/success/RegistrationSuccessful.jsx";
-import SecureLoginPage from "./services/SecureLoginPage.jsx";
+import CheckLoginPage from "./services/CheckLoginPage.jsx";
 
 function App() {
     return (
@@ -23,9 +23,9 @@ function App() {
                   }
               />
               <Route path="/login" element={
-                  <SecureLoginPage>
+                  <CheckLoginPage>
                       <Login />
-                  </SecureLoginPage>
+                  </CheckLoginPage>
               } />
               <Route path="/register" element={<Register />} />
               <Route path="/success" element={<RegistrationSuccessful />} />

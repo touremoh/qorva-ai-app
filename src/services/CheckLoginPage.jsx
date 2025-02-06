@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import apiClient from "../../axiosConfig.js";
 
-const SecureLoginPage = ({ children }) => {
+const CheckLoginPage = ({ children }) => {
 	const navigate = useNavigate();
 	const token = localStorage.getItem('authToken');
 
@@ -34,7 +34,9 @@ const SecureLoginPage = ({ children }) => {
 				navigate('/');
 			} else {
 				console.log('Token is invalid or expired. Redirecting to login.');
-				navigate('/login');
+				localStorage.removeItem('authToken');
+				localStorage.removeItem('tokenExpiry');
+				location.reload();
 			}
 		};
 		verifyToken();
@@ -43,4 +45,4 @@ const SecureLoginPage = ({ children }) => {
 	return children;
 };
 
-export default SecureLoginPage;
+export default CheckLoginPage;
