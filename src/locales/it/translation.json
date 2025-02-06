@@ -192,7 +192,13 @@
     "reportListTitle": "Elenco dei Rapporti",
     "search": "Cerca Rapporti",
     "generatedOn": "Generato il",
-    "updatedOn": "Aggiornato il"
+    "updatedOn": "Aggiornato il",
+    "editReportTitle": "Modifica nome del rapporto",
+    "cancel": "Annulla",
+    "save": "Salva",
+    "deleteConfirm": "Conferma eliminazione",
+    "delete": "Elimina",
+    "deleteReport": "Elimina il rapporto"
   },
   "errors": {
     "404": {

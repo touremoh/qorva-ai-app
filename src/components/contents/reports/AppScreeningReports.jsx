@@ -1,7 +1,10 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, Divider, List, ListItem, ListItemText, IconButton, TextField, Chip, Pagination } from '@mui/material';
+import {
+	Box, Typography, Divider, List, ListItem, ListItemText, IconButton, TextField, Chip, Pagination, Menu, MenuItem, Dialog, DialogTitle, DialogContent, DialogActions, Button
+} from '@mui/material';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
@@ -16,6 +19,10 @@ const AppScreeningReports = () => {
 	const [sortOrder, setSortOrder] = useState('desc');
 	const [currentPage, setCurrentPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(0);
+	const [anchorEl, setAnchorEl] = useState(null);
+	const [editDialogOpen, setEditDialogOpen] = useState(false);
+	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+	const [newReportName, setNewReportName] = useState('');
 
 	const reportsPerPage = 50;
 
@@ -82,6 +89,53 @@ const AppScreeningReports = () => {
 		setSelectedReport(report);
 	};
 
+
+	// Handle opening the menu for a report item
+	const handleMenuOpen = (event, report) => {
+		setAnchorEl(event.currentTarget);
+		setSelectedReport(report);
+	};
+
+	// Handle closing the menu
+	const handleMenuClose = () => {
+		setAnchorEl(null);
+		setSelectedReport(null);
+	};
+
+	// Handle updating the report name
+	const handleUpdateReport = async () => {
+		try {
+			await apiClient.patch(`${import.meta.env.VITE_APP_API_REPORT_URL}/${selectedReport.id}`, {
+				reportName: newReportName,
+			});
+			setReports((prevReports) =>
+				prevReports.map((report) =>
+					report.id === selectedReport.id ? { ...report, reportName: newReportName } : report
+				)
+			);
+			setEditDialogOpen(false);
+		} catch (error) {
+			console.error('Error updating report name:', error);
+		}
+		handleMenuClose();
+	};
+
+	// Handle deleting a report
+	const handleDeleteReport = async () => {
+		try {
+			await apiClient.delete(`${import.meta.env.VITE_APP_API_REPORT_URL}/${selectedReport.id}`);
+			setReports((prevReports) => prevReports.filter((report) => report.id !== selectedReport.id));
+			setDeleteDialogOpen(false);
+			if (selectedReport?.id === selectedReport.id) {
+				setSelectedReport(null);
+			}
+		} catch (error) {
+			console.error('Error deleting report:', error);
+		}
+		handleMenuClose();
+	};
+
+
 	return (
 		<Box sx={{ display: 'flex', width: '70vw' }}>
 			{/* Section 1: List of Reports */}
@@ -136,6 +190,9 @@ const AppScreeningReports = () => {
 								primary={report.reportName}
 								secondary={`${t('appReportContent.updatedOn')}: ${new Date(report.lastUpdatedAt).toLocaleDateString()}`}
 							/>
+							<IconButton onClick={(event) => handleMenuOpen(event, report)}>
+								<MoreVertIcon />
+							</IconButton>
 						</ListItem>
 					))}
 				</List>
@@ -155,6 +212,39 @@ const AppScreeningReports = () => {
 
 			{/* Section 2: Report Details */}
 			<AppScreeningReportDetails reportData={selectedReport} />
+
+			{/* Menu for More Options */}
+			<Menu
+				anchorEl={anchorEl}
+				open={Boolean(anchorEl)}
+				onClose={handleMenuClose}
+				anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+				transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+			>
+				<MenuItem onClick={() => setEditDialogOpen(true)}>{t('appReportContent.editReportTitle')}</MenuItem>
+				<MenuItem onClick={() => setDeleteDialogOpen(true)}>{t('appReportContent.deleteReport')}</MenuItem>
+			</Menu>
+
+			{/* Edit Report Dialog */}
+			<Dialog open={editDialogOpen} onClose={() => setEditDialogOpen(false)} fullWidth={true}>
+				<DialogTitle>{t('appReportContent.editReportTitle')}</DialogTitle>
+				<DialogContent>
+					<TextField fullWidth value={newReportName} onChange={(e) => setNewReportName(e.target.value)} />
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={() => setEditDialogOpen(false)}>{t('appReportContent.cancel')}</Button>
+					<Button onClick={handleUpdateReport} color="primary">{t('appReportContent.save')}</Button>
+				</DialogActions>
+			</Dialog>
+
+			{/* Delete Confirmation Dialog */}
+			<Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)} fullWidth={true}>
+				<DialogTitle>{t('appReportContent.deleteConfirm')}</DialogTitle>
+				<DialogActions>
+					<Button onClick={() => setDeleteDialogOpen(false)}>{t('appReportContent.cancel')}</Button>
+					<Button onClick={handleDeleteReport} color="error">{t('appReportContent.delete')}</Button>
+				</DialogActions>
+			</Dialog>
 		</Box>
 	);
 };

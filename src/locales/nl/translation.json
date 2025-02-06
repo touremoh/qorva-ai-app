@@ -192,7 +192,13 @@
     "reportListTitle": "Lijst van Rapporten",
     "search": "Rapporten Zoeken",
     "generatedOn": "Gegenereerd op",
-    "updatedOn": "Bijgewerkt op"
+    "updatedOn": "Bijgewerkt op",
+    "editReportTitle": "Rapportnaam bewerken",
+    "cancel": "Annuleren",
+    "save": "Opslaan",
+    "deleteConfirm": "Verwijdering bevestigen",
+    "delete": "Verwijderen",
+    "deleteReport": "Rapport verwijderen"
   },
   "errors": {
     "404": {

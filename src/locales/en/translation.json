@@ -188,8 +188,14 @@
     "reportListTitle": "List of Reports",
     "search": "Search Reports",
     "generatedOn": "Generated on",
-    "updatedOn": "Updated On"
-  },
+    "updatedOn": "Updated On",
+    "editReportTitle": "Edit Report Name",
+    "cancel": "Cancel",
+    "save": "Save",
+    "deleteConfirm": "Confirm Deletion",
+    "delete": "Delete",
+    "deleteReport": "Delete report"
+},
   "errors": {
     "404": {
       "title": "Page Not Found",

@@ -192,7 +192,13 @@
     "reportListTitle": "Lista de Relatórios",
     "search": "Buscar Relatórios",
     "generatedOn": "Gerado em",
-    "updatedOn": "Atualizado em"
+    "updatedOn": "Atualizado em",
+    "editReportTitle": "Editar nome do relatório",
+    "cancel": "Cancelar",
+    "save": "Salvar",
+    "deleteConfirm": "Confirmar exclusão",
+    "delete": "Excluir",
+    "deleteReport": "Excluir relatório"
   },
   "errors": {
     "404": {

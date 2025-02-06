@@ -192,7 +192,13 @@
     "reportListTitle": "Liste der Berichte",
     "search": "Berichte suchen",
     "generatedOn": "Erstellt am",
-    "updatedOn": "Aktualisiert am"
+    "updatedOn": "Aktualisiert am",
+    "editReportTitle": "Berichtsname bearbeiten",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "deleteConfirm": "Löschen bestätigen",
+    "delete": "Löschen",
+    "deleteReport": "Bericht löschen"
   },
   "errors": {
     "404": {
