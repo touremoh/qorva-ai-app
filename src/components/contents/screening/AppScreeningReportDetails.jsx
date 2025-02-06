@@ -40,7 +40,7 @@ const AppScreeningReportDetails = ({ reportData }) => {
 							}}
 						>
 							{/* Green Badge */}
-							{selectedResult?.candidateName === result.candidateName && (
+							{selectedResult?.detailsID === result.detailsID && (
 								<Chip
 									sx={{
 										position: 'absolute',
@@ -187,6 +187,7 @@ AppScreeningReportDetails.propTypes = {
 		companyId: PropTypes.string.isRequired,
 		reportDetails: PropTypes.arrayOf(
 			PropTypes.shape({
+				detailsID: PropTypes.string.isRequired,
 				jobTitle: PropTypes.string.isRequired,
 				candidateName: PropTypes.string.isRequired,
 				skillsMatch: PropTypes.shape({
