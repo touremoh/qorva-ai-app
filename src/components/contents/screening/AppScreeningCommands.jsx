@@ -28,6 +28,9 @@ const AppScreeningCommands = ({ jobPosts, cvEntries, selectedJobPost, handleJobP
 
 	const entriesPerPage = 50;
 
+	console.log("Selected CVs", selectedCVs);
+	console.log("Selected Job", selectedJobPost);
+
 
 
 	// Filter CV entries based on the search term or key skills
@@ -191,7 +194,7 @@ const AppScreeningCommands = ({ jobPosts, cvEntries, selectedJobPost, handleJobP
 				variant="contained"
 				color="warning"
 				onClick={handleAnalyzeCVs}
-				disabled={!selectedJobPost || analyzeButtonDisabled}
+				disabled={!(selectedJobPost && selectedCVs.length > 0)}
 			>
 				{analyzeButtonDisabled ? <CircularProgress size={30} />: t('appCVScreening.analyzeCVs')}
 			</Button>
