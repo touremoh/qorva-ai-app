@@ -1,12 +1,13 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from 'react';
-import { Box, CircularProgress, Button } from '@mui/material';
+import { Box } from '@mui/material';
 // import { useTranslation } from 'react-i18next';
 import AppScreeningCommands from "./AppScreeningCommands.jsx";
 import AppScreeningJobPostDetails from "./AppScreeningJobPostDetails.jsx";
 import AppScreeningReportDetails from "./AppScreeningReportDetails.jsx";
 import apiClient from "../../../../axiosConfig.js";
 import i18n from "../../../i18n.js";
+import {AUTH_TOKEN} from "../../../constants.js";
 
 const AppCVScreening = () => {
 	// const { t } = useTranslation();
@@ -17,7 +18,7 @@ const AppCVScreening = () => {
 	const [selectedJobDetails, setSelectedJobDetails] = useState(null);
 	const [analysisResult, setAnalysisResult] = useState(null);
 	const [loading, setLoading] = useState(false);
-	const [isReportAvailable, setIsReportAvailable] = useState(false);
+	//const [isReportAvailable, setIsReportAvailable] = useState(false);
 	const [saveReportButtonDisabled, setSaveReportButtonDisabled] = useState(true);
 
 	// Fetch job posts and CV entries from backend API
@@ -33,9 +34,6 @@ const AppCVScreening = () => {
 	const fetchCVEntries = async (pageNumber = 0, pageSize = 500) => {
 		try {
 			const response = await apiClient.get(import.meta.env.VITE_APP_API_CV_URL, {
-				headers: {
-					Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-				},
 				params: {
 					pageNumber,
 					pageSize
@@ -48,8 +46,8 @@ const AppCVScreening = () => {
 	};
 
 	useEffect(() => {
-		fetchJobs();
-		fetchCVEntries();
+		fetchJobs().then(() => console.log("Job entries fetched"));
+		fetchCVEntries().then(() => console.log("CV entries fetched"));
 	}, []);
 
 	const handleJobPostChange = (event) => {
@@ -80,7 +78,7 @@ const AppCVScreening = () => {
 			);
 			if (response.status === 200) {
 				setAnalysisResult(response.data.data);
-				setIsReportAvailable(true);
+				//setIsReportAvailable(true);
 				setSaveReportButtonDisabled(false);
 			}
 		} catch (error) {

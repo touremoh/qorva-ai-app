@@ -4,7 +4,15 @@ import MenuIcon from '@mui/icons-material/Menu';
 import React, { useState } from "react";
 import LanguageSwitcher from '../../components/languages/LanguageSwitcher.jsx';
 import { useTranslation } from 'react-i18next';
-import {COMP_ID_SCREENING, COMP_ID_CVLIB, COMP_ID_REPORTS, COMP_ID_SETTINGS, COMP_ID_JOBS, COMP_ID_LOGOUT} from "../../constants.js";
+import {
+	COMP_ID_SCREENING,
+	COMP_ID_CVLIB,
+	COMP_ID_REPORTS,
+	COMP_ID_SETTINGS,
+	COMP_ID_JOBS,
+	COMP_ID_LOGOUT,
+	AUTH_TOKEN
+} from "../../constants.js";
 
 const AppHeader = ({ onMenuItemClick }) => {
 	const { t } = useTranslation();
@@ -29,6 +37,11 @@ const AppHeader = ({ onMenuItemClick }) => {
 	const handleMenuItemClick = (menuItem) => {
 		onMenuItemClick(menuItem);
 		handleMenuClose();
+	};
+
+	const handleLogoutClick = () => {
+		localStorage.removeItem(AUTH_TOKEN);
+		location.reload();
 	};
 
 	return (
@@ -79,7 +92,7 @@ const AppHeader = ({ onMenuItemClick }) => {
 						transformOrigin={{ vertical: 'top', horizontal: 'right' }}
 					>
 						<MenuItem onClick={() => handleMenuItemClick(COMP_ID_SETTINGS)}>{t('header.accountSettings')}</MenuItem>
-						<MenuItem onClick={() => handleMenuItemClick(COMP_ID_LOGOUT)}>{t('header.logout')}</MenuItem>
+						<MenuItem onClick={handleLogoutClick}>{t('header.logout')}</MenuItem>
 					</Menu>
 				</Box>
 			</Toolbar>

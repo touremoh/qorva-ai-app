@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next';
 import AppCVDetails from "./AppCVDetails.jsx";
 import AppCVEntries from "./AppCVEntries.jsx";
 import apiClient, { apiFormDataClient } from "../../../../axiosConfig.js";
+import {AUTH_TOKEN} from "../../../constants.js";
 
 const AppCVContent = () => {
 	const { t } = useTranslation();
@@ -35,7 +36,7 @@ const AppCVContent = () => {
 		try {
 			const response = await apiClient.get(import.meta.env.VITE_APP_API_CV_URL, {
 				headers: {
-					Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+					Authorization: `Bearer ${localStorage.getItem(AUTH_TOKEN)}`,
 				},
 				params: {
 					pageNumber,
@@ -80,7 +81,7 @@ const AppCVContent = () => {
 				formData,
 				{
 					headers: {
-						Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+						Authorization: `Bearer ${localStorage.getItem(AUTH_TOKEN)}`,
 					},
 				}
 			);
@@ -102,7 +103,7 @@ const AppCVContent = () => {
 			try {
 				await apiClient.delete(`${import.meta.env.VITE_APP_API_CV_URL}/${selectedCV.id}`, {
 					headers: {
-						Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+						Authorization: `Bearer ${localStorage.getItem(AUTH_TOKEN)}`,
 					},
 				});
 				const updatedEntries = cvEntries.filter((cv) => cv.id !== selectedCV.id);

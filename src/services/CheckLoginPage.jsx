@@ -1,25 +1,15 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import apiClient from "../../axiosConfig.js";
+import {AUTH_TOKEN} from "../constants.js";
 
 const CheckLoginPage = ({ children }) => {
 	const navigate = useNavigate();
-	const token = localStorage.getItem('authToken');
+	const token = localStorage.getItem(AUTH_TOKEN);
 
 	// Check token validity via API call
-	const isTokenValid = async () => {
+	const hasToken = async () => {
 		try {
-			if (!token) {
-				console.log('Login - Token is null', token);
-				return false;
-			}
-			const response = await apiClient.post(import.meta.env.VITE_APP_API_VALIDATE_TOKEN_URL, null, {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			});
-
-			return response.data?.data === true;
+			return !!token;
 		} catch (error) {
 			console.error('Error validating token:', error);
 			return false;
@@ -28,18 +18,9 @@ const CheckLoginPage = ({ children }) => {
 
 	useEffect(() => {
 		const verifyToken = async () => {
-			const valid = await isTokenValid();
-			if (valid) {
-				console.log('Token valid - Redirecting to home page');
-				navigate('/');
-			} else {
-				console.log('Token is invalid or expired. Redirecting to login.');
-				localStorage.removeItem('authToken');
-				localStorage.removeItem('tokenExpiry');
-				location.reload();
-			}
+			await hasToken() ? navigate('/') : navigate('/login');
 		};
-		verifyToken();
+		verifyToken().then(r => console.log("Token verification done! ", r));
 	}, [navigate]);
 
 	return children;

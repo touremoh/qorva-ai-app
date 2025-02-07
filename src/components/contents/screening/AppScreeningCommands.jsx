@@ -17,6 +17,7 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import target from "quill/blots/break.js";
 import apiClient from "../../../../axiosConfig.js";
+import {AUTH_TOKEN} from "../../../constants.js";
 
 const AppScreeningCommands = ({ jobPosts, cvEntries, selectedJobPost, handleJobPostChange, selectedCVs, handleCVSelectChange, handleAnalyzeCVs, analyzedResults, analyzeButtonDisabled, saveReportButtonDisabled, setCVEntries }) => {
 	const { t } = useTranslation();
@@ -40,7 +41,7 @@ const AppScreeningCommands = ({ jobPosts, cvEntries, selectedJobPost, handleJobP
 		try {
 			const response = await apiClient.get(`${import.meta.env.VITE_APP_API_CV_URL}/search`, {
 				headers: {
-					Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+					Authorization: `Bearer ${localStorage.getItem(AUTH_TOKEN)}`,
 				},
 				params: {
 					pageNumber: 0,

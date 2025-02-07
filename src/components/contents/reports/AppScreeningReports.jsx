@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import AppScreeningReportDetails from '../screening/AppScreeningReportDetails.jsx';
 import apiClient from '../../../../axiosConfig.js';
+import {AUTH_TOKEN} from "../../../constants.js";
 
 const AppScreeningReports = () => {
 	const { t } = useTranslation();
@@ -62,7 +63,7 @@ const AppScreeningReports = () => {
 		try {
 			const response = await apiClient.get(`${import.meta.env.VITE_APP_API_REPORT_URL}/search`, {
 				headers: {
-					Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+					Authorization: `Bearer ${localStorage.getItem(AUTH_TOKEN)}`,
 				},
 				params: {
 					pageNumber: 0,

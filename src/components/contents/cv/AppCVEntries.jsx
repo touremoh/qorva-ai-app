@@ -19,6 +19,7 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { useTranslation } from 'react-i18next';
 import apiClient from "../../../../axiosConfig.js";
+import {AUTH_TOKEN} from "../../../constants.js";
 
 const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntries }) => {
 	const { t } = useTranslation();
@@ -39,7 +40,7 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 		try {
 			const response = await apiClient.get(`${import.meta.env.VITE_APP_API_CV_URL}/search`, {
 				headers: {
-					Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+					Authorization: `Bearer ${localStorage.getItem(AUTH_TOKEN)}`,
 				},
 				params: {
 					pageNumber: 0,
@@ -60,7 +61,7 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 		try {
 			const response = await apiClient.get(`${import.meta.env.VITE_APP_API_CV_URL}/search`, {
 				headers: {
-					Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+					Authorization: `Bearer ${localStorage.getItem(AUTH_TOKEN)}`,
 				},
 				params: {
 					pageNumber: page - 1,
