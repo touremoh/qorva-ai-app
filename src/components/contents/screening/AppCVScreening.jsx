@@ -7,7 +7,6 @@ import AppScreeningJobPostDetails from "./AppScreeningJobPostDetails.jsx";
 import AppScreeningReportDetails from "./AppScreeningReportDetails.jsx";
 import apiClient from "../../../../axiosConfig.js";
 import i18n from "../../../i18n.js";
-import {AUTH_TOKEN} from "../../../constants.js";
 
 const AppCVScreening = () => {
 	// const { t } = useTranslation();
