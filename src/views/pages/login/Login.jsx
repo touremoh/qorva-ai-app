@@ -8,7 +8,7 @@ import apiClient from "../../../../axiosConfig.js";
 
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../../../components/languages/LanguageSwitcher.jsx';
-import {AUTH_TOKEN} from "../../../constants.js";
+import {AUTH_TOKEN, USER_EMAIL, USER_FIRST_NAME, USER_LAST_NAME} from "../../../constants.js";
 
 const Login = () => {
 	const { t } = useTranslation();
@@ -31,11 +31,16 @@ const Login = () => {
 				rawPassword: password,
 			});
 
-			if (response.status === 200 && response.data?.data?.access_token) {
-				const { access_token, expires_in } = response.data.data;
+			if (response.status === 200 && response.data?.data?.jwt.access_token) {
+				const { jwt, user } = response.data.data;
+				const {access_token, expires_in } = jwt;
+				const {email, firstName, lastName } = user;
 
 				localStorage.setItem(AUTH_TOKEN, access_token);
 				localStorage.setItem('tokenExpiry', expires_in);
+				localStorage.setItem(USER_EMAIL, email);
+				localStorage.setItem(USER_FIRST_NAME, firstName);
+				localStorage.setItem(USER_LAST_NAME, lastName);
 
 				console.log('Login successful. Access token saved.');
 

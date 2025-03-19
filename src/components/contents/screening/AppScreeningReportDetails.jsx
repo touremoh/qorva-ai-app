@@ -1,11 +1,16 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
-import { Box, Typography, Divider, List, ListItem, ListItemText, Chip } from '@mui/material';
+import { Box, Typography, Divider, List, ListItem, ListItemText, Chip, Button, Dialog } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
+import axios from 'axios';
+import {Gauge, gaugeClasses} from '@mui/x-charts/Gauge';
 
 const AppScreeningReportDetails = ({ reportData }) => {
 	const { t } = useTranslation();
 	const [selectedResult, setSelectedResult] = useState(null);
+	const [cvData, setCvData] = useState(null);
+	const [openCvDialog, setOpenCvDialog] = useState(false);
 
 	const handleListItemClick = (result) => {
 		setSelectedResult(result);
@@ -15,6 +20,28 @@ const AppScreeningReportDetails = ({ reportData }) => {
 	const sortedResults = reportData?.reportDetails
 		? [...reportData.reportDetails].sort((a, b) => parseFloat(b.overallSummary.score) - parseFloat(a.overallSummary.score))
 		: [];
+
+	const handleOpenCv = async () => {
+		if (selectedResult?.candidateCVID) {
+			try {
+				const response = await axios.get(`/api/cv/${selectedResult.candidateCVID}`);
+				setCvData(response.data);
+				setOpenCvDialog(true);
+			} catch (error) {
+				console.error("Error fetching CV data", error);
+			}
+		}
+	};
+
+	const handleCloseCv = () => {
+		setOpenCvDialog(false);
+		setCvData(null);
+	};
+
+	const getColor = (value) => {
+		return value >= 70 ? 'green' : value >= 40 ? 'orange' : 'red';
+	};
+
 
 	return (
 		<Box sx={{ display: 'flex', width: '76%', height: '75vh', overflow: 'hidden', padding: 2, boxShadow: 1, backgroundColor: 'white', marginLeft: 2, color: '#232F3E' }}>
@@ -85,6 +112,55 @@ const AppScreeningReportDetails = ({ reportData }) => {
 							{t('appCVScreening.analysisDetails')}
 						</Typography>
 						<Divider sx={{ marginBottom: 2 }} />
+
+						<Box sx={{ border: '1px solid lightgray', borderRadius: '8px', padding: 2, marginBottom: 2 }}>
+							<Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Candidate Information</Typography>
+							<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+								<Typography variant="body2">Name: {selectedResult.candidateName}</Typography>
+								<Typography variant="body2">Role: {selectedResult?.candidateRole || 'N/A'}</Typography>
+								<Typography variant="body2">Email: {selectedResult?.candidateEmail || 'N/A'}</Typography>
+								<Typography variant="body2">Phone: {selectedResult?.candidatePhone || 'N/A'}</Typography>
+							</Box>
+							<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 2 }}>
+								<Box>
+									<Gauge width={200}
+									       height={100}
+									       value={selectedResult.overallSummary.score}
+									       sx={(theme) => ({
+										       [`& .${gaugeClasses.valueText}`]: {
+											       fontSize: 40,
+										       },
+										       [`& .${gaugeClasses.valueArc}`]: {
+											       fill: getColor(selectedResult.skillsMatch.degreeOfMatch),
+										       },
+										       [`& .${gaugeClasses.referenceArc}`]: {
+											       fill: theme.palette.text.disabled,
+										       },
+									       })}
+									/>
+									<Typography variant="body2" sx={{ fontWeight: 'bold', textAlign: 'center' }}>Overall Score</Typography>
+								</Box>
+								<Button variant="contained" sx={{ marginTop: 2 }} onClick={handleOpenCv}>See CV Details</Button>
+								<Box>
+									<Gauge width={200}
+									       height={100}
+									       value={selectedResult.skillsMatch.degreeOfMatch}
+									       sx={(theme) => ({
+										       [`& .${gaugeClasses.valueText}`]: {
+											       fontSize: 40,
+										       },
+										       [`& .${gaugeClasses.valueArc}`]: {
+											       fill: getColor(selectedResult.skillsMatch.degreeOfMatch),
+										       },
+										       [`& .${gaugeClasses.referenceArc}`]: {
+											       fill: theme.palette.text.disabled,
+										       },
+									       })}
+									/>
+									<Typography variant="body2" sx={{ fontWeight: 'bold', textAlign: 'center' }}>Skills Match</Typography>
+								</Box>
+							</Box>
+						</Box>
 
 						{/* Overall Summary */}
 						<Box sx={{ border: '1px solid lightgray', borderRadius: '8px', padding: 2, marginBottom: 2 }}>
@@ -176,6 +252,17 @@ const AppScreeningReportDetails = ({ reportData }) => {
 					</Typography>
 				)}
 			</Box>
+
+			<Dialog open={openCvDialog} onClose={handleCloseCv} fullWidth maxWidth="md">
+				<Box sx={{ padding: 3 }}>
+					<Typography variant="h6">Candidate CV Information</Typography>
+					{cvData ? (
+						<Typography variant="body2" sx={{ whiteSpace: 'pre-wrap' }}>{JSON.stringify(cvData, null, 2)}</Typography>
+					) : (
+						<Typography variant="body2">Loading...</Typography>
+					)}
+				</Box>
+			</Dialog>
 		</Box>
 	);
 };
@@ -190,6 +277,10 @@ AppScreeningReportDetails.propTypes = {
 				detailsID: PropTypes.string.isRequired,
 				jobTitle: PropTypes.string.isRequired,
 				candidateName: PropTypes.string.isRequired,
+				candidateEmail: PropTypes.string,
+				candidatePhone: PropTypes.string,
+				candidateRole: PropTypes.string,
+				candidateCVID: PropTypes.string,
 				skillsMatch: PropTypes.shape({
 					summary: PropTypes.string.isRequired,
 					degreeOfMatch: PropTypes.number.isRequired,

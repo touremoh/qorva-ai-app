@@ -5,3 +5,6 @@ export const COMP_ID_CVLIB = 'CVLIB';
 export const COMP_ID_SETTINGS = 'SETTINGS';
 export const COMP_ID_LOGOUT = 'LOGOUT';
 export const AUTH_TOKEN = 'authToken';
+export const USER_EMAIL = 'USER_EMAIL';
+export const USER_FIRST_NAME = 'USER_FIRST_NAME';
+export const USER_LAST_NAME = 'USER_LAST_NAME';

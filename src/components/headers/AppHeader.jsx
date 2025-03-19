@@ -1,7 +1,7 @@
 import { AppBar, Avatar, Box, IconButton, Menu, MenuItem, Toolbar, Typography, Link, Drawer, List, ListItem, ListItemText } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 // eslint-disable-next-line no-unused-vars
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import LanguageSwitcher from '../../components/languages/LanguageSwitcher.jsx';
 import { useTranslation } from 'react-i18next';
 import {
@@ -11,13 +11,15 @@ import {
 	COMP_ID_SETTINGS,
 	COMP_ID_JOBS,
 	COMP_ID_LOGOUT,
-	AUTH_TOKEN
+	AUTH_TOKEN, USER_FIRST_NAME, USER_LAST_NAME
 } from "../../constants.js";
+import apiClient from "../../../axiosConfig.js";
 
 const AppHeader = ({ onMenuItemClick }) => {
 	const { t } = useTranslation();
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [drawerOpen, setDrawerOpen] = useState(false);
+	const [fullName, setFullName] = useState('');
 
 	const handleMenuOpen = (event) => {
 		setAnchorEl(event.currentTarget);
@@ -43,6 +45,12 @@ const AppHeader = ({ onMenuItemClick }) => {
 		localStorage.removeItem(AUTH_TOKEN);
 		location.reload();
 	};
+
+	useEffect(() => {
+		const firstName = localStorage.getItem(USER_FIRST_NAME);
+		const lastName = localStorage.getItem(USER_LAST_NAME);
+		setFullName(firstName + ' ' + lastName);
+	}, []);
 
 	return (
 		<AppBar position="fixed" sx={{ backgroundColor: '#232F3E' }}>
@@ -91,6 +99,7 @@ const AppHeader = ({ onMenuItemClick }) => {
 						anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
 						transformOrigin={{ vertical: 'top', horizontal: 'right' }}
 					>
+						<MenuItem sx={{fontStyle: 'italic', fontWeight: '0.5rem', color: 'blue'}}>{fullName}</MenuItem>
 						<MenuItem onClick={() => handleMenuItemClick(COMP_ID_SETTINGS)}>{t('header.accountSettings')}</MenuItem>
 						<MenuItem onClick={handleLogoutClick}>{t('header.logout')}</MenuItem>
 					</Menu>

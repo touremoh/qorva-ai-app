@@ -173,7 +173,7 @@ const AppCVDetails = ({ cv }) => {
 						</Typography>
 						{cv.workExperience.map((work, index) => (
 							<Box key={index} sx={{ marginBottom: 2 }}>
-								<Typography variant="body2">{`${work.company} (${work.from} - ${work.to})`}</Typography>
+								<Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>{`${work.company} (${work.from} - ${work.to})`}</Typography>
 								<Typography variant="body2">{work.position}</Typography>
 								<Typography variant="body2">{work.location}</Typography>
 								{work.activities && (
