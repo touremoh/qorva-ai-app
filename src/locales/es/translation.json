@@ -23,8 +23,8 @@
     "selectIndustry": "Seleccionar industria",
     "registerButton": "Registrarse",
     "successMessage": "¡Registro exitoso!",
-    "freeTrialTitle": "¡Pruébenos gratis!",
-    "freeTrial": "Disfrute de un mes de prueba gratuita con acceso completo a todas las funciones",
+    "freeTrialTitle": "¡Prueba gratuita!",
+    "freeTrial": "Disfruta de una prueba gratuita de 7 días con acceso completo a todas las funciones",
     "cancelAnytimeTitle": "¡Sin compromisos!",
     "cancelAnytime": "Flexibilidad garantizada: cancele su suscripción en cualquier momento, sin problemas",
     "dataDeletedTitle": "¡Su privacidad es importante!",
@@ -118,7 +118,8 @@
     "proficiency": {
       "read": "Lectura",
       "written": "Escritura",
-      "spoken": "Hablado"
+      "spoken": "Hablado",
+      "langProfTitle": "Idioma / Nivel"
     },
     "projectsAndAchievements": "Proyectos y logros",
     "projectTitle": "Título del proyecto",

@@ -23,8 +23,8 @@
     "selectIndustry": "Selecteer branche",
     "registerButton": "Registreren",
     "successMessage": "Registratie geslaagd!",
-    "freeTrialTitle": "Probeer ons gratis!",
-    "freeTrial": "Geniet van een gratis proefperiode van 1 maand met volledige toegang tot alle functies",
+    "freeTrialTitle": "Gratis proefperiode!",
+    "freeTrial": "Geniet van een gratis proefperiode van 7 dagen met volledige toegang tot alle functies",
     "cancelAnytimeTitle": "Geen verplichtingen!",
     "cancelAnytime": "Flexibiliteit gegarandeerd - annuleer uw abonnement op elk moment zonder gedoe",
     "dataDeletedTitle": "Uw privacy is belangrijk!",
@@ -118,7 +118,8 @@
     "proficiency": {
       "read": "Lezen",
       "written": "Schriftelijk",
-      "spoken": "Mondeling"
+      "spoken": "Mondeling",
+      "langProfTitle": "Taal / Niveau"
     },
     "projectsAndAchievements": "Projecten en prestaties",
     "projectTitle": "Projecttitel",

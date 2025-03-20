@@ -23,8 +23,8 @@
     "selectIndustry": "Sélectionnez une industrie",
     "registerButton": "S'inscrire",
     "successMessage": "Inscription réussie !",
-    "freeTrialTitle": "Essayez-nous gratuitement !",
-    "freeTrial": "Profitez d'un mois d'essai gratuit avec un accès complet à toutes les fonctionnalités",
+    "freeTrialTitle": "Essai gratuit !",
+    "freeTrial": "Profitez d'un essai gratuit de 7 jours avec un accès complet à toutes les fonctionnalités",
     "cancelAnytimeTitle": "Aucun engagement !",
     "cancelAnytime": "Flexibilité garantie - annulez votre abonnement à tout moment, sans tracas",
     "dataDeletedTitle": "Votre vie privée est importante !",
@@ -116,9 +116,10 @@
     "languages": "Langues",
     "languageName": "Langue",
     "proficiency": {
-      "read": "Lu",
-      "written": "Écrit",
-      "spoken": "Parlé"
+      "read": "Lecture",
+      "written": "Écriture",
+      "spoken": "Orale",
+      "langProfTitle": "Langue / Compétences"
     },
     "projectsAndAchievements": "Projets et réalisations",
     "projectTitle": "Titre du projet",

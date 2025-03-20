@@ -119,7 +119,7 @@ const UserRegistration = () => {
 					</Typography>
 					<form onSubmit={handleSubmit}>
 						<Grid2 container spacing={2}>
-							<Grid2 item xs={12} sx={{ width: '48.8%' }}>
+							<Grid2 item xs={12} sx={{ width: '48.5%' }}>
 								<TextField
 									label={t('registration.firstName')}
 									name="firstName"
@@ -139,7 +139,7 @@ const UserRegistration = () => {
 									}}
 								/>
 							</Grid2>
-							<Grid2 item xs={12} sx={{ width: '48.8%' }}>
+							<Grid2 item xs={12} sx={{ width: '48.5%' }}>
 								<TextField
 									label={t('registration.lastName')}
 									name="lastName"
