@@ -20,6 +20,7 @@ import AppCVDetails from "./AppCVDetails.jsx";
 import AppCVEntries from "./AppCVEntries.jsx";
 import apiClient, { apiFormDataClient } from "../../../../axiosConfig.js";
 import {AUTH_TOKEN} from "../../../constants.js";
+import FileUploadIcon from '@mui/icons-material/FileUpload';
 
 const AppCVContent = () => {
 	const { t } = useTranslation();
@@ -136,7 +137,7 @@ const AppCVContent = () => {
 			{/* Section 1: Buttons for CV Upload */}
 			<Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-start', mb: 2 }}>
 				<Button
-					startIcon={<AddCircleIcon />}
+					startIcon={<FileUploadIcon />}
 					variant="contained"
 					color="success"
 					onClick={() => setOpenUploadModal(true)}
