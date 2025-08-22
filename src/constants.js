@@ -1,10 +1,13 @@
-export const COMP_ID_SCREENING = 'SCREENING';
 export const COMP_ID_REPORTS = 'REPORTS';
 export const COMP_ID_JOBS = 'JOBS';
 export const COMP_ID_CVLIB = 'CVLIB';
 export const COMP_ID_SETTINGS = 'SETTINGS';
-export const COMP_ID_LOGOUT = 'LOGOUT';
+export const COMP_ID_DASHBOARD = 'DASHBOARD';
 export const AUTH_TOKEN = 'authToken';
 export const USER_EMAIL = 'USER_EMAIL';
 export const USER_FIRST_NAME = 'USER_FIRST_NAME';
 export const USER_LAST_NAME = 'USER_LAST_NAME';
+export const TENANT_ID = 'TENANT_ID';
+export const SUBSCRIPTION_STATUS = 'SUBSCRIPTION_STATUS';
+export const TOKEN_EXPIRY = 'tokenExpiry';
+export const QORVA_USER_LANGUAGE = 'QORVA_USER_LANGUAGE';

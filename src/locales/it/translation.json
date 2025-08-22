@@ -187,7 +187,11 @@
     "submit": "Inviare",
     "reportSaveSuccessTitle": "Rapporto salvato con successo",
     "reportSaveSuccessMessage": "Il tuo rapporto è stato salvato ed è ora disponibile nei tuoi archivi.",
-    "close": "Chiudi"
+    "close": "Chiudi",
+    "candidateProfile": "Profilo del candidato",
+    "skills": "Competenze",
+    "degreeOfMatch": "Grado di corrispondenza",
+    "job": "Posizione"
   },
   "appReportContent": {
     "reportListTitle": "Elenco dei Rapporti",
@@ -199,7 +203,11 @@
     "save": "Salva",
     "deleteConfirm": "Conferma eliminazione",
     "delete": "Elimina",
-    "deleteReport": "Elimina il rapporto"
+    "deleteReport": "Elimina il rapporto",
+    "score": "Punteggio",
+    "allJobs": "Tutte le offerte di lavoro",
+    "filterByJob": "Filtra per offerta di lavoro",
+    "filterByTags": "Filtra per tag"
   },
   "errors": {
     "404": {
@@ -215,5 +223,55 @@
       "message": "Qualcosa è andato storto. Per favore riprova più tardi."
     },
     "contactSupport": "Se il problema persiste, contatta l'assistenza."
+  },
+  "accountSettings": {
+    "title": "Impostazioni account",
+    "subtitle": "Gestisci il tuo abbonamento e il profilo.",
+    "manageBilling": "Gestisci fatturazione",
+    "viewProfile": "Visualizza profilo",
+    "manageBillingLink": "Apri portale di fatturazione",
+    "manageBillingHint": "Visualizza le fatture, cambia piano, aggiorna il metodo di pagamento",
+    "hideProfileHint": "Nascondi le informazioni del tuo profilo",
+    "viewProfileHint": "Mostra le informazioni del tuo profilo",
+    "profileInformation": "Informazioni profilo",
+    "firstName": "Nome",
+    "lastName": "Cognome",
+    "email": "Email",
+    "tenantId": "ID tenant",
+    "subscriptionStatus": "Stato dell’abbonamento",
+    "footerHint": "Suggerimento: puoi aggiornare i metodi di pagamento e le fatture nel portale di fatturazione."
+  },
+  "dashboard": {
+    "errors": {
+      "loadFailed": "Impossibile caricare i dati della dashboard."
+    },
+    "skillsReport": {
+      "label": "Corrispondenze totali",
+      "title": "Report competenze"
+    },
+    "subscription": {
+      "active": "Abbonamento: ATTIVO",
+      "inactive": "Abbonamento: INATTIVO"
+    },
+    "loading": "Caricamento dashboard…",
+    "kpi": {
+      "totalCVs": "CV",
+      "totalJobsPosted": "Annunci di lavoro",
+      "totalUsers": "Utenti",
+      "totalResumeAnalysis": "CV analizzati totali",
+      "totalResumesProcessedCurrentMonth": "CV analizzati questo mese"
+    },
+    "sections": {
+      "skillsReport": "Report competenze",
+      "jobPostsReport": "Candidature per annuncio"
+    },
+    "empty": {
+      "skills": "Nessun dato sulle competenze da visualizzare.",
+      "jobPosts": "Nessun dato sugli annunci da visualizzare."
+    },
+    "table": {
+      "jobPostTitle": "Titolo annuncio",
+      "totalMatch": "Numero di candidature"
+    }
   }
 }

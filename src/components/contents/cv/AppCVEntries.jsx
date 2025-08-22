@@ -19,7 +19,7 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { useTranslation } from 'react-i18next';
 import apiClient from "../../../../axiosConfig.js";
-import {AUTH_TOKEN} from "../../../constants.js";
+import {AUTH_TOKEN, TENANT_ID} from "../../../constants.js";
 
 const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntries }) => {
 	const { t } = useTranslation();
@@ -30,7 +30,26 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 	const [sortOrder, setSortOrder] = useState('desc'); // Sorting order state
 	const [totalPages, setTotalPages] = useState(0);
 
-	const entriesPerPage = 100;
+	const entriesPerPage = 25;
+
+	const getAllCVEntries = async () => {
+		const tenantId = localStorage.getItem(TENANT_ID);
+		return await apiClient.get(`${import.meta.env.VITE_APP_API_CV_URL}/${tenantId}`);
+	};
+
+	const searchCVEntriesByCriteria = async (searchTerm) => {
+		return await apiClient.get(`${import.meta.env.VITE_APP_API_CV_URL}/search`, {
+			headers: {
+				Authorization: `Bearer ${localStorage.getItem(AUTH_TOKEN)}`,
+				tenantId: localStorage.getItem(TENANT_ID),
+			},
+			params: {
+				pageNumber: 0,
+				pageSize: entriesPerPage,
+				searchTerms: searchTerm.trim(),
+			},
+		});
+	}
 
 	// Handle search functionality
 	const handleSearchChange = async (event) => {
@@ -38,18 +57,18 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 		setSearchTerm(searchValue);
 		setCurrentPage(1); // Reset to the first page after a search
 		try {
-			const response = await apiClient.get(`${import.meta.env.VITE_APP_API_CV_URL}/search`, {
-				headers: {
-					Authorization: `Bearer ${localStorage.getItem(AUTH_TOKEN)}`,
-				},
-				params: {
-					pageNumber: 0,
-					pageSize: entriesPerPage,
-					searchTerms: searchValue.trim(),
-				},
-			});
-			setCVEntries(response.data.data.content); // Update the entries in the parent component
-			setTotalPages(response.data.data.totalPages);
+			let response = null;
+			let totalPages = 0;
+			if (searchValue === undefined || searchValue.length === 0) {
+				response = await getAllCVEntries();
+				setCVEntries(response.data.data.content);
+				totalPages = response.data.data.content.totalPages;
+			} else {
+				response = await searchCVEntriesByCriteria(searchTerm);
+				setCVEntries(response.data.data.content);
+				totalPages = response.data.data.content.totalPages;
+			}
+			setTotalPages(totalPages);
 		} catch (error) {
 			console.error('Error during search:', error);
 		}
@@ -77,13 +96,15 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 	};
 
 	// Sorting CV entries by last updated date based on sortOrder state
-	const sortedCVEntries = [...cvEntries].sort((a, b) => {
-		if (sortOrder === 'asc') {
-			return new Date(a.lastUpdatedAt) - new Date(b.lastUpdatedAt);
-		} else {
-			return new Date(b.lastUpdatedAt) - new Date(a.lastUpdatedAt);
-		}
-	});
+	const sortedCVEntries = Array.isArray(cvEntries) && cvEntries.length > 0
+		? [...cvEntries].sort((a, b) => {
+			if (sortOrder === 'asc') {
+				return new Date(a.lastUpdatedAt) - new Date(b.lastUpdatedAt);
+			} else {
+				return new Date(b.lastUpdatedAt) - new Date(a.lastUpdatedAt);
+			}
+		})
+		: [];
 
 	// Calculating pagination data
 	const paginatedCVEntries = sortedCVEntries.slice(
@@ -121,7 +142,7 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 	};
 
 	return (
-		<Box sx={{ width: '30%', height: '75vh', backgroundColor: 'white', padding: 2, boxShadow: 1}}>
+		<Box sx={{ width: '25%', height: '95vh',  backgroundColor: 'white', padding: 2, boxShadow: 1}}>
 			<Typography variant="h5" gutterBottom>
 				{t('appCVContent.cvListTitle')}
 			</Typography>
@@ -148,7 +169,7 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 					{t('appCVContent.noCVEntries')}
 				</Typography>
 			) : (
-				<List sx={{ overflowY: 'scroll', height: 'calc(73vh - 150px)' }}>
+				<List sx={{ overflowY: 'scroll', height: '100%' }}>
 					{paginatedCVEntries.map((cv, index) => (
 						<ListItem
 							divider
@@ -192,7 +213,7 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 					count={totalPages}
 					page={currentPage}
 					onChange={handlePageChange}
-					sx={{ display: 'flex', justifyContent: 'center' }}
+					sx={{ display: 'flex', justifyContent: 'center', position: 'absolute', bottom: '2%', width: '25%' }}
 				/>
 			)}
 

@@ -11,6 +11,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import BusinessIcon from '@mui/icons-material/Business';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import {AUTH_TOKEN, TENANT_ID, USER_EMAIL} from "../../../constants.js";
 
 const UserRegistration = () => {
 	const { t, i18n } = useTranslation();
@@ -73,7 +74,10 @@ const UserRegistration = () => {
 			);
 
 			if (response.status === 200) {
-				navigate('/success');
+				localStorage.clear();
+				localStorage.setItem(TENANT_ID, response.data?.data?.tenantId);
+				localStorage.setItem(USER_EMAIL, response.data?.data?.email);
+				navigate('/subscription');
 			} else {
 				navigate('/error', {
 					state: {

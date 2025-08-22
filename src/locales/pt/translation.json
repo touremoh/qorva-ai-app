@@ -187,7 +187,11 @@
     "submit": "Enviar",
     "reportSaveSuccessTitle": "Relatório salvo com sucesso",
     "reportSaveSuccessMessage": "Seu relatório foi salvo e agora está disponível em seus registros.",
-    "close": "Fechar"
+    "close": "Fechar",
+    "candidateProfile": "Perfil do candidato",
+    "skills": "Competências",
+    "degreeOfMatch": "Grau de correspondência",
+    "job": "Cargo"
   },
   "appReportContent": {
     "reportListTitle": "Lista de Relatórios",
@@ -199,7 +203,11 @@
     "save": "Salvar",
     "deleteConfirm": "Confirmar exclusão",
     "delete": "Excluir",
-    "deleteReport": "Excluir relatório"
+    "deleteReport": "Excluir relatório",
+    "score": "Pontuação",
+    "allJobs": "Todas as ofertas de emprego",
+    "filterByJob": "Filtrar por oferta de emprego",
+    "filterByTags": "Filtrar por tags"
   },
   "errors": {
     "404": {
@@ -215,6 +223,55 @@
       "message": "Algo deu errado. Por favor, tente novamente mais tarde."
     },
     "contactSupport": "Se o problema persistir, entre em contato com o suporte."
+  },
+  "accountSettings": {
+    "title": "Configurações da conta",
+    "subtitle": "Gerir a sua subscrição e o seu perfil.",
+    "manageBilling": "Gerir faturação",
+    "viewProfile": "Ver perfil",
+    "manageBillingLink": "Abrir portal de faturação",
+    "manageBillingHint": "Ver faturas, alterar plano, atualizar método de pagamento",
+    "hideProfileHint": "Ocultar as suas informações de perfil",
+    "viewProfileHint": "Mostrar as suas informações de perfil",
+    "profileInformation": "Informações do perfil",
+    "firstName": "Nome",
+    "lastName": "Apelido",
+    "email": "Email",
+    "tenantId": "ID do tenant",
+    "subscriptionStatus": "Estado da subscrição",
+    "footerHint": "Sugestão: pode atualizar os métodos de pagamento e as faturas no portal de faturação."
+  },
+  "dashboard": {
+    "errors": {
+      "loadFailed": "Não foi possível carregar os dados do painel."
+    },
+    "skillsReport": {
+      "label": "Correspondências totais",
+      "title": "Relatório de competências"
+    },
+    "subscription": {
+      "active": "Subscrição: ATIVA",
+      "inactive": "Subscrição: INATIVA"
+    },
+    "loading": "A carregar o painel…",
+    "kpi": {
+      "totalCVs": "CV",
+      "totalJobsPosted": "Ofertas de emprego",
+      "totalUsers": "Utilizadores",
+      "totalResumeAnalysis": "CV analisados no total",
+      "totalResumesProcessedCurrentMonth": "CV analisados este mês"
+    },
+    "sections": {
+      "skillsReport": "Relatório de competências",
+      "jobPostsReport": "Candidaturas por oferta"
+    },
+    "empty": {
+      "skills": "Sem dados de competências para apresentar.",
+      "jobPosts": "Sem dados de ofertas para apresentar."
+    },
+    "table": {
+      "jobPostTitle": "Título da oferta",
+      "totalMatch": "Número de candidaturas"
+    }
   }
-
 }

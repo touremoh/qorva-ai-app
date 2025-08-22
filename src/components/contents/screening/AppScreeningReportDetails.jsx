@@ -1,34 +1,30 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
-import { Box, Typography, Divider, List, ListItem, ListItemText, Chip, Button, Dialog } from '@mui/material';
+import { Box, Typography, Divider, List, ListItem, ListItemText, Chip, Button, Dialog, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import {Gauge, gaugeClasses} from '@mui/x-charts/Gauge';
+import { Gauge, gaugeClasses } from '@mui/x-charts/Gauge';
+import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
 
 const AppScreeningReportDetails = ({ reportData }) => {
 	const { t } = useTranslation();
-	const [selectedResult, setSelectedResult] = useState(null);
 	const [cvData, setCvData] = useState(null);
 	const [openCvDialog, setOpenCvDialog] = useState(false);
 
-	const handleListItemClick = (result) => {
-		setSelectedResult(result);
-	};
+	const candidate = reportData?.candidateInfo;
+	const details = reportData?.aiAnalysisReportDetails;
 
-	// Sorting the analysis results in descending order based on the score
-	const sortedResults = reportData?.reportDetails
-		? [...reportData.reportDetails].sort((a, b) => parseFloat(b.overallSummary.score) - parseFloat(a.overallSummary.score))
-		: [];
+	const getColor = (value) => (value >= 70 ? 'green' : value >= 40 ? 'orange' : 'red');
 
 	const handleOpenCv = async () => {
-		if (selectedResult?.candidateCVID) {
+		if (reportData?.candidateCVID) {
 			try {
-				const response = await axios.get(`/api/cv/${selectedResult.candidateCVID}`);
+				const response = await axios.get(`/api/cv/${reportData.candidateCVID}`);
 				setCvData(response.data);
 				setOpenCvDialog(true);
 			} catch (error) {
-				console.error("Error fetching CV data", error);
+				console.error('Error fetching CV data', error);
 			}
 		}
 	};
@@ -38,228 +34,206 @@ const AppScreeningReportDetails = ({ reportData }) => {
 		setCvData(null);
 	};
 
-	const getColor = (value) => {
-		return value >= 70 ? 'green' : value >= 40 ? 'orange' : 'red';
-	};
+	if (!reportData || !candidate || !details) {
+		return (
+			<Box sx={{ flex: 1, padding: 3, height: '85vh', overflow: 'hidden', backgroundColor: 'white', boxShadow: 1, marginLeft: 2, color: '#232F3E' }}>
+				<Typography variant="body1">{t('appCVScreening.noAnalysisResult')}</Typography>
+			</Box>
+		);
+	}
 
+	const overallScore = Number(details?.overallSummary?.score ?? 0);
+	const skillsMatchDegree = Number(details?.skillsMatch?.degreeOfMatch ?? 0);
+	const experienceDegree = Number(details?.experienceAlignment?.degreeOfMatch ?? 0);
+
+	// NEW: read job title from payload (e.g., "Senior Java Architect")
+	const jobTitle = reportData?.jobPostTitle || t('appCVScreening.unknownJob') || 'Unknown job';
 
 	return (
-		<Box sx={{ display: 'flex', width: '76%', height: '75vh', overflow: 'hidden', padding: 2, boxShadow: 1, backgroundColor: 'white', marginLeft: 2, color: '#232F3E' }}>
-			{/* Part 1: List of Analyzed Results (Tabs) */}
-			<Box sx={{ width: '30%', borderRight: '1px solid lightgray' }}>
-				<Typography variant="h6" sx={{ padding: 2, fontWeight: 'bold' }}>
-					{t('appCVScreening.analyzedResults')}
+		<Box sx={{ flex: 1, padding: 2, height: '85vh', overflowY: 'auto', backgroundColor: 'white', boxShadow: 1, marginLeft: 2, color: '#232F3E' }}>
+			{/* Header: Candidate + Job */}
+			<Box sx={{ mb: 2 }}>
+				<Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+					{candidate.candidateName} {candidate.nbYearsExperience != null ? `• ${candidate.nbYearsExperience} ${t('years') || 'years'} ${t('experience') || 'experience'}` : ''}
 				</Typography>
-				<Divider />
 
-				<List sx={{ overflowY: 'auto', height: 'calc(100% - 80px)' }}>
-					{sortedResults.map((result, index) => (
-						<ListItem
-							key={index}
-							button="true"
-							onClick={() => handleListItemClick(result)}
-							divider
-							selected={selectedResult?.id === result.id}
-							sx={{
-								cursor: 'pointer',
-								position: 'relative',
-								'&:hover': { backgroundColor: '#f5f5f5' },
-							}}
-						>
-							{/* Green Badge */}
-							{selectedResult?.detailsID === result.detailsID && (
-								<Chip
-									sx={{
-										position: 'absolute',
-										left: 0,
-										top: '50%',
-										transform: 'translateY(-50%)',
-										backgroundColor: 'green',
-										width: '5px',
-										height: '100%',
-									}}
-								/>
-							)}
-							<ListItemText
-								primary={
-									<Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-										<span>{result.candidateName}</span>
-										<span
-											style={{
-												color: parseFloat(result.overallSummary.score) >= 70
-													? 'green'
-													: parseFloat(result.overallSummary.score) >= 40
-														? 'orange'
-														: 'red',
-											}}
-										>
-                                            {result.overallSummary.score}%
-                                        </span>
-									</Box>
-								}
-								secondary={`${result.jobTitle}`}
-							/>
-						</ListItem>
-					))}
-				</List>
+				{/* NEW: Job title line */}
+				<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, mt: 0.5 }}>
+					<WorkOutlineIcon fontSize="small" />
+					<Typography variant="subtitle2" color="text.primary" sx={{ fontWeight: 600 }}>
+						{t('appCVScreening.job') || 'Job'}: {jobTitle}
+					</Typography>
+				</Box>
+
+				<Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
+					{t('appCVScreening.analysisDetails')}
+				</Typography>
 			</Box>
 
-			{/* Part 2: Detailed Analysis Results */}
-			<Box sx={{ flex: 1, padding: 3, overflowY: 'scroll', height: '100%', textAlign: 'justify' }}>
-				{selectedResult ? (
-					<>
-						<Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
-							{t('appCVScreening.analysisDetails')}
+			<Divider sx={{ mb: 2 }} />
+
+			{/* Top summary cards: Gauges */}
+			<Box sx={{ display: 'flex', gap: 3, alignItems: 'center', justifyContent: "center", flexWrap: 'wrap', mb: 2 }}>
+				<Box>
+					<Gauge
+						width={200}
+						height={100}
+						value={overallScore}
+						sx={(theme) => ({
+							[`& .${gaugeClasses.valueText}`]: { fontSize: 40 },
+							[`& .${gaugeClasses.valueArc}`]: { fill: getColor(overallScore) },
+							[`& .${gaugeClasses.referenceArc}`]: { fill: theme.palette.text.disabled },
+						})}
+					/>
+					<Typography variant="body2" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+						{t('appCVScreening.overallSummary') || 'Overall Summary'}
+					</Typography>
+				</Box>
+
+				<Box>
+					<Gauge
+						width={200}
+						height={100}
+						value={skillsMatchDegree}
+						sx={(theme) => ({
+							[`& .${gaugeClasses.valueText}`]: { fontSize: 40 },
+							[`& .${gaugeClasses.valueArc}`]: { fill: getColor(skillsMatchDegree) },
+							[`& .${gaugeClasses.referenceArc}`]: { fill: theme.palette.text.disabled },
+						})}
+					/>
+					<Typography variant="body2" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+						{t('appCVScreening.skillsMatch') || 'Skills Match'}
+					</Typography>
+				</Box>
+
+				{Number.isFinite(experienceDegree) && experienceDegree > 0 && (
+					<Box>
+						<Gauge
+							width={200}
+							height={100}
+							value={experienceDegree}
+							sx={(theme) => ({
+								[`& .${gaugeClasses.valueText}`]: { fontSize: 40 },
+								[`& .${gaugeClasses.valueArc}`]: { fill: getColor(experienceDegree) },
+								[`& .${gaugeClasses.referenceArc}`]: { fill: theme.palette.text.disabled },
+							})}
+						/>
+						<Typography variant="body2" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+							{t('appCVScreening.experienceAlignment') || 'Experience Alignment'}
 						</Typography>
-						<Divider sx={{ marginBottom: 2 }} />
+					</Box>
+				)}
 
-						<Box sx={{ border: '1px solid lightgray', borderRadius: '8px', padding: 2, marginBottom: 2 }}>
-							<Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Candidate Information</Typography>
-							<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-								<Typography variant="body2">Name: {selectedResult.candidateName}</Typography>
-								<Typography variant="body2">Role: {selectedResult?.candidateRole || 'N/A'}</Typography>
-								<Typography variant="body2">Email: {selectedResult?.candidateEmail || 'N/A'}</Typography>
-								<Typography variant="body2">Phone: {selectedResult?.candidatePhone || 'N/A'}</Typography>
-							</Box>
-							<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 2 }}>
-								<Box>
-									<Gauge width={200}
-									       height={100}
-									       value={selectedResult.overallSummary.score}
-									       sx={(theme) => ({
-										       [`& .${gaugeClasses.valueText}`]: {
-											       fontSize: 40,
-										       },
-										       [`& .${gaugeClasses.valueArc}`]: {
-											       fill: getColor(selectedResult.skillsMatch.degreeOfMatch),
-										       },
-										       [`& .${gaugeClasses.referenceArc}`]: {
-											       fill: theme.palette.text.disabled,
-										       },
-									       })}
-									/>
-									<Typography variant="body2" sx={{ fontWeight: 'bold', textAlign: 'center' }}>Overall Score</Typography>
-								</Box>
-								<Button variant="contained" sx={{ marginTop: 2 }} onClick={handleOpenCv}>See CV Details</Button>
-								<Box>
-									<Gauge width={200}
-									       height={100}
-									       value={selectedResult.skillsMatch.degreeOfMatch}
-									       sx={(theme) => ({
-										       [`& .${gaugeClasses.valueText}`]: {
-											       fontSize: 40,
-										       },
-										       [`& .${gaugeClasses.valueArc}`]: {
-											       fill: getColor(selectedResult.skillsMatch.degreeOfMatch),
-										       },
-										       [`& .${gaugeClasses.referenceArc}`]: {
-											       fill: theme.palette.text.disabled,
-										       },
-									       })}
-									/>
-									<Typography variant="body2" sx={{ fontWeight: 'bold', textAlign: 'center' }}>Skills Match</Typography>
-								</Box>
-							</Box>
-						</Box>
+				{reportData?.candidateCVID && (
+					<Button variant="contained" onClick={handleOpenCv} sx={{ ml: 'auto' }}>
+						{t('appCVScreening.seeCvDetails') || 'See CV Details'}
+					</Button>
+				)}
+			</Box>
 
-						{/* Overall Summary */}
-						<Box sx={{ border: '1px solid lightgray', borderRadius: '8px', padding: 2, marginBottom: 2 }}>
-							<Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-								{t('appCVScreening.overallSummary')}
-							</Typography>
-							<Typography variant="body2">{selectedResult.overallSummary.summary}</Typography>
-							<Typography variant="body2">{`${t('appCVScreening.score')}: ${selectedResult.overallSummary.score}`}</Typography>
-							<Typography variant="body2">
-								{t('appCVScreening.pointsForImprovement')}: {selectedResult.overallSummary.pointsForImprovement.join(', ')}
-							</Typography>
-						</Box>
+			{/* Candidate Profile Summary */}
+			<Box sx={{ border: '1px solid lightgray', borderRadius: 2, p: 2, mb: 2 }}>
+				<Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+					{t('appCVScreening.candidateProfile') || 'Candidate Profile'}
+				</Typography>
+				{candidate.candidateProfileSummary && (
+					<Typography variant="body2" sx={{ mt: 1, textAlign: 'justify' }}>
+						{candidate.candidateProfileSummary}
+					</Typography>
+				)}
 
-						{/* Experience Alignment */}
-						<Box sx={{ border: '1px solid lightgray', borderRadius: '8px', padding: 2, marginBottom: 2 }}>
-							<Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-								{t('appCVScreening.experienceAlignment')}
-							</Typography>
-							<Typography variant="body2">{selectedResult.experienceAlignment.summary}</Typography>
-						</Box>
-
-						{/* Skills Match */}
-						<Box sx={{ border: '1px solid lightgray', borderRadius: '8px', padding: 2, marginBottom: 2 }}>
-							<Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-								{t('appCVScreening.skillsMatch')}
-							</Typography>
-							<Typography variant="body2">{selectedResult.skillsMatch.summary}</Typography>
-						</Box>
-
-						{/* Lacking Skills */}
-						<Box sx={{ border: '1px solid lightgray', borderRadius: '8px', padding: 2, marginBottom: 2 }}>
-							<Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-								{t('appCVScreening.lackingSkills')}
-							</Typography>
-							<Typography variant="body2">{selectedResult.lackingSkills.summary}</Typography>
-						</Box>
-
-						{/* Exceeds Requirements */}
-						<Box sx={{ border: '1px solid lightgray', borderRadius: '8px', padding: 2, marginBottom: 2 }}>
-							<Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-								{t('appCVScreening.exceedsRequirements')}
-							</Typography>
-							<Typography variant="body2">{selectedResult.exceedsRequirements.summary}</Typography>
-						</Box>
-
-						{/* Interview Questions */}
-						<Box sx={{ border: '1px solid lightgray', borderRadius: '8px', padding: 2, marginBottom: 2 }}>
-							<Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-								{t('appCVScreening.interviewQuestions')}
-							</Typography>
-
-							<Typography variant="subtitle2" sx={{ fontWeight: 'bold', marginTop: 1 }}>
-								{t('appCVScreening.skillsBasedQuestions')}
-							</Typography>
-							<ol>
-								{selectedResult.interviewQuestions.skillsBasedQuestions.map((question, index) => (
-									<li key={index}>
-										<Typography variant="body2">{question}</Typography>
-									</li>
-								))}
-							</ol>
-
-							<Typography variant="subtitle2" sx={{ fontWeight: 'bold', marginTop: 1 }}>
-								{t('appCVScreening.strengthBasedQuestions')}
-							</Typography>
-							<ol>
-								{selectedResult.interviewQuestions.strengthBasedQuestions.map((question, index) => (
-									<li key={index}>
-										<Typography variant="body2">{question}</Typography>
-									</li>
-								))}
-							</ol>
-
-							<Typography variant="subtitle2" sx={{ fontWeight: 'bold', marginTop: 1 }}>
-								{t('appCVScreening.gapExplorationQuestions')}
-							</Typography>
-							<ol>
-								{selectedResult.interviewQuestions.gapExplorationQuestions.map((question, index) => (
-									<li key={index}>
-										<Typography variant="body2">{question}</Typography>
-									</li>
-								))}
-							</ol>
-						</Box>
+				{Array.isArray(candidate.skills) && candidate.skills.length > 0 && (
+					<>
+						<Divider sx={{ my: 1.5 }} />
+						<Typography variant="subtitle2" sx={{ fontWeight: 'bold', mb: 1 }}>
+							{t('appCVScreening.skills') || 'Skills'}
+						</Typography>
+						<Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+							{candidate.skills.map((sk, idx) => (
+								<Chip key={`${sk}-${idx}`} label={sk} size="small" />
+							))}
+						</Stack>
 					</>
-				) : (
-					<Typography variant="body1">
-						{t('appCVScreening.noAnalysisResult')}
+				)}
+			</Box>
+
+			{/* Overall Summary */}
+			<Box sx={{ border: '1px solid lightgray', borderRadius: 2, p: 2, mb: 2 }}>
+				<Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+					{t('appCVScreening.overallSummary') || 'Overall Summary'}
+				</Typography>
+				<Typography variant="body2" sx={{ mt: 1 }}>{details?.overallSummary?.summary}</Typography>
+				<Typography variant="body2" sx={{ mt: 1 }}>
+					{(t('appCVScreening.score') || 'Score')}: {overallScore}
+				</Typography>
+				{Array.isArray(details?.overallSummary?.pointsForImprovement) && details.overallSummary.pointsForImprovement.length > 0 && (
+					<>
+						<Typography variant="body2" sx={{ mt: 1, fontWeight: 'bold' }}>
+							{t('appCVScreening.pointsForImprovement') || 'Points for Improvement'}:
+						</Typography>
+						<List dense sx={{ pt: 0 }}>
+							{details.overallSummary.pointsForImprovement.map((p, i) => (
+								<ListItem key={i} sx={{ py: 0 }}>
+									<ListItemText primaryTypographyProps={{ variant: 'body2' }} primary={`• ${p}`} />
+								</ListItem>
+							))}
+						</List>
+					</>
+				)}
+			</Box>
+
+			{/* Experience Alignment */}
+			<Box sx={{ border: '1px solid lightgray', borderRadius: 2, p: 2, mb: 2 }}>
+				<Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+					{t('appCVScreening.experienceAlignment') || 'Experience Alignment'}
+				</Typography>
+				<Typography variant="body2" sx={{ mt: 1 }}>{details?.experienceAlignment?.summary}</Typography>
+				{Number.isFinite(experienceDegree) && (
+					<Typography variant="body2" sx={{ mt: 1 }}>
+						{(t('appCVScreening.degreeOfMatch') || 'Degree of Match')}: {experienceDegree}%
 					</Typography>
 				)}
 			</Box>
 
+			{/* Skills Match */}
+			<Box sx={{ border: '1px solid lightgray', borderRadius: 2, p: 2, mb: 2 }}>
+				<Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+					{t('appCVScreening.skillsMatch') || 'Skills Match'}
+				</Typography>
+				<Typography variant="body2" sx={{ mt: 1 }}>{details?.skillsMatch?.summary}</Typography>
+				{Number.isFinite(skillsMatchDegree) && (
+					<Typography variant="body2" sx={{ mt: 1 }}>
+						{(t('appCVScreening.degreeOfMatch') || 'Degree of Match')}: {skillsMatchDegree}%
+					</Typography>
+				)}
+			</Box>
+
+			{/* Lacking Skills */}
+			<Box sx={{ border: '1px solid lightgray', borderRadius: 2, p: 2, mb: 2 }}>
+				<Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+					{t('appCVScreening.lackingSkills') || 'Lacking Skills'}
+				</Typography>
+				<Typography variant="body2" sx={{ mt: 1 }}>{details?.lackingSkills?.summary}</Typography>
+			</Box>
+
+			{/* Exceeds Requirements */}
+			<Box sx={{ border: '1px solid lightgray', borderRadius: 2, p: 2, mb: 2 }}>
+				<Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+					{t('appCVScreening.exceedsRequirements') || 'Exceeds Requirements'}
+				</Typography>
+				<Typography variant="body2" sx={{ mt: 1 }}>{details?.exceedsRequirements?.summary}</Typography>
+			</Box>
+
+			{/* CV Dialog (optional) */}
 			<Dialog open={openCvDialog} onClose={handleCloseCv} fullWidth maxWidth="md">
 				<Box sx={{ padding: 3 }}>
-					<Typography variant="h6">Candidate CV Information</Typography>
+					<Typography variant="h6">{t('appCVScreening.cvInformation') || 'Candidate CV Information'}</Typography>
 					{cvData ? (
-						<Typography variant="body2" sx={{ whiteSpace: 'pre-wrap' }}>{JSON.stringify(cvData, null, 2)}</Typography>
+						<Typography variant="body2" sx={{ whiteSpace: 'pre-wrap' }}>
+							{JSON.stringify(cvData, null, 2)}
+						</Typography>
 					) : (
-						<Typography variant="body2">Loading...</Typography>
+						<Typography variant="body2">{t('loading') || 'Loading...'}</Typography>
 					)}
 				</Box>
 			</Dialog>
@@ -268,47 +242,41 @@ const AppScreeningReportDetails = ({ reportData }) => {
 };
 
 AppScreeningReportDetails.propTypes = {
-	reportData:	PropTypes.shape({
+	reportData: PropTypes.shape({
 		id: PropTypes.string.isRequired,
-		reportName: PropTypes.string.isRequired,
-		companyId: PropTypes.string.isRequired,
-		reportDetails: PropTypes.arrayOf(
-			PropTypes.shape({
-				detailsID: PropTypes.string.isRequired,
-				jobTitle: PropTypes.string.isRequired,
-				candidateName: PropTypes.string.isRequired,
-				candidateEmail: PropTypes.string,
-				candidatePhone: PropTypes.string,
-				candidateRole: PropTypes.string,
-				candidateCVID: PropTypes.string,
-				skillsMatch: PropTypes.shape({
-					summary: PropTypes.string.isRequired,
-					degreeOfMatch: PropTypes.number.isRequired,
-				}).isRequired,
-				exceedsRequirements: PropTypes.shape({
-					summary: PropTypes.string.isRequired,
-				}).isRequired,
-				lackingSkills: PropTypes.shape({
-					summary: PropTypes.string.isRequired,
-				}).isRequired,
-				experienceAlignment: PropTypes.shape({
-					summary: PropTypes.string.isRequired,
-				}).isRequired,
-				overallSummary: PropTypes.shape({
-					summary: PropTypes.string.isRequired,
-					score: PropTypes.number.isRequired,
-					pointsForImprovement: PropTypes.arrayOf(PropTypes.string).isRequired,
-				}).isRequired,
-				interviewQuestions: PropTypes.shape({
-					skillsBasedQuestions: PropTypes.arrayOf(PropTypes.string).isRequired,
-					strengthBasedQuestions: PropTypes.arrayOf(PropTypes.string).isRequired,
-					gapExplorationQuestions: PropTypes.arrayOf(PropTypes.string).isRequired,
-				}),
-			})
-		),
+		jobPostId: PropTypes.string.isRequired,
+		jobPostTitle: PropTypes.string, // <-- NEW
+		candidateInfo: PropTypes.shape({
+			candidateId: PropTypes.string.isRequired,
+			candidateName: PropTypes.string.isRequired,
+			nbYearsExperience: PropTypes.number,
+			candidateProfileSummary: PropTypes.string,
+			skills: PropTypes.arrayOf(PropTypes.string),
+		}).isRequired,
+		aiAnalysisReportDetails: PropTypes.shape({
+			detailsID: PropTypes.string.isRequired,
+			skillsMatch: PropTypes.shape({
+				summary: PropTypes.string.isRequired,
+				degreeOfMatch: PropTypes.number.isRequired,
+			}).isRequired,
+			exceedsRequirements: PropTypes.shape({
+				summary: PropTypes.string.isRequired,
+			}).isRequired,
+			lackingSkills: PropTypes.shape({
+				summary: PropTypes.string.isRequired,
+			}).isRequired,
+			experienceAlignment: PropTypes.shape({
+				summary: PropTypes.string.isRequired,
+				degreeOfMatch: PropTypes.number,
+			}).isRequired,
+			overallSummary: PropTypes.shape({
+				summary: PropTypes.string.isRequired,
+				score: PropTypes.number.isRequired,
+				pointsForImprovement: PropTypes.arrayOf(PropTypes.string).isRequired,
+			}).isRequired,
+		}).isRequired,
+		candidateCVID: PropTypes.string,
 	}),
 };
-
-
 
 export default AppScreeningReportDetails;

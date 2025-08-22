@@ -23,9 +23,11 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useTranslation } from 'react-i18next';
-import apiClient from "../../../axiosConfig.js";
+import apiClient from "../../../../axiosConfig.js";
 import { default as ReactQuill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import {TENANT_ID} from "../../../constants.js";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const JobContent = () => {
 	const { t } = useTranslation();
@@ -37,10 +39,12 @@ const JobContent = () => {
 	const [jobTitle, setJobTitle] = useState('');
 	const [jobDescription, setJobDescription] = useState('');
 	const editorRef = useRef(null);
+	const [loading, setLoading] = useState(false);
 
 	const fetchJobs = async () => {
 		try {
-			const response = await apiClient.get(import.meta.env.VITE_APP_API_JOB_POSTS_URL);
+			const tenantId = localStorage.getItem(TENANT_ID);
+			const response = await apiClient.get(`${import.meta.env.VITE_APP_API_JOB_POSTS_URL}/${tenantId}`);
 			setJobs(response.data.data.content);
 		} catch (error) {
 			console.error('Error fetching job posts:', error.toJSON());
@@ -48,7 +52,7 @@ const JobContent = () => {
 	};
 
 	useEffect(() => {
-		fetchJobs();
+		fetchJobs().then(r => console.log('All jobs fetched', r));
 	}, []);
 
 	const handleOpenModal = () => setOpenModal(true);
@@ -59,6 +63,7 @@ const JobContent = () => {
 
 	const handleCreateJob = async () => {
 		if (jobTitle && jobDescription) {
+			setLoading(true);
 			const newJob = { title: jobTitle, description: jobDescription, status: 'open' };
 			try {
 				const response = await apiClient.post(import.meta.env.VITE_APP_API_JOB_POSTS_URL, newJob);
@@ -71,6 +76,8 @@ const JobContent = () => {
 				}
 			} catch (error) {
 				console.error('Error creating job post:', error);
+			} finally {
+				setLoading(false);
 			}
 		}
 	};
@@ -78,6 +85,7 @@ const JobContent = () => {
 
 	const handleEditJob = async () => {
 		if (selectedJob && jobTitle && jobDescription) {
+			setLoading(true);
 			const updatedJob = {
 				...selectedJob, // Keep existing job details
 				title: jobTitle, // Updated title
@@ -85,7 +93,6 @@ const JobContent = () => {
 			};
 
 			try {
-				console.log('Updated job:', updatedJob);
 				await apiClient.put(`${import.meta.env.VITE_APP_API_JOB_POSTS_URL}/${selectedJob.id}`, updatedJob);
 
 				// Update the job in the state
@@ -100,6 +107,8 @@ const JobContent = () => {
 				handleCloseEditModal();
 			} catch (error) {
 				console.error('Error updating job post:', error);
+			} finally {
+				setLoading(false);
 			}
 		} else {
 			console.error('Job title or description is missing.');
@@ -147,17 +156,16 @@ const JobContent = () => {
 	return (
 		<Box
 			sx={{
-				width: '70vw',
+				width: '95%',
 				height: '100vh',
-				marginLeft: { xs: '5%', md: '15%' },
-				marginRight: { xs: '5%', md: '15%' },
-				marginTop: 5,
 				display: 'flex',
 				flexDirection: 'column',
 				alignItems: 'center',
 				justifyContent: 'flex-start',
+				backgroundColor: 'transparent',
 				color: '#232F3E',
 				padding: 2,
+				overflowX: 'none'
 			}}
 		>
 			<Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-start', mb: 2 }}>
@@ -165,6 +173,7 @@ const JobContent = () => {
 					startIcon={<AddCircleIcon />}
 					variant="contained"
 					color="success"
+					sx={{ borderRadius: '50px', mr: 2 }}
 					onClick={handleOpenModal}
 				>
 					{t('jobContent.createJobPost')}
@@ -209,8 +218,9 @@ const JobContent = () => {
 						fullWidth
 						sx={{ mt: 2 }}
 						onClick={handleCreateJob}
+						disabled={loading}
 					>
-						{t('jobContent.postJob')}
+						{loading ? <CircularProgress size={24} color="inherit" /> : t('jobContent.postJob')}
 					</Button>
 				</Box>
 			</Modal>
@@ -253,15 +263,16 @@ const JobContent = () => {
 						fullWidth
 						sx={{ mt: 2 }}
 						onClick={handleEditJob}
+						disabled={loading}
 					>
-						{t('jobContent.updateJobPost')}
+						{loading ? <CircularProgress size={24} color="inherit" /> : t('jobContent.updateJobPost')}
 					</Button>
 				</Box>
 			</Modal>
 
-			<Box sx={{ display: 'flex', width: '100%', mt: 4 }}>
+			<Box sx={{ display: 'flex', width: '100%', mt: 4, paddingBottom: '10%' }}>
 				{/* Job List */}
-				<Box sx={{ width: '40%', height: '75vh', backgroundColor: 'white', padding: 2, boxShadow: 1, overflowY: 'scroll' }}>
+				<Box sx={{ width: '40%', height: '90vh', backgroundColor: 'white', padding: 2, boxShadow: 1, overflowY: 'scroll'}}>
 					<Typography variant="h5" gutterBottom>
 						{t('jobContent.jobListTitle')}
 					</Typography>
@@ -286,7 +297,7 @@ const JobContent = () => {
 				</Box>
 
 				{/* Job Details */}
-				<Paper sx={{ width: '55%', height: '75vh', padding: 2, boxShadow: 1, overflowY: 'scroll', marginLeft: 5 }}>
+				<Paper sx={{ width: '55%', height: '90vh', padding: 2, boxShadow: 1, overflowY: 'scroll', marginLeft: 5 }}>
 					{selectedJob ? (
 						<>
 							<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

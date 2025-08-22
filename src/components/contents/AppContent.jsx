@@ -1,32 +1,39 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
-import { Box, Typography } from '@mui/material';
-import JobContent from "./JobsContent.jsx";
+import { Box } from '@mui/material';
+import JobContent from "./jobs/JobsContent.jsx";
 import AppCVContent from "./cv/AppCVContent.jsx";
-import {COMP_ID_SCREENING, COMP_ID_CVLIB, COMP_ID_REPORTS, COMP_ID_SETTINGS, COMP_ID_JOBS} from "../../constants.js";
-import AppCVScreening from "./screening/AppCVScreening.jsx";
+import {
+	COMP_ID_CVLIB,
+	COMP_ID_REPORTS,
+	COMP_ID_SETTINGS,
+	COMP_ID_JOBS,
+	COMP_ID_DASHBOARD
+} from "../../constants.js";
 import AppScreeningReports from "./reports/AppScreeningReports.jsx";
+import QorvaDashboard from "./dashboard/QorvaDashboard.jsx";
+import AccountSettings from "./account-settings/AccountSettings.jsx";
 
 const AppContent = ({ content }) => {
 	const renderContent = () => {
 		switch (content) {
-			case COMP_ID_SCREENING:
-				return <AppCVScreening />;
-			case COMP_ID_JOBS:
-				return <JobContent />;
+			case COMP_ID_DASHBOARD:
+				return <QorvaDashboard />;
 			case COMP_ID_CVLIB:
 				return <AppCVContent />;
+			case COMP_ID_JOBS:
+				return <JobContent />;
 			case COMP_ID_REPORTS:
 				return <AppScreeningReports />;
 			case COMP_ID_SETTINGS:
-				return <Typography variant="h4">Account Settings Content</Typography>;
+				return <AccountSettings />
 			default:
-				return <AppCVScreening />;
+				return <QorvaDashboard />;
 		}
 	};
 
 	return (
-		<Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+		<Box component="main" sx={{ position: 'absolute', left: '15%', right: 0, flexGrow: 1, margin: '0', backgroundColor: 'lightgrey', padding: '2rem', overflowY: 'scroll' }}>
 			{renderContent()}
 		</Box>
 	);

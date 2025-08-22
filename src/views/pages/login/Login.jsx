@@ -8,7 +8,7 @@ import apiClient from "../../../../axiosConfig.js";
 
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../../../components/languages/LanguageSwitcher.jsx';
-import {AUTH_TOKEN, USER_EMAIL, USER_FIRST_NAME, USER_LAST_NAME} from "../../../constants.js";
+import {setAuthResults} from "../../../../localStorageManager.js";
 
 const Login = () => {
 	const { t } = useTranslation();
@@ -31,23 +31,11 @@ const Login = () => {
 				rawPassword: password,
 			});
 
-			if (response.status === 200 && response.data?.data?.jwt.access_token) {
-				const { jwt, user } = response.data.data;
-				const {access_token, expires_in } = jwt;
-				const {email, firstName, lastName } = user;
-
-				localStorage.setItem(AUTH_TOKEN, access_token);
-				localStorage.setItem('tokenExpiry', expires_in);
-				localStorage.setItem(USER_EMAIL, email);
-				localStorage.setItem(USER_FIRST_NAME, firstName);
-				localStorage.setItem(USER_LAST_NAME, lastName);
-
-				console.log('Login successful. Access token saved.');
-
+			if (response.status === 200) {
+				setAuthResults(response.data.data);
 				// Redirect to the home page
 				navigate('/');
 			} else {
-				console.error('Unexpected response format', response);
 				// Redirect to the error page
 				navigate('/error', {
 					state: {

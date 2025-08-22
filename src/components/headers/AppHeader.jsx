@@ -1,24 +1,20 @@
-import { AppBar, Avatar, Box, IconButton, Menu, MenuItem, Toolbar, Typography, Link, Drawer, List, ListItem, ListItemText } from "@mui/material";
+import { AppBar, Avatar, Box, IconButton, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 // eslint-disable-next-line no-unused-vars
 import React, {useEffect, useState} from "react";
-import LanguageSwitcher from '../../components/languages/LanguageSwitcher.jsx';
 import { useTranslation } from 'react-i18next';
 import {
-	COMP_ID_SCREENING,
 	COMP_ID_CVLIB,
 	COMP_ID_REPORTS,
 	COMP_ID_SETTINGS,
 	COMP_ID_JOBS,
-	COMP_ID_LOGOUT,
-	AUTH_TOKEN, USER_FIRST_NAME, USER_LAST_NAME
+	USER_FIRST_NAME, USER_LAST_NAME, COMP_ID_DASHBOARD
 } from "../../constants.js";
-import apiClient from "../../../axiosConfig.js";
 
-const AppHeader = ({ onMenuItemClick }) => {
+
+const AppHeader = ({ handleSidebarToggle, handleContentChange, contentTitle }) => {
 	const { t } = useTranslation();
 	const [anchorEl, setAnchorEl] = useState(null);
-	const [drawerOpen, setDrawerOpen] = useState(false);
 	const [fullName, setFullName] = useState('');
 
 	const handleMenuOpen = (event) => {
@@ -29,21 +25,36 @@ const AppHeader = ({ onMenuItemClick }) => {
 		setAnchorEl(null);
 	};
 
-	const toggleDrawer = (open) => (event) => {
-		if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-			return;
-		}
-		setDrawerOpen(open);
+	const handleLogoutClick = () => {
+		localStorage.clear();
+		location.reload();
 	};
 
-	const handleMenuItemClick = (menuItem) => {
-		onMenuItemClick(menuItem);
+	const handleNavigation = (newContent) => {
+		handleContentChange(newContent);
 		handleMenuClose();
 	};
 
-	const handleLogoutClick = () => {
-		localStorage.removeItem(AUTH_TOKEN);
-		location.reload();
+
+	const handleHamburgerToggle = () => {
+		handleSidebarToggle();
+	};
+
+	const renderContentTile = () => {
+		switch (contentTitle) {
+			case COMP_ID_DASHBOARD:
+				return<Typography variant="h5">Dashboard</Typography>;
+			case COMP_ID_CVLIB:
+				return <Typography variant="h5">{t('header.cvs')}</Typography>;
+			case COMP_ID_JOBS:
+				return <Typography variant="h5">{t('header.jobs')}</Typography>;
+			case COMP_ID_REPORTS:
+				return <Typography variant="h5">{t('header.reports')}</Typography>;
+			case COMP_ID_SETTINGS:
+				return <Typography variant="h5">{t('header.accountSettings')}</Typography>;
+			default:
+				return <Typography variant="h5">Dashboard</Typography>;
+		}
 	};
 
 	useEffect(() => {
@@ -53,57 +64,40 @@ const AppHeader = ({ onMenuItemClick }) => {
 	}, []);
 
 	return (
-		<AppBar position="fixed" sx={{ backgroundColor: '#232F3E' }}>
-			<Toolbar sx={{ width: { xs: 'calc(100% - 120px)', md: '70%' }, marginLeft: { md: '15%' }, marginRight: { md: '15%' }, justifyContent: 'space-between' }}>
-				<Typography variant="h4" component="div" sx={{fontFamily: 'Arial'}}>
-					Qorva
-				</Typography>
-				<Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 2, marginLeft: { xs: 1, md: 5 } }}>
-					<Link href="#" color="inherit" underline="none" variant="button" onClick={() => handleMenuItemClick(COMP_ID_SCREENING)}>{t('header.screening')}</Link>
-					<Link href="#" color="inherit" underline="none" variant="button" onClick={() => handleMenuItemClick(COMP_ID_JOBS)}>{t('header.jobs')}</Link>
-					<Link href="#" color="inherit" underline="none" variant="button" onClick={() => handleMenuItemClick(COMP_ID_CVLIB)}>{t('header.cvs')}</Link>
-					<Link href="#" color="inherit" underline="none" variant="button" onClick={() => handleMenuItemClick(COMP_ID_REPORTS)}>{t('header.reports')}</Link>
-				</Box>
-				<Box sx={{ display: { xs: 'flex', md: 'none' }, marginLeft: 0 }}>
-					<IconButton color="inherit" onClick={toggleDrawer(true)}>
-						<MenuIcon />
-					</IconButton>
-					<Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
-						<Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)}>
-							<List>
-								<ListItem button onClick={() => handleMenuItemClick(COMP_ID_SCREENING)}>
-									<ListItemText primary={t('header.screening')} />
-								</ListItem>
-								<ListItem button onClick={() => handleMenuItemClick(COMP_ID_JOBS)}>
-									<ListItemText primary={t('header.jobs')} />
-								</ListItem>
-								<ListItem button onClick={() => handleMenuItemClick(COMP_ID_CVLIB)}>
-									<ListItemText primary={t('header.cvs')} />
-								</ListItem>
-								<ListItem button onClick={() => handleMenuItemClick(COMP_ID_REPORTS)}>
-									<ListItemText primary={t('header.analytics')} />
-								</ListItem>
-							</List>
-						</Box>
-					</Drawer>
-				</Box>
-				<Box sx={{ display: 'flex', alignItems: 'center', marginLeft: 'auto', gap: 2 }}>
-					<LanguageSwitcher textColor={'white'} />
-					<IconButton onClick={handleMenuOpen} color="inherit">
-						<Avatar alt="User Icon" sx={{ color: 'white' }} />
-					</IconButton>
-					<Menu
-						anchorEl={anchorEl}
-						open={Boolean(anchorEl)}
-						onClose={handleMenuClose}
-						anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-						transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-					>
-						<MenuItem sx={{fontStyle: 'italic', fontWeight: '0.5rem', color: 'blue'}}>{fullName}</MenuItem>
-						<MenuItem onClick={() => handleMenuItemClick(COMP_ID_SETTINGS)}>{t('header.accountSettings')}</MenuItem>
-						<MenuItem onClick={handleLogoutClick}>{t('header.logout')}</MenuItem>
-					</Menu>
-				</Box>
+		<AppBar sx={{position: 'fixed', width: { xs: '100%', md: '85%', lg: '85%'  }, marginLeft: { md: 240 }, height: '5vh', justifyContent: 'center', backgroundColor: '#f8f8f8', color: 'black' }}>
+			<Toolbar>
+				{/* Hamburger Icon (Always Visible) */}
+				<IconButton
+					color="inherit"
+					edge="start"
+					sx={{ mr: 2 }}
+					onClick={handleHamburgerToggle}
+				>
+					<MenuIcon />
+				</IconButton>
+
+				{/* Content Title in the AppBar */}
+				{renderContentTile()}
+				<Box sx={{ flexGrow: 1 }} />
+
+				{/* Language switcher  */}
+				{/*<LanguageSwitcher textColor={'black'} />*/}
+
+				{/* User Account Icon */}
+				<IconButton color="inherit" onClick={handleMenuOpen}>
+					<Avatar />
+				</IconButton>
+				<Menu
+					anchorEl={anchorEl}
+					open={Boolean(anchorEl)}
+					onClose={handleMenuClose}
+					anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+					transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+				>
+					<MenuItem sx={{fontStyle: 'italic', fontWeight: '0.5rem', color: 'blue'}}>{fullName}</MenuItem>
+					<MenuItem onClick={() => handleNavigation(COMP_ID_SETTINGS)}>{t('header.accountSettings')}</MenuItem>
+					<MenuItem onClick={handleLogoutClick}>{t('header.logout')}</MenuItem>
+				</Menu>
 			</Toolbar>
 		</AppBar>
 	);

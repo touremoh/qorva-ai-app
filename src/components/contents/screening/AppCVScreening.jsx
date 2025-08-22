@@ -7,6 +7,7 @@ import AppScreeningJobPostDetails from "./AppScreeningJobPostDetails.jsx";
 import AppScreeningReportDetails from "./AppScreeningReportDetails.jsx";
 import apiClient from "../../../../axiosConfig.js";
 import i18n from "../../../i18n.js";
+import {TENANT_ID} from "../../../constants.js";
 
 const AppCVScreening = () => {
 	// const { t } = useTranslation();
@@ -23,22 +24,19 @@ const AppCVScreening = () => {
 	// Fetch job posts and CV entries from backend API
 	const fetchJobs = async () => {
 		try {
-			const response = await apiClient.get(import.meta.env.VITE_APP_API_JOB_POSTS_URL);
-			setJobPosts(response.data?.data.content);
+			const tenantId = localStorage.getItem(TENANT_ID);
+			const response = await apiClient.get(`${import.meta.env.VITE_APP_API_JOB_POSTS_URL}/${tenantId}`);
+			setJobPosts(response.data.data.content);
 		} catch (error) {
 			console.error('Error fetching job posts:', error.toJSON());
 		}
 	};
 
-	const fetchCVEntries = async (pageNumber = 0, pageSize = 500) => {
+	const fetchCVEntries = async () => {
 		try {
-			const response = await apiClient.get(import.meta.env.VITE_APP_API_CV_URL, {
-				params: {
-					pageNumber,
-					pageSize
-				}
-			});
-			setCvEntries(response.data?.data.content);
+			const tenantId = localStorage.getItem(TENANT_ID);
+			const response = await apiClient.get(`${import.meta.env.VITE_APP_API_CV_URL}/${tenantId}`);
+			setCvEntries(response.data.data.content);
 		} catch (error) {
 			console.error('Error fetching CV entries:', error);
 		}

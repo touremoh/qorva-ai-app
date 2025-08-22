@@ -29,11 +29,6 @@ const AppScreeningCommands = ({ jobPosts, cvEntries, selectedJobPost, handleJobP
 
 	const entriesPerPage = 50;
 
-	console.log("Selected CVs", selectedCVs);
-	console.log("Selected Job", selectedJobPost);
-
-
-
 	// Filter CV entries based on the search term or key skills
 	const handleSearchChange = async (event) => {
 		const searchValue = event.target.value;
@@ -70,7 +65,6 @@ const AppScreeningCommands = ({ jobPosts, cvEntries, selectedJobPost, handleJobP
 
 	const handleSaveReportClick = () => {
 		setSaveReportModalOpen(true);
-		//handleSaveReportSubmit().then(r => console.log(r));
 	};
 
 	const handleSaveReportSubmit = async () => {
@@ -94,7 +88,6 @@ const AppScreeningCommands = ({ jobPosts, cvEntries, selectedJobPost, handleJobP
 				);
 
 				if (response.status === 200) {
-					console.log('Report saved successfully!')
 					// Show a success popup
 					setSuccessModalOpen(true);
 					setSaveReportModalOpen(false);

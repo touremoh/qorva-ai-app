@@ -183,7 +183,11 @@
     "submit": "Save",
     "reportSaveSuccessTitle": "Report Saved Successfully",
     "reportSaveSuccessMessage": "Your report has been saved and is now available in your records.",
-    "close": "Close"
+    "close": "Close",
+    "candidateProfile": "Candidate Profile",
+    "skills": "Skills",
+    "degreeOfMatch": "Degree of Match",
+    "job": "Job"
   },
   "appReportContent": {
     "reportListTitle": "List of Reports",
@@ -195,8 +199,12 @@
     "save": "Save",
     "deleteConfirm": "Confirm Deletion",
     "delete": "Delete",
-    "deleteReport": "Delete report"
-},
+    "deleteReport": "Delete report",
+    "score": "Score",
+    "allJobs": "All Jobs",
+    "filterByJob": "Filter by Job",
+    "filterByTags": "Filter by Tags"
+  },
   "errors": {
     "404": {
       "title": "Page Not Found",
@@ -211,6 +219,56 @@
       "message": "Something went wrong. Please try again later."
     },
     "contactSupport": "If the issue persists, please contact support."
+  },
+  "accountSettings": {
+    "title": "Account Settings",
+    "subtitle": "Manage your subscription and profile.",
+    "manageBilling": "Manage Billing",
+    "viewProfile": "View Profile",
+    "manageBillingLink": "Open billing portal",
+    "manageBillingHint": "View invoices, change plan, update payment method",
+    "hideProfileHint": "Hide your profile information",
+    "viewProfileHint": "Show your profile information",
+    "profileInformation": "Profile Information",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "tenantId": "Tenant ID",
+    "subscriptionStatus": "Subscription status",
+    "footerHint": "Tip: You can update payment methods and invoices in the billing portal."
+  },
+  "dashboard": {
+    "errors": {
+      "loadFailed": "Failed to load dashboard data."
+    },
+    "skillsReport": {
+      "label": "Total matches",
+      "title": "Skills Report"
+    },
+    "subscription": {
+      "active": "Subscription: ACTIVE",
+      "inactive": "Subscription: INACTIVE"
+    },
+    "loading": "Loading dashboard…",
+    "kpi": {
+      "totalCVs": "CVs",
+      "totalJobsPosted": "Job Posts",
+      "totalUsers": "Users",
+      "totalResumeAnalysis": "Total resumes screened",
+      "totalResumesProcessedCurrentMonth": "Resumes screened this month"
+    },
+    "sections": {
+      "skillsReport": "Skills Report",
+      "jobPostsReport": "Applications per Job Post"
+    },
+    "empty": {
+      "skills": "No skills data to display.",
+      "jobPosts": "No job post data to display."
+    },
+    "table": {
+      "jobPostTitle": "Job Post Title",
+      "totalMatch": "Application Count"
+    }
   }
 }
 

@@ -14,7 +14,6 @@ import {
 	DialogTitle,
 	CircularProgress
 } from '@mui/material';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useTranslation } from 'react-i18next';
 import AppCVDetails from "./AppCVDetails.jsx";
 import AppCVEntries from "./AppCVEntries.jsx";
@@ -33,15 +32,11 @@ const AppCVContent = () => {
 	const FILE_TYPE_PDF = 'application/pdf';
 	const FILE_TYPE_WORD = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
 
-	const fetchCVEntries = async (pageNumber = 0, pageSize = 100) => {
+	const fetchCVEntries = async () => {
 		try {
 			const response = await apiClient.get(import.meta.env.VITE_APP_API_CV_URL, {
-				headers: {
-					Authorization: `Bearer ${localStorage.getItem(AUTH_TOKEN)}`,
-				},
 				params: {
-					pageNumber,
-					pageSize
+					pageSize: 50
 				}
 			});
 			setCvEntries(response.data.data.content);
@@ -50,8 +45,9 @@ const AppCVContent = () => {
 		}
 	};
 
+
 	useEffect(() => {
-		fetchCVEntries(0,100);
+		fetchCVEntries().then(r => console.log('Fetch CV request done: ', r));
 	}, []);
 
 	const handleFileSelect = (event) => {
@@ -88,7 +84,7 @@ const AppCVContent = () => {
 			);
 			// Fetch the updated CV list after successful upload
 			if (response.status === 200) {
-				await fetchCVEntries(0, 500);
+				await fetchCVEntries();
 				setSelectedFiles([]);
 			}
 		} catch (error) {
@@ -120,11 +116,8 @@ const AppCVContent = () => {
 	return (
 		<Box
 			sx={{
-				width: '70vw',
+				width: '100%',
 				height: '100vh',
-				marginLeft: { xs: '5%', md: '15%' },
-				marginRight: { xs: '5%', md: '15%' },
-				marginTop: 5,
 				display: 'flex',
 				flexDirection: 'column',
 				alignItems: 'center',
@@ -132,10 +125,11 @@ const AppCVContent = () => {
 				backgroundColor: 'transparent',
 				color: '#232F3E',
 				padding: 2,
+				overflowX: 'none'
 			}}
 		>
 			{/* Section 1: Buttons for CV Upload */}
-			<Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-start', mb: 2 }}>
+			<Box sx={{ width: '90%', display: 'flex', justifyContent: 'flex-start', mb: 2 }}>
 				<Button
 					startIcon={<FileUploadIcon />}
 					variant="contained"
@@ -202,7 +196,7 @@ const AppCVContent = () => {
 			</Modal>
 
 			{/* Section 2: CV Entries List and Details */}
-			<Box sx={{ display: 'flex', width: '100%', mt: 4 }}>
+			<Box sx={{ display: 'flex', justifyContent: 'flex-start', width: '90%', mt: 4, marginBottom: '10vh' }}>
 				{/* Section 2.1: CV List */}
 				<AppCVEntries
 					cvEntries={cvEntries}
@@ -212,7 +206,7 @@ const AppCVContent = () => {
 				/>
 
 				{/* Section 2.2: CV Details */}
-				<Paper sx={{ width: '70%', height: '75vh', padding: 2, boxShadow: 3, overflowY: 'scroll', backgroundColor: 'white', marginLeft: 5, alignItems: 'left' }}>
+				<Paper sx={{ width: '75%', height: '95vh', padding: 2, boxShadow: 3, backgroundColor: 'white', marginBottom: '10vh', overflowY: 'scroll', marginLeft: 5, alignItems: 'left' }}>
 					<Typography variant="h5" gutterBottom>
 						{t('appCVContent.cvDetailsTitle')}
 					</Typography>

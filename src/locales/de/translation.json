@@ -187,7 +187,11 @@
     "submit": "Einreichen",
     "reportSaveSuccessTitle": "Bericht erfolgreich gespeichert",
     "reportSaveSuccessMessage": "Ihr Bericht wurde gespeichert und ist nun in Ihren Unterlagen verfügbar.",
-    "close": "Schließen"
+    "close": "Schließen",
+    "candidateProfile": "Kandidatenprofil",
+    "skills": "Kompetenzen",
+    "degreeOfMatch": "Übereinstimmungsgrad",
+    "job": "Stelle"
   },
   "appReportContent": {
     "reportListTitle": "Liste der Berichte",
@@ -199,7 +203,11 @@
     "save": "Speichern",
     "deleteConfirm": "Löschen bestätigen",
     "delete": "Löschen",
-    "deleteReport": "Bericht löschen"
+    "deleteReport": "Bericht löschen",
+    "score": "Punktzahl",
+    "allJobs": "Alle Stellenanzeigen",
+    "filterByJob": "Nach Stellenanzeige filtern",
+    "filterByTags": "Nach Tags filtern"
   },
   "errors": {
     "404": {
@@ -215,6 +223,55 @@
       "message": "Etwas ist schiefgelaufen. Bitte versuchen Sie es später erneut."
     },
     "contactSupport": "Wenn das Problem weiterhin besteht, wenden Sie sich bitte an den Support."
+  },
+  "accountSettings": {
+    "title": "Kontoeinstellungen",
+    "subtitle": "Verwalten Sie Ihr Abonnement und Ihr Profil.",
+    "manageBilling": "Abrechnung verwalten",
+    "viewProfile": "Profil anzeigen",
+    "manageBillingLink": "Abrechnungsportal öffnen",
+    "manageBillingHint": "Rechnungen anzeigen, Tarif ändern, Zahlungsmethode aktualisieren",
+    "hideProfileHint": "Ihre Profilinformationen ausblenden",
+    "viewProfileHint": "Ihre Profilinformationen anzeigen",
+    "profileInformation": "Profilinformationen",
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "email": "E-Mail",
+    "tenantId": "Mandanten-ID",
+    "subscriptionStatus": "Abonnementstatus",
+    "footerHint": "Tipp: Sie können Zahlungsmethoden und Rechnungen im Abrechnungsportal aktualisieren."
+  },
+  "dashboard": {
+    "errors": {
+      "loadFailed": "Dashboarddaten konnten nicht geladen werden."
+    },
+    "skillsReport": {
+      "label": "Gesamtanzahl Übereinstimmungen",
+      "title": "Kompetenzbericht"
+    },
+    "subscription": {
+      "active": "Abonnement: AKTIV",
+      "inactive": "Abonnement: INAKTIV"
+    },
+    "loading": "Dashboard wird geladen…",
+    "kpi": {
+      "totalCVs": "Lebensläufe",
+      "totalJobsPosted": "Stellenanzeigen",
+      "totalUsers": "Benutzer",
+      "totalResumeAnalysis": "Insgesamt geprüfte Lebensläufe",
+      "totalResumesProcessedCurrentMonth": "Diesen Monat geprüfte Lebensläufe"
+    },
+    "sections": {
+      "skillsReport": "Kompetenzbericht",
+      "jobPostsReport": "Bewerbungen pro Stellenanzeige"
+    },
+    "empty": {
+      "skills": "Keine Fähigkeitsdaten zur Anzeige.",
+      "jobPosts": "Keine Daten zu Stellenanzeigen verfügbar."
+    },
+    "table": {
+      "jobPostTitle": "Titel der Stellenanzeige",
+      "totalMatch": "Anzahl der Bewerbungen"
+    }
   }
-
 }

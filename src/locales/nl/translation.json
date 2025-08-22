@@ -187,7 +187,8 @@
     "submit": "Indienen",
     "reportSaveSuccessTitle": "Rapport succesvol opgeslagen",
     "reportSaveSuccessMessage": "Uw rapport is opgeslagen en is nu beschikbaar in uw archieven.",
-    "close": "Sluiten"
+    "close": "Sluiten",
+    "job": "Functie"
   },
   "appReportContent": {
     "reportListTitle": "Lijst van Rapporten",
@@ -199,7 +200,11 @@
     "save": "Opslaan",
     "deleteConfirm": "Verwijdering bevestigen",
     "delete": "Verwijderen",
-    "deleteReport": "Rapport verwijderen"
+    "deleteReport": "Rapport verwijderen",
+    "score": "Score",
+    "allJobs": "Alle vacatures",
+    "filterByJob": "Filteren op vacature",
+    "filterByTags": "Filteren op tags"
   },
   "errors": {
     "404": {
@@ -215,6 +220,55 @@
       "message": "Er is iets misgegaan. Probeer het later opnieuw."
     },
     "contactSupport": "Als het probleem aanhoudt, neem dan contact op met de ondersteuning."
+  },
+  "accountSettings": {
+    "title": "Accountinstellingen",
+    "subtitle": "Beheer je abonnement en profiel.",
+    "manageBilling": "Facturering beheren",
+    "viewProfile": "Profiel bekijken",
+    "manageBillingLink": "Facturatieportaal openen",
+    "manageBillingHint": "Facturen bekijken, abonnement wijzigen, betaalmethode bijwerken",
+    "hideProfileHint": "Je profielinformatie verbergen",
+    "viewProfileHint": "Je profielinformatie tonen",
+    "profileInformation": "Profielinformatie",
+    "firstName": "Voornaam",
+    "lastName": "Achternaam",
+    "email": "E-mail",
+    "tenantId": "Tenant-ID",
+    "subscriptionStatus": "Abonnementsstatus",
+    "footerHint": "Tip: je kunt betaalmethoden en facturen bijwerken in het facturatieportaal."
+  },
+  "dashboard": {
+    "errors": {
+      "loadFailed": "Dashboardgegevens konden niet worden geladen."
+    },
+    "skillsReport": {
+      "label": "Totaal aantal matches",
+      "title": "Vaardighedenrapport"
+    },
+    "subscription": {
+      "active": "Abonnement: ACTIEF",
+      "inactive": "Abonnement: INACTIEF"
+    },
+    "loading": "Dashboard laden…",
+    "kpi": {
+      "totalCVs": "CV's",
+      "totalJobsPosted": "Vacatures",
+      "totalUsers": "Gebruikers",
+      "totalResumeAnalysis": "Totaal gescreende cv’s",
+      "totalResumesProcessedCurrentMonth": "Deze maand gescreende cv’s"
+    },
+    "sections": {
+      "skillsReport": "Vaardighedenrapport",
+      "jobPostsReport": "Sollicitaties per vacature"
+    },
+    "empty": {
+      "skills": "Geen vaardigheidsgegevens om weer te geven.",
+      "jobPosts": "Geen vacaturegegevens om weer te geven."
+    },
+    "table": {
+      "jobPostTitle": "Vacaturetitel",
+      "totalMatch": "Aantal sollicitaties"
+    }
   }
-
 }

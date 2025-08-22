@@ -1,5 +1,5 @@
 import React, {useCallback, useRef} from 'react';
-import {Box, Typography, Divider, Button, Grid2, Paper, TextField, Grid} from '@mui/material';
+import {Box, Typography, Button, Grid2, Paper} from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import TimelineItem from "@mui/lab/TimelineItem";
@@ -47,7 +47,7 @@ const AppCVDetails = ({ cv }) => {
 	}, [printCV]);
 
 	return (
-		<Box sx={{ padding: 2, height: '100%' }}>
+		<Box sx={{ padding: 2, height: '100%', overflowX: 'none' }}>
 			<Box>
 				<Button
 					onClick={handleCVDownload}
@@ -58,7 +58,7 @@ const AppCVDetails = ({ cv }) => {
 			</Box>
 			<Box sx={{ width: '100%' }} ref={componentRef}>
 				{/* Personal Information & Contact */}
-				<Box sx={{display: 'flex', flexDirection: 'row'}}>
+				<Box sx={{display: 'flex', flexDirection: 'row', width: '80%'}}>
 					{/* Personal Information */}
 					<Grid2 item xs={12} md={6} lg={6}>
 						<Grid2 container>
@@ -79,12 +79,12 @@ const AppCVDetails = ({ cv }) => {
 												<Typography variant="body2">{cv.personalInformation.role}</Typography>
 											</TimelineContent>
 										</TimelineItem>
-										{cv.personalInformation.summary && (
+										{cv.candidateProfileSummary && (
 											<TimelineItem>
 												<QorvaTimelineSeparator />
 												<TimelineContent>
 													<Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>{t('appCVContent.summary')}</Typography>
-													<Typography variant="body2">{cv.personalInformation.summary}</Typography>
+													<Typography variant="body2">{cv.candidateProfileSummary}</Typography>
 												</TimelineContent>
 											</TimelineItem>
 										)}
@@ -400,6 +400,7 @@ const AppCVDetails = ({ cv }) => {
 
 AppCVDetails.propTypes = {
 	cv: PropTypes.shape({
+		candidateProfileSummary: PropTypes.string,
 		personalInformation: PropTypes.shape({
 			name: PropTypes.string,
 			role: PropTypes.string,

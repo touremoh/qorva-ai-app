@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Select, MenuItem, FormControl } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { FlagIcon } from 'react-flag-kit';
+import {QORVA_USER_LANGUAGE} from "../../constants.js";
 
 // eslint-disable-next-line react/prop-types
 const LanguageSwitcher = ({textColor = 'black'}) => {
@@ -11,9 +12,9 @@ const LanguageSwitcher = ({textColor = 'black'}) => {
 
 	const handleLanguageChange = (event) => {
 		const newLanguage = event.target.value;
-		console.log(newLanguage);
 		setLanguage(newLanguage);
-		i18n.changeLanguage(newLanguage);
+		i18n.changeLanguage(newLanguage).then(r => console.log(r));
+		localStorage.setItem(QORVA_USER_LANGUAGE, newLanguage);
 	};
 
 	return (

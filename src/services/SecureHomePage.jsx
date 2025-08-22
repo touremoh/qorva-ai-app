@@ -2,7 +2,16 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import apiClient from "../../axiosConfig.js";
 import {t} from "i18next";
-import {AUTH_TOKEN} from "../constants.js";
+import {
+	AUTH_TOKEN,
+	SUBSCRIPTION_STATUS,
+	TENANT_ID,
+	TOKEN_EXPIRY,
+	USER_EMAIL,
+	USER_FIRST_NAME,
+	USER_LAST_NAME
+} from "../constants.js";
+import {setAuthResults} from "../../localStorageManager.js";
 
 const SecureHomePage = ({ children }) => {
 	const navigate = useNavigate();
@@ -12,7 +21,6 @@ const SecureHomePage = ({ children }) => {
 	const isTokenValid = async () => {
 		try {
 			if (!token) {
-				console.log('Home - Token is null', token);
 				return false;
 			}
 			const response = await apiClient.post(import.meta.env.VITE_APP_API_VALIDATE_TOKEN_URL, null, {
@@ -31,7 +39,6 @@ const SecureHomePage = ({ children }) => {
 	useEffect(() => {
 		const verifyToken = async () => {
 			if (await isTokenValid()) {
-				console.log('Token is valid. Refreshing Token and connecting to home page');
 				const response = await apiClient.post(
 					import.meta.env.VITE_APP_API_REFRESH_TOKEN_URL,
 					{
@@ -41,16 +48,31 @@ const SecureHomePage = ({ children }) => {
 					}
 				);
 
-				if (response.status === 200 && response.data?.data?.access_token) {
-					const access_token = response.data.data.access_token;
 
-					// Save the access token and expiration time in localStorage
-					localStorage.setItem(AUTH_TOKEN, access_token);
+				if (response.status === 200) {
+					setAuthResults(response.data.data);
 
-					// Redirect to the home page
-					navigate('/');
+					const subscriptionStatus = localStorage.getItem(SUBSCRIPTION_STATUS);
+
+					// Check if subscription is incomplete in
+					if (subscriptionStatus === 'FREE_TRIAL_PERIOD_ACTIVE'
+						|| subscriptionStatus === 'SUBSCRIPTION_ACTIVE'
+						|| subscriptionStatus === 'CANCELLATION_GRACE_PERIOD_STARTED') {
+						console.log('Redirecting to home page')
+					} else if (subscriptionStatus === 'SUBSCRIPTION_INCOMPLETE'
+						|| subscriptionStatus === 'SUBSCRIPTION_CANCELLED'
+						|| subscriptionStatus === 'SUBSCRIPTION_FAILED') {
+						// Redirect to the home page
+						navigate('/subscription');
+					} else {
+						navigate('/error', {
+							state: {
+								errorCode: response.status,
+								errorMessage: t('errors.generic.message')
+							}
+						});
+					}
 				} else {
-					console.error('Unexpected response format', response);
 					// Redirect to the error page
 					navigate('/error', {
 						state: {
@@ -61,8 +83,7 @@ const SecureHomePage = ({ children }) => {
 				}
 			} else {
 				// Redirect to Login page if token is invalid or expired
-				console.log('Token is invalid or expired. Redirecting to login.');
-				localStorage.removeItem(AUTH_TOKEN);
+				localStorage.clear();
 				navigate('/login');
 			}
 		};

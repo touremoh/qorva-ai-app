@@ -187,7 +187,11 @@
     "submit": "Enregistrer",
     "reportSaveSuccessTitle": "Rapport enregistré avec succès",
     "reportSaveSuccessMessage": "Votre rapport a été enregistré et est maintenant disponible dans vos archives.",
-    "close": "Fermer"
+    "close": "Fermer",
+    "candidateProfile": "Profil du candidat",
+    "skills": "Compétences",
+    "degreeOfMatch": "Degré de correspondance",
+    "job": "Poste"
   },
   "appReportContent": {
     "reportListTitle": "Liste des Rapports",
@@ -199,7 +203,11 @@
     "save": "Enregistrer",
     "deleteConfirm": "Confirmer la suppression",
     "delete": "Supprimer",
-    "deleteReport": "Supprimer le rapport"
+    "deleteReport": "Supprimer le rapport",
+    "score": "Score",
+    "allJobs": "Toutes les offres d’emploi",
+    "filterByJob": "Filtrer par offre d’emploi",
+    "filterByTags": "Filtrer par tags"
   },
   "errors": {
     "404": {
@@ -215,5 +223,55 @@
       "message": "Une erreur s'est produite. Veuillez réessayer plus tard."
     },
     "contactSupport": "Si le problème persiste, veuillez contacter le support."
+  },
+  "accountSettings": {
+    "title": "Paramètres du compte",
+    "subtitle": "Gérez votre abonnement et votre profil.",
+    "manageBilling": "Gérer la facturation",
+    "viewProfile": "Voir le profil",
+    "manageBillingLink": "Ouvrir le portail de facturation",
+    "manageBillingHint": "Consulter les factures, changer d’offre, mettre à jour le mode de paiement",
+    "hideProfileHint": "Masquer vos informations de profil",
+    "viewProfileHint": "Afficher vos informations de profil",
+    "profileInformation": "Informations du profil",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "email": "E-mail",
+    "tenantId": "ID du locataire",
+    "subscriptionStatus": "Statut de l’abonnement",
+    "footerHint": "Astuce : vous pouvez mettre à jour les moyens de paiement et les factures dans le portail de facturation."
+  },
+  "dashboard": {
+    "errors": {
+      "loadFailed": "Échec du chargement des données du tableau de bord."
+    },
+    "skillsReport": {
+      "label": "Nombre total de correspondances",
+      "title": "Rapport des compétences"
+    },
+    "subscription": {
+      "active": "Abonnement : ACTIF",
+      "inactive": "Abonnement : INACTIF"
+    },
+    "loading": "Chargement du tableau de bord…",
+    "kpi": {
+      "totalCVs": "CV",
+      "totalJobsPosted": "Offres d’emploi",
+      "totalUsers": "Utilisateurs",
+      "totalResumeAnalysis": "Total des CV analysés",
+      "totalResumesProcessedCurrentMonth": "CV analysés ce mois-ci"
+    },
+    "sections": {
+      "skillsReport": "Rapport des compétences",
+      "jobPostsReport": "Candidatures par offre d’emploi"
+    },
+    "empty": {
+      "skills": "Aucune donnée de compétences à afficher.",
+      "jobPosts": "Aucune donnée d’offres d’emploi à afficher."
+    },
+    "table": {
+      "jobPostTitle": "Titre de l’offre",
+      "totalMatch": "Nombre de candidatures"
+    }
   }
 }

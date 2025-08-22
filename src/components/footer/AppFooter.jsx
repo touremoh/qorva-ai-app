@@ -13,7 +13,7 @@ const AppFooter = () => {
 	return (
 		<Box
 			component="footer"
-			sx={{ height: '3vh', width: '100%', marginLeft: 0, backgroundColor: '#232F3E', padding: '16px', textAlign: 'center', color: 'white', position: 'fixed', bottom: 0, left: 0 }}
+			sx={{ height: '3vh', bottom: 0, left: '15%', position: 'fixed', width: '100%', marginLeft: 0, color: 'black', backgroundColor: '#f8f8f8', padding: '16px', textAlign: 'center' }}
 		>
 			<Typography variant="body2">
 				© {currentYear()} {t('footer.rightsReserved')}

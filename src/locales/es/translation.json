@@ -187,7 +187,11 @@
     "submit": "Enviar",
     "reportSaveSuccessTitle": "Informe guardado con éxito",
     "reportSaveSuccessMessage": "Su informe ha sido guardado y ahora está disponible en sus registros.",
-    "close": "Cerrar"
+    "close": "Cerrar",
+    "candidateProfile": "Perfil del candidato",
+    "skills": "Habilidades",
+    "degreeOfMatch": "Grado de coincidencia",
+    "job": "Puesto"
   },
   "appReportContent": {
     "reportListTitle": "Lista de Informes",
@@ -199,7 +203,11 @@
     "save": "Guardar",
     "deleteConfirm": "Confirmar eliminación",
     "delete": "Eliminar",
-    "deleteReport": "Eliminar el informe"
+    "deleteReport": "Eliminar el informe",
+    "score": "Puntuación",
+    "allJobs": "Todas las ofertas de empleo",
+    "filterByJob": "Filtrar por oferta de empleo",
+    "filterByTags": "Filtrar por etiquetas"
   },
   "errors": {
     "404": {
@@ -215,5 +223,55 @@
       "message": "Algo salió mal. Por favor, inténtelo de nuevo más tarde."
     },
     "contactSupport": "Si el problema persiste, póngase en contacto con el soporte técnico."
+  },
+  "accountSettings": {
+    "title": "Configuración de la cuenta",
+    "subtitle": "Administra tu suscripción y perfil.",
+    "manageBilling": "Gestionar facturación",
+    "viewProfile": "Ver perfil",
+    "manageBillingLink": "Abrir portal de facturación",
+    "manageBillingHint": "Ver facturas, cambiar de plan, actualizar el método de pago",
+    "hideProfileHint": "Ocultar tu información de perfil",
+    "viewProfileHint": "Mostrar tu información de perfil",
+    "profileInformation": "Información del perfil",
+    "firstName": "Nombre",
+    "lastName": "Apellidos",
+    "email": "Correo electrónico",
+    "tenantId": "ID del tenant",
+    "subscriptionStatus": "Estado de la suscripción",
+    "footerHint": "Consejo: puedes actualizar los métodos de pago y las facturas en el portal de facturación."
+  },
+  "dashboard": {
+    "errors": {
+      "loadFailed": "No se pudieron cargar los datos del panel."
+    },
+    "skillsReport": {
+      "label": "Coincidencias totales",
+      "title": "Informe de habilidades"
+    },
+    "subscription": {
+      "active": "Suscripción: ACTIVA",
+      "inactive": "Suscripción: INACTIVA"
+    },
+    "loading": "Cargando panel…",
+    "kpi": {
+      "totalCVs": "CV",
+      "totalJobsPosted": "Ofertas de empleo",
+      "totalUsers": "Usuarios",
+      "totalResumeAnalysis": "CV analizados en total",
+      "totalResumesProcessedCurrentMonth": "CV analizados este mes"
+    },
+    "sections": {
+      "skillsReport": "Informe de habilidades",
+      "jobPostsReport": "Candidaturas por oferta"
+    },
+    "empty": {
+      "skills": "No hay datos de habilidades para mostrar.",
+      "jobPosts": "No hay datos de ofertas para mostrar."
+    },
+    "table": {
+      "jobPostTitle": "Título de la oferta",
+      "totalMatch": "Número de candidaturas"
+    }
   }
 }

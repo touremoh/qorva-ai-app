@@ -29,7 +29,7 @@ apiFormDataClient.interceptors.request.use(config => {
 	return getConfig(config);
 }, error => Promise.reject(error));
 
-const publicEndpoint = (url) => url.includes('/register')
+const publicEndpoint = (url) => url.includes('/registrations')
 	|| url.includes('/auth/login')
 	|| url.includes('/auth/token/validate');
 

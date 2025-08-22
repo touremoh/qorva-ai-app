@@ -9,6 +9,7 @@ import SecureHomePage from "./services/SecureHomePage.jsx";
 import ErrorPage from "./views/pages/errors/ErrorPage.jsx";
 import RegistrationSuccessful from "./views/pages/success/RegistrationSuccessful.jsx";
 import CheckLoginPage from "./services/CheckLoginPage.jsx";
+import PricingPage from "./views/pages/subscription/PricingPage.jsx";
 
 function App() {
     return (
@@ -22,14 +23,18 @@ function App() {
                       </SecureHomePage>
                   }
               />
-              <Route path="/login" element={
-                  <CheckLoginPage>
-                      <Login />
-                  </CheckLoginPage>
-              } />
+              <Route
+                  path="/login"
+                  element={
+                      <CheckLoginPage>
+                          <Login />
+                      </CheckLoginPage>
+                  }
+              />
               <Route path="/register" element={<Register />} />
               <Route path="/success" element={<RegistrationSuccessful />} />
               <Route path="/error" element={<ErrorPage />} />
+              <Route path="/subscription" element={<PricingPage />} />
           </Routes>
       </Router>
   )
