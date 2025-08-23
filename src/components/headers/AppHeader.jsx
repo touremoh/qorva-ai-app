@@ -8,7 +8,7 @@ import {
 	COMP_ID_REPORTS,
 	COMP_ID_SETTINGS,
 	COMP_ID_JOBS,
-	USER_FIRST_NAME, USER_LAST_NAME, COMP_ID_DASHBOARD
+	USER_FIRST_NAME, USER_LAST_NAME, COMP_ID_DASHBOARD, COMP_ID_CHAT
 } from "../../constants.js";
 
 
@@ -50,6 +50,8 @@ const AppHeader = ({ handleSidebarToggle, handleContentChange, contentTitle }) =
 				return <Typography variant="h5">{t('header.jobs')}</Typography>;
 			case COMP_ID_REPORTS:
 				return <Typography variant="h5">{t('header.reports')}</Typography>;
+			case COMP_ID_CHAT:
+				return <Typography variant="h5">{t('header.aiResumeChat') || 'AI Resume Chat'}</Typography>;
 			case COMP_ID_SETTINGS:
 				return <Typography variant="h5">{t('header.accountSettings')}</Typography>;
 			default:

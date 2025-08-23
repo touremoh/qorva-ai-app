@@ -5,8 +5,10 @@ import { useTranslation } from 'react-i18next';
 import LeaderboardOutlinedIcon from '@mui/icons-material/LeaderboardOutlined';
 import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
+import AssistantIcon from '@mui/icons-material/Assistant';
 import PeopleIcon from '@mui/icons-material/People';
 import {
+	COMP_ID_CHAT,
 	COMP_ID_CVLIB,
 	COMP_ID_DASHBOARD,
 	COMP_ID_JOBS,
@@ -27,6 +29,7 @@ const AppMenuList = ({ handleContentChange }) => {
 		{ id: COMP_ID_CVLIB, icon: <PeopleIcon sx={{ mr: 1 }} />, label: t('header.cvs') },
 		{ id: COMP_ID_JOBS, icon: <WorkOutlineOutlinedIcon sx={{ mr: 1 }} />, label: t('header.jobs') },
 		{ id: COMP_ID_REPORTS, icon: <AssessmentOutlinedIcon sx={{ mr: 1 }} />, label: t('header.reports') },
+		{ id: COMP_ID_CHAT, icon: <AssistantIcon sx={{ mr: 1 }} />, label: t('header.aiResumeChat') || 'AI Resume Chat' },
 	];
 
 	return (

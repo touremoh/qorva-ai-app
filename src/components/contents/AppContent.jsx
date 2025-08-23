@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
-import { Box } from '@mui/material';
+import {Box, Typography} from '@mui/material';
 import JobContent from "./jobs/JobsContent.jsx";
 import AppCVContent from "./cv/AppCVContent.jsx";
 import {
@@ -8,11 +8,13 @@ import {
 	COMP_ID_REPORTS,
 	COMP_ID_SETTINGS,
 	COMP_ID_JOBS,
-	COMP_ID_DASHBOARD
+	COMP_ID_DASHBOARD,
+	COMP_ID_CHAT
 } from "../../constants.js";
 import AppScreeningReports from "./reports/AppScreeningReports.jsx";
 import QorvaDashboard from "./dashboard/QorvaDashboard.jsx";
 import AccountSettings from "./account-settings/AccountSettings.jsx";
+import AppAIResumeChat from "./chats/AppAIResumeChat.jsx";
 
 const AppContent = ({ content }) => {
 	const renderContent = () => {
@@ -25,6 +27,8 @@ const AppContent = ({ content }) => {
 				return <JobContent />;
 			case COMP_ID_REPORTS:
 				return <AppScreeningReports />;
+			case COMP_ID_CHAT:
+				return <AppAIResumeChat />;
 			case COMP_ID_SETTINGS:
 				return <AccountSettings />
 			default:
