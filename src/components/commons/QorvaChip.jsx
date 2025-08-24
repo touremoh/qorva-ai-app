@@ -10,7 +10,6 @@ const QorvaChip = ({ statusCode }) => {
 
 	const renderSubscriptionStatus = (statusCode) => {
 
-		console.log(statusCode);
 		if (!statusCode) return "—";
 		const config = STATUS_MAP[statusCode];
 
