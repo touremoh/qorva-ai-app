@@ -42,7 +42,8 @@
     "cvs": "CVthèque",
     "reports": "Rapports",
     "accountSettings": "Paramètres du compte",
-    "logout": "Se déconnecter"
+    "logout": "Se déconnecter",
+    "aiResumeChat": "Chat CV IA"
   },
   "footer": {
     "rightsReserved": "Qorva AI. Tous droits réservés."
@@ -273,5 +274,37 @@
       "jobPostTitle": "Titre de l’offre",
       "totalMatch": "Nombre de candidatures"
     }
+  },
+  "appAIResumeChat": {
+    "typing": "L’assistant est en train d’écrire…",
+    "createChat": "Créer une conversation",
+    "refresh": "Rafraîchir",
+    "chats": "Conversations",
+    "loadMore": "Charger plus",
+    "selectChat": "Sélectionnez une conversation pour commencer",
+    "loadOlder": "Charger les messages plus anciens",
+    "you": "Vous",
+    "assistant": "Assistant",
+    "noChatSelected": "Aucune conversation sélectionnée. Créez-en une ou sélectionnez-la à gauche.",
+    "placeholder": "Posez une question sur le CV et l’offre…",
+    "send": "Envoyer",
+    "createChatTitle": "Créer une nouvelle session de chat",
+    "createChatHelp": "Sélectionnez un CV et une offre d’emploi. Nous rechercherons automatiquement le rapport de présélection associé s’il est disponible.",
+    "noCVFound": "Aucun CV trouvé",
+    "cvSearch": "Rechercher un CV (par nom du candidat)",
+    "cvSearchPlaceholder": "Saisissez un nom…",
+    "jobPost": "Offre d’emploi",
+    "relatedScreeningReport": "Rapport de présélection associé",
+    "resumeMatchHint": "Sélectionnez un CV et une offre pour rechercher une correspondance.",
+    "searching": "Recherche…",
+    "job": "Intitulé du poste",
+    "score": "Score",
+    "noResumeMatch": "Aucune correspondance de CV trouvée.",
+    "chatTitle": "Titre de la conversation",
+    "chatTitleHelp2": "Par défaut : « Prénom Nom - Intitulé du poste ».",
+    "language": "Langue",
+    "cancel": "Annuler",
+    "create": "Créer",
+    "selectCvAndJob": "Veuillez sélectionner un CV et une offre d’emploi."
   }
 }

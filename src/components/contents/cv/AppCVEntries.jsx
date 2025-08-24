@@ -19,7 +19,7 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { useTranslation } from 'react-i18next';
 import apiClient from "../../../../axiosConfig.js";
-import {AUTH_TOKEN, TENANT_ID} from "../../../constants.js";
+import {AUTH_TOKEN} from "../../../constants.js";
 
 const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntries }) => {
 	const { t } = useTranslation();
@@ -33,16 +33,16 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 	const entriesPerPage = 25;
 
 	const getAllCVEntries = async () => {
-		const tenantId = localStorage.getItem(TENANT_ID);
-		return await apiClient.get(`${import.meta.env.VITE_APP_API_CV_URL}/${tenantId}`);
+		return await apiClient.get(import.meta.env.VITE_APP_API_CV_URL, {
+			params: {
+				pageNumber: 0,
+				pageSize: entriesPerPage
+			}
+		});
 	};
 
 	const searchCVEntriesByCriteria = async (searchTerm) => {
 		return await apiClient.get(`${import.meta.env.VITE_APP_API_CV_URL}/search`, {
-			headers: {
-				Authorization: `Bearer ${localStorage.getItem(AUTH_TOKEN)}`,
-				tenantId: localStorage.getItem(TENANT_ID),
-			},
 			params: {
 				pageNumber: 0,
 				pageSize: entriesPerPage,

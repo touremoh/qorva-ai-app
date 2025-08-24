@@ -42,7 +42,8 @@
     "cvs": "Lebenslaufbibliothek",
     "reports": "Berichte",
     "accountSettings": "Kontoeinstellungen",
-    "logout": "Abmelden"
+    "logout": "Abmelden",
+    "aiResumeChat": "KI-Lebenslauf-Chat"
   },
   "footer": {
     "rightsReserved": "Qorva AI. Alle Rechte vorbehalten."
@@ -272,6 +273,38 @@
     "table": {
       "jobPostTitle": "Titel der Stellenanzeige",
       "totalMatch": "Anzahl der Bewerbungen"
+    },
+    "appAIResumeChat": {
+      "typing": "Assistent tippt…",
+      "createChat": "Chat erstellen",
+      "refresh": "Aktualisieren",
+      "chats": "Chats",
+      "loadMore": "Mehr laden",
+      "selectChat": "Wähle einen Chat aus, um zu starten",
+      "loadOlder": "Ältere laden",
+      "you": "Du",
+      "assistant": "Assistent",
+      "noChatSelected": "Kein Chat ausgewählt. Erstelle oder wähle links einen aus.",
+      "placeholder": "Frage zum Lebenslauf vs. Stelle…",
+      "send": "Senden",
+      "createChatTitle": "Neue Chatsitzung erstellen",
+      "createChatHelp": "Wähle einen Lebenslauf und eine Stellenausschreibung. Falls verfügbar, suchen wir automatisch den zugehörigen Screening-Bericht.",
+      "noCVFound": "Kein Lebenslauf gefunden",
+      "cvSearch": "Lebenslauf suchen (nach Kandidatennamen)",
+      "cvSearchPlaceholder": "Name eingeben…",
+      "jobPost": "Stellenausschreibung",
+      "relatedScreeningReport": "Zugehöriger Screening-Bericht",
+      "resumeMatchHint": "Wähle Lebenslauf und Stelle, um nach einer Übereinstimmung zu suchen.",
+      "searching": "Suche…",
+      "job": "Stellentitel",
+      "score": "Punktzahl",
+      "noResumeMatch": "Keine Lebenslauf-Übereinstimmung gefunden.",
+      "chatTitle": "Chat-Titel",
+      "chatTitleHelp2": "Standard: „Vorname Nachname – Stellentitel“.",
+      "language": "Sprache",
+      "cancel": "Abbrechen",
+      "create": "Erstellen",
+      "selectCvAndJob": "Bitte wähle einen Lebenslauf und eine Stellenausschreibung aus."
     }
   }
 }

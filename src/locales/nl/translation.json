@@ -42,7 +42,8 @@
     "cvs": "CV-bibliotheek",
     "reports": "Rapporten",
     "accountSettings": "Accountinstellingen",
-    "logout": "Uitloggen"
+    "logout": "Uitloggen",
+    "aiResumeChat": "AI-CV-chat"
   },
   "footer": {
     "rightsReserved": "Qorva AI. Alle rechten voorbehouden."
@@ -270,5 +271,37 @@
       "jobPostTitle": "Vacaturetitel",
       "totalMatch": "Aantal sollicitaties"
     }
+  },
+  "appAIResumeChat": {
+    "typing": "De assistent typt…",
+    "createChat": "Chat aanmaken",
+    "refresh": "Vernieuwen",
+    "chats": "Chats",
+    "loadMore": "Meer laden",
+    "selectChat": "Selecteer een chat om te beginnen",
+    "loadOlder": "Oudere laden",
+    "you": "Jij",
+    "assistant": "Assistent",
+    "noChatSelected": "Geen chat geselecteerd. Maak er één of selecteer er links één.",
+    "placeholder": "Vraag over het cv en de vacature…",
+    "send": "Verzenden",
+    "createChatTitle": "Nieuwe chatsessie aanmaken",
+    "createChatHelp": "Selecteer een cv en een vacature. We zoeken automatisch naar het bijbehorende screeningrapport als dat beschikbaar is.",
+    "noCVFound": "Geen cv gevonden",
+    "cvSearch": "Zoek cv (op naam van kandidaat)",
+    "cvSearchPlaceholder": "Typ een naam…",
+    "jobPost": "Vacature",
+    "relatedScreeningReport": "Gekoppeld screeningrapport",
+    "resumeMatchHint": "Selecteer een cv en een vacature om naar een match te zoeken.",
+    "searching": "Zoeken…",
+    "job": "Functietitel",
+    "score": "Score",
+    "noResumeMatch": "Geen cv-match gevonden.",
+    "chatTitle": "Chattitel",
+    "chatTitleHelp2": "Standaard: “Voornaam Achternaam - Functietitel”.",
+    "language": "Taal",
+    "cancel": "Annuleren",
+    "create": "Aanmaken",
+    "selectCvAndJob": "Selecteer een cv en een vacature."
   }
 }

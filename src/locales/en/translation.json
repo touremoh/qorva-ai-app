@@ -40,9 +40,10 @@
     "screening": "Screening",
     "jobs": "Jobs",
     "cvs": "CV Library",
-    "reports": "Reports",
+    "reports": "CV Screening Reports",
     "accountSettings": "Account Settings",
-    "logout": "Logout"
+    "logout": "Logout",
+    "aiResumeChat": "AI Resume Chat"
   },
   "footer": {
     "rightsReserved": "Qorva AI. All rights reserved."
@@ -269,6 +270,38 @@
       "jobPostTitle": "Job Post Title",
       "totalMatch": "Application Count"
     }
+  },
+  "appAIResumeChat": {
+    "typing": "Assistant is typing",
+    "createChat": "Create Chat",
+    "refresh": "Refresh",
+    "chats": "Chats",
+    "loadMore": "Load more",
+    "selectChat": "Select a chat to start",
+    "loadOlder": "Load older",
+    "you": "You",
+    "assistant": "Assistant",
+    "noChatSelected": "No chat selected. Create or select one from the left.",
+    "placeholder": "Ask about the CV vs Job…",
+    "send": "Send",
+    "createChatTitle": "Create a new chat session",
+    "createChatHelp": "Select a CV and a Job Post. We’ll auto-search for the related screening report if available.",
+    "noCVFound": "No CV found",
+    "cvSearch": "Search CV (by candidate name)",
+    "cvSearchPlaceholder": "Type a name…",
+    "jobPost": "Job Post",
+    "relatedScreeningReport": "Related Screening Report",
+    "resumeMatchHint": "Select a CV and Job to search for a match.",
+    "searching": "Searching…",
+    "job": "Job Title",
+    "score": "Score",
+    "noResumeMatch": "No resume match found.",
+    "chatTitle": "Chat title",
+    "chatTitleHelp2": "Defaults to “First Last - Job Title”.",
+    "language": "Language",
+    "cancel": "Cancel",
+    "create": "Create",
+    "selectCvAndJob": "Please select a CV and a Job Post."
   }
 }
 

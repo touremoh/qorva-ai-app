@@ -42,7 +42,8 @@
     "cvs": "Biblioteca de CV",
     "reports": "Relatórios",
     "accountSettings": "Configurações da Conta",
-    "logout": "Sair"
+    "logout": "Sair",
+    "aiResumeChat": "Chat de currículo com IA"
   },
   "footer": {
     "rightsReserved": "Qorva AI. Todos os direitos reservados."
@@ -273,5 +274,37 @@
       "jobPostTitle": "Título da oferta",
       "totalMatch": "Número de candidaturas"
     }
+  },
+  "appAIResumeChat": {
+    "typing": "O assistente está digitando…",
+    "createChat": "Criar chat",
+    "refresh": "Atualizar",
+    "chats": "Chats",
+    "loadMore": "Carregar mais",
+    "selectChat": "Selecione um chat para começar",
+    "loadOlder": "Carregar anteriores",
+    "you": "Você",
+    "assistant": "Assistente",
+    "noChatSelected": "Nenhum chat selecionado. Crie ou selecione um à esquerda.",
+    "placeholder": "Pergunte sobre o currículo e a vaga…",
+    "send": "Enviar",
+    "createChatTitle": "Criar uma nova sessão de chat",
+    "createChatHelp": "Selecione um currículo e uma vaga. Vamos buscar automaticamente o relatório de triagem relacionado, se disponível.",
+    "noCVFound": "Nenhum currículo encontrado",
+    "cvSearch": "Pesquisar currículo (pelo nome do candidato)",
+    "cvSearchPlaceholder": "Digite um nome…",
+    "jobPost": "Vaga",
+    "relatedScreeningReport": "Relatório de triagem relacionado",
+    "resumeMatchHint": "Selecione um currículo e uma vaga para buscar uma correspondência.",
+    "searching": "Pesquisando…",
+    "job": "Título da vaga",
+    "score": "Pontuação",
+    "noResumeMatch": "Nenhuma correspondência de currículo encontrada.",
+    "chatTitle": "Título do chat",
+    "chatTitleHelp2": "Padrão: “Nome Sobrenome - Título da vaga”.",
+    "language": "Idioma",
+    "cancel": "Cancelar",
+    "create": "Criar",
+    "selectCvAndJob": "Selecione um currículo e uma vaga."
   }
 }

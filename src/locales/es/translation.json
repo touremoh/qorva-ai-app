@@ -42,7 +42,8 @@
     "cvs": "Biblioteca CV",
     "reports": "Informes",
     "accountSettings": "Configuración de la cuenta",
-    "logout": "Cerrar sesión"
+    "logout": "Cerrar sesión",
+    "aiResumeChat": "Chat de currículum con IA"
   },
   "footer": {
     "rightsReserved": "Qorva AI. Todos los derechos reservados."
@@ -273,5 +274,37 @@
       "jobPostTitle": "Título de la oferta",
       "totalMatch": "Número de candidaturas"
     }
+  },
+  "appAIResumeChat": {
+    "typing": "El asistente está escribiendo…",
+    "createChat": "Crear chat",
+    "refresh": "Actualizar",
+    "chats": "Chats",
+    "loadMore": "Cargar más",
+    "selectChat": "Selecciona un chat para empezar",
+    "loadOlder": "Cargar anteriores",
+    "you": "Tú",
+    "assistant": "Asistente",
+    "noChatSelected": "No hay chat seleccionado. Crea o selecciona uno a la izquierda.",
+    "placeholder": "Pregunta sobre el currículum y el puesto…",
+    "send": "Enviar",
+    "createChatTitle": "Crear una nueva sesión de chat",
+    "createChatHelp": "Selecciona un currículum y una oferta de empleo. Buscaremos automáticamente el informe de evaluación relacionado si está disponible.",
+    "noCVFound": "No se encontró ningún currículum",
+    "cvSearch": "Buscar currículum (por nombre del candidato)",
+    "cvSearchPlaceholder": "Escribe un nombre…",
+    "jobPost": "Oferta de empleo",
+    "relatedScreeningReport": "Informe de evaluación relacionado",
+    "resumeMatchHint": "Selecciona un currículum y un puesto para buscar coincidencias.",
+    "searching": "Buscando…",
+    "job": "Título del puesto",
+    "score": "Puntuación",
+    "noResumeMatch": "No se encontró coincidencia de currículum.",
+    "chatTitle": "Título del chat",
+    "chatTitleHelp2": "Predeterminado: “Nombre Apellido - Título del puesto”.",
+    "language": "Idioma",
+    "cancel": "Cancelar",
+    "create": "Crear",
+    "selectCvAndJob": "Selecciona un currículum y una oferta de empleo."
   }
 }
