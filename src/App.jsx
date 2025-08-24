@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React from 'react'
+import React, {useEffect} from 'react'
 import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from "./views/pages/login/Login.jsx";
@@ -11,8 +11,14 @@ import RegistrationSuccessful from "./views/pages/success/RegistrationSuccessful
 import CheckLoginPage from "./services/CheckLoginPage.jsx";
 import PricingPage from "./views/pages/subscription/PricingPage.jsx";
 import SecureSubscriptionPage from "./services/SecureSubscriptionPage.jsx";
+import {initGA} from "./utils/analytics.js";
 
 function App() {
+
+    useEffect(() => {
+        initGA();
+    }, []);
+
     return (
       <Router>
           <Routes>
