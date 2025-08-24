@@ -1,6 +1,16 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect } from 'react';
-import { Grid2, Typography, TextField, Button, Box, InputAdornment, IconButton, CircularProgress } from '@mui/material';
+import React, { useState, useEffect, useMemo } from 'react';
+import {
+	Grid2,
+	Typography,
+	TextField,
+	Button,
+	Box,
+	InputAdornment,
+	IconButton,
+	CircularProgress,
+	Alert
+} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import apiClient from '../../../../axiosConfig.js';
 import { useTranslation } from 'react-i18next';
@@ -11,11 +21,15 @@ import LockIcon from '@mui/icons-material/Lock';
 import BusinessIcon from '@mui/icons-material/Business';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import {AUTH_TOKEN, TENANT_ID, USER_EMAIL} from "../../../constants.js";
+import { TENANT_ID, USER_EMAIL } from "../../../constants.js";
+
+const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/;
+const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
 
 const UserRegistration = () => {
 	const { t, i18n } = useTranslation();
 	const navigate = useNavigate();
+
 	const [userInfo, setUserInfo] = useState({
 		firstName: '',
 		lastName: '',
@@ -23,22 +37,18 @@ const UserRegistration = () => {
 		password: '',
 		companyName: ''
 	});
+
+	const [touched, setTouched] = useState({ email: false, password: false });
+	const [errors, setErrors] = useState({ email: '', password: '' });
+	const [formError, setFormError] = useState(''); // top-of-form error from backend / network
 	const [showPassword, setShowPassword] = useState(false);
 	const [currentMessage, setCurrentMessage] = useState(0);
-	const [loading, setLoading] = useState(false); // State for loader
+	const [loading, setLoading] = useState(false);
+
 	const messages = [
-		{
-			title: t('registration.freeTrialTitle'),
-			message: t('registration.freeTrial')
-		},
-		{
-			title: t('registration.cancelAnytimeTitle'),
-			message: t('registration.cancelAnytime')
-		},
-		{
-			title: t('registration.dataDeletedTitle'),
-			message: t('registration.dataDeleted')
-		}
+		{ title: t('registration.freeTrialTitle'), message: t('registration.freeTrial') },
+		{ title: t('registration.cancelAnytimeTitle'), message: t('registration.cancelAnytime') },
+		{ title: t('registration.dataDeletedTitle'), message: t('registration.dataDeleted') }
 	];
 
 	// List of accepted languages
@@ -53,12 +63,64 @@ const UserRegistration = () => {
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
-		setUserInfo((prevState) => ({ ...prevState, [name]: value }));
+		setUserInfo((prev) => ({ ...prev, [name]: value }));
+
+		// live-validate email/password
+		if (name === 'email') {
+			setErrors((prev) => ({
+				...prev,
+				email: !value
+					? t('registration.emailRequired', 'Email is required')
+					: EMAIL_REGEX.test(value)
+						? ''
+						: t('registration.emailInvalid', 'Please enter a valid email address')
+			}));
+		}
+		if (name === 'password') {
+			setErrors((prev) => ({
+				...prev,
+				password: !value
+					? t('registration.passwordRequired', 'Password is required')
+					: PASSWORD_REGEX.test(value)
+						? ''
+						: t('registration.passwordInvalid', '8–20 chars, 1 uppercase, 1 lowercase, 1 number, 1 special character')
+			}));
+		}
+	};
+
+	const validate = (values) => {
+		const next = { email: '', password: '' };
+		if (!values.email) {
+			next.email = t('registration.emailRequired', 'Email is required');
+		} else if (!EMAIL_REGEX.test(values.email)) {
+			next.email = t('registration.emailInvalid', 'Please enter a valid email address');
+		}
+		if (!values.password) {
+			next.password = t('registration.passwordRequired', 'Password is required');
+		} else if (!PASSWORD_REGEX.test(values.password)) {
+			next.password = t('registration.passwordInvalid', '8–20 chars, 1 uppercase, 1 lowercase, 1 number, 1 special character');
+		}
+		return next;
+	};
+
+	const liveErrors = useMemo(() => validate(userInfo), [userInfo]);
+
+	const handleBlur = (field) => () => {
+		setTouched((prev) => ({ ...prev, [field]: true }));
+		setErrors((prev) => ({ ...prev, [field]: liveErrors[field] }));
 	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		setLoading(true); // Show loader
+		setFormError('');
+
+		// final validation gate
+		const finalErrors = validate(userInfo);
+		setErrors(finalErrors);
+		setTouched({ email: true, password: true });
+		if (Object.values(finalErrors).some(Boolean)) return;
+
+		setLoading(true);
 		try {
 			// Detect the current language and set it in the headers
 			const currentLang = acceptedLanguages.includes(i18n.language) ? i18n.language : 'en';
@@ -66,11 +128,7 @@ const UserRegistration = () => {
 			const response = await apiClient.post(
 				import.meta.env.VITE_APP_API_REGISTER_URL,
 				userInfo,
-				{
-					headers: {
-						'Accept-Language': currentLang,
-					},
-				}
+				{ headers: { 'Accept-Language': currentLang } }
 			);
 
 			if (response.status === 200) {
@@ -79,29 +137,27 @@ const UserRegistration = () => {
 				localStorage.setItem(USER_EMAIL, response.data?.data?.email);
 				navigate('/subscription');
 			} else {
-				navigate('/error', {
-					state: {
-						errorCode: response.status,
-						errorMessage: t('registration.errorMessage'),
-					},
-				});
+				setFormError(t('registration.errorMessage', 'Something went wrong. Please try again.'));
 			}
 		} catch (error) {
+			// show error instead of redirecting to /error
+			const status = error?.response?.status;
+			const backend = error?.response?.data;
+
+			if (status >= 400 && status < 500) {
+				setFormError(backend?.message || t('registration.clientError', 'Request error. Please check your input.'));
+			} else if (status >= 500) {
+				setFormError(backend?.message || t('registration.serverError', 'Server error. Please try again later.'));
+			} else {
+				setFormError(backend?.message || t('registration.networkError', 'Network error. Check your connection and try again.'));
+			}
 			console.error('Registration failed', error);
-			navigate('/error', {
-				state: {
-					errorCode: error.response?.status || 500,
-					errorMessage: error.message || t('registration.errorMessage'),
-				},
-			});
 		} finally {
-			setLoading(false); // Hide loader
+			setLoading(false);
 		}
 	};
 
-	const togglePasswordVisibility = () => {
-		setShowPassword((prev) => !prev);
-	};
+	const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
 
 	return (
 		<Grid2 container sx={{ width: '100vw', height: '100vh', overflow: 'hidden', position: 'absolute', top: 0, left: 0 }}>
@@ -121,7 +177,15 @@ const UserRegistration = () => {
 					<Typography variant="h4" gutterBottom>
 						{t('registration.title')}
 					</Typography>
-					<form onSubmit={handleSubmit}>
+
+					{/* Top-level backend/network errors */}
+					{formError && (
+						<Box sx={{ mb: 2 }}>
+							<Alert severity="error" variant="filled">{formError}</Alert>
+						</Box>
+					)}
+
+					<form onSubmit={handleSubmit} noValidate>
 						<Grid2 container spacing={2}>
 							<Grid2 item xs={12} sx={{ width: '48.5%' }}>
 								<TextField
@@ -173,6 +237,9 @@ const UserRegistration = () => {
 									required
 									value={userInfo.email}
 									onChange={handleChange}
+									onBlur={handleBlur('email')}
+									error={Boolean(touched.email && (errors.email || liveErrors.email))}
+									helperText={(touched.email && (errors.email || liveErrors.email)) || ' '}
 									slotProps={{
 										input: {
 											startAdornment: (
@@ -194,6 +261,9 @@ const UserRegistration = () => {
 									required
 									value={userInfo.password}
 									onChange={handleChange}
+									onBlur={handleBlur('password')}
+									error={Boolean(touched.password && (errors.password || liveErrors.password))}
+									helperText={(touched.password && (errors.password || liveErrors.password)) || ' '}
 									slotProps={{
 										input: {
 											startAdornment: (
@@ -203,7 +273,7 @@ const UserRegistration = () => {
 											),
 											endAdornment: (
 												<InputAdornment position="end">
-													<IconButton onClick={togglePasswordVisibility} edge="end">
+													<IconButton onClick={togglePasswordVisibility} edge="end" aria-label={t('registration.togglePasswordVisibility', 'Toggle password visibility')}>
 														{showPassword ? <VisibilityOff /> : <Visibility />}
 													</IconButton>
 												</InputAdornment>
@@ -233,15 +303,17 @@ const UserRegistration = () => {
 								/>
 							</Grid2>
 						</Grid2>
+
 						<Button
 							type="submit"
 							fullWidth
 							variant="contained"
 							sx={{ mt: 4, backgroundColor: '#629C44' }}
-							disabled={loading} // Disable button during loading
+							disabled={loading}
 						>
 							{loading ? <CircularProgress size={24} color="inherit" /> : t('registration.registerButton')}
 						</Button>
+
 						<Box sx={{ mt: 2 }}>
 							<LanguageSwitcher />
 						</Box>

@@ -4,12 +4,11 @@ import apiClient from "../../axiosConfig.js";
 import {t} from "i18next";
 import {
 	AUTH_TOKEN,
-	SUBSCRIPTION_STATUS,
-	TENANT_ID,
-	TOKEN_EXPIRY,
-	USER_EMAIL,
-	USER_FIRST_NAME,
-	USER_LAST_NAME
+	CANCELLATION_GRACE_PERIOD_STARTED,
+	FREE_TRIAL_PERIOD_ACTIVE,
+	SUBSCRIPTION_ACTIVE,
+	SUBSCRIPTION_CANCELLED, SUBSCRIPTION_FAILED, SUBSCRIPTION_INCOMPLETE,
+	SUBSCRIPTION_STATUS
 } from "../constants.js";
 import {setAuthResults} from "../../localStorageManager.js";
 
@@ -55,13 +54,13 @@ const SecureHomePage = ({ children }) => {
 					const subscriptionStatus = localStorage.getItem(SUBSCRIPTION_STATUS);
 
 					// Check if subscription is incomplete in
-					if (subscriptionStatus === 'FREE_TRIAL_PERIOD_ACTIVE'
-						|| subscriptionStatus === 'SUBSCRIPTION_ACTIVE'
-						|| subscriptionStatus === 'CANCELLATION_GRACE_PERIOD_STARTED') {
-						console.log('Redirecting to home page')
-					} else if (subscriptionStatus === 'SUBSCRIPTION_INCOMPLETE'
-						|| subscriptionStatus === 'SUBSCRIPTION_CANCELLED'
-						|| subscriptionStatus === 'SUBSCRIPTION_FAILED') {
+					if (subscriptionStatus === FREE_TRIAL_PERIOD_ACTIVE
+						|| subscriptionStatus === SUBSCRIPTION_ACTIVE
+						|| subscriptionStatus === CANCELLATION_GRACE_PERIOD_STARTED) {
+						console.log('Redirecting to home page');
+					} else if (subscriptionStatus === SUBSCRIPTION_INCOMPLETE
+						|| subscriptionStatus === SUBSCRIPTION_CANCELLED
+						|| subscriptionStatus === SUBSCRIPTION_FAILED) {
 						// Redirect to the home page
 						navigate('/subscription');
 					} else {
