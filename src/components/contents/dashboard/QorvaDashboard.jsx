@@ -4,7 +4,6 @@ import {
 	Grid2,
 	Paper,
 	Typography,
-	Chip,
 	Stack,
 	Table,
 	TableBody,
@@ -26,6 +25,7 @@ import {
 } from 'chart.js';
 import { useTranslation } from 'react-i18next';
 import apiClient from '../../../../axiosConfig.js';
+import QorvaChip from "../../commons/QorvaChip.jsx";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -105,13 +105,6 @@ const QorvaDashboard = () => {
 		[t]
 	);
 
-
-
-	const isActive =
-		dashboardData.subscriptionStatus === 'SUBSCRIPTION_ACTIVE' ||
-		dashboardData.subscriptionStatus === 'FREE_TRIAL_PERIOD_ACTIVE' ||
-		dashboardData.subscriptionStatus === 'CANCELLATION_GRACE_PERIOD_STARTED';
-
 	return (
 		<Box
 			sx={{
@@ -137,16 +130,7 @@ const QorvaDashboard = () => {
 					mb: 2,
 				}}
 			>
-				<Chip
-					label={
-						isActive
-							? t('dashboard.subscription.active', 'Subscription: ACTIVE')
-							: t('dashboard.subscription.inactive', 'Subscription: INACTIVE')
-					}
-					color={isActive ? 'success' : 'default'}
-					variant="filled"
-					sx={{ borderRadius: '999px', fontWeight: 600 }}
-				/>
+				<QorvaChip statusCode={dashboardData.subscriptionStatus}/>
 			</Box>
 
 			{/* Content area */}

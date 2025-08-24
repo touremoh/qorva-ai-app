@@ -252,7 +252,20 @@
     "email": "E-mail",
     "tenantId": "ID do tenant",
     "subscriptionStatus": "Estado da subscrição",
-    "footerHint": "Pode atualizar métodos de pagamento e faturas no portal de faturação."
+    "footerHint": "Pode atualizar métodos de pagamento e faturas no portal de faturação.",
+    "status": {
+      "freeTrialActive": "Período de teste gratuito — ativo",
+      "active": "Subscrição ativa",
+      "paymentFailed": "Pagamento falhado",
+      "expired": "Expirada",
+      "locked": "Bloqueada",
+      "incomplete": "Configuração incompleta",
+      "failed": "Subscrição falhada",
+      "cancelled": "Cancelada",
+      "cancellationGraceStarted": "Cancelamento agendado — período de carência",
+      "cancellationGraceFinished": "Cancelada — período de carência terminado",
+      "unknown": "Estado indisponível"
+    }
   },
   "dashboard": {
     "errors": {

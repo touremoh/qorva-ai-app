@@ -248,7 +248,20 @@
     "email": "Email",
     "tenantId": "Tenant ID",
     "subscriptionStatus": "Subscription Status",
-    "footerHint": "Tip: Update payment methods and invoices in the billing portal."
+    "footerHint": "Tip: Update payment methods and invoices in the billing portal.",
+    "status": {
+      "freeTrialActive": "Free trial — active",
+      "active": "Active subscription",
+      "paymentFailed": "Payment failed",
+      "expired": "Expired",
+      "locked": "Locked",
+      "incomplete": "Incomplete setup",
+      "failed": "Subscription failed",
+      "cancelled": "Cancelled",
+      "cancellationGraceStarted": "Cancellation scheduled — grace period",
+      "cancellationGraceFinished": "Cancelled — grace period ended",
+      "unknown": "Status unavailable"
+    }
   },
   "dashboard": {
     "errors": {

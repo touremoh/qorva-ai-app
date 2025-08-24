@@ -252,7 +252,20 @@
     "email": "Correo electrónico",
     "tenantId": "ID de cliente",
     "subscriptionStatus": "Estado de suscripción",
-    "footerHint": "Puede gestionar pagos y facturas en el portal de facturación."
+    "footerHint": "Puede gestionar pagos y facturas en el portal de facturación.",
+    "status": {
+      "freeTrialActive": "Prueba gratuita — activa",
+      "active": "Suscripción activa",
+      "paymentFailed": "Pago fallido",
+      "expired": "Expirada",
+      "locked": "Bloqueada",
+      "incomplete": "Configuración incompleta",
+      "failed": "Suscripción fallida",
+      "cancelled": "Cancelada",
+      "cancellationGraceStarted": "Cancelación programada — período de gracia",
+      "cancellationGraceFinished": "Cancelada — período de gracia finalizado",
+      "unknown": "Estado no disponible"
+    }
   },
   "dashboard": {
     "errors": {

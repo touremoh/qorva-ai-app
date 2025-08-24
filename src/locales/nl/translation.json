@@ -249,7 +249,20 @@
     "email": "E-mail",
     "tenantId": "Tenant-ID",
     "subscriptionStatus": "Abonnementsstatus",
-    "footerHint": "Je kunt facturen en betaalmethoden beheren in het facturatieportaal."
+    "footerHint": "Je kunt facturen en betaalmethoden beheren in het facturatieportaal.",
+    "status": {
+      "freeTrialActive": "Gratis proefperiode — actief",
+      "active": "Abonnement actief",
+      "paymentFailed": "Betaling mislukt",
+      "expired": "Verlopen",
+      "locked": "Geblokkeerd",
+      "incomplete": "Onvolledige configuratie",
+      "failed": "Abonnement mislukt",
+      "cancelled": "Geannuleerd",
+      "cancellationGraceStarted": "Annulering gepland — respijtperiode",
+      "cancellationGraceFinished": "Geannuleerd — respijtperiode beëindigd",
+      "unknown": "Status niet beschikbaar"
+    }
   },
   "dashboard": {
     "errors": {

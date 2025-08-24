@@ -7,7 +7,7 @@ import {
 	Divider,
 	Collapse,
 	Stack,
-	CircularProgress
+	CircularProgress,
 } from "@mui/material";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -23,6 +23,8 @@ import {
 	USER_FIRST_NAME,
 	USER_LAST_NAME
 } from "../../../constants.js";
+import QorvaChip from "../../commons/QorvaChip.jsx";
+
 
 const AccountSettings = () => {
 	const { t } = useTranslation();
@@ -114,7 +116,7 @@ const AccountSettings = () => {
 
 				{/* Content */}
 				<Box sx={{ flex: 1, p: 3, overflowY: "auto" }}>
-					{/* Two big rectangular actions, evenly spread and each taking half of the row */}
+					{/* Two big rectangular actions */}
 					<Box
 						sx={{
 							display: "grid",
@@ -162,8 +164,11 @@ const AccountSettings = () => {
 									<Typography variant="h6" sx={{ fontWeight: 600, textAlign: "center" }}>
 										{t("accountSettings.manageBilling")}
 									</Typography>
-									<Typography variant="body2" color="text.secondary" textAlign="center">
-										{t("accountSettings.manageBillingHint", "View invoices, change plan, update payment method")}
+									<Typography variant="body2" color="text.secondary" sx={{ textAlign: "center" }}>
+										{t(
+											"accountSettings.manageBillingHint",
+											"View invoices, change plan, update payment method"
+										)}
 									</Typography>
 								</Stack>
 							)}
@@ -235,9 +240,9 @@ const AccountSettings = () => {
 								<Typography variant="body2">
 									<strong>{t("accountSettings.email")}:</strong> {userInfo.email || "—"}
 								</Typography>
-								<Typography variant="body2">
-									<strong>{t("accountSettings.subscriptionStatus")}:</strong>{" "}
-									{userInfo.subscriptionStatus || "—"}
+								<Typography variant="body2" sx={{ display: "flex", justifyContent: "center",  alignItems: "center", textAlign: "center", gap: 1 }}>
+									<strong>{t("accountSettings.subscriptionStatus")}:</strong>
+									<QorvaChip statusCode={userInfo.subscriptionStatus} />
 								</Typography>
 							</Stack>
 						</Box>

@@ -252,7 +252,20 @@
     "email": "E-mail",
     "tenantId": "ID cliente",
     "subscriptionStatus": "Stato abbonamento",
-    "footerHint": "Puoi gestire pagamenti e fatture nel portale di fatturazione."
+    "footerHint": "Puoi gestire pagamenti e fatture nel portale di fatturazione.",
+    "status": {
+      "freeTrialActive": "Prova gratuita — attiva",
+      "active": "Abbonamento attivo",
+      "paymentFailed": "Pagamento non riuscito",
+      "expired": "Scaduto",
+      "locked": "Bloccato",
+      "incomplete": "Configurazione incompleta",
+      "failed": "Abbonamento non riuscito",
+      "cancelled": "Annullato",
+      "cancellationGraceStarted": "Annullamento programmato — periodo di tolleranza",
+      "cancellationGraceFinished": "Annullato — periodo di tolleranza terminato",
+      "unknown": "Stato non disponibile"
+    }
   },
   "dashboard": {
     "errors": {

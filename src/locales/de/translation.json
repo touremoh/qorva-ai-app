@@ -252,7 +252,20 @@
     "email": "E-Mail",
     "tenantId": "Mandanten-ID",
     "subscriptionStatus": "Abonnementstatus",
-    "footerHint": "Hinweis: Änderungen an Rechnungen und Zahlungsmethoden im Abrechnungsportal."
+    "footerHint": "Hinweis: Änderungen an Rechnungen und Zahlungsmethoden im Abrechnungsportal.",
+    "status": {
+      "freeTrialActive": "Kostenlose Testphase — aktiv",
+      "active": "Abonnement aktiv",
+      "paymentFailed": "Zahlung fehlgeschlagen",
+      "expired": "Abgelaufen",
+      "locked": "Gesperrt",
+      "incomplete": "Einrichtung unvollständig",
+      "failed": "Abonnement fehlgeschlagen",
+      "cancelled": "Gekündigt",
+      "cancellationGraceStarted": "Kündigung geplant — Kulanzzeit läuft",
+      "cancellationGraceFinished": "Gekündigt — Kulanzzeit beendet",
+      "unknown": "Status nicht verfügbar"
+    }
   },
   "dashboard": {
     "errors": {
