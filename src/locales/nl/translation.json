@@ -328,5 +328,8 @@
     "cancel": "Annuleren",
     "create": "Aanmaken",
     "selectCvAndJob": "Selecteer een CV en een vacature"
+  },
+  "pricing": {
+    "title": "Qorva AI — Kies uw abonnement"
   }
 }

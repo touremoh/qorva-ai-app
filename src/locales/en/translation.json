@@ -327,5 +327,8 @@
     "cancel": "Cancel",
     "create": "Create",
     "selectCvAndJob": "Please select a resume and a job post."
+  },
+  "pricing": {
+    "title": "Qorva AI — Choose your plan"
   }
 }

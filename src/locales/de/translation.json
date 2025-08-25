@@ -331,5 +331,8 @@
     "cancel": "Abbrechen",
     "create": "Erstellen",
     "selectCvAndJob": "Bitte Lebenslauf und Stelle auswählen."
+  },
+  "pricing": {
+    "title": "Qorva AI — Wählen Sie Ihren Tarif"
   }
 }

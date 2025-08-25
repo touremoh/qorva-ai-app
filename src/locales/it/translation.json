@@ -331,5 +331,8 @@
     "cancel": "Annulla",
     "create": "Crea",
     "selectCvAndJob": "Seleziona un CV e un annuncio"
+  },
+  "pricing": {
+    "title": "Qorva AI — Scegli il tuo piano"
   }
 }
