@@ -21,7 +21,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import BusinessIcon from '@mui/icons-material/Business';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { TENANT_ID, USER_EMAIL } from "../../../constants.js";
+import {SUBSCRIPTION_STATUS, TENANT_ID, USER_EMAIL} from "../../../constants.js";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/;
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
@@ -135,6 +135,7 @@ const UserRegistration = () => {
 				localStorage.clear();
 				localStorage.setItem(TENANT_ID, response.data?.data?.tenantId);
 				localStorage.setItem(USER_EMAIL, response.data?.data?.email);
+				localStorage.setItem(SUBSCRIPTION_STATUS, response.data?.data?.subscriptionStatus);
 				navigate('/subscription');
 			} else {
 				setFormError(t('registration.errorMessage', 'Something went wrong. Please try again.'));
