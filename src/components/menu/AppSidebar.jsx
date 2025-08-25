@@ -1,12 +1,15 @@
 // eslint-disable-next-line no-unused-vars
-import React from 'react';
-import {Drawer, List, ListItem, ListItemText, Box, Typography, useMediaQuery, IconButton} from '@mui/material';
+import React, {useEffect, useState} from 'react';
+import {Drawer, useMediaQuery} from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import AppMenuList from "./AppMenuList/AppMenuList.jsx";
+import apiClient from "../../../axiosConfig.js";
+import PropTypes from "prop-types";
 
 const AppSidebar = ({ isSidebarOpen, handleSidebarToggle, handleContentChange }) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
+	const [isChatAllowed, setIsChatAllowed] = useState(true);
 
 	const handleNavigation = (newContent) => {
 		handleContentChange(newContent);
@@ -14,6 +17,21 @@ const AppSidebar = ({ isSidebarOpen, handleSidebarToggle, handleContentChange })
 			handleSidebarToggle(); // Close the sidebar after navigation on small screens
 		}
 	};
+
+	const checkChatAllowed = async () => {
+		try {
+			return await apiClient.get(`${import.meta.env.VITE_APP_API_CHAT_URL}/allowed`);
+		} catch (error) {
+			console.log(error);
+			return false;
+		}
+	}
+
+	useEffect(() => {
+		checkChatAllowed().then(response => {
+			setIsChatAllowed(response.data);
+		});
+	}, []);
 
 	return (
 		<>
@@ -34,7 +52,7 @@ const AppSidebar = ({ isSidebarOpen, handleSidebarToggle, handleContentChange })
 						},
 					}}
 				>
-					<AppMenuList handleContentChange={handleNavigation}  />
+					<AppMenuList handleContentChange={handleNavigation} isChatAllowed={isChatAllowed}  />
 				</Drawer>
 			)}
 
@@ -53,7 +71,7 @@ const AppSidebar = ({ isSidebarOpen, handleSidebarToggle, handleContentChange })
 						},
 					}}
 				>
-					<AppMenuList handleContentChange={handleNavigation}  />
+					<AppMenuList handleContentChange={handleNavigation} isChatAllowed={isChatAllowed}  />
 				</Drawer>
 			)}
 		</>
@@ -61,3 +79,10 @@ const AppSidebar = ({ isSidebarOpen, handleSidebarToggle, handleContentChange })
 };
 
 export default AppSidebar;
+
+// isSidebarOpen, handleSidebarToggle, handleContentChange
+AppSidebar.propTypes = {
+	isSidebarOpen: PropTypes.bool,
+	handleSidebarToggle: PropTypes.func,
+	handleContentChange: PropTypes.func
+}
