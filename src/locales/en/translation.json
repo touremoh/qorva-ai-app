@@ -330,5 +330,12 @@
   },
   "pricing": {
     "title": "Qorva AI — Choose your plan"
+  },
+  "registrationSuccess": {
+    "title": "You’re all set!",
+    "subtitle": "Your Qorva AI account has been created successfully.",
+    "emailNote": "We’ve sent a confirmation email to your inbox. Please verify your email to unlock all features. If you don’t see it, check your spam folder.",
+    "ctaLogin": "Go to login",
+    "help": "Need help? Contact support at support@qorva.ai"
   }
 }

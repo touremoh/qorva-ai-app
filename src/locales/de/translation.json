@@ -334,5 +334,12 @@
   },
   "pricing": {
     "title": "Qorva AI — Wählen Sie Ihren Tarif"
+  },
+  "registrationSuccess": {
+    "title": "Alles erledigt!",
+    "subtitle": "Ihr Qorva AI-Konto wurde erfolgreich erstellt.",
+    "emailNote": "Wir haben Ihnen eine Bestätigungs-E-Mail gesendet. Bitte bestätigen Sie Ihre E-Mail-Adresse, um alle Funktionen freizuschalten. Prüfen Sie ggf. den Spam-Ordner.",
+    "ctaLogin": "Zum Login",
+    "help": "Brauchen Sie Hilfe? Kontaktieren Sie den Support unter support@qorva.ai"
   }
 }

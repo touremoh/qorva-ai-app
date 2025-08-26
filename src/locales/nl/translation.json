@@ -331,5 +331,12 @@
   },
   "pricing": {
     "title": "Qorva AI — Kies uw abonnement"
+  },
+  "registrationSuccess": {
+    "title": "Helemaal klaar!",
+    "subtitle": "Je Qorva AI-account is succesvol aangemaakt.",
+    "emailNote": "We hebben je een bevestigingsmail gestuurd. Verifieer je e-mail om alle functies te activeren. Zie je niets? Controleer dan je spammap.",
+    "ctaLogin": "Inloggen",
+    "help": "Hulp nodig? Neem contact op via support@qorva.ai"
   }
 }
