@@ -9,6 +9,32 @@ import deTranslation from './locales/de/translation.json';
 import esTranslation from './locales/es/translation.json';
 import ptTranslation from './locales/pt/translation.json';
 import itTranslation from './locales/it/translation.json';
+import nlTranslation from './locales/nl/translation.json';
+import {QORVA_USER_LANGUAGE} from "./constants.js";
+
+// Function to get the browser language and map it to available translations
+const getBrowserLanguage = () => {
+	// Get the user language
+	let userLanguage = localStorage.getItem(QORVA_USER_LANGUAGE);
+	if (userLanguage) {
+		return userLanguage;
+	}
+
+	const browserLang = navigator.language || navigator.languages[0];
+	const supportedLanguages = ['en', 'fr', 'de', 'es', 'pt', 'it', 'nl'];
+
+	// Extract primary language code (e.g., 'en' from 'en-US')
+	const primaryLang = browserLang.split('-')[0];
+
+	// Return primary language if supported, else fallback to 'en'
+	userLanguage = supportedLanguages.includes(primaryLang) ? primaryLang : 'en';
+
+	// set the locale storage
+	localStorage.setItem(QORVA_USER_LANGUAGE, userLanguage);
+
+	// return the user language
+	return userLanguage;
+};
 
 i18n
 	.use(initReactI18next)
@@ -20,9 +46,10 @@ i18n
 			es: { translation: esTranslation },
 			pt: { translation: ptTranslation },
 			it: { translation: itTranslation },
+			nl: { translation: nlTranslation },
 		},
-		lng: 'en', // default language
-		fallbackLng: 'en', // fallback language if a translation is missing
+		lng: getBrowserLanguage(), // Set default language to the browser's language
+		fallbackLng: 'en', // Fallback language if a translation is missing
 		interpolation: {
 			escapeValue: false, // React already escapes values
 		},

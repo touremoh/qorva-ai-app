@@ -1,17 +1,20 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import { Select, MenuItem, FormControl } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { FlagIcon } from 'react-flag-kit';
+import {QORVA_USER_LANGUAGE} from "../../constants.js";
 
-const LanguageSwitcher = () => {
+// eslint-disable-next-line react/prop-types
+const LanguageSwitcher = ({textColor = 'black'}) => {
 	const { i18n } = useTranslation();
 	const [language, setLanguage] = useState(i18n.language);
 
 	const handleLanguageChange = (event) => {
 		const newLanguage = event.target.value;
-		console.log(newLanguage);
 		setLanguage(newLanguage);
-		i18n.changeLanguage(newLanguage);
+		i18n.changeLanguage(newLanguage).then(r => console.log(r));
+		localStorage.setItem(QORVA_USER_LANGUAGE, newLanguage);
 	};
 
 	return (
@@ -23,8 +26,12 @@ const LanguageSwitcher = () => {
 				sx={{
 					display: 'flex',
 					alignItems: 'center',
+					color: textColor,
+					'& .MuiSvgIcon-root': {
+						color: textColor // Set arrow icon color to white
+					},
 					'& .MuiOutlinedInput-notchedOutline': {
-						border: 'none',
+						border: 'none'
 					},
 				}}
 			>
@@ -45,6 +52,9 @@ const LanguageSwitcher = () => {
 				</MenuItem>
 				<MenuItem value="it">
 					<FlagIcon code="IT" size={20} style={{ marginRight: 8 }} />Italiano
+				</MenuItem>
+				<MenuItem value="nl">
+					<FlagIcon code="NL" size={20} style={{ marginRight: 8 }} />Nederlands
 				</MenuItem>
 			</Select>
 		</FormControl>

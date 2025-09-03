@@ -1,18 +1,54 @@
-import React, { useState } from 'react'
+// eslint-disable-next-line no-unused-vars
+import React, {useEffect} from 'react'
 import './App.css'
-import {Paper, Typography} from "@mui/material";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from "./views/pages/login/Login.jsx";
+import Register from "./views/pages/register/Register.jsx";
+import AppHome from "./layout/AppHome.jsx";
+import SecureHomePage from "./services/SecureHomePage.jsx";
+import ErrorPage from "./views/pages/errors/ErrorPage.jsx";
+import RegistrationSuccessful from "./views/pages/success/RegistrationSuccessful.jsx";
+import CheckLoginPage from "./services/CheckLoginPage.jsx";
+import PricingPage from "./views/pages/subscription/PricingPage.jsx";
+import SecureSubscriptionPage from "./services/SecureSubscriptionPage.jsx";
+import {initGA} from "./utils/analytics.js";
 
 function App() {
-  const [count, setCount] = useState(0)
 
-  return (
+    useEffect(() => {
+        initGA();
+    }, []);
+
+    return (
       <Router>
           <Routes>
-              <Route path="/" element={<Paper elevation={3} sx={{padding: 3}}><Typography variant="h5">Admin Page</Typography> </Paper>} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Paper elevation={3} sx={{padding: 3}}><Typography variant="h5">Registration Page</Typography> </Paper>} />
+              <Route
+                  path="/"
+                  element={
+                      <SecureHomePage>
+                          <AppHome />
+                      </SecureHomePage>
+                  }
+              />
+              <Route
+                  path="/login"
+                  element={
+                      <CheckLoginPage>
+                          <Login />
+                      </CheckLoginPage>
+                  }
+              />
+              <Route path="/register" element={<Register />} />
+              <Route path="/success" element={<RegistrationSuccessful />} />
+              <Route path="/error" element={<ErrorPage />} />
+              <Route
+                  path="/subscription"
+                  element={
+                    <SecureSubscriptionPage>
+                        <PricingPage />
+                    </SecureSubscriptionPage>
+                  }
+              />
           </Routes>
       </Router>
   )
