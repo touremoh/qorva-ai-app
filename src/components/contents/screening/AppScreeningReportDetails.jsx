@@ -20,7 +20,7 @@ const AppScreeningReportDetails = ({ reportData }) => {
 	const handleOpenCv = async () => {
 		if (reportData?.candidateCVID) {
 			try {
-				const response = await axios.get(`/api/cv/${reportData.candidateCVID}`);
+				const response = await axios.get(`/cvs/${reportData.candidateCVID}`);
 				setCvData(response.data);
 				setOpenCvDialog(true);
 			} catch (error) {
