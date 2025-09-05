@@ -385,7 +385,7 @@ const AppAIResumeChat = () => {
 			{/* Main content */}
 			<Box sx={{ display: 'flex', justifyContent: 'flex-start', width: '90%', mt: 1, mb: '10vh', gap: 2 }}>
 				{/* Left pane: Chats (30%) */}
-				<Paper sx={{ width: '30%', height: '85vh', p: 2, boxShadow: 3, backgroundColor: 'white', overflowY: 'auto' }}>
+				<Paper sx={{ width: '30%', height: '77vh', p: 2, boxShadow: 3, backgroundColor: 'white', overflowY: 'auto' }}>
 					<Typography variant="h6" gutterBottom>{t('appAIResumeChat.chats', 'Chats')}</Typography>
 					<Divider sx={{ mb: 2 }} />
 					<List dense>
@@ -412,7 +412,7 @@ const AppAIResumeChat = () => {
 				</Paper>
 
 				{/* Right pane: Messages (70%) */}
-				<Paper sx={{ width: '70%', height: '85vh', p: 2, boxShadow: 3, backgroundColor: 'white', display: 'flex', flexDirection: 'column' }}>
+				<Paper sx={{ width: '70%', height: '77vh', p: 2, boxShadow: 3, backgroundColor: 'white', display: 'flex', flexDirection: 'column' }}>
 					<Typography variant="h6" gutterBottom>
 						{selectedChat ? selectedChat.title : t('appAIResumeChat.selectChat', 'Select a chat to start')}
 					</Typography>
