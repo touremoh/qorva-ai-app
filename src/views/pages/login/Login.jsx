@@ -109,15 +109,17 @@ const Login = () => {
 		<Container
 			maxWidth="xl"
 			sx={{
-				marginLeft: { xs: 0, md: '5%' },
-				marginRight: { xs: 0, md: '5%' },
 				display: 'flex',
 				alignItems: 'center',
 				justifyContent: 'center',
-				height: '100vh'
+				padding: 0,
+				height: '100vh',
+				position: 'fixed',
+				top: 0,
+				left: 0
 			}}
 		>
-			<Box sx={{ width: '100%', maxWidth: { xs: '100vw', md: '100vw' }, boxShadow: 3, borderRadius: 2, overflow: 'hidden' }}>
+			<Box sx={{ boxShadow: 0, borderRadius: 1, overflow: 'hidden', width: { xs: '100%', sm: '100%', md: '70%', lg: '70%', xl: '70%' } }}>
 				<Grid2 container>
 					{/* Part 1: Login Form */}
 					<Grid2
@@ -131,7 +133,8 @@ const Login = () => {
 							flexDirection: 'column',
 							justifyContent: 'center',
 							alignItems: 'center',
-							color: '#232F3E'
+							color: '#232F3E',
+							width: { xs: '100%', sm: '100%', md: '70%', lg: '70%', xl: '70%' },
 						}}
 					>
 						<Typography variant="h4" gutterBottom>
@@ -142,15 +145,15 @@ const Login = () => {
 						</Typography>
 
 						{formError && (
-							<Box sx={{ width: '100%', maxWidth: '700px', mt: 2 }}>
-								<Alert severity="error" variant="filled">{formError}</Alert>
+							<Box sx={{ width: '100%', mt: 2 }}>
+								<Alert severity="error" variant="outlined">{formError}</Alert>
 							</Box>
 						)}
 
-						<Box component="form" sx={{ mt: 3, width: '100%', maxWidth: '700px' }} onSubmit={handleLogin} noValidate>
+						<Box component="form" sx={{ mt: 3, width: '100%'}} onSubmit={handleLogin} noValidate>
 							<TextField
 								label={t('login.emailLabel')}
-								variant="filled"
+								variant="outlined"
 								fullWidth
 								required
 								margin="normal"
@@ -173,7 +176,7 @@ const Login = () => {
 							<TextField
 								label={t('login.passwordLabel')}
 								type={showPassword ? "text" : "password"}   // NEW toggle
-								variant="filled"
+								variant="outlined"
 								fullWidth
 								required
 								margin="normal"
@@ -232,7 +235,8 @@ const Login = () => {
 							display: 'flex',
 							flexDirection: 'column',
 							justifyContent: 'center',
-							alignItems: 'center'
+							alignItems: 'center',
+							width: { xs: '100%', sm: '100%', md: '30%', lg: '30%', xl: '30%' },
 						}}
 					>
 						<Typography variant="h6" gutterBottom>

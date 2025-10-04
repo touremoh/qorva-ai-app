@@ -163,7 +163,7 @@ const UserRegistration = () => {
 	return (
 		<Grid2 container sx={{ width: '100vw', height: '100vh', overflow: 'hidden', position: 'absolute', top: 0, left: 0 }}>
 			{/* Section 1: Animated Sales Messages */}
-			<Grid2 item xs={4.8} sx={{ fontSize: { sm: '1.6rem', md: '1.8rem', lg: '2rem' }, width: {xs: '0%', sm: '0%', md: '30%', lg: '40%'}, height: '100%', backgroundColor: '#232F3E', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+			<Grid2 item xs={4.8} sx={{ fontSize: { xs: '1.6rem', sm: '1.6rem', md: '1.8rem', lg: '2rem', xl: '2.5rem' }, width: {xs: '0%', sm: '0%', md: '30%', lg: '40%', xl: '40%'}, height: '100%', backgroundColor: '#232F3E', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
 				<Typography variant="h4" align="center" gutterBottom sx={{ color: '#FF9900', fontFamily: 'Arial' }}>
 					{messages[currentMessage].title}
 				</Typography>
@@ -173,8 +173,8 @@ const UserRegistration = () => {
 			</Grid2>
 
 			{/* Section 2: User Registration Form */}
-			<Grid2 item xs={7.2} sx={{ display: 'flex', alignItems: 'center', backgroundColor: '#e8e8e8', justifyContent: 'center', width: {xs: '100%', sm: '100%', md: '70%', lg: '60%'} }}>
-				<Box sx={{ boxShadow: 0, borderRadius: 1, padding: 4, color: '#232F3E', backgroundColor: 'white', width: {xs: '100%', sm: '100%', md: '100%', lg: '80%'} }}>
+			<Grid2 item xs={7.2} sx={{ display: 'flex', alignItems: 'center', backgroundColor: '#e8e8e8', justifyContent: 'center', width: {xs: '100%', sm: '100%', md: '70%', lg: '60%', xl: '60%'} }}>
+				<Box sx={{ boxShadow: 0, borderRadius: 1, padding: 4, color: '#232F3E', backgroundColor: 'white', width: {xs: '100%', sm: '90%', md: '80%', lg: '70%', xl: '60%'} }}>
 					<Typography variant="h4" gutterBottom>
 						{t('registration.title')}
 					</Typography>
