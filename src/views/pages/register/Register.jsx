@@ -173,8 +173,8 @@ const UserRegistration = () => {
 			</Grid2>
 
 			{/* Section 2: User Registration Form */}
-			<Grid2 item xs={7.2} sx={{ display: 'flex', alignItems: 'center', backgroundColor: 'white', justifyContent: 'center', width: '60%' }}>
-				<Box sx={{ boxShadow: 3, borderRadius: 2, padding: 4, color: '#232F3E', backgroundColor: 'white', width: '60%' }}>
+			<Grid2 item xs={7.2} sx={{ display: 'flex', alignItems: 'center', backgroundColor: '#e8e8e8', justifyContent: 'center', width: '60%' }}>
+				<Box sx={{ boxShadow: 2, borderRadius: 1, padding: 4, color: '#232F3E', backgroundColor: 'white', width: '60%' }}>
 					<Typography variant="h4" gutterBottom>
 						{t('registration.title')}
 					</Typography>
@@ -188,11 +188,11 @@ const UserRegistration = () => {
 
 					<form onSubmit={handleSubmit} noValidate>
 						<Grid2 container spacing={2}>
-							<Grid2 item xs={12} sx={{ width: '48.5%' }}>
+							<Grid2 item xs={12} sx={{ minWidth: '48.5%', maxWidth: '100%' }}>
 								<TextField
 									label={t('registration.firstName')}
 									name="firstName"
-									variant="filled"
+									variant="outlined"
 									fullWidth
 									required
 									value={userInfo.firstName}
@@ -208,11 +208,11 @@ const UserRegistration = () => {
 									}}
 								/>
 							</Grid2>
-							<Grid2 item xs={12} sx={{ width: '48.5%' }}>
+							<Grid2 item xs={12} sx={{ minWidth: '48.5%', maxWidth: '100%' }}>
 								<TextField
 									label={t('registration.lastName')}
 									name="lastName"
-									variant="filled"
+									variant="outlined"
 									fullWidth
 									required
 									value={userInfo.lastName}
@@ -233,7 +233,7 @@ const UserRegistration = () => {
 									label={t('registration.email')}
 									name="email"
 									type="email"
-									variant="filled"
+									variant="outlined"
 									fullWidth
 									required
 									value={userInfo.email}
@@ -257,7 +257,7 @@ const UserRegistration = () => {
 									label={t('registration.password')}
 									name="password"
 									type={showPassword ? 'text' : 'password'}
-									variant="filled"
+									variant="outlined"
 									fullWidth
 									required
 									value={userInfo.password}
@@ -287,7 +287,7 @@ const UserRegistration = () => {
 								<TextField
 									label={t('registration.companyName')}
 									name="companyName"
-									variant="filled"
+									variant="outlined"
 									fullWidth
 									required
 									value={userInfo.companyName}
