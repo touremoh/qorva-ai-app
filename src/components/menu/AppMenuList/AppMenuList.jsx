@@ -28,7 +28,7 @@ const AppMenuList = ({ handleContentChange, isChatAllowed }) => {
 
 	const menuItems = [
 		{ id: COMP_ID_DASHBOARD, icon: <LeaderboardOutlinedIcon sx={{ mr: 1 }} />, label: 'Dashboard', display: true },
-		{ id: COMP_ID_CVLIB,     icon: <PeopleIcon sx={{ mr: 1 }} />, label: t('header.cvs') },
+		{ id: COMP_ID_CVLIB,     icon: <PeopleIcon sx={{ mr: 1 }} />, label: t('header.cvs'), display: true },
 		{ id: COMP_ID_JOBS,      icon: <WorkOutlineOutlinedIcon sx={{ mr: 1 }} />, label: t('header.jobs'), display: true },
 		{ id: COMP_ID_REPORTS,   icon: <AssessmentOutlinedIcon sx={{ mr: 1 }} />,  label: t('header.reports'), display: true },
 		{ id: COMP_ID_CHAT,      icon: <AssistantIcon sx={{ mr: 1 }} />,           label: t('header.aiResumeChat') || 'AI Resume Chat', display: isChatAllowed },
