@@ -30,6 +30,9 @@
     "cancelAnytime": "Sans engagement, vous pouvez résilier quand vous le souhaitez.",
     "dataDeletedTitle": "Vos données sous contrôle",
     "dataDeleted": "En supprimant votre compte, vos données seront effacées définitivement.",
+    "firstNameRequired": "Le prénom est obligatoire",
+    "lastNameRequired": "Le nom est obligatoire",
+    "companyNameRequired": "Le nom de l’entreprise est obligatoire",
     "emailRequired": "L’e-mail est obligatoire",
     "emailInvalid": "Veuillez saisir une adresse e-mail valide",
     "passwordRequired": "Le mot de passe est obligatoire",
@@ -46,6 +49,13 @@
     "togglePasswordVisibility": "Afficher/masquer le mot de passe",
     "companyName": "Entreprise",
     "registerButton": "S’inscrire",
+    "alreadyHaveAccount": "Vous avez déjà un compte ?",
+    "signIn": "Se connecter",
+    "panel": {
+      "badge": "Sans carte bancaire",
+      "headline": "Recrutez plus intelligemment dès aujourd’hui.",
+      "subtext": "Rejoignez les équipes qui évaluent les candidats en quelques secondes."
+    },
     "success": {
       "title": "Inscription réussie",
       "message": "Votre compte a bien été créé.",

@@ -30,6 +30,9 @@
     "cancelAnytime": "Keine Bindung – jederzeit kündbar.",
     "dataDeletedTitle": "Ihre Daten, Ihre Kontrolle",
     "dataDeleted": "Bei Kontolöschung werden alle Daten endgültig entfernt.",
+    "firstNameRequired": "Vorname ist erforderlich",
+    "lastNameRequired": "Nachname ist erforderlich",
+    "companyNameRequired": "Firmenname ist erforderlich",
     "emailRequired": "E-Mail wird benötigt",
     "emailInvalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
     "passwordRequired": "Passwort wird benötigt",
@@ -46,6 +49,13 @@
     "togglePasswordVisibility": "Passwort anzeigen/ausblenden",
     "companyName": "Firmenname",
     "registerButton": "Registrieren",
+    "alreadyHaveAccount": "Bereits ein Konto?",
+    "signIn": "Anmelden",
+    "panel": {
+      "badge": "Keine Kreditkarte erforderlich",
+      "headline": "Starten Sie noch heute klüger zu rekrutieren.",
+      "subtext": "Schließen Sie sich Teams an, die Kandidaten in Sekunden screenen."
+    },
     "success": {
       "title": "Registrierung erfolgreich",
       "message": "Ihr Konto wurde erstellt.",

@@ -30,6 +30,9 @@
     "cancelAnytime": "Nessun vincolo: puoi disdire quando vuoi.",
     "dataDeletedTitle": "I tuoi dati sotto controllo",
     "dataDeleted": "Eliminando l’account, i dati saranno rimossi definitivamente.",
+    "firstNameRequired": "Il nome è obbligatorio",
+    "lastNameRequired": "Il cognome è obbligatorio",
+    "companyNameRequired": "Il nome dell’azienda è obbligatorio",
     "emailRequired": "L’e-mail è obbligatoria",
     "emailInvalid": "Inserisci un indirizzo e-mail valido",
     "passwordRequired": "La password è obbligatoria",
@@ -46,6 +49,13 @@
     "togglePasswordVisibility": "Mostra/nascondi password",
     "companyName": "Azienda",
     "registerButton": "Registrati",
+    "alreadyHaveAccount": "Hai già un account?",
+    "signIn": "Accedi",
+    "panel": {
+      "badge": "Nessuna carta di credito richiesta",
+      "headline": "Inizia ad assumere in modo più intelligente.",
+      "subtext": "Unisciti ai team che valutano i candidati in pochi secondi."
+    },
     "success": {
       "title": "Registrazione completata",
       "message": "Il tuo account è stato creato.",

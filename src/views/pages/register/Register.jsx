@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
 	Grid2,
 	Typography,
@@ -7,24 +6,27 @@ import {
 	Button,
 	Box,
 	InputAdornment,
+	Alert,
 	IconButton,
-	CircularProgress,
-	Alert
+	Divider
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import CircularProgress from '@mui/material/CircularProgress';
 import apiClient from '../../../../axiosConfig.js';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../../../components/languages/LanguageSwitcher.jsx';
-import PersonIcon from '@mui/icons-material/Person';
-import EmailIcon from '@mui/icons-material/Email';
-import LockIcon from '@mui/icons-material/Lock';
-import BusinessIcon from '@mui/icons-material/Business';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import {SUBSCRIPTION_STATUS, TENANT_ID, USER_EMAIL} from "../../../constants.js";
+import { SUBSCRIPTION_STATUS, TENANT_ID, USER_EMAIL } from '../../../constants.js';
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/;
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
+
+const acceptedLanguages = ['en', 'fr', 'de', 'es', 'pt', 'it', 'nl'];
 
 const UserRegistration = () => {
 	const { t, i18n } = useTranslation();
@@ -35,65 +37,23 @@ const UserRegistration = () => {
 		lastName: '',
 		email: '',
 		password: '',
-		companyName: ''
+		companyName: '',
 	});
-
-	const [touched, setTouched] = useState({ email: false, password: false });
-	const [errors, setErrors] = useState({ email: '', password: '' });
-	const [formError, setFormError] = useState(''); // top-of-form error from backend / network
+	const [touched, setTouched] = useState({ firstName: false, lastName: false, email: false, password: false, companyName: false });
+	const [errors, setErrors] = useState({ firstName: '', lastName: '', email: '', password: '', companyName: '' });
+	const [formError, setFormError] = useState('');
 	const [showPassword, setShowPassword] = useState(false);
-	const [currentMessage, setCurrentMessage] = useState(0);
 	const [loading, setLoading] = useState(false);
 
-	const messages = [
-		{ title: t('registration.freeTrialTitle'), message: t('registration.freeTrial') },
-		{ title: t('registration.cancelAnytimeTitle'), message: t('registration.cancelAnytime') },
-		{ title: t('registration.dataDeletedTitle'), message: t('registration.dataDeleted') }
-	];
-
-	// List of accepted languages
-	const acceptedLanguages = ['en', 'fr', 'de', 'es', 'pt', 'it', 'nl'];
-
-	useEffect(() => {
-		const interval = setInterval(() => {
-			setCurrentMessage((prev) => (prev + 1) % messages.length);
-		}, 5000);
-		return () => clearInterval(interval);
-	}, [messages.length]);
-
-	const handleChange = (e) => {
-		const { name, value } = e.target;
-		setUserInfo((prev) => ({ ...prev, [name]: value }));
-
-		// live-validate email/password
-		if (name === 'email') {
-			setErrors((prev) => ({
-				...prev,
-				email: !value
-					? t('registration.emailRequired', 'Email is required')
-					: EMAIL_REGEX.test(value)
-						? ''
-						: t('registration.emailInvalid', 'Please enter a valid email address')
-			}));
-		}
-		if (name === 'password') {
-			setErrors((prev) => ({
-				...prev,
-				password: !value
-					? t('registration.passwordRequired', 'Password is required')
-					: PASSWORD_REGEX.test(value)
-						? ''
-						: t('registration.passwordInvalid', '8–20 chars, 1 uppercase, 1 lowercase, 1 number, 1 special character')
-			}));
-		}
-	};
-
 	const validate = (values) => {
-		const next = { email: '', password: '' };
+		const next = { firstName: '', lastName: '', email: '', password: '', companyName: '' };
+		if (!values.firstName?.trim()) next.firstName = t('registration.firstNameRequired', 'First name is required');
+		if (!values.lastName?.trim()) next.lastName = t('registration.lastNameRequired', 'Last name is required');
+		if (!values.companyName?.trim()) next.companyName = t('registration.companyNameRequired', 'Company name is required');
 		if (!values.email) {
 			next.email = t('registration.emailRequired', 'Email is required');
 		} else if (!EMAIL_REGEX.test(values.email)) {
-			next.email = t('registration.emailInvalid', 'Please enter a valid email address');
+			next.email = t('registration.emailInvalid', 'Enter a valid business email');
 		}
 		if (!values.password) {
 			next.password = t('registration.passwordRequired', 'Password is required');
@@ -105,6 +65,11 @@ const UserRegistration = () => {
 
 	const liveErrors = useMemo(() => validate(userInfo), [userInfo]);
 
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setUserInfo((prev) => ({ ...prev, [name]: value }));
+	};
+
 	const handleBlur = (field) => () => {
 		setTouched((prev) => ({ ...prev, [field]: true }));
 		setErrors((prev) => ({ ...prev, [field]: liveErrors[field] }));
@@ -113,24 +78,19 @@ const UserRegistration = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setFormError('');
-
-		// final validation gate
 		const finalErrors = validate(userInfo);
 		setErrors(finalErrors);
-		setTouched({ email: true, password: true });
+		setTouched({ firstName: true, lastName: true, email: true, password: true, companyName: true });
 		if (Object.values(finalErrors).some(Boolean)) return;
 
 		setLoading(true);
 		try {
-			// Detect the current language and set it in the headers
 			const currentLang = acceptedLanguages.includes(i18n.language) ? i18n.language : 'en';
-
 			const response = await apiClient.post(
 				import.meta.env.VITE_APP_API_REGISTER_URL,
 				userInfo,
 				{ headers: { 'Accept-Language': currentLang } }
 			);
-
 			if (response.status === 200) {
 				localStorage.clear();
 				localStorage.setItem(TENANT_ID, response.data?.data?.tenantId);
@@ -141,188 +101,461 @@ const UserRegistration = () => {
 				setFormError(t('registration.errorMessage', 'Something went wrong. Please try again.'));
 			}
 		} catch (error) {
-			// show error instead of redirecting to /error
 			const status = error?.response?.status;
 			const backend = error?.response?.data;
-
 			if (status >= 400 && status < 500) {
-				setFormError(backend?.message || t('registration.clientError', 'Request error. Please check your input.'));
+				setFormError(backend?.message || t('registration.clientError', 'Request error. Check your input.'));
 			} else if (status >= 500) {
 				setFormError(backend?.message || t('registration.serverError', 'Server error. Please try again later.'));
 			} else {
-				setFormError(backend?.message || t('registration.networkError', 'Network error. Check your connection and try again.'));
+				setFormError(backend?.message || t('registration.networkError', 'Network error. Check your connection.'));
 			}
-			console.error('Registration failed', error);
 		} finally {
 			setLoading(false);
 		}
 	};
 
-	const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
+	const trustItems = [
+		{ title: t('registration.freeTrialTitle'), desc: t('registration.freeTrial') },
+		{ title: t('registration.cancelAnytimeTitle'), desc: t('registration.cancelAnytime') },
+		{ title: t('registration.dataDeletedTitle'), desc: t('registration.dataDeleted') },
+	];
 
 	return (
-		<Grid2 container sx={{ width: '100vw', height: '100vh', overflow: 'hidden', position: 'absolute', top: 0, left: 0 }}>
-			{/* Section 1: Animated Sales Messages */}
-			<Grid2 item xs={4.8} sx={{ fontSize: { xs: '1.6rem', sm: '1.6rem', md: '1.8rem', lg: '2rem', xl: '2.5rem' }, width: {xs: '0%', sm: '0%', md: '30%', lg: '40%', xl: '40%'}, height: '100%', backgroundColor: '#232F3E', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
-				<Typography variant="h4" align="center" gutterBottom sx={{ color: '#FF9900', fontFamily: 'Arial' }}>
-					{messages[currentMessage].title}
-				</Typography>
-				<Typography variant="h5" align="center" sx={{ fontStyle: 'italic', fontFamily: 'Arial' }}>
-					{messages[currentMessage].message}
-				</Typography>
-			</Grid2>
+		<Box
+			sx={{
+				minHeight: '100vh',
+				width: '100vw',
+				display: 'flex',
+				alignItems: 'center',
+				justifyContent: 'center',
+				background: 'linear-gradient(135deg, #f0f4f8 0%, #e8edf2 100%)',
+				position: 'fixed',
+				top: 0,
+				left: 0,
+			}}
+		>
+			<Box
+				sx={{
+					width: { xs: '100%', sm: '90%', md: '780px', lg: '860px' },
+					height: { xs: '100%', sm: 'auto' },
+					minHeight: { xs: '100vh', sm: 'auto' },
+					borderRadius: { xs: 0, sm: 3 },
+					overflow: 'hidden',
+					boxShadow: { xs: 'none', sm: '0 24px 64px rgba(0,0,0,0.14)' },
+				}}
+			>
+				<Grid2 container sx={{ height: '100%' }}>
 
-			{/* Section 2: User Registration Form */}
-			<Grid2 item xs={7.2} sx={{ display: 'flex', alignItems: 'center', backgroundColor: '#e8e8e8', justifyContent: 'center', width: {xs: '100%', sm: '100%', md: '70%', lg: '60%', xl: '60%'} }}>
-				<Box sx={{ boxShadow: 0, borderRadius: 1, padding: 4, color: '#232F3E', backgroundColor: 'white', width: {xs: '100%', sm: '90%', md: '80%', lg: '70%', xl: '60%'} }}>
-					<Typography variant="h4" gutterBottom>
-						{t('registration.title')}
-					</Typography>
-
-					{/* Top-level backend/network errors */}
-					{formError && (
-						<Box sx={{ mb: 2 }}>
-							<Alert severity="error" variant="filled">{formError}</Alert>
+					{/* Left: Form panel */}
+					<Grid2
+						size={{ xs: 12, md: 7 }}
+						sx={{
+							backgroundColor: '#ffffff',
+							padding: { xs: '36px 28px', sm: '44px 52px' },
+							display: 'flex',
+							flexDirection: 'column',
+							justifyContent: 'center',
+						}}
+					>
+						{/* Logo + brand */}
+						<Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 3 }}>
+							<Box
+								component="img"
+								src="/logo.svg"
+								alt="Qorva"
+								sx={{ width: 36, height: 36 }}
+							/>
+							<Typography
+								sx={{
+									fontWeight: 700,
+									fontSize: '1.25rem',
+									color: '#0f172a',
+									letterSpacing: '-0.02em',
+								}}
+							>
+								Qorva
+							</Typography>
 						</Box>
-					)}
 
-					<form onSubmit={handleSubmit} noValidate>
-						<Grid2 container spacing={2}>
-							<Grid2 item xs={12} sx={{ width: '100%' }}>
-								<TextField
-									label={t('registration.firstName')}
-									name="firstName"
-									variant="outlined"
-									fullWidth
-									required
-									value={userInfo.firstName}
-									onChange={handleChange}
-									slotProps={{
-										input: {
-											startAdornment: (
-												<InputAdornment position="start">
-													<PersonIcon style={{ color: 'green' }} />
-												</InputAdornment>
-											)
-										}
-									}}
-								/>
-							</Grid2>
-							<Grid2 item xs={12} sx={{ width: '100%' }}>
-								<TextField
-									label={t('registration.lastName')}
-									name="lastName"
-									variant="outlined"
-									fullWidth
-									required
-									value={userInfo.lastName}
-									onChange={handleChange}
-									slotProps={{
-										input: {
-											startAdornment: (
-												<InputAdornment position="start">
-													<PersonIcon style={{ color: 'green' }} />
-												</InputAdornment>
-											)
-										}
-									}}
-								/>
-							</Grid2>
-							<Grid2 item xs={12} sx={{ width: '100%' }}>
-								<TextField
-									label={t('registration.email')}
-									name="email"
-									type="email"
-									variant="outlined"
-									fullWidth
-									required
-									value={userInfo.email}
-									onChange={handleChange}
-									onBlur={handleBlur('email')}
-									error={Boolean(touched.email && (errors.email || liveErrors.email))}
-									helperText={(touched.email && (errors.email || liveErrors.email)) || ' '}
-									slotProps={{
-										input: {
-											startAdornment: (
-												<InputAdornment position="start">
-													<EmailIcon style={{ color: 'green' }} />
-												</InputAdornment>
-											)
-										}
-									}}
-								/>
-							</Grid2>
-							<Grid2 item xs={12} sx={{ width: '100%' }}>
-								<TextField
-									label={t('registration.password')}
-									name="password"
-									type={showPassword ? 'text' : 'password'}
-									variant="outlined"
-									fullWidth
-									required
-									value={userInfo.password}
-									onChange={handleChange}
-									onBlur={handleBlur('password')}
-									error={Boolean(touched.password && (errors.password || liveErrors.password))}
-									helperText={(touched.password && (errors.password || liveErrors.password)) || ' '}
-									slotProps={{
-										input: {
-											startAdornment: (
-												<InputAdornment position="start">
-													<LockIcon style={{ color: 'green' }} />
-												</InputAdornment>
-											),
-											endAdornment: (
-												<InputAdornment position="end">
-													<IconButton onClick={togglePasswordVisibility} edge="end" aria-label={t('registration.togglePasswordVisibility', 'Toggle password visibility')}>
-														{showPassword ? <VisibilityOff /> : <Visibility />}
-													</IconButton>
-												</InputAdornment>
-											)
-										}
-									}}
-								/>
-							</Grid2>
-							<Grid2 item xs={12} sx={{ width: '100%' }}>
-								<TextField
-									label={t('registration.companyName')}
-									name="companyName"
-									variant="outlined"
-									fullWidth
-									required
-									value={userInfo.companyName}
-									onChange={handleChange}
-									slotProps={{
-										input: {
-											startAdornment: (
-												<InputAdornment position="start">
-													<BusinessIcon style={{ color: 'green' }} />
-												</InputAdornment>
-											)
-										}
-									}}
-								/>
-							</Grid2>
-						</Grid2>
-
-						<Button
-							type="submit"
-							fullWidth
-							variant="contained"
-							sx={{ mt: 4, backgroundColor: '#629C44' }}
-							disabled={loading}
+						<Typography
+							variant="h5"
+							sx={{
+								fontWeight: 700,
+								color: '#0f172a',
+								letterSpacing: '-0.03em',
+								mb: 0.5,
+							}}
 						>
-							{loading ? <CircularProgress size={24} color="inherit" /> : t('registration.registerButton')}
-						</Button>
+							{t('registration.title')}
+						</Typography>
+						<Typography
+							variant="body2"
+							sx={{ color: '#64748b', mb: 2.5 }}
+						>
+							{t('registration.panel.subtext')}
+						</Typography>
 
-						<Box sx={{ mt: 2 }}>
+						{formError && (
+							<Alert
+								severity="error"
+								variant="filled"
+								sx={{ mb: 2, borderRadius: 1.5, fontSize: '0.82rem' }}
+							>
+								{formError}
+							</Alert>
+						)}
+
+						<Box component="form" onSubmit={handleSubmit} noValidate>
+							<Grid2 container spacing={1.5}>
+								<Grid2 size={{ xs: 12, sm: 6 }}>
+									<TextField
+										label={t('registration.firstName')}
+										name="firstName"
+										variant="outlined"
+										fullWidth
+										required
+										size="small"
+										value={userInfo.firstName}
+										onChange={handleChange}
+										onBlur={handleBlur('firstName')}
+										error={Boolean(touched.firstName && (errors.firstName || liveErrors.firstName))}
+										helperText={(touched.firstName && (errors.firstName || liveErrors.firstName)) || ' '}
+										sx={inputSx}
+										slotProps={{
+											input: {
+												startAdornment: (
+													<InputAdornment position="start">
+														<PersonOutlinedIcon sx={{ fontSize: 18, color: '#94a3b8' }} />
+													</InputAdornment>
+												),
+											},
+										}}
+									/>
+								</Grid2>
+								<Grid2 size={{ xs: 12, sm: 6 }}>
+									<TextField
+										label={t('registration.lastName')}
+										name="lastName"
+										variant="outlined"
+										fullWidth
+										required
+										size="small"
+										value={userInfo.lastName}
+										onChange={handleChange}
+										onBlur={handleBlur('lastName')}
+										error={Boolean(touched.lastName && (errors.lastName || liveErrors.lastName))}
+										helperText={(touched.lastName && (errors.lastName || liveErrors.lastName)) || ' '}
+										sx={inputSx}
+										slotProps={{
+											input: {
+												startAdornment: (
+													<InputAdornment position="start">
+														<PersonOutlinedIcon sx={{ fontSize: 18, color: '#94a3b8' }} />
+													</InputAdornment>
+												),
+											},
+										}}
+									/>
+								</Grid2>
+								<Grid2 size={{ xs: 12 }}>
+									<TextField
+										label={t('registration.email')}
+										name="email"
+										type="email"
+										variant="outlined"
+										fullWidth
+										required
+										size="small"
+										value={userInfo.email}
+										onChange={handleChange}
+										onBlur={handleBlur('email')}
+										error={Boolean(touched.email && (errors.email || liveErrors.email))}
+										helperText={(touched.email && (errors.email || liveErrors.email)) || ' '}
+										sx={inputSx}
+										slotProps={{
+											input: {
+												startAdornment: (
+													<InputAdornment position="start">
+														<EmailOutlinedIcon sx={{ fontSize: 18, color: '#94a3b8' }} />
+													</InputAdornment>
+												),
+											},
+										}}
+									/>
+								</Grid2>
+								<Grid2 size={{ xs: 12 }}>
+									<TextField
+										label={t('registration.password')}
+										name="password"
+										type={showPassword ? 'text' : 'password'}
+										variant="outlined"
+										fullWidth
+										required
+										size="small"
+										value={userInfo.password}
+										onChange={handleChange}
+										onBlur={handleBlur('password')}
+										error={Boolean(touched.password && (errors.password || liveErrors.password))}
+										helperText={(touched.password && (errors.password || liveErrors.password)) || ' '}
+										sx={inputSx}
+										slotProps={{
+											input: {
+												startAdornment: (
+													<InputAdornment position="start">
+														<LockOutlinedIcon sx={{ fontSize: 18, color: '#94a3b8' }} />
+													</InputAdornment>
+												),
+												endAdornment: (
+													<InputAdornment position="end">
+														<IconButton
+															onClick={() => setShowPassword((prev) => !prev)}
+															edge="end"
+															size="small"
+															aria-label={t('registration.togglePasswordVisibility')}
+															sx={{ color: '#94a3b8' }}
+														>
+															{showPassword ? <VisibilityOff sx={{ fontSize: 18 }} /> : <Visibility sx={{ fontSize: 18 }} />}
+														</IconButton>
+													</InputAdornment>
+												),
+											},
+										}}
+									/>
+								</Grid2>
+								<Grid2 size={{ xs: 12 }}>
+									<TextField
+										label={t('registration.companyName')}
+										name="companyName"
+										variant="outlined"
+										fullWidth
+										required
+										size="small"
+										value={userInfo.companyName}
+										onChange={handleChange}
+										onBlur={handleBlur('companyName')}
+										error={Boolean(touched.companyName && (errors.companyName || liveErrors.companyName))}
+										helperText={(touched.companyName && (errors.companyName || liveErrors.companyName)) || ' '}
+										sx={{ ...inputSx, mb: 0 }}
+										slotProps={{
+											input: {
+												startAdornment: (
+													<InputAdornment position="start">
+														<BusinessOutlinedIcon sx={{ fontSize: 18, color: '#94a3b8' }} />
+													</InputAdornment>
+												),
+											},
+										}}
+									/>
+								</Grid2>
+							</Grid2>
+
+							<Button
+								type="submit"
+								fullWidth
+								variant="contained"
+								disabled={loading}
+								sx={{
+									mt: 2,
+									py: 1.3,
+									borderRadius: 1.5,
+									fontWeight: 600,
+									fontSize: '0.9rem',
+									textTransform: 'none',
+									letterSpacing: 0,
+									backgroundColor: '#629C44',
+									boxShadow: '0 2px 8px rgba(98,156,68,0.35)',
+									transition: 'background-color 0.2s, box-shadow 0.2s, transform 0.1s',
+									'&:hover': {
+										backgroundColor: '#518136',
+										boxShadow: '0 4px 14px rgba(98,156,68,0.45)',
+										transform: 'translateY(-1px)',
+									},
+									'&:active': { transform: 'translateY(0)' },
+									'&.Mui-disabled': { backgroundColor: '#b8d4a8', boxShadow: 'none' },
+								}}
+							>
+								{loading
+									? <CircularProgress size={20} sx={{ color: 'rgba(255,255,255,0.8)' }} />
+									: t('registration.registerButton')
+								}
+							</Button>
+						</Box>
+
+						<Divider sx={{ my: 2.5, borderColor: '#e2e8f0' }} />
+
+						<Box sx={{ display: 'flex', justifyContent: 'center' }}>
 							<LanguageSwitcher />
 						</Box>
-					</form>
-				</Box>
-			</Grid2>
-		</Grid2>
+					</Grid2>
+
+					{/* Right: Brand panel */}
+					<Grid2
+						size={{ xs: 12, md: 5 }}
+						sx={{
+							background: 'linear-gradient(160deg, #1a2940 0%, #232F3E 55%, #2d3f54 100%)',
+							padding: { xs: '40px 28px', sm: '52px 44px' },
+							display: { xs: 'none', md: 'flex' },
+							flexDirection: 'column',
+							justifyContent: 'space-between',
+							position: 'relative',
+							overflow: 'hidden',
+						}}
+					>
+						{/* Decorative circles */}
+						<Box sx={{
+							position: 'absolute', top: -60, right: -60,
+							width: 220, height: 220, borderRadius: '50%',
+							background: 'rgba(98,156,68,0.12)',
+							pointerEvents: 'none',
+						}} />
+						<Box sx={{
+							position: 'absolute', bottom: -80, left: -40,
+							width: 280, height: 280, borderRadius: '50%',
+							background: 'rgba(37,99,235,0.1)',
+							pointerEvents: 'none',
+						}} />
+
+						{/* Top content */}
+						<Box sx={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', textAlign: 'left' }}>
+							<Box
+								sx={{
+									display: 'inline-flex',
+									alignItems: 'center',
+									gap: 1,
+									backgroundColor: 'rgba(98,156,68,0.18)',
+									border: '1px solid rgba(98,156,68,0.35)',
+									borderRadius: 5,
+									px: 2,
+									py: 0.6,
+									mb: 3,
+								}}
+							>
+								<Box sx={{ width: 7, height: 7, borderRadius: '50%', backgroundColor: '#629C44' }} />
+								<Typography sx={{ fontSize: '0.75rem', color: '#a3c988', fontWeight: 500 }}>
+									{t('login.panel.badge')}
+								</Typography>
+							</Box>
+
+							<Typography
+								sx={{
+									fontSize: '1.65rem',
+									fontWeight: 700,
+									color: '#ffffff',
+									lineHeight: 1.3,
+									letterSpacing: '-0.03em',
+									mb: 3,
+								}}
+							>
+								{t('registration.panel.headline')}
+							</Typography>
+
+							{/* Trust items */}
+							{trustItems.map((item) => (
+								<Box key={item.title} sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5, mb: 2 }}>
+									<Box
+										sx={{
+											width: 20, height: 20, mt: '2px', borderRadius: '50%', flexShrink: 0,
+											backgroundColor: 'rgba(98,156,68,0.2)',
+											border: '1px solid rgba(98,156,68,0.5)',
+											display: 'flex', alignItems: 'center', justifyContent: 'center',
+										}}
+									>
+										<Box sx={{ width: 7, height: 7, borderRadius: '50%', backgroundColor: '#629C44' }} />
+									</Box>
+									<Box>
+										<Typography sx={{ fontSize: '0.82rem', color: '#e2e8f0', fontWeight: 600, lineHeight: 1.3 }}>
+											{item.title}
+										</Typography>
+										<Typography sx={{ fontSize: '0.78rem', color: '#94a3b8', lineHeight: 1.4 }}>
+											{item.desc}
+										</Typography>
+									</Box>
+								</Box>
+							))}
+						</Box>
+
+						{/* Bottom CTA */}
+						<Box sx={{ position: 'relative', zIndex: 1 }}>
+							<Typography sx={{ color: '#94a3b8', fontSize: '0.82rem', mb: 1.5 }}>
+								{t('registration.alreadyHaveAccount')}
+							</Typography>
+							<Button
+								variant="outlined"
+								onClick={() => navigate('/login')}
+								sx={{
+									color: '#ffffff',
+									borderColor: 'rgba(255,255,255,0.25)',
+									borderRadius: 1.5,
+									textTransform: 'none',
+									fontWeight: 500,
+									fontSize: '0.85rem',
+									px: 2.5,
+									py: 0.9,
+									backdropFilter: 'blur(4px)',
+									backgroundColor: 'rgba(255,255,255,0.04)',
+									transition: 'border-color 0.2s, background-color 0.2s',
+									'&:hover': {
+										borderColor: 'rgba(255,255,255,0.55)',
+										backgroundColor: 'rgba(255,255,255,0.09)',
+									},
+								}}
+							>
+								{t('registration.signIn')}
+							</Button>
+						</Box>
+					</Grid2>
+
+					{/* Mobile: sign-in row */}
+					<Grid2
+						size={{ xs: 12 }}
+						sx={{
+							display: { xs: 'flex', md: 'none' },
+							backgroundColor: '#232F3E',
+							padding: '20px 28px',
+							alignItems: 'center',
+							justifyContent: 'space-between',
+						}}
+					>
+						<Typography sx={{ color: '#94a3b8', fontSize: '0.82rem' }}>
+							{t('registration.alreadyHaveAccount')}
+						</Typography>
+						<Button
+							variant="outlined"
+							onClick={() => navigate('/login')}
+							size="small"
+							sx={{
+								color: '#ffffff',
+								borderColor: 'rgba(255,255,255,0.3)',
+								textTransform: 'none',
+								borderRadius: 1.5,
+								fontWeight: 500,
+								'&:hover': { borderColor: 'rgba(255,255,255,0.6)' },
+							}}
+						>
+							{t('registration.signIn')}
+						</Button>
+					</Grid2>
+
+				</Grid2>
+			</Box>
+		</Box>
 	);
+};
+
+const inputSx = {
+	mb: 0.5,
+	'& .MuiOutlinedInput-root': {
+		borderRadius: 1.5,
+		backgroundColor: '#f8fafc',
+		transition: 'background-color 0.2s',
+		'&:hover': { backgroundColor: '#f1f5f9' },
+		'&.Mui-focused': { backgroundColor: '#ffffff' },
+		'& fieldset': { borderColor: '#e2e8f0' },
+		'&:hover fieldset': { borderColor: '#cbd5e1' },
+		'&.Mui-focused fieldset': { borderColor: '#629C44', borderWidth: 1.5 },
+	},
+	'& .MuiInputLabel-root.Mui-focused': { color: '#629C44' },
 };
 
 export default UserRegistration;

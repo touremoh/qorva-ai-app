@@ -30,6 +30,9 @@
     "cancelAnytime": "Geen verplichtingen, opzeggen kan altijd.",
     "dataDeletedTitle": "Jouw data, jouw controle",
     "dataDeleted": "Bij verwijderen van je account worden al je gegevens permanent gewist.",
+    "firstNameRequired": "Voornaam is verplicht",
+    "lastNameRequired": "Achternaam is verplicht",
+    "companyNameRequired": "Bedrijfsnaam is verplicht",
     "emailRequired": "E-mail is verplicht",
     "emailInvalid": "Voer een geldig e-mailadres in",
     "passwordRequired": "Wachtwoord is verplicht",
@@ -46,6 +49,13 @@
     "togglePasswordVisibility": "Wachtwoord tonen/verbergen",
     "companyName": "Bedrijfsnaam",
     "registerButton": "Registreren",
+    "alreadyHaveAccount": "Heb je al een account?",
+    "signIn": "Inloggen",
+    "panel": {
+      "badge": "Geen creditcard nodig",
+      "headline": "Begin vandaag nog slimmer te werven.",
+      "subtext": "Sluit je aan bij teams die kandidaten in seconden screenen."
+    },
     "success": {
       "title": "Registratie geslaagd",
       "message": "Je account is succesvol aangemaakt.",

@@ -30,6 +30,9 @@
     "cancelAnytime": "Sem compromissos, pode cancelar a qualquer momento.",
     "dataDeletedTitle": "Os seus dados, sob controlo",
     "dataDeleted": "Ao eliminar a conta, todos os dados serão removidos de forma permanente.",
+    "firstNameRequired": "O nome é obrigatório",
+    "lastNameRequired": "O apelido é obrigatório",
+    "companyNameRequired": "O nome da empresa é obrigatório",
     "emailRequired": "O e-mail é obrigatório",
     "emailInvalid": "Introduza um endereço de e-mail válido",
     "passwordRequired": "A palavra-passe é obrigatória",
@@ -46,6 +49,13 @@
     "togglePasswordVisibility": "Mostrar/ocultar palavra-passe",
     "companyName": "Empresa",
     "registerButton": "Registar",
+    "alreadyHaveAccount": "Já tem uma conta?",
+    "signIn": "Entrar",
+    "panel": {
+      "badge": "Sem cartão de crédito",
+      "headline": "Comece a recrutar de forma mais inteligente.",
+      "subtext": "Junte-se a equipas que avaliam candidatos em segundos."
+    },
     "success": {
       "title": "Registo concluído",
       "message": "A sua conta foi criada com sucesso.",

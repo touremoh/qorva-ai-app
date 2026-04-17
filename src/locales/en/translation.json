@@ -30,6 +30,9 @@
     "cancelAnytime": "No contracts. Cancel whenever you want.",
     "dataDeletedTitle": "Your Data. Your Control.",
     "dataDeleted": "Deleting your account will permanently erase your data.",
+    "firstNameRequired": "First name is required",
+    "lastNameRequired": "Last name is required",
+    "companyNameRequired": "Company name is required",
     "emailRequired": "Email is required",
     "emailInvalid": "Enter a valid business email",
     "passwordRequired": "Password is required",
@@ -46,6 +49,13 @@
     "togglePasswordVisibility": "Show/Hide password",
     "companyName": "Company Name",
     "registerButton": "Sign Up",
+    "alreadyHaveAccount": "Already have an account?",
+    "signIn": "Sign in",
+    "panel": {
+      "badge": "No credit card required",
+      "headline": "Start hiring smarter today.",
+      "subtext": "Join teams that screen candidates in seconds, not days."
+    },
     "success": {
       "title": "You’re All Set!",
       "message": "Your account has been created.",
