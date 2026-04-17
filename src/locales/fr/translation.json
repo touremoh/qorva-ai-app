@@ -12,7 +12,16 @@
     "passwordRequired": "Le mot de passe est obligatoire",
     "passwordInvalid": "8–20 caractères, avec majuscule, minuscule, chiffre et symbole",
     "invalidCredentials": "E-mail ou mot de passe incorrect",
-    "togglePasswordVisibility": "Afficher/masquer le mot de passe"
+    "togglePasswordVisibility": "Afficher/masquer le mot de passe",
+    "panel": {
+      "badge": "Recrutement IA",
+      "headline": "Analysez et classez les CV en quelques secondes.",
+      "subtext": "Laissez l'IA faire le travail. Qorva lit, note et classe chaque candidature pour que vous puissiez vous concentrer sur les bons entretiens.",
+      "bullet1": "Screening et classement des CV instantanés",
+      "bullet2": "Conçu pour les PME",
+      "bullet3": "Réduisez le temps de sélection de 90%",
+      "freeToStart": "Gratuit pour commencer"
+    }
   },
   "registration": {
     "freeTrialTitle": "Essai gratuit",

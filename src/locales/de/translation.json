@@ -12,7 +12,16 @@
     "passwordRequired": "Passwort wird benötigt",
     "passwordInvalid": "8–20 Zeichen, mindestens 1 Großbuchstabe, 1 Kleinbuchstabe, 1 Zahl und 1 Sonderzeichen",
     "invalidCredentials": "E-Mail oder Passwort ungültig",
-    "togglePasswordVisibility": "Passwort ein-/ausblenden"
+    "togglePasswordVisibility": "Passwort ein-/ausblenden",
+    "panel": {
+      "badge": "KI-gestützte Rekrutierung",
+      "headline": "CVs in Sekunden screenen und ranken.",
+      "subtext": "Lassen Sie die KI die Arbeit übernehmen. Qorva liest, bewertet und rankt jede Bewerbung, damit Sie sich auf die richtigen Vorstellungsgespräche konzentrieren können.",
+      "bullet1": "Sofortiges CV-Screening und Kandidaten-Ranking",
+      "bullet2": "Entwickelt für kleine und mittlere Unternehmen",
+      "bullet3": "Auswahlzeit um bis zu 90 % reduzieren",
+      "freeToStart": "Kostenlos starten"
+    }
   },
   "registration": {
     "freeTrialTitle": "Kostenlose Testphase",

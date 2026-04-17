@@ -12,7 +12,16 @@
     "passwordRequired": "Password is required",
     "passwordInvalid": "8–20 characters, with uppercase, lowercase, number, and special character",
     "invalidCredentials": "Incorrect email or password",
-    "togglePasswordVisibility": "Show/Hide password"
+    "togglePasswordVisibility": "Show/Hide password",
+    "panel": {
+      "badge": "AI-Powered Recruitment",
+      "headline": "Screen & rank CVs in seconds, not days.",
+      "subtext": "Let AI do the heavy lifting. Qorva reads, scores, and ranks every application so you can focus on interviewing the right people.",
+      "bullet1": "Instant CV screening & candidate ranking",
+      "bullet2": "Built for small & medium-sized businesses",
+      "bullet3": "Cut screening time by up to 90%",
+      "freeToStart": "Free to start"
+    }
   },
   "registration": {
     "freeTrialTitle": "Free Trial",

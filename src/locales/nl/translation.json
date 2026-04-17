@@ -12,7 +12,16 @@
     "passwordRequired": "Wachtwoord is verplicht",
     "passwordInvalid": "8–20 tekens met hoofdletter, kleine letter, cijfer en symbool",
     "invalidCredentials": "Onjuiste e-mail of wachtwoord",
-    "togglePasswordVisibility": "Wachtwoord tonen/verbergen"
+    "togglePasswordVisibility": "Wachtwoord tonen/verbergen",
+    "panel": {
+      "badge": "AI-gedreven Werving",
+      "headline": "Screen en rangschik CV's in seconden.",
+      "subtext": "Laat de AI het werk doen. Qorva leest, beoordeelt en rangschikt elke sollicitatie zodat jij je kunt richten op de juiste gesprekken.",
+      "bullet1": "Direct CV-screening en kandidaatrangschikking",
+      "bullet2": "Ontworpen voor het midden- en kleinbedrijf",
+      "bullet3": "Verlaag de selectietijd met tot 90%",
+      "freeToStart": "Gratis starten."
+    }
   },
   "registration": {
     "freeTrialTitle": "Gratis proefperiode",
