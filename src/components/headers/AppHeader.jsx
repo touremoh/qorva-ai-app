@@ -25,11 +25,11 @@ import {
 	USER_FIRST_NAME,
 	USER_LAST_NAME,
 } from '../../constants.js';
-import { SIDEBAR_WIDTH } from '../menu/AppSidebar.jsx';
+import { SIDEBAR_WIDTH, SIDEBAR_WIDTH_COLLAPSED } from '../menu/AppSidebar.jsx';
 
 export const HEADER_HEIGHT = 64;
 
-const AppHeader = ({ handleSidebarToggle, handleContentChange, contentTitle }) => {
+const AppHeader = ({ handleSidebarToggle, handleSidebarCollapse, handleContentChange, contentTitle, isSidebarCollapsed }) => {
 	const { t } = useTranslation();
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [initials, setInitials] = useState('');
@@ -58,18 +58,31 @@ const AppHeader = ({ handleSidebarToggle, handleContentChange, contentTitle }) =
 			elevation={0}
 			sx={{
 				position: 'fixed',
-				width: { xs: '100%', md: `calc(100% - ${SIDEBAR_WIDTH}px)` },
-				marginLeft: { md: `${SIDEBAR_WIDTH}px` },
+				width: {
+					xs: '100%',
+					md: `calc(100% - ${isSidebarCollapsed ? SIDEBAR_WIDTH_COLLAPSED : SIDEBAR_WIDTH}px)`,
+				},
+				marginLeft: {
+					md: `${isSidebarCollapsed ? SIDEBAR_WIDTH_COLLAPSED : SIDEBAR_WIDTH}px`,
+				},
 				height: HEADER_HEIGHT,
 				justifyContent: 'center',
 				backgroundColor: '#ffffff',
 				borderBottom: '1px solid #e2e8f0',
 				color: '#0f172a',
+				transition: 'width 0.2s ease, margin-left 0.2s ease',
 			}}
 		>
 			<Toolbar sx={{ minHeight: `${HEADER_HEIGHT}px !important`, px: { xs: 2, sm: 3 } }}>
 				<IconButton
-					onClick={handleSidebarToggle}
+					onClick={(e) => {
+						// On desktop: collapse/expand sidebar. On mobile: toggle drawer.
+						if (window.innerWidth >= 900) {
+							handleSidebarCollapse();
+						} else {
+							handleSidebarToggle();
+						}
+					}}
 					edge="start"
 					sx={{
 						mr: 2,

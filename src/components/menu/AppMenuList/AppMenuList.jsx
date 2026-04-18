@@ -17,7 +17,7 @@ import {
 } from '../../../constants.js';
 import PropTypes from 'prop-types';
 
-const AppMenuList = ({ handleContentChange, isChatAllowed }) => {
+const AppMenuList = ({ handleContentChange, isChatAllowed, collapsed }) => {
 	const { t } = useTranslation();
 	const [selectedItem, setSelectedItem] = useState(COMP_ID_DASHBOARD);
 
@@ -42,32 +42,36 @@ const AppMenuList = ({ handleContentChange, isChatAllowed }) => {
 				flexDirection: 'column',
 				height: '100%',
 				background: 'linear-gradient(180deg, #1a2940 0%, #232F3E 100%)',
+				overflow: 'hidden',
 			}}
 		>
 			{/* Brand */}
-			<Box sx={{ px: 2.5, pt: 2.5, pb: 2, display: 'flex', alignItems: 'center', gap: 1.5 }}>
+			<Box sx={{
+				px: collapsed ? 0 : 2.5,
+				pt: 2.5,
+				pb: 2,
+				display: 'flex',
+				alignItems: 'center',
+				justifyContent: collapsed ? 'center' : 'flex-start',
+				gap: 1.5,
+			}}>
 				<Box
 					component="img"
 					src="/logo.svg"
 					alt="Qorva"
-					sx={{ width: 30, height: 30 }}
+					sx={{ width: 30, height: 30, flexShrink: 0 }}
 				/>
-				<Typography
-					sx={{
-						fontWeight: 700,
-						fontSize: '1.1rem',
-						color: '#ffffff',
-						letterSpacing: '-0.02em',
-					}}
-				>
-					Qorva
-				</Typography>
+				{!collapsed && (
+					<Typography sx={{ fontWeight: 700, fontSize: '1.1rem', color: '#ffffff', letterSpacing: '-0.02em' }}>
+						Qorva
+					</Typography>
+				)}
 			</Box>
 
-			<Box sx={{ mx: 2.5, borderBottom: '1px solid rgba(255,255,255,0.07)', mb: 2 }} />
+			<Box sx={{ mx: collapsed ? 1 : 2.5, borderBottom: '1px solid rgba(255,255,255,0.07)', mb: 2 }} />
 
 			{/* Nav items */}
-			<List disablePadding sx={{ px: 1.5, flex: 1 }}>
+			<List disablePadding sx={{ px: collapsed ? 0.5 : 1.5, flex: 1 }}>
 				{menuItems.map((item) => {
 					if (!item.display) return null;
 					const { Icon } = item;
@@ -76,14 +80,17 @@ const AppMenuList = ({ handleContentChange, isChatAllowed }) => {
 						<ListItemButton
 							key={item.id}
 							onClick={() => handleNavigation(item.id)}
+							title={collapsed ? item.label : undefined}
 							sx={{
 								borderRadius: 1.5,
 								mb: 0.5,
-								px: 1.5,
+								px: collapsed ? 0 : 1.5,
 								py: 0.9,
+								justifyContent: collapsed ? 'center' : 'flex-start',
 								color: isActive ? '#ffffff' : 'rgba(255,255,255,0.55)',
 								backgroundColor: isActive ? 'rgba(98,156,68,0.18)' : 'transparent',
-								borderLeft: isActive ? '3px solid #629C44' : '3px solid transparent',
+								borderLeft: collapsed ? 'none' : (isActive ? '3px solid #629C44' : '3px solid transparent'),
+								borderRadius: collapsed ? 1.5 : 1.5,
 								transition: 'all 0.15s ease',
 								'&:hover': {
 									backgroundColor: isActive ? 'rgba(98,156,68,0.24)' : 'rgba(255,255,255,0.06)',
@@ -91,36 +98,35 @@ const AppMenuList = ({ handleContentChange, isChatAllowed }) => {
 								},
 							}}
 						>
-							<Icon sx={{ fontSize: 18, mr: 1.5, flexShrink: 0 }} />
-							<Typography
-								sx={{
-									fontSize: '0.84rem',
-									fontWeight: isActive ? 600 : 400,
-									lineHeight: 1.2,
-									letterSpacing: '-0.01em',
-								}}
-							>
-								{item.label}
-							</Typography>
+							<Icon sx={{ fontSize: 18, mr: collapsed ? 0 : 1.5, flexShrink: 0 }} />
+							{!collapsed && (
+								<Typography
+									sx={{
+										fontSize: '0.84rem',
+										fontWeight: isActive ? 600 : 400,
+										lineHeight: 1.2,
+										letterSpacing: '-0.01em',
+									}}
+								>
+									{item.label}
+								</Typography>
+							)}
 						</ListItemButton>
 					);
 				})}
 			</List>
 
 			{/* Footer */}
-			<Box sx={{ mx: 2.5, borderBottom: '1px solid rgba(255,255,255,0.05)', mb: 2 }} />
-			<Box sx={{ px: 2.5, pb: 2.5 }}>
-				<Typography
-					sx={{
-						fontSize: '0.68rem',
-						color: 'rgba(255,255,255,0.2)',
-						letterSpacing: '0.06em',
-						textTransform: 'uppercase',
-					}}
-				>
-					Qorva AI
-				</Typography>
-			</Box>
+			{!collapsed && (
+				<>
+					<Box sx={{ mx: 2.5, borderBottom: '1px solid rgba(255,255,255,0.05)', mb: 2 }} />
+					<Box sx={{ px: 2.5, pb: 2.5 }}>
+						<Typography sx={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.2)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+							Qorva AI
+						</Typography>
+					</Box>
+				</>
+			)}
 		</Box>
 	);
 };
@@ -130,4 +136,5 @@ export default AppMenuList;
 AppMenuList.propTypes = {
 	handleContentChange: PropTypes.func.isRequired,
 	isChatAllowed: PropTypes.bool.isRequired,
+	collapsed: PropTypes.bool,
 };

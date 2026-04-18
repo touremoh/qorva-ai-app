@@ -12,18 +12,12 @@ const AppHome = () => {
 	const [content, setContent] = useState('dashboard');
 	const location = useLocation();
 
-	// Handlers for sidebar open/close for smaller screens
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+	const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
-	// Handler for sidebar toggle
-	const handleSidebarToggle = () => {
-		setIsSidebarOpen(!isSidebarOpen);
-	};
-
-	// Handler for updating content
-	const handleContentChange = (newContent) => {
-		setContent(newContent);
-	};
+	const handleSidebarToggle = () => setIsSidebarOpen(prev => !prev);
+	const handleSidebarCollapse = () => setIsSidebarCollapsed(prev => !prev);
+	const handleContentChange = (newContent) => setContent(newContent);
 
 	useEffect(() => {
 		logPageView();
@@ -35,23 +29,26 @@ const AppHome = () => {
 			{/* Sidebar */}
 			<AppSidebar
 				isSidebarOpen={isSidebarOpen}
+				isSidebarCollapsed={isSidebarCollapsed}
 				handleSidebarToggle={handleSidebarToggle}
 				handleContentChange={handleContentChange}
 			/>
 
 			{/* Main Content Wrapper */}
-			<Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column'}}>
+			<Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
 				{/* Header */}
 				<AppHeader
 					handleSidebarToggle={handleSidebarToggle}
+					handleSidebarCollapse={handleSidebarCollapse}
 					handleContentChange={handleContentChange}
 					contentTitle={content}
+					isSidebarCollapsed={isSidebarCollapsed}
 				/>
 				{/* Spacer to push content below fixed header */}
 				<Box sx={{ height: HEADER_HEIGHT, flexShrink: 0 }} />
 
 				{/* Content */}
-				<AppContent content={content} />
+				<AppContent content={content} isSidebarCollapsed={isSidebarCollapsed} />
 
 				{/* Footer */}
 				<AppFooter />
