@@ -237,7 +237,9 @@
     "score": "Pontuação",
     "allJobs": "Todas as vagas",
     "filterByJob": "Filtrar por vaga",
-    "filterByTags": "Filtrar por tags"
+    "filterByTags": "Filtrar por tags",
+    "sortAsc": "Ordenar: Crescente",
+    "sortDesc": "Ordenar: Decrescente"
   },
   "errors": {
     "404": {

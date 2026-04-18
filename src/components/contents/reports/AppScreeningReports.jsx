@@ -1,58 +1,57 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect, useMemo } from 'react';
 import {
-	Box, Typography, Divider, List, ListItem, ListItemText, IconButton,
-	TextField, Chip, Pagination, Menu, MenuItem, FormControl, InputLabel, Select
+	Avatar, Box, Chip, FormControl, IconButton, InputAdornment,
+	InputLabel, ListItemButton, Menu, MenuItem, Pagination,
+	Select, TextField, Tooltip, Typography,
 } from '@mui/material';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import ArrowUpwardOutlinedIcon from '@mui/icons-material/ArrowUpwardOutlined';
+import ArrowDownwardOutlinedIcon from '@mui/icons-material/ArrowDownwardOutlined';
+import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { useTranslation } from 'react-i18next';
 import AppScreeningReportDetails from '../screening/AppScreeningReportDetails.jsx';
 import apiClient from '../../../../axiosConfig.js';
-import { AUTH_TOKEN } from "../../../constants.js";
+import { AUTH_TOKEN } from '../../../constants.js';
+
+const reportsPerPage = 25;
+
+const scoreChipSx = (score) => {
+	if (score >= 70) return { backgroundColor: '#dcfce7', color: '#166534' };
+	if (score >= 40) return { backgroundColor: '#fef9c3', color: '#854d0e' };
+	return { backgroundColor: '#fee2e2', color: '#991b1b' };
+};
+
+const getInitials = (name = '') =>
+	name.split(' ').slice(0, 2).map((p) => p[0] ?? '').join('').toUpperCase();
 
 const AppScreeningReports = () => {
 	const { t } = useTranslation();
 
-	// Data
 	const [reports, setReports] = useState([]);
 	const [jobs, setJobs] = useState([]);
-
-	// UI state
 	const [selectedReport, setSelectedReport] = useState(null);
 	const [searchTerm, setSearchTerm] = useState('');
 	const [sortOrder, setSortOrder] = useState('desc');
 	const [currentPage, setCurrentPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(0);
-	const [anchorEl, setAnchorEl] = useState(null);
-
-	// Filters
 	const [selectedJobId, setSelectedJobId] = useState('');
-
-	const reportsPerPage = 25;
-
-	const getColor = (value) => {
-		if (value >= 70) return 'green';
-		if (value >= 40) return 'orange';
-		return 'red';
-	};
+	const [anchorEl, setAnchorEl] = useState(null);
+	const [menuReport, setMenuReport] = useState(null);
 
 	const fetchReports = async (pageNumber, jobId) => {
-		const params = {
-			pageNumber: pageNumber,
-			pageSize: reportsPerPage,
-			...(jobId ? { jobPostId: jobId } : {})
-		};
 		try {
 			const response = await apiClient.get(import.meta.env.VITE_APP_API_REPORT_URL, {
-				params: params,
+				params: {
+					pageNumber,
+					pageSize: reportsPerPage,
+					...(jobId ? { jobPostId: jobId } : {}),
+				},
 			});
-			const reportData = response?.data?.data?.content ?? [];
-			console.log('Fetched reports: ', reportData);
-			setReports(reportData);
+			setReports(response?.data?.data?.content ?? []);
 			setTotalPages(response?.data?.data?.totalPages ?? 1);
-			console.log('Reports for page pane number: ', reports, pageNumber)
 		} catch (error) {
 			console.error('Error fetching reports:', error);
 		}
@@ -63,35 +62,30 @@ const AppScreeningReports = () => {
 			const response = await apiClient.get(import.meta.env.VITE_APP_API_JOB_POSTS_URL, {
 				params: { pageSize: 25, pageNumber: 0 },
 			});
-			const jobsData = response?.data?.data?.content ?? [];
-			setJobs(jobsData);
+			setJobs(response?.data?.data?.content ?? []);
 		} catch (error) {
 			console.error('Error fetching jobs:', error);
 		}
 	};
 
-	// Initial fetch: reports + jobs
 	useEffect(() => {
-		fetchReports(0).then(() => console.log('Initial reports fetched'));
-		fetchJobs().then(() => console.log('Initial jobs fetched'));
+		fetchReports(0);
+		fetchJobs();
 	}, []);
 
-	// Backend search (kept)
 	const handleSearchChange = async (event) => {
-		const searchValue = event.target.value;
-		setSearchTerm(searchValue);
+		const value = event.target.value;
+		setSearchTerm(value);
 		setCurrentPage(1);
 		try {
 			const response = await apiClient.get(`${import.meta.env.VITE_APP_API_REPORT_URL}/search`, {
-				headers: {
-					Authorization: `Bearer ${localStorage.getItem(AUTH_TOKEN)}`,
-				},
+				headers: { Authorization: `Bearer ${localStorage.getItem(AUTH_TOKEN)}` },
 				params: {
 					pageNumber: 0,
 					pageSize: reportsPerPage,
-					searchTerms: searchValue.trim(),
-					...(selectedJobId ? { jobPostId: selectedJobId } : {}), // preserve job filter during search
-				}
+					searchTerms: value.trim(),
+					...(selectedJobId ? { jobPostId: selectedJobId } : {}),
+				},
 			});
 			setReports(response?.data?.data?.content ?? []);
 			setTotalPages(response?.data?.data?.totalPages ?? 1);
@@ -100,202 +94,245 @@ const AppScreeningReports = () => {
 		}
 	};
 
-	const handleSortToggle = () => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-	const handlePageChange = (event, value) => {
-		setCurrentPage(value);
-		fetchReports(value - 1, selectedJobId).then(() => console.log('Page switched to ', value));
-	};
-	const handleReportSelection = (report) => setSelectedReport(report);
-
-	// SERVER-SIDE report filter by jobPostId via REPORT_URL
 	const handleJobChange = async (event) => {
 		const jobId = event.target.value || '';
 		setSelectedJobId(jobId);
 		setCurrentPage(1);
-
 		try {
-			const resp = await apiClient.get(import.meta.env.VITE_APP_API_REPORT_URL, {
-				params: {
-					pageSize: reportsPerPage,
-					pageNumber: 0,
-					...(jobId ? { jobPostId: jobId } : {}),
-				},
+			const response = await apiClient.get(import.meta.env.VITE_APP_API_REPORT_URL, {
+				params: { pageSize: reportsPerPage, pageNumber: 0, ...(jobId ? { jobPostId: jobId } : {}) },
 			});
-			setReports(resp?.data?.data?.content ?? []);
-			setTotalPages(resp?.data?.data?.totalPages ?? 1);
+			setReports(response?.data?.data?.content ?? []);
+			setTotalPages(response?.data?.data?.totalPages ?? 1);
 		} catch (error) {
-			console.error('Error filtering reports by jobPostId:', error);
+			console.error('Error filtering by job:', error);
 		}
 	};
 
-	// Sort + paginate (client-side)
+	const handlePageChange = (_, value) => {
+		setCurrentPage(value);
+		fetchReports(value - 1, selectedJobId);
+	};
+
 	const sortedReports = useMemo(() => {
-		const arr = [...reports];
-		arr.sort((a, b) => {
-			if (sortOrder === 'asc') {
-				return a.aiAnalysisReportDetails.overallSummary.score - b.aiAnalysisReportDetails.overallSummary.score;
-			}
-			return b.aiAnalysisReportDetails.overallSummary.score - a.aiAnalysisReportDetails.overallSummary.score;
+		return [...reports].sort((a, b) => {
+			const sa = a.aiAnalysisReportDetails?.overallSummary?.score ?? 0;
+			const sb = b.aiAnalysisReportDetails?.overallSummary?.score ?? 0;
+			return sortOrder === 'asc' ? sa - sb : sb - sa;
 		});
-		return arr;
 	}, [reports, sortOrder]);
 
-	// Menu
 	const handleMenuOpen = (event, report) => {
+		event.stopPropagation();
 		setAnchorEl(event.currentTarget);
-		setSelectedReport(report);
+		setMenuReport(report);
 	};
-	const handleMenuClose = () => {
-		setAnchorEl(null);
-		setSelectedReport(null);
-	};
+	const handleMenuClose = () => { setAnchorEl(null); setMenuReport(null); };
 
 	return (
-		<Box
-			sx={{
-				width: '100%',
-				height: '100vh',
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center',
-				justifyContent: 'flex-start',
-				backgroundColor: 'transparent',
-				color: '#232F3E',
-				padding: 2,
-				overflowX: 'hidden'
-			}}
-		>
-			{/* Top Bar: Job filter + Search */}
-			<Box sx={{ width: '90%', display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 2, mt: 2 }}>
-				<FormControl size="small">
-					<InputLabel id="job-filter-label">{t('appReportContent.filterByJob') || 'Filter by Job'}</InputLabel>
+		<Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', overflow: 'hidden', backgroundColor: '#f8fafc' }}>
+
+			{/* Toolbar */}
+			<Box sx={{
+				display: 'flex', alignItems: 'center', gap: 1.5,
+				px: 2, py: 1.5,
+				backgroundColor: '#ffffff',
+				borderBottom: '1px solid #e2e8f0',
+				flexShrink: 0,
+				flexWrap: 'wrap',
+			}}>
+				<AssessmentOutlinedIcon sx={{ color: '#629C44', fontSize: 20 }} />
+				<Typography sx={{ fontWeight: 600, fontSize: '0.9rem', color: '#0f172a', mr: 1 }}>
+					{t('appReportContent.reportListTitle')}
+				</Typography>
+
+				<Box sx={{ flex: 1, minWidth: 160 }}>
+					<TextField
+						size="small"
+						placeholder={t('appReportContent.search')}
+						value={searchTerm}
+						onChange={handleSearchChange}
+						fullWidth
+						sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2, fontSize: '0.82rem' } }}
+						InputProps={{
+							startAdornment: (
+								<InputAdornment position="start">
+									<SearchOutlinedIcon sx={{ fontSize: 16, color: '#94a3b8' }} />
+								</InputAdornment>
+							),
+						}}
+					/>
+				</Box>
+
+				<FormControl size="small" sx={{ minWidth: 160 }}>
+					<InputLabel sx={{ fontSize: '0.82rem' }}>{t('appReportContent.filterByJob')}</InputLabel>
 					<Select
-						labelId="job-filter-label"
 						value={selectedJobId}
-						label={t('appReportContent.filterByJob') || 'Filter by Job'}
+						label={t('appReportContent.filterByJob')}
 						onChange={handleJobChange}
-						displayEmpty
+						sx={{ borderRadius: 2, fontSize: '0.82rem' }}
 					>
-						<MenuItem value="">{t('appReportContent.allJobs') || 'All jobs'}</MenuItem>
+						<MenuItem value="">{t('appReportContent.allJobs')}</MenuItem>
 						{jobs.map((job) => (
-							<MenuItem key={job.id} value={job.id}>
+							<MenuItem key={job.id} value={job.id} sx={{ fontSize: '0.82rem' }}>
 								{job.title || job.jobTitle || job.name || job.id}
 							</MenuItem>
 						))}
 					</Select>
 				</FormControl>
 
-				<TextField
-					size="small"
-					label={t('appReportContent.search')}
-					variant="outlined"
-					value={searchTerm}
-					onChange={handleSearchChange}
-				/>
+				<Tooltip title={sortOrder === 'asc' ? t('appReportContent.sortDesc') : t('appReportContent.sortAsc')}>
+					<IconButton
+						size="small"
+						onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
+						sx={{
+							border: '1px solid #e2e8f0', borderRadius: 1.5,
+							color: '#64748b',
+							'&:hover': { backgroundColor: '#f1f5f9' },
+						}}
+					>
+						{sortOrder === 'asc'
+							? <ArrowUpwardOutlinedIcon sx={{ fontSize: 18 }} />
+							: <ArrowDownwardOutlinedIcon sx={{ fontSize: 18 }} />
+						}
+					</IconButton>
+				</Tooltip>
 			</Box>
 
-			{/* Main area */}
-			<Box sx={{ display: 'flex', justifyContent: 'flex-start', width: '90%', mt: 3, height: '85vh' }}>
-				{/* Left panel: make it a flex column and control scroll + footer */}
-				<Box
-					sx={{
-						width: '30.5%',
-						height: '100%',
-						backgroundColor: 'white',
-						padding: 2,
-						boxShadow: 1,
-						display: 'flex',
-						flexDirection: 'column',
-						overflow: 'hidden' // contain inner scrolling
-					}}
-				>
-					{/* Header */}
-					<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-						<Typography variant="h5" gutterBottom>
-							{t('appReportContent.reportListTitle')}
-						</Typography>
-						<IconButton onClick={handleSortToggle} aria-label="sort">
-							{sortOrder === 'asc' ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />}
-						</IconButton>
-					</Box>
-					<Divider sx={{ mb: 2 }} />
+			{/* Split pane */}
+			<Box sx={{ display: 'flex', flex: 1, minHeight: 0 }}>
 
-					{/* Scrollable list area */}
-					<Box sx={{ flex: 1, minHeight: 0, overflowY: 'auto' }}>
+				{/* Left panel */}
+				<Box sx={{
+					width: { xs: 200, sm: 240, md: 300 },
+					flexShrink: 0,
+					display: 'flex',
+					flexDirection: 'column',
+					borderRight: '1px solid #e2e8f0',
+					backgroundColor: '#ffffff',
+					overflow: 'hidden',
+				}}>
+					{/* List */}
+					<Box sx={{ flex: 1, overflowY: 'auto', py: 1 }}>
 						{sortedReports.length === 0 ? (
-							<Typography variant="body">{t('appCVScreening.noAnalysisResult')}</Typography>
+							<Box sx={{ px: 2, pt: 2 }}>
+								<Typography sx={{ fontSize: '0.82rem', color: '#94a3b8' }}>
+									{t('appCVScreening.noAnalysisResult')}
+								</Typography>
+							</Box>
 						) : (
-							<List disablePadding>
-								{sortedReports.map((report) => {
-									const score = report.aiAnalysisReportDetails?.overallSummary?.score ?? 0;
-									return (
-										<ListItem
-											key={report.id}
-											button
-											divider
-											onClick={() => handleReportSelection(report)}
-											sx={{ cursor: 'pointer', position: 'relative' }}
-										>
-											{selectedReport?.id === report.id && (
-												<Chip
-													sx={{
-														position: 'absolute',
-														left: 0,
-														top: '50%',
-														transform: 'translateY(-50%)',
-														backgroundColor: 'green',
-														width: '5px',
-														height: '100%',
-													}}
-												/>
+							sortedReports.map((report) => {
+								const score = report.aiAnalysisReportDetails?.overallSummary?.score ?? 0;
+								const name = report.candidateInfo?.candidateName ?? '';
+								const yrs = report.candidateInfo?.nbYearsExperience;
+								const isActive = selectedReport?.id === report.id;
+
+								return (
+									<ListItemButton
+										key={report.id}
+										onClick={() => setSelectedReport(report)}
+										sx={{
+											px: 1.5, py: 1,
+											borderLeft: isActive ? '3px solid #629C44' : '3px solid transparent',
+											backgroundColor: isActive ? 'rgba(98,156,68,0.06)' : 'transparent',
+											'&:hover': { backgroundColor: isActive ? 'rgba(98,156,68,0.10)' : '#f8fafc' },
+											gap: 1.5,
+											alignItems: 'flex-start',
+										}}
+									>
+										<Avatar sx={{
+											width: 32, height: 32, fontSize: '0.7rem', fontWeight: 700,
+											backgroundColor: '#629C44', color: '#fff', flexShrink: 0, mt: 0.25,
+										}}>
+											{getInitials(name)}
+										</Avatar>
+
+										<Box sx={{ flex: 1, minWidth: 0 }}>
+											<Typography sx={{
+												fontSize: '0.82rem', fontWeight: isActive ? 600 : 400,
+												color: '#0f172a', lineHeight: 1.3,
+												overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+											}}>
+												{name}
+											</Typography>
+											{yrs != null && (
+												<Typography sx={{ fontSize: '0.72rem', color: '#64748b', lineHeight: 1.3 }}>
+													{yrs} {t('appCVContent.yearsAbbr')} {t('appCVContent.experience')}
+												</Typography>
 											)}
-											<ListItemText
-												primary={
-													<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-														<span>{`${report.candidateInfo.candidateName} (${report.candidateInfo.nbYearsExperience} yrs exp)`}</span>
-														<span style={{ fontWeight: 'bold', color: getColor(score) }}>{score}%</span>
-													</Box>
-												}
-												secondary={`${t('appReportContent.updatedOn')}: ${new Date(report.lastUpdatedAt).toLocaleDateString()}`}
+											<Chip
+												label={`${score}%`}
+												size="small"
+												sx={{
+													mt: 0.5, height: 18, fontSize: '0.68rem', fontWeight: 700,
+													...scoreChipSx(score),
+												}}
 											/>
-											<IconButton onClick={(event) => handleMenuOpen(event, report)}>
-												<MoreVertIcon />
-											</IconButton>
-										</ListItem>
-									);
-								})}
-							</List>
+										</Box>
+
+										<IconButton
+											size="small"
+											onClick={(e) => handleMenuOpen(e, report)}
+											sx={{ color: '#94a3b8', flexShrink: 0, mt: 0.25 }}
+										>
+											<MoreVertIcon sx={{ fontSize: 16 }} />
+										</IconButton>
+									</ListItemButton>
+								);
+							})
 						)}
 					</Box>
 
-					{/* Footer: pagination centered at bottom of the panel */}
+					{/* Pagination */}
 					{totalPages > 1 && (
-						<Box sx={{ pt: 1, display: 'flex', justifyContent: 'center' }}>
+						<Box sx={{ py: 1, display: 'flex', justifyContent: 'center', borderTop: '1px solid #f1f5f9', flexShrink: 0 }}>
 							<Pagination
 								count={totalPages}
 								page={currentPage}
 								onChange={handlePageChange}
-								siblingCount={1}
+								size="small"
+								siblingCount={0}
 								boundaryCount={1}
+								sx={{ '& .MuiPaginationItem-root': { fontSize: '0.72rem' } }}
 							/>
 						</Box>
 					)}
 				</Box>
 
-				{/* Right: details */}
-				<AppScreeningReportDetails reportData={selectedReport} />
+				{/* Right panel */}
+				<Box sx={{ flex: 1, minWidth: 0, overflow: 'hidden' }}>
+					<AppScreeningReportDetails reportData={selectedReport} />
+				</Box>
 			</Box>
 
-			{/* Menu */}
+			{/* Context menu */}
 			<Menu
 				anchorEl={anchorEl}
 				open={Boolean(anchorEl)}
 				onClose={handleMenuClose}
-				anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-				transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+				anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+				transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+				slotProps={{
+					paper: {
+						elevation: 0,
+						sx: { mt: 0.5, minWidth: 160, borderRadius: 2, border: '1px solid #e2e8f0', boxShadow: '0 8px 24px rgba(0,0,0,0.10)' },
+					},
+				}}
 			>
-				<MenuItem>{t('appReportContent.editReportTitle')}</MenuItem>
-				<MenuItem>{t('appReportContent.deleteReport')}</MenuItem>
+				<MenuItem
+					onClick={handleMenuClose}
+					sx={{ fontSize: '0.82rem', color: '#334155', gap: 1, '&:hover': { backgroundColor: '#f8fafc' } }}
+				>
+					<AssessmentOutlinedIcon sx={{ fontSize: 16, color: '#64748b' }} />
+					{t('appReportContent.editReportTitle')}
+				</MenuItem>
+				<MenuItem
+					onClick={handleMenuClose}
+					sx={{ fontSize: '0.82rem', color: '#ef4444', gap: 1, '&:hover': { backgroundColor: '#fff5f5' } }}
+				>
+					<DeleteOutlineOutlinedIcon sx={{ fontSize: 16, color: '#ef4444' }} />
+					{t('appReportContent.deleteReport')}
+				</MenuItem>
 			</Menu>
 		</Box>
 	);

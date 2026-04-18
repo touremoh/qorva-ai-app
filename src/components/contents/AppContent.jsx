@@ -39,7 +39,7 @@ const AppContent = ({ content, isSidebarCollapsed }) => {
 
 	return (
 		<Box component="main" sx={{
-			position: 'absolute',
+			position: 'fixed',
 			left: { xs: 0, md: isSidebarCollapsed ? `${SIDEBAR_WIDTH_COLLAPSED}px` : `${SIDEBAR_WIDTH}px` },
 			right: 0,
 			top: '64px',

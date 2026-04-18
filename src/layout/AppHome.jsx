@@ -1,8 +1,8 @@
 // src/pages/AppHome.jsx
 import React, {useEffect, useState} from 'react';
 import { Box } from '@mui/material';
-import AppHeader, { HEADER_HEIGHT } from '../components/headers/AppHeader.jsx';
-import AppFooter from '../components/footer/AppFooter.jsx';
+import AppHeader from '../components/headers/AppHeader.jsx';
+
 import AppContent from '../components/contents/AppContent.jsx';
 import AppSidebar from "../components/menu/AppSidebar.jsx";
 import {logPageView} from "../utils/analytics.js";
@@ -24,7 +24,7 @@ const AppHome = () => {
 	}, [location]);
 
 	return (
-		<Box sx={{ display: 'flex', height: '100vh' }}>
+		<Box sx={{ display: 'flex', height: '100vh', bottom: 0 }}>
 
 			{/* Sidebar */}
 			<AppSidebar
@@ -44,14 +44,9 @@ const AppHome = () => {
 					contentTitle={content}
 					isSidebarCollapsed={isSidebarCollapsed}
 				/>
-				{/* Spacer to push content below fixed header */}
-				<Box sx={{ height: HEADER_HEIGHT, flexShrink: 0 }} />
 
 				{/* Content */}
 				<AppContent content={content} isSidebarCollapsed={isSidebarCollapsed} />
-
-				{/* Footer */}
-				<AppFooter />
 			</Box>
 		</Box>
 	);

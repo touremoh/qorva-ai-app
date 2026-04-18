@@ -234,7 +234,9 @@
     "score": "Score",
     "allJobs": "Alle vacatures",
     "filterByJob": "Filter op vacature",
-    "filterByTags": "Filter op tags"
+    "filterByTags": "Filter op tags",
+    "sortAsc": "Sorteren: Oplopend",
+    "sortDesc": "Sorteren: Aflopend"
   },
   "errors": {
     "404": {

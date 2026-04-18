@@ -237,7 +237,9 @@
     "score": "Puntuación",
     "allJobs": "Todas las ofertas",
     "filterByJob": "Filtrar por oferta",
-    "filterByTags": "Filtrar por etiquetas"
+    "filterByTags": "Filtrar por etiquetas",
+    "sortAsc": "Ordenar: Ascendente",
+    "sortDesc": "Ordenar: Descendente"
   },
   "errors": {
     "404": {

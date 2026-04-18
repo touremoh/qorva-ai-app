@@ -233,7 +233,9 @@
     "score": "Score",
     "allJobs": "All Jobs",
     "filterByJob": "Filter by Job",
-    "filterByTags": "Filter by Tags"
+    "filterByTags": "Filter by Tags",
+    "sortAsc": "Sort: Low to High",
+    "sortDesc": "Sort: High to Low"
   },
   "errors": {
     "404": {

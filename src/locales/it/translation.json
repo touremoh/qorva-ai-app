@@ -237,7 +237,9 @@
     "score": "Punteggio",
     "allJobs": "Tutti gli annunci",
     "filterByJob": "Filtra per annuncio",
-    "filterByTags": "Filtra per tag"
+    "filterByTags": "Filtra per tag",
+    "sortAsc": "Ordina: Crescente",
+    "sortDesc": "Ordina: Decrescente"
   },
   "errors": {
     "404": {

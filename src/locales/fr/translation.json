@@ -237,7 +237,9 @@
     "score": "Score",
     "allJobs": "Toutes les offres",
     "filterByJob": "Filtrer par offre",
-    "filterByTags": "Filtrer par étiquettes"
+    "filterByTags": "Filtrer par étiquettes",
+    "sortAsc": "Trier : croissant",
+    "sortDesc": "Trier : décroissant"
   },
   "errors": {
     "404": {

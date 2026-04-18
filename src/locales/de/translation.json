@@ -237,7 +237,9 @@
     "score": "Bewertung",
     "allJobs": "Alle Stellen",
     "filterByJob": "Nach Stelle filtern",
-    "filterByTags": "Nach Tags filtern"
+    "filterByTags": "Nach Tags filtern",
+    "sortAsc": "Sortieren: Aufsteigend",
+    "sortDesc": "Sortieren: Absteigend"
   },
   "errors": {
     "404": {
