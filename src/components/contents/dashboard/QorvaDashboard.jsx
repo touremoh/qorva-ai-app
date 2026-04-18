@@ -1,31 +1,36 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import {
 	Box,
-	Grid2,
+	CircularProgress,
 	Paper,
-	Typography,
 	Stack,
 	Table,
 	TableBody,
 	TableCell,
+	TableContainer,
 	TableHead,
 	TableRow,
-	TableContainer,
-	CircularProgress,
+	Typography,
 } from '@mui/material';
 import { Bar } from 'react-chartjs-2';
 import {
-	Chart as ChartJS,
-	CategoryScale,
-	LinearScale,
 	BarElement,
+	CategoryScale,
+	Chart as ChartJS,
+	Legend,
+	LinearScale,
 	Title,
 	Tooltip,
-	Legend,
 } from 'chart.js';
 import { useTranslation } from 'react-i18next';
+import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
+import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
+import TrendingUpOutlinedIcon from '@mui/icons-material/TrendingUpOutlined';
+import LeaderboardOutlinedIcon from '@mui/icons-material/LeaderboardOutlined';
 import apiClient from '../../../../axiosConfig.js';
-import QorvaChip from "../../commons/QorvaChip.jsx";
+import QorvaChip from '../../commons/QorvaChip.jsx';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -40,228 +45,252 @@ const initialDashboardData = {
 	jobPostsReport: [],
 };
 
+const KPI_CONFIG = (t) => [
+	{ key: 'totalCVs',                         label: t('dashboard.kpi.totalCVs'),                         icon: PeopleOutlinedIcon,       accent: '#629C44', bg: 'rgba(98,156,68,0.08)'   },
+	{ key: 'totalJobsPosted',                  label: t('dashboard.kpi.totalJobsPosted'),                  icon: WorkOutlineOutlinedIcon,  accent: '#3b82f6', bg: 'rgba(59,130,246,0.08)'  },
+	{ key: 'totalUsers',                       label: t('dashboard.kpi.totalUsers'),                       icon: PersonOutlineOutlinedIcon,accent: '#8b5cf6', bg: 'rgba(139,92,246,0.08)'  },
+	{ key: 'totalResumeAnalysis',              label: t('dashboard.kpi.totalResumeAnalysis'),              icon: AssessmentOutlinedIcon,   accent: '#f59e0b', bg: 'rgba(245,158,11,0.08)'  },
+	{ key: 'totalResumesProcessedCurrentMonth',label: t('dashboard.kpi.totalResumesProcessedCurrentMonth'),icon: TrendingUpOutlinedIcon,   accent: '#06b6d4', bg: 'rgba(6,182,212,0.08)'   },
+];
+
+const KPICard = ({ label, value, icon: Icon, accent, bg }) => (
+	<Paper elevation={0} sx={{
+		border: '1px solid #e2e8f0',
+		borderLeft: `3px solid ${accent}`,
+		borderRadius: 2.5, p: 2,
+		display: 'flex', alignItems: 'center', gap: 1.5,
+		transition: 'box-shadow 0.15s ease',
+		'&:hover': { boxShadow: '0 4px 16px rgba(0,0,0,0.07)' },
+	}}>
+		<Box sx={{
+			width: 42, height: 42, borderRadius: 2, flexShrink: 0,
+			display: 'flex', alignItems: 'center', justifyContent: 'center',
+			backgroundColor: bg,
+		}}>
+			<Icon sx={{ fontSize: 20, color: accent }} />
+		</Box>
+		<Box sx={{ minWidth: 0 }}>
+			<Typography sx={{ fontSize: '1.6rem', fontWeight: 800, color: '#0f172a', lineHeight: 1 }}>
+				{Number.isFinite(value) ? value.toLocaleString() : 0}
+			</Typography>
+			<Typography sx={{ fontSize: '0.72rem', color: '#64748b', fontWeight: 500, mt: 0.25, lineHeight: 1.3 }}>
+				{label}
+			</Typography>
+		</Box>
+	</Paper>
+);
+
 const QorvaDashboard = () => {
 	const { t } = useTranslation();
 	const [dashboardData, setDashboardData] = useState(initialDashboardData);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState('');
 
-	// Fetch dashboard data
 	useEffect(() => {
-		(async function fetchData() {
+		(async () => {
 			try {
 				setLoading(true);
 				setError('');
 				const res = await apiClient.get(import.meta.env.VITE_APP_API_DASHBOARD_DATA);
 				const data = res?.data;
-				// Normalize arrays to avoid runtime errors
 				data.skillsReport = Array.isArray(data.skillsReport) ? data.skillsReport : [];
 				data.jobPostsReport = Array.isArray(data.jobPostsReport) ? data.jobPostsReport : [];
 				setDashboardData(data);
 			} catch (e) {
 				console.error('Error loading dashboard data', e);
-				setError(t('dashboard.errors.loadFailed', 'Failed to load dashboard data.'));
+				setError(t('dashboard.errors.loadFailed'));
 			} finally {
 				setLoading(false);
 			}
 		})();
 	}, [t]);
 
-	// Build Skills chart (vertical bars)
-	const skillsBarData = useMemo(() => {
-		const labels = dashboardData.skillsReport.map(s => s?.skill ?? '');
-		const values = dashboardData.skillsReport.map(s => s?.totalMatch ?? 0);
-		return {
-			labels,
-			datasets: [
-				{
-					label: t('dashboard.skillsReport.label', 'Total matches'),
-					data: values,
-					backgroundColor: 'rgba(75, 192, 192, 0.6)',
-					borderColor: 'rgba(75, 192, 192, 1)',
-					borderWidth: 1,
-				},
-			],
-		};
-	}, [dashboardData.skillsReport, t]);
+	const skillsBarData = useMemo(() => ({
+		labels: dashboardData.skillsReport.map(s => s?.skill ?? ''),
+		datasets: [{
+			label: t('dashboard.skillsReport.label'),
+			data: dashboardData.skillsReport.map(s => s?.totalMatch ?? 0),
+			backgroundColor: 'rgba(98,156,68,0.75)',
+			borderColor: '#629C44',
+			borderWidth: 1,
+			borderRadius: 4,
+		}],
+	}), [dashboardData.skillsReport, t]);
 
-	const skillsBarOptions = useMemo(
-		() => ({
-			responsive: true,
-			maintainAspectRatio: false,
-			plugins: {
-				legend: { display: true },
-				title: {
-					display: false,
-					text: t('dashboard.skillsReport.title', 'Skills Report'),
-				},
-				tooltip: { enabled: true },
+	const skillsBarOptions = useMemo(() => ({
+		responsive: true,
+		maintainAspectRatio: false,
+		plugins: {
+			legend: { display: false },
+			tooltip: {
+				backgroundColor: '#0f172a',
+				titleColor: '#94a3b8',
+				bodyColor: '#ffffff',
+				padding: 10,
+				cornerRadius: 8,
 			},
-			scales: {
-				x: { ticks: { autoSkip: true, maxRotation: 0, minRotation: 0 } },
-				y: { beginAtZero: true, ticks: { precision: 0 } },
+		},
+		scales: {
+			x: {
+				grid: { display: false },
+				ticks: { color: '#64748b', font: { size: 11 }, autoSkip: true, maxRotation: 0 },
 			},
-		}),
-		[t]
-	);
+			y: {
+				beginAtZero: true,
+				grid: { color: '#f1f5f9' },
+				ticks: { precision: 0, color: '#94a3b8', font: { size: 11 } },
+			},
+		},
+	}), []);
+
+	const kpiConfig = useMemo(() => KPI_CONFIG(t), [t]);
 
 	return (
-		<Box
-			sx={{
-				width: '100%',
-				height: '100vh',
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center',
-				justifyContent: 'flex-start',
-				backgroundColor: 'transparent',
-				color: '#232F3E',
-				padding: 2,
-				overflowX: 'none'
-			}}
-		>
-			{/* Top bar with Subscription Status (top-right corner) */}
-			<Box
-				sx={{
-					width: '100%',
-					maxWidth: { lg: '1440px' },
-					display: 'flex',
-					justifyContent: 'flex-end',
-					mb: 2,
-				}}
-			>
-				<QorvaChip statusCode={dashboardData.subscriptionStatus}/>
-			</Box>
+		<Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', overflow: 'hidden', backgroundColor: '#f8fafc' }}>
+			<Box sx={{ flex: 1, overflowY: 'auto', p: { xs: 2, md: 3 }, display: 'flex', flexDirection: 'column', gap: 2.5 }}>
 
-			{/* Content area */}
-			<Grid2
-				container
-				spacing={3}
-				sx={{ width: { xs: '100%', md: '100%', lg: '1440px' }, mx: 'auto' }}
-			>
-				{/* Loading / Error */}
+				{/* Toolbar */}
+				<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 1 }}>
+					<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+						<LeaderboardOutlinedIcon sx={{ fontSize: 20, color: '#629C44' }} />
+						<Typography sx={{ fontWeight: 700, fontSize: '1rem', color: '#0f172a' }}>
+							Dashboard
+						</Typography>
+					</Box>
+					<QorvaChip statusCode={dashboardData.subscriptionStatus} />
+				</Box>
+
+				{/* Loading */}
 				{loading && (
-					<Grid2 xs={12} sx={{ height: '100%', width: '100%' }}>
-						<Stack alignItems="center" justifyContent="center" py={4}>
-							<CircularProgress />
-							<Typography variant="body2" sx={{ mt: 1 }}>
-								{t('dashboard.loading', 'Loading dashboard…')}
-							</Typography>
-						</Stack>
-					</Grid2>
+					<Stack alignItems="center" justifyContent="center" sx={{ flex: 1, py: 8 }} spacing={1.5}>
+						<CircularProgress size={32} sx={{ color: '#629C44' }} />
+						<Typography sx={{ fontSize: '0.82rem', color: '#94a3b8' }}>
+							{t('dashboard.loading')}
+						</Typography>
+					</Stack>
 				)}
+
+				{/* Error */}
 				{!loading && error && (
-					<Grid2 xs={12}>
-						<Paper elevation={2} sx={{ p: 2, borderRadius: 2 }}>
-							<Typography color="error">{error}</Typography>
-						</Paper>
-					</Grid2>
+					<Paper elevation={0} sx={{ border: '1px solid #fee2e2', borderRadius: 2.5, p: 2.5 }}>
+						<Typography sx={{ fontSize: '0.85rem', color: '#dc2626' }}>{error}</Typography>
+					</Paper>
 				)}
 
 				{!loading && !error && (
 					<>
-						{/* Top section: KPI paper widgets */}
-						<Grid2 container xs={12} spacing={3} sx={{width: '100%'}}>
-							{[
-								{
-									key: 'totalCVs',
-									label: t('dashboard.kpi.totalCVs', 'CVs'),
-									value: dashboardData.totalCVs,
-								},
-								{
-									key: 'totalJobsPosted',
-									label: t('dashboard.kpi.totalJobsPosted', 'Jobs Posts'),
-									value: dashboardData.totalJobsPosted,
-								},
-								{
-									key: 'totalUsers',
-									label: t('dashboard.kpi.totalUsers', 'Users'),
-									value: dashboardData.totalUsers,
-								},
-								{
-									key: 'totalResumeAnalysis',
-									label: t('dashboard.kpi.totalResumeAnalysis', 'Total Resumes Screenned'),
-									value: dashboardData.totalResumeAnalysis,
-								},
-								{
-									key: 'totalResumesProcessedCurrentMonth',
-									label: t(
-										'dashboard.kpi.totalResumesProcessedCurrentMonth',
-										'Resume Screenned this month'
-									),
-									value: dashboardData.totalResumesProcessedCurrentMonth,
-								},
-							].map(({ key, label, value }) => (
-								<Grid2 key={key} xs={12} sm={6} md={4} lg={2} sx={{width: '18.6%'}}>
-									<Paper elevation={3} sx={{ p: 2, borderRadius: 2, textAlign: 'center' }}>
-										<Typography variant="subtitle1" gutterBottom>
-											{label}
-										</Typography>
-										<Typography variant="h4" color="green">
-											{Number.isFinite(value) ? value : 0}
-										</Typography>
-									</Paper>
-								</Grid2>
+						{/* KPI row */}
+						<Box sx={{
+							display: 'grid',
+							gridTemplateColumns: { xs: '1fr 1fr', sm: 'repeat(3, 1fr)', md: 'repeat(5, 1fr)' },
+							gap: 2,
+						}}>
+							{kpiConfig.map(({ key, label, icon, accent, bg }) => (
+								<KPICard
+									key={key}
+									label={label}
+									value={dashboardData[key]}
+									icon={icon}
+									accent={accent}
+									bg={bg}
+								/>
 							))}
-						</Grid2>
+						</Box>
 
-						{/* Second: Skills Report (vertical bar chart) */}
-						<Grid2 xs={12} sx={{width: '100%'}}>
-							<Paper elevation={3} sx={{ p: 2, borderRadius: 2, height: 380, width: '97.5%' }}>
-								<Typography variant="h6" gutterBottom>
-									{t('dashboard.sections.skillsReport', 'Skills Report')}
-								</Typography>
-								<Box sx={{ height: 300 }}>
-									{dashboardData.skillsReport?.length ? (
+						{/* Charts row */}
+						<Box sx={{
+							display: 'grid',
+							gridTemplateColumns: { xs: '1fr', md: '1fr 1fr', lg: '1fr 380px' },
+							gap: 2.5,
+							alignItems: 'stretch',
+						}}>
+
+							{/* Skills bar chart */}
+							<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
+								<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2, pb: 1.5, borderBottom: '2px solid #629C44', flexShrink: 0 }}>
+									<AssessmentOutlinedIcon sx={{ fontSize: 15, color: '#629C44' }} />
+									<Typography sx={{ fontSize: '0.7rem', fontWeight: 700, color: '#629C44', textTransform: 'uppercase', letterSpacing: '0.07em' }}>
+										{t('dashboard.sections.skillsReport')}
+									</Typography>
+								</Box>
+								<Box sx={{ flex: 1, minHeight: 220, position: 'relative' }}>
+									{dashboardData.skillsReport.length ? (
 										<Bar data={skillsBarData} options={skillsBarOptions} />
 									) : (
-										<Typography variant="body2" color="text.secondary">
-											{t('dashboard.empty.skills', 'No skills data to display.')}
-										</Typography>
+										<Box sx={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+											<Typography sx={{ fontSize: '0.82rem', color: '#94a3b8' }}>
+												{t('dashboard.empty.skills')}
+											</Typography>
+										</Box>
 									)}
 								</Box>
 							</Paper>
-						</Grid2>
 
-						{/* Third: Job Posts Report (table) */}
-						<Grid2 xs={12} sx={{width: '100%'}} >
-							<Paper elevation={3} sx={{ p: 2, borderRadius: 2, height: 380, width: '97.5%' }}>
-								<Typography variant="h6" gutterBottom>
-									{t('dashboard.sections.jobPostsReport', 'Application per Job Post')}
-								</Typography>
-								{dashboardData.jobPostsReport?.length ? (
-									<TableContainer>
-										<Table size="small" aria-label="job posts report table">
+							{/* Job posts table */}
+							<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
+								<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2, pb: 1.5, borderBottom: '2px solid #629C44', flexShrink: 0 }}>
+									<WorkOutlineOutlinedIcon sx={{ fontSize: 15, color: '#629C44' }} />
+									<Typography sx={{ fontSize: '0.7rem', fontWeight: 700, color: '#629C44', textTransform: 'uppercase', letterSpacing: '0.07em' }}>
+										{t('dashboard.sections.jobPostsReport')}
+									</Typography>
+								</Box>
+								{dashboardData.jobPostsReport.length ? (
+									<TableContainer sx={{ flex: 1, overflowY: 'auto' }}>
+										<Table size="small" stickyHeader>
 											<TableHead>
 												<TableRow>
-													<TableCell sx={{ fontWeight: 600 }}>
-														{t('dashboard.table.jobPostTitle', 'Job Post Title')}
+													<TableCell sx={{
+														fontWeight: 700, fontSize: '0.7rem', color: '#64748b',
+														textTransform: 'uppercase', letterSpacing: '0.05em',
+														backgroundColor: '#f8fafc', borderBottom: '1px solid #e2e8f0', py: 1,
+													}}>
+														{t('dashboard.table.jobPostTitle')}
 													</TableCell>
-													<TableCell sx={{ fontWeight: 600 }} align="right">
-														{t('dashboard.table.totalMatch', 'Application Count')}
+													<TableCell align="right" sx={{
+														fontWeight: 700, fontSize: '0.7rem', color: '#64748b',
+														textTransform: 'uppercase', letterSpacing: '0.05em',
+														backgroundColor: '#f8fafc', borderBottom: '1px solid #e2e8f0', py: 1,
+													}}>
+														{t('dashboard.table.totalMatch')}
 													</TableCell>
 												</TableRow>
 											</TableHead>
 											<TableBody>
 												{dashboardData.jobPostsReport.map((row, idx) => (
-													<TableRow key={`${row.jobPostTitle}-${idx}`}>
-														<TableCell>{row?.jobPostTitle ?? '-'}</TableCell>
-														<TableCell align="right">{row?.totalMatch ?? 0}</TableCell>
+													<TableRow
+														key={`${row.jobPostTitle}-${idx}`}
+														sx={{ '&:hover': { backgroundColor: '#f8fafc' } }}
+													>
+														<TableCell sx={{ fontSize: '0.82rem', color: '#0f172a', py: 1, borderBottom: '1px solid #f1f5f9' }}>
+															{row?.jobPostTitle ?? '—'}
+														</TableCell>
+														<TableCell align="right" sx={{ py: 1, borderBottom: '1px solid #f1f5f9' }}>
+															<Box sx={{
+																display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+																minWidth: 32, height: 22, px: 1, borderRadius: 1.5,
+																backgroundColor: 'rgba(98,156,68,0.10)', color: '#166534',
+																fontSize: '0.75rem', fontWeight: 700,
+															}}>
+																{row?.totalMatch ?? 0}
+															</Box>
+														</TableCell>
 													</TableRow>
 												))}
 											</TableBody>
 										</Table>
 									</TableContainer>
 								) : (
-									<Typography variant="body2" color="text.secondary">
-										{t('dashboard.empty.jobPosts', 'No job post data to display.')}
-									</Typography>
+									<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 120 }}>
+										<Typography sx={{ fontSize: '0.82rem', color: '#94a3b8' }}>
+											{t('dashboard.empty.jobPosts')}
+										</Typography>
+									</Box>
 								)}
 							</Paper>
-						</Grid2>
+						</Box>
 					</>
 				)}
-			</Grid2>
+			</Box>
 		</Box>
 	);
 };
