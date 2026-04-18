@@ -1,5 +1,27 @@
-<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="32" height="32" rx="8" fill="#2563EB"/>
-  <path d="M8 16C8 11.5817 11.5817 8 16 8C20.4183 8 24 11.5817 24 16C24 20.4183 20.4183 24 16 24" stroke="white" stroke-width="3" stroke-linecap="round"/>
-  <circle cx="16" cy="16" r="4" fill="white"/>
-</svg> 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="qGrad" x1="18" y1="18" x2="70" y2="72" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#a8d878"/>
+      <stop offset="100%" stop-color="#629C44"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Q letter body (circle ring) -->
+  <circle cx="46" cy="46" r="24" stroke="url(#qGrad)" stroke-width="9" fill="none" filter="url(#glow)"/>
+
+  <!-- Q tail — diagonal stroke pointing to bottom-right -->
+  <line x1="62" y1="62" x2="78" y2="78" stroke="url(#qGrad)" stroke-width="9" stroke-linecap="round" filter="url(#glow)"/>
+
+  <!-- AI spark: glowing dot at tail end -->
+  <circle cx="78" cy="78" r="5.5" fill="#a8d878" opacity="0.95"/>
+  <circle cx="78" cy="78" r="3" fill="#ffffff"/>
+
+  <!-- AI spark: 3 small radiating lines -->
+  <line x1="78" y1="69" x2="78" y2="66" stroke="#a8d878" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+  <line x1="85" y1="72" x2="87.5" y2="70" stroke="#a8d878" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+  <line x1="87" y1="78" x2="90" y2="78" stroke="#a8d878" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+</svg>
