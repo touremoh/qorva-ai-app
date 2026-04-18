@@ -108,7 +108,7 @@ const AppCVContent = () => {
 	const showDetails = selectedCV !== null;
 
 	return (
-		<Box sx={{ display: 'flex', flexDirection: 'column', width: '80vw', height: 'calc(100vh - 104px)', marginLeft: "2vw", overflow: 'hidden', backgroundColor: '#f8fafc' }}>
+		<Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', overflow: 'hidden', backgroundColor: '#f8fafc' }}>
 			{/* Toolbar */}
 			<Box sx={{
 				display: 'flex',
