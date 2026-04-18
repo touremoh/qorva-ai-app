@@ -1,43 +1,47 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
 	Box,
 	Button,
-	Modal,
 	Typography,
-	Paper,
-	Divider,
+	CircularProgress,
 	Dialog,
-	DialogActions,
+	DialogTitle,
 	DialogContent,
 	DialogContentText,
-	DialogTitle,
-	CircularProgress
+	DialogActions,
+	IconButton,
+	Tooltip,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import AppCVDetails from "./AppCVDetails.jsx";
-import AppCVEntries from "./AppCVEntries.jsx";
-import apiClient, { apiFormDataClient } from "../../../../axiosConfig.js";
-import {AUTH_TOKEN} from "../../../constants.js";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
+import ViewListIcon from '@mui/icons-material/ViewList';
+import TableRowsIcon from '@mui/icons-material/TableRows';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import AppCVDetails from './AppCVDetails.jsx';
+import AppCVEntries from './AppCVEntries.jsx';
+import apiClient, { apiFormDataClient } from '../../../../axiosConfig.js';
+import { AUTH_TOKEN } from '../../../constants.js';
+
+const MAX_FILES = 100;
+const FILE_TYPE_PDF = 'application/pdf';
+const FILE_TYPE_WORD = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
 
 const AppCVContent = () => {
 	const { t } = useTranslation();
 	const [cvEntries, setCvEntries] = useState([]);
 	const [selectedCV, setSelectedCV] = useState(null);
+	const [viewMode, setViewMode] = useState('list');
 	const [openUploadModal, setOpenUploadModal] = useState(false);
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 	const [selectedFiles, setSelectedFiles] = useState([]);
 	const [isUploading, setIsUploading] = useState(false);
-	const FILE_TYPE_PDF = 'application/pdf';
-	const FILE_TYPE_WORD = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+	const [isDragging, setIsDragging] = useState(false);
+	const fileInputRef = useRef(null);
 
 	const fetchCVEntries = async () => {
 		try {
 			const response = await apiClient.get(import.meta.env.VITE_APP_API_CV_URL, {
-				params: {
-					pageSize: 50
-				}
+				params: { pageSize: 50 },
 			});
 			setCvEntries(response.data.data.content);
 		} catch (error) {
@@ -45,44 +49,36 @@ const AppCVContent = () => {
 		}
 	};
 
-
 	useEffect(() => {
 		fetchCVEntries().then(r => console.log('Fetch CV request done: ', r));
 	}, []);
 
-	const handleFileSelect = (event) => {
-		const files = Array.from(event.target.files);
-		const validFiles = files.filter(
-			(file) => file.type === FILE_TYPE_PDF || file.type === FILE_TYPE_WORD
-		);
-		if (validFiles.length > 10) {
-			console.error('You can upload a maximum of 10 files at a time.');
-			return;
-		}
-		setSelectedFiles(validFiles);
+	const processFiles = (files) => {
+		const valid = Array.from(files)
+			.filter(f => f.type === FILE_TYPE_PDF || f.type === FILE_TYPE_WORD)
+			.slice(0, MAX_FILES);
+		setSelectedFiles(valid);
+	};
+
+	const handleFileSelect = (e) => processFiles(e.target.files);
+
+	const handleDrop = (e) => {
+		e.preventDefault();
+		setIsDragging(false);
+		processFiles(e.dataTransfer.files);
 	};
 
 	const handleUploadCV = async () => {
-		if (selectedFiles.length === 0) {
-			console.error('No files selected.');
-			return;
-		}
+		if (selectedFiles.length === 0) return;
 		try {
 			setIsUploading(true);
-
 			const formData = new FormData();
-			selectedFiles.forEach((file) => formData.append('files', file));
-
+			selectedFiles.forEach(f => formData.append('files', f));
 			const response = await apiFormDataClient.post(
 				import.meta.env.VITE_APP_API_CV_UPLOAD_URL,
 				formData,
-				{
-					headers: {
-						Authorization: `Bearer ${localStorage.getItem(AUTH_TOKEN)}`,
-					},
-				}
+				{ headers: { Authorization: `Bearer ${localStorage.getItem(AUTH_TOKEN)}` } }
 			);
-			// Fetch the updated CV list after successful upload
 			if (response.status === 200) {
 				await fetchCVEntries();
 				setSelectedFiles([]);
@@ -96,146 +92,268 @@ const AppCVContent = () => {
 	};
 
 	const handleDeleteCV = async () => {
-		if (selectedCV) {
-			try {
-				await apiClient.delete(`${import.meta.env.VITE_APP_API_CV_URL}/${selectedCV.id}`, {
-					headers: {
-						Authorization: `Bearer ${localStorage.getItem(AUTH_TOKEN)}`,
-					},
-				});
-				const updatedEntries = cvEntries.filter((cv) => cv.id !== selectedCV.id);
-				setCvEntries(updatedEntries);
-				setSelectedCV(null);
-				setDeleteDialogOpen(false);
-			} catch (error) {
-				console.error('Error deleting CV entry:', error);
-			}
+		if (!selectedCV) return;
+		try {
+			await apiClient.delete(`${import.meta.env.VITE_APP_API_CV_URL}/${selectedCV.id}`, {
+				headers: { Authorization: `Bearer ${localStorage.getItem(AUTH_TOKEN)}` },
+			});
+			setCvEntries(cvEntries.filter(cv => cv.id !== selectedCV.id));
+			setSelectedCV(null);
+			setDeleteDialogOpen(false);
+		} catch (error) {
+			console.error('Error deleting CV entry:', error);
 		}
 	};
 
-	return (
-		<Box
-			sx={{
-				width: '100%',
-				height: '100vh',
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center',
-				justifyContent: 'flex-start',
-				backgroundColor: 'transparent',
-				color: '#232F3E',
-				padding: 2,
-				overflowX: 'none'
-			}}
-		>
-			{/* Section 1: Buttons for CV Upload */}
-			<Box sx={{ width: '90%', display: 'flex', justifyContent: 'flex-start', mb: 2 }}>
-				<Button
-					startIcon={<FileUploadIcon />}
-					variant="contained"
-					color="success"
-					onClick={() => setOpenUploadModal(true)}
-					sx={{ borderRadius: '50px', mr: 2 }}
-					disabled={isUploading}
-				>
-					{isUploading ? <CircularProgress size={24} /> : t('appCVContent.uploadCV')}
-				</Button>
-			</Box>
+	const showDetails = selectedCV !== null;
 
-			{/* Modal for Uploading CV */}
-			<Modal open={openUploadModal} onClose={() => !isUploading && setOpenUploadModal(false)}>
-				<Box
+	return (
+		<Box sx={{ display: 'flex', flexDirection: 'column', width: '80vw', height: 'calc(100vh - 104px)', marginLeft: "2vw", overflow: 'hidden', backgroundColor: '#f8fafc' }}>
+			{/* Toolbar */}
+			<Box sx={{
+				display: 'flex',
+				alignItems: 'center',
+				gap: 1.5,
+				py: 1.5,
+				backgroundColor: '#ffffff',
+				borderBottom: '1px solid #e2e8f0',
+				borderRadius: 2,
+				mb: 2,
+				px: 2,
+			}}>
+				<Button
+					startIcon={isUploading ? <CircularProgress size={16} color="inherit" /> : <FileUploadIcon />}
+					variant="contained"
+					disabled={isUploading}
+					onClick={() => setOpenUploadModal(true)}
 					sx={{
-						position: 'absolute',
-						top: '50%',
-						left: '50%',
-						transform: 'translate(-50%, -50%)',
-						width: { xs: '100%', md: '40%' },
-						backgroundColor: 'white',
-						color: '#232F3E',
-						boxShadow: 24,
-						p: 4,
+						backgroundColor: '#629C44',
+						'&:hover': { backgroundColor: '#528035' },
+						borderRadius: 1.5,
+						textTransform: 'none',
+						fontWeight: 600,
+						fontSize: '0.84rem',
+						boxShadow: 'none',
+						px: 2,
 					}}
 				>
-					<Typography variant="h6" gutterBottom>
-						{t('appCVContent.uploadCV')}
-					</Typography>
-					<Typography color={"textSecondary"} gutterBottom>
-						{t('appCVContent.uploadCVInfo')}
-					</Typography>
-					<input
-						type="file"
-						accept=".pdf,.docx"
-						multiple
-						onChange={handleFileSelect}
-						disabled={isUploading}
-					/>
-					{selectedFiles.length > 0 && (
-						<Box>
-							<Button
-								variant="contained"
-								color="primary"
-								fullWidth
-								sx={{ mt: 2 }}
-								onClick={handleUploadCV}
-								disabled={isUploading}
-							>
-								{isUploading ? <CircularProgress size={24} /> : t('appCVContent.uploadFiles')}
-							</Button>
-							{isUploading && (
-								<Typography
-									variant="body2"
-									sx={{ mt: 2, textAlign: 'center', color: 'gray' }}
-								>
-									{t('appCVContent.uploadInProgress')}
-								</Typography>
-							)}
-						</Box>
-					)}
+					{t('appCVContent.uploadCV')}
+					<Box component="span" sx={{
+						ml: 1, px: 0.75, py: 0.15,
+						backgroundColor: 'rgba(255,255,255,0.22)',
+						borderRadius: 0.75,
+						fontSize: '0.72rem',
+						fontWeight: 500,
+						letterSpacing: '0.02em',
+					}}>
+						· up to {MAX_FILES}
+					</Box>
+				</Button>
+
+				<Box sx={{ flexGrow: 1 }} />
+
+				{/* View toggle */}
+				<Box sx={{ display: 'flex', backgroundColor: '#f1f5f9', borderRadius: 1.5, p: 0.4, gap: 0.25 }}>
+					<Tooltip title="List view">
+						<IconButton
+							size="small"
+							onClick={() => setViewMode('list')}
+							sx={{
+								borderRadius: 1,
+								color: viewMode === 'list' ? '#629C44' : '#94a3b8',
+								backgroundColor: viewMode === 'list' ? '#ffffff' : 'transparent',
+								boxShadow: viewMode === 'list' ? '0 1px 3px rgba(0,0,0,0.10)' : 'none',
+								'&:hover': { backgroundColor: viewMode === 'list' ? '#ffffff' : 'rgba(0,0,0,0.04)' },
+							}}
+						>
+							<ViewListIcon sx={{ fontSize: 18 }} />
+						</IconButton>
+					</Tooltip>
+					<Tooltip title="Table view">
+						<IconButton
+							size="small"
+							onClick={() => setViewMode('table')}
+							sx={{
+								borderRadius: 1,
+								color: viewMode === 'table' ? '#629C44' : '#94a3b8',
+								backgroundColor: viewMode === 'table' ? '#ffffff' : 'transparent',
+								boxShadow: viewMode === 'table' ? '0 1px 3px rgba(0,0,0,0.10)' : 'none',
+								'&:hover': { backgroundColor: viewMode === 'table' ? '#ffffff' : 'rgba(0,0,0,0.04)' },
+							}}
+						>
+							<TableRowsIcon sx={{ fontSize: 18 }} />
+						</IconButton>
+					</Tooltip>
 				</Box>
-			</Modal>
-
-			{/* Section 2: CV Entries List and Details */}
-			<Box sx={{ display: 'flex', justifyContent: 'flex-start', width: '90%', mt: 4, marginBottom: '10vh' }}>
-				{/* Section 2.1: CV List */}
-				<AppCVEntries
-					cvEntries={cvEntries}
-					setDeleteDialogOpen={setDeleteDialogOpen}
-					setSelectedCV={setSelectedCV}
-					setCVEntries={setCvEntries}
-				/>
-
-				{/* Section 2.2: CV Details */}
-				<Paper sx={{ width: '75%', height: '95vh', padding: 2, boxShadow: 3, backgroundColor: 'white', marginBottom: '10vh', overflowY: 'scroll', marginLeft: 5, alignItems: 'left' }}>
-					<Typography variant="h5" gutterBottom>
-						{t('appCVContent.cvDetailsTitle')}
-					</Typography>
-					<Divider sx={{ marginBottom: 3 }} />
-					{selectedCV ? (
-						<>
-							<AppCVDetails cv={selectedCV} />
-						</>
-					) : (
-						<Typography variant="body1">
-							{t('appCVContent.selectCVToSeeDetails')}
-						</Typography>
-					)}
-				</Paper>
 			</Box>
 
-			{/* Dialog for Confirming Deletion */}
-			<Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
-				<DialogTitle>{t('appCVContent.deleteCVTitle')}</DialogTitle>
+			{/* Split pane */}
+			<Box sx={{
+				display: 'flex',
+				flex: 1,
+				overflow: 'hidden',
+				borderRadius: 2,
+				border: '1px solid #e2e8f0',
+				backgroundColor: '#ffffff',
+			}}>
+				{/* Left panel */}
+				<Box sx={{
+					width: viewMode === 'list' ? 300 : (showDetails ? '45%' : '100%'),
+					flexShrink: 0,
+					transition: 'width 0.2s ease',
+					borderRight: (showDetails || viewMode === 'list') ? '1px solid #e2e8f0' : 'none',
+					overflow: 'hidden',
+					display: 'flex',
+					flexDirection: 'column',
+				}}>
+					<AppCVEntries
+						cvEntries={cvEntries}
+						setSelectedCV={setSelectedCV}
+						setDeleteDialogOpen={setDeleteDialogOpen}
+						setCVEntries={setCvEntries}
+						viewMode={viewMode}
+						selectedCV={selectedCV}
+					/>
+				</Box>
+
+				{/* Right panel */}
+				{(viewMode === 'list' || showDetails) && (
+					<Box sx={{ flex: 1, overflow: 'auto', minWidth: 0, backgroundColor: '#f8fafc' }}>
+						{showDetails ? (
+							<AppCVDetails cv={selectedCV} onClose={() => setSelectedCV(null)} />
+						) : (
+							<Box sx={{
+								height: '100%',
+								display: 'flex',
+								flexDirection: 'column',
+								alignItems: 'center',
+								justifyContent: 'center',
+								gap: 1.5,
+							}}>
+								<CloudUploadIcon sx={{ fontSize: 40, color: '#cbd5e1' }} />
+								<Typography sx={{ fontSize: '0.88rem', color: '#94a3b8' }}>
+									{t('appCVContent.selectCVToSeeDetails')}
+								</Typography>
+							</Box>
+						)}
+					</Box>
+				)}
+			</Box>
+
+			{/* Upload Dialog */}
+			<Dialog
+				open={openUploadModal}
+				onClose={() => !isUploading && setOpenUploadModal(false)}
+				maxWidth="sm"
+				fullWidth
+				PaperProps={{ sx: { borderRadius: 3 } }}
+			>
+				<DialogTitle sx={{ px: 3, pt: 3, pb: 1, fontWeight: 700, fontSize: '1rem', color: '#0f172a' }}>
+					{t('appCVContent.uploadCV')}
+					<Typography sx={{ fontSize: '0.82rem', color: '#64748b', fontWeight: 400, mt: 0.25 }}>
+						{t('appCVContent.uploadCVInfo')}
+					</Typography>
+				</DialogTitle>
+				<DialogContent sx={{ px: 3 }}>
+					<Box
+						onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+						onDragLeave={() => setIsDragging(false)}
+						onDrop={handleDrop}
+						onClick={() => fileInputRef.current?.click()}
+						sx={{
+							border: `2px dashed ${isDragging ? '#629C44' : '#cbd5e1'}`,
+							borderRadius: 2,
+							py: 4,
+							display: 'flex',
+							flexDirection: 'column',
+							alignItems: 'center',
+							gap: 1,
+							cursor: 'pointer',
+							backgroundColor: isDragging ? 'rgba(98,156,68,0.04)' : '#f8fafc',
+							transition: 'all 0.15s ease',
+							'&:hover': { borderColor: '#629C44', backgroundColor: 'rgba(98,156,68,0.04)' },
+						}}
+					>
+						<CloudUploadIcon sx={{ fontSize: 36, color: isDragging ? '#629C44' : '#94a3b8' }} />
+						<Typography sx={{ fontSize: '0.88rem', fontWeight: 600, color: '#334155' }}>
+							Drag & drop files here
+						</Typography>
+						<Typography sx={{ fontSize: '0.78rem', color: '#94a3b8' }}>
+							or click to browse — .pdf or .docx, up to {MAX_FILES} files
+						</Typography>
+						<input
+							ref={fileInputRef}
+							type="file"
+							accept=".pdf,.docx"
+							multiple
+							onChange={handleFileSelect}
+							disabled={isUploading}
+							style={{ display: 'none' }}
+						/>
+					</Box>
+
+					{selectedFiles.length > 0 && (
+						<Box sx={{ mt: 2, p: 1.5, backgroundColor: '#f0fdf4', borderRadius: 1.5, border: '1px solid #bbf7d0' }}>
+							<Typography sx={{ fontSize: '0.82rem', color: '#16a34a', fontWeight: 600 }}>
+								{selectedFiles.length} file{selectedFiles.length > 1 ? 's' : ''} ready to upload
+							</Typography>
+						</Box>
+					)}
+				</DialogContent>
+				<DialogActions sx={{ px: 3, pb: 3, gap: 1 }}>
+					<Button
+						onClick={() => { setOpenUploadModal(false); setSelectedFiles([]); }}
+						disabled={isUploading}
+						sx={{ textTransform: 'none', color: '#64748b', borderRadius: 1.5 }}
+					>
+						{t('appCVContent.cancel')}
+					</Button>
+					<Button
+						onClick={handleUploadCV}
+						disabled={isUploading || selectedFiles.length === 0}
+						variant="contained"
+						sx={{
+							textTransform: 'none',
+							backgroundColor: '#629C44',
+							'&:hover': { backgroundColor: '#528035' },
+							borderRadius: 1.5,
+							boxShadow: 'none',
+							fontWeight: 600,
+							minWidth: 120,
+						}}
+					>
+						{isUploading ? <CircularProgress size={18} color="inherit" /> : t('appCVContent.uploadFiles')}
+					</Button>
+				</DialogActions>
+			</Dialog>
+
+			{/* Delete Confirmation Dialog */}
+			<Dialog
+				open={deleteDialogOpen}
+				onClose={() => setDeleteDialogOpen(false)}
+				PaperProps={{ sx: { borderRadius: 2.5 } }}
+			>
+				<DialogTitle sx={{ fontWeight: 700, fontSize: '0.95rem', color: '#0f172a' }}>
+					{t('appCVContent.deleteCVTitle')}
+				</DialogTitle>
 				<DialogContent>
-					<DialogContentText>
+					<DialogContentText sx={{ fontSize: '0.88rem', color: '#64748b' }}>
 						{t('appCVContent.deleteConfirmation')}
 					</DialogContentText>
 				</DialogContent>
-				<DialogActions>
-					<Button onClick={() => setDeleteDialogOpen(false)} color="primary" disabled={isUploading}>
+				<DialogActions sx={{ px: 2, pb: 2, gap: 1 }}>
+					<Button
+						onClick={() => setDeleteDialogOpen(false)}
+						sx={{ textTransform: 'none', color: '#64748b', borderRadius: 1.5 }}
+					>
 						{t('appCVContent.cancel')}
 					</Button>
-					<Button onClick={handleDeleteCV} color="error" disabled={isUploading}>
+					<Button
+						onClick={handleDeleteCV}
+						variant="contained"
+						color="error"
+						sx={{ textTransform: 'none', borderRadius: 1.5, boxShadow: 'none' }}
+					>
 						{t('appCVContent.confirm')}
 					</Button>
 				</DialogActions>

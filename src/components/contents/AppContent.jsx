@@ -37,7 +37,7 @@ const AppContent = ({ content }) => {
 	};
 
 	return (
-		<Box component="main" sx={{ position: 'absolute', left: '15%', right: 0, flexGrow: 1, margin: '0', backgroundColor: 'lightgrey', padding: '2rem', overflowY: 'scroll' }}>
+		<Box component="main" sx={{ position: 'absolute', left: '240px', right: 0, top: '64px', margin: '0', backgroundColor: 'lightgrey', padding: '2rem', overflowY: 'scroll' }}>
 			{renderContent()}
 		</Box>
 	);

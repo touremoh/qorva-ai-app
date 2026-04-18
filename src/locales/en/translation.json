@@ -165,7 +165,9 @@
     "deleteConfirmation": "Are you sure you want to delete this resume?",
     "cancel": "Cancel",
     "confirm": "Confirm",
-    "uploadCV": "Upload Resume",
+    "uploadCV": "Bulk Upload Resumes",
+    "experience": "Experience",
+    "yearsAbbr": "yrs",
     "attachment": "Attachment",
     "viewAttachment": "View File",
     "selectCVToSeeDetails": "Select a resume to view details",
@@ -182,7 +184,7 @@
     "downloadCV": "Download Resume",
     "uploadFiles": "Upload Files",
     "uploadInProgress": "Uploading… please wait",
-    "uploadCVInfo": "Upload up to 10 resumes (.pdf or .docx)."
+    "uploadCVInfo": "Upload up to 100 resumes (.pdf or .docx)."
   },
   "appCVScreening": {
     "selectJobPost": "Choose Job Post",

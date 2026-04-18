@@ -167,7 +167,9 @@
     "deleteConfirmation": "Weet je zeker dat je dit CV wilt verwijderen?",
     "cancel": "Annuleren",
     "confirm": "Bevestigen",
-    "uploadCV": "CV uploaden",
+    "uploadCV": "Bulk-upload CV's",
+    "experience": "Ervaring",
+    "yearsAbbr": "jr.",
     "createCollection": "Nieuwe verzameling",
     "saveCollection": "Verzameling opslaan",
     "attachment": "Bijlage",
@@ -186,7 +188,7 @@
     "downloadCV": "CV downloaden",
     "uploadFiles": "Bestanden uploaden",
     "uploadInProgress": "Bezig met uploaden…",
-    "uploadCVInfo": "Upload max. 10 CV’s in .pdf of .docx."
+    "uploadCVInfo": "Upload max. 100 CV’s in .pdf of .docx."
   },
   "appCVScreening": {
     "selectJobPost": "Selecteer vacature",

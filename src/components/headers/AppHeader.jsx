@@ -1,108 +1,172 @@
-import { AppBar, Avatar, Box, IconButton, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
+import React, { useEffect, useState } from 'react';
+import {
+	AppBar,
+	Avatar,
+	Box,
+	Divider,
+	IconButton,
+	ListItemIcon,
+	Menu,
+	MenuItem,
+	Toolbar,
+	Typography,
+} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-// eslint-disable-next-line no-unused-vars
-import React, {useEffect, useState} from "react";
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { useTranslation } from 'react-i18next';
 import {
+	COMP_ID_CHAT,
 	COMP_ID_CVLIB,
+	COMP_ID_DASHBOARD,
+	COMP_ID_JOBS,
 	COMP_ID_REPORTS,
 	COMP_ID_SETTINGS,
-	COMP_ID_JOBS,
-	USER_FIRST_NAME, USER_LAST_NAME, COMP_ID_DASHBOARD, COMP_ID_CHAT
-} from "../../constants.js";
+	USER_FIRST_NAME,
+	USER_LAST_NAME,
+} from '../../constants.js';
+import { SIDEBAR_WIDTH } from '../menu/AppSidebar.jsx';
 
+export const HEADER_HEIGHT = 64;
 
 const AppHeader = ({ handleSidebarToggle, handleContentChange, contentTitle }) => {
 	const { t } = useTranslation();
 	const [anchorEl, setAnchorEl] = useState(null);
+	const [initials, setInitials] = useState('');
 	const [fullName, setFullName] = useState('');
 
-	const handleMenuOpen = (event) => {
-		setAnchorEl(event.currentTarget);
-	};
-
-	const handleMenuClose = () => {
-		setAnchorEl(null);
-	};
-
-	const handleLogoutClick = () => {
-		localStorage.clear();
-		location.reload();
-	};
-
-	const handleNavigation = (newContent) => {
-		handleContentChange(newContent);
-		handleMenuClose();
-	};
-
-
-	const handleHamburgerToggle = () => {
-		handleSidebarToggle();
-	};
-
-	const renderContentTile = () => {
-		switch (contentTitle) {
-			case COMP_ID_DASHBOARD:
-				return<Typography variant="h5">Dashboard</Typography>;
-			case COMP_ID_CVLIB:
-				return <Typography variant="h5">{t('header.cvs')}</Typography>;
-			case COMP_ID_JOBS:
-				return <Typography variant="h5">{t('header.jobs')}</Typography>;
-			case COMP_ID_REPORTS:
-				return <Typography variant="h5">{t('header.reports')}</Typography>;
-			case COMP_ID_CHAT:
-				return <Typography variant="h5">{t('header.aiResumeChat') || 'AI Resume Chat'}</Typography>;
-			case COMP_ID_SETTINGS:
-				return <Typography variant="h5">{t('header.accountSettings')}</Typography>;
-			default:
-				return <Typography variant="h5">Dashboard</Typography>;
-		}
-	};
-
 	useEffect(() => {
-		const firstName = localStorage.getItem(USER_FIRST_NAME);
-		const lastName = localStorage.getItem(USER_LAST_NAME);
-		setFullName(firstName + ' ' + lastName);
+		const first = localStorage.getItem(USER_FIRST_NAME) || '';
+		const last = localStorage.getItem(USER_LAST_NAME) || '';
+		setFullName(`${first} ${last}`.trim());
+		setInitials(`${first.charAt(0)}${last.charAt(0)}`.toUpperCase());
 	}, []);
 
+	const pageTitles = {
+		[COMP_ID_DASHBOARD]: 'Dashboard',
+		[COMP_ID_CVLIB]:     t('header.cvs'),
+		[COMP_ID_JOBS]:      t('header.jobs'),
+		[COMP_ID_REPORTS]:   t('header.reports'),
+		[COMP_ID_CHAT]:      t('header.aiResumeChat'),
+		[COMP_ID_SETTINGS]:  t('header.accountSettings'),
+	};
+
+	const displayTitle = pageTitles[contentTitle] || 'Dashboard';
+
 	return (
-		<AppBar sx={{position: 'fixed', width: { xs: '100%', md: '85%', lg: '85%'  }, marginLeft: { md: 240 }, height: '5vh', justifyContent: 'center', backgroundColor: '#f8f8f8', color: 'black' }}>
-			<Toolbar>
-				{/* Hamburger Icon (Always Visible) */}
+		<AppBar
+			elevation={0}
+			sx={{
+				position: 'fixed',
+				width: { xs: '100%', md: `calc(100% - ${SIDEBAR_WIDTH}px)` },
+				marginLeft: { md: `${SIDEBAR_WIDTH}px` },
+				height: HEADER_HEIGHT,
+				justifyContent: 'center',
+				backgroundColor: '#ffffff',
+				borderBottom: '1px solid #e2e8f0',
+				color: '#0f172a',
+			}}
+		>
+			<Toolbar sx={{ minHeight: `${HEADER_HEIGHT}px !important`, px: { xs: 2, sm: 3 } }}>
 				<IconButton
-					color="inherit"
+					onClick={handleSidebarToggle}
 					edge="start"
-					sx={{ mr: 2 }}
-					onClick={handleHamburgerToggle}
+					sx={{
+						mr: 2,
+						color: '#64748b',
+						borderRadius: 1.5,
+						'&:hover': { backgroundColor: '#f1f5f9' },
+					}}
 				>
-					<MenuIcon />
+					<MenuIcon sx={{ fontSize: 20 }} />
 				</IconButton>
 
-				{/* Content Title in the AppBar */}
-				{renderContentTile()}
+				<Typography
+					sx={{
+						fontWeight: 600,
+						fontSize: '1rem',
+						color: '#0f172a',
+						letterSpacing: '-0.01em',
+					}}
+				>
+					{displayTitle}
+				</Typography>
+
 				<Box sx={{ flexGrow: 1 }} />
 
-				{/* Language switcher  */}
-				{/*<LanguageSwitcher textColor={'black'} />*/}
-
-				{/* User Account Icon */}
-				<IconButton color="inherit" onClick={handleMenuOpen}>
-					<Avatar />
+				<IconButton onClick={(e) => setAnchorEl(e.currentTarget)} sx={{ p: 0.5 }}>
+					<Avatar
+						sx={{
+							width: 34,
+							height: 34,
+							fontSize: '0.75rem',
+							fontWeight: 700,
+							backgroundColor: '#629C44',
+							color: '#ffffff',
+							letterSpacing: '0.03em',
+						}}
+					>
+						{initials || '?'}
+					</Avatar>
 				</IconButton>
+
 				<Menu
 					anchorEl={anchorEl}
 					open={Boolean(anchorEl)}
-					onClose={handleMenuClose}
+					onClose={() => setAnchorEl(null)}
 					anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
 					transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+					slotProps={{
+						paper: {
+							elevation: 0,
+							sx: {
+								mt: 1,
+								minWidth: 210,
+								borderRadius: 2,
+								border: '1px solid #e2e8f0',
+								boxShadow: '0 8px 24px rgba(0,0,0,0.10)',
+								overflow: 'visible',
+							},
+						},
+					}}
 				>
-					<MenuItem sx={{fontStyle: 'italic', fontWeight: '0.5rem', color: 'blue'}}>{fullName}</MenuItem>
-					<MenuItem onClick={() => handleNavigation(COMP_ID_SETTINGS)}>{t('header.accountSettings')}</MenuItem>
-					<MenuItem onClick={handleLogoutClick}>{t('header.logout')}</MenuItem>
+					<Box sx={{ px: 2, py: 1.5 }}>
+						<Typography sx={{ fontSize: '0.85rem', fontWeight: 600, color: '#0f172a' }}>
+							{fullName}
+						</Typography>
+					</Box>
+					<Divider sx={{ borderColor: '#f1f5f9' }} />
+					<MenuItem
+						onClick={() => { handleContentChange(COMP_ID_SETTINGS); setAnchorEl(null); }}
+						sx={menuItemSx}
+					>
+						<ListItemIcon>
+							<SettingsOutlinedIcon sx={{ fontSize: 16, color: '#64748b' }} />
+						</ListItemIcon>
+						{t('header.accountSettings')}
+					</MenuItem>
+					<MenuItem
+						onClick={() => { localStorage.clear(); location.reload(); }}
+						sx={{ ...menuItemSx, color: '#ef4444' }}
+					>
+						<ListItemIcon>
+							<LogoutOutlinedIcon sx={{ fontSize: 16, color: '#ef4444' }} />
+						</ListItemIcon>
+						{t('header.logout')}
+					</MenuItem>
 				</Menu>
 			</Toolbar>
 		</AppBar>
 	);
+};
+
+const menuItemSx = {
+	px: 2,
+	py: 1,
+	fontSize: '0.85rem',
+	color: '#334155',
+	gap: 0.5,
+	'&:hover': { backgroundColor: '#f8fafc' },
 };
 
 export default AppHeader;

@@ -1,7 +1,7 @@
 // src/pages/AppHome.jsx
 import React, {useEffect, useState} from 'react';
 import { Box } from '@mui/material';
-import AppHeader from '../components/headers/AppHeader.jsx';
+import AppHeader, { HEADER_HEIGHT } from '../components/headers/AppHeader.jsx';
 import AppFooter from '../components/footer/AppFooter.jsx';
 import AppContent from '../components/contents/AppContent.jsx';
 import AppSidebar from "../components/menu/AppSidebar.jsx";
@@ -47,6 +47,8 @@ const AppHome = () => {
 					handleContentChange={handleContentChange}
 					contentTitle={content}
 				/>
+				{/* Spacer to push content below fixed header */}
+				<Box sx={{ height: HEADER_HEIGHT, flexShrink: 0 }} />
 
 				{/* Content */}
 				<AppContent content={content} />

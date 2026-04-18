@@ -167,7 +167,9 @@
     "deleteConfirmation": "Sind Sie sicher, dass Sie diesen Lebenslauf löschen möchten?",
     "cancel": "Abbrechen",
     "confirm": "Bestätigen",
-    "uploadCV": "Lebenslauf hochladen",
+    "uploadCV": "Lebensläufe hochladen",
+    "experience": "Erfahrung",
+    "yearsAbbr": "J.",
     "createCollection": "Sammlung anlegen",
     "saveCollection": "Sammlung speichern",
     "attachment": "Anhang",
@@ -186,7 +188,7 @@
     "downloadCV": "Lebenslauf herunterladen",
     "uploadFiles": "Dateien hochladen",
     "uploadInProgress": "Upload läuft…",
-    "uploadCVInfo": "Bis zu 10 Lebensläufe (.pdf oder .docx) hochladen."
+    "uploadCVInfo": "Bis zu 100 Lebensläufe (.pdf oder .docx) hochladen."
   },
   "appCVScreening": {
     "selectJobPost": "Stelle auswählen",

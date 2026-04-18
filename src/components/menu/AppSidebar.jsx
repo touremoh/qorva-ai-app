@@ -1,88 +1,57 @@
-// eslint-disable-next-line no-unused-vars
-import React, {useEffect, useState} from 'react';
-import {Drawer, useMediaQuery} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Drawer, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import AppMenuList from "./AppMenuList/AppMenuList.jsx";
-import apiClient from "../../../axiosConfig.js";
-import PropTypes from "prop-types";
+import AppMenuList from './AppMenuList/AppMenuList.jsx';
+import apiClient from '../../../axiosConfig.js';
+import PropTypes from 'prop-types';
+
+export const SIDEBAR_WIDTH = 240;
+
+const drawerSx = {
+	width: SIDEBAR_WIDTH,
+	flexShrink: 0,
+	'& .MuiDrawer-paper': {
+		width: SIDEBAR_WIDTH,
+		boxSizing: 'border-box',
+		border: 'none',
+		boxShadow: '2px 0 16px rgba(0,0,0,0.18)',
+	},
+};
 
 const AppSidebar = ({ isSidebarOpen, handleSidebarToggle, handleContentChange }) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
-	const [isChatAllowed, setIsChatAllowed] = useState(true);
+	const [isChatAllowed, setIsChatAllowed] = useState(false);
 
 	const handleNavigation = (newContent) => {
 		handleContentChange(newContent);
 		if (!isLargeScreen) {
-			handleSidebarToggle(); // Close the sidebar after navigation on small screens
+			handleSidebarToggle();
 		}
 	};
 
-	const checkChatAllowed = async () => {
-		try {
-			return await apiClient.get(`${import.meta.env.VITE_APP_API_CHAT_URL}/allowed`);
-		} catch (error) {
-			console.log(error);
-			return false;
-		}
-	}
-
 	useEffect(() => {
-		checkChatAllowed().then(response => {
-			setIsChatAllowed(response.data);
-		});
+		apiClient
+			.get(`${import.meta.env.VITE_APP_API_CHAT_URL}/allowed`)
+			.then((res) => setIsChatAllowed(res.data))
+			.catch(() => setIsChatAllowed(false));
 	}, []);
 
-	return (
-		<>
-			{/* Permanent Sidebar for Larger Screens */}
-			{isLargeScreen && (
-				<Drawer
-					variant="permanent"
-					open={isSidebarOpen}
-					onClose={handleSidebarToggle}
-					sx={{
-						width: '15%',
-						flexShrink: 0,
-						[`& .MuiDrawer-paper`]: {
-							width: '15%',
-							boxSizing: 'border-box',
-							backgroundColor: '#232F3E',
-							color: 'white',
-						},
-					}}
-				>
-					<AppMenuList handleContentChange={handleNavigation} isChatAllowed={isChatAllowed}  />
-				</Drawer>
-			)}
-
-			{/* Temporary Sidebar for Smaller Screens */}
-			{!isLargeScreen && (
-				<Drawer
-					variant="temporary"
-					open={isSidebarOpen}
-					onClose={handleSidebarToggle}
-					sx={{
-						[`& .MuiDrawer-paper`]: {
-							width: '10%',
-							boxSizing: 'border-box',
-							backgroundColor: '#232F3E',
-							color: 'white',
-						},
-					}}
-				>
-					<AppMenuList handleContentChange={handleNavigation} isChatAllowed={isChatAllowed}  />
-				</Drawer>
-			)}
-		</>
+	return isLargeScreen ? (
+		<Drawer variant="permanent" open sx={drawerSx}>
+			<AppMenuList handleContentChange={handleNavigation} isChatAllowed={isChatAllowed} />
+		</Drawer>
+	) : (
+		<Drawer variant="temporary" open={isSidebarOpen} onClose={handleSidebarToggle} sx={drawerSx}>
+			<AppMenuList handleContentChange={handleNavigation} isChatAllowed={isChatAllowed} />
+		</Drawer>
 	);
 };
 
 export default AppSidebar;
 
-// isSidebarOpen, handleSidebarToggle, handleContentChange
 AppSidebar.propTypes = {
 	isSidebarOpen: PropTypes.bool,
 	handleSidebarToggle: PropTypes.func,
-	handleContentChange: PropTypes.func
-}
+	handleContentChange: PropTypes.func,
+};

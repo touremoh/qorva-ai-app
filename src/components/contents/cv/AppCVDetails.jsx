@@ -1,402 +1,519 @@
-import React, {useCallback, useRef} from 'react';
-import {Box, Typography, Button, Grid2, Paper} from '@mui/material';
+import React, { useRef, useCallback } from 'react';
+import {
+	Box,
+	Typography,
+	Avatar,
+	Chip,
+	IconButton,
+	Grid2,
+	Paper,
+	Table,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableHead,
+	TableRow,
+} from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import TimelineItem from "@mui/lab/TimelineItem";
-import QorvaCVTimeline, {QorvaTimelineSeparator} from "../../timeline/Timeline.jsx";
-import TimelineContent from "@mui/lab/TimelineContent";
-import WorkIcon from "@mui/icons-material/Work";
-import PersonIcon from "@mui/icons-material/Person";
-import ContactsIcon from '@mui/icons-material/Contacts';
-import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
-import SchoolIcon from "@mui/icons-material/School";
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import "../../timeline/Timeline.css"
-import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
-import ConstructionIcon from '@mui/icons-material/Construction';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import DownhillSkiingIcon from '@mui/icons-material/DownhillSkiing';
-import LinkIcon from '@mui/icons-material/Link';
-import LabelIcon from '@mui/icons-material/Label';
+import { useReactToPrint } from 'react-to-print';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import {useReactToPrint} from "react-to-print";
+import CloseIcon from '@mui/icons-material/Close';
+import PhoneIcon from '@mui/icons-material/Phone';
+import EmailIcon from '@mui/icons-material/Email';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import LanguageIcon from '@mui/icons-material/Language';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
+import SchoolIcon from '@mui/icons-material/School';
+import ConstructionIcon from '@mui/icons-material/Construction';
+import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
+import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import DownhillSkiingIcon from '@mui/icons-material/DownhillSkiing';
+import LabelIcon from '@mui/icons-material/Label';
+import ContactsIcon from '@mui/icons-material/Contacts';
+import TranslateIcon from '@mui/icons-material/Translate';
 
-const AppCVDetails = ({ cv }) => {
+// ─── Local helpers ────────────────────────────────────────────────────────────
+
+const getInitials = (name = '') =>
+	name.split(' ').map(p => p[0]).filter(Boolean).join('').slice(0, 2).toUpperCase();
+
+const SectionHeader = ({ Icon, title }) => (
+	<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5, pb: 0.75, borderBottom: '2px solid #629C44' }}>
+		<Icon sx={{ fontSize: 14, color: '#629C44' }} />
+		<Typography sx={{
+			fontWeight: 700,
+			fontSize: '0.68rem',
+			color: '#64748b',
+			textTransform: 'uppercase',
+			letterSpacing: '0.08em',
+		}}>
+			{title}
+		</Typography>
+	</Box>
+);
+
+const Card = ({ children, sx }) => (
+	<Paper elevation={0} sx={{ p: 2.5, borderRadius: 2, border: '1px solid #e2e8f0', ...sx }}>
+		{children}
+	</Paper>
+);
+
+// ─── Main component ───────────────────────────────────────────────────────────
+
+const AppCVDetails = ({ cv, onClose }) => {
 	const { t } = useTranslation();
+
+	// Hooks must be called unconditionally
+	const componentRef = useRef(null);
+	const printCV = useReactToPrint({ contentRef: componentRef });
+	const handleDownload = useCallback(() => printCV(), [printCV]);
 
 	if (!cv) {
 		return (
-			<Typography variant="body1">
-				{t('appCVContent.selectCVToSeeDetails')}
-			</Typography>
+			<Box sx={{ p: 3 }}>
+				<Typography sx={{ fontSize: '0.88rem', color: '#94a3b8' }}>
+					{t('appCVContent.selectCVToSeeDetails')}
+				</Typography>
+			</Box>
 		);
 	}
 
-	const componentRef = useRef(null);
-	const printCV = useReactToPrint({
-		contentRef: componentRef,
-	});
+	const {
+		personalInformation: pi = {},
+		candidateProfileSummary,
+		workExperience = [],
+		education = [],
+		certifications = [],
+		skillsAndQualifications,
+		projectsAndAchievements = [],
+		interestsAndHobbies = [],
+		references = [],
+		tags = [],
+		lastUpdatedAt,
+	} = cv;
 
-	const handleCVDownload = useCallback(() => {
-		printCV();
-	}, [printCV]);
+	const contact = pi.contact || {};
+	const skills = skillsAndQualifications || {};
 
 	return (
-		<Box sx={{ padding: 2, height: '100%', overflowX: 'none' }}>
-			<Box>
-				<Button
-					onClick={handleCVDownload}
-					variant="outlined"
-					startIcon={<FileDownloadIcon />}>
-					{t('appCVContent.downloadCV')}
-				</Button>
+		<Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', backgroundColor: '#f8fafc' }}>
+			{/* Sticky action bar */}
+			<Box sx={{
+				display: 'flex',
+				alignItems: 'center',
+				px: 2.5,
+				py: 1.25,
+				backgroundColor: '#ffffff',
+				borderBottom: '1px solid #e2e8f0',
+				flexShrink: 0,
+			}}>
+				<Box sx={{ flexGrow: 1 }} />
+				<IconButton
+					size="small"
+					onClick={handleDownload}
+					sx={{
+						color: '#64748b',
+						borderRadius: 1.5,
+						border: '1px solid #e2e8f0',
+						mr: 1,
+						'&:hover': { backgroundColor: '#f1f5f9' },
+					}}
+				>
+					<FileDownloadIcon sx={{ fontSize: 16 }} />
+				</IconButton>
+				{onClose && (
+					<IconButton
+						size="small"
+						onClick={onClose}
+						sx={{
+							color: '#64748b',
+							borderRadius: 1.5,
+							border: '1px solid #e2e8f0',
+							'&:hover': { backgroundColor: '#f1f5f9' },
+						}}
+					>
+						<CloseIcon sx={{ fontSize: 16 }} />
+					</IconButton>
+				)}
 			</Box>
-			<Box sx={{ width: '100%' }} ref={componentRef}>
-				{/* Personal Information & Contact */}
-				<Box sx={{display: 'flex', flexDirection: 'row', width: '80%'}}>
-					{/* Personal Information */}
-					<Grid2 item xs={12} md={6} lg={6}>
-						<Grid2 container>
-							<Grid2 item sm={12} md={6}>
-								{cv.personalInformation && (
-									<QorvaCVTimeline title={t('appCVContent.personalInformation')} icon={<PersonIcon />}>
-										<TimelineItem>
-											<QorvaTimelineSeparator />
-											<TimelineContent>
-												<Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>{t('appCVContent.name')}</Typography>
-												<Typography variant="body2">{cv.personalInformation.name}</Typography>
-											</TimelineContent>
-										</TimelineItem>
-										<TimelineItem>
-											<QorvaTimelineSeparator />
-											<TimelineContent>
-												<Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>{t('appCVContent.title')}</Typography>
-												<Typography variant="body2">{cv.personalInformation.role}</Typography>
-											</TimelineContent>
-										</TimelineItem>
-										{cv.candidateProfileSummary && (
-											<TimelineItem>
-												<QorvaTimelineSeparator />
-												<TimelineContent>
-													<Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>{t('appCVContent.summary')}</Typography>
-													<Typography variant="body2">{cv.candidateProfileSummary}</Typography>
-												</TimelineContent>
-											</TimelineItem>
-										)}
-									</QorvaCVTimeline>
-								)}
-							</Grid2>
-						</Grid2>
-					</Grid2>
 
-					{/* Contact */}
-					<Grid2 item xs={12} md={6} lg={6}>
-						<Grid2 container>
-							<Grid2 item sm={12} md={6}>
-								{cv.personalInformation.contact && (
-									<QorvaCVTimeline title={t('appCVContent.contactInfo.title')} icon={<ContactsIcon />}>
-										<TimelineItem>
-											<QorvaTimelineSeparator />
-											<TimelineContent>
-												<Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>{t('appCVContent.contactInfo.phone')}</Typography>
-												<Typography variant="body2">{cv.personalInformation.contact.phone}</Typography>
-											</TimelineContent>
-										</TimelineItem>
-										<TimelineItem>
-											<QorvaTimelineSeparator />
-											<TimelineContent>
-												<Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>{t('appCVContent.contactInfo.email')}</Typography>
-												<Typography variant="body2">{cv.personalInformation.contact.email}</Typography>
-											</TimelineContent>
-										</TimelineItem>
-										{cv.personalInformation.contact.socialLinks && cv.personalInformation.contact.socialLinks.linkedin && (
-											<TimelineItem>
-												<QorvaTimelineSeparator />
-												<TimelineContent>
-													<Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>{t('appCVContent.contactInfo.linkedin')}</Typography>
-													<Typography variant="body2">{cv.personalInformation.contact.socialLinks.linkedin}</Typography>
-												</TimelineContent>
-											</TimelineItem>
-										)}
-										{cv.personalInformation.contact.socialLinks && cv.personalInformation.contact.socialLinks.github && (
-											<TimelineItem>
-												<QorvaTimelineSeparator />
-												<TimelineContent>
-													<Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>{t('appCVContent.contactInfo.github')}</Typography>
-													<Typography variant="body2">{cv.personalInformation.contact.socialLinks.github}</Typography>
-												</TimelineContent>
-											</TimelineItem>
-										)}
-										{cv.personalInformation.contact.socialLinks && cv.personalInformation.contact.socialLinks.website && (
-											<TimelineItem>
-												<QorvaTimelineSeparator />
-												<TimelineContent>
-													<Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>{t('appCVContent.contactInfo.website')}</Typography>
-													<Typography variant="body2">{cv.personalInformation.contact.socialLinks.website}</Typography>
-												</TimelineContent>
-											</TimelineItem>
-										)}
-									</QorvaCVTimeline>
-								)}
-							</Grid2>
-						</Grid2>
-					</Grid2>
-				</Box>
+			{/* Scrollable content */}
+			<Box sx={{ flex: 1, overflowY: 'auto', p: 2.5, textAlign: 'left' }} ref={componentRef}>
 
-				{/* Educational And Experiences*/}
-				<Grid2 container className="section pb_45">
-					<Grid2 item xs={12} md={6} lg={6} xl={6}>
-						<Grid2 container item xs={12} className={"resume_timeline"}>
-							{/*Working Experiences  */}
-							<Grid2 item sm={12} md={6} lg={6} xl={6}>
-								<QorvaCVTimeline
-									title={t('appCVContent.workExperience')}
-									icon={<WorkIcon />}
-								>
-									{cv.workExperience.map((work, index)  => (
-										<TimelineItem key={index}>
-											<QorvaTimelineSeparator />
-											<TimelineContent className={"timeline_content"}>
-												<Typography className={"timeline_title"}>{`${work.company} (${work.from} - ${work.to})`}</Typography>
-												<Typography variant="body2" className={"timeline_description"}>{work.position}</Typography>
-												<Typography variant="body2" className={"timeline_description"}>{work.location}</Typography>
+				{/* Header card */}
+				<Card sx={{ mb: 2, display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+					<Avatar sx={{
+						width: 52,
+						height: 52,
+						fontSize: '1.1rem',
+						fontWeight: 700,
+						backgroundColor: '#629C44',
+						color: '#ffffff',
+						flexShrink: 0,
+					}}>
+						{getInitials(pi.name)}
+					</Avatar>
+					<Box sx={{ flex: 1, minWidth: 0 }}>
+						<Typography sx={{ fontWeight: 700, fontSize: '1.1rem', color: '#0f172a', lineHeight: 1.2 }}>
+							{pi.name}
+						</Typography>
+						{pi.role && (
+							<Typography sx={{ fontSize: '0.85rem', color: '#64748b', mt: 0.25 }}>
+								{pi.role}
+							</Typography>
+						)}
+						<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75, mt: 1.25 }}>
+							{contact.phone && (
+								<Chip icon={<PhoneIcon />} label={contact.phone} size="small" sx={contactChipSx} />
+							)}
+							{contact.email && (
+								<Chip icon={<EmailIcon />} label={contact.email} size="small" sx={contactChipSx} />
+							)}
+							{contact.socialLinks?.linkedin && (
+								<Chip icon={<LinkedInIcon />} label="LinkedIn" size="small" sx={contactChipSx}
+									component="a" href={contact.socialLinks.linkedin} target="_blank" clickable />
+							)}
+							{contact.socialLinks?.github && (
+								<Chip icon={<GitHubIcon />} label="GitHub" size="small" sx={contactChipSx}
+									component="a" href={contact.socialLinks.github} target="_blank" clickable />
+							)}
+							{contact.socialLinks?.website && (
+								<Chip icon={<LanguageIcon />} label="Portfolio" size="small" sx={contactChipSx}
+									component="a" href={contact.socialLinks.website} target="_blank" clickable />
+							)}
+						</Box>
+					</Box>
+				</Card>
 
-												{work.activities && work.activities.length > 0 && (
-													<>
-														<QorvaCVTimeline title={t('appCVContent.activities')} icon={<WorkHistoryIcon />}>
-															{work.activities.map((activity, activityIndex) => (
-																<TimelineItem key={activityIndex}>
-																	<QorvaTimelineSeparator />
-																	<TimelineContent>
-																		<Typography variant="body2" sx={{ fontWeight: 'bold' }}>{activity.project}</Typography>
-																		{activity.tasks.map((task, taskIndex) => (
-																			<Typography variant="body2" key={taskIndex}>{`- ${task}`}</Typography>
-																		))}
-																	</TimelineContent>
-																</TimelineItem>
-															))}
-														</QorvaCVTimeline>
-													</>
-												)}
+				{/* Summary */}
+				{candidateProfileSummary && (
+					<Card sx={{ mb: 2 }}>
+						<SectionHeader Icon={InfoOutlinedIcon} title={t('appCVContent.summary')} />
+						<Typography sx={{ fontSize: '0.84rem', color: '#334155', lineHeight: 1.7 }}>
+							{candidateProfileSummary}
+						</Typography>
+					</Card>
+				)}
 
-											</TimelineContent>
-										</TimelineItem>
+				{/* Two-column grid */}
+				<Grid2 container spacing={2} sx={{ mb: 2 }}>
+					{/* Left: Work experience + Education */}
+					<Grid2 size={{ xs: 12, md: 7 }}>
+						{workExperience.length > 0 && (
+							<Card sx={{ mb: 2 }}>
+								<SectionHeader Icon={WorkOutlineOutlinedIcon} title={t('appCVContent.workExperience')} />
+								<Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
+									{workExperience.map((work, i) => (
+										<Box key={i} sx={i > 0 ? { pt: 2.5, borderTop: '1px solid #f1f5f9' } : {}}>
+											<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 0.5 }}>
+												<Box>
+													<Typography sx={{ fontWeight: 700, fontSize: '0.88rem', color: '#0f172a' }}>
+														{work.position}
+													</Typography>
+													<Typography sx={{ fontSize: '0.82rem', color: '#629C44', fontWeight: 600 }}>
+														{work.company}
+													</Typography>
+													{work.location && (
+														<Typography sx={{ fontSize: '0.78rem', color: '#94a3b8' }}>
+															{work.location}
+														</Typography>
+													)}
+												</Box>
+												<Chip
+													label={`${work.from} – ${work.to}`}
+													size="small"
+													sx={{ fontSize: '0.72rem', backgroundColor: '#f1f5f9', color: '#64748b', height: 22, borderRadius: 0.75 }}
+												/>
+											</Box>
+											{work.activities?.length > 0 && (
+												<Box sx={{ mt: 1.25, pl: 2, borderLeft: '2px solid #e2e8f0' }}>
+													{work.activities.map((act, j) => (
+														<Box key={j} sx={{ mb: 1.25 }}>
+															{act.project && (
+																<Typography sx={{ fontSize: '0.80rem', fontWeight: 600, color: '#334155', mb: 0.5 }}>
+																	{act.project}
+																</Typography>
+															)}
+															<Box component="ul" sx={{ m: 0, pl: 2, listStyleType: 'disc' }}>
+																{act.tasks?.map((task, k) => (
+																	<Box component="li" key={k} sx={{ fontSize: '0.78rem', color: '#64748b', lineHeight: 1.7, mb: 0.25 }}>
+																		{task}
+																	</Box>
+																))}
+															</Box>
+														</Box>
+													))}
+												</Box>
+											)}
+										</Box>
 									))}
-								</QorvaCVTimeline>
-							</Grid2>
+								</Box>
+							</Card>
+						)}
 
-							{/* Education  */}
-							<Grid2 item sm={12} md={6} lg={6} xl={6}>
-								<QorvaCVTimeline title={t('appCVContent.education')} icon={<SchoolIcon />}>
-									{cv.education && cv.education.length > 0 && cv.education.map((edu, index)  => (
-										<TimelineItem key={index}>
-											<QorvaTimelineSeparator />
-											<TimelineContent>
-												<Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>{`${edu.degree} - ${edu.institution}`}</Typography>
-												{edu.fieldOfStudy && (
-													<Typography variant="body2">{`${t('appCVContent.fieldOfStudy')}: ${edu.fieldOfStudy}`}</Typography>
-												)}
+						{education.length > 0 && (
+							<Card>
+								<SectionHeader Icon={SchoolIcon} title={t('appCVContent.education')} />
+								<Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+									{education.map((edu, i) => (
+										<Box key={i} sx={i > 0 ? { pt: 2, borderTop: '1px solid #f1f5f9' } : {}}>
+											<Box sx={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 0.5, alignItems: 'flex-start' }}>
+												<Box sx={{ textAlign: 'left' }}>
+													<Typography sx={{ fontWeight: 700, fontSize: '0.88rem', color: '#0f172a' }}>
+														{edu.degree}
+													</Typography>
+													<Typography sx={{ fontSize: '0.82rem', color: '#629C44', fontWeight: 600 }}>
+														{edu.institution}
+													</Typography>
+													{edu.fieldOfStudy && (
+														<Typography sx={{ fontSize: '0.78rem', color: '#64748b' }}>
+															{edu.fieldOfStudy}
+														</Typography>
+													)}
+												</Box>
 												{edu.year && (
-													<Typography variant="body2">{`${t('appCVContent.graduationYear')}: ${edu.year}`}</Typography>
+													<Chip
+														label={edu.year}
+														size="small"
+														sx={{ fontSize: '0.72rem', backgroundColor: '#f1f5f9', color: '#64748b', height: 22, borderRadius: 0.75 }}
+													/>
 												)}
-												{edu.achievements && edu.achievements.length > 0 && (
-													<>
-														<QorvaCVTimeline title={t('appCVContent.achievements')} icon={<EmojiEventsIcon />}>
-															{edu.achievements.map((achievement, achievementIndex) => (
-																<TimelineItem key={achievementIndex}>
-																	<QorvaTimelineSeparator />
-																	<TimelineContent>
-																		{edu.achievements.map((achievement, achievementIndex) => (
-																			<Typography variant="body2" key={achievementIndex}>{`- ${achievement}`}</Typography>
-																		))}
-																	</TimelineContent>
-																</TimelineItem>
-															))}
-														</QorvaCVTimeline>
-													</>
-												)}
-											</TimelineContent>
-										</TimelineItem>
+											</Box>
+											{edu.achievements?.length > 0 && (
+												<Box component="ul" sx={{ m: 0, mt: 0.75, pl: 2, listStyleType: 'disc' }}>
+													{edu.achievements.map((a, k) => (
+														<Box component="li" key={k} sx={{ fontSize: '0.78rem', color: '#64748b', lineHeight: 1.7, mb: 0.25 }}>
+															{a}
+														</Box>
+													))}
+												</Box>
+											)}
+										</Box>
 									))}
-								</QorvaCVTimeline>
-							</Grid2>
-						</Grid2>
+								</Box>
+							</Card>
+						)}
+					</Grid2>
+
+					{/* Right: Skills + Languages + Certs */}
+					<Grid2 size={{ xs: 12, md: 5 }}>
+						{skills.technicalSkills?.length > 0 && (
+							<Card sx={{ mb: 2 }}>
+								<SectionHeader Icon={ConstructionIcon} title={t('appCVContent.technicalSkills')} />
+								<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.6 }}>
+									{skills.technicalSkills.map((s, i) => (
+										<Chip key={i} label={s} size="small" sx={techSkillChipSx} />
+									))}
+								</Box>
+							</Card>
+						)}
+
+						{skills.softSkills?.length > 0 && (
+							<Card sx={{ mb: 2 }}>
+								<SectionHeader Icon={PeopleOutlinedIcon} title={t('appCVContent.softSkills')} />
+								<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.6 }}>
+									{skills.softSkills.map((s, i) => (
+										<Chip key={i} label={s} size="small" sx={softSkillChipSx} />
+									))}
+								</Box>
+							</Card>
+						)}
+
+						{skills.languages?.length > 0 && (
+							<Card sx={{ mb: 2 }}>
+								<SectionHeader Icon={TranslateIcon} title={t('appCVContent.languages')} />
+								<TableContainer>
+									<Table size="small">
+										<TableHead>
+											<TableRow>
+												<TableCell sx={langThSx}>{t('appCVContent.proficiency.langProfTitle')}</TableCell>
+												<TableCell sx={langThSx} align="center">{t('appCVContent.proficiency.read')}</TableCell>
+												<TableCell sx={langThSx} align="center">{t('appCVContent.proficiency.written')}</TableCell>
+												<TableCell sx={langThSx} align="center">{t('appCVContent.proficiency.spoken')}</TableCell>
+											</TableRow>
+										</TableHead>
+										<TableBody>
+											{skills.languages.map((lang, i) => (
+												<TableRow key={i} sx={{ '&:last-child td': { borderBottom: 0 } }}>
+													<TableCell sx={{ fontSize: '0.78rem', py: 0.75, fontWeight: 600 }}>{lang.language}</TableCell>
+													<TableCell sx={{ fontSize: '0.78rem', py: 0.75 }} align="center">{lang.proficiency?.read || '—'}</TableCell>
+													<TableCell sx={{ fontSize: '0.78rem', py: 0.75 }} align="center">{lang.proficiency?.written || '—'}</TableCell>
+													<TableCell sx={{ fontSize: '0.78rem', py: 0.75 }} align="center">{lang.proficiency?.spoken || '—'}</TableCell>
+												</TableRow>
+											))}
+										</TableBody>
+									</Table>
+								</TableContainer>
+							</Card>
+						)}
+
+						{certifications.length > 0 && (
+							<Card>
+								<SectionHeader Icon={WorkspacePremiumIcon} title={t('appCVContent.certifications')} />
+								<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+									{certifications.map((cert, i) => (
+										<Box key={i} sx={{ textAlign: 'left', ...(i > 0 ? { pt: 1.5, borderTop: '1px solid #f1f5f9' } : {}) }}>
+											<Typography sx={{ fontWeight: 700, fontSize: '0.84rem', color: '#0f172a' }}>
+												{cert.title}
+											</Typography>
+											<Typography sx={{ fontSize: '0.78rem', color: '#629C44', fontWeight: 600 }}>
+												{cert.institution}
+											</Typography>
+											{cert.year && (
+												<Typography sx={{ fontSize: '0.75rem', color: '#94a3b8' }}>{cert.year}</Typography>
+											)}
+											{cert.description && (
+												<Typography sx={{ fontSize: '0.78rem', color: '#64748b', mt: 0.25 }}>
+													{cert.description}
+												</Typography>
+											)}
+										</Box>
+									))}
+								</Box>
+							</Card>
+						)}
 					</Grid2>
 				</Grid2>
 
-				{/* Certifications */}
-				{cv.certifications && cv.certifications.length > 0 && (
-					<Grid2 container>
-						<Grid2 item sm={12} md={6} lg={6} xl={6}>
-							<QorvaCVTimeline title={t('appCVContent.certifications')} icon={<WorkspacePremiumIcon />}>
-								{cv.certifications.map((cert, index) => (
-									<TimelineItem key={index}>
-										<QorvaTimelineSeparator />
-										<TimelineContent>
-											<Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>{`${cert.title} - ${cert.institution}`}</Typography>
-											<Typography variant="body2">{`${t('appCVContent.yearOfCertification')}: ${cert.year}`}</Typography>
-											{cert.description && <Typography variant="body2">{cert.description}</Typography>}
-										</TimelineContent>
-									</TimelineItem>
-								))}
-							</QorvaCVTimeline>
+				{/* Projects */}
+				{projectsAndAchievements.length > 0 && (
+					<Card sx={{ mb: 2 }}>
+						<SectionHeader Icon={EmojiEventsIcon} title={t('appCVContent.projectsAndAchievements')} />
+						<Grid2 container spacing={1.5}>
+							{projectsAndAchievements.map((project, i) => (
+								<Grid2 key={i} size={{ xs: 12, sm: 6 }}>
+									<Box sx={{ p: 1.5, textAlign: 'left', backgroundColor: '#f8fafc', borderRadius: 1.5, border: '1px solid #f1f5f9' }}>
+										<Typography sx={{ fontWeight: 700, fontSize: '0.84rem', color: '#0f172a' }}>
+											{project.title}
+										</Typography>
+										{project.description && (
+											<Typography sx={{ fontSize: '0.78rem', color: '#64748b', mt: 0.5, lineHeight: 1.6 }}>
+												{project.description}
+											</Typography>
+										)}
+										<Box sx={{ display: 'flex', gap: 1, mt: 0.75, flexWrap: 'wrap' }}>
+											{project.date && (
+												<Typography sx={{ fontSize: '0.72rem', color: '#94a3b8' }}>{project.date}</Typography>
+											)}
+											{project.impact && (
+												<Typography sx={{ fontSize: '0.72rem', color: '#629C44', fontWeight: 600 }}>
+													{project.impact}
+												</Typography>
+											)}
+										</Box>
+									</Box>
+								</Grid2>
+							))}
 						</Grid2>
-					</Grid2>
+					</Card>
 				)}
 
-				{/* Skills and Qualifications */}
-				{cv.skillsAndQualifications && cv.skillsAndQualifications.technicalSkills.length > 0 && cv.skillsAndQualifications.softSkills.length > 0 && cv.skillsAndQualifications.languages.length > 0 && (
-					<Grid2 container>
-						<Grid2 item sm={12} md={6} lg={6} xl={6}>
-							<QorvaCVTimeline title={t('appCVContent.skillsAndQualifications')} icon={<ConstructionIcon />}>
-
-								{cv.skillsAndQualifications.technicalSkills && (
-									<TimelineItem>
-										<QorvaTimelineSeparator />
-										<TimelineContent>
-											<Typography variant="body2" sx={{ fontWeight: 'bold' }}>{t('appCVContent.technicalSkills')}</Typography>
-											<Typography variant="body2">{cv.skillsAndQualifications.technicalSkills.join(', ')}</Typography>
-										</TimelineContent>
-									</TimelineItem>
-								)}
-								{cv.skillsAndQualifications.softSkills && (
-									<TimelineItem>
-										<QorvaTimelineSeparator />
-										<TimelineContent>
-											<Typography variant="body2" sx={{ fontWeight: 'bold' }}>{t('appCVContent.softSkills')}</Typography>
-											<Typography variant="body2">{cv.skillsAndQualifications.softSkills.join(', ')}</Typography>
-										</TimelineContent>
-									</TimelineItem>
-								)}
-								{cv.skillsAndQualifications.languages && (
-									<TimelineItem>
-										<QorvaTimelineSeparator />
-										<TimelineContent>
-											<Typography variant="body2" sx={{ fontWeight: 'bold' }}>{t('appCVContent.languages')}</Typography>
-											<TableContainer component={Paper} sx={{ marginTop: 1 }}>
-												<Table size="small">
-													<TableHead>
-														<TableRow sx={{ fontWeight: 'bold', backgroundColor: '#f1f1f1' }}>
-															<TableCell align="left">{t('appCVContent.proficiency.langProfTitle')} </TableCell>
-															<TableCell align="center">{t('appCVContent.proficiency.read')} </TableCell>
-															<TableCell align="center">{t('appCVContent.proficiency.written')} </TableCell>
-															<TableCell align="center">{t('appCVContent.proficiency.spoken')} </TableCell>
-														</TableRow>
-													</TableHead>
-													<TableBody>
-														{cv.skillsAndQualifications.languages.map((lang, index) => (
-															<TableRow key={index}>
-																<TableCell align="left">{`${lang.language}`}</TableCell>
-																<TableCell align="center">{lang.proficiency['read'] ? lang.proficiency['read'] : 'N/A' }</TableCell>
-																<TableCell align="center">{lang.proficiency['written'] ? lang.proficiency['written'] : 'N/A'} </TableCell>
-																<TableCell align="center">{lang.proficiency['spoken'] ? lang.proficiency['spoken'] : 'NA/'} </TableCell>
-															</TableRow>
-														))}
-													</TableBody>
-												</Table>
-											</TableContainer>
-										</TimelineContent>
-									</TimelineItem>
-								)}
-							</QorvaCVTimeline>
-						</Grid2>
-					</Grid2>
-				)}
-
-				{/* Projects and Achievements */}
-				{cv.projectsAndAchievements && cv.projectsAndAchievements.length > 0 && (
-					<Grid2 container>
-						<Grid2 item sm={12} md={6} lg={6} xl={6}>
-							<QorvaCVTimeline title={t('appCVContent.projectsAndAchievements')} icon={<EmojiEventsIcon />}>
-								{cv.projectsAndAchievements.map((project, index) => (
-									<TimelineItem key={index}>
-										<QorvaTimelineSeparator />
-										<TimelineContent>
-											<Typography variant="body2" sx={{ fontWeight: 'bold' }}>{project.title}</Typography>
-											{project.description && (<Typography variant="body2">{project.description}</Typography>)}
-											{project.date && (<Typography variant="body2">{`${t('appCVContent.completionDate')}: ${project.date}`}</Typography>)}
-											{project.impact && (<Typography variant="body2">{`${t('appCVContent.impact')}: ${project.impact}`}</Typography>)}
-										</TimelineContent>
-									</TimelineItem>
-								))}
-							</QorvaCVTimeline>
-						</Grid2>
-					</Grid2>
-				)}
-
-				{/* Interests and Hobbies */}
-				{cv.interestsAndHobbies && cv.interestsAndHobbies.length > 0 && (
-					<Grid2 container>
-						<Grid2 item sm={12} md={6} lg={6} xl={6}>
-							<QorvaCVTimeline title={t('appCVContent.interestsAndHobbies')} icon={<DownhillSkiingIcon/>}>
-								<TimelineItem>
-									<QorvaTimelineSeparator />
-									<TimelineContent>
-										<Typography variant="body2">{cv.interestsAndHobbies.join(', ')}</Typography>
-									</TimelineContent>
-								</TimelineItem>
-							</QorvaCVTimeline>
-						</Grid2>
-					</Grid2>
-				)}
-
-				{/* References */}
-				{cv.references && cv.references.length > 0 && (
-					<Grid2 container>
-						<Grid2 item sm={12} md={6} lg={6} xl={6}>
-							<QorvaCVTimeline title={t('appCVContent.references')} icon={<LinkIcon />}>
-								{cv.references.map((ref, index) => (
-									<TimelineItem key={index}>
-										<QorvaTimelineSeparator />
-										<TimelineContent>
-											<Typography variant="body2">{`${ref.name}, ${ref.position} at ${ref.company}`}</Typography>
-											<Typography variant="body2">{`${t('appCVContent.contactInfo.phone')}: ${ref.contact.phone}`}</Typography>
-											<Typography variant="body2">{`${t('appCVContent.contactInfo.email')}: ${ref.contact.email}`}</Typography>
-										</TimelineContent>
-									</TimelineItem>
-								))}
-							</QorvaCVTimeline>
-						</Grid2>
-					</Grid2>
+				{/* Interests */}
+				{interestsAndHobbies.length > 0 && (
+					<Card sx={{ mb: 2 }}>
+						<SectionHeader Icon={DownhillSkiingIcon} title={t('appCVContent.interestsAndHobbies')} />
+						<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.6 }}>
+							{interestsAndHobbies.map((h, i) => (
+								<Chip key={i} label={h} size="small" sx={softSkillChipSx} />
+							))}
+						</Box>
+					</Card>
 				)}
 
 				{/* Tags */}
-				{cv.tags && cv.tags.length > 0 && (
-					<Grid2 container>
-						<Grid2 item sm={12} md={6} lg={6} xl={6}>
-							<QorvaCVTimeline title={t('appCVContent.tags')} icon={<LabelIcon />}>
-								<TimelineItem>
-									<QorvaTimelineSeparator />
-									<TimelineContent>
-										<Typography variant="body2">{cv.tags.join(', ')}</Typography>
-									</TimelineContent>
-								</TimelineItem>
-							</QorvaCVTimeline>
+				{tags.length > 0 && (
+					<Card sx={{ mb: 2 }}>
+						<SectionHeader Icon={LabelIcon} title={t('appCVContent.tags')} />
+						<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.6 }}>
+							{tags.map((tag, i) => (
+								<Chip key={i} label={tag} size="small" sx={techSkillChipSx} />
+							))}
+						</Box>
+					</Card>
+				)}
+
+				{/* References */}
+				{references.length > 0 && (
+					<Card sx={{ mb: 2 }}>
+						<SectionHeader Icon={ContactsIcon} title={t('appCVContent.references')} />
+						<Grid2 container spacing={1.5}>
+							{references.map((ref, i) => (
+								<Grid2 key={i} size={{ xs: 12, sm: 6 }}>
+									<Box sx={{ p: 1.5, backgroundColor: '#f8fafc', borderRadius: 1.5, border: '1px solid #f1f5f9' }}>
+										<Typography sx={{ fontWeight: 700, fontSize: '0.84rem', color: '#0f172a' }}>
+											{ref.name}
+										</Typography>
+										{(ref.position || ref.company) && (
+											<Typography sx={{ fontSize: '0.78rem', color: '#629C44', fontWeight: 600 }}>
+												{[ref.position, ref.company].filter(Boolean).join(' — ')}
+											</Typography>
+										)}
+										{ref.contact?.phone && (
+											<Typography sx={{ fontSize: '0.75rem', color: '#64748b' }}>{ref.contact.phone}</Typography>
+										)}
+										{ref.contact?.email && (
+											<Typography sx={{ fontSize: '0.75rem', color: '#64748b' }}>{ref.contact.email}</Typography>
+										)}
+									</Box>
+								</Grid2>
+							))}
 						</Grid2>
-					</Grid2>
+					</Card>
 				)}
 
-				{/* Update Info and Download button*/}
-				{cv.lastUpdatedAt && (
-					<Box sx={{ textAlign: 'center', paddingBottom: 2 }}>
-						<Typography variant="body2" sx={{ marginTop: 3, fontStyle: 'italic' }}>
-							{`${t('appCVContent.lastUpdatedAt')}: ${new Date(cv.lastUpdatedAt).toLocaleString()}`}
-						</Typography>
-					</Box>
+				{lastUpdatedAt && (
+					<Typography sx={{ fontSize: '0.72rem', color: '#94a3b8', textAlign: 'right', fontStyle: 'italic', pb: 1 }}>
+						{t('appCVContent.lastUpdatedAt')}: {new Date(lastUpdatedAt).toLocaleString()}
+					</Typography>
 				)}
-
-				{/* Download CV Attachment */}
-
-				{/* Last Updated */}
 			</Box>
 		</Box>
 	);
 };
+
+// ─── Shared styles ────────────────────────────────────────────────────────────
+
+const contactChipSx = {
+	fontSize: '0.75rem',
+	backgroundColor: '#f1f5f9',
+	color: '#334155',
+	height: 24,
+	borderRadius: 1,
+	'& .MuiChip-icon': { fontSize: 13 },
+};
+
+const techSkillChipSx = {
+	fontSize: '0.75rem',
+	backgroundColor: 'rgba(98,156,68,0.10)',
+	color: '#3a6827',
+	borderRadius: 1,
+	height: 24,
+	fontWeight: 500,
+};
+
+const softSkillChipSx = {
+	fontSize: '0.75rem',
+	backgroundColor: '#f1f5f9',
+	color: '#475569',
+	borderRadius: 1,
+	height: 24,
+};
+
+const langThSx = {
+	fontWeight: 700,
+	fontSize: '0.70rem',
+	color: '#64748b',
+	textTransform: 'uppercase',
+	letterSpacing: '0.04em',
+	backgroundColor: '#f8fafc',
+	py: 0.75,
+};
+
+// ─── PropTypes ────────────────────────────────────────────────────────────────
 
 AppCVDetails.propTypes = {
 	cv: PropTypes.shape({
@@ -413,90 +530,55 @@ AppCVDetails.propTypes = {
 					website: PropTypes.string,
 				}),
 			}),
-			availability: PropTypes.shape({
-				interviews: PropTypes.string,
-				startDate: PropTypes.string,
-			}),
-			summary: PropTypes.string,
 		}),
-		keySkills: PropTypes.arrayOf(
-			PropTypes.shape({
-				category: PropTypes.string,
-				skills: PropTypes.arrayOf(PropTypes.string),
-			})
-		),
-		profiles: PropTypes.shape({
-			areasOfExpertise: PropTypes.arrayOf(PropTypes.string),
-			keyResponsibilities: PropTypes.arrayOf(PropTypes.string),
-		}),
-		workExperience: PropTypes.arrayOf(
-			PropTypes.shape({
-				company: PropTypes.string,
-				from: PropTypes.string,
-				to: PropTypes.string,
-				position: PropTypes.string,
-				location: PropTypes.string,
-				activities: PropTypes.arrayOf(
-					PropTypes.shape({
-						project: PropTypes.string,
-						tasks: PropTypes.arrayOf(PropTypes.string),
-					})
-				),
-				achievements: PropTypes.arrayOf(PropTypes.string),
-				toolsAndTechnologies: PropTypes.arrayOf(PropTypes.string),
-			})
-		),
-		education: PropTypes.arrayOf(
-			PropTypes.shape({
-				institution: PropTypes.string,
-				degree: PropTypes.string,
-				fieldOfStudy: PropTypes.string,
-				year: PropTypes.string,
-				achievements: PropTypes.arrayOf(PropTypes.string),
-			})
-		),
-		certifications: PropTypes.arrayOf(
-			PropTypes.shape({
-				title: PropTypes.string,
-				institution: PropTypes.string,
-				year: PropTypes.string,
-				description: PropTypes.string,
-			})
-		),
+		workExperience: PropTypes.arrayOf(PropTypes.shape({
+			company: PropTypes.string,
+			from: PropTypes.string,
+			to: PropTypes.string,
+			position: PropTypes.string,
+			location: PropTypes.string,
+			activities: PropTypes.arrayOf(PropTypes.shape({
+				project: PropTypes.string,
+				tasks: PropTypes.arrayOf(PropTypes.string),
+			})),
+		})),
+		education: PropTypes.arrayOf(PropTypes.shape({
+			institution: PropTypes.string,
+			degree: PropTypes.string,
+			fieldOfStudy: PropTypes.string,
+			year: PropTypes.string,
+		})),
+		certifications: PropTypes.arrayOf(PropTypes.shape({
+			title: PropTypes.string,
+			institution: PropTypes.string,
+			year: PropTypes.string,
+			description: PropTypes.string,
+		})),
 		skillsAndQualifications: PropTypes.shape({
 			technicalSkills: PropTypes.arrayOf(PropTypes.string),
 			softSkills: PropTypes.arrayOf(PropTypes.string),
-			languages: PropTypes.arrayOf(
-				PropTypes.shape({
-					language: PropTypes.string,
-					proficiency: PropTypes.objectOf(PropTypes.string),
-				})
-			),
+			languages: PropTypes.arrayOf(PropTypes.shape({
+				language: PropTypes.string,
+				proficiency: PropTypes.objectOf(PropTypes.string),
+			})),
 		}),
-		projectsAndAchievements: PropTypes.arrayOf(
-			PropTypes.shape({
-				title: PropTypes.string,
-				description: PropTypes.string,
-				date: PropTypes.string,
-				impact: PropTypes.string,
-			})
-		),
+		projectsAndAchievements: PropTypes.arrayOf(PropTypes.shape({
+			title: PropTypes.string,
+			description: PropTypes.string,
+			date: PropTypes.string,
+			impact: PropTypes.string,
+		})),
 		interestsAndHobbies: PropTypes.arrayOf(PropTypes.string),
-		references: PropTypes.arrayOf(
-			PropTypes.shape({
-				name: PropTypes.string,
-				position: PropTypes.string,
-				company: PropTypes.string,
-				contact: PropTypes.shape({
-					phone: PropTypes.string,
-					email: PropTypes.string,
-				}),
-			})
-		),
-		attachment: PropTypes.string,
+		references: PropTypes.arrayOf(PropTypes.shape({
+			name: PropTypes.string,
+			position: PropTypes.string,
+			company: PropTypes.string,
+			contact: PropTypes.shape({ phone: PropTypes.string, email: PropTypes.string }),
+		})),
 		tags: PropTypes.arrayOf(PropTypes.string),
 		lastUpdatedAt: PropTypes.string,
 	}),
+	onClose: PropTypes.func,
 };
 
 export default AppCVDetails;

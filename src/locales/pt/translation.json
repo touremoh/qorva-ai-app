@@ -167,7 +167,9 @@
     "deleteConfirmation": "Tem a certeza de que pretende eliminar este CV?",
     "cancel": "Cancelar",
     "confirm": "Confirmar",
-    "uploadCV": "Carregar CV",
+    "uploadCV": "Importação em massa de CV",
+    "experience": "Experiência",
+    "yearsAbbr": "anos",
     "createCollection": "Criar coleção",
     "saveCollection": "Guardar coleção",
     "attachment": "Anexo",
@@ -186,7 +188,7 @@
     "downloadCV": "Transferir CV",
     "uploadFiles": "Carregar ficheiros",
     "uploadInProgress": "A carregar… aguarde",
-    "uploadCVInfo": "Pode carregar até 10 CV em .pdf ou .docx."
+    "uploadCVInfo": "Pode carregar até 100 CV em .pdf ou .docx."
   },
   "appCVScreening": {
     "selectJobPost": "Selecionar vaga",

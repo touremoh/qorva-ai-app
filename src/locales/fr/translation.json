@@ -167,7 +167,9 @@
     "deleteConfirmation": "Confirmez-vous la suppression de ce CV ?",
     "cancel": "Annuler",
     "confirm": "Confirmer",
-    "uploadCV": "Importer un CV",
+    "uploadCV": "Import groupé de CV",
+    "experience": "Expérience",
+    "yearsAbbr": "ans",
     "createCollection": "Nouvelle collection",
     "saveCollection": "Enregistrer la collection",
     "attachment": "Pièce jointe",
@@ -186,7 +188,7 @@
     "downloadCV": "Télécharger le CV",
     "uploadFiles": "Importer des fichiers",
     "uploadInProgress": "Import en cours…",
-    "uploadCVInfo": "Vous pouvez importer jusqu’à 10 CV en .pdf ou .docx."
+    "uploadCVInfo": "Vous pouvez importer jusqu’à 100 CV en .pdf ou .docx."
   },
   "appCVScreening": {
     "selectJobPost": "Sélectionner une offre",
