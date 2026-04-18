@@ -288,7 +288,9 @@
       "cancellationGraceStarted": "Annullamento programmato — periodo di tolleranza",
       "cancellationGraceFinished": "Annullato — periodo di tolleranza terminato",
       "unknown": "Stato non disponibile"
-    }
+    },
+    "language": "Lingua",
+    "languageHint": "Scegli la lingua dell'interfaccia"
   },
   "dashboard": {
     "errors": {

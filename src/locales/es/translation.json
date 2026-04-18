@@ -288,7 +288,9 @@
       "cancellationGraceStarted": "Cancelación programada — período de gracia",
       "cancellationGraceFinished": "Cancelada — período de gracia finalizado",
       "unknown": "Estado no disponible"
-    }
+    },
+    "language": "Idioma",
+    "languageHint": "Elige el idioma de la interfaz"
   },
   "dashboard": {
     "errors": {

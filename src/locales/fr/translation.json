@@ -288,7 +288,9 @@
       "cancellationGraceStarted": "Annulation programmée — période de grâce",
       "cancellationGraceFinished": "Annulé — période de grâce terminée",
       "unknown": "Statut non disponible"
-    }
+    },
+    "language": "Langue",
+    "languageHint": "Choisissez la langue de l'interface"
   },
   "dashboard": {
     "errors": {

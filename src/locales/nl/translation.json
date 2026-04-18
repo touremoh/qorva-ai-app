@@ -285,7 +285,9 @@
       "cancellationGraceStarted": "Annulering gepland — respijtperiode",
       "cancellationGraceFinished": "Geannuleerd — respijtperiode beëindigd",
       "unknown": "Status niet beschikbaar"
-    }
+    },
+    "language": "Taal",
+    "languageHint": "Kies de interfacetaal"
   },
   "dashboard": {
     "errors": {

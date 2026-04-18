@@ -284,7 +284,9 @@
       "cancellationGraceStarted": "Cancellation scheduled — grace period",
       "cancellationGraceFinished": "Cancelled — grace period ended",
       "unknown": "Status unavailable"
-    }
+    },
+    "language": "Language",
+    "languageHint": "Choose the interface language"
   },
   "dashboard": {
     "errors": {

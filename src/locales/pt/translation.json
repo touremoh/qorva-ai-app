@@ -288,7 +288,9 @@
       "cancellationGraceStarted": "Cancelamento agendado — período de carência",
       "cancellationGraceFinished": "Cancelada — período de carência terminado",
       "unknown": "Estado indisponível"
-    }
+    },
+    "language": "Idioma",
+    "languageHint": "Escolha o idioma da interface"
   },
   "dashboard": {
     "errors": {

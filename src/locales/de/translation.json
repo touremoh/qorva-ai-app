@@ -288,7 +288,9 @@
       "cancellationGraceStarted": "Kündigung geplant — Kulanzzeit läuft",
       "cancellationGraceFinished": "Gekündigt — Kulanzzeit beendet",
       "unknown": "Status nicht verfügbar"
-    }
+    },
+    "language": "Sprache",
+    "languageHint": "Wählen Sie die Oberflächensprache"
   },
   "dashboard": {
     "errors": {
