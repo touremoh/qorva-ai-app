@@ -1,66 +1,85 @@
-// src/pages/app/cv/components/AppAIResumeChat.jsx
+// eslint-disable-next-line no-unused-vars
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
+	Autocomplete,
+	Avatar,
 	Box,
 	Button,
-	Modal,
-	Typography,
-	Paper,
-	Divider,
+	Chip,
+	CircularProgress,
+	Dialog,
 	DialogActions,
 	DialogContent,
 	DialogTitle,
-	CircularProgress,
-	List,
-	ListItem,
-	ListItemText,
-	ListItemButton,
-	TextField,
-	IconButton,
-	Stack,
+	Divider,
 	FormControl,
+	IconButton,
+	InputAdornment,
 	InputLabel,
-	Select,
+	ListItemButton,
 	MenuItem,
-	Chip,
-	Tooltip
+	Select,
+	Stack,
+	TextField,
+	Tooltip,
+	Typography,
 } from '@mui/material';
-import Autocomplete from '@mui/material/Autocomplete';
 import { useTranslation } from 'react-i18next';
-import SendIcon from '@mui/icons-material/Send';
-import ChatIcon from '@mui/icons-material/Chat';
-import RefreshIcon from '@mui/icons-material/Refresh';
-import AddCommentIcon from '@mui/icons-material/AddComment';
+import SendRoundedIcon from '@mui/icons-material/SendRounded';
+import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
+import RefreshOutlinedIcon from '@mui/icons-material/RefreshOutlined';
+import AddCommentOutlinedIcon from '@mui/icons-material/AddCommentOutlined';
+import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import SmartToyOutlinedIcon from '@mui/icons-material/SmartToyOutlined';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import apiClient from '../../../../axiosConfig.js';
-import {AUTH_TOKEN, QORVA_USER_LANGUAGE, TENANT_ID} from '../../../constants.js';
+import { AUTH_TOKEN, QORVA_USER_LANGUAGE } from '../../../constants.js';
 
-// Helpers
 const ls = (k, d = null) => { try { const v = localStorage.getItem(k); return v ?? d; } catch { return d; } };
 
-// Build chat title: "First Last - Job Title"
 const buildChatTitle = (cv, job) => {
-	const name = cv?.personalInformation.name || 'Chat Session';
+	const name = cv?.personalInformation?.name || 'Chat';
 	const jobTitle = job?.title || job?.jobPostTitle || 'Job';
 	return `${name} - ${jobTitle}`;
 };
 
-const getCandidateIdFromCV = (cv) =>
-	cv?.candidateId || cv?.id || null;
+const getCandidateIdFromCV = (cv) => cv?.candidateId || cv?.id || null;
 
 const PAGE_SIZE_CHATS = 25;
 const PAGE_SIZE_MESSAGES = 50;
 
+const TypingDots = () => (
+	<Box sx={{
+		display: 'inline-flex', alignItems: 'center', gap: 1,
+		px: 2, py: 1, borderRadius: '16px 16px 16px 4px',
+		backgroundColor: '#ffffff', border: '1px solid #e2e8f0',
+		'@keyframes blink': {
+			'0%, 100%': { opacity: 0.2 }, '50%': { opacity: 1 },
+		},
+	}}>
+		<SmartToyOutlinedIcon sx={{ fontSize: 14, color: '#629C44' }} />
+		<Box sx={{ display: 'flex', gap: 0.4, alignItems: 'center' }}>
+			{[0, 0.2, 0.4].map((delay, i) => (
+				<Box key={i} sx={{
+					width: 5, height: 5, borderRadius: '50%',
+					backgroundColor: '#629C44',
+					animation: `blink 1.2s ease-in-out infinite ${delay}s`,
+				}} />
+			))}
+		</Box>
+	</Box>
+);
+
 const AppAIResumeChat = () => {
 	const { t, i18n } = useTranslation();
 
-	// Left pane: chats
 	const [chats, setChats] = useState([]);
 	const [chatPage, setChatPage] = useState(0);
 	const [chatHasMore, setChatHasMore] = useState(true);
 	const [loadingChats, setLoadingChats] = useState(false);
 	const [selectedChat, setSelectedChat] = useState(null);
 
-	// Right pane: messages
 	const [messages, setMessages] = useState([]);
 	const [msgPage, setMsgPage] = useState(0);
 	const [msgHasMore, setMsgHasMore] = useState(true);
@@ -69,42 +88,31 @@ const AppAIResumeChat = () => {
 	const [assistantTyping, setAssistantTyping] = useState(false);
 	const messagesEndRef = useRef(null);
 
-	// Create Chat modal
 	const [openCreateModal, setOpenCreateModal] = useState(false);
 	const [creatingChat, setCreatingChat] = useState(false);
 	const [cvList, setCvList] = useState([]);
 	const [jobs, setJobs] = useState([]);
-
-	// Selections
-	const [selectedCV, setSelectedCV] = useState(null);     // object
-	const [selectedJob, setSelectedJob] = useState(null);   // object
+	const [selectedCV, setSelectedCV] = useState(null);
+	const [selectedJob, setSelectedJob] = useState(null);
 	const [customTitle, setCustomTitle] = useState('');
-
-	// Resume match (auto-searched)
 	const [resumeMatch, setResumeMatch] = useState(null);
 	const [selectedResumeMatchId, setSelectedResumeMatchId] = useState('');
 	const [loadingResumeMatch, setLoadingResumeMatch] = useState(false);
-
 	const [cvSearch, setCvSearch] = useState('');
 
-	// ENV + auth
 	const userLang = ls(QORVA_USER_LANGUAGE, 'en');
 	const bearer = ls(AUTH_TOKEN);
-	const chatBaseUrl = import.meta.env.VITE_APP_API_CHAT_URL; // Change #5
-
+	const chatBaseUrl = import.meta.env.VITE_APP_API_CHAT_URL;
 	const jobsUrl = import.meta.env.VITE_APP_API_JOB_POSTS_URL;
 	const reportSearchUrl = import.meta.env.VITE_APP_API_REPORT_URL
 		? `${import.meta.env.VITE_APP_API_REPORT_URL}/search`
-		: null; // Change #1
+		: null;
 
-	// Fetch chats
 	const fetchChatsPage = async (pageNumber = 0) => {
 		if (!chatBaseUrl) return;
 		try {
 			setLoadingChats(true);
-			const resp = await apiClient.get(chatBaseUrl, {
-				params: { pageNumber, pageSize: PAGE_SIZE_CHATS}
-			});
+			const resp = await apiClient.get(chatBaseUrl, { params: { pageNumber, pageSize: PAGE_SIZE_CHATS } });
 			const content = resp?.data?.content ?? resp?.data?.data?.content ?? [];
 			const totalPages = resp?.data?.totalPages ?? resp?.data?.data?.totalPages ?? 1;
 			setChats(prev => (pageNumber === 0 ? content : [...prev, ...content]));
@@ -117,13 +125,12 @@ const AppAIResumeChat = () => {
 		}
 	};
 
-	// Fetch messages
 	const fetchMessagesPage = async (chatId, pageNumber = 0) => {
 		if (!chatBaseUrl || !chatId) return;
 		try {
 			setLoadingMessages(true);
 			const resp = await apiClient.get(`${chatBaseUrl}/${chatId}/messages`, {
-				params: { pageNumber, pageSize: PAGE_SIZE_MESSAGES }
+				params: { pageNumber, pageSize: PAGE_SIZE_MESSAGES },
 			});
 			const content = resp?.data?.content ?? resp?.data?.data?.content ?? [];
 			const totalPages = resp?.data?.totalPages ?? resp?.data?.data?.totalPages ?? 1;
@@ -137,10 +144,8 @@ const AppAIResumeChat = () => {
 		}
 	};
 
-	// Initial load of chats
 	useEffect(() => { fetchChatsPage(0); /* eslint-disable-next-line */ }, []);
 
-	// Select chat
 	const handleSelectChat = (chat) => {
 		setSelectedChat(chat);
 		setMessages([]);
@@ -149,134 +154,66 @@ const AppAIResumeChat = () => {
 		fetchMessagesPage(chat.id, 0);
 	};
 
-	// Typing animation
-	const TypingDots = () => (
-		<Box
-			sx={{
-				display: 'inline-flex',
-				alignItems: 'center',
-				px: 2, py: 1,
-				borderRadius: '12px',
-				backgroundColor: '#E3F2FD',
-				border: '1px solid #BBDEFB',
-				fontSize: '0.9rem',
-				'@keyframes blink': {
-					'0%': { opacity: 0.2 }, '20%': { opacity: 1 }, '100%': { opacity: 0.2 }
-				}
-			}}
-		>
-			<Box sx={{ mr: 1 }}>{t('appAIResumeChat.typing', 'Assistant is typing')}</Box>
-			<Box sx={{ display: 'flex', gap: 0.5 }}>
-				<Box sx={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: 'primary.main', animation: 'blink 1.4s infinite 0s' }} />
-				<Box sx={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: 'primary.main', animation: 'blink 1.4s infinite 0.2s' }} />
-				<Box sx={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: 'primary.main', animation: 'blink 1.4s infinite 0.4s' }} />
-			</Box>
-		</Box>
-	);
+	const getAllCVEntries = async () =>
+		apiClient.get(import.meta.env.VITE_APP_API_CV_URL, { params: { pageNumber: 0, pageSize: 50 } });
 
-	// Modal data (CVs + Jobs)
-	const loadModalData = async () => {
-		try {
-			const cvResp = await getAllCVEntries();
-			const cvContent = cvResp?.data?.data?.content ?? cvResp?.data?.content ?? [];
-			setCvList(cvContent);
-		} catch (e) {
-			console.error('Error loading CVs:', e);
-			setCvList([]);
-		}
-		try {
-			const jobsResp = await apiClient.get(jobsUrl, {
-				params: { pageSize: 50 }
-			});
-			const jobContent = jobsResp?.data?.data?.content ?? jobsResp?.data?.content ?? [];
-			setJobs(jobContent);
-		} catch (e) {
-			console.warn('Error loading jobs:', e);
-			setJobs([]);
-		}
-	};
-
-	const getAllCVEntries = async () => {
-		return await apiClient.get(import.meta.env.VITE_APP_API_CV_URL, {
-			params: {
-				pageNumber: 0,
-				pageSize: 50
-			}
+	const searchCVEntriesByCriteria = async (searchTerm) =>
+		apiClient.get(`${import.meta.env.VITE_APP_API_CV_URL}/search`, {
+			params: { pageNumber: 0, pageSize: 25, searchTerms: searchTerm.trim() },
 		});
-	};
 
-	const searchCVEntriesByCriteria = async (searchTerm) => {
-		return await apiClient.get(`${import.meta.env.VITE_APP_API_CV_URL}/search`, {
-			params: {
-				pageNumber: 0,
-				pageSize: 25,
-				searchTerms: searchTerm.trim(),
-			},
-		});
-	}
-
-	// Handle search functionality
 	const handleSearchChange = async (value) => {
-		const searchValue = value;
-		setCvSearch(searchValue);
+		setCvSearch(value);
 		try {
-			let response = null;
-			if (searchValue === undefined || searchValue.length === 0) {
+			let response;
+			if (!value || value.length === 0) {
 				response = await getAllCVEntries();
-				setCvList(response.data.data.content);
 			} else {
-				response = await searchCVEntriesByCriteria(searchValue);
-
-				if (response.status === 200 && response.data.data.content.length > 0) {
-					setCvList(response.data.data.content);
-				}
+				response = await searchCVEntriesByCriteria(value);
 			}
+			setCvList(response?.data?.data?.content ?? response?.data?.content ?? []);
 		} catch (error) {
 			console.error('Error during search:', error);
 		}
 	};
 
-	// Open/close modal (no auto-open; user controlled)
+	const loadModalData = async () => {
+		try {
+			const cvResp = await getAllCVEntries();
+			setCvList(cvResp?.data?.data?.content ?? cvResp?.data?.content ?? []);
+		} catch (e) { setCvList([]); }
+		try {
+			const jobsResp = await apiClient.get(jobsUrl, { params: { pageSize: 50 } });
+			setJobs(jobsResp?.data?.data?.content ?? jobsResp?.data?.content ?? []);
+		} catch (e) { setJobs([]); }
+	};
+
 	const openCreateChatModal = async () => {
-		setSelectedCV(null);
-		setSelectedJob(null);
-		setResumeMatch(null);
-		setSelectedResumeMatchId('');
-		setCustomTitle('');
-		setCvSearch('');
+		setSelectedCV(null); setSelectedJob(null);
+		setResumeMatch(null); setSelectedResumeMatchId('');
+		setCustomTitle(''); setCvSearch('');
 		setOpenCreateModal(true);
 		await loadModalData();
 	};
 	const closeCreateChatModal = () => { if (!creatingChat) setOpenCreateModal(false); };
 
-	// Change #1: Auto-search resume match after both CV + Job are chosen
 	useEffect(() => {
 		const candidateId = getCandidateIdFromCV(selectedCV);
 		if (!openCreateModal || !selectedCV || !selectedJob || !reportSearchUrl || !candidateId) {
-			setResumeMatch(null);
-			setSelectedResumeMatchId('');
-			return;
+			setResumeMatch(null); setSelectedResumeMatchId(''); return;
 		}
 		let cancelled = false;
 		const search = async () => {
 			try {
 				setLoadingResumeMatch(true);
-				const payload = { jobPostId: selectedJob.id, candidateInfo: { candidateId } };
-				const resp = await apiClient.post(reportSearchUrl, payload);
+				const resp = await apiClient.post(reportSearchUrl, { jobPostId: selectedJob.id, candidateInfo: { candidateId } });
 				if (cancelled) return;
 				const found = resp?.data?.data || null;
 				setResumeMatch(found);
 				setSelectedResumeMatchId(found?.id || '');
-				// Default title if empty -> "First Last - Job Title"
-				if (!customTitle && selectedCV && selectedJob) {
-					setCustomTitle(buildChatTitle(selectedCV, selectedJob));
-				}
+				if (!customTitle && selectedCV && selectedJob) setCustomTitle(buildChatTitle(selectedCV, selectedJob));
 			} catch (e) {
-				if (!cancelled) {
-					console.error('Resume match search failed:', e);
-					setResumeMatch(null);
-					setSelectedResumeMatchId('');
-				}
+				if (!cancelled) { setResumeMatch(null); setSelectedResumeMatchId(''); }
 			} finally {
 				if (!cancelled) setLoadingResumeMatch(false);
 			}
@@ -286,32 +223,26 @@ const AppAIResumeChat = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [openCreateModal, selectedCV, selectedJob]);
 
-	// Create chat
 	const handleCreateChat = async () => {
-		if (!chatBaseUrl) return;
-		if (!selectedCV || !selectedJob) {
-			alert(t('appAIResumeChat.selectCvAndJob', 'Please select a CV and a Job Post.'));
+		if (!chatBaseUrl || !selectedCV || !selectedJob) {
+			alert(t('appAIResumeChat.selectCvAndJob'));
 			return;
 		}
 		try {
 			setCreatingChat(true);
 			const locale = userLang || i18n.language || 'en';
-			const title = buildChatTitle(selectedCV, selectedJob) || (customTitle?.trim());
+			const title = buildChatTitle(selectedCV, selectedJob) || customTitle?.trim();
 			const body = {
-				title,
-				cvId: selectedCV.id,
-				jobPostId: selectedJob.id,
+				title, cvId: selectedCV.id, jobPostId: selectedJob.id,
 				...(selectedResumeMatchId ? { resumeMatchId: selectedResumeMatchId } : {}),
 				participants: [{ role: 'OWNER' }],
-				language: locale
+				language: locale,
 			};
 			const resp = await apiClient.post(chatBaseUrl, body);
 			const created = resp?.data;
 			setChats(prev => [created, ...prev]);
 			setSelectedChat(created);
-			setMessages([]);
-			setMsgPage(0);
-			setMsgHasMore(true);
+			setMessages([]); setMsgPage(0); setMsgHasMore(true);
 			await fetchMessagesPage(created.id, 0);
 			setOpenCreateModal(false);
 		} catch (e) {
@@ -321,7 +252,6 @@ const AppAIResumeChat = () => {
 		}
 	};
 
-	// Send message
 	const handleSendMessage = async () => {
 		if (!composer.trim() || !selectedChat) return;
 		const chatId = selectedChat.id;
@@ -332,7 +262,7 @@ const AppAIResumeChat = () => {
 		setAssistantTyping(true);
 		try {
 			await apiClient.post(`${chatBaseUrl}/${chatId}/messages`, { content }, {
-				headers: bearer ? { Authorization: `Bearer ${bearer}` } : undefined
+				headers: bearer ? { Authorization: `Bearer ${bearer}` } : undefined,
 			});
 			await fetchMessagesPage(chatId, 0);
 		} catch (e) {
@@ -342,139 +272,279 @@ const AppAIResumeChat = () => {
 		}
 	};
 
-	// Build a stable unique key for CV options
-	const cvOptionKey = (cv) => cv?.id ?? `${cv?.personalInformation.name ?? 'cv'}-${cv?.candidateName ?? ''}-${cv?.createdAt ?? ''}`;
-
-   // Optional: dedupe CVs by key
+	const cvOptionKey = (cv) => cv?.id ?? `${cv?.personalInformation?.name ?? 'cv'}-${cv?.createdAt ?? ''}`;
 	const cvOptions = useMemo(() => {
 		const seen = new Set();
 		return (cvList || []).filter(cv => {
 			const k = cvOptionKey(cv);
 			if (seen.has(k)) return false;
-			seen.add(k);
-			return true;
+			seen.add(k); return true;
 		});
 	}, [cvList]);
 
-	// Scroll bottom on updates
-	useEffect(() => { try { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }); } catch {} }, [messages.length, assistantTyping]);
+	useEffect(() => {
+		try { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }); } catch {}
+	}, [messages.length, assistantTyping]);
 
 	return (
-		<Box sx={{ width: '100%', height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', backgroundColor: 'transparent', color: '#232F3E', p: 2, overflowX: 'hidden' }}>
-			{/* Header actions: Create chat */}
-			<Box sx={{ width: '90%', display: 'flex', justifyContent: 'flex-start', mb: 2 }}>
-				<Button
-					startIcon={<AddCommentIcon />}
-					variant="contained"
-					color="success"
-					onClick={openCreateChatModal}
-					sx={{ borderRadius: '50px', mr: 2 }}
-					disabled={loadingChats}
-				>
-					{loadingChats ? <CircularProgress size={24} /> : t('appAIResumeChat.createChat', 'Create Chat')}
-				</Button>
-				<Tooltip title={t('appAIResumeChat.refresh', 'Refresh')}>
-          <span>
-            <IconButton onClick={() => fetchChatsPage(0)} disabled={loadingChats}>
-              <RefreshIcon />
-            </IconButton>
-          </span>
+		<Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', overflow: 'hidden', backgroundColor: '#f8fafc' }}>
+
+			{/* Toolbar */}
+			<Box sx={{
+				display: 'flex', alignItems: 'center', gap: 1.5,
+				px: 2, py: 1.5, flexShrink: 0,
+				backgroundColor: '#ffffff',
+				borderBottom: '1px solid #e2e8f0',
+			}}>
+				<AutoAwesomeOutlinedIcon sx={{ color: '#629C44', fontSize: 20 }} />
+				<Typography sx={{ fontWeight: 600, fontSize: '0.9rem', color: '#0f172a', flex: 1 }}>
+					{t('header.aiResumeChat')}
+				</Typography>
+				<Tooltip title={t('appAIResumeChat.refresh')}>
+					<span>
+						<IconButton
+							size="small"
+							onClick={() => fetchChatsPage(0)}
+							disabled={loadingChats}
+							sx={{ border: '1px solid #e2e8f0', borderRadius: 1.5, color: '#64748b', '&:hover': { backgroundColor: '#f1f5f9' } }}
+						>
+							<RefreshOutlinedIcon sx={{ fontSize: 16 }} />
+						</IconButton>
+					</span>
 				</Tooltip>
+				<Button
+					variant="contained"
+					size="small"
+					startIcon={<AddCommentOutlinedIcon sx={{ fontSize: 16 }} />}
+					onClick={openCreateChatModal}
+					disabled={loadingChats}
+					sx={{
+						backgroundColor: '#629C44', borderRadius: 2, fontSize: '0.78rem', fontWeight: 600,
+						textTransform: 'none', px: 1.5, py: 0.75, boxShadow: 'none',
+						'&:hover': { backgroundColor: '#4a7a33', boxShadow: 'none' },
+					}}
+				>
+					{t('appAIResumeChat.createChat')}
+				</Button>
 			</Box>
 
-			{/* Main content */}
-			<Box sx={{ display: 'flex', justifyContent: 'flex-start', width: '90%', mt: 1, mb: '10vh', gap: 2 }}>
-				{/* Left pane: Chats (30%) */}
-				<Paper sx={{ width: '30%', height: '77vh', p: 2, boxShadow: 3, backgroundColor: 'white', overflowY: 'auto' }}>
-					<Typography variant="h6" gutterBottom>{t('appAIResumeChat.chats', 'Chats')}</Typography>
-					<Divider sx={{ mb: 2 }} />
-					<List dense>
-						{chats.map((c) => (
-							<ListItem key={c.id} disablePadding>
-								<ListItemButton selected={selectedChat?.id === c.id} onClick={() => handleSelectChat(c)} sx={{ borderRadius: '8px', mb: 1 }}>
-									<ChatIcon fontSize="small" style={{ marginRight: 8 }} />
-									<ListItemText
-										primary={c.title}
-										secondary={new Date(c.lastUpdatedAt || c.createdAt).toLocaleString(userLang || 'en')}
-										primaryTypographyProps={{ noWrap: true }}
-										secondaryTypographyProps={{ fontSize: '0.75rem' }}
-									/>
-								</ListItemButton>
-							</ListItem>
-						))}
-					</List>
-					{loadingChats && <Box sx={{ py: 2, display: 'flex', justifyContent: 'center' }}><CircularProgress size={24} /></Box>}
-					{chatHasMore && !loadingChats && (
-						<Button onClick={() => fetchChatsPage(chatPage + 1)} fullWidth variant="outlined" sx={{ mt: 1 }}>
-							{t('appAIResumeChat.loadMore', 'Load more')}
-						</Button>
-					)}
-				</Paper>
+			{/* Split pane */}
+			<Box sx={{ display: 'flex', flex: 1, minHeight: 0 }}>
 
-				{/* Right pane: Messages (70%) */}
-				<Paper sx={{ width: '70%', height: '77vh', p: 2, boxShadow: 3, backgroundColor: 'white', display: 'flex', flexDirection: 'column' }}>
-					<Typography variant="h6" gutterBottom>
-						{selectedChat ? selectedChat.title : t('appAIResumeChat.selectChat', 'Select a chat to start')}
-					</Typography>
-					<Divider sx={{ mb: 2 }} />
+				{/* Left panel: chat list */}
+				<Box sx={{
+					width: { xs: 200, sm: 240, md: 280 },
+					flexShrink: 0,
+					display: 'flex', flexDirection: 'column',
+					borderRight: '1px solid #e2e8f0',
+					backgroundColor: '#ffffff',
+					overflow: 'hidden',
+				}}>
+					<Box sx={{ px: 1.5, py: 1, borderBottom: '1px solid #f1f5f9', flexShrink: 0 }}>
+						<Typography sx={{ fontSize: '0.72rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+							{t('appAIResumeChat.chats')}
+						</Typography>
+					</Box>
 
-					{/* Messages list */}
-					<Box sx={{ flex: 1, overflowY: 'auto', pr: 1 }}>
+					<Box sx={{ flex: 1, overflowY: 'auto', py: 0.5 }}>
+						{loadingChats && chats.length === 0 ? (
+							<Box sx={{ display: 'flex', justifyContent: 'center', pt: 3 }}>
+								<CircularProgress size={20} sx={{ color: '#629C44' }} />
+							</Box>
+						) : chats.length === 0 ? (
+							<Box sx={{ px: 2, pt: 2 }}>
+								<Typography sx={{ fontSize: '0.78rem', color: '#94a3b8' }}>
+									{t('appAIResumeChat.noChatSelected')}
+								</Typography>
+							</Box>
+						) : (
+							chats.map((c) => {
+								const isActive = selectedChat?.id === c.id;
+								return (
+									<ListItemButton
+										key={c.id}
+										onClick={() => handleSelectChat(c)}
+										sx={{
+											px: 1.5, py: 1,
+											borderLeft: isActive ? '3px solid #629C44' : '3px solid transparent',
+											backgroundColor: isActive ? 'rgba(98,156,68,0.06)' : 'transparent',
+											'&:hover': { backgroundColor: isActive ? 'rgba(98,156,68,0.10)' : '#f8fafc' },
+											gap: 1.5, alignItems: 'flex-start',
+										}}
+									>
+										<Box sx={{
+											width: 30, height: 30, borderRadius: 1.5, flexShrink: 0, mt: 0.25,
+											display: 'flex', alignItems: 'center', justifyContent: 'center',
+											backgroundColor: isActive ? 'rgba(98,156,68,0.15)' : '#f1f5f9',
+										}}>
+											<ChatBubbleOutlineOutlinedIcon sx={{ fontSize: 14, color: isActive ? '#629C44' : '#94a3b8' }} />
+										</Box>
+										<Box sx={{ flex: 1, minWidth: 0 }}>
+											<Typography sx={{
+												fontSize: '0.8rem', fontWeight: isActive ? 600 : 400,
+												color: '#0f172a', lineHeight: 1.3,
+												overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+											}}>
+												{c.title}
+											</Typography>
+											<Typography sx={{ fontSize: '0.68rem', color: '#94a3b8', mt: 0.25 }}>
+												{new Date(c.lastUpdatedAt || c.createdAt).toLocaleDateString(userLang || 'en')}
+											</Typography>
+										</Box>
+									</ListItemButton>
+								);
+							})
+						)}
+						{chatHasMore && !loadingChats && (
+							<Box sx={{ px: 1.5, py: 1 }}>
+								<Button
+									size="small" fullWidth
+									onClick={() => fetchChatsPage(chatPage + 1)}
+									sx={{ fontSize: '0.72rem', color: '#629C44', textTransform: 'none', borderRadius: 1.5 }}
+								>
+									{t('appAIResumeChat.loadMore')}
+								</Button>
+							</Box>
+						)}
+					</Box>
+				</Box>
+
+				{/* Right panel: messages */}
+				<Box sx={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+
+					{/* Chat header */}
+					<Box sx={{
+						px: 2.5, py: 1.5, flexShrink: 0,
+						backgroundColor: '#ffffff',
+						borderBottom: '1px solid #e2e8f0',
+						display: 'flex', alignItems: 'center', gap: 1.5,
+					}}>
 						{selectedChat ? (
 							<>
+								<Avatar sx={{ width: 28, height: 28, fontSize: '0.65rem', fontWeight: 700, backgroundColor: '#629C44' }}>
+									{(selectedChat.title || '?')[0].toUpperCase()}
+								</Avatar>
+								<Typography sx={{ fontWeight: 600, fontSize: '0.88rem', color: '#0f172a' }}>
+									{selectedChat.title}
+								</Typography>
+							</>
+						) : (
+							<Typography sx={{ fontSize: '0.85rem', color: '#94a3b8' }}>
+								{t('appAIResumeChat.selectChat')}
+							</Typography>
+						)}
+					</Box>
+
+					{/* Messages */}
+					<Box sx={{ flex: 1, overflowY: 'auto', px: 2.5, py: 2, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+						{!selectedChat ? (
+							<Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 1.5 }}>
+								<AutoAwesomeOutlinedIcon sx={{ fontSize: 40, color: '#cbd5e1' }} />
+								<Typography sx={{ fontSize: '0.85rem', color: '#94a3b8', fontWeight: 500 }}>
+									{t('appAIResumeChat.noChatSelected')}
+								</Typography>
+							</Box>
+						) : (
+							<>
 								{msgHasMore && !loadingMessages && (
-									<Box sx={{ display: 'flex', justifyContent: 'center', mb: 1 }}>
-										<Button size="small" onClick={() => fetchMessagesPage(selectedChat.id, msgPage + 1)} variant="outlined">
-											{t('appAIResumeChat.loadOlder', 'Load older')}
+									<Box sx={{ display: 'flex', justifyContent: 'center' }}>
+										<Button
+											size="small"
+											onClick={() => fetchMessagesPage(selectedChat.id, msgPage + 1)}
+											sx={{ fontSize: '0.72rem', color: '#629C44', textTransform: 'none', borderRadius: 2 }}
+										>
+											{t('appAIResumeChat.loadOlder')}
 										</Button>
 									</Box>
 								)}
-								{loadingMessages && <Box sx={{ display: 'flex', justifyContent: 'center', py: 1 }}><CircularProgress size={20} /></Box>}
+								{loadingMessages && (
+									<Box sx={{ display: 'flex', justifyContent: 'center' }}>
+										<CircularProgress size={18} sx={{ color: '#629C44' }} />
+									</Box>
+								)}
 
 								{messages.map((m) => {
 									const isUser = m.role === 'USER';
 									return (
-										<Box key={m.id} sx={{ display: 'flex', justifyContent: isUser ? 'flex-end' : 'flex-start', mb: 1.5 }}>
+										<Box key={m.id} sx={{ display: 'flex', justifyContent: isUser ? 'flex-end' : 'flex-start', gap: 1, alignItems: 'flex-end' }}>
+											{!isUser && (
+												<Box sx={{
+													width: 26, height: 26, borderRadius: '50%', flexShrink: 0,
+													display: 'flex', alignItems: 'center', justifyContent: 'center',
+													backgroundColor: 'rgba(98,156,68,0.12)',
+												}}>
+													<SmartToyOutlinedIcon sx={{ fontSize: 14, color: '#629C44' }} />
+												</Box>
+											)}
 											<Box sx={{
-												maxWidth: '75%', p: 1.2, borderRadius: 2,
-												backgroundColor: isUser ? '#E8F5E9' : '#E3F2FD',
-												border: `1px solid ${isUser ? '#C8E6C9' : '#BBDEFB'}`,
-												whiteSpace: 'pre-wrap', wordBreak: 'break-word'
+												maxWidth: '72%',
+												px: 1.75, py: 1.25,
+												borderRadius: isUser ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
+												backgroundColor: isUser ? 'rgba(98,156,68,0.10)' : '#ffffff',
+												border: `1px solid ${isUser ? 'rgba(98,156,68,0.25)' : '#e2e8f0'}`,
+												boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
 											}}>
-												<Typography variant="body2" sx={{ opacity: 0.7, mb: 0.5 }}>
-													{isUser ? t('appAIResumeChat.you', 'You') : t('appAIResumeChat.assistant', 'Assistant')}
+												<Typography sx={{
+													fontSize: '0.72rem', fontWeight: 600,
+													color: isUser ? '#629C44' : '#94a3b8',
+													mb: 0.5,
+													display: 'flex', alignItems: 'center', gap: 0.5,
+												}}>
+													{isUser
+														? <><PersonOutlineOutlinedIcon sx={{ fontSize: 12 }} />{t('appAIResumeChat.you')}</>
+														: <><SmartToyOutlinedIcon sx={{ fontSize: 12 }} />{t('appAIResumeChat.assistant')}</>
+													}
 												</Typography>
-												<Typography variant="body1">{m.content}</Typography>
-												<Typography variant="caption" sx={{ display: 'block', mt: 0.5, textAlign: isUser ? 'right' : 'left' }}>
-													{new Date(m.createdAt).toLocaleString(userLang || 'en')}
+												<Typography sx={{ fontSize: '0.85rem', color: '#0f172a', lineHeight: 1.55, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+													{m.content}
+												</Typography>
+												<Typography sx={{ fontSize: '0.65rem', color: '#94a3b8', mt: 0.5, textAlign: isUser ? 'right' : 'left' }}>
+													{new Date(m.createdAt).toLocaleTimeString(userLang || 'en', { hour: '2-digit', minute: '2-digit' })}
 												</Typography>
 											</Box>
+											{isUser && (
+												<Box sx={{
+													width: 26, height: 26, borderRadius: '50%', flexShrink: 0,
+													display: 'flex', alignItems: 'center', justifyContent: 'center',
+													backgroundColor: 'rgba(98,156,68,0.15)',
+												}}>
+													<PersonOutlineOutlinedIcon sx={{ fontSize: 14, color: '#629C44' }} />
+												</Box>
+											)}
 										</Box>
 									);
 								})}
 
 								{assistantTyping && (
-									<Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: 1.5 }}>
+									<Box sx={{ display: 'flex', justifyContent: 'flex-start', gap: 1, alignItems: 'flex-end' }}>
+										<Box sx={{
+											width: 26, height: 26, borderRadius: '50%',
+											display: 'flex', alignItems: 'center', justifyContent: 'center',
+											backgroundColor: 'rgba(98,156,68,0.12)',
+										}}>
+											<SmartToyOutlinedIcon sx={{ fontSize: 14, color: '#629C44' }} />
+										</Box>
 										<TypingDots />
 									</Box>
 								)}
 								<div ref={messagesEndRef} />
 							</>
-						) : (
-							<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-								<Typography color="text.secondary">
-									{t('appAIResumeChat.noChatSelected', 'No chat selected. Create or select one from the left.')}
-								</Typography>
-							</Box>
 						)}
 					</Box>
 
 					{/* Composer */}
-					<Divider sx={{ mt: 1, mb: 1 }} />
-					<Box sx={{ display: 'flex', gap: 1 }}>
+					<Box sx={{
+						px: 2, py: 1.5, flexShrink: 0,
+						backgroundColor: '#ffffff',
+						borderTop: '1px solid #e2e8f0',
+						display: 'flex', gap: 1, alignItems: 'center',
+					}}>
 						<TextField
-							fullWidth size="small"
-							placeholder={t('appAIResumeChat.placeholder', 'Ask about the CV vs Job…')}
+							fullWidth
+							size="small"
+							multiline
+							maxRows={4}
+							placeholder={t('appAIResumeChat.placeholder')}
 							value={composer}
 							onChange={(e) => setComposer(e.target.value)}
 							onKeyDown={(e) => {
@@ -484,145 +554,191 @@ const AppAIResumeChat = () => {
 								}
 							}}
 							disabled={!selectedChat}
+							sx={{
+								'& .MuiOutlinedInput-root': {
+									borderRadius: 3, fontSize: '0.85rem',
+									backgroundColor: '#f8fafc',
+									'&.Mui-focused': { backgroundColor: '#ffffff' },
+								},
+							}}
 						/>
-						<Tooltip title={t('appAIResumeChat.send', 'Send')}>
-              <span>
-                <IconButton color="primary" onClick={handleSendMessage} disabled={!selectedChat || !composer.trim()}>
-                  <SendIcon />
-                </IconButton>
-              </span>
-						</Tooltip>
-					</Box>
-				</Paper>
-			</Box>
-
-			{/* Create Chat Modal (fields stacked vertically) */}
-			<Modal open={openCreateModal} onClose={closeCreateChatModal}>
-				<Box sx={{
-					position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
-					width: { xs: '95%', md: '60%' }, bgcolor: 'white', color: '#232F3E', boxShadow: 24,
-					p: 3, borderRadius: 2
-				}}>
-					<DialogTitle sx={{ px: 0, pt: 0 }}>
-						{t('appAIResumeChat.createChatTitle', 'Create a new chat session')}
-					</DialogTitle>
-					<DialogContent sx={{ px: 0 }}>
-						<Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-							{t('appAIResumeChat.createChatHelp', 'Select a CV and a Job Post. We’ll auto-search for the related screening report if available.')}
-						</Typography>
-
-						<Stack direction="column" spacing={2} sx={{ mb: 2 }}>
-							{/* Searchable CV (shows candidate name) */}
-							<Autocomplete
-								options={cvOptions}
-								value={selectedCV}
-								onChange={(_, v) => setSelectedCV(v || null)}
-								inputValue={cvSearch}
-								onInputChange={(_, val) => handleSearchChange(val)}
-								getOptionLabel={(cv) => cv?.personalInformation.name || 'Unknown'}
-								renderOption={(props, option) => (
-									<li {...props} key={cvOptionKey(option)}>   {/* unique, stable key */}
-										{option?.personalInformation.name || option?.id}
-									</li>
-								)}
-								isOptionEqualToValue={(opt, val) => (opt?.id ?? opt?._id) === (val?.id ?? val?._id)}
-								noOptionsText={t('appAIResumeChat.noCVFound', 'No CV found')}
-								renderInput={(params) => (
-									<TextField
-										{...params}
-										size="small"
-										/* removed onChange={handleSearchChange} */
-										label={t('appAIResumeChat.cvSearch', 'Search CV (by candidate name)')}
-										placeholder={t('appAIResumeChat.cvSearchPlaceholder', 'Type a name…')}
-									/>
-								)}
-							/>
-
-							{/* Job select (can be made searchable later if needed) */}
-							<FormControl fullWidth size="small">
-								<InputLabel>{t('appAIResumeChat.jobPost', 'Job Post')}</InputLabel>
-								<Select
-									label={t('appAIResumeChat.jobPost', 'Job Post')}
-									value={selectedJob?.id || ''}
-									onChange={(e) => {
-										const j = jobs.find(x => x.id === e.target.value) || null;
-										setSelectedJob(j);
+						<Tooltip title={t('appAIResumeChat.send')}>
+							<span>
+								<IconButton
+									onClick={handleSendMessage}
+									disabled={!selectedChat || !composer.trim()}
+									sx={{
+										backgroundColor: '#629C44', color: '#ffffff', borderRadius: 2,
+										width: 38, height: 38, flexShrink: 0,
+										'&:hover': { backgroundColor: '#4a7a33' },
+										'&.Mui-disabled': { backgroundColor: '#e2e8f0', color: '#94a3b8' },
 									}}
 								>
-									{jobs.map(j => (
-										<MenuItem key={j.id} value={j.id}>
-											{j.title || j.jobPostTitle || j.id}
-										</MenuItem>
-									))}
-								</Select>
-							</FormControl>
-
-							{/* Resume Match (auto-searched based on CV + Job) */}
-							<Box>
-								<Typography variant="subtitle2" sx={{ mb: 0.5 }}>
-									{t('appAIResumeChat.relatedScreeningReport', 'Related Screening Report')}
-								</Typography>
-								{!selectedCV || !selectedJob ? (
-									<Typography variant="body2" color="text.secondary">
-										{t('appAIResumeChat.resumeMatchHint', 'Select a CV and Job to search for a match.')}
-									</Typography>
-								) : loadingResumeMatch ? (
-									<Stack direction="row" spacing={1} alignItems="center">
-										<CircularProgress size={18} />
-										<Typography variant="body2" color="text.secondary">
-											{t('appAIResumeChat.searching', 'Searching…')}
-										</Typography>
-									</Stack>
-								) : resumeMatch ? (
-									<Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
-										{resumeMatch.jobPostTitle && (
-											<Chip size="small" label={`${t('appAIResumeChat.job', 'Job Title')}: ${resumeMatch.jobPostTitle}`} />
-										)}
-										{resumeMatch?.aiAnalysisReportDetails?.overallSummary?.score !== undefined && (
-											<Chip
-												size="small"
-												color="primary"
-												label={`${t('appAIResumeChat.score', 'Score')}: ${resumeMatch.aiAnalysisReportDetails.overallSummary.score}`}
-											/>
-										)}
-									</Stack>
-								) : (
-									<Typography variant="body2" color="text.secondary">
-										{t('appAIResumeChat.noResumeMatch', 'No resume match found.')}
-									</Typography>
-								)}
-							</Box>
-
-							{/* Title (defaults to "First Last - Job Title") */}
-							<TextField
-								fullWidth
-								size="small"
-								label={t('appAIResumeChat.chatTitle', 'Chat title')}
-								value={customTitle}
-								onChange={(e) => setCustomTitle(e.target.value)}
-								helperText={t('appAIResumeChat.chatTitleHelp2', 'Defaults to “First Last - Job Title”.')}
-							/>
-
-							<Chip size="small" label={`${t('appAIResumeChat.language', 'Language')}: ${userLang || 'en'}`} sx={{ width: 'fit-content' }} />
-						</Stack>
-					</DialogContent>
-
-					<DialogActions sx={{ px: 0, pb: 0 }}>
-						<Button onClick={closeCreateChatModal} disabled={creatingChat}>
-							{t('appAIResumeChat.cancel', 'Cancel')}
-						</Button>
-						<Button
-							onClick={handleCreateChat}
-							variant="contained"
-							color="primary"
-							disabled={creatingChat}
-							startIcon={creatingChat ? <CircularProgress size={16} /> : <AddCommentIcon />}
-						>
-							{t('appAIResumeChat.create', 'Create')}
-						</Button>
-					</DialogActions>
+									<SendRoundedIcon sx={{ fontSize: 17 }} />
+								</IconButton>
+							</span>
+						</Tooltip>
+					</Box>
 				</Box>
-			</Modal>
+			</Box>
+
+			{/* Create Chat Dialog */}
+			<Dialog
+				open={openCreateModal}
+				onClose={closeCreateChatModal}
+				fullWidth
+				maxWidth="sm"
+				slotProps={{
+					paper: {
+						elevation: 0,
+						sx: { borderRadius: 3, border: '1px solid #e2e8f0' },
+					},
+				}}
+			>
+				<DialogTitle sx={{ pb: 1 }}>
+					<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+						<AutoAwesomeOutlinedIcon sx={{ fontSize: 18, color: '#629C44' }} />
+						<Typography sx={{ fontWeight: 700, fontSize: '1rem', color: '#0f172a' }}>
+							{t('appAIResumeChat.createChatTitle')}
+						</Typography>
+					</Box>
+					<Typography sx={{ fontSize: '0.78rem', color: '#64748b', mt: 0.5, fontWeight: 400 }}>
+						{t('appAIResumeChat.createChatHelp')}
+					</Typography>
+				</DialogTitle>
+
+				<Divider sx={{ borderColor: '#f1f5f9' }} />
+
+				<DialogContent sx={{ pt: 2.5 }}>
+					<Stack spacing={2}>
+						<Autocomplete
+							options={cvOptions}
+							value={selectedCV}
+							onChange={(_, v) => setSelectedCV(v || null)}
+							inputValue={cvSearch}
+							onInputChange={(_, val) => handleSearchChange(val)}
+							getOptionLabel={(cv) => cv?.personalInformation?.name || 'Unknown'}
+							renderOption={(props, option) => (
+								<li {...props} key={cvOptionKey(option)}>
+									{option?.personalInformation?.name || option?.id}
+								</li>
+							)}
+							isOptionEqualToValue={(opt, val) => (opt?.id ?? opt?._id) === (val?.id ?? val?._id)}
+							noOptionsText={t('appAIResumeChat.noCVFound')}
+							renderInput={(params) => (
+								<TextField
+									{...params}
+									size="small"
+									label={t('appAIResumeChat.cvSearch')}
+									placeholder={t('appAIResumeChat.cvSearchPlaceholder')}
+									sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
+									InputProps={{
+										...params.InputProps,
+										startAdornment: (
+											<>
+												<InputAdornment position="start">
+													<SearchOutlinedIcon sx={{ fontSize: 16, color: '#94a3b8' }} />
+												</InputAdornment>
+												{params.InputProps.startAdornment}
+											</>
+										),
+									}}
+								/>
+							)}
+						/>
+
+						<FormControl fullWidth size="small">
+							<InputLabel sx={{ fontSize: '0.85rem' }}>{t('appAIResumeChat.jobPost')}</InputLabel>
+							<Select
+								label={t('appAIResumeChat.jobPost')}
+								value={selectedJob?.id || ''}
+								onChange={(e) => setSelectedJob(jobs.find(x => x.id === e.target.value) || null)}
+								sx={{ borderRadius: 2, fontSize: '0.85rem' }}
+							>
+								{jobs.map(j => (
+									<MenuItem key={j.id} value={j.id} sx={{ fontSize: '0.85rem' }}>
+										{j.title || j.jobPostTitle || j.id}
+									</MenuItem>
+								))}
+							</Select>
+						</FormControl>
+
+						{/* Screening report match */}
+						<Box sx={{ p: 1.5, borderRadius: 2, backgroundColor: '#f8fafc', border: '1px solid #e2e8f0' }}>
+							<Typography sx={{ fontSize: '0.72rem', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.06em', mb: 1 }}>
+								{t('appAIResumeChat.relatedScreeningReport')}
+							</Typography>
+							{!selectedCV || !selectedJob ? (
+								<Typography sx={{ fontSize: '0.78rem', color: '#94a3b8' }}>
+									{t('appAIResumeChat.resumeMatchHint')}
+								</Typography>
+							) : loadingResumeMatch ? (
+								<Stack direction="row" spacing={1} alignItems="center">
+									<CircularProgress size={14} sx={{ color: '#629C44' }} />
+									<Typography sx={{ fontSize: '0.78rem', color: '#64748b' }}>{t('appAIResumeChat.searching')}</Typography>
+								</Stack>
+							) : resumeMatch ? (
+								<Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+									{resumeMatch.jobPostTitle && (
+										<Chip size="small" label={resumeMatch.jobPostTitle} sx={{ fontSize: '0.72rem', backgroundColor: '#f1f5f9', color: '#334155' }} />
+									)}
+									{resumeMatch?.aiAnalysisReportDetails?.overallSummary?.score !== undefined && (
+										<Chip
+											size="small"
+											label={`${t('appAIResumeChat.score')}: ${resumeMatch.aiAnalysisReportDetails.overallSummary.score}%`}
+											sx={{ fontSize: '0.72rem', backgroundColor: '#dcfce7', color: '#166534', fontWeight: 600 }}
+										/>
+									)}
+								</Stack>
+							) : (
+								<Typography sx={{ fontSize: '0.78rem', color: '#94a3b8' }}>
+									{t('appAIResumeChat.noResumeMatch')}
+								</Typography>
+							)}
+						</Box>
+
+						<TextField
+							fullWidth size="small"
+							label={t('appAIResumeChat.chatTitle')}
+							value={customTitle}
+							onChange={(e) => setCustomTitle(e.target.value)}
+							helperText={t('appAIResumeChat.chatTitleHelp2')}
+							sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
+						/>
+
+						<Chip
+							size="small"
+							label={`${t('appAIResumeChat.language')}: ${userLang || 'en'}`}
+							sx={{ width: 'fit-content', fontSize: '0.72rem', backgroundColor: '#f1f5f9', color: '#334155' }}
+						/>
+					</Stack>
+				</DialogContent>
+
+				<Divider sx={{ borderColor: '#f1f5f9' }} />
+
+				<DialogActions sx={{ px: 3, py: 2, gap: 1 }}>
+					<Button
+						onClick={closeCreateChatModal}
+						disabled={creatingChat}
+						sx={{ borderRadius: 2, fontSize: '0.82rem', textTransform: 'none', color: '#64748b' }}
+					>
+						{t('appAIResumeChat.cancel')}
+					</Button>
+					<Button
+						onClick={handleCreateChat}
+						variant="contained"
+						disabled={creatingChat}
+						startIcon={creatingChat ? <CircularProgress size={14} color="inherit" /> : <AddCommentOutlinedIcon sx={{ fontSize: 16 }} />}
+						sx={{
+							backgroundColor: '#629C44', borderRadius: 2, fontSize: '0.82rem',
+							textTransform: 'none', fontWeight: 600, boxShadow: 'none',
+							'&:hover': { backgroundColor: '#4a7a33', boxShadow: 'none' },
+						}}
+					>
+						{t('appAIResumeChat.create')}
+					</Button>
+				</DialogActions>
+			</Dialog>
 		</Box>
 	);
 };
