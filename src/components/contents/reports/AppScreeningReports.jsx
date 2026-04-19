@@ -1,7 +1,8 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect, useMemo } from 'react';
 import {
-	Avatar, Box, Chip, FormControl, IconButton, InputAdornment,
+	Avatar, Box, Button, Chip, Dialog, DialogActions, DialogContent,
+	DialogTitle, FormControl, IconButton, InputAdornment,
 	InputLabel, ListItemButton, Menu, MenuItem, Pagination,
 	Select, TextField, Tooltip, Typography,
 } from '@mui/material';
@@ -40,6 +41,8 @@ const AppScreeningReports = () => {
 	const [selectedJobId, setSelectedJobId] = useState('');
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [menuReport, setMenuReport] = useState(null);
+	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+	const [deletingReport, setDeletingReport] = useState(false);
 
 	const fetchReports = async (pageNumber, jobId) => {
 		try {
@@ -127,7 +130,33 @@ const AppScreeningReports = () => {
 		setAnchorEl(event.currentTarget);
 		setMenuReport(report);
 	};
-	const handleMenuClose = () => { setAnchorEl(null); setMenuReport(null); };
+	const handleMenuClose = () => { setAnchorEl(null); };
+
+	const handleDeleteClick = () => {
+		setAnchorEl(null);
+		setDeleteDialogOpen(true);
+	};
+
+	const handleDeleteConfirm = async () => {
+		if (!menuReport) return;
+		try {
+			setDeletingReport(true);
+			await apiClient.delete(`${import.meta.env.VITE_APP_API_REPORT_URL}/${menuReport.id}`);
+			setReports(prev => prev.filter(r => r.id !== menuReport.id));
+			if (selectedReport?.id === menuReport.id) setSelectedReport(null);
+		} catch (error) {
+			console.error('Error deleting report:', error);
+		} finally {
+			setDeletingReport(false);
+			setDeleteDialogOpen(false);
+			setMenuReport(null);
+		}
+	};
+
+	const handleDeleteCancel = () => {
+		setDeleteDialogOpen(false);
+		setMenuReport(null);
+	};
 
 	return (
 		<Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', overflow: 'hidden', backgroundColor: '#f8fafc' }}>
@@ -327,13 +356,60 @@ const AppScreeningReports = () => {
 					{t('appReportContent.editReportTitle')}
 				</MenuItem>
 				<MenuItem
-					onClick={handleMenuClose}
+					onClick={handleDeleteClick}
 					sx={{ fontSize: '0.82rem', color: '#ef4444', gap: 1, '&:hover': { backgroundColor: '#fff5f5' } }}
 				>
 					<DeleteOutlineOutlinedIcon sx={{ fontSize: 16, color: '#ef4444' }} />
 					{t('appReportContent.deleteReport')}
 				</MenuItem>
 			</Menu>
+
+			{/* Delete confirmation dialog */}
+			<Dialog
+				open={deleteDialogOpen}
+				onClose={handleDeleteCancel}
+				slotProps={{
+					paper: {
+						elevation: 0,
+						sx: { borderRadius: 3, border: '1px solid #e2e8f0', minWidth: 340 },
+					},
+				}}
+			>
+				<DialogTitle sx={{ pb: 1 }}>
+					<Typography sx={{ fontWeight: 700, fontSize: '0.95rem', color: '#0f172a' }}>
+						{t('appReportContent.deleteConfirm')}
+					</Typography>
+				</DialogTitle>
+				<DialogContent>
+					<Typography sx={{ fontSize: '0.85rem', color: '#64748b' }}>
+						{menuReport?.candidateInfo?.candidateName && (
+							<><strong style={{ color: '#0f172a' }}>{menuReport.candidateInfo.candidateName}</strong> — </>
+						)}
+						{t('appReportContent.deleteReport')}?
+					</Typography>
+				</DialogContent>
+				<DialogActions sx={{ px: 3, pb: 2.5, gap: 1 }}>
+					<Button
+						onClick={handleDeleteCancel}
+						disabled={deletingReport}
+						sx={{ borderRadius: 2, fontSize: '0.82rem', textTransform: 'none', color: '#64748b' }}
+					>
+						{t('appReportContent.cancel')}
+					</Button>
+					<Button
+						onClick={handleDeleteConfirm}
+						disabled={deletingReport}
+						variant="contained"
+						sx={{
+							borderRadius: 2, fontSize: '0.82rem', textTransform: 'none', fontWeight: 600,
+							backgroundColor: '#ef4444', boxShadow: 'none',
+							'&:hover': { backgroundColor: '#dc2626', boxShadow: 'none' },
+						}}
+					>
+						{deletingReport ? t('appReportContent.delete') + '…' : t('appReportContent.delete')}
+					</Button>
+				</DialogActions>
+			</Dialog>
 		</Box>
 	);
 };
