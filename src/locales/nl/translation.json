@@ -310,8 +310,9 @@
       "totalResumesProcessedCurrentMonth": "Deze maand gescreende CV’s"
     },
     "sections": {
-      "skillsReport": "Vaardighedenrapport",
-      "jobPostsReport": "Sollicitaties per vacature"
+      "skillsReport": "Top 10 vaardigheden",
+      "jobPostsReport": "Sollicitaties per vacature",
+      "topCandidates": "Top 5 kandidaten per vacature"
     },
     "empty": {
       "skills": "Geen vaardigheidsdata beschikbaar.",

@@ -313,8 +313,9 @@
       "totalResumesProcessedCurrentMonth": "Analizados este mes"
     },
     "sections": {
-      "skillsReport": "Informe de competencias",
-      "jobPostsReport": "Candidaturas por oferta"
+      "skillsReport": "Top 10 habilidades",
+      "jobPostsReport": "Candidaturas por oferta",
+      "topCandidates": "Top 5 candidatos por oferta de empleo"
     },
     "empty": {
       "skills": "No hay datos de competencias.",

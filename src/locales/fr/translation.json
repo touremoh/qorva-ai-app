@@ -313,8 +313,9 @@
       "totalResumesProcessedCurrentMonth": "CV analysés ce mois"
     },
     "sections": {
-      "skillsReport": "Rapport compétences",
-      "jobPostsReport": "Candidatures par offre"
+      "skillsReport": "Top 10 compétences",
+      "jobPostsReport": "Candidatures par offre",
+      "topCandidates": "Top 5 candidats par offre d'emploi"
     },
     "empty": {
       "skills": "Aucune donnée de compétences.",

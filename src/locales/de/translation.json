@@ -313,8 +313,9 @@
       "totalResumesProcessedCurrentMonth": "Diesen Monat analysiert"
     },
     "sections": {
-      "skillsReport": "Kompetenzbericht",
-      "jobPostsReport": "Bewerbungen pro Stelle"
+      "skillsReport": "Top 10 Fähigkeiten",
+      "jobPostsReport": "Bewerbungen pro Stelle",
+      "topCandidates": "Top 5 Kandidaten pro Stellenanzeige"
     },
     "empty": {
       "skills": "Keine Daten zu Kompetenzen.",

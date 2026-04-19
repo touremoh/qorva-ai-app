@@ -309,8 +309,9 @@
       "totalResumesProcessedCurrentMonth": "Screened This Month"
     },
     "sections": {
-      "skillsReport": "Skills Report",
-      "jobPostsReport": "Applications per Job"
+      "skillsReport": "Top 10 Skills",
+      "jobPostsReport": "Applications per Job",
+      "topCandidates": "Top 5 Candidates per Job Post"
     },
     "empty": {
       "skills": "No skills data available",
