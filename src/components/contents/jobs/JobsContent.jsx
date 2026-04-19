@@ -111,7 +111,7 @@ const JobContent = () => {
 	const fetchJobs = async () => {
 		try {
 			const tenantId = localStorage.getItem(TENANT_ID);
-			const response = await apiClient.get(`${import.meta.env.VITE_APP_API_JOB_POSTS_URL}/${tenantId}`);
+			const response = await apiClient.get(`${import.meta.env.VITE_APP_API_JOB_POSTS_URL}`);
 			setJobs(response.data.data.content);
 		} catch (error) {
 			console.error('Error fetching job posts:', error);
