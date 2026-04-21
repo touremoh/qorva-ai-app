@@ -29,8 +29,9 @@ const FILE_TYPE_WORD = 'application/vnd.openxmlformats-officedocument.wordproces
 const AppCVContent = () => {
 	const { t } = useTranslation();
 	const [cvEntries, setCvEntries] = useState([]);
+	const [totalPages, setTotalPages] = useState(0);
 	const [selectedCV, setSelectedCV] = useState(null);
-	const [viewMode, setViewMode] = useState('list');
+	const [viewMode, setViewMode] = useState('table');
 	const [openUploadModal, setOpenUploadModal] = useState(false);
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 	const [selectedFiles, setSelectedFiles] = useState([]);
@@ -41,9 +42,10 @@ const AppCVContent = () => {
 	const fetchCVEntries = async () => {
 		try {
 			const response = await apiClient.get(import.meta.env.VITE_APP_API_CV_URL, {
-				params: { pageSize: 50 },
+				params: { pageSize: 25 },
 			});
 			setCvEntries(response.data.data.content);
+			setTotalPages(response.data.data.totalPages ?? 0);
 		} catch (error) {
 			console.error('Error fetching CV entries:', error);
 		}
@@ -213,6 +215,8 @@ const AppCVContent = () => {
 						setCVEntries={setCvEntries}
 						viewMode={viewMode}
 						selectedCV={selectedCV}
+						totalPages={totalPages}
+						setTotalPages={setTotalPages}
 					/>
 				</Box>
 

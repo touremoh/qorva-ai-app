@@ -188,7 +188,12 @@
     "downloadCV": "CV downloaden",
     "uploadFiles": "Bestanden uploaden",
     "uploadInProgress": "Bezig met uploaden…",
-    "uploadCVInfo": "Upload max. 100 CV’s in .pdf of .docx."
+    "uploadCVInfo": "Upload max. 100 CV’s in .pdf of .docx.",
+    "skills": "Vaardigheden",
+    "filterByName": "Filteren op naam…",
+    "filterByRole": "Filteren op rol…",
+    "filterBySkill": "Filteren op vaardigheid…",
+    "filterMinExp": "Min. jaren…"
   },
   "appCVScreening": {
     "selectJobPost": "Selecteer vacature",

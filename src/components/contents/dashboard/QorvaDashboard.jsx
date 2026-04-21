@@ -215,68 +215,7 @@ const QorvaDashboard = () => {
 							))}
 						</Box>
 
-						{/* Row 2: Skills chart + Job applications table */}
-						<Box sx={{
-							display: 'grid',
-							gridTemplateColumns: { xs: '1fr', md: '1fr 1fr', lg: '1fr 380px' },
-							gap: 2.5,
-							alignItems: 'stretch',
-						}}>
-							{/* Skills bar chart */}
-							<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
-								<SectionHeader icon={AssessmentOutlinedIcon} label={t('dashboard.sections.skillsReport')} />
-								<Box sx={{ flex: 1, minHeight: 220, position: 'relative' }}>
-									{dashboardData.skillsReport.length ? (
-										<Bar data={skillsBarData} options={skillsBarOptions} />
-									) : (
-										<Box sx={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-											<Typography sx={{ fontSize: '0.82rem', color: '#94a3b8' }}>{t('dashboard.empty.skills')}</Typography>
-										</Box>
-									)}
-								</Box>
-							</Paper>
-
-							{/* Job posts table */}
-							<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
-								<SectionHeader icon={WorkOutlineOutlinedIcon} label={t('dashboard.sections.jobPostsReport')} />
-								{dashboardData.jobPostsReport.length ? (
-									<TableContainer sx={{ flex: 1, overflowY: 'auto' }}>
-										<Table size="small" stickyHeader>
-											<TableHead>
-												<TableRow>
-													<TableCell sx={{ fontWeight: 700, fontSize: '0.7rem', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', backgroundColor: '#f8fafc', borderBottom: '1px solid #e2e8f0', py: 1 }}>
-														{t('dashboard.table.jobPostTitle')}
-													</TableCell>
-													<TableCell align="right" sx={{ fontWeight: 700, fontSize: '0.7rem', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', backgroundColor: '#f8fafc', borderBottom: '1px solid #e2e8f0', py: 1 }}>
-														{t('dashboard.table.totalMatch')}
-													</TableCell>
-												</TableRow>
-											</TableHead>
-											<TableBody>
-												{dashboardData.jobPostsReport.map((row, idx) => (
-													<TableRow key={`${row.jobPostTitle}-${idx}`} sx={{ '&:hover': { backgroundColor: '#f8fafc' } }}>
-														<TableCell sx={{ fontSize: '0.82rem', color: '#0f172a', py: 1, borderBottom: '1px solid #f1f5f9' }}>
-															{row?.jobPostTitle ?? '—'}
-														</TableCell>
-														<TableCell align="right" sx={{ py: 1, borderBottom: '1px solid #f1f5f9' }}>
-															<Box sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: 32, height: 22, px: 1, borderRadius: 1.5, backgroundColor: 'rgba(98,156,68,0.10)', color: '#166534', fontSize: '0.75rem', fontWeight: 700 }}>
-																{row?.totalMatch ?? 0}
-															</Box>
-														</TableCell>
-													</TableRow>
-												))}
-											</TableBody>
-										</Table>
-									</TableContainer>
-								) : (
-									<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
-										<Typography sx={{ fontSize: '0.82rem', color: '#94a3b8' }}>{t('dashboard.empty.jobPosts')}</Typography>
-									</Box>
-								)}
-							</Paper>
-						</Box>
-
-						{/* Row 3: Top candidates per job — horizontal scrollable cards */}
+						{/* Row 2: Top candidates per job — horizontal scrollable cards */}
 						{dashboardData.topCandidatesPerJob.length > 0 && (
 							<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5, minWidth: 0 }}>
 								<SectionHeader icon={EmojiEventsOutlinedIcon} label={t('dashboard.sections.topCandidates')} />
@@ -375,6 +314,67 @@ const QorvaDashboard = () => {
 								</Box>
 							</Paper>
 						)}
+
+						{/* Row 3: Skills chart + Job applications table */}
+						<Box sx={{
+							display: 'grid',
+							gridTemplateColumns: { xs: '1fr', md: '1fr 1fr', lg: '1fr 380px' },
+							gap: 2.5,
+							alignItems: 'stretch',
+						}}>
+							{/* Skills bar chart */}
+							<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
+								<SectionHeader icon={AssessmentOutlinedIcon} label={t('dashboard.sections.skillsReport')} />
+								<Box sx={{ flex: 1, minHeight: 220, position: 'relative' }}>
+									{dashboardData.skillsReport.length ? (
+										<Bar data={skillsBarData} options={skillsBarOptions} />
+									) : (
+										<Box sx={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+											<Typography sx={{ fontSize: '0.82rem', color: '#94a3b8' }}>{t('dashboard.empty.skills')}</Typography>
+										</Box>
+									)}
+								</Box>
+							</Paper>
+
+							{/* Job posts table */}
+							<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
+								<SectionHeader icon={WorkOutlineOutlinedIcon} label={t('dashboard.sections.jobPostsReport')} />
+								{dashboardData.jobPostsReport.length ? (
+									<TableContainer sx={{ flex: 1, overflowY: 'auto' }}>
+										<Table size="small" stickyHeader>
+											<TableHead>
+												<TableRow>
+													<TableCell sx={{ fontWeight: 700, fontSize: '0.7rem', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', backgroundColor: '#f8fafc', borderBottom: '1px solid #e2e8f0', py: 1 }}>
+														{t('dashboard.table.jobPostTitle')}
+													</TableCell>
+													<TableCell align="right" sx={{ fontWeight: 700, fontSize: '0.7rem', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', backgroundColor: '#f8fafc', borderBottom: '1px solid #e2e8f0', py: 1 }}>
+														{t('dashboard.table.totalMatch')}
+													</TableCell>
+												</TableRow>
+											</TableHead>
+											<TableBody>
+												{dashboardData.jobPostsReport.map((row, idx) => (
+													<TableRow key={`${row.jobPostTitle}-${idx}`} sx={{ '&:hover': { backgroundColor: '#f8fafc' } }}>
+														<TableCell sx={{ fontSize: '0.82rem', color: '#0f172a', py: 1, borderBottom: '1px solid #f1f5f9' }}>
+															{row?.jobPostTitle ?? '—'}
+														</TableCell>
+														<TableCell align="right" sx={{ py: 1, borderBottom: '1px solid #f1f5f9' }}>
+															<Box sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: 32, height: 22, px: 1, borderRadius: 1.5, backgroundColor: 'rgba(98,156,68,0.10)', color: '#166534', fontSize: '0.75rem', fontWeight: 700 }}>
+																{row?.totalMatch ?? 0}
+															</Box>
+														</TableCell>
+													</TableRow>
+												))}
+											</TableBody>
+										</Table>
+									</TableContainer>
+								) : (
+									<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
+										<Typography sx={{ fontSize: '0.82rem', color: '#94a3b8' }}>{t('dashboard.empty.jobPosts')}</Typography>
+									</Box>
+								)}
+							</Paper>
+						</Box>
 					</>
 				)}
 			</Box>

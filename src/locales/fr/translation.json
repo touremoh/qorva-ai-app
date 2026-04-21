@@ -188,7 +188,12 @@
     "downloadCV": "Télécharger le CV",
     "uploadFiles": "Importer des fichiers",
     "uploadInProgress": "Import en cours…",
-    "uploadCVInfo": "Vous pouvez importer jusqu’à 100 CV en .pdf ou .docx."
+    "uploadCVInfo": "Vous pouvez importer jusqu’à 100 CV en .pdf ou .docx.",
+    "skills": "Compétences",
+    "filterByName": "Filtrer par nom…",
+    "filterByRole": "Filtrer par rôle…",
+    "filterBySkill": "Filtrer par compétence…",
+    "filterMinExp": "Années min.…"
   },
   "appCVScreening": {
     "selectJobPost": "Sélectionner une offre",

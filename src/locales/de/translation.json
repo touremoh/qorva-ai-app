@@ -188,7 +188,12 @@
     "downloadCV": "Lebenslauf herunterladen",
     "uploadFiles": "Dateien hochladen",
     "uploadInProgress": "Upload läuft…",
-    "uploadCVInfo": "Bis zu 100 Lebensläufe (.pdf oder .docx) hochladen."
+    "uploadCVInfo": "Bis zu 100 Lebensläufe (.pdf oder .docx) hochladen.",
+    "skills": "Fähigkeiten",
+    "filterByName": "Nach Name filtern…",
+    "filterByRole": "Nach Rolle filtern…",
+    "filterBySkill": "Nach Fähigkeit filtern…",
+    "filterMinExp": "Min. Jahre…"
   },
   "appCVScreening": {
     "selectJobPost": "Stelle auswählen",

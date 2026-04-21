@@ -188,7 +188,12 @@
     "downloadCV": "Descargar CV",
     "uploadFiles": "Subir archivos",
     "uploadInProgress": "Subiendo… espere",
-    "uploadCVInfo": "Puede subir hasta 100 CV en formato .pdf o .docx."
+    "uploadCVInfo": "Puede subir hasta 100 CV en formato .pdf o .docx.",
+    "skills": "Habilidades",
+    "filterByName": "Filtrar por nombre…",
+    "filterByRole": "Filtrar por rol…",
+    "filterBySkill": "Filtrar por habilidad…",
+    "filterMinExp": "Años mín.…"
   },
   "appCVScreening": {
     "selectJobPost": "Seleccionar oferta",

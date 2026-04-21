@@ -184,7 +184,12 @@
     "downloadCV": "Download Resume",
     "uploadFiles": "Upload Files",
     "uploadInProgress": "Uploading… please wait",
-    "uploadCVInfo": "Upload up to 100 resumes (.pdf or .docx)."
+    "uploadCVInfo": "Upload up to 100 resumes (.pdf or .docx).",
+    "skills": "Skills",
+    "filterByName": "Filter by name…",
+    "filterByRole": "Filter by role…",
+    "filterBySkill": "Filter by skill…",
+    "filterMinExp": "Min. years…"
   },
   "appCVScreening": {
     "selectJobPost": "Choose Job Post",

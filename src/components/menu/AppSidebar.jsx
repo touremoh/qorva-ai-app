@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 export const SIDEBAR_WIDTH = 240;
 export const SIDEBAR_WIDTH_COLLAPSED = 64;
 
-const AppSidebar = ({ isSidebarOpen, isSidebarCollapsed, handleSidebarToggle, handleContentChange }) => {
+const AppSidebar = ({ isSidebarOpen, isSidebarCollapsed, handleSidebarToggle, handleSidebarCollapse, handleContentChange }) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
 	const [isChatAllowed, setIsChatAllowed] = useState(false);
@@ -46,11 +46,11 @@ const AppSidebar = ({ isSidebarOpen, isSidebarCollapsed, handleSidebarToggle, ha
 
 	return isLargeScreen ? (
 		<Drawer variant="permanent" open sx={drawerSx}>
-			<AppMenuList handleContentChange={handleNavigation} isChatAllowed={isChatAllowed} collapsed={collapsed} />
+			<AppMenuList handleContentChange={handleNavigation} isChatAllowed={isChatAllowed} collapsed={collapsed} onToggleCollapse={handleSidebarCollapse} />
 		</Drawer>
 	) : (
 		<Drawer variant="temporary" open={isSidebarOpen} onClose={handleSidebarToggle} sx={drawerSx}>
-			<AppMenuList handleContentChange={handleNavigation} isChatAllowed={isChatAllowed} collapsed={false} />
+			<AppMenuList handleContentChange={handleNavigation} isChatAllowed={isChatAllowed} collapsed={false} onToggleCollapse={handleSidebarToggle} />
 		</Drawer>
 	);
 };
@@ -61,5 +61,6 @@ AppSidebar.propTypes = {
 	isSidebarOpen: PropTypes.bool,
 	isSidebarCollapsed: PropTypes.bool,
 	handleSidebarToggle: PropTypes.func,
+	handleSidebarCollapse: PropTypes.func,
 	handleContentChange: PropTypes.func,
 };

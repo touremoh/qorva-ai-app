@@ -11,7 +11,6 @@ import {
 	Toolbar,
 	Typography,
 } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { useTranslation } from 'react-i18next';
@@ -29,7 +28,7 @@ import { SIDEBAR_WIDTH, SIDEBAR_WIDTH_COLLAPSED } from '../menu/AppSidebar.jsx';
 
 export const HEADER_HEIGHT = 64;
 
-const AppHeader = ({ handleSidebarToggle, handleSidebarCollapse, handleContentChange, contentTitle, isSidebarCollapsed }) => {
+const AppHeader = ({ handleContentChange, contentTitle, isSidebarCollapsed }) => {
 	const { t } = useTranslation();
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [initials, setInitials] = useState('');
@@ -74,26 +73,6 @@ const AppHeader = ({ handleSidebarToggle, handleSidebarCollapse, handleContentCh
 			}}
 		>
 			<Toolbar sx={{ minHeight: `${HEADER_HEIGHT}px !important`, px: { xs: 2, sm: 3 } }}>
-				<IconButton
-					onClick={(e) => {
-						// On desktop: collapse/expand sidebar. On mobile: toggle drawer.
-						if (window.innerWidth >= 900) {
-							handleSidebarCollapse();
-						} else {
-							handleSidebarToggle();
-						}
-					}}
-					edge="start"
-					sx={{
-						mr: 2,
-						color: '#64748b',
-						borderRadius: 1.5,
-						'&:hover': { backgroundColor: '#f1f5f9' },
-					}}
-				>
-					<MenuIcon sx={{ fontSize: 20 }} />
-				</IconButton>
-
 				<Typography
 					sx={{
 						fontWeight: 600,

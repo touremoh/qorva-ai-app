@@ -31,6 +31,7 @@ const AppHome = () => {
 				isSidebarOpen={isSidebarOpen}
 				isSidebarCollapsed={isSidebarCollapsed}
 				handleSidebarToggle={handleSidebarToggle}
+				handleSidebarCollapse={handleSidebarCollapse}
 				handleContentChange={handleContentChange}
 			/>
 
@@ -38,8 +39,6 @@ const AppHome = () => {
 			<Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
 				{/* Header */}
 				<AppHeader
-					handleSidebarToggle={handleSidebarToggle}
-					handleSidebarCollapse={handleSidebarCollapse}
 					handleContentChange={handleContentChange}
 					contentTitle={content}
 					isSidebarCollapsed={isSidebarCollapsed}

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Box, List, ListItemButton, Typography } from '@mui/material';
+import { Box, IconButton, List, ListItemButton, Tooltip, Typography } from '@mui/material';
+import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { useTranslation } from 'react-i18next';
 import LeaderboardOutlinedIcon from '@mui/icons-material/LeaderboardOutlined';
 import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
@@ -17,7 +19,7 @@ import {
 } from '../../../constants.js';
 import PropTypes from 'prop-types';
 
-const AppMenuList = ({ handleContentChange, isChatAllowed, collapsed }) => {
+const AppMenuList = ({ handleContentChange, isChatAllowed, collapsed, onToggleCollapse }) => {
 	const { t } = useTranslation();
 	const [selectedItem, setSelectedItem] = useState(COMP_ID_DASHBOARD);
 
@@ -90,7 +92,6 @@ const AppMenuList = ({ handleContentChange, isChatAllowed, collapsed }) => {
 								color: isActive ? '#ffffff' : 'rgba(255,255,255,0.55)',
 								backgroundColor: isActive ? 'rgba(98,156,68,0.18)' : 'transparent',
 								borderLeft: collapsed ? 'none' : (isActive ? '3px solid #629C44' : '3px solid transparent'),
-								borderRadius: collapsed ? 1.5 : 1.5,
 								transition: 'all 0.15s ease',
 								'&:hover': {
 									backgroundColor: isActive ? 'rgba(98,156,68,0.24)' : 'rgba(255,255,255,0.06)',
@@ -117,16 +118,38 @@ const AppMenuList = ({ handleContentChange, isChatAllowed, collapsed }) => {
 			</List>
 
 			{/* Footer */}
-			{!collapsed && (
-				<>
-					<Box sx={{ mx: 2.5, borderBottom: '1px solid rgba(255,255,255,0.05)', mb: 2 }} />
-					<Box sx={{ px: 2.5, pb: 2.5 }}>
-						<Typography sx={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.2)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-							Qorva AI
-						</Typography>
-					</Box>
-				</>
-			)}
+			<Box sx={{ mx: collapsed ? 1 : 2.5, borderBottom: '1px solid rgba(255,255,255,0.05)', mb: 1.5 }} />
+			<Box sx={{
+				px: collapsed ? 0 : 2.5,
+				pb: 2,
+				display: 'flex',
+				alignItems: 'center',
+				justifyContent: collapsed ? 'center' : 'space-between',
+			}}>
+				{!collapsed && (
+					<Typography sx={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.2)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+						Qorva AI
+					</Typography>
+				)}
+				{onToggleCollapse && (
+					<Tooltip title={collapsed ? 'Expand' : 'Collapse'} placement="right">
+						<IconButton
+							onClick={onToggleCollapse}
+							size="small"
+							sx={{
+								color: 'rgba(255,255,255,0.35)',
+								borderRadius: 1.5,
+								'&:hover': { backgroundColor: 'rgba(255,255,255,0.08)', color: '#ffffff' },
+							}}
+						>
+							{collapsed
+								? <KeyboardDoubleArrowRightIcon sx={{ fontSize: 18 }} />
+								: <KeyboardDoubleArrowLeftIcon sx={{ fontSize: 18 }} />
+							}
+						</IconButton>
+					</Tooltip>
+				)}
+			</Box>
 		</Box>
 	);
 };
@@ -137,4 +160,5 @@ AppMenuList.propTypes = {
 	handleContentChange: PropTypes.func.isRequired,
 	isChatAllowed: PropTypes.bool.isRequired,
 	collapsed: PropTypes.bool,
+	onToggleCollapse: PropTypes.func,
 };

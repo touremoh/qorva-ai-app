@@ -188,7 +188,12 @@
     "downloadCV": "Transferir CV",
     "uploadFiles": "Carregar ficheiros",
     "uploadInProgress": "A carregar… aguarde",
-    "uploadCVInfo": "Pode carregar até 100 CV em .pdf ou .docx."
+    "uploadCVInfo": "Pode carregar até 100 CV em .pdf ou .docx.",
+    "skills": "Competências",
+    "filterByName": "Filtrar por nome…",
+    "filterByRole": "Filtrar por função…",
+    "filterBySkill": "Filtrar por competência…",
+    "filterMinExp": "Anos mín.…"
   },
   "appCVScreening": {
     "selectJobPost": "Selecionar vaga",

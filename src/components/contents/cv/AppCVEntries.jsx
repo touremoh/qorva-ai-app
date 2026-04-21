@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
 	Box,
+	Chip,
 	Typography,
 	List,
 	ListItemButton,
@@ -21,22 +22,22 @@ import {
 	InputAdornment,
 } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import SearchIcon from '@mui/icons-material/Search';
 import { useTranslation } from 'react-i18next';
 import apiClient from '../../../../axiosConfig.js';
 import { AUTH_TOKEN } from '../../../constants.js';
 
-const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntries, viewMode, selectedCV }) => {
+const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntries, viewMode, selectedCV, totalPages, setTotalPages }) => {
 	const { t } = useTranslation();
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [menuCVId, setMenuCVId] = useState(null);
 	const [searchTerm, setSearchTerm] = useState('');
 	const [currentPage, setCurrentPage] = useState(1);
-	const [sortOrder, setSortOrder] = useState('desc');
 	const [tableSort, setTableSort] = useState({ column: 'lastUpdatedAt', order: 'desc' });
-	const [totalPages, setTotalPages] = useState(0);
+	const [filterName, setFilterName] = useState('');
+	const [filterRole, setFilterRole] = useState('');
+	const [filterSkills, setFilterSkills] = useState('');
+	const [filterExperience, setFilterExperience] = useState('');
 
 	const entriesPerPage = 25;
 
@@ -66,10 +67,13 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 	const handlePageChange = async (_, page) => {
 		setCurrentPage(page);
 		try {
-			const response = await apiClient.get(`${import.meta.env.VITE_APP_API_CV_URL}/search`, {
-				headers: { Authorization: `Bearer ${localStorage.getItem(AUTH_TOKEN)}` },
-				params: { pageNumber: page - 1, pageSize: entriesPerPage, searchTerms: searchTerm },
-			});
+			const url = searchTerm.trim()
+				? `${import.meta.env.VITE_APP_API_CV_URL}/search`
+				: import.meta.env.VITE_APP_API_CV_URL;
+			const params = searchTerm.trim()
+				? { pageNumber: page - 1, pageSize: entriesPerPage, searchTerms: searchTerm.trim() }
+				: { pageNumber: page - 1, pageSize: entriesPerPage };
+			const response = await apiClient.get(url, { params });
 			setCVEntries(response.data.data.content);
 			setTotalPages(response.data.data.totalPages);
 		} catch (error) {
@@ -102,13 +106,28 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 				const da = new Date(a.lastUpdatedAt), db = new Date(b.lastUpdatedAt);
 				return order === 'asc' ? da - db : db - da;
 			}
-			// list view sort
+			// list view sort (newest first)
 			const da = new Date(a.lastUpdatedAt), db = new Date(b.lastUpdatedAt);
-			return sortOrder === 'asc' ? da - db : db - da;
+			return db - da;
 		})
 		: [];
 
-	const paginated = sorted.slice((currentPage - 1) * entriesPerPage, currentPage * entriesPerPage);
+	const filtered = sorted.filter(cv => {
+		const nameMatch = !filterName ||
+			(cv.personalInformation.name || '').toLowerCase().includes(filterName.toLowerCase());
+		const roleMatch = !filterRole ||
+			(cv.personalInformation.role || '').toLowerCase().includes(filterRole.toLowerCase());
+		const skillsMatch = !filterSkills || [
+			...(cv.skillsAndQualifications?.technicalSkills ?? []),
+			...(cv.skillsAndQualifications?.softSkills ?? []),
+		].some(s => s.toLowerCase().includes(filterSkills.toLowerCase()));
+		const expMin = filterExperience !== '' ? parseInt(filterExperience, 10) : NaN;
+		const expMatch = isNaN(expMin) || (calcTotalYears(cv.workExperience) ?? 0) >= expMin;
+		return nameMatch && roleMatch && skillsMatch && expMatch;
+	});
+
+	// Server already returns one page of results; render all of them.
+	const paginated = filtered;
 
 	const getInitials = (name = '') =>
 		name.split(' ').map(p => p[0]).filter(Boolean).join('').slice(0, 2).toUpperCase();
@@ -130,6 +149,11 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 		}));
 	};
 
+	const handleFilterChange = (setter) => (e) => {
+		setter(e.target.value);
+		setCurrentPage(1);
+	};
+
 	const handleDeleteClick = () => {
 		const cv = cvEntries.find(c => c.id === menuCVId);
 		if (cv) setSelectedCV(cv);
@@ -138,7 +162,7 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 	};
 
 	const searchBar = (
-		<Box sx={{ px: 1.5, pt: 1.5, pb: 1, display: 'flex', gap: 0.5, alignItems: 'center', flexShrink: 0 }}>
+		<Box sx={{ px: 1.5, pt: 1.5, pb: 1, flexShrink: 0 }}>
 			<TextField
 				size="small"
 				placeholder={t('appCVContent.search')}
@@ -154,16 +178,6 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 					sx: { fontSize: '0.82rem', borderRadius: 1.5 },
 				}}
 			/>
-			<IconButton
-				size="small"
-				onClick={() => setSortOrder(s => s === 'asc' ? 'desc' : 'asc')}
-				sx={{ color: '#64748b', borderRadius: 1.5, border: '1px solid #e2e8f0', p: '5px', flexShrink: 0 }}
-			>
-				{sortOrder === 'asc'
-					? <ArrowUpwardIcon sx={{ fontSize: 16 }} />
-					: <ArrowDownwardIcon sx={{ fontSize: 16 }} />
-				}
-			</IconButton>
 		</Box>
 	);
 
@@ -289,6 +303,7 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 							<TableRow>
 								<TableCell sx={thSx}>{t('appCVContent.name')}</TableCell>
 								<TableCell sx={thSx}>{t('appCVContent.title')}</TableCell>
+								<TableCell sx={thSx}>{t('appCVContent.skills')}</TableCell>
 								<TableCell sx={{ ...thSx, cursor: 'pointer' }}>
 									<TableSortLabel
 										active={tableSort.column === 'experience'}
@@ -311,8 +326,61 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 								</TableCell>
 								<TableCell sx={{ ...thSx, width: 48 }} />
 							</TableRow>
+							<TableRow>
+								<TableCell sx={filterCellSx}>
+									<TextField
+										size="small"
+										placeholder={t('appCVContent.filterByName')}
+										value={filterName}
+										onChange={handleFilterChange(setFilterName)}
+										fullWidth
+										InputProps={{ sx: filterInputSx }}
+									/>
+								</TableCell>
+								<TableCell sx={filterCellSx}>
+									<TextField
+										size="small"
+										placeholder={t('appCVContent.filterByRole')}
+										value={filterRole}
+										onChange={handleFilterChange(setFilterRole)}
+										fullWidth
+										InputProps={{ sx: filterInputSx }}
+									/>
+								</TableCell>
+								<TableCell sx={filterCellSx}>
+									<TextField
+										size="small"
+										placeholder={t('appCVContent.filterBySkill')}
+										value={filterSkills}
+										onChange={handleFilterChange(setFilterSkills)}
+										fullWidth
+										InputProps={{ sx: filterInputSx }}
+									/>
+								</TableCell>
+								<TableCell sx={filterCellSx}>
+									<TextField
+										size="small"
+										type="number"
+										placeholder={t('appCVContent.filterMinExp')}
+										value={filterExperience}
+										onChange={handleFilterChange(setFilterExperience)}
+										inputProps={{ min: 0 }}
+										sx={{ width: 90 }}
+										InputProps={{ sx: filterInputSx }}
+									/>
+								</TableCell>
+								<TableCell sx={filterCellSx} />
+								<TableCell sx={filterCellSx} />
+							</TableRow>
 						</TableHead>
 						<TableBody>
+							{filtered.length === 0 && (
+								<TableRow>
+									<TableCell colSpan={6} sx={{ textAlign: 'center', py: 4, color: '#94a3b8', fontSize: '0.84rem', border: 0 }}>
+										{t('appCVContent.noCVEntries')}
+									</TableCell>
+								</TableRow>
+							)}
 							{paginated.map((cv) => (
 								<TableRow
 									key={cv.id}
@@ -344,6 +412,25 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 									</TableCell>
 									<TableCell sx={{ fontSize: '0.82rem', color: '#64748b', py: 1.25 }}>
 										{cv.personalInformation.role}
+									</TableCell>
+									<TableCell sx={{ py: 1.25 }}>
+										<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+											{(cv.skillsAndQualifications?.technicalSkills ?? []).slice(0, 3).map((skill, i) => (
+												<Chip
+													key={i}
+													label={skill}
+													size="small"
+													sx={{
+														fontSize: '0.68rem',
+														height: 20,
+														backgroundColor: 'rgba(98,156,68,0.10)',
+														color: '#166534',
+														fontWeight: 500,
+														'& .MuiChip-label': { px: 0.75 },
+													}}
+												/>
+											))}
+										</Box>
 									</TableCell>
 									<TableCell sx={{ fontSize: '0.82rem', color: '#64748b', py: 1.25, whiteSpace: 'nowrap' }}>
 										{(() => {
@@ -386,6 +473,19 @@ const sortLabelSx = {
 	letterSpacing: 'inherit',
 };
 
+const filterCellSx = {
+	backgroundColor: '#f8fafc',
+	borderBottom: '1px solid #e2e8f0',
+	py: 0.75,
+	px: 1,
+};
+
+const filterInputSx = {
+	fontSize: '0.78rem',
+	borderRadius: 1,
+	'& input': { py: '4px', px: '8px' },
+};
+
 const thSx = {
 	fontWeight: 700,
 	fontSize: '0.72rem',
@@ -403,6 +503,8 @@ AppCVEntries.propTypes = {
 	setCVEntries: PropTypes.func.isRequired,
 	viewMode: PropTypes.oneOf(['list', 'table']).isRequired,
 	selectedCV: PropTypes.object,
+	totalPages: PropTypes.number.isRequired,
+	setTotalPages: PropTypes.func.isRequired,
 };
 
 export default AppCVEntries;
