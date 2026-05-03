@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
 	Box,
@@ -25,7 +25,6 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SearchIcon from '@mui/icons-material/Search';
 import { useTranslation } from 'react-i18next';
 import apiClient from '../../../../axiosConfig.js';
-import { AUTH_TOKEN } from '../../../constants.js';
 
 const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntries, viewMode, selectedCV, totalPages, setTotalPages }) => {
 	const { t } = useTranslation();
@@ -40,6 +39,45 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 	const [filterExperience, setFilterExperience] = useState('');
 
 	const entriesPerPage = 25;
+	const searchTermRef = useRef(searchTerm);
+	useEffect(() => { searchTermRef.current = searchTerm; }, [searchTerm]);
+
+	const buildFilterParams = (page = 0) => {
+		const params = { pageNumber: page, pageSize: entriesPerPage };
+		if (filterName.trim()) params.name = filterName.trim();
+		if (filterRole.trim()) params.role = filterRole.trim();
+		if (filterSkills.trim()) params.skills = filterSkills.trim();
+		if (filterExperience !== '') params.minYearsOfExperience = parseInt(filterExperience, 10);
+		return params;
+	};
+
+	useEffect(() => {
+		const timer = setTimeout(async () => {
+			try {
+				const hasFilters = filterName || filterRole || filterSkills || filterExperience !== '';
+				let response;
+				if (hasFilters) {
+					response = await apiClient.get(import.meta.env.VITE_APP_API_CV_URL, {
+						params: buildFilterParams(0),
+					});
+				} else {
+					response = searchTermRef.current.trim()
+						? await apiClient.get(`${import.meta.env.VITE_APP_API_CV_URL}/search`, {
+							params: { pageNumber: 0, pageSize: entriesPerPage, searchTerms: searchTermRef.current.trim() },
+						})
+						: await apiClient.get(import.meta.env.VITE_APP_API_CV_URL, {
+							params: { pageNumber: 0, pageSize: entriesPerPage },
+						});
+				}
+				setCurrentPage(1);
+				setCVEntries(response.data.data.content);
+				setTotalPages(response.data.data.totalPages ?? 0);
+			} catch (error) {
+				console.error('Error filtering CVs:', error);
+			}
+		}, 400);
+		return () => clearTimeout(timer);
+	}, [filterName, filterRole, filterSkills, filterExperience]);
 
 	const getAllCVEntries = () =>
 		apiClient.get(import.meta.env.VITE_APP_API_CV_URL, {
@@ -67,12 +105,18 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 	const handlePageChange = async (_, page) => {
 		setCurrentPage(page);
 		try {
-			const url = searchTerm.trim()
-				? `${import.meta.env.VITE_APP_API_CV_URL}/search`
-				: import.meta.env.VITE_APP_API_CV_URL;
-			const params = searchTerm.trim()
-				? { pageNumber: page - 1, pageSize: entriesPerPage, searchTerms: searchTerm.trim() }
-				: { pageNumber: page - 1, pageSize: entriesPerPage };
+			const hasFilters = filterName || filterRole || filterSkills || filterExperience !== '';
+			let url, params;
+			if (hasFilters) {
+				url = import.meta.env.VITE_APP_API_CV_URL;
+				params = buildFilterParams(page - 1);
+			} else if (searchTerm.trim()) {
+				url = `${import.meta.env.VITE_APP_API_CV_URL}/search`;
+				params = { pageNumber: page - 1, pageSize: entriesPerPage, searchTerms: searchTerm.trim() };
+			} else {
+				url = import.meta.env.VITE_APP_API_CV_URL;
+				params = { pageNumber: page - 1, pageSize: entriesPerPage };
+			}
 			const response = await apiClient.get(url, { params });
 			setCVEntries(response.data.data.content);
 			setTotalPages(response.data.data.totalPages);
@@ -81,25 +125,13 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 		}
 	};
 
-	const calcTotalYears = (workExperience = []) => {
-		let totalMonths = 0;
-		const currentYear = new Date().getFullYear();
-		workExperience.forEach(({ from, to }) => {
-			const start = parseInt(from);
-			const end = to && to.toLowerCase() !== 'present' ? parseInt(to) : currentYear;
-			if (!isNaN(start) && !isNaN(end) && end >= start) totalMonths += (end - start) * 12;
-		});
-		const years = Math.round(totalMonths / 12);
-		return years > 0 ? years : null;
-	};
-
 	const sorted = Array.isArray(cvEntries) && cvEntries.length > 0
 		? [...cvEntries].sort((a, b) => {
 			if (viewMode === 'table') {
 				const { column, order } = tableSort;
 				if (column === 'experience') {
-					const ya = calcTotalYears(a.workExperience) ?? 0;
-					const yb = calcTotalYears(b.workExperience) ?? 0;
+					const ya = a.nbYearsOfExperience ?? 0;
+					const yb = b.nbYearsOfExperience ?? 0;
 					return order === 'asc' ? ya - yb : yb - ya;
 				}
 				// lastUpdatedAt
@@ -112,22 +144,8 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 		})
 		: [];
 
-	const filtered = sorted.filter(cv => {
-		const nameMatch = !filterName ||
-			(cv.personalInformation.name || '').toLowerCase().includes(filterName.toLowerCase());
-		const roleMatch = !filterRole ||
-			(cv.personalInformation.role || '').toLowerCase().includes(filterRole.toLowerCase());
-		const skillsMatch = !filterSkills || [
-			...(cv.skillsAndQualifications?.technicalSkills ?? []),
-			...(cv.skillsAndQualifications?.softSkills ?? []),
-		].some(s => s.toLowerCase().includes(filterSkills.toLowerCase()));
-		const expMin = filterExperience !== '' ? parseInt(filterExperience, 10) : NaN;
-		const expMatch = isNaN(expMin) || (calcTotalYears(cv.workExperience) ?? 0) >= expMin;
-		return nameMatch && roleMatch && skillsMatch && expMatch;
-	});
-
-	// Server already returns one page of results; render all of them.
-	const paginated = filtered;
+	const filtered = sorted;
+	const paginated = sorted;
 
 	const getInitials = (name = '') =>
 		name.split(' ').map(p => p[0]).filter(Boolean).join('').slice(0, 2).toUpperCase();
@@ -149,10 +167,7 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 		}));
 	};
 
-	const handleFilterChange = (setter) => (e) => {
-		setter(e.target.value);
-		setCurrentPage(1);
-	};
+	const handleFilterChange = (setter) => (e) => setter(e.target.value);
 
 	const handleDeleteClick = () => {
 		const cv = cvEntries.find(c => c.id === menuCVId);
@@ -296,8 +311,7 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 	return (
 		<Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
 			{searchBar}
-			{sorted.length === 0 ? emptyState : (
-				<TableContainer sx={{ flex: 1, overflowY: 'auto' }}>
+			<TableContainer sx={{ flex: 1, overflowY: 'auto' }}>
 					<Table size="small" stickyHeader>
 						<TableHead>
 							<TableRow>
@@ -433,10 +447,7 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 										</Box>
 									</TableCell>
 									<TableCell sx={{ fontSize: '0.82rem', color: '#64748b', py: 1.25, whiteSpace: 'nowrap' }}>
-										{(() => {
-											const yrs = calcTotalYears(cv.workExperience);
-											return yrs ? `${yrs} ${t('appCVContent.yearsAbbr')}` : '—';
-										})()}
+										{cv.nbYearsOfExperience ? `${cv.nbYearsOfExperience} ${t('appCVContent.yearsAbbr')}` : '—'}
 									</TableCell>
 									<TableCell sx={{ fontSize: '0.82rem', color: '#94a3b8', py: 1.25, whiteSpace: 'nowrap' }}>
 										{new Date(cv.lastUpdatedAt).toLocaleDateString()}
@@ -455,7 +466,6 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 						</TableBody>
 					</Table>
 				</TableContainer>
-			)}
 			{pagination}
 			{contextMenu}
 		</Box>
