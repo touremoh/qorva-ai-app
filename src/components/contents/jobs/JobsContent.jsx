@@ -123,13 +123,29 @@ const JobContent = () => {
 
 	const resetForm = () => { setJobTitle(''); setJobDescription(''); };
 
+	const sanitizeDescription = (html) => {
+		const doc = new DOMParser().parseFromString(html, 'text/html');
+		const isEmptyEl = (el) => el.innerHTML.trim() === '' || el.innerHTML.trim() === '<br>';
+		let prevEmpty = false;
+		Array.from(doc.body.children).forEach(el => {
+			const empty = isEmptyEl(el);
+			if (empty && prevEmpty) el.remove();
+			prevEmpty = empty;
+		});
+		while (doc.body.firstElementChild && isEmptyEl(doc.body.firstElementChild))
+			doc.body.firstElementChild.remove();
+		while (doc.body.lastElementChild && isEmptyEl(doc.body.lastElementChild))
+			doc.body.lastElementChild.remove();
+		return doc.body.innerHTML;
+	};
+
 	const handleCreateJob = async () => {
 		if (!jobTitle || !jobDescription) return;
 		setLoading(true);
 		try {
 			const response = await apiClient.post(import.meta.env.VITE_APP_API_JOB_POSTS_URL, {
 				title: jobTitle,
-				description: jobDescription,
+				description: sanitizeDescription(jobDescription),
 				status: 'open',
 			});
 			const created = response.data?.data;
@@ -149,7 +165,7 @@ const JobContent = () => {
 		if (!selectedJob || !jobTitle || !jobDescription) return;
 		setLoading(true);
 		try {
-			const updated = { ...selectedJob, title: jobTitle, description: jobDescription };
+			const updated = { ...selectedJob, title: jobTitle, description: sanitizeDescription(jobDescription) };
 			await apiClient.put(`${import.meta.env.VITE_APP_API_JOB_POSTS_URL}/${selectedJob.id}`, updated);
 			setJobs(jobs.map(j => j.id === selectedJob.id ? updated : j));
 			setSelectedJob(updated);

@@ -15,7 +15,6 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useTranslation } from 'react-i18next';
 import AppScreeningReportDetails from '../screening/AppScreeningReportDetails.jsx';
 import apiClient from '../../../../axiosConfig.js';
-import { AUTH_TOKEN } from '../../../constants.js';
 
 const reportsPerPage = 25;
 
@@ -44,15 +43,19 @@ const AppScreeningReports = () => {
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 	const [deletingReport, setDeletingReport] = useState(false);
 
-	const fetchReports = async (pageNumber, jobId) => {
+	const fetchData = async (pageNumber, jobId, term) => {
 		try {
-			const response = await apiClient.get(import.meta.env.VITE_APP_API_REPORT_URL, {
-				params: {
-					pageNumber,
-					pageSize: reportsPerPage,
-					...(jobId ? { jobPostId: jobId } : {}),
-				},
-			});
+			const hasSearch = term && term.trim();
+			const url = hasSearch
+				? `${import.meta.env.VITE_APP_API_REPORT_URL}/search`
+				: import.meta.env.VITE_APP_API_REPORT_URL;
+			const params = {
+				pageNumber,
+				pageSize: reportsPerPage,
+				...(jobId ? { jobPostId: jobId } : {}),
+				...(hasSearch ? { searchTerms: term.trim() } : {}),
+			};
+			const response = await apiClient.get(url, { params });
 			setReports(response?.data?.data?.content ?? []);
 			setTotalPages(response?.data?.data?.totalPages ?? 1);
 		} catch (error) {
@@ -72,49 +75,27 @@ const AppScreeningReports = () => {
 	};
 
 	useEffect(() => {
-		fetchReports(0);
+		fetchData(0, '', '');
 		fetchJobs();
 	}, []);
 
-	const handleSearchChange = async (event) => {
+	const handleSearchChange = (event) => {
 		const value = event.target.value;
 		setSearchTerm(value);
 		setCurrentPage(1);
-		try {
-			const response = await apiClient.get(`${import.meta.env.VITE_APP_API_REPORT_URL}/search`, {
-				headers: { Authorization: `Bearer ${localStorage.getItem(AUTH_TOKEN)}` },
-				params: {
-					pageNumber: 0,
-					pageSize: reportsPerPage,
-					searchTerms: value.trim(),
-					...(selectedJobId ? { jobPostId: selectedJobId } : {}),
-				},
-			});
-			setReports(response?.data?.data?.content ?? []);
-			setTotalPages(response?.data?.data?.totalPages ?? 1);
-		} catch (error) {
-			console.error('Error during search:', error);
-		}
+		fetchData(0, selectedJobId, value);
 	};
 
-	const handleJobChange = async (event) => {
+	const handleJobChange = (event) => {
 		const jobId = event.target.value || '';
 		setSelectedJobId(jobId);
 		setCurrentPage(1);
-		try {
-			const response = await apiClient.get(import.meta.env.VITE_APP_API_REPORT_URL, {
-				params: { pageSize: reportsPerPage, pageNumber: 0, ...(jobId ? { jobPostId: jobId } : {}) },
-			});
-			setReports(response?.data?.data?.content ?? []);
-			setTotalPages(response?.data?.data?.totalPages ?? 1);
-		} catch (error) {
-			console.error('Error filtering by job:', error);
-		}
+		fetchData(0, jobId, searchTerm);
 	};
 
 	const handlePageChange = (_, value) => {
 		setCurrentPage(value);
-		fetchReports(value - 1, selectedJobId);
+		fetchData(value - 1, selectedJobId, searchTerm);
 	};
 
 	const sortedReports = useMemo(() => {
