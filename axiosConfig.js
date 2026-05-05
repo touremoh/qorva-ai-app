@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {AUTH_TOKEN} from "./src/constants.js";
+import {AUTH_TOKEN, QORVA_USER_LANGUAGE} from "./src/constants.js";
 
 const authToken = localStorage.getItem(AUTH_TOKEN);
 
@@ -41,6 +41,8 @@ const getConfig = (config) => {
 			config.headers['Authorization'] = `Bearer ${token}`;
 		}
 	}
+	const language = localStorage.getItem(QORVA_USER_LANGUAGE) || 'en';
+	config.headers['Accept-Language'] = language;
 	return config;
 }
 
