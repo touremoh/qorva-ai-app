@@ -272,7 +272,12 @@
     "candidateProfile": "Profil du candidat",
     "skills": "Compétences",
     "degreeOfMatch": "Niveau de correspondance",
-    "job": "Poste"
+    "job": "Poste",
+    "finalScore": "Score Final",
+    "locationMatch": "Correspondance Géographique",
+    "industryMatch": "Correspondance Secteur",
+    "matchingSkills": "Compétences Correspondantes",
+    "seeCvDetails": "Voir le CV"
   },
   "appReportContent": {
     "reportListTitle": "Rapports",

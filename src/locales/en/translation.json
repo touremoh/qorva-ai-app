@@ -268,7 +268,12 @@
     "candidateProfile": "Candidate Profile",
     "skills": "Skills",
     "degreeOfMatch": "Match Level",
-    "job": "Job"
+    "job": "Job",
+    "finalScore": "Final Score",
+    "locationMatch": "Location Match",
+    "industryMatch": "Industry Match",
+    "matchingSkills": "Matching Skills",
+    "seeCvDetails": "View CV"
   },
   "appReportContent": {
     "reportListTitle": "Reports",

@@ -269,7 +269,12 @@
     "reportSaveSuccessTitle": "Rapport opgeslagen",
     "reportSaveSuccessMessage": "Het rapport is opgeslagen en beschikbaar.",
     "close": "Sluiten",
-    "job": "Functie"
+    "job": "Functie",
+    "finalScore": "Eindscore",
+    "locationMatch": "Locatieovereenkomst",
+    "industryMatch": "Sectorovereenkomst",
+    "matchingSkills": "Overeenkomende Vaardigheden",
+    "seeCvDetails": "CV bekijken"
   },
   "appReportContent": {
     "reportListTitle": "Rapporten",

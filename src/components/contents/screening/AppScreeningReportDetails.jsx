@@ -13,9 +13,12 @@ import StarOutlineOutlinedIcon from '@mui/icons-material/StarOutlineOutlined';
 import TrendingUpOutlinedIcon from '@mui/icons-material/TrendingUpOutlined';
 import BuildOutlinedIcon from '@mui/icons-material/BuildOutlined';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
-import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
+import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
+import BusinessCenterOutlinedIcon from '@mui/icons-material/BusinessCenterOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
+
+const THEME_GREEN = '#629C44';
 
 const getColor = (value) => {
 	if (value >= 70) return '#16a34a';
@@ -30,86 +33,119 @@ const getBgColor = (value) => {
 };
 
 const SectionHeader = ({ icon: Icon, label }) => (
-	<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5, pb: 1, borderBottom: '2px solid #629C44' }}>
-		<Icon sx={{ fontSize: 16, color: '#629C44' }} />
-		<Typography sx={{ fontSize: '0.72rem', fontWeight: 700, color: '#629C44', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+	<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5, pb: 1, borderBottom: `2px solid ${THEME_GREEN}` }}>
+		<Icon sx={{ fontSize: 16, color: THEME_GREEN }} />
+		<Typography sx={{ fontSize: '0.72rem', fontWeight: 700, color: THEME_GREEN, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
 			{label}
 		</Typography>
 	</Box>
 );
 
-const ScoreGauge = ({ value, label }) => {
+const ScoreGaugeLarge = ({ value }) => {
 	const [animated, setAnimated] = useState(false);
-	const radius = 46;
-	const strokeWidth = 10;
-	const circumference = 2 * Math.PI * radius;
+	const r = 62, sw = 12, size = 160;
+	const circ = 2 * Math.PI * r;
 	const color = getColor(value);
 
 	useEffect(() => {
-		const t = setTimeout(() => setAnimated(true), 80);
-		return () => clearTimeout(t);
+		const id = setTimeout(() => setAnimated(true), 100);
+		return () => clearTimeout(id);
 	}, []);
 
-	const offset = animated ? circumference * (1 - value / 100) : circumference;
+	const offset = animated ? circ * (1 - value / 100) : circ;
 
 	return (
-		<Box sx={{
-			flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1.5,
-			p: 2, borderRadius: 3,
-			background: `linear-gradient(145deg, ${color}0a 0%, ${color}18 100%)`,
-			border: `1px solid ${color}28`,
-		}}>
-			<Box sx={{ position: 'relative', width: 120, height: 120 }}>
-				<svg width="120" height="120" viewBox="0 0 120 120" style={{ overflow: 'visible' }}>
-					{/* Track ring */}
-					<circle
-						cx="60" cy="60" r={radius}
-						fill="none"
-						stroke="#e2e8f0"
-						strokeWidth={strokeWidth}
-					/>
-					{/* Animated value arc */}
-					<circle
-						cx="60" cy="60" r={radius}
-						fill="none"
-						stroke={color}
-						strokeWidth={strokeWidth}
-						strokeLinecap="round"
-						strokeDasharray={circumference}
-						strokeDashoffset={offset}
-						transform="rotate(-90 60 60)"
-						style={{
-							transition: 'stroke-dashoffset 1.2s cubic-bezier(0.25, 1, 0.5, 1)',
-							filter: `drop-shadow(0 0 6px ${color}99)`,
-						}}
-					/>
-				</svg>
-				{/* Score text */}
-				<Box sx={{
-					position: 'absolute', inset: 0,
-					display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-				}}>
-					<Typography sx={{
-						fontSize: '1.9rem', fontWeight: 800, color, lineHeight: 1,
-						letterSpacing: '-0.04em',
-					}}>
-						{value}
-					</Typography>
-					<Typography sx={{
-						fontSize: '0.58rem', fontWeight: 700, color: '#94a3b8',
-						textTransform: 'uppercase', letterSpacing: '0.1em',
-					}}>
-						/ 100
+		<Box sx={{ position: 'relative', width: size, height: size, flexShrink: 0 }}>
+			<svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ overflow: 'visible' }}>
+				<circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="#e2e8f0" strokeWidth={sw} />
+				<circle
+					cx={size / 2} cy={size / 2} r={r}
+					fill="none" stroke={color} strokeWidth={sw}
+					strokeLinecap="round"
+					strokeDasharray={circ}
+					strokeDashoffset={offset}
+					transform={`rotate(-90 ${size / 2} ${size / 2})`}
+					style={{
+						transition: 'stroke-dashoffset 1.4s cubic-bezier(0.25, 1, 0.5, 1)',
+						filter: `drop-shadow(0 0 10px ${color}99)`,
+					}}
+				/>
+			</svg>
+			<Box sx={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+				<Typography sx={{ fontSize: '3.4rem', fontWeight: 900, color, lineHeight: 1, letterSpacing: '-0.04em' }}>
+					{value}
+				</Typography>
+				<Typography sx={{ fontSize: '0.65rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.12em' }}>
+					/ 100
+				</Typography>
+			</Box>
+		</Box>
+	);
+};
+
+const ScoreGaugeSmall = ({ value }) => {
+	const [animated, setAnimated] = useState(false);
+	const r = 28, sw = 6, size = 72;
+	const circ = 2 * Math.PI * r;
+	const color = getColor(value);
+
+	useEffect(() => {
+		const id = setTimeout(() => setAnimated(true), 80);
+		return () => clearTimeout(id);
+	}, []);
+
+	const offset = animated ? circ * (1 - value / 100) : circ;
+
+	return (
+		<Box sx={{ position: 'relative', width: size, height: size, flexShrink: 0 }}>
+			<svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ overflow: 'visible' }}>
+				<circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="#e2e8f0" strokeWidth={sw} />
+				<circle
+					cx={size / 2} cy={size / 2} r={r}
+					fill="none" stroke={color} strokeWidth={sw}
+					strokeLinecap="round"
+					strokeDasharray={circ}
+					strokeDashoffset={offset}
+					transform={`rotate(-90 ${size / 2} ${size / 2})`}
+					style={{
+						transition: 'stroke-dashoffset 1s cubic-bezier(0.25, 1, 0.5, 1)',
+						filter: `drop-shadow(0 0 5px ${color}70)`,
+					}}
+				/>
+			</svg>
+			<Box sx={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+				<Typography sx={{ fontSize: '1.15rem', fontWeight: 800, color, lineHeight: 1, letterSpacing: '-0.02em' }}>
+					{value}
+				</Typography>
+			</Box>
+		</Box>
+	);
+};
+
+const DetailScoreCard = ({ icon: Icon, label, score, explanation, sx }) => {
+	const color = getColor(score);
+	return (
+		<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2, display: 'flex', flexDirection: 'column', ...sx }}>
+			<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1.5, pb: 0.75, borderBottom: `2px solid ${THEME_GREEN}`, flexShrink: 0 }}>
+				<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
+					<Icon sx={{ fontSize: 14, color: THEME_GREEN }} />
+					<Typography sx={{ fontSize: '0.68rem', fontWeight: 700, color: THEME_GREEN, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+						{label}
 					</Typography>
 				</Box>
+				<Chip
+					label={`${score}%`}
+					size="small"
+					sx={{ height: 18, fontSize: '0.68rem', fontWeight: 700, backgroundColor: getBgColor(score), color }}
+				/>
 			</Box>
-			<Typography sx={{
-				fontSize: '0.72rem', fontWeight: 700, color: '#475569',
-				textAlign: 'center', textTransform: 'uppercase', letterSpacing: '0.05em',
-			}}>
-				{label}
-			</Typography>
-		</Box>
+			<Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5 }}>
+				<ScoreGaugeSmall value={score} />
+				<Typography sx={{ fontSize: '0.78rem', color: '#475569', lineHeight: 1.55, flex: 1, pt: 0.5 }}>
+					{explanation}
+				</Typography>
+			</Box>
+		</Paper>
 	);
 };
 
@@ -147,12 +183,42 @@ const AppScreeningReportDetails = ({ reportData }) => {
 		);
 	}
 
-	const overallScore = Number(details?.overallSummary?.score ?? 0);
-	const skillsMatchDegree = Number(details?.skillsMatch?.degreeOfMatch ?? 0);
-	const experienceDegree = Number(details?.experienceAlignment?.degreeOfMatch ?? 0);
-	const jobTitle = reportData?.jobPostTitle || t('appCVScreening.unknownJob') || 'Unknown job';
+	const finalScore = Math.ceil(Number(details?.finalScore?.score ?? 0));
+	const finalScoreColor = getColor(finalScore);
+	const jobTitle = reportData?.jobPostTitle || 'Unknown job';
 	const nameInitials = candidate.candidateName
 		.split(' ').slice(0, 2).map((p) => p[0] ?? '').join('').toUpperCase();
+
+	const detailScores = [
+		{
+			key: 'skillsMatch',
+			icon: BuildOutlinedIcon,
+			label: t('appCVScreening.skillsMatch'),
+			score: Math.ceil(Number(details?.skillsMatch?.score ?? 0)),
+			explanation: details?.skillsMatch?.scoreExplanation,
+		},
+		{
+			key: 'experienceMatch',
+			icon: TrendingUpOutlinedIcon,
+			label: t('appCVScreening.experienceAlignment'),
+			score: Math.ceil(Number(details?.experienceMatch?.score ?? 0)),
+			explanation: details?.experienceMatch?.scoreExplanation,
+		},
+		{
+			key: 'locationMatch',
+			icon: LocationOnOutlinedIcon,
+			label: t('appCVScreening.locationMatch'),
+			score: Math.ceil(Number(details?.locationMatch?.score ?? 0)),
+			explanation: details?.locationMatch?.scoreExplanation,
+		},
+		{
+			key: 'industryMatch',
+			icon: BusinessCenterOutlinedIcon,
+			label: t('appCVScreening.industryMatch'),
+			score: Math.ceil(Number(details?.industryMatch?.score ?? 0)),
+			explanation: details?.industryMatch?.scoreExplanation,
+		},
+	];
 
 	return (
 		<Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', overflow: 'hidden', textAlign: 'left' }}>
@@ -164,10 +230,7 @@ const AppScreeningReportDetails = ({ reportData }) => {
 				backgroundColor: '#ffffff',
 				borderBottom: '1px solid #e2e8f0',
 			}}>
-				<Avatar sx={{
-					width: 40, height: 40, fontSize: '0.85rem', fontWeight: 700,
-					backgroundColor: '#629C44', color: '#fff',
-				}}>
+				<Avatar sx={{ width: 40, height: 40, fontSize: '0.85rem', fontWeight: 700, backgroundColor: THEME_GREEN, color: '#fff' }}>
 					{nameInitials}
 				</Avatar>
 				<Box sx={{ flex: 1, minWidth: 0 }}>
@@ -181,9 +244,7 @@ const AppScreeningReportDetails = ({ reportData }) => {
 					</Typography>
 					<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 0.25 }}>
 						<WorkOutlineOutlinedIcon sx={{ fontSize: 13, color: '#94a3b8' }} />
-						<Typography sx={{ fontSize: '0.75rem', color: '#64748b' }}>
-							{jobTitle}
-						</Typography>
+						<Typography sx={{ fontSize: '0.75rem', color: '#64748b' }}>{jobTitle}</Typography>
 					</Box>
 				</Box>
 				{reportData?.candidateCVID && (
@@ -193,139 +254,125 @@ const AppScreeningReportDetails = ({ reportData }) => {
 						onClick={handleOpenCv}
 						sx={{
 							borderRadius: 2, fontSize: '0.75rem', fontWeight: 600,
-							borderColor: '#629C44', color: '#629C44',
+							borderColor: THEME_GREEN, color: THEME_GREEN,
 							'&:hover': { borderColor: '#4a7a33', backgroundColor: 'rgba(98,156,68,0.06)' },
 						}}
 					>
-						{t('appCVScreening.seeCvDetails') || 'View CV'}
+						{t('appCVScreening.seeCvDetails')}
 					</Button>
 				)}
 			</Box>
 
 			{/* Scrollable body */}
-			<Box sx={{ flex: 1, overflowY: 'auto', p: 3, display: 'flex', flexDirection: 'column', gap: 2 }}>
+			<Box sx={{ flex: 1, overflowY: 'auto', p: 3, display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 2.5, alignItems: 'flex-start' }}>
 
-				{/* Score gauges */}
-				<Box sx={{ display: 'flex', gap: 1.5 }}>
-					<ScoreGauge value={overallScore} label={t('appCVScreening.overallSummary') || 'Overall Score'} />
-					<ScoreGauge value={skillsMatchDegree} label={t('appCVScreening.skillsMatch') || 'Skills Match'} />
-					{Number.isFinite(experienceDegree) && experienceDegree > 0 && (
-						<ScoreGauge value={experienceDegree} label={t('appCVScreening.experienceAlignment') || 'Experience'} />
-					)}
-				</Box>
+				{/* Main content column */}
+				<Box sx={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 2.5 }}>
 
-				{/* Candidate Profile */}
-				<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5 }}>
-					<SectionHeader icon={PersonOutlineOutlinedIcon} label={t('appCVScreening.candidateProfile') || 'Candidate Profile'} />
-					{candidate.candidateProfileSummary && (
-						<Typography sx={{ fontSize: '0.82rem', color: '#334155', lineHeight: 1.6, mb: 1.5 }}>
-							{candidate.candidateProfileSummary}
-						</Typography>
-					)}
-					{Array.isArray(candidate.skills) && candidate.skills.length > 0 && (
-						<>
-							<Divider sx={{ my: 1.5, borderColor: '#f1f5f9' }} />
-							<Typography sx={{ fontSize: '0.72rem', fontWeight: 700, color: '#629C44', textTransform: 'uppercase', letterSpacing: '0.06em', mb: 1 }}>
-								{t('appCVScreening.skills') || 'Skills'}
-							</Typography>
+					{/* HERO: Final Score */}
+					<Paper elevation={0} sx={{
+						borderRadius: 3,
+						border: `1px solid ${finalScoreColor}30`,
+						background: `linear-gradient(135deg, ${finalScoreColor}08 0%, ${finalScoreColor}1a 100%)`,
+						p: 3,
+					}}>
+						<Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+							<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1.5, flexShrink: 0 }}>
+								<ScoreGaugeLarge value={finalScore} />
+								<Typography sx={{ fontSize: '0.65rem', fontWeight: 800, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.12em' }}>
+									{t('appCVScreening.finalScore')}
+								</Typography>
+							</Box>
+							<Box sx={{ flex: 1, minWidth: 0 }}>
+								<Typography sx={{ fontSize: '0.68rem', fontWeight: 700, color: THEME_GREEN, textTransform: 'uppercase', letterSpacing: '0.08em', mb: 1 }}>
+									{t('appCVScreening.overallSummary')}
+								</Typography>
+								<Typography sx={{ fontSize: '0.88rem', color: '#334155', lineHeight: 1.65 }}>
+									{details?.finalScore?.scoreExplanation}
+								</Typography>
+							</Box>
+						</Box>
+					</Paper>
+
+					{/* 2×2 detail score grid — flat CSS grid: same-row cards are always equal height by default */}
+					<Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 2 }}>
+						{detailScores.map((item) => (
+							<DetailScoreCard key={item.key} icon={item.icon} label={item.label} score={item.score} explanation={item.explanation} />
+						))}
+					</Box>
+
+					{/* Matching Skills */}
+					{Array.isArray(details?.skillsMatch?.matchingSkills) && details.skillsMatch.matchingSkills.length > 0 && (
+						<Paper elevation={0} sx={{ border: '1px solid #bbf7d0', borderRadius: 2.5, p: 2.5, backgroundColor: '#f0fdf4' }}>
+							<SectionHeader icon={StarOutlineOutlinedIcon} label={t('appCVScreening.matchingSkills')} />
 							<Stack direction="row" spacing={0.75} flexWrap="wrap" useFlexGap>
-								{candidate.skills.map((sk, idx) => (
+								{details.skillsMatch.matchingSkills.map((sk, idx) => (
 									<Chip
-										key={`${sk}-${idx}`}
+										key={`msk-${sk}-${idx}`}
 										label={sk}
 										size="small"
-										sx={{
-											height: 22, fontSize: '0.72rem', fontWeight: 500,
-											backgroundColor: 'rgba(98,156,68,0.10)', color: '#166534',
-											border: '1px solid rgba(98,156,68,0.25)',
-										}}
+										sx={{ height: 24, fontSize: '0.75rem', fontWeight: 600, backgroundColor: '#dcfce7', color: '#15803d', border: '1px solid #86efac' }}
 									/>
 								))}
 							</Stack>
-						</>
+						</Paper>
 					)}
-				</Paper>
 
-				{/* Overall Summary */}
-				<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5 }}>
-					<SectionHeader icon={StarOutlineOutlinedIcon} label={t('appCVScreening.overallSummary') || 'Overall Summary'} />
-					<Typography sx={{ fontSize: '0.82rem', color: '#334155', lineHeight: 1.6 }}>
-						{details?.overallSummary?.summary}
-					</Typography>
-					{Array.isArray(details?.overallSummary?.pointsForImprovement) && details.overallSummary.pointsForImprovement.length > 0 && (
-						<>
-							<Divider sx={{ my: 1.5, borderColor: '#f1f5f9' }} />
-							<Typography sx={{ fontSize: '0.72rem', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.06em', mb: 1 }}>
-								{t('appCVScreening.pointsForImprovement') || 'Points for Improvement'}
-							</Typography>
-							<Box component="ul" sx={{ m: 0, pl: 2, listStyleType: 'disc' }}>
-								{details.overallSummary.pointsForImprovement.map((p, i) => (
-									<Box component="li" key={i} sx={{ fontSize: '0.82rem', color: '#475569', lineHeight: 1.6 }}>
-										{p}
-									</Box>
-								))}
-							</Box>
-						</>
+					{/* Missing Skills */}
+					{details?.missingSkills && (
+						<Paper elevation={0} sx={{ border: '1px solid #fecaca', borderRadius: 2.5, p: 2.5, backgroundColor: '#fffafa' }}>
+							<SectionHeader icon={ErrorOutlineOutlinedIcon} label={t('appCVScreening.lackingSkills')} />
+							{details.missingSkills.summary && (
+								<Typography sx={{ fontSize: '0.82rem', color: '#334155', lineHeight: 1.6, mb: 1.5 }}>
+									{details.missingSkills.summary}
+								</Typography>
+							)}
+							{Array.isArray(details.missingSkills.skills) && details.missingSkills.skills.length > 0 && (
+								<Stack direction="row" spacing={0.75} flexWrap="wrap" useFlexGap>
+									{details.missingSkills.skills.map((sk, idx) => (
+										<Chip
+											key={`mss-${sk}-${idx}`}
+											label={sk}
+											size="small"
+											sx={{ height: 24, fontSize: '0.75rem', fontWeight: 600, backgroundColor: '#fee2e2', color: '#dc2626', border: '1px solid #fecaca' }}
+										/>
+									))}
+								</Stack>
+							)}
+						</Paper>
 					)}
-				</Paper>
 
-				{/* Experience Alignment */}
-				<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5 }}>
-					<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1.5, pb: 1, borderBottom: '2px solid #629C44' }}>
-						<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-							<TrendingUpOutlinedIcon sx={{ fontSize: 16, color: '#629C44' }} />
-							<Typography sx={{ fontSize: '0.72rem', fontWeight: 700, color: '#629C44', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-								{t('appCVScreening.experienceAlignment') || 'Experience Alignment'}
+				</Box>
+
+				{/* Candidate Profile — flexible right sidebar, natural height, sticky on md+ */}
+				<Box sx={{ width: { xs: '100%', md: '25%' }, maxWidth: { md: 280 }, flexShrink: 0, alignSelf: 'flex-start', position: { md: 'sticky' }, top: 0 }}>
+					<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5 }}>
+						<SectionHeader icon={PersonOutlineOutlinedIcon} label={t('appCVScreening.candidateProfile')} />
+						{candidate.candidateProfileSummary && (
+							<Typography sx={{ fontSize: '0.80rem', color: '#334155', lineHeight: 1.6, mb: 1.5 }}>
+								{candidate.candidateProfileSummary}
 							</Typography>
-						</Box>
-						{Number.isFinite(experienceDegree) && experienceDegree > 0 && (
-							<Chip
-								label={`${experienceDegree}%`}
-								size="small"
-								sx={{ height: 20, fontSize: '0.7rem', fontWeight: 700, backgroundColor: getBgColor(experienceDegree), color: getColor(experienceDegree) }}
-							/>
 						)}
-					</Box>
-					<Typography sx={{ fontSize: '0.82rem', color: '#334155', lineHeight: 1.6 }}>
-						{details?.experienceAlignment?.summary}
-					</Typography>
-				</Paper>
-
-				{/* Skills Match */}
-				<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5 }}>
-					<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1.5, pb: 1, borderBottom: '2px solid #629C44' }}>
-						<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-							<BuildOutlinedIcon sx={{ fontSize: 16, color: '#629C44' }} />
-							<Typography sx={{ fontSize: '0.72rem', fontWeight: 700, color: '#629C44', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-								{t('appCVScreening.skillsMatch') || 'Skills Match'}
-							</Typography>
-						</Box>
-						<Chip
-							label={`${skillsMatchDegree}%`}
-							size="small"
-							sx={{ height: 20, fontSize: '0.7rem', fontWeight: 700, backgroundColor: getBgColor(skillsMatchDegree), color: getColor(skillsMatchDegree) }}
-						/>
-					</Box>
-					<Typography sx={{ fontSize: '0.82rem', color: '#334155', lineHeight: 1.6 }}>
-						{details?.skillsMatch?.summary}
-					</Typography>
-				</Paper>
-
-				{/* Lacking Skills */}
-				<Paper elevation={0} sx={{ border: '1px solid #fee2e2', borderRadius: 2.5, p: 2.5 }}>
-					<SectionHeader icon={ErrorOutlineOutlinedIcon} label={t('appCVScreening.lackingSkills') || 'Lacking Skills'} />
-					<Typography sx={{ fontSize: '0.82rem', color: '#334155', lineHeight: 1.6 }}>
-						{details?.lackingSkills?.summary}
-					</Typography>
-				</Paper>
-
-				{/* Exceeds Requirements */}
-				<Paper elevation={0} sx={{ border: '1px solid #dcfce7', borderRadius: 2.5, p: 2.5 }}>
-					<SectionHeader icon={EmojiEventsOutlinedIcon} label={t('appCVScreening.exceedsRequirements') || 'Exceeds Requirements'} />
-					<Typography sx={{ fontSize: '0.82rem', color: '#334155', lineHeight: 1.6 }}>
-						{details?.exceedsRequirements?.summary}
-					</Typography>
-				</Paper>
+						{Array.isArray(candidate.skills) && candidate.skills.length > 0 && (
+							<>
+								<Divider sx={{ my: 1.5, borderColor: '#f1f5f9' }} />
+								<Typography sx={{ fontSize: '0.72rem', fontWeight: 700, color: THEME_GREEN, textTransform: 'uppercase', letterSpacing: '0.06em', mb: 1 }}>
+									{t('appCVScreening.skills')}
+								</Typography>
+								<Stack direction="row" spacing={0.75} flexWrap="wrap" useFlexGap>
+									{candidate.skills.map((sk, idx) => (
+										<Chip
+											key={`sk-${sk}-${idx}`}
+											label={sk}
+											size="small"
+											sx={{ height: 22, fontSize: '0.72rem', fontWeight: 500, backgroundColor: 'rgba(98,156,68,0.10)', color: '#166534', border: '1px solid rgba(98,156,68,0.25)' }}
+										/>
+									))}
+								</Stack>
+							</>
+						)}
+					</Paper>
+				</Box>
 
 			</Box>
 
@@ -369,26 +416,32 @@ AppScreeningReportDetails.propTypes = {
 			skills: PropTypes.arrayOf(PropTypes.string),
 		}).isRequired,
 		aiAnalysisReportDetails: PropTypes.shape({
-			detailsID: PropTypes.string.isRequired,
-			skillsMatch: PropTypes.shape({
-				summary: PropTypes.string.isRequired,
-				degreeOfMatch: PropTypes.number.isRequired,
-			}).isRequired,
-			exceedsRequirements: PropTypes.shape({
-				summary: PropTypes.string.isRequired,
-			}).isRequired,
-			lackingSkills: PropTypes.shape({
-				summary: PropTypes.string.isRequired,
-			}).isRequired,
-			experienceAlignment: PropTypes.shape({
-				summary: PropTypes.string.isRequired,
-				degreeOfMatch: PropTypes.number,
-			}).isRequired,
-			overallSummary: PropTypes.shape({
-				summary: PropTypes.string.isRequired,
+			detailsID: PropTypes.string,
+			finalScore: PropTypes.shape({
 				score: PropTypes.number.isRequired,
-				pointsForImprovement: PropTypes.arrayOf(PropTypes.string).isRequired,
+				scoreExplanation: PropTypes.string,
 			}).isRequired,
+			skillsMatch: PropTypes.shape({
+				score: PropTypes.number.isRequired,
+				scoreExplanation: PropTypes.string,
+				matchingSkills: PropTypes.arrayOf(PropTypes.string),
+			}).isRequired,
+			experienceMatch: PropTypes.shape({
+				score: PropTypes.number.isRequired,
+				scoreExplanation: PropTypes.string,
+			}).isRequired,
+			locationMatch: PropTypes.shape({
+				score: PropTypes.number.isRequired,
+				scoreExplanation: PropTypes.string,
+			}).isRequired,
+			industryMatch: PropTypes.shape({
+				score: PropTypes.number.isRequired,
+				scoreExplanation: PropTypes.string,
+			}).isRequired,
+			missingSkills: PropTypes.shape({
+				summary: PropTypes.string,
+				skills: PropTypes.arrayOf(PropTypes.string),
+			}),
 		}).isRequired,
 		candidateCVID: PropTypes.string,
 	}),

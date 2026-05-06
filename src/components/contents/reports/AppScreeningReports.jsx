@@ -100,8 +100,8 @@ const AppScreeningReports = () => {
 
 	const sortedReports = useMemo(() => {
 		return [...reports].sort((a, b) => {
-			const sa = a.aiAnalysisReportDetails?.overallSummary?.score ?? 0;
-			const sb = b.aiAnalysisReportDetails?.overallSummary?.score ?? 0;
+			const sa = a.aiAnalysisReportDetails?.finalScore?.score ?? 0;
+			const sb = b.aiAnalysisReportDetails?.finalScore?.score ?? 0;
 			return sortOrder === 'asc' ? sa - sb : sb - sa;
 		});
 	}, [reports, sortOrder]);
@@ -232,7 +232,7 @@ const AppScreeningReports = () => {
 							</Box>
 						) : (
 							sortedReports.map((report) => {
-								const score = report.aiAnalysisReportDetails?.overallSummary?.score ?? 0;
+								const score = Math.ceil(report.aiAnalysisReportDetails?.finalScore?.score ?? 0);
 								const name = report.candidateInfo?.candidateName ?? '';
 								const yrs = report.candidateInfo?.nbYearsExperience;
 								const isActive = selectedReport?.id === report.id;

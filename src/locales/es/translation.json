@@ -272,7 +272,12 @@
     "candidateProfile": "Perfil del candidato",
     "skills": "Habilidades",
     "degreeOfMatch": "Nivel de coincidencia",
-    "job": "Puesto"
+    "job": "Puesto",
+    "finalScore": "Puntuación Final",
+    "locationMatch": "Coincidencia de Ubicación",
+    "industryMatch": "Coincidencia de Sector",
+    "matchingSkills": "Habilidades Coincidentes",
+    "seeCvDetails": "Ver CV"
   },
   "appReportContent": {
     "reportListTitle": "Informes",

@@ -272,7 +272,12 @@
     "candidateProfile": "Kandidatenprofil",
     "skills": "Kompetenzen",
     "degreeOfMatch": "Übereinstimmung",
-    "job": "Stelle"
+    "job": "Stelle",
+    "finalScore": "Gesamtpunktzahl",
+    "locationMatch": "Standort-Übereinstimmung",
+    "industryMatch": "Branchen-Übereinstimmung",
+    "matchingSkills": "Übereinstimmende Fähigkeiten",
+    "seeCvDetails": "Lebenslauf anzeigen"
   },
   "appReportContent": {
     "reportListTitle": "Berichte",

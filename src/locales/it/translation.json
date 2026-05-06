@@ -272,7 +272,12 @@
     "candidateProfile": "Profilo candidato",
     "skills": "Competenze",
     "degreeOfMatch": "Grado di corrispondenza",
-    "job": "Posizione"
+    "job": "Posizione",
+    "finalScore": "Punteggio Finale",
+    "locationMatch": "Corrispondenza Posizione",
+    "industryMatch": "Corrispondenza Settore",
+    "matchingSkills": "Competenze Corrispondenti",
+    "seeCvDetails": "Visualizza CV"
   },
   "appReportContent": {
     "reportListTitle": "Report",
