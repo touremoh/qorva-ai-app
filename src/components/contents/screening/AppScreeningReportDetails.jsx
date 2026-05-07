@@ -20,6 +20,18 @@ import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 
 const THEME_GREEN = '#629C44';
 
+const importanceI18nKey = {
+	MANDATORY: 'mandatory', mandatory: 'mandatory',
+	IMPORTANT: 'important', important: 'important',
+	NICE_TO_HAVE: 'niceToHave', nice_to_have: 'niceToHave',
+};
+
+const importanceChipSx = {
+	mandatory:   { backgroundColor: '#fee2e2', color: '#dc2626', border: '1px solid #fecaca' },
+	important:   { backgroundColor: '#fef9c3', color: '#854d0e', border: '1px solid #fde68a' },
+	niceToHave:  { backgroundColor: '#dbeafe', color: '#1d4ed8', border: '1px solid #bfdbfe' },
+};
+
 const getColor = (value) => {
 	if (value >= 70) return '#16a34a';
 	if (value >= 40) return '#d97706';
@@ -328,16 +340,31 @@ const AppScreeningReportDetails = ({ reportData }) => {
 								</Typography>
 							)}
 							{Array.isArray(details.missingSkills.skills) && details.missingSkills.skills.length > 0 && (
-								<Stack direction="row" spacing={0.75} flexWrap="wrap" useFlexGap>
-									{details.missingSkills.skills.map((sk, idx) => (
-										<Chip
-											key={`mss-${sk}-${idx}`}
-											label={sk}
-											size="small"
-											sx={{ height: 24, fontSize: '0.75rem', fontWeight: 600, backgroundColor: '#fee2e2', color: '#dc2626', border: '1px solid #fecaca' }}
-										/>
-									))}
-								</Stack>
+								<Box sx={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+									{details.missingSkills.skills.map((item, idx) => {
+										const i18nKey = importanceI18nKey[item.importance] ?? 'mandatory';
+										const chipSx = importanceChipSx[i18nKey] ?? importanceChipSx.mandatory;
+										return (
+											<Box
+												key={`mss-${idx}`}
+												sx={{
+													display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1.5,
+													py: 0.75, px: 0.5,
+													borderBottom: idx < details.missingSkills.skills.length - 1 ? '1px solid #fee2e2' : 'none',
+												}}
+											>
+												<Typography sx={{ fontSize: '0.80rem', color: '#334155', flex: 1 }}>
+													{item.skill}
+												</Typography>
+												<Chip
+													label={t(`jobContent.${i18nKey}`)}
+													size="small"
+													sx={{ height: 20, fontSize: '0.68rem', fontWeight: 700, flexShrink: 0, ...chipSx }}
+												/>
+											</Box>
+										);
+									})}
+								</Box>
 							)}
 						</Paper>
 					)}
@@ -440,7 +467,10 @@ AppScreeningReportDetails.propTypes = {
 			}).isRequired,
 			missingSkills: PropTypes.shape({
 				summary: PropTypes.string,
-				skills: PropTypes.arrayOf(PropTypes.string),
+				skills: PropTypes.arrayOf(PropTypes.shape({
+					skill: PropTypes.string.isRequired,
+					importance: PropTypes.string.isRequired,
+				})),
 			}),
 		}).isRequired,
 		candidateCVID: PropTypes.string,

@@ -149,6 +149,8 @@ const JobScoringForm = ({ scoringConfig, setScoringConfig, onBack, onSkip, onSav
 
 	const weightTotal = ['skills', 'experience', 'location', 'industry'].reduce((s, k) => s + (sc.scoringWeight[k] || 0), 0);
 	const weightOk = weightTotal === 100;
+	const skillWeightTotal = sc.skills.reduce((s, sk) => s + (sk.weight || 0), 0);
+	const skillWeightOk = skillWeightTotal <= 100;
 
 	return (
 		<Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
@@ -211,6 +213,21 @@ const JobScoringForm = ({ scoringConfig, setScoringConfig, onBack, onSkip, onSav
 						/>
 					</Box>
 				))}
+				{sc.skills.length > 0 && (
+					<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 0.5, mb: 1 }}>
+						<Typography sx={{ fontSize: '0.76rem', color: '#94a3b8' }}>
+							{t('jobContent.totalWeight')}:
+						</Typography>
+						<Typography sx={{ fontSize: '0.78rem', fontWeight: 700, color: skillWeightOk ? THEME_GREEN : '#f59e0b' }}>
+							{skillWeightTotal}%
+						</Typography>
+						{!skillWeightOk && (
+							<Typography sx={{ fontSize: '0.72rem', color: '#f59e0b' }}>
+								({'>'} 100%)
+							</Typography>
+						)}
+					</Box>
+				)}
 				<Button size="small" startIcon={<AddIcon />} onClick={addSkill}
 					sx={{ textTransform: 'none', fontSize: '0.82rem', color: THEME_GREEN, mb: 2, '&:hover': { backgroundColor: 'rgba(98,156,68,0.06)' } }}>
 					{t('jobContent.addSkill')}
@@ -384,7 +401,7 @@ const emptyScoringConfig = () => ({
 	experienceRequirements: { minYearsOfExperience: '', minRelevantYears: '', seniorityLevel: '' },
 	locationPreferences: { allowedLocations: [], remoteAllowed: false, strictness: '' },
 	industryPreferences: { preferredIndustries: [], strictness: '' },
-	scoringWeight: { skills: 25, experience: 25, location: 25, industry: 25 },
+	scoringWeight: { skills: 50, experience: 35, location: 10, industry: 5 },
 });
 
 const tabsSx = {
