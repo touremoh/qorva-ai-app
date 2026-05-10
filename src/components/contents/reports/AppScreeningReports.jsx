@@ -13,7 +13,7 @@ import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useTranslation } from 'react-i18next';
-import AppScreeningReportDetails from '../screening/AppScreeningReportDetails.jsx';
+import AppScreeningReportDetails from './AppScreeningReportDetails.jsx';
 import apiClient from '../../../../axiosConfig.js';
 
 const reportsPerPage = 25;
