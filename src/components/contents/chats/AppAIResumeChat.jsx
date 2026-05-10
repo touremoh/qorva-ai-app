@@ -17,6 +17,8 @@ import {
 	InputAdornment,
 	InputLabel,
 	ListItemButton,
+	ListItemIcon,
+	Menu,
 	MenuItem,
 	Select,
 	Stack,
@@ -33,6 +35,11 @@ import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutline
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import SmartToyOutlinedIcon from '@mui/icons-material/SmartToyOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
+import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import apiClient from '../../../../axiosConfig.js';
 import { AUTH_TOKEN, QORVA_USER_LANGUAGE } from '../../../constants.js';
 
@@ -100,6 +107,14 @@ const AppAIResumeChat = () => {
 	const [loadingResumeMatch, setLoadingResumeMatch] = useState(false);
 	const [cvSearch, setCvSearch] = useState('');
 
+	const [statusFilter, setStatusFilter] = useState(null);
+
+	const [chatToDelete, setChatToDelete] = useState(null);
+	const [deletingChat, setDeletingChat] = useState(false);
+	const [updatingStatusChatId, setUpdatingStatusChatId] = useState(null);
+	const [listMenuAnchor, setListMenuAnchor] = useState(null);
+	const [headerMenuAnchor, setHeaderMenuAnchor] = useState(null);
+
 	const userLang = ls(QORVA_USER_LANGUAGE, 'en');
 	const bearer = ls(AUTH_TOKEN);
 	const chatBaseUrl = import.meta.env.VITE_APP_API_CHAT_URL;
@@ -108,11 +123,13 @@ const AppAIResumeChat = () => {
 		? `${import.meta.env.VITE_APP_API_REPORT_URL}/search`
 		: null;
 
-	const fetchChatsPage = async (pageNumber = 0) => {
+	const fetchChatsPage = async (pageNumber = 0, filter = statusFilter) => {
 		if (!chatBaseUrl) return;
 		try {
 			setLoadingChats(true);
-			const resp = await apiClient.get(chatBaseUrl, { params: { pageNumber, pageSize: PAGE_SIZE_CHATS } });
+			const params = { page: pageNumber, size: PAGE_SIZE_CHATS };
+			if (filter) params.status = filter;
+			const resp = await apiClient.get(chatBaseUrl, { params });
 			const content = resp?.data?.content ?? resp?.data?.data?.content ?? [];
 			const totalPages = resp?.data?.totalPages ?? resp?.data?.data?.totalPages ?? 1;
 			setChats(prev => (pageNumber === 0 ? content : [...prev, ...content]));
@@ -144,7 +161,7 @@ const AppAIResumeChat = () => {
 		}
 	};
 
-	useEffect(() => { fetchChatsPage(0); /* eslint-disable-next-line */ }, []);
+	useEffect(() => { fetchChatsPage(0, statusFilter); /* eslint-disable-next-line */ }, [statusFilter]);
 
 	const handleSelectChat = (chat) => {
 		setSelectedChat(chat);
@@ -272,6 +289,43 @@ const AppAIResumeChat = () => {
 		}
 	};
 
+	const handleDeleteChat = async () => {
+		if (!chatToDelete) return;
+		try {
+			setDeletingChat(true);
+			await apiClient.delete(`${chatBaseUrl}/${chatToDelete.id}`);
+			setChats(prev => prev.filter(c => c.id !== chatToDelete.id));
+			if (selectedChat?.id === chatToDelete.id) {
+				setSelectedChat(null);
+				setMessages([]);
+			}
+			setChatToDelete(null);
+		} catch (e) {
+			console.error('Error deleting chat:', e);
+		} finally {
+			setDeletingChat(false);
+		}
+	};
+
+	const handleUpdateStatus = async (chat, status) => {
+		try {
+			setUpdatingStatusChatId(chat.id);
+			const resp = await apiClient.patch(`${chatBaseUrl}/${chat.id}/status`, null, { params: { status } });
+			const newStatus = resp?.data?.status ?? status;
+			if (statusFilter && newStatus !== statusFilter) {
+				setChats(prev => prev.filter(c => c.id !== chat.id));
+				if (selectedChat?.id === chat.id) { setSelectedChat(null); setMessages([]); }
+			} else {
+				setChats(prev => prev.map(c => c.id === chat.id ? { ...c, status: newStatus } : c));
+				if (selectedChat?.id === chat.id) setSelectedChat(prev => ({ ...prev, status: newStatus }));
+			}
+		} catch (e) {
+			console.error('Error updating chat status:', e);
+		} finally {
+			setUpdatingStatusChatId(null);
+		}
+	};
+
 	const cvOptionKey = (cv) => cv?.id ?? `${cv?.personalInformation?.name ?? 'cv'}-${cv?.createdAt ?? ''}`;
 	const cvOptions = useMemo(() => {
 		const seen = new Set();
@@ -304,7 +358,7 @@ const AppAIResumeChat = () => {
 					<span>
 						<IconButton
 							size="small"
-							onClick={() => fetchChatsPage(0)}
+							onClick={() => fetchChatsPage(0, statusFilter)}
 							disabled={loadingChats}
 							sx={{ border: '1px solid #e2e8f0', borderRadius: 1.5, color: '#64748b', '&:hover': { backgroundColor: '#f1f5f9' } }}
 						>
@@ -340,10 +394,36 @@ const AppAIResumeChat = () => {
 					backgroundColor: '#ffffff',
 					overflow: 'hidden',
 				}}>
-					<Box sx={{ px: 1.5, py: 1, borderBottom: '1px solid #f1f5f9', flexShrink: 0 }}>
-						<Typography sx={{ fontSize: '0.72rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+					<Box sx={{ px: 1.5, pt: 1, pb: 0.75, borderBottom: '1px solid #f1f5f9', flexShrink: 0 }}>
+						<Typography sx={{ fontSize: '0.72rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.75 }}>
 							{t('appAIResumeChat.chats')}
 						</Typography>
+						<Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
+							{[
+								{ value: null, labelKey: 'filterAll', activeBg: '#f1f5f9', activeColor: '#475569', activeBorder: '#cbd5e1' },
+								{ value: 'OPEN', labelKey: 'open', activeBg: 'rgba(98,156,68,0.12)', activeColor: '#629C44', activeBorder: '#629C44' },
+								{ value: 'CLOSED', labelKey: 'closed', activeBg: '#f1f5f9', activeColor: '#64748b', activeBorder: '#94a3b8' },
+								{ value: 'ARCHIVED', labelKey: 'archived', activeBg: '#fef3c7', activeColor: '#92400e', activeBorder: '#d97706' },
+							].map(({ value, labelKey, activeBg, activeColor, activeBorder }) => {
+								const isSelected = statusFilter === value;
+								return (
+									<Chip
+										key={value ?? 'all'}
+										size="small"
+										label={t(`appAIResumeChat.${labelKey}`)}
+										onClick={() => setStatusFilter(value)}
+										sx={{
+											fontSize: '0.68rem', height: 20, cursor: 'pointer',
+											backgroundColor: isSelected ? activeBg : 'transparent',
+											color: isSelected ? activeColor : '#94a3b8',
+											border: `1px solid ${isSelected ? activeBorder : '#e2e8f0'}`,
+											'& .MuiChip-label': { px: 0.75 },
+											'&:hover': { backgroundColor: activeBg, color: activeColor },
+										}}
+									/>
+								);
+							})}
+						</Box>
 					</Box>
 
 					<Box sx={{ flex: 1, overflowY: 'auto', py: 0.5 }}>
@@ -369,11 +449,11 @@ const AppAIResumeChat = () => {
 											borderLeft: isActive ? '3px solid #629C44' : '3px solid transparent',
 											backgroundColor: isActive ? 'rgba(98,156,68,0.06)' : 'transparent',
 											'&:hover': { backgroundColor: isActive ? 'rgba(98,156,68,0.10)' : '#f8fafc' },
-											gap: 1.5, alignItems: 'flex-start',
+											gap: 1.5, alignItems: 'center',
 										}}
 									>
 										<Box sx={{
-											width: 30, height: 30, borderRadius: 1.5, flexShrink: 0, mt: 0.25,
+											width: 30, height: 30, borderRadius: 1.5, flexShrink: 0,
 											display: 'flex', alignItems: 'center', justifyContent: 'center',
 											backgroundColor: isActive ? 'rgba(98,156,68,0.15)' : '#f1f5f9',
 										}}>
@@ -382,15 +462,30 @@ const AppAIResumeChat = () => {
 										<Box sx={{ flex: 1, minWidth: 0 }}>
 											<Typography sx={{
 												fontSize: '0.8rem', fontWeight: isActive ? 600 : 400,
-												color: '#0f172a', lineHeight: 1.3,
+												color: (c.status === 'CLOSED' || c.status === 'ARCHIVED') ? '#94a3b8' : '#0f172a', lineHeight: 1.3,
 												overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
 											}}>
 												{c.title}
 											</Typography>
-											<Typography sx={{ fontSize: '0.68rem', color: '#94a3b8', mt: 0.25 }}>
-												{new Date(c.lastUpdatedAt || c.createdAt).toLocaleDateString(userLang || 'en')}
-											</Typography>
+											<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 0.25 }}>
+												<Typography sx={{ fontSize: '0.68rem', color: '#94a3b8' }}>
+													{new Date(c.lastUpdatedAt || c.createdAt).toLocaleDateString(userLang || 'en')}
+												</Typography>
+												{c.status === 'CLOSED' && (
+													<Chip size="small" label={t('appAIResumeChat.closed')} sx={{ fontSize: '0.6rem', height: 14, backgroundColor: '#f1f5f9', color: '#94a3b8', '& .MuiChip-label': { px: 0.75 } }} />
+												)}
+												{c.status === 'ARCHIVED' && (
+													<Chip size="small" label={t('appAIResumeChat.archived')} sx={{ fontSize: '0.6rem', height: 14, backgroundColor: '#fef3c7', color: '#92400e', '& .MuiChip-label': { px: 0.75 } }} />
+												)}
+											</Box>
 										</Box>
+										<IconButton
+											size="small"
+											onClick={(e) => { e.stopPropagation(); setListMenuAnchor({ el: e.currentTarget, chat: c }); }}
+											sx={{ flexShrink: 0, p: 0.4, color: '#94a3b8', '&:hover': { color: '#475569', backgroundColor: 'rgba(0,0,0,0.04)' } }}
+										>
+											<MoreVertIcon sx={{ fontSize: 16 }} />
+										</IconButton>
 									</ListItemButton>
 								);
 							})
@@ -399,7 +494,7 @@ const AppAIResumeChat = () => {
 							<Box sx={{ px: 1.5, py: 1 }}>
 								<Button
 									size="small" fullWidth
-									onClick={() => fetchChatsPage(chatPage + 1)}
+									onClick={() => fetchChatsPage(chatPage + 1, statusFilter)}
 									sx={{ fontSize: '0.72rem', color: '#629C44', textTransform: 'none', borderRadius: 1.5 }}
 								>
 									{t('appAIResumeChat.loadMore')}
@@ -408,6 +503,70 @@ const AppAIResumeChat = () => {
 						)}
 					</Box>
 				</Box>
+
+				{/* Chat list item context menu */}
+				<Menu
+					anchorEl={listMenuAnchor?.el}
+					open={!!listMenuAnchor}
+					onClose={() => setListMenuAnchor(null)}
+					slotProps={{ paper: { elevation: 0, sx: { borderRadius: 2, border: '1px solid #e2e8f0', minWidth: 170 } } }}
+				>
+					{listMenuAnchor?.chat?.status === 'CLOSED' && (
+						<MenuItem
+							onClick={() => { handleUpdateStatus(listMenuAnchor.chat, 'OPEN'); setListMenuAnchor(null); }}
+							disabled={updatingStatusChatId === listMenuAnchor?.chat?.id}
+							sx={{ fontSize: '0.82rem', gap: 1 }}
+						>
+							<ListItemIcon sx={{ minWidth: 0 }}>
+								{updatingStatusChatId === listMenuAnchor?.chat?.id
+									? <CircularProgress size={14} sx={{ color: '#629C44' }} />
+									: <LockOpenOutlinedIcon fontSize="small" sx={{ color: '#629C44' }} />
+								}
+							</ListItemIcon>
+							{t('appAIResumeChat.reopenChat')}
+						</MenuItem>
+					)}
+					{listMenuAnchor?.chat?.status === 'OPEN' && (
+						<MenuItem
+							onClick={() => { handleUpdateStatus(listMenuAnchor.chat, 'CLOSED'); setListMenuAnchor(null); }}
+							disabled={updatingStatusChatId === listMenuAnchor?.chat?.id}
+							sx={{ fontSize: '0.82rem', gap: 1 }}
+						>
+							<ListItemIcon sx={{ minWidth: 0 }}>
+								{updatingStatusChatId === listMenuAnchor?.chat?.id
+									? <CircularProgress size={14} sx={{ color: '#629C44' }} />
+									: <LockOutlinedIcon fontSize="small" sx={{ color: '#64748b' }} />
+								}
+							</ListItemIcon>
+							{t('appAIResumeChat.closeChat')}
+						</MenuItem>
+					)}
+					{listMenuAnchor?.chat?.status !== 'ARCHIVED' && (
+						<MenuItem
+							onClick={() => { handleUpdateStatus(listMenuAnchor.chat, 'ARCHIVED'); setListMenuAnchor(null); }}
+							disabled={updatingStatusChatId === listMenuAnchor?.chat?.id}
+							sx={{ fontSize: '0.82rem', gap: 1 }}
+						>
+							<ListItemIcon sx={{ minWidth: 0 }}>
+								{updatingStatusChatId === listMenuAnchor?.chat?.id
+									? <CircularProgress size={14} sx={{ color: '#629C44' }} />
+									: <ArchiveOutlinedIcon fontSize="small" sx={{ color: '#64748b' }} />
+								}
+							</ListItemIcon>
+							{t('appAIResumeChat.archiveChat')}
+						</MenuItem>
+					)}
+					<Divider sx={{ my: 0.5, borderColor: '#f1f5f9' }} />
+					<MenuItem
+						onClick={() => { setChatToDelete(listMenuAnchor?.chat); setListMenuAnchor(null); }}
+						sx={{ fontSize: '0.82rem', color: '#ef4444', gap: 1 }}
+					>
+						<ListItemIcon sx={{ minWidth: 0 }}>
+							<DeleteOutlineIcon fontSize="small" sx={{ color: '#ef4444' }} />
+						</ListItemIcon>
+						{t('appAIResumeChat.deleteChat')}
+					</MenuItem>
+				</Menu>
 
 				{/* Right panel: messages */}
 				<Box sx={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
@@ -424,9 +583,96 @@ const AppAIResumeChat = () => {
 								<Avatar sx={{ width: 28, height: 28, fontSize: '0.65rem', fontWeight: 700, backgroundColor: '#629C44' }}>
 									{(selectedChat.title || '?')[0].toUpperCase()}
 								</Avatar>
-								<Typography sx={{ fontWeight: 600, fontSize: '0.88rem', color: '#0f172a' }}>
+								<Typography sx={{ fontWeight: 600, fontSize: '0.88rem', color: '#0f172a', flex: 1 }}>
 									{selectedChat.title}
 								</Typography>
+								{selectedChat.status === 'CLOSED' && (
+									<Chip
+										size="small"
+										icon={<LockOutlinedIcon sx={{ fontSize: '12px !important' }} />}
+										label={t('appAIResumeChat.closed')}
+										sx={{ fontSize: '0.72rem', backgroundColor: '#f1f5f9', color: '#64748b', height: 22 }}
+									/>
+								)}
+								{selectedChat.status === 'ARCHIVED' && (
+									<Chip
+										size="small"
+										icon={<ArchiveOutlinedIcon sx={{ fontSize: '12px !important' }} />}
+										label={t('appAIResumeChat.archived')}
+										sx={{ fontSize: '0.72rem', backgroundColor: '#fef3c7', color: '#92400e', height: 22 }}
+									/>
+								)}
+								<Tooltip title={t('appAIResumeChat.chatOptions')}>
+									<IconButton
+										size="small"
+										onClick={(e) => setHeaderMenuAnchor(e.currentTarget)}
+										sx={{ border: '1px solid #e2e8f0', borderRadius: 1.5, color: '#64748b', '&:hover': { backgroundColor: '#f1f5f9' } }}
+									>
+										<MoreVertIcon sx={{ fontSize: 16 }} />
+									</IconButton>
+								</Tooltip>
+								<Menu
+									anchorEl={headerMenuAnchor}
+									open={!!headerMenuAnchor}
+									onClose={() => setHeaderMenuAnchor(null)}
+									slotProps={{ paper: { elevation: 0, sx: { borderRadius: 2, border: '1px solid #e2e8f0', minWidth: 170 } } }}
+								>
+									{selectedChat.status === 'CLOSED' && (
+										<MenuItem
+											onClick={() => { handleUpdateStatus(selectedChat, 'OPEN'); setHeaderMenuAnchor(null); }}
+											disabled={updatingStatusChatId === selectedChat.id}
+											sx={{ fontSize: '0.82rem', gap: 1 }}
+										>
+											<ListItemIcon sx={{ minWidth: 0 }}>
+												{updatingStatusChatId === selectedChat.id
+													? <CircularProgress size={14} sx={{ color: '#629C44' }} />
+													: <LockOpenOutlinedIcon fontSize="small" sx={{ color: '#629C44' }} />
+												}
+											</ListItemIcon>
+											{t('appAIResumeChat.reopenChat')}
+										</MenuItem>
+									)}
+									{selectedChat.status === 'OPEN' && (
+										<MenuItem
+											onClick={() => { handleUpdateStatus(selectedChat, 'CLOSED'); setHeaderMenuAnchor(null); }}
+											disabled={updatingStatusChatId === selectedChat.id}
+											sx={{ fontSize: '0.82rem', gap: 1 }}
+										>
+											<ListItemIcon sx={{ minWidth: 0 }}>
+												{updatingStatusChatId === selectedChat.id
+													? <CircularProgress size={14} sx={{ color: '#629C44' }} />
+													: <LockOutlinedIcon fontSize="small" sx={{ color: '#64748b' }} />
+												}
+											</ListItemIcon>
+											{t('appAIResumeChat.closeChat')}
+										</MenuItem>
+									)}
+									{selectedChat.status !== 'ARCHIVED' && (
+										<MenuItem
+											onClick={() => { handleUpdateStatus(selectedChat, 'ARCHIVED'); setHeaderMenuAnchor(null); }}
+											disabled={updatingStatusChatId === selectedChat.id}
+											sx={{ fontSize: '0.82rem', gap: 1 }}
+										>
+											<ListItemIcon sx={{ minWidth: 0 }}>
+												{updatingStatusChatId === selectedChat.id
+													? <CircularProgress size={14} sx={{ color: '#629C44' }} />
+													: <ArchiveOutlinedIcon fontSize="small" sx={{ color: '#64748b' }} />
+												}
+											</ListItemIcon>
+											{t('appAIResumeChat.archiveChat')}
+										</MenuItem>
+									)}
+									<Divider sx={{ my: 0.5, borderColor: '#f1f5f9' }} />
+									<MenuItem
+										onClick={() => { setChatToDelete(selectedChat); setHeaderMenuAnchor(null); }}
+										sx={{ fontSize: '0.82rem', color: '#ef4444', gap: 1 }}
+									>
+										<ListItemIcon sx={{ minWidth: 0 }}>
+											<DeleteOutlineIcon fontSize="small" sx={{ color: '#ef4444' }} />
+										</ListItemIcon>
+										{t('appAIResumeChat.deleteChat')}
+									</MenuItem>
+								</Menu>
 							</>
 						) : (
 							<Typography sx={{ fontSize: '0.85rem', color: '#94a3b8' }}>
@@ -533,54 +779,116 @@ const AppAIResumeChat = () => {
 					</Box>
 
 					{/* Composer */}
-					<Box sx={{
-						px: 2, py: 1.5, flexShrink: 0,
-						backgroundColor: '#ffffff',
-						borderTop: '1px solid #e2e8f0',
-						display: 'flex', gap: 1, alignItems: 'center',
-					}}>
-						<TextField
-							fullWidth
-							size="small"
-							multiline
-							maxRows={4}
-							placeholder={t('appAIResumeChat.placeholder')}
-							value={composer}
-							onChange={(e) => setComposer(e.target.value)}
-							onKeyDown={(e) => {
-								if (e.key === 'Enter' && !e.shiftKey) {
-									e.preventDefault();
-									if (composer.trim()) handleSendMessage();
+					<Box sx={{ flexShrink: 0, backgroundColor: '#ffffff', borderTop: '1px solid #e2e8f0' }}>
+						{(selectedChat?.status === 'CLOSED' || selectedChat?.status === 'ARCHIVED') && (
+							<Box sx={{ px: 2, py: 0.75, display: 'flex', alignItems: 'center', gap: 0.75, backgroundColor: '#f8fafc', borderBottom: '1px solid #f1f5f9' }}>
+								{selectedChat.status === 'ARCHIVED'
+									? <ArchiveOutlinedIcon sx={{ fontSize: 13, color: '#92400e' }} />
+									: <LockOutlinedIcon sx={{ fontSize: 13, color: '#94a3b8' }} />
 								}
-							}}
-							disabled={!selectedChat}
-							sx={{
-								'& .MuiOutlinedInput-root': {
-									borderRadius: 3, fontSize: '0.85rem',
-									backgroundColor: '#f8fafc',
-									'&.Mui-focused': { backgroundColor: '#ffffff' },
-								},
-							}}
-						/>
-						<Tooltip title={t('appAIResumeChat.send')}>
-							<span>
-								<IconButton
-									onClick={handleSendMessage}
-									disabled={!selectedChat || !composer.trim()}
-									sx={{
-										backgroundColor: '#629C44', color: '#ffffff', borderRadius: 2,
-										width: 38, height: 38, flexShrink: 0,
-										'&:hover': { backgroundColor: '#4a7a33' },
-										'&.Mui-disabled': { backgroundColor: '#e2e8f0', color: '#94a3b8' },
-									}}
-								>
-									<SendRoundedIcon sx={{ fontSize: 17 }} />
-								</IconButton>
-							</span>
-						</Tooltip>
+								<Typography sx={{ fontSize: '0.75rem', color: selectedChat.status === 'ARCHIVED' ? '#92400e' : '#94a3b8' }}>
+									{t(selectedChat.status === 'ARCHIVED' ? 'appAIResumeChat.chatArchived' : 'appAIResumeChat.chatClosed')}
+								</Typography>
+							</Box>
+						)}
+						<Box sx={{ px: 2, py: 1.5, display: 'flex', gap: 1, alignItems: 'center' }}>
+							<TextField
+								fullWidth
+								size="small"
+								multiline
+								maxRows={4}
+								placeholder={t('appAIResumeChat.placeholder')}
+								value={composer}
+								onChange={(e) => setComposer(e.target.value)}
+								onKeyDown={(e) => {
+									if (e.key === 'Enter' && !e.shiftKey) {
+										e.preventDefault();
+										if (composer.trim()) handleSendMessage();
+									}
+								}}
+								disabled={!selectedChat || selectedChat?.status === 'CLOSED' || selectedChat?.status === 'ARCHIVED'}
+								sx={{
+									'& .MuiOutlinedInput-root': {
+										borderRadius: 3, fontSize: '0.85rem',
+										backgroundColor: '#f8fafc',
+										'&.Mui-focused': { backgroundColor: '#ffffff' },
+									},
+								}}
+							/>
+							<Tooltip title={t('appAIResumeChat.send')}>
+								<span>
+									<IconButton
+										onClick={handleSendMessage}
+										disabled={!selectedChat || !composer.trim() || selectedChat?.status === 'CLOSED' || selectedChat?.status === 'ARCHIVED'}
+										sx={{
+											backgroundColor: '#629C44', color: '#ffffff', borderRadius: 2,
+											width: 38, height: 38, flexShrink: 0,
+											'&:hover': { backgroundColor: '#4a7a33' },
+											'&.Mui-disabled': { backgroundColor: '#e2e8f0', color: '#94a3b8' },
+										}}
+									>
+										<SendRoundedIcon sx={{ fontSize: 17 }} />
+									</IconButton>
+								</span>
+							</Tooltip>
+						</Box>
 					</Box>
 				</Box>
 			</Box>
+
+			{/* Delete Chat Confirmation Dialog */}
+			<Dialog
+				open={!!chatToDelete}
+				onClose={() => { if (!deletingChat) setChatToDelete(null); }}
+				maxWidth="xs"
+				fullWidth
+				slotProps={{ paper: { elevation: 0, sx: { borderRadius: 3, border: '1px solid #e2e8f0' } } }}
+			>
+				<DialogTitle sx={{ pb: 1 }}>
+					<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+						<DeleteOutlineIcon sx={{ fontSize: 18, color: '#ef4444' }} />
+						<Typography sx={{ fontWeight: 700, fontSize: '1rem', color: '#0f172a' }}>
+							{t('appAIResumeChat.confirmDeleteChat')}
+						</Typography>
+					</Box>
+				</DialogTitle>
+				<Divider sx={{ borderColor: '#f1f5f9' }} />
+				<DialogContent sx={{ pt: 2 }}>
+					<Typography sx={{ fontSize: '0.85rem', color: '#475569' }}>
+						{t('appAIResumeChat.confirmDeleteChatMessage')}
+					</Typography>
+					{chatToDelete && (
+						<Box sx={{ mt: 1.5, px: 1.5, py: 1, borderRadius: 2, backgroundColor: '#f8fafc', border: '1px solid #e2e8f0' }}>
+							<Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: '#0f172a' }}>
+								{chatToDelete.title}
+							</Typography>
+						</Box>
+					)}
+				</DialogContent>
+				<Divider sx={{ borderColor: '#f1f5f9' }} />
+				<DialogActions sx={{ px: 3, py: 2, gap: 1 }}>
+					<Button
+						onClick={() => setChatToDelete(null)}
+						disabled={deletingChat}
+						sx={{ borderRadius: 2, fontSize: '0.82rem', textTransform: 'none', color: '#64748b' }}
+					>
+						{t('appAIResumeChat.cancel')}
+					</Button>
+					<Button
+						onClick={handleDeleteChat}
+						variant="contained"
+						disabled={deletingChat}
+						startIcon={deletingChat ? <CircularProgress size={14} color="inherit" /> : <DeleteOutlineIcon sx={{ fontSize: 16 }} />}
+						sx={{
+							backgroundColor: '#ef4444', borderRadius: 2, fontSize: '0.82rem',
+							textTransform: 'none', fontWeight: 600, boxShadow: 'none',
+							'&:hover': { backgroundColor: '#dc2626', boxShadow: 'none' },
+						}}
+					>
+						{t('appAIResumeChat.delete')}
+					</Button>
+				</DialogActions>
+			</Dialog>
 
 			{/* Create Chat Dialog */}
 			<Dialog

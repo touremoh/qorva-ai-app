@@ -408,7 +408,21 @@
     "language": "Language",
     "cancel": "Cancel",
     "create": "Create",
-    "selectCvAndJob": "Please select a resume and a job post."
+    "selectCvAndJob": "Please select a resume and a job post.",
+    "closed": "Closed",
+    "closeChat": "Close Chat",
+    "deleteChat": "Delete Chat",
+    "chatClosed": "This chat is closed and cannot receive new messages.",
+    "confirmDeleteChat": "Delete Chat",
+    "confirmDeleteChatMessage": "Are you sure you want to delete this chat? This action cannot be undone.",
+    "delete": "Delete",
+    "chatOptions": "Chat options",
+    "filterAll": "All",
+    "open": "Open",
+    "archived": "Archived",
+    "archiveChat": "Archive Chat",
+    "reopenChat": "Reopen Chat",
+    "chatArchived": "This chat is archived and cannot receive new messages."
   },
   "pricing": {
     "title": "Qorva AI — Choose your plan"

@@ -330,13 +330,6 @@ const AppScreeningReports = () => {
 				}}
 			>
 				<MenuItem
-					onClick={handleMenuClose}
-					sx={{ fontSize: '0.82rem', color: '#334155', gap: 1, '&:hover': { backgroundColor: '#f8fafc' } }}
-				>
-					<AssessmentOutlinedIcon sx={{ fontSize: 16, color: '#64748b' }} />
-					{t('appReportContent.editReportTitle')}
-				</MenuItem>
-				<MenuItem
 					onClick={handleDeleteClick}
 					sx={{ fontSize: '0.82rem', color: '#ef4444', gap: 1, '&:hover': { backgroundColor: '#fff5f5' } }}
 				>
