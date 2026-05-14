@@ -274,7 +274,22 @@
     "locationMatch": "Locatieovereenkomst",
     "industryMatch": "Sectorovereenkomst",
     "matchingSkills": "Overeenkomende Vaardigheden",
-    "seeCvDetails": "CV bekijken"
+    "seeCvDetails": "CV bekijken",
+    "strengths": "Sterke punten",
+    "weaknesses": "Zwakke punten",
+    "redFlags": "Waarschuwingssignalen",
+    "suggestedQuestion": "Voorgestelde interviewvraag",
+    "recommendation": {
+      "strong_interview": "Interview sterk aanbevolen",
+      "interview": "Interview",
+      "may_be": "Misschien",
+      "reject": "Afwijzen"
+    },
+    "confidence": {
+      "high": "Hoge zekerheid",
+      "medium": "Gemiddelde zekerheid",
+      "low": "Lage zekerheid"
+    }
   },
   "appReportContent": {
     "reportListTitle": "Rapporten",
@@ -291,6 +306,10 @@
     "allJobs": "Alle vacatures",
     "filterByJob": "Filter op vacature",
     "filterByTags": "Filter op tags",
+    "filterByRecommendation": "Aanbeveling",
+    "allRecommendations": "Alle aanbevelingen",
+    "filterByConfidence": "Zekerheid",
+    "allConfidences": "Alle zekerheidsniveaus",
     "sortAsc": "Sorteren: Oplopend",
     "sortDesc": "Sorteren: Aflopend"
   },
@@ -343,7 +362,31 @@
       "unknown": "Status niet beschikbaar"
     },
     "language": "Taal",
-    "languageHint": "Kies de interfacetaal"
+    "languageHint": "Kies de interfacetaal",
+    "tabs": { "profile": "Mijn Profiel", "users": "Gebruikers", "billing": "Facturering" },
+    "editProfile": "Profiel bewerken",
+    "saveChanges": "Wijzigingen opslaan",
+    "cancel": "Annuleren",
+    "security": "Beveiliging",
+    "changePassword": "Wachtwoord wijzigen",
+    "currentPassword": "Huidig wachtwoord",
+    "newPassword": "Nieuw wachtwoord",
+    "confirmPassword": "Wachtwoord bevestigen",
+    "passwordMismatch": "Wachtwoorden komen niet overeen",
+    "passwordError": "Wachtwoord bijwerken mislukt.",
+    "passwordHint": "Klik op «Wachtwoord wijzigen» om uw inloggegevens bij te werken.",
+    "addUser": "Gebruiker toevoegen",
+    "addUserTitle": "Nieuwe gebruiker",
+    "noUsers": "Nog geen gebruikers. Voeg er een toe om te beginnen.",
+    "deleteUser": "Verwijderen",
+    "deleteUserTitle": "Gebruiker verwijderen",
+    "deleteUserMessage": "Weet u zeker dat u deze gebruiker wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.",
+    "managePermissions": "Rechten beheren",
+    "permissions": "Toegangsrechten",
+    "tableUser": "Gebruiker", "tableEmail": "E-mail", "tableRole": "Rol", "tableActions": "Acties",
+    "roleUser": "Gebruiker",
+    "authorityGroups": { "dashboard": "Dashboard", "resumes": "CV's", "jobPosts": "Vacatures", "reports": "Rapporten", "aiChat": "AI Chat", "users": "Gebruikersbeheer", "atsExport": "ATS-export", "billing": "Facturering" },
+    "authorities": { "VIEW_DASHBOARD": "Dashboard bekijken", "ADD_CV": "CV toevoegen", "VIEW_CV": "CV's bekijken", "MODIFY_CV": "CV's bewerken", "DELETE_CV": "CV's verwijderen", "ADD_JOB": "Vacature toevoegen", "VIEW_JOB": "Vacatures bekijken", "MODIFY_JOB": "Vacatures bewerken", "DELETE_JOB": "Vacatures verwijderen", "GENERATE_REPORT": "Rapporten genereren", "VIEW_REPORT": "Rapporten bekijken", "MODIFY_REPORT": "Rapporten bewerken", "DELETE_REPORT": "Rapporten verwijderen", "START_CHAT": "Chat starten", "VIEW_CHAT": "Chats bekijken", "VIEW_MESSAGE": "Berichten bekijken", "REPLY_MESSAGE": "Berichten beantwoorden", "MODIFY_CHAT": "Chat bijwerken", "DELETE_CHAT": "Chat verwijderen", "VIEW_USERS": "Gebruikers bekijken", "MANAGE_USERS": "Gebruikers beheren", "ATS_REPORT_EXPORT": "ATS-export", "UPDATE_SUBSCRIPTION": "Abonnement bijwerken", "CANCEL_SUBSCRIPTION": "Abonnement opzeggen" }
   },
   "dashboard": {
     "errors": {
@@ -376,7 +419,8 @@
     },
     "table": {
       "jobPostTitle": "Vacaturetitel",
-      "totalMatch": "Aantal sollicitaties"
+      "totalMatch": "Aantal sollicitaties",
+      "candidate": "Kandidaat"
     }
   },
   "appAIResumeChat": {

@@ -277,7 +277,22 @@
     "locationMatch": "Correspondance Géographique",
     "industryMatch": "Correspondance Secteur",
     "matchingSkills": "Compétences Correspondantes",
-    "seeCvDetails": "Voir le CV"
+    "seeCvDetails": "Voir le CV",
+    "strengths": "Points forts",
+    "weaknesses": "Points faibles",
+    "redFlags": "Signaux d'alerte",
+    "suggestedQuestion": "Question d'entretien suggérée",
+    "recommendation": {
+      "strong_interview": "Entretien fortement recommandé",
+      "interview": "Entretien",
+      "may_be": "Peut-être",
+      "reject": "Rejeter"
+    },
+    "confidence": {
+      "high": "Haute confiance",
+      "medium": "Confiance moyenne",
+      "low": "Faible confiance"
+    }
   },
   "appReportContent": {
     "reportListTitle": "Rapports",
@@ -294,6 +309,10 @@
     "allJobs": "Toutes les offres",
     "filterByJob": "Filtrer par offre",
     "filterByTags": "Filtrer par étiquettes",
+    "filterByRecommendation": "Recommandation",
+    "allRecommendations": "Toutes les recommandations",
+    "filterByConfidence": "Confiance",
+    "allConfidences": "Tous les niveaux de confiance",
     "sortAsc": "Trier : croissant",
     "sortDesc": "Trier : décroissant"
   },
@@ -346,7 +365,31 @@
       "unknown": "Statut non disponible"
     },
     "language": "Langue",
-    "languageHint": "Choisissez la langue de l'interface"
+    "languageHint": "Choisissez la langue de l'interface",
+    "tabs": { "profile": "Mon Profil", "users": "Utilisateurs", "billing": "Facturation" },
+    "editProfile": "Modifier le profil",
+    "saveChanges": "Enregistrer",
+    "cancel": "Annuler",
+    "security": "Sécurité",
+    "changePassword": "Changer le mot de passe",
+    "currentPassword": "Mot de passe actuel",
+    "newPassword": "Nouveau mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "passwordMismatch": "Les mots de passe ne correspondent pas",
+    "passwordError": "Échec de la mise à jour du mot de passe.",
+    "passwordHint": "Cliquez sur « Changer le mot de passe » pour mettre à jour vos identifiants.",
+    "addUser": "Ajouter un utilisateur",
+    "addUserTitle": "Nouvel utilisateur",
+    "noUsers": "Aucun utilisateur. Ajoutez-en un pour commencer.",
+    "deleteUser": "Supprimer",
+    "deleteUserTitle": "Supprimer l'utilisateur",
+    "deleteUserMessage": "Voulez-vous vraiment supprimer cet utilisateur ? Cette action est irréversible.",
+    "managePermissions": "Gérer les permissions",
+    "permissions": "Permissions d'accès",
+    "tableUser": "Utilisateur", "tableEmail": "E-mail", "tableRole": "Rôle", "tableActions": "Actions",
+    "roleUser": "Utilisateur",
+    "authorityGroups": { "dashboard": "Tableau de bord", "resumes": "CV", "jobPosts": "Offres d'emploi", "reports": "Rapports", "aiChat": "IA Chat", "users": "Gestion des utilisateurs", "atsExport": "Export ATS", "billing": "Facturation" },
+    "authorities": { "VIEW_DASHBOARD": "Voir le tableau de bord", "ADD_CV": "Ajouter un CV", "VIEW_CV": "Voir les CV", "MODIFY_CV": "Modifier les CV", "DELETE_CV": "Supprimer les CV", "ADD_JOB": "Ajouter une offre", "VIEW_JOB": "Voir les offres", "MODIFY_JOB": "Modifier les offres", "DELETE_JOB": "Supprimer les offres", "GENERATE_REPORT": "Générer des rapports", "VIEW_REPORT": "Voir les rapports", "MODIFY_REPORT": "Modifier les rapports", "DELETE_REPORT": "Supprimer les rapports", "START_CHAT": "Démarrer un chat", "VIEW_CHAT": "Voir les chats", "VIEW_MESSAGE": "Voir les messages", "REPLY_MESSAGE": "Répondre aux messages", "MODIFY_CHAT": "Modifier le chat", "DELETE_CHAT": "Supprimer le chat", "VIEW_USERS": "Voir les utilisateurs", "MANAGE_USERS": "Gérer les utilisateurs", "ATS_REPORT_EXPORT": "Export ATS", "UPDATE_SUBSCRIPTION": "Mettre à jour l'abonnement", "CANCEL_SUBSCRIPTION": "Annuler l'abonnement" }
   },
   "dashboard": {
     "errors": {
@@ -379,7 +422,8 @@
     },
     "table": {
       "jobPostTitle": "Intitulé du poste",
-      "totalMatch": "Candidatures"
+      "totalMatch": "Candidatures",
+      "candidate": "Candidat"
     }
   },
   "appAIResumeChat": {

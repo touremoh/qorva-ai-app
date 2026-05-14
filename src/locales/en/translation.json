@@ -273,7 +273,22 @@
     "locationMatch": "Location Match",
     "industryMatch": "Industry Match",
     "matchingSkills": "Matching Skills",
-    "seeCvDetails": "View CV"
+    "seeCvDetails": "View CV",
+    "strengths": "Strengths",
+    "weaknesses": "Weaknesses",
+    "redFlags": "Red Flags",
+    "suggestedQuestion": "Suggested interview question",
+    "recommendation": {
+      "strong_interview": "Strong Interview",
+      "interview": "Interview",
+      "may_be": "Maybe",
+      "reject": "Reject"
+    },
+    "confidence": {
+      "high": "High confidence",
+      "medium": "Medium confidence",
+      "low": "Low confidence"
+    }
   },
   "appReportContent": {
     "reportListTitle": "Reports",
@@ -290,6 +305,10 @@
     "allJobs": "All Jobs",
     "filterByJob": "Filter by Job",
     "filterByTags": "Filter by Tags",
+    "filterByRecommendation": "Recommendation",
+    "allRecommendations": "All Recommendations",
+    "filterByConfidence": "Confidence",
+    "allConfidences": "All Confidence Levels",
     "sortAsc": "Sort: Low to High",
     "sortDesc": "Sort: High to Low"
   },
@@ -342,7 +361,72 @@
       "unknown": "Status unavailable"
     },
     "language": "Language",
-    "languageHint": "Choose the interface language"
+    "languageHint": "Choose the interface language",
+    "tabs": {
+      "profile": "My Profile",
+      "users": "Users",
+      "billing": "Billing"
+    },
+    "editProfile": "Edit Profile",
+    "saveChanges": "Save Changes",
+    "cancel": "Cancel",
+    "security": "Security",
+    "changePassword": "Change Password",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "passwordMismatch": "Passwords do not match",
+    "passwordError": "Failed to update password. Please check your current password.",
+    "passwordHint": "Click \"Change Password\" to update your credentials.",
+    "addUser": "Add User",
+    "addUserTitle": "Add New User",
+    "noUsers": "No users yet. Add one to get started.",
+    "deleteUser": "Delete",
+    "deleteUserTitle": "Delete User",
+    "deleteUserMessage": "Are you sure you want to remove this user? This action cannot be undone.",
+    "managePermissions": "Manage Permissions",
+    "permissions": "Access Permissions",
+    "tableUser": "User",
+    "tableEmail": "Email",
+    "tableRole": "Role",
+    "tableActions": "Actions",
+    "roleUser": "User",
+    "authorityGroups": {
+      "dashboard": "Dashboard",
+      "resumes": "Resumes",
+      "jobPosts": "Job Posts",
+      "reports": "Reports",
+      "aiChat": "AI Chat",
+      "users": "User Management",
+      "atsExport": "ATS Export",
+      "billing": "Billing"
+    },
+    "authorities": {
+      "VIEW_DASHBOARD": "View Dashboard",
+      "ADD_CV": "Add Resume",
+      "VIEW_CV": "View Resumes",
+      "MODIFY_CV": "Edit Resumes",
+      "DELETE_CV": "Delete Resumes",
+      "ADD_JOB": "Add Job Post",
+      "VIEW_JOB": "View Job Posts",
+      "MODIFY_JOB": "Edit Job Posts",
+      "DELETE_JOB": "Delete Job Posts",
+      "GENERATE_REPORT": "Generate Reports",
+      "VIEW_REPORT": "View Reports",
+      "MODIFY_REPORT": "Edit Reports",
+      "DELETE_REPORT": "Delete Reports",
+      "START_CHAT": "Start Chat",
+      "VIEW_CHAT": "View Chats",
+      "VIEW_MESSAGE": "View Messages",
+      "REPLY_MESSAGE": "Reply to Messages",
+      "MODIFY_CHAT": "Update Chat",
+      "DELETE_CHAT": "Delete Chat",
+      "VIEW_USERS": "View Users",
+      "MANAGE_USERS": "Manage Users",
+      "ATS_REPORT_EXPORT": "ATS Export",
+      "UPDATE_SUBSCRIPTION": "Update Subscription",
+      "CANCEL_SUBSCRIPTION": "Cancel Subscription"
+    }
   },
   "dashboard": {
     "errors": {
@@ -375,7 +459,8 @@
     },
     "table": {
       "jobPostTitle": "Job Title",
-      "totalMatch": "Applications"
+      "totalMatch": "Applications",
+      "candidate": "Candidate"
     }
   },
   "appAIResumeChat": {

@@ -11,6 +11,7 @@ import {
 	TableContainer,
 	TableHead,
 	TableRow,
+	Tooltip,
 	Typography,
 } from '@mui/material';
 import { Bar } from 'react-chartjs-2';
@@ -21,7 +22,7 @@ import {
 	Legend,
 	LinearScale,
 	Title,
-	Tooltip,
+	Tooltip as ChartTooltip,
 } from 'chart.js';
 import { useTranslation } from 'react-i18next';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
@@ -34,7 +35,7 @@ import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
 import apiClient from '../../../../axiosConfig.js';
 import QorvaChip from '../../commons/QorvaChip.jsx';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, ChartTooltip, Legend);
 
 const initialDashboardData = {
 	subscriptionStatus: '',
@@ -101,12 +102,135 @@ const SectionHeader = ({ icon: Icon, label }) => (
 	</Box>
 );
 
+const SCROLLBAR_SX = {
+	'&::-webkit-scrollbar': { width: 4, height: 4 },
+	'&::-webkit-scrollbar-track': { backgroundColor: 'transparent' },
+	'&::-webkit-scrollbar-thumb': { backgroundColor: '#e2e8f0', borderRadius: 4 },
+};
+
+const TopCandidatesTable = ({ jobs, t }) => {
+	const maxCols = useMemo(
+		() => Math.min(Math.max(0, ...jobs.map(j => j.topCandidates?.length ?? 0)), 5),
+		[jobs]
+	);
+
+	const JOB_COL_SX = {
+		width: 220, minWidth: 180,
+		borderBottom: '1px solid #f1f5f9',
+		borderRight: '1px solid #e2e8f0',
+		py: 1.25, pl: 2, pr: 1.5,
+	};
+
+	return (
+		<TableContainer sx={{ maxHeight: 460, overflowY: 'auto', overflowX: 'auto', ...SCROLLBAR_SX }}>
+			<Table size="small" stickyHeader>
+				<TableHead>
+					<TableRow>
+						<TableCell sx={{
+							...JOB_COL_SX,
+							fontWeight: 700, fontSize: '0.68rem', color: '#64748b',
+							textTransform: 'uppercase', letterSpacing: '0.06em',
+							borderBottom: '2px solid #e2e8f0 !important',
+							backgroundColor: '#f8fafc',
+						}}>
+							{t('dashboard.table.jobPostTitle')}
+						</TableCell>
+						{Array.from({ length: maxCols }, (_, i) => (
+							<TableCell key={i} sx={{
+								minWidth: 200,
+								fontWeight: 700, fontSize: '0.68rem', color: '#64748b',
+								textTransform: 'uppercase', letterSpacing: '0.06em',
+								borderBottom: '2px solid #e2e8f0 !important',
+								backgroundColor: '#f8fafc',
+								py: 1.25, px: 1.5,
+							}}>
+								<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
+									<Box sx={{
+										width: 20, height: 20, borderRadius: '50%', flexShrink: 0,
+										backgroundColor: medalColor(i),
+										display: 'flex', alignItems: 'center', justifyContent: 'center',
+									}}>
+										<Typography sx={{ fontSize: '0.58rem', fontWeight: 800, color: i < 3 ? '#fff' : '#94a3b8', lineHeight: 1 }}>
+											{i + 1}
+										</Typography>
+									</Box>
+									<Typography sx={{ fontSize: '0.68rem', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+										{t('dashboard.table.candidate', 'Candidate')}
+									</Typography>
+								</Box>
+							</TableCell>
+						))}
+					</TableRow>
+				</TableHead>
+				<TableBody>
+					{jobs.map((job, rowIdx) => {
+						const rowBg = rowIdx % 2 === 0 ? '#ffffff' : '#fafcfb';
+						return (
+							<TableRow
+								key={job.jobPostTitle}
+								sx={{ backgroundColor: rowBg, '&:hover': { backgroundColor: 'rgba(98,156,68,0.04)' } }}
+							>
+								<TableCell sx={{ ...JOB_COL_SX }}>
+									<Tooltip title={job.jobPostTitle} placement="top-start" arrow>
+										<Box sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+											<Typography component="span" sx={{
+												fontSize: '0.82rem', fontWeight: 500, color: '#0f172a',
+											}}>
+												{job.jobPostTitle}
+											</Typography>
+										</Box>
+									</Tooltip>
+								</TableCell>
+
+								{Array.from({ length: maxCols }, (_, i) => {
+									const c = job.topCandidates?.[i];
+									if (!c) return (
+										<TableCell key={i} sx={{ borderBottom: '1px solid #f1f5f9', py: 1.25, px: 1.5 }}>
+											<Typography sx={{ fontSize: '0.72rem', color: '#cbd5e1' }}>—</Typography>
+										</TableCell>
+									);
+									const { color, bg: scoreBg } = scoreColor(c.score);
+									const initials = c.candidateName.split(' ').slice(0, 2).map(p => p[0] ?? '').join('').toUpperCase();
+									return (
+										<TableCell key={i} sx={{ borderBottom: '1px solid #f1f5f9', py: 1.25, px: 1.5 }}>
+											<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
+												<Avatar sx={{
+													width: 26, height: 26, fontSize: '0.6rem', fontWeight: 700, flexShrink: 0,
+													backgroundColor: `${color}22`, color,
+												}}>
+													{initials}
+												</Avatar>
+												<Typography sx={{
+													flex: 1, fontSize: '0.78rem', fontWeight: i === 0 ? 600 : 400, color: '#0f172a',
+													overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', minWidth: 0,
+												}}>
+													{c.candidateName}
+												</Typography>
+												<Box sx={{
+													flexShrink: 0, px: 0.75, py: 0.2, borderRadius: 1.5,
+													backgroundColor: scoreBg, color,
+													fontSize: '0.68rem', fontWeight: 800, lineHeight: 1.5,
+												}}>
+													{c.score}%
+												</Box>
+											</Box>
+										</TableCell>
+									);
+								})}
+							</TableRow>
+						);
+					})}
+				</TableBody>
+			</Table>
+		</TableContainer>
+	);
+};
+
 const QorvaDashboard = () => {
 	const { t } = useTranslation();
 	const [dashboardData, setDashboardData] = useState(initialDashboardData);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState('');
-	const [selectedJob, setSelectedJob] = useState(null);
 
 	useEffect(() => {
 		(async () => {
@@ -119,7 +243,6 @@ const QorvaDashboard = () => {
 				data.jobPostsReport = Array.isArray(data.jobPostsReport) ? data.jobPostsReport : [];
 				data.topCandidatesPerJob = Array.isArray(data.topCandidatesPerJob) ? data.topCandidatesPerJob : [];
 				setDashboardData(data);
-				if (data.topCandidatesPerJob.length) setSelectedJob(data.topCandidatesPerJob[0].jobPostTitle);
 			} catch (e) {
 				console.error('Error loading dashboard data', e);
 				setError(t('dashboard.errors.loadFailed'));
@@ -169,11 +292,6 @@ const QorvaDashboard = () => {
 
 	const kpiConfig = useMemo(() => KPI_CONFIG(t), [t]);
 
-	const selectedJobData = useMemo(
-		() => dashboardData.topCandidatesPerJob.find(j => j.jobPostTitle === selectedJob),
-		[dashboardData.topCandidatesPerJob, selectedJob]
-	);
-
 	return (
 		<Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', overflow: 'hidden', backgroundColor: '#f8fafc' }}>
 			<Box sx={{ flex: 1, overflowY: 'auto', p: { xs: 2, md: 3 }, display: 'flex', flexDirection: 'column', gap: 2.5 }}>
@@ -215,103 +333,11 @@ const QorvaDashboard = () => {
 							))}
 						</Box>
 
-						{/* Row 2: Top candidates per job — horizontal scrollable cards */}
+						{/* Row 2: Top candidates per job — table */}
 						{dashboardData.topCandidatesPerJob.length > 0 && (
 							<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5, minWidth: 0 }}>
 								<SectionHeader icon={EmojiEventsOutlinedIcon} label={t('dashboard.sections.topCandidates')} />
-
-								<Box sx={{
-									display: 'flex', gap: 2,
-									overflowX: 'auto',
-									pb: 1,
-									/* hide scrollbar on webkit but keep functionality */
-									'&::-webkit-scrollbar': { height: 4 },
-									'&::-webkit-scrollbar-track': { backgroundColor: 'transparent' },
-									'&::-webkit-scrollbar-thumb': { backgroundColor: '#e2e8f0', borderRadius: 4 },
-								}}>
-									{dashboardData.topCandidatesPerJob.map((job) => (
-										<Box key={job.jobPostTitle} sx={{
-											minWidth: 260, maxWidth: 280, flexShrink: 0,
-											border: '1px solid #e2e8f0', borderRadius: 2.5,
-											backgroundColor: '#ffffff', overflow: 'hidden',
-										}}>
-											{/* Job title header */}
-											<Box sx={{
-												px: 2, py: 1.5,
-												background: 'linear-gradient(135deg, rgba(98,156,68,0.12) 0%, rgba(98,156,68,0.04) 100%)',
-												borderBottom: '1px solid #e2e8f0',
-											}}>
-												<Typography sx={{
-													fontSize: '0.78rem', fontWeight: 700, color: '#0f172a',
-													lineHeight: 1.4,
-													display: '-webkit-box',
-													WebkitLineClamp: 2,
-													WebkitBoxOrient: 'vertical',
-													overflow: 'hidden',
-												}}>
-													{job.jobPostTitle}
-												</Typography>
-												<Typography sx={{ fontSize: '0.65rem', color: '#94a3b8', mt: 0.25 }}>
-													{job.topCandidates.length} {t('dashboard.candidates', 'candidates')}
-												</Typography>
-											</Box>
-
-											{/* Candidate rows */}
-											<Box sx={{ px: 1.5, py: 1, display: 'flex', flexDirection: 'column', gap: 0.5 }}>
-												{job.topCandidates.map((candidate, rank) => {
-													const { color, bg } = scoreColor(candidate.score);
-													const initials = candidate.candidateName.split(' ').slice(0, 2).map(p => p[0] ?? '').join('').toUpperCase();
-													return (
-														<Box key={candidate.candidateId} sx={{
-															display: 'flex', alignItems: 'center', gap: 1.25,
-															px: 1, py: 0.75, borderRadius: 1.5,
-															backgroundColor: rank === 0 ? 'rgba(98,156,68,0.06)' : 'transparent',
-															'&:hover': { backgroundColor: '#f8fafc' },
-														}}>
-															{/* Rank */}
-															<Box sx={{
-																width: 18, height: 18, borderRadius: '50%', flexShrink: 0,
-																backgroundColor: medalColor(rank),
-																display: 'flex', alignItems: 'center', justifyContent: 'center',
-															}}>
-																<Typography sx={{ fontSize: '0.58rem', fontWeight: 800, color: rank < 3 ? '#fff' : '#94a3b8' }}>
-																	{rank + 1}
-																</Typography>
-															</Box>
-
-															{/* Avatar */}
-															<Avatar sx={{
-																width: 26, height: 26, fontSize: '0.6rem', fontWeight: 700,
-																backgroundColor: color, color: '#fff', flexShrink: 0,
-															}}>
-																{initials}
-															</Avatar>
-
-															{/* Name */}
-															<Typography sx={{
-																flex: 1, fontSize: '0.78rem', fontWeight: rank === 0 ? 600 : 400,
-																color: '#0f172a', lineHeight: 1.3,
-																overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-																minWidth: 0,
-															}}>
-																{candidate.candidateName}
-															</Typography>
-
-															{/* Score */}
-															<Box sx={{
-																px: 0.75, py: 0.2, borderRadius: 1.5, flexShrink: 0,
-																backgroundColor: bg, color,
-																fontSize: '0.68rem', fontWeight: 800,
-															}}>
-																{candidate.score}%
-															</Box>
-														</Box>
-													);
-												})}
-											</Box>
-										</Box>
-									))}
-								</Box>
+								<TopCandidatesTable jobs={dashboardData.topCandidatesPerJob} t={t} />
 							</Paper>
 						)}
 

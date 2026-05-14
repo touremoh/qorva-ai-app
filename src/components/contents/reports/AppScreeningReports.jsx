@@ -38,12 +38,14 @@ const AppScreeningReports = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(0);
 	const [selectedJobId, setSelectedJobId] = useState('');
+	const [filterRecommendation, setFilterRecommendation] = useState('');
+	const [filterConfidence, setFilterConfidence] = useState('');
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [menuReport, setMenuReport] = useState(null);
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 	const [deletingReport, setDeletingReport] = useState(false);
 
-	const fetchData = async (pageNumber, jobId, term) => {
+	const fetchData = async (pageNumber, jobId, term, recommendation, confidence) => {
 		try {
 			const hasSearch = term && term.trim();
 			const url = hasSearch
@@ -54,10 +56,19 @@ const AppScreeningReports = () => {
 				pageSize: reportsPerPage,
 				...(jobId ? { jobPostId: jobId } : {}),
 				...(hasSearch ? { searchTerms: term.trim() } : {}),
+				...(recommendation ? { recommendation } : {}),
+				...(confidence ? { confidenceLevel: confidence } : {}),
 			};
 			const response = await apiClient.get(url, { params });
-			setReports(response?.data?.data?.content ?? []);
+			const content = response?.data?.data?.content ?? [];
+			const sorted = [...content].sort((a, b) => {
+				const sa = a.matchingReportDetails?.decisionSummary?.finalScore ?? 0;
+				const sb = b.matchingReportDetails?.decisionSummary?.finalScore ?? 0;
+				return sb - sa;
+			});
+			setReports(content);
 			setTotalPages(response?.data?.data?.totalPages ?? 1);
+			setSelectedReport(sorted[0] ?? null);
 		} catch (error) {
 			console.error('Error fetching reports:', error);
 		}
@@ -75,7 +86,7 @@ const AppScreeningReports = () => {
 	};
 
 	useEffect(() => {
-		fetchData(0, '', '');
+		fetchData(0, '', '', '', '');
 		fetchJobs();
 	}, []);
 
@@ -83,25 +94,39 @@ const AppScreeningReports = () => {
 		const value = event.target.value;
 		setSearchTerm(value);
 		setCurrentPage(1);
-		fetchData(0, selectedJobId, value);
+		fetchData(0, selectedJobId, value, filterRecommendation, filterConfidence);
 	};
 
 	const handleJobChange = (event) => {
 		const jobId = event.target.value || '';
 		setSelectedJobId(jobId);
 		setCurrentPage(1);
-		fetchData(0, jobId, searchTerm);
+		fetchData(0, jobId, searchTerm, filterRecommendation, filterConfidence);
+	};
+
+	const handleRecommendationChange = (event) => {
+		const value = event.target.value;
+		setFilterRecommendation(value);
+		setCurrentPage(1);
+		fetchData(0, selectedJobId, searchTerm, value, filterConfidence);
+	};
+
+	const handleConfidenceChange = (event) => {
+		const value = event.target.value;
+		setFilterConfidence(value);
+		setCurrentPage(1);
+		fetchData(0, selectedJobId, searchTerm, filterRecommendation, value);
 	};
 
 	const handlePageChange = (_, value) => {
 		setCurrentPage(value);
-		fetchData(value - 1, selectedJobId, searchTerm);
+		fetchData(value - 1, selectedJobId, searchTerm, filterRecommendation, filterConfidence);
 	};
 
 	const sortedReports = useMemo(() => {
 		return [...reports].sort((a, b) => {
-			const sa = a.aiAnalysisReportDetails?.finalScore?.score ?? 0;
-			const sb = b.aiAnalysisReportDetails?.finalScore?.score ?? 0;
+			const sa = a.matchingReportDetails?.decisionSummary?.finalScore ?? 0;
+			const sb = b.matchingReportDetails?.decisionSummary?.finalScore ?? 0;
 			return sortOrder === 'asc' ? sa - sb : sb - sa;
 		});
 	}, [reports, sortOrder]);
@@ -191,7 +216,41 @@ const AppScreeningReports = () => {
 					</Select>
 				</FormControl>
 
-				<Tooltip title={sortOrder === 'asc' ? t('appReportContent.sortDesc') : t('appReportContent.sortAsc')}>
+				<FormControl size="small" sx={{ minWidth: 160 }}>
+						<InputLabel sx={{ fontSize: '0.82rem' }}>{t('appReportContent.filterByRecommendation')}</InputLabel>
+						<Select
+							value={filterRecommendation}
+							label={t('appReportContent.filterByRecommendation')}
+							onChange={handleRecommendationChange}
+							sx={{ borderRadius: 2, fontSize: '0.82rem' }}
+						>
+							<MenuItem value="">{t('appReportContent.allRecommendations')}</MenuItem>
+							{['strong_interview', 'interview', 'may_be', 'reject'].map((key) => (
+								<MenuItem key={key} value={key} sx={{ fontSize: '0.82rem' }}>
+									{t(`appCVScreening.recommendation.${key}`)}
+								</MenuItem>
+							))}
+						</Select>
+					</FormControl>
+
+					<FormControl size="small" sx={{ minWidth: 150 }}>
+						<InputLabel sx={{ fontSize: '0.82rem' }}>{t('appReportContent.filterByConfidence')}</InputLabel>
+						<Select
+							value={filterConfidence}
+							label={t('appReportContent.filterByConfidence')}
+							onChange={handleConfidenceChange}
+							sx={{ borderRadius: 2, fontSize: '0.82rem' }}
+						>
+							<MenuItem value="">{t('appReportContent.allConfidences')}</MenuItem>
+							{['high', 'medium', 'low'].map((key) => (
+								<MenuItem key={key} value={key} sx={{ fontSize: '0.82rem' }}>
+									{t(`appCVScreening.confidence.${key}`)}
+								</MenuItem>
+							))}
+						</Select>
+					</FormControl>
+
+					<Tooltip title={sortOrder === 'asc' ? t('appReportContent.sortDesc') : t('appReportContent.sortAsc')}>
 					<IconButton
 						size="small"
 						onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
@@ -232,7 +291,7 @@ const AppScreeningReports = () => {
 							</Box>
 						) : (
 							sortedReports.map((report) => {
-								const score = Math.ceil(report.aiAnalysisReportDetails?.finalScore?.score ?? 0);
+								const score = Math.ceil(report.matchingReportDetails?.decisionSummary?.finalScore ?? 0);
 								const name = report.candidateInfo?.candidateName ?? '';
 								const yrs = report.candidateInfo?.nbYearsExperience;
 								const isActive = selectedReport?.id === report.id;

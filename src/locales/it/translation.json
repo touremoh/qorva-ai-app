@@ -277,7 +277,22 @@
     "locationMatch": "Corrispondenza Posizione",
     "industryMatch": "Corrispondenza Settore",
     "matchingSkills": "Competenze Corrispondenti",
-    "seeCvDetails": "Visualizza CV"
+    "seeCvDetails": "Visualizza CV",
+    "strengths": "Punti di forza",
+    "weaknesses": "Debolezze",
+    "redFlags": "Segnali d'allarme",
+    "suggestedQuestion": "Domanda di colloquio suggerita",
+    "recommendation": {
+      "strong_interview": "Colloquio fortemente consigliato",
+      "interview": "Colloquio",
+      "may_be": "Forse",
+      "reject": "Rifiuta"
+    },
+    "confidence": {
+      "high": "Alta fiducia",
+      "medium": "Fiducia media",
+      "low": "Bassa fiducia"
+    }
   },
   "appReportContent": {
     "reportListTitle": "Report",
@@ -294,6 +309,10 @@
     "allJobs": "Tutti gli annunci",
     "filterByJob": "Filtra per annuncio",
     "filterByTags": "Filtra per tag",
+    "filterByRecommendation": "Raccomandazione",
+    "allRecommendations": "Tutte le raccomandazioni",
+    "filterByConfidence": "Affidabilità",
+    "allConfidences": "Tutti i livelli di affidabilità",
     "sortAsc": "Ordina: Crescente",
     "sortDesc": "Ordina: Decrescente"
   },
@@ -346,7 +365,31 @@
       "unknown": "Stato non disponibile"
     },
     "language": "Lingua",
-    "languageHint": "Scegli la lingua dell'interfaccia"
+    "languageHint": "Scegli la lingua dell'interfaccia",
+    "tabs": { "profile": "Il mio profilo", "users": "Utenti", "billing": "Fatturazione" },
+    "editProfile": "Modifica profilo",
+    "saveChanges": "Salva modifiche",
+    "cancel": "Annulla",
+    "security": "Sicurezza",
+    "changePassword": "Cambia password",
+    "currentPassword": "Password attuale",
+    "newPassword": "Nuova password",
+    "confirmPassword": "Conferma password",
+    "passwordMismatch": "Le password non corrispondono",
+    "passwordError": "Impossibile aggiornare la password.",
+    "passwordHint": "Fai clic su «Cambia password» per aggiornare le credenziali.",
+    "addUser": "Aggiungi utente",
+    "addUserTitle": "Nuovo utente",
+    "noUsers": "Nessun utente. Aggiungine uno per iniziare.",
+    "deleteUser": "Elimina",
+    "deleteUserTitle": "Elimina utente",
+    "deleteUserMessage": "Sei sicuro di voler rimuovere questo utente? L'operazione non può essere annullata.",
+    "managePermissions": "Gestisci permessi",
+    "permissions": "Permessi di accesso",
+    "tableUser": "Utente", "tableEmail": "E-mail", "tableRole": "Ruolo", "tableActions": "Azioni",
+    "roleUser": "Utente",
+    "authorityGroups": { "dashboard": "Dashboard", "resumes": "CV", "jobPosts": "Offerte di lavoro", "reports": "Report", "aiChat": "AI Chat", "users": "Gestione utenti", "atsExport": "Esportazione ATS", "billing": "Fatturazione" },
+    "authorities": { "VIEW_DASHBOARD": "Visualizza dashboard", "ADD_CV": "Aggiungi CV", "VIEW_CV": "Visualizza CV", "MODIFY_CV": "Modifica CV", "DELETE_CV": "Elimina CV", "ADD_JOB": "Aggiungi offerta", "VIEW_JOB": "Visualizza offerte", "MODIFY_JOB": "Modifica offerte", "DELETE_JOB": "Elimina offerte", "GENERATE_REPORT": "Genera report", "VIEW_REPORT": "Visualizza report", "MODIFY_REPORT": "Modifica report", "DELETE_REPORT": "Elimina report", "START_CHAT": "Avvia chat", "VIEW_CHAT": "Visualizza chat", "VIEW_MESSAGE": "Visualizza messaggi", "REPLY_MESSAGE": "Rispondi ai messaggi", "MODIFY_CHAT": "Aggiorna chat", "DELETE_CHAT": "Elimina chat", "VIEW_USERS": "Visualizza utenti", "MANAGE_USERS": "Gestisci utenti", "ATS_REPORT_EXPORT": "Esporta ATS", "UPDATE_SUBSCRIPTION": "Aggiorna abbonamento", "CANCEL_SUBSCRIPTION": "Annulla abbonamento" }
   },
   "dashboard": {
     "errors": {
@@ -379,7 +422,8 @@
     },
     "table": {
       "jobPostTitle": "Titolo annuncio",
-      "totalMatch": "Candidature"
+      "totalMatch": "Candidature",
+      "candidate": "Candidato"
     }
   },
   "appAIResumeChat": {
