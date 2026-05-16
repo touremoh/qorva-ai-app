@@ -172,10 +172,10 @@ const AppScreeningReportDetails = ({ reportData }) => {
 	const confConfig      = CONFIDENCE_CONFIG[confKey] ?? CONFIDENCE_CONFIG.medium;
 
 	const detailScores = [
-		{ key: 'skills',     icon: BuildOutlinedIcon,          label: t('appCVScreening.skillsMatch'),         score: Math.ceil(Number(details.skillsMatch?.score ?? 0)),     explanation: details.skillsMatch?.scoreExplanation },
-		{ key: 'experience', icon: TrendingUpOutlinedIcon,     label: t('appCVScreening.experienceAlignment'), score: Math.ceil(Number(details.experienceMatch?.score ?? 0)),  explanation: details.experienceMatch?.scoreExplanation },
-		{ key: 'location',   icon: LocationOnOutlinedIcon,     label: t('appCVScreening.locationMatch'),       score: Math.ceil(Number(details.locationMatch?.score ?? 0)),    explanation: details.locationMatch?.scoreExplanation },
-		{ key: 'industry',   icon: BusinessCenterOutlinedIcon, label: t('appCVScreening.industryMatch'),       score: Math.ceil(Number(details.industryMatch?.score ?? 0)),    explanation: details.industryMatch?.scoreExplanation },
+		{ key: 'skills',     icon: BuildOutlinedIcon,          label: t('appCVScreening.skillsMatch'),         score: Math.ceil(Number(details.skillsMatch?.score ?? 0)),     explanation: details.skillsMatch?.scoreSummary },
+		{ key: 'experience', icon: TrendingUpOutlinedIcon,     label: t('appCVScreening.experienceAlignment'), score: Math.ceil(Number(details.experienceMatch?.score ?? 0)),  explanation: details.experienceMatch?.scoreSummary },
+		{ key: 'location',   icon: LocationOnOutlinedIcon,     label: t('appCVScreening.locationMatch'),       score: Math.ceil(Number(details.locationMatch?.score ?? 0)),    explanation: details.locationMatch?.scoreSummary },
+		{ key: 'industry',   icon: BusinessCenterOutlinedIcon, label: t('appCVScreening.industryMatch'),       score: Math.ceil(Number(details.industryMatch?.score ?? 0)),    explanation: details.industryMatch?.scoreSummary },
 	];
 
 	return (
@@ -454,10 +454,10 @@ AppScreeningReportDetails.propTypes = {
 			skills: PropTypes.arrayOf(PropTypes.string),
 		}).isRequired,
 		matchingReportDetails: PropTypes.shape({
-			skillsMatch:     PropTypes.shape({ score: PropTypes.number, scoreExplanation: PropTypes.string, matchingSkills: PropTypes.arrayOf(PropTypes.string) }),
-			experienceMatch: PropTypes.shape({ score: PropTypes.number, scoreExplanation: PropTypes.string }),
-			locationMatch:   PropTypes.shape({ score: PropTypes.number, scoreExplanation: PropTypes.string }),
-			industryMatch:   PropTypes.shape({ score: PropTypes.number, scoreExplanation: PropTypes.string }),
+			skillsMatch:     PropTypes.shape({ score: PropTypes.number, scoreSummary: PropTypes.string, matchingSkills: PropTypes.arrayOf(PropTypes.string) }),
+			experienceMatch: PropTypes.shape({ score: PropTypes.number, scoreSummary: PropTypes.string }),
+			locationMatch:   PropTypes.shape({ score: PropTypes.number, scoreSummary: PropTypes.string }),
+			industryMatch:   PropTypes.shape({ score: PropTypes.number, scoreSummary: PropTypes.string }),
 			missingSkills:   PropTypes.shape({ summary: PropTypes.string, skills: PropTypes.arrayOf(PropTypes.shape({ skill: PropTypes.string, importance: PropTypes.string })) }),
 			strengths:  PropTypes.arrayOf(PropTypes.shape({ title: PropTypes.string, evidence: PropTypes.string, importance: PropTypes.string })),
 			weaknesses: PropTypes.arrayOf(PropTypes.shape({ title: PropTypes.string, evidence: PropTypes.string, severity: PropTypes.string })),

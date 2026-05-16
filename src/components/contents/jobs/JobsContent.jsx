@@ -612,10 +612,10 @@ const loadScoringConfig = (job) => {
 			strictness: sc.industryPreferences?.strictness || '',
 		},
 		scoringWeight: {
-			skills: Math.round((sc.scoringWeight?.skills || 0.25) * 100),
-			experience: Math.round((sc.scoringWeight?.experience || 0.25) * 100),
-			location: Math.round((sc.scoringWeight?.location || 0.25) * 100),
-			industry: Math.round((sc.scoringWeight?.industry || 0.25) * 100),
+			skills: Math.round((sc.scoringWeight?.skills ?? 0) * 100),
+			experience: Math.round((sc.scoringWeight?.experience ?? 0) * 100),
+			location: Math.round((sc.scoringWeight?.location ?? 0) * 100),
+			industry: Math.round((sc.scoringWeight?.industry ?? 0) * 100),
 		},
 	};
 };
