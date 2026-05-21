@@ -13,62 +13,60 @@ export const TENANT_ID = 'TENANT_ID';
 export const SUBSCRIPTION_STATUS = 'SUBSCRIPTION_STATUS';
 export const TOKEN_EXPIRY = 'tokenExpiry';
 export const QORVA_USER_LANGUAGE = 'QORVA_USER_LANGUAGE';
-export const FREE_TRIAL_PERIOD_ACTIVE = 'FREE_TRIAL_PERIOD_ACTIVE';
-export const SUBSCRIPTION_ACTIVE = 'SUBSCRIPTION_ACTIVE';
-export const CANCELLATION_GRACE_PERIOD_STARTED = 'CANCELLATION_GRACE_PERIOD_STARTED';
-export const SUBSCRIPTION_INCOMPLETE = 'SUBSCRIPTION_INCOMPLETE';
-export const SUBSCRIPTION_CANCELLED = 'SUBSCRIPTION_CANCELLED';
-export const SUBSCRIPTION_FAILED = 'SUBSCRIPTION_FAILED';
+// Subscription status values returned by the API
+export const STATUS_ACTIVE = 'active';
+export const STATUS_TRIALING = 'trialing';
+export const STATUS_PENDING_SUBSCRIPTION = 'pending_subscription';
+export const STATUS_PAST_DUE = 'past_due';
+export const STATUS_INCOMPLETE = 'incomplete';
+export const STATUS_PAUSED = 'paused';
+export const STATUS_CANCELED = 'canceled';
+
+// Statuses that allow full dashboard access
+export const DASHBOARD_STATUSES = [STATUS_ACTIVE, STATUS_TRIALING];
+
+// Statuses that require payment to continue
+export const NEEDS_PAYMENT_STATUSES = [
+	STATUS_PENDING_SUBSCRIPTION,
+	STATUS_PAST_DUE,
+	STATUS_INCOMPLETE,
+	STATUS_PAUSED,
+];
 
 export const STATUS_MAP = {
-	FREE_TRIAL_PERIOD_ACTIVE: {
-		key: "accountSettings.status.freeTrialActive",
-		fallback: "Free trial — active",
-		color: "info"
+	active: {
+		key: 'accountSettings.status.active',
+		fallback: 'Active',
+		color: 'success',
 	},
-	SUBSCRIPTION_ACTIVE: {
-		key: "accountSettings.status.active",
-		fallback: "Active subscription",
-		color: "success"
+	trialing: {
+		key: 'accountSettings.status.freeTrialActive',
+		fallback: 'Trial — active',
+		color: 'info',
 	},
-	SUBSCRIPTION_PAYMENT_FAILED: {
-		key: "accountSettings.status.paymentFailed",
-		fallback: "Payment failed",
-		color: "warning"
+	pending_subscription: {
+		key: 'accountSettings.status.pendingSubscription',
+		fallback: 'Pending payment',
+		color: 'warning',
 	},
-	SUBSCRIPTION_EXPIRED: {
-		key: "accountSettings.status.expired",
-		fallback: "Expired",
-		color: "default"
+	past_due: {
+		key: 'accountSettings.status.pastDue',
+		fallback: 'Past due',
+		color: 'error',
 	},
-	SUBSCRIPTION_LOCKED: {
-		key: "accountSettings.status.locked",
-		fallback: "Locked",
-		color: "default"
+	incomplete: {
+		key: 'accountSettings.status.incomplete',
+		fallback: 'Incomplete setup',
+		color: 'warning',
 	},
-	SUBSCRIPTION_INCOMPLETE: {
-		key: "accountSettings.status.incomplete",
-		fallback: "Incomplete setup",
-		color: "warning"
+	paused: {
+		key: 'accountSettings.status.paused',
+		fallback: 'Paused',
+		color: 'default',
 	},
-	SUBSCRIPTION_FAILED: {
-		key: "accountSettings.status.failed",
-		fallback: "Subscription failed",
-		color: "error"
+	canceled: {
+		key: 'accountSettings.status.cancelled',
+		fallback: 'Cancelled',
+		color: 'default',
 	},
-	SUBSCRIPTION_CANCELLED: {
-		key: "accountSettings.status.cancelled",
-		fallback: "Cancelled",
-		color: "default"
-	},
-	CANCELLATION_GRACE_PERIOD_STARTED: {
-		key: "accountSettings.status.cancellationGraceStarted",
-		fallback: "Cancellation scheduled — grace period",
-		color: "warning"
-	},
-	CANCELLATION_GRACE_PERIOD_FINISHED: {
-		key: "accountSettings.status.cancellationGraceFinished",
-		fallback: "Cancelled — grace period ended",
-		color: "default"
-	}
 };

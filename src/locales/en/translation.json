@@ -12,6 +12,8 @@
     "passwordRequired": "Password is required",
     "passwordInvalid": "8–20 characters, with uppercase, lowercase, number, and special character",
     "invalidCredentials": "Incorrect email or password",
+    "checkoutError": "Could not initiate checkout. Please contact support.",
+    "subscriptionInactive": "Your account is not active. Please contact support.",
     "togglePasswordVisibility": "Show/Hide password",
     "panel": {
       "badge": "AI-Powered Recruitment",
@@ -51,6 +53,11 @@
     "registerButton": "Sign Up",
     "alreadyHaveAccount": "Already have an account?",
     "signIn": "Sign in",
+    "step1": "Account Details",
+    "step2": "Choose Plan",
+    "next": "Next: Choose Plan",
+    "back": "Back",
+    "continueToCheckout": "Continue to Checkout",
     "panel": {
       "badge": "No credit card required",
       "headline": "Start hiring smarter today.",
@@ -510,7 +517,59 @@
     "chatArchived": "This chat is archived and cannot receive new messages."
   },
   "pricing": {
-    "title": "Qorva AI — Choose your plan"
+    "title": "Qorva AI — Choose your plan",
+    "chooseYourPlan": "Choose Your Plan",
+    "stepSubtitle": "Start free, upgrade when you're ready. Cancel anytime.",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "periodMonthly": "/mo",
+    "saveChip": "Save 20%",
+    "billedYearly": "Billed {{price}}/year",
+    "mostPopular": "Most Popular",
+    "selectPlan": "Select Plan",
+    "selected": "Selected",
+    "noPlanSelected": "Please select a plan to continue.",
+    "loadError": "Failed to load plans. Please try again.",
+    "badge": "Simple, transparent pricing",
+    "subtitle": "Scale your hiring with AI-powered resume screening. Start free, upgrade when you're ready.",
+    "footer": "Payments are securely processed by Stripe. You can cancel or change your plan at any time.",
+    "features": {
+      "freeTrial": "7-day free trial with access to all features",
+      "aiResumeChat": "AI Resume Chat",
+      "accountManager": "Dedicated Account Manager",
+      "sla": "SLA guarantees"
+    },
+    "analytics": {
+      "advanced": "Advanced analytics dashboard"
+    },
+    "support": {
+      "priority8h": "Priority email support (8h response)",
+      "priority4h": "Priority email support (4h response)"
+    },
+    "starter": {
+      "cvs": "Up to 500 CV analyses per month"
+    },
+    "professional": {
+      "cvs": "Up to 2,000 CV analyses per month"
+    },
+    "enterprise": {
+      "cvs": "Unlimited CV analyses per month"
+    }
+  },
+  "checkoutSuccess": {
+    "title": "Payment Successful!",
+    "subtitle": "Your subscription is now active. Welcome to Qorva AI!",
+    "emailNote": "We've sent a confirmation email to your inbox. Sign in to start hiring smarter.",
+    "cta": "Sign In to Qorva",
+    "help": "Need help? Contact us at support@qorva.ai"
+  },
+  "checkoutCancel": {
+    "title": "Payment Cancelled",
+    "subtitle": "No charge was made. Your account has been created — you just need to complete checkout.",
+    "retry": "Retry Payment",
+    "retryError": "Could not restart checkout. Please try again.",
+    "startOver": "Start Over",
+    "help": "Need help? Contact us at support@qorva.ai"
   },
   "registrationSuccess": {
     "title": "You’re all set!",

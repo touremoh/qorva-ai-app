@@ -9,8 +9,8 @@ import SecureHomePage from "./services/SecureHomePage.jsx";
 import ErrorPage from "./views/pages/errors/ErrorPage.jsx";
 import RegistrationSuccessful from "./views/pages/success/RegistrationSuccessful.jsx";
 import CheckLoginPage from "./services/CheckLoginPage.jsx";
-import PricingPage from "./views/pages/subscription/PricingPage.jsx";
-import SecureSubscriptionPage from "./services/SecureSubscriptionPage.jsx";
+import CheckoutSuccessPage from "./views/pages/checkout/CheckoutSuccessPage.jsx";
+import CheckoutCancelPage from "./views/pages/checkout/CheckoutCancelPage.jsx";
 import {initGA} from "./utils/analytics.js";
 
 function App() {
@@ -40,15 +40,9 @@ function App() {
               />
               <Route path="/register" element={<Register />} />
               <Route path="/success" element={<RegistrationSuccessful />} />
+              <Route path="/billing/success" element={<CheckoutSuccessPage />} />
+              <Route path="/billing/cancel" element={<CheckoutCancelPage />} />
               <Route path="/error" element={<ErrorPage />} />
-              <Route
-                  path="/subscription"
-                  element={
-                    <SecureSubscriptionPage>
-                        <PricingPage />
-                    </SecureSubscriptionPage>
-                  }
-              />
           </Routes>
       </Router>
   )

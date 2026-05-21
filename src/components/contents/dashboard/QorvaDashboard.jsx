@@ -238,11 +238,11 @@ const QorvaDashboard = () => {
 				setLoading(true);
 				setError('');
 				const res = await apiClient.get(import.meta.env.VITE_APP_API_DASHBOARD_DATA);
-				const data = res?.data;
+				const data = res?.data?.data ?? res?.data ?? {};
 				data.skillsReport = Array.isArray(data.skillsReport) ? data.skillsReport : [];
 				data.jobPostsReport = Array.isArray(data.jobPostsReport) ? data.jobPostsReport : [];
 				data.topCandidatesPerJob = Array.isArray(data.topCandidatesPerJob) ? data.topCandidatesPerJob : [];
-				setDashboardData(data);
+				setDashboardData({ ...initialDashboardData, ...data });
 			} catch (e) {
 				console.error('Error loading dashboard data', e);
 				setError(t('dashboard.errors.loadFailed'));

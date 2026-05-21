@@ -31,7 +31,9 @@ apiFormDataClient.interceptors.request.use(config => {
 
 const publicEndpoint = (url) => url.includes('/registrations')
 	|| url.includes('/auth/login')
-	|| url.includes('/auth/token/validate');
+	|| url.includes('/auth/token/validate')
+	|| url.includes('/stripe/checkout/success')
+	|| url.includes('/stripe/checkout/cancel');
 
 const getConfig = (config) => {
 	const token = localStorage.getItem(AUTH_TOKEN);

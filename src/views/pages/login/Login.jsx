@@ -20,6 +20,7 @@ import apiClient from "../../../../axiosConfig.js";
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../../../components/languages/LanguageSwitcher.jsx';
 import { setAuthResults } from "../../../../localStorageManager.js";
+import { DASHBOARD_STATUSES, NEEDS_PAYMENT_STATUSES } from '../../../constants.js';
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/;
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
@@ -77,8 +78,33 @@ const Login = () => {
 			});
 
 			if (response.status === 200) {
-				setAuthResults(response.data.data);
-				navigate('/');
+				const { user } = response.data.data;
+				const subscriptionStatus = user.tenant?.subscriptionInfo?.subscriptionStatus;
+
+				if (DASHBOARD_STATUSES.includes(subscriptionStatus)) {
+					setAuthResults(response.data.data);
+					navigate('/');
+				} else if (NEEDS_PAYMENT_STATUSES.includes(subscriptionStatus)) {
+					const tenantId = user.tenantId;
+					const userId = user.id;
+					const priceId = user.tenant?.subscriptionInfo?.priceId;
+					try {
+						const checkoutRes = await apiClient.post(
+							import.meta.env.VITE_APP_API_CHECKOUT_SESSION_URL,
+							{ tenantId, userId, priceId }
+						);
+						const checkoutUrl = checkoutRes.data?.data?.checkoutUrl;
+						if (checkoutUrl) {
+							window.location.href = checkoutUrl;
+						} else {
+							setFormError(t('login.checkoutError', 'Could not initiate checkout. Please contact support.'));
+						}
+					} catch {
+						setFormError(t('login.checkoutError', 'Could not initiate checkout. Please contact support.'));
+					}
+				} else {
+					setFormError(t('login.subscriptionInactive', 'Your account is not active. Please contact support.'));
+				}
 			} else {
 				setFormError(t('errors.unexpected', 'Something went wrong. Please try again.'));
 			}
