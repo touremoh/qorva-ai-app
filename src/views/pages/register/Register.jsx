@@ -26,7 +26,7 @@ import apiClient from '../../../../axiosConfig.js';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../../../components/languages/LanguageSwitcher.jsx';
 import { TENANT_ID, USER_ID } from '../../../constants.js';
-import CustomPricingTable from './CustomPricingTable.jsx';
+import QorvaPricingTable from './QorvaPricingTable.jsx';
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/;
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
@@ -567,7 +567,7 @@ const UserRegistration = () => {
 							</Alert>
 						)}
 
-						<CustomPricingTable selectedPriceId={selectedPriceId} onSelectPlan={setSelectedPriceId} />
+						<QorvaPricingTable selectedPriceId={selectedPriceId} onSelectPlan={setSelectedPriceId} />
 
 						<Divider sx={{ my: 3.5, borderColor: '#e2e8f0' }} />
 

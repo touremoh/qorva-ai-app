@@ -19,7 +19,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { styled } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
-import apiClient from '../../../../axiosConfig.js';
+import axios from 'axios';
 
 const PLAN_FEATURES = {
 	Starter: [
@@ -91,7 +91,7 @@ const PricingCard = styled(Box)(({ theme, recommended, selected }) => ({
 	},
 }));
 
-const CustomPricingTable = ({ selectedPriceId, onSelectPlan }) => {
+const QorvaPricingTable = ({ selectedPriceId, onSelectPlan }) => {
 	const { t } = useTranslation();
 	const [yearly, setYearly] = useState(true);
 	const [products, setProducts] = useState([]);
@@ -99,8 +99,8 @@ const CustomPricingTable = ({ selectedPriceId, onSelectPlan }) => {
 	const [error, setError] = useState('');
 
 	useEffect(() => {
-		apiClient
-			.get(import.meta.env.VITE_APP_API_PRODUCTS_URL)
+		axios
+			.get(`${import.meta.env.VITE_APP_API_BASE_URL}${import.meta.env.VITE_APP_API_PRODUCTS_URL}`)
 			.then((res) => {
 				const sorted = (res.data?.data || []).sort((a, b) => {
 					const aAmt = a.prices.find((p) => p.interval === 'month')?.unitAmount ?? 0;
@@ -353,4 +353,4 @@ const CustomPricingTable = ({ selectedPriceId, onSelectPlan }) => {
 	);
 };
 
-export default CustomPricingTable;
+export default QorvaPricingTable;
