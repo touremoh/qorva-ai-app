@@ -4,7 +4,6 @@ import {
 	Box,
 	Button,
 	CircularProgress,
-	Divider,
 	IconButton,
 	InputAdornment,
 	Paper,
@@ -23,6 +22,7 @@ import TranslateOutlinedIcon from '@mui/icons-material/TranslateOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
+import ApartmentOutlinedIcon from '@mui/icons-material/ApartmentOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import LanguageSwitcher from '../../../components/languages/LanguageSwitcher.jsx';
@@ -31,15 +31,14 @@ import { createPortalSession } from '../../../services/stripeService.js';
 import { updateProfile, updatePassword } from '../../../services/userService.js';
 import { useTranslation } from 'react-i18next';
 import {
-	SUBSCRIPTION_STATUS,
 	TENANT_ID,
 	USER_EMAIL,
 	USER_FIRST_NAME,
 	USER_ID,
 	USER_LAST_NAME,
 } from '../../../constants.js';
-import QorvaChip from '../../commons/QorvaChip.jsx';
 import AccountUsersTab from './AccountUsersTab.jsx';
+import AccountCompanyTab from './AccountCompanyTab.jsx';
 
 const SectionHeader = ({ icon: Icon, label, action }) => (
 	<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2, pb: 1, borderBottom: '2px solid #629C44' }}>
@@ -83,6 +82,7 @@ const BTN_GREEN_SX = {
 
 const NAV_TABS = [
 	{ id: 'profile', Icon: PersonOutlineOutlinedIcon, labelKey: 'accountSettings.tabs.profile' },
+	{ id: 'company', Icon: ApartmentOutlinedIcon, labelKey: 'accountSettings.tabs.company' },
 	{ id: 'users', Icon: GroupOutlinedIcon, labelKey: 'accountSettings.tabs.users' },
 	{ id: 'billing', Icon: CreditCardOutlinedIcon, labelKey: 'accountSettings.tabs.billing' },
 ];
@@ -94,7 +94,7 @@ const AccountSettings = () => {
 	const [activeTab, setActiveTab] = useState('profile');
 	const [loadingPortal, setLoadingPortal] = useState(false);
 	const [userInfo, setUserInfo] = useState({
-		id: '', email: '', firstName: '', lastName: '', tenantId: '', subscriptionStatus: '',
+		id: '', email: '', firstName: '', lastName: '', tenantId: '',
 	});
 
 	// Profile edit
@@ -116,7 +116,6 @@ const AccountSettings = () => {
 			firstName: localStorage.getItem(USER_FIRST_NAME) || '',
 			lastName: localStorage.getItem(USER_LAST_NAME) || '',
 			tenantId: localStorage.getItem(TENANT_ID) || '',
-			subscriptionStatus: localStorage.getItem(SUBSCRIPTION_STATUS) || '',
 		};
 		setUserInfo(info);
 		setEditValues({ firstName: info.firstName, lastName: info.lastName });
@@ -264,13 +263,9 @@ const AccountSettings = () => {
 										{userInfo.email || '—'}
 									</Typography>
 								</Box>
-								<Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexShrink: 0 }}>
-									<QorvaChip statusCode={userInfo.subscriptionStatus} />
-									<Divider orientation="vertical" flexItem sx={{ borderColor: '#e2e8f0' }} />
-									<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-										<TranslateOutlinedIcon sx={{ fontSize: 16, color: '#94a3b8' }} />
-										<LanguageSwitcher />
-									</Box>
+								<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexShrink: 0 }}>
+									<TranslateOutlinedIcon sx={{ fontSize: 16, color: '#94a3b8' }} />
+									<LanguageSwitcher />
 								</Box>
 							</Box>
 						</Paper>
@@ -302,7 +297,6 @@ const AccountSettings = () => {
 											sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2, fontSize: '0.85rem' } }} />
 									</Box>
 									<FieldCard icon={EmailOutlinedIcon} label={t('accountSettings.email')} value={userInfo.email} />
-									<FieldCard icon={FingerprintOutlinedIcon} label={t('accountSettings.tenantId')} value={userInfo.tenantId} />
 									<Box sx={{ display: 'flex', gap: 1, justifyContent: 'flex-end' }}>
 										<Button size="small" onClick={handleCancelEdit}
 											sx={{ borderRadius: 2, textTransform: 'none', fontSize: '0.82rem', color: '#64748b' }}>
@@ -321,7 +315,6 @@ const AccountSettings = () => {
 									<FieldCard icon={BadgeOutlinedIcon} label={t('accountSettings.firstName')} value={userInfo.firstName} />
 									<FieldCard icon={BadgeOutlinedIcon} label={t('accountSettings.lastName')} value={userInfo.lastName} />
 									<FieldCard icon={EmailOutlinedIcon} label={t('accountSettings.email')} value={userInfo.email} />
-									<FieldCard icon={FingerprintOutlinedIcon} label={t('accountSettings.tenantId')} value={userInfo.tenantId} />
 								</Box>
 							)}
 						</Paper>
@@ -385,6 +378,9 @@ const AccountSettings = () => {
 						</Paper>
 					</Box>
 				)}
+
+				{/* ══ Company Tab ══ */}
+				{activeTab === 'company' && <AccountCompanyTab />}
 
 				{/* ══ Users Tab ══ */}
 				{activeTab === 'users' && <AccountUsersTab />}

@@ -1,19 +1,19 @@
 import apiClient from '../../axiosConfig.js';
 
 export const getUsers = () =>
-    apiClient.get('/Users');
+    apiClient.get('/users');
 
 export const createUser = (data) =>
-    apiClient.post('/Users', data);
+    apiClient.post('/users', data);
 
 export const updateUserAuthorities = (id, authorities) =>
-    apiClient.put(`/Users/${id}/authorities`, { authorities });
+    apiClient.put(`/users/${id}/authorities`, { authorities });
 
 export const deleteUser = (id) =>
-    apiClient.delete(`/Users/${id}`);
+    apiClient.delete(`/users/${id}`);
 
 export const updateProfile = (id, data) =>
-    apiClient.patch(`/Users/${id}`, data);
+    apiClient.patch(`/users/${id}`, data);
 
 export const updatePassword = (id, data) =>
-    apiClient.patch(`/Users/${id}/password`, data);
+    apiClient.patch(`/users/${id}/password`, data);
