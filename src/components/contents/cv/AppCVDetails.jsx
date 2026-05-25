@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
 	Box,
 	Typography,
@@ -13,6 +13,7 @@ import {
 	TableContainer,
 	TableHead,
 	TableRow,
+	Tooltip,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
@@ -36,6 +37,13 @@ import LabelIcon from '@mui/icons-material/Label';
 import ContactsIcon from '@mui/icons-material/Contacts';
 import TranslateIcon from '@mui/icons-material/Translate';
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
+import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined';
+import FingerprintOutlinedIcon from '@mui/icons-material/FingerprintOutlined';
+import apiClient from '../../../../axiosConfig.js';
+import { getTenantById } from '../../../services/tenantService.js';
+import { TENANT_ID } from '../../../constants.js';
 
 // ─── Local helpers ────────────────────────────────────────────────────────────
 
@@ -68,10 +76,33 @@ const Card = ({ children, sx }) => (
 const AppCVDetails = ({ cv, onClose }) => {
 	const { t } = useTranslation();
 
-	// Hooks must be called unconditionally
 	const componentRef = useRef(null);
 	const printCV = useReactToPrint({ contentRef: componentRef });
 	const handleDownload = useCallback(() => printCV(), [printCV]);
+
+	const [anonymized, setAnonymized] = useState(false);
+	const [tenant, setTenant] = useState(null);
+	const [tenantLogoUrl, setTenantLogoUrl] = useState('');
+
+	useEffect(() => {
+		const tenantId = localStorage.getItem(TENANT_ID);
+		if (!tenantId) return;
+		getTenantById(tenantId)
+			.then(res => setTenant(res?.data?.data ?? null))
+			.catch(() => {});
+	}, []);
+
+	useEffect(() => {
+		if (!tenant?.companyLogoUrl) { setTenantLogoUrl(''); return; }
+		let objectUrl = '';
+		apiClient.get('/tenants/logo', { responseType: 'blob' })
+			.then(res => {
+				objectUrl = URL.createObjectURL(res.data);
+				setTenantLogoUrl(objectUrl);
+			})
+			.catch(() => setTenantLogoUrl(''));
+		return () => { if (objectUrl) URL.revokeObjectURL(objectUrl); };
+	}, [tenant?.companyLogoUrl]);
 
 	if (!cv) {
 		return (
@@ -84,6 +115,7 @@ const AppCVDetails = ({ cv, onClose }) => {
 	}
 
 	const {
+		applicantNumber,
 		personalInformation: pi = {},
 		candidateProfileSummary,
 		workExperience = [],
@@ -102,7 +134,8 @@ const AppCVDetails = ({ cv, onClose }) => {
 
 	return (
 		<Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', backgroundColor: '#f8fafc' }}>
-			{/* Sticky action bar */}
+
+			{/* Sticky action bar — not printed */}
 			<Box sx={{
 				display: 'flex',
 				alignItems: 'center',
@@ -112,20 +145,50 @@ const AppCVDetails = ({ cv, onClose }) => {
 				borderBottom: '1px solid #e2e8f0',
 				flexShrink: 0,
 			}}>
+				{/* Anonymize toggle */}
+				<Tooltip title={anonymized ? t('appCVContent.showIdentity') : t('appCVContent.anonymize')}>
+					<Box
+						onClick={() => setAnonymized(a => !a)}
+						sx={{
+							display: 'flex', alignItems: 'center', gap: 0.75,
+							px: 1.25, py: 0.5, borderRadius: 1.5, cursor: 'pointer',
+							border: `1px solid ${anonymized ? '#fca5a5' : '#e2e8f0'}`,
+							backgroundColor: anonymized ? '#fef2f2' : '#f8fafc',
+							transition: 'all 0.15s ease',
+							'&:hover': { backgroundColor: anonymized ? '#fee2e2' : '#f1f5f9' },
+						}}
+					>
+						{anonymized
+							? <VisibilityOffOutlinedIcon sx={{ fontSize: 14, color: '#ef4444' }} />
+							: <VisibilityOutlinedIcon sx={{ fontSize: 14, color: '#64748b' }} />
+						}
+						<Typography sx={{
+							fontSize: '0.72rem', fontWeight: 600,
+							color: anonymized ? '#ef4444' : '#64748b',
+						}}>
+							{anonymized ? t('appCVContent.showIdentity') : t('appCVContent.anonymize')}
+						</Typography>
+					</Box>
+				</Tooltip>
+
 				<Box sx={{ flexGrow: 1 }} />
-				<IconButton
-					size="small"
-					onClick={handleDownload}
-					sx={{
-						color: '#64748b',
-						borderRadius: 1.5,
-						border: '1px solid #e2e8f0',
-						mr: 1,
-						'&:hover': { backgroundColor: '#f1f5f9' },
-					}}
-				>
-					<FileDownloadIcon sx={{ fontSize: 16 }} />
-				</IconButton>
+
+				<Tooltip title={t('appCVContent.downloadCV')}>
+					<IconButton
+						size="small"
+						onClick={handleDownload}
+						sx={{
+							color: '#64748b',
+							borderRadius: 1.5,
+							border: '1px solid #e2e8f0',
+							mr: 1,
+							'&:hover': { backgroundColor: '#f1f5f9' },
+						}}
+					>
+						<FileDownloadIcon sx={{ fontSize: 16 }} />
+					</IconButton>
+				</Tooltip>
+
 				{onClose && (
 					<IconButton
 						size="small"
@@ -142,10 +205,80 @@ const AppCVDetails = ({ cv, onClose }) => {
 				)}
 			</Box>
 
-			{/* Scrollable content */}
+			{/* Scrollable + printable content */}
 			<Box sx={{ flex: 1, overflowY: 'auto', p: 2.5, textAlign: 'left' }} ref={componentRef}>
 
-				{/* Header card */}
+				{/* Company branding header */}
+				{tenant && (
+					<Box sx={{
+						display: 'flex', alignItems: 'center', gap: 2,
+						px: 2, py: 1.5, mb: 2.5,
+						borderRadius: 2, border: '1px solid #e2e8f0',
+						backgroundColor: '#ffffff',
+					}}>
+						{tenantLogoUrl ? (
+							<Box
+								component="img"
+								src={tenantLogoUrl}
+								alt={tenant.tenantName}
+								sx={{ height: 36, maxWidth: 100, objectFit: 'contain', flexShrink: 0 }}
+							/>
+						) : (
+							<Box sx={{
+								width: 36, height: 36, borderRadius: 1.5, flexShrink: 0,
+								display: 'flex', alignItems: 'center', justifyContent: 'center',
+								backgroundColor: 'rgba(98,156,68,0.08)', border: '1px solid rgba(98,156,68,0.2)',
+							}}>
+								<BusinessOutlinedIcon sx={{ fontSize: 18, color: '#629C44' }} />
+							</Box>
+						)}
+						<Box sx={{ flex: 1, minWidth: 0 }}>
+							<Typography sx={{ fontWeight: 700, fontSize: '0.85rem', color: '#0f172a', lineHeight: 1.3 }}>
+								{tenant.tenantName}
+							</Typography>
+							<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, mt: 0.4 }}>
+								{tenant.contactEmail && (
+									<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.4 }}>
+										<EmailIcon sx={{ fontSize: 11, color: '#94a3b8' }} />
+										<Typography sx={{ fontSize: '0.72rem', color: '#64748b' }}>
+											{tenant.contactEmail}
+										</Typography>
+									</Box>
+								)}
+								{tenant.phoneNumber && (
+									<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.4 }}>
+										<PhoneIcon sx={{ fontSize: 11, color: '#94a3b8' }} />
+										<Typography sx={{ fontSize: '0.72rem', color: '#64748b' }}>
+											{tenant.phoneNumber}
+										</Typography>
+									</Box>
+								)}
+								{tenant.websiteUrl && (
+									<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.4 }}>
+										<LanguageIcon sx={{ fontSize: 11, color: '#94a3b8' }} />
+										<Typography
+											component="a"
+											href={tenant.websiteUrl}
+											target="_blank"
+											rel="noopener noreferrer"
+											sx={{ fontSize: '0.72rem', color: '#629C44', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+										>
+											{tenant.websiteUrl.replace(/^https?:\/\//, '')}
+										</Typography>
+									</Box>
+								)}
+							</Box>
+						</Box>
+						<Typography sx={{
+							fontSize: '0.65rem', color: '#cbd5e1', fontStyle: 'italic',
+							flexShrink: 0, alignSelf: 'flex-start',
+						}}>
+							{t('appCVContent.presentedBy')}
+						</Typography>
+					</Box>
+				)}
+
+				{/* Candidate header card */}
 				<Card sx={{ mb: 2, display: 'flex', alignItems: 'flex-start', gap: 2 }}>
 					<Avatar sx={{
 						width: 52,
@@ -167,26 +300,45 @@ const AppCVDetails = ({ cv, onClose }) => {
 								{pi.role}
 							</Typography>
 						)}
-						<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75, mt: 1.25 }}>
-							{contact.phone && (
-								<Chip icon={<PhoneIcon />} label={contact.phone} size="small" sx={contactChipSx} />
-							)}
-							{contact.email && (
-								<Chip icon={<EmailIcon />} label={contact.email} size="small" sx={contactChipSx} />
-							)}
-							{contact.socialLinks?.linkedin && (
-								<Chip icon={<LinkedInIcon />} label="LinkedIn" size="small" sx={contactChipSx}
-									component="a" href={contact.socialLinks.linkedin} target="_blank" clickable />
-							)}
-							{contact.socialLinks?.github && (
-								<Chip icon={<GitHubIcon />} label="GitHub" size="small" sx={contactChipSx}
-									component="a" href={contact.socialLinks.github} target="_blank" clickable />
-							)}
-							{contact.socialLinks?.website && (
-								<Chip icon={<LanguageIcon />} label="Portfolio" size="small" sx={contactChipSx}
-									component="a" href={contact.socialLinks.website} target="_blank" clickable />
-							)}
-						</Box>
+						{/* Reference number — always visible */}
+						{applicantNumber && (
+							<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 0.5 }}>
+								<FingerprintOutlinedIcon sx={{ fontSize: 11, color: '#94a3b8' }} />
+								<Typography sx={{ fontSize: '0.70rem', color: '#94a3b8', fontFamily: 'monospace', letterSpacing: '0.03em' }}>
+									{t('appCVContent.referenceNumber')}: {applicantNumber}
+								</Typography>
+							</Box>
+						)}
+						{/* Contact details — hidden when anonymized */}
+						{!anonymized ? (
+							<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75, mt: 1.25 }}>
+								{contact.phone && (
+									<Chip icon={<PhoneIcon />} label={contact.phone} size="small" sx={contactChipSx} />
+								)}
+								{contact.email && (
+									<Chip icon={<EmailIcon />} label={contact.email} size="small" sx={contactChipSx} />
+								)}
+								{contact.socialLinks?.linkedin && (
+									<Chip icon={<LinkedInIcon />} label="LinkedIn" size="small" sx={contactChipSx}
+										component="a" href={contact.socialLinks.linkedin} target="_blank" clickable />
+								)}
+								{contact.socialLinks?.github && (
+									<Chip icon={<GitHubIcon />} label="GitHub" size="small" sx={contactChipSx}
+										component="a" href={contact.socialLinks.github} target="_blank" clickable />
+								)}
+								{contact.socialLinks?.website && (
+									<Chip icon={<LanguageIcon />} label="Portfolio" size="small" sx={contactChipSx}
+										component="a" href={contact.socialLinks.website} target="_blank" clickable />
+								)}
+							</Box>
+						) : (
+							<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 1 }}>
+								<VisibilityOffOutlinedIcon sx={{ fontSize: 12, color: '#cbd5e1' }} />
+								<Typography sx={{ fontSize: '0.72rem', color: '#cbd5e1', fontStyle: 'italic' }}>
+									{t('appCVContent.contactHidden')}
+								</Typography>
+							</Box>
+						)}
 					</Box>
 				</Card>
 
@@ -205,8 +357,6 @@ const AppCVDetails = ({ cv, onClose }) => {
 					<Card sx={{ mb: 2 }}>
 						<SectionHeader Icon={AccessTimeOutlinedIcon} title={t('appCVContent.availability.title')} />
 						<Grid2 container spacing={2}>
-
-							{/* Status badges row */}
 							<Grid2 size={{ xs: 12 }}>
 								<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75, alignItems: 'center' }}>
 									{pi.availability.status && (
@@ -251,7 +401,6 @@ const AppCVDetails = ({ cv, onClose }) => {
 								</Box>
 							</Grid2>
 
-							{/* Timing: available from + notice period */}
 							{(pi.availability.availableFrom || pi.availability.noticePeriodDays != null) && (
 								<Grid2 size={{ xs: 12, sm: 6 }}>
 									<Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
@@ -273,7 +422,6 @@ const AppCVDetails = ({ cv, onClose }) => {
 								</Grid2>
 							)}
 
-							{/* Preferred work types */}
 							{pi.availability.preferredWorkTypes?.length > 0 && (
 								<Grid2 size={{ xs: 12, sm: 6 }}>
 									<Typography sx={availLabelSx}>{t('appCVContent.availability.preferredWorkTypes')}</Typography>
@@ -285,7 +433,6 @@ const AppCVDetails = ({ cv, onClose }) => {
 								</Grid2>
 							)}
 
-							{/* Preferred contract types */}
 							{pi.availability.preferredContractTypes?.length > 0 && (
 								<Grid2 size={{ xs: 12, sm: 6 }}>
 									<Typography sx={availLabelSx}>{t('appCVContent.availability.preferredContractTypes')}</Typography>
@@ -297,7 +444,6 @@ const AppCVDetails = ({ cv, onClose }) => {
 								</Grid2>
 							)}
 
-							{/* Interview availability */}
 							{pi.availability.interviewAvailability?.length > 0 && (
 								<Grid2 size={{ xs: 12 }}>
 									<Typography sx={availLabelSx}>{t('appCVContent.availability.interviews')}</Typography>
@@ -550,7 +696,7 @@ const AppCVDetails = ({ cv, onClose }) => {
 					</Card>
 				)}
 
-				{/* References */}
+				{/* References — hide contact details when anonymized */}
 				{references.length > 0 && (
 					<Card sx={{ mb: 2 }}>
 						<SectionHeader Icon={ContactsIcon} title={t('appCVContent.references')} />
@@ -566,10 +712,10 @@ const AppCVDetails = ({ cv, onClose }) => {
 												{[ref.position, ref.company].filter(Boolean).join(' — ')}
 											</Typography>
 										)}
-										{ref.contact?.phone && (
+										{!anonymized && ref.contact?.phone && (
 											<Typography sx={{ fontSize: '0.75rem', color: '#64748b' }}>{ref.contact.phone}</Typography>
 										)}
-										{ref.contact?.email && (
+										{!anonymized && ref.contact?.email && (
 											<Typography sx={{ fontSize: '0.75rem', color: '#64748b' }}>{ref.contact.email}</Typography>
 										)}
 									</Box>

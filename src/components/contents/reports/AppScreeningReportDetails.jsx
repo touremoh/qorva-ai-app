@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
-	Avatar, Box, Chip, Divider,
-	Paper, Stack, Typography,
+	Avatar, Box, Chip, Divider, IconButton,
+	Paper, Stack, Tooltip, Typography,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
+import { useReactToPrint } from 'react-to-print';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import StarOutlineOutlinedIcon from '@mui/icons-material/StarOutlineOutlined';
@@ -21,6 +23,13 @@ import QuestionAnswerOutlinedIcon from '@mui/icons-material/QuestionAnswerOutlin
 import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined';
+import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined';
+import EmailIcon from '@mui/icons-material/Email';
+import PhoneIcon from '@mui/icons-material/Phone';
+import LanguageIcon from '@mui/icons-material/Language';
+import apiClient from '../../../../axiosConfig.js';
+import { getTenantById } from '../../../services/tenantService.js';
+import { TENANT_ID } from '../../../constants.js';
 
 const THEME_GREEN = '#629C44';
 
@@ -147,6 +156,33 @@ const DetailScoreCard = ({ icon: Icon, label, score, explanation }) => {
 const AppScreeningReportDetails = ({ reportData }) => {
 	const { t } = useTranslation();
 
+	const componentRef = useRef(null);
+	const printReport  = useReactToPrint({ contentRef: componentRef });
+	const handleDownload = useCallback(() => printReport(), [printReport]);
+
+	const [tenant, setTenant] = useState(null);
+	const [tenantLogoUrl, setTenantLogoUrl] = useState('');
+
+	useEffect(() => {
+		const tenantId = localStorage.getItem(TENANT_ID);
+		if (!tenantId) return;
+		getTenantById(tenantId)
+			.then(res => setTenant(res?.data?.data ?? null))
+			.catch(() => {});
+	}, []);
+
+	useEffect(() => {
+		if (!tenant?.companyLogoUrl) { setTenantLogoUrl(''); return; }
+		let objectUrl = '';
+		apiClient.get('/tenants/logo', { responseType: 'blob' })
+			.then(res => {
+				objectUrl = URL.createObjectURL(res.data);
+				setTenantLogoUrl(objectUrl);
+			})
+			.catch(() => setTenantLogoUrl(''));
+		return () => { if (objectUrl) URL.revokeObjectURL(objectUrl); };
+	}, [tenant?.companyLogoUrl]);
+
 	const candidate = reportData?.candidateInfo;
 	const details   = reportData?.matchingReportDetails;
 	const decision  = details?.decisionSummary;
@@ -162,14 +198,14 @@ const AppScreeningReportDetails = ({ reportData }) => {
 		);
 	}
 
-	const finalScore      = Math.ceil(Number(decision?.finalScore ?? 0));
-	const finalColor      = getColor(finalScore);
-	const jobTitle        = reportData?.jobPostTitle || '—';
-	const nameInitials    = candidate.candidateName.split(' ').slice(0, 2).map(p => p[0] ?? '').join('').toUpperCase();
-	const recKey          = (decision?.recommendation || '').toLowerCase();
-	const recConfig       = RECOMMENDATION_CONFIG[recKey] ?? RECOMMENDATION_CONFIG.hold;
-	const confKey         = (decision?.confidenceLevel || '').toLowerCase();
-	const confConfig      = CONFIDENCE_CONFIG[confKey] ?? CONFIDENCE_CONFIG.medium;
+	const finalScore   = Math.ceil(Number(decision?.finalScore ?? 0));
+	const finalColor   = getColor(finalScore);
+	const jobTitle     = reportData?.jobPostTitle || '—';
+	const nameInitials = candidate.candidateName.split(' ').slice(0, 2).map(p => p[0] ?? '').join('').toUpperCase();
+	const recKey       = (decision?.recommendation || '').toLowerCase();
+	const recConfig    = RECOMMENDATION_CONFIG[recKey] ?? RECOMMENDATION_CONFIG.hold;
+	const confKey      = (decision?.confidenceLevel || '').toLowerCase();
+	const confConfig   = CONFIDENCE_CONFIG[confKey] ?? CONFIDENCE_CONFIG.medium;
 
 	const detailScores = [
 		{ key: 'skills',     icon: BuildOutlinedIcon,          label: t('appCVScreening.skillsMatch'),         score: Math.ceil(Number(details.skillsMatch?.score ?? 0)),     explanation: details.skillsMatch?.scoreSummary },
@@ -181,261 +217,354 @@ const AppScreeningReportDetails = ({ reportData }) => {
 	return (
 		<Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', overflow: 'hidden', textAlign: 'left' }}>
 
-			{/* ── Sticky header ── */}
-			<Box sx={{ display: 'flex', alignItems: 'center', gap: 2, px: 3, py: 1.5, flexShrink: 0, backgroundColor: '#ffffff', borderBottom: '1px solid #e2e8f0' }}>
-				<Avatar sx={{ width: 40, height: 40, fontSize: '0.85rem', fontWeight: 700, backgroundColor: THEME_GREEN, color: '#fff' }}>
-					{nameInitials}
-				</Avatar>
-				<Box sx={{ flex: 1, minWidth: 0 }}>
-					<Typography sx={{ fontWeight: 700, fontSize: '0.95rem', color: '#0f172a', lineHeight: 1.3 }}>
-						{candidate.candidateName}
-						{candidate.nbYearsExperience != null && (
-							<Typography component="span" sx={{ fontSize: '0.78rem', fontWeight: 400, color: '#64748b', ml: 1 }}>
-								• {candidate.nbYearsExperience} {t('appCVContent.yearsAbbr')} {t('appCVContent.experience')}
-							</Typography>
-						)}
-					</Typography>
-					<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 0.25 }}>
-						<WorkOutlineOutlinedIcon sx={{ fontSize: 13, color: '#94a3b8' }} />
-						<Typography sx={{ fontSize: '0.75rem', color: '#64748b' }}>{jobTitle}</Typography>
-					</Box>
-				</Box>
+			{/* ── Action bar — not printed ── */}
+			<Box sx={{
+				display: 'flex', alignItems: 'center',
+				px: 2.5, py: 1.25, flexShrink: 0,
+				backgroundColor: '#ffffff', borderBottom: '1px solid #e2e8f0',
+			}}>
+				<Box sx={{ flexGrow: 1 }} />
+				<Tooltip title={t('appCVContent.downloadCV')}>
+					<IconButton
+						size="small"
+						onClick={handleDownload}
+						sx={{
+							color: '#64748b', borderRadius: 1.5,
+							border: '1px solid #e2e8f0',
+							'&:hover': { backgroundColor: '#f1f5f9' },
+						}}
+					>
+						<FileDownloadIcon sx={{ fontSize: 16 }} />
+					</IconButton>
+				</Tooltip>
 			</Box>
 
-			{/* ── Scrollable body ── */}
-			<Box sx={{ flex: 1, overflowY: 'auto', p: 3, display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 2.5, alignItems: 'flex-start' }}>
+			{/* ── Printable content ── */}
+			<Box ref={componentRef} sx={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
 
-				{/* ── Left main column ── */}
-				<Box sx={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 2.5 }}>
-
-					{/* HERO: Decision + Final Score */}
-					<Paper elevation={0} sx={{
-						borderRadius: 3, p: 3,
-						border: `1px solid ${finalColor}30`,
-						background: `linear-gradient(135deg, ${finalColor}06 0%, ${finalColor}14 100%)`,
+				{/* Company branding */}
+				{tenant && (
+					<Box sx={{
+						display: 'flex', alignItems: 'center', gap: 2,
+						px: 3, py: 1.5, flexShrink: 0,
+						backgroundColor: '#ffffff', borderBottom: '1px solid #e2e8f0',
 					}}>
-						<Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 3 }}>
-							<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1, flexShrink: 0 }}>
-								<ScoreGaugeLarge value={finalScore} />
-								<Typography sx={{ fontSize: '0.62rem', fontWeight: 800, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.12em' }}>
-									{t('appCVScreening.finalScore')}
-								</Typography>
+						{tenantLogoUrl ? (
+							<Box
+								component="img"
+								src={tenantLogoUrl}
+								alt={tenant.tenantName}
+								sx={{ height: 36, maxWidth: 100, objectFit: 'contain', flexShrink: 0 }}
+							/>
+						) : (
+							<Box sx={{
+								width: 36, height: 36, borderRadius: 1.5, flexShrink: 0,
+								display: 'flex', alignItems: 'center', justifyContent: 'center',
+								backgroundColor: 'rgba(98,156,68,0.08)', border: '1px solid rgba(98,156,68,0.2)',
+							}}>
+								<BusinessOutlinedIcon sx={{ fontSize: 18, color: THEME_GREEN }} />
 							</Box>
-							<Box sx={{ flex: 1, minWidth: 0, pt: 0.5 }}>
-								{/* Badges row */}
-								<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5, flexWrap: 'wrap' }}>
-									{recKey && (
-										<Chip
-											icon={recKey === 'interview' ? <ThumbUpOutlinedIcon sx={{ fontSize: '12px !important' }} /> : recKey === 'reject' ? <ThumbDownOutlinedIcon sx={{ fontSize: '12px !important' }} /> : undefined}
-											label={t(`appCVScreening.recommendation.${recKey}`, recKey)}
-											size="small"
-											sx={{ height: 22, fontSize: '0.72rem', fontWeight: 700, backgroundColor: recConfig.bg, color: recConfig.color, border: `1px solid ${recConfig.border}` }}
-										/>
-									)}
-									{confKey && (
-										<Chip label={t(`appCVScreening.confidence.${confKey}`, confKey)} size="small"
-											sx={{ height: 22, fontSize: '0.72rem', fontWeight: 600, backgroundColor: confConfig.bg, color: confConfig.color }} />
-									)}
-								</Box>
-								{/* Headline */}
-								{decision?.reportHeadline && (
-									<Typography sx={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a', lineHeight: 1.4, mb: 1 }}>
-										{decision.reportHeadline}
-									</Typography>
+						)}
+						<Box sx={{ flex: 1, minWidth: 0 }}>
+							<Typography sx={{ fontWeight: 700, fontSize: '0.85rem', color: '#0f172a', lineHeight: 1.3 }}>
+								{tenant.tenantName}
+							</Typography>
+							<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, mt: 0.4 }}>
+								{tenant.contactEmail && (
+									<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.4 }}>
+										<EmailIcon sx={{ fontSize: 11, color: '#94a3b8' }} />
+										<Typography sx={{ fontSize: '0.72rem', color: '#64748b' }}>
+											{tenant.contactEmail}
+										</Typography>
+									</Box>
 								)}
-								{/* Summary */}
-								<Typography sx={{ fontSize: '0.82rem', color: '#334155', lineHeight: 1.65 }}>
-									{decision?.detailedSummary}
-								</Typography>
-								{/* Short verdict */}
-								{decision?.shortVerdict && (
-									<Box sx={{ mt: 1.5, px: 1.5, py: 1, borderRadius: 1.5, backgroundColor: 'rgba(98,156,68,0.06)', borderLeft: `3px solid ${THEME_GREEN}` }}>
-										<Typography sx={{ fontSize: '0.78rem', color: '#334155', lineHeight: 1.6, fontStyle: 'italic' }}>
-											{decision.shortVerdict}
+								{tenant.phoneNumber && (
+									<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.4 }}>
+										<PhoneIcon sx={{ fontSize: 11, color: '#94a3b8' }} />
+										<Typography sx={{ fontSize: '0.72rem', color: '#64748b' }}>
+											{tenant.phoneNumber}
+										</Typography>
+									</Box>
+								)}
+								{tenant.websiteUrl && (
+									<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.4 }}>
+										<LanguageIcon sx={{ fontSize: 11, color: '#94a3b8' }} />
+										<Typography
+											component="a"
+											href={tenant.websiteUrl}
+											target="_blank"
+											rel="noopener noreferrer"
+											sx={{ fontSize: '0.72rem', color: THEME_GREEN, textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+										>
+											{tenant.websiteUrl.replace(/^https?:\/\//, '')}
 										</Typography>
 									</Box>
 								)}
 							</Box>
 						</Box>
-					</Paper>
-
-					{/* 2×2 detail score grid */}
-					<Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 2 }}>
-						{detailScores.map(item => (
-							<DetailScoreCard key={item.key} icon={item.icon} label={item.label} score={item.score} explanation={item.explanation} />
-						))}
+						<Typography sx={{ fontSize: '0.65rem', color: '#cbd5e1', fontStyle: 'italic', flexShrink: 0, alignSelf: 'flex-start' }}>
+							{t('appCVContent.presentedBy')}
+						</Typography>
 					</Box>
+				)}
 
-					{/* Matching Skills */}
-					{Array.isArray(details.skillsMatch?.matchingSkills) && details.skillsMatch.matchingSkills.length > 0 && (
-						<Paper elevation={0} sx={{ border: '1px solid #bbf7d0', borderRadius: 2.5, p: 2.5, backgroundColor: '#f0fdf4' }}>
-							<SectionHeader icon={StarOutlineOutlinedIcon} label={t('appCVScreening.matchingSkills')} />
-							<Stack direction="row" spacing={0.75} flexWrap="wrap" useFlexGap>
-								{details.skillsMatch.matchingSkills.map((sk, i) => (
-									<Chip key={`msk-${i}`} label={sk} size="small"
-										sx={{ height: 24, fontSize: '0.75rem', fontWeight: 600, backgroundColor: '#dcfce7', color: '#15803d', border: '1px solid #86efac' }} />
-								))}
-							</Stack>
-						</Paper>
-					)}
-
-					{/* Missing Skills */}
-					{details.missingSkills && (
-						<Paper elevation={0} sx={{ border: '1px solid #fecaca', borderRadius: 2.5, p: 2.5, backgroundColor: '#fffafa' }}>
-							<SectionHeader icon={ErrorOutlineOutlinedIcon} label={t('appCVScreening.lackingSkills')} />
-							{details.missingSkills.summary && (
-								<Typography sx={{ fontSize: '0.82rem', color: '#334155', lineHeight: 1.6, mb: 1.5 }}>
-									{details.missingSkills.summary}
+				{/* Candidate header — sticky on screen, prints with content */}
+				<Box sx={{
+					display: 'flex', alignItems: 'center', gap: 2,
+					px: 3, py: 1.5, flexShrink: 0,
+					backgroundColor: '#ffffff', borderBottom: '1px solid #e2e8f0',
+					position: 'sticky', top: 0, zIndex: 1,
+				}}>
+					<Avatar sx={{ width: 40, height: 40, fontSize: '0.85rem', fontWeight: 700, backgroundColor: THEME_GREEN, color: '#fff' }}>
+						{nameInitials}
+					</Avatar>
+					<Box sx={{ flex: 1, minWidth: 0 }}>
+						<Typography sx={{ fontWeight: 700, fontSize: '0.95rem', color: '#0f172a', lineHeight: 1.3 }}>
+							{candidate.candidateName}
+							{candidate.nbYearsExperience != null && (
+								<Typography component="span" sx={{ fontSize: '0.78rem', fontWeight: 400, color: '#64748b', ml: 1 }}>
+									• {candidate.nbYearsExperience} {t('appCVContent.yearsAbbr')} {t('appCVContent.experience')}
 								</Typography>
 							)}
-							{Array.isArray(details.missingSkills.skills) && details.missingSkills.skills.length > 0 && (
-								<Box sx={{ display: 'flex', flexDirection: 'column' }}>
-									{details.missingSkills.skills.map((item, i) => {
-										const ik = importanceKey[item.importance] ?? 'mandatory';
+						</Typography>
+						<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 0.25 }}>
+							<WorkOutlineOutlinedIcon sx={{ fontSize: 13, color: '#94a3b8' }} />
+							<Typography sx={{ fontSize: '0.75rem', color: '#64748b' }}>{jobTitle}</Typography>
+						</Box>
+					</Box>
+				</Box>
+
+				{/* Report body */}
+				<Box sx={{ flex: 1, p: 3, display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 2.5, alignItems: 'flex-start' }}>
+
+					{/* ── Left main column ── */}
+					<Box sx={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 2.5 }}>
+
+						{/* HERO: Decision + Final Score */}
+						<Paper elevation={0} sx={{
+							borderRadius: 3, p: 3,
+							border: `1px solid ${finalColor}30`,
+							background: `linear-gradient(135deg, ${finalColor}06 0%, ${finalColor}14 100%)`,
+						}}>
+							<Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 3 }}>
+								<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1, flexShrink: 0 }}>
+									<ScoreGaugeLarge value={finalScore} />
+									<Typography sx={{ fontSize: '0.62rem', fontWeight: 800, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.12em' }}>
+										{t('appCVScreening.finalScore')}
+									</Typography>
+								</Box>
+								<Box sx={{ flex: 1, minWidth: 0, pt: 0.5 }}>
+									<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5, flexWrap: 'wrap' }}>
+										{recKey && (
+											<Chip
+												icon={recKey === 'interview' ? <ThumbUpOutlinedIcon sx={{ fontSize: '12px !important' }} /> : recKey === 'reject' ? <ThumbDownOutlinedIcon sx={{ fontSize: '12px !important' }} /> : undefined}
+												label={t(`appCVScreening.recommendation.${recKey}`, recKey)}
+												size="small"
+												sx={{ height: 22, fontSize: '0.72rem', fontWeight: 700, backgroundColor: recConfig.bg, color: recConfig.color, border: `1px solid ${recConfig.border}` }}
+											/>
+										)}
+										{confKey && (
+											<Chip label={t(`appCVScreening.confidence.${confKey}`, confKey)} size="small"
+												sx={{ height: 22, fontSize: '0.72rem', fontWeight: 600, backgroundColor: confConfig.bg, color: confConfig.color }} />
+										)}
+									</Box>
+									{decision?.reportHeadline && (
+										<Typography sx={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a', lineHeight: 1.4, mb: 1 }}>
+											{decision.reportHeadline}
+										</Typography>
+									)}
+									<Typography sx={{ fontSize: '0.82rem', color: '#334155', lineHeight: 1.65 }}>
+										{decision?.detailedSummary}
+									</Typography>
+									{decision?.shortVerdict && (
+										<Box sx={{ mt: 1.5, px: 1.5, py: 1, borderRadius: 1.5, backgroundColor: 'rgba(98,156,68,0.06)', borderLeft: `3px solid ${THEME_GREEN}` }}>
+											<Typography sx={{ fontSize: '0.78rem', color: '#334155', lineHeight: 1.6, fontStyle: 'italic' }}>
+												{decision.shortVerdict}
+											</Typography>
+										</Box>
+									)}
+								</Box>
+							</Box>
+						</Paper>
+
+						{/* 2×2 detail score grid */}
+						<Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 2 }}>
+							{detailScores.map(item => (
+								<DetailScoreCard key={item.key} icon={item.icon} label={item.label} score={item.score} explanation={item.explanation} />
+							))}
+						</Box>
+
+						{/* Matching Skills */}
+						{Array.isArray(details.skillsMatch?.matchingSkills) && details.skillsMatch.matchingSkills.length > 0 && (
+							<Paper elevation={0} sx={{ border: '1px solid #bbf7d0', borderRadius: 2.5, p: 2.5, backgroundColor: '#f0fdf4' }}>
+								<SectionHeader icon={StarOutlineOutlinedIcon} label={t('appCVScreening.matchingSkills')} />
+								<Stack direction="row" spacing={0.75} flexWrap="wrap" useFlexGap>
+									{details.skillsMatch.matchingSkills.map((sk, i) => (
+										<Chip key={`msk-${i}`} label={sk} size="small"
+											sx={{ height: 24, fontSize: '0.75rem', fontWeight: 600, backgroundColor: '#dcfce7', color: '#15803d', border: '1px solid #86efac' }} />
+									))}
+								</Stack>
+							</Paper>
+						)}
+
+						{/* Missing Skills */}
+						{details.missingSkills && (
+							<Paper elevation={0} sx={{ border: '1px solid #fecaca', borderRadius: 2.5, p: 2.5, backgroundColor: '#fffafa' }}>
+								<SectionHeader icon={ErrorOutlineOutlinedIcon} label={t('appCVScreening.lackingSkills')} />
+								{details.missingSkills.summary && (
+									<Typography sx={{ fontSize: '0.82rem', color: '#334155', lineHeight: 1.6, mb: 1.5 }}>
+										{details.missingSkills.summary}
+									</Typography>
+								)}
+								{Array.isArray(details.missingSkills.skills) && details.missingSkills.skills.length > 0 && (
+									<Box sx={{ display: 'flex', flexDirection: 'column' }}>
+										{details.missingSkills.skills.map((item, i) => {
+											const ik = importanceKey[item.importance] ?? 'mandatory';
+											return (
+												<Box key={`ms-${i}`} sx={{
+													display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1.5,
+													py: 0.75, px: 0.5,
+													borderBottom: i < details.missingSkills.skills.length - 1 ? '1px solid #fee2e2' : 'none',
+												}}>
+													<Typography sx={{ fontSize: '0.80rem', color: '#334155', flex: 1 }}>{item.skill}</Typography>
+													<Chip label={t(`jobContent.${ik}`)} size="small"
+														sx={{ height: 20, fontSize: '0.68rem', fontWeight: 700, flexShrink: 0, ...importanceChipSx[ik] }} />
+												</Box>
+											);
+										})}
+									</Box>
+								)}
+							</Paper>
+						)}
+
+						{/* Strengths */}
+						{Array.isArray(details.strengths) && details.strengths.length > 0 && (
+							<Paper elevation={0} sx={{ border: '1px solid #bbf7d0', borderRadius: 2.5, p: 2.5 }}>
+								<SectionHeader icon={EmojiEventsOutlinedIcon} label={t('appCVScreening.strengths', 'Strengths')} />
+								<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.25 }}>
+									{details.strengths.map((s, i) => (
+										<Box key={`str-${i}`} sx={{
+											borderLeft: '3px solid #629C44', pl: 1.5, py: 0.5,
+											borderRadius: '0 8px 8px 0', backgroundColor: 'rgba(98,156,68,0.04)',
+										}}>
+											<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1, mb: 0.5 }}>
+												<Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: '#0f172a' }}>{s.title}</Typography>
+												{s.importance && (
+													<Chip label={s.importance} size="small"
+														sx={{ height: 18, fontSize: '0.62rem', fontWeight: 700, flexShrink: 0, backgroundColor: 'rgba(98,156,68,0.12)', color: THEME_GREEN, border: `1px solid rgba(98,156,68,0.25)` }} />
+												)}
+											</Box>
+											<Typography sx={{ fontSize: '0.78rem', color: '#475569', lineHeight: 1.55 }}>{s.evidence}</Typography>
+										</Box>
+									))}
+								</Box>
+							</Paper>
+						)}
+
+						{/* Weaknesses */}
+						{Array.isArray(details.weaknesses) && details.weaknesses.length > 0 && (
+							<Paper elevation={0} sx={{ border: '1px solid #fde68a', borderRadius: 2.5, p: 2.5 }}>
+								<SectionHeader icon={WarningAmberOutlinedIcon} label={t('appCVScreening.weaknesses', 'Weaknesses')} />
+								<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.25 }}>
+									{details.weaknesses.map((w, i) => {
+										const sevKey = (w.severity || 'medium').toLowerCase();
+										const sevSx  = severityChipSx[sevKey] ?? severityChipSx.medium;
 										return (
-											<Box key={`ms-${i}`} sx={{
-												display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1.5,
-												py: 0.75, px: 0.5,
-												borderBottom: i < details.missingSkills.skills.length - 1 ? '1px solid #fee2e2' : 'none',
+											<Box key={`wk-${i}`} sx={{
+												borderLeft: '3px solid #d97706', pl: 1.5, py: 0.5,
+												borderRadius: '0 8px 8px 0', backgroundColor: 'rgba(245,158,11,0.04)',
 											}}>
-												<Typography sx={{ fontSize: '0.80rem', color: '#334155', flex: 1 }}>{item.skill}</Typography>
-												<Chip label={t(`jobContent.${ik}`)} size="small"
-													sx={{ height: 20, fontSize: '0.68rem', fontWeight: 700, flexShrink: 0, ...importanceChipSx[ik] }} />
+												<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1, mb: 0.5 }}>
+													<Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: '#0f172a' }}>{w.title}</Typography>
+													{w.severity && (
+														<Chip label={w.severity} size="small"
+															sx={{ height: 18, fontSize: '0.62rem', fontWeight: 700, flexShrink: 0, ...sevSx }} />
+													)}
+												</Box>
+												<Typography sx={{ fontSize: '0.78rem', color: '#475569', lineHeight: 1.55 }}>{w.evidence}</Typography>
 											</Box>
 										);
 									})}
 								</Box>
-							)}
-						</Paper>
-					)}
+							</Paper>
+						)}
 
-					{/* Strengths */}
-					{Array.isArray(details.strengths) && details.strengths.length > 0 && (
-						<Paper elevation={0} sx={{ border: '1px solid #bbf7d0', borderRadius: 2.5, p: 2.5 }}>
-							<SectionHeader icon={EmojiEventsOutlinedIcon} label={t('appCVScreening.strengths', 'Strengths')} />
-							<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.25 }}>
-								{details.strengths.map((s, i) => (
-									<Box key={`str-${i}`} sx={{
-										borderLeft: '3px solid #629C44', pl: 1.5, py: 0.5,
-										borderRadius: '0 8px 8px 0', backgroundColor: 'rgba(98,156,68,0.04)',
-									}}>
-										<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1, mb: 0.5 }}>
-											<Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: '#0f172a' }}>{s.title}</Typography>
-											{s.importance && (
-												<Chip label={s.importance} size="small"
-													sx={{ height: 18, fontSize: '0.62rem', fontWeight: 700, flexShrink: 0, backgroundColor: 'rgba(98,156,68,0.12)', color: THEME_GREEN, border: `1px solid rgba(98,156,68,0.25)` }} />
-											)}
-										</Box>
-										<Typography sx={{ fontSize: '0.78rem', color: '#475569', lineHeight: 1.55 }}>{s.evidence}</Typography>
-									</Box>
-								))}
-							</Box>
-						</Paper>
-					)}
-
-					{/* Weaknesses */}
-					{Array.isArray(details.weaknesses) && details.weaknesses.length > 0 && (
-						<Paper elevation={0} sx={{ border: '1px solid #fde68a', borderRadius: 2.5, p: 2.5 }}>
-							<SectionHeader icon={WarningAmberOutlinedIcon} label={t('appCVScreening.weaknesses', 'Weaknesses')} />
-							<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.25 }}>
-								{details.weaknesses.map((w, i) => {
-									const sevKey = (w.severity || 'medium').toLowerCase();
-									const sevSx  = severityChipSx[sevKey] ?? severityChipSx.medium;
-									return (
-										<Box key={`wk-${i}`} sx={{
-											borderLeft: '3px solid #d97706', pl: 1.5, py: 0.5,
-											borderRadius: '0 8px 8px 0', backgroundColor: 'rgba(245,158,11,0.04)',
-										}}>
-											<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1, mb: 0.5 }}>
-												<Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: '#0f172a' }}>{w.title}</Typography>
-												{w.severity && (
-													<Chip label={w.severity} size="small"
-														sx={{ height: 18, fontSize: '0.62rem', fontWeight: 700, flexShrink: 0, ...sevSx }} />
+						{/* Red Flags */}
+						{Array.isArray(details.redFlags) && details.redFlags.length > 0 && (
+							<Paper elevation={0} sx={{ border: '1px solid #fecaca', borderRadius: 2.5, p: 2.5 }}>
+								<SectionHeader icon={ReportProblemOutlinedIcon} label={t('appCVScreening.redFlags', 'Red Flags')} />
+								<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.75 }}>
+									{details.redFlags.map((rf, i) => {
+										const sevKey = (rf.severity || 'medium').toLowerCase();
+										const sevSx  = severityChipSx[sevKey] ?? severityChipSx.medium;
+										return (
+											<Box key={`rf-${i}`}>
+												<Box sx={{
+													borderLeft: '3px solid #dc2626', pl: 1.5, py: 0.5,
+													borderRadius: '0 8px 8px 0', backgroundColor: 'rgba(220,38,38,0.04)',
+												}}>
+													<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1, mb: 0.5 }}>
+														<Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: '#0f172a' }}>{rf.title}</Typography>
+														{rf.severity && (
+															<Chip label={rf.severity} size="small"
+																sx={{ height: 18, fontSize: '0.62rem', fontWeight: 700, flexShrink: 0, ...sevSx }} />
+														)}
+													</Box>
+													<Typography sx={{ fontSize: '0.78rem', color: '#475569', lineHeight: 1.55 }}>{rf.evidence}</Typography>
+												</Box>
+												{rf.suggestedInterviewQuestion && (
+													<Box sx={{
+														mt: 1, mx: 0.5, px: 1.5, py: 1, borderRadius: 1.5,
+														backgroundColor: '#f0f9ff', border: '1px solid #bae6fd',
+														display: 'flex', alignItems: 'flex-start', gap: 1,
+													}}>
+														<QuestionAnswerOutlinedIcon sx={{ fontSize: 14, color: '#0369a1', mt: 0.2, flexShrink: 0 }} />
+														<Box>
+															<Typography sx={{ fontSize: '0.62rem', fontWeight: 700, color: '#0369a1', textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.25 }}>
+																{t('appCVScreening.suggestedQuestion', 'Suggested interview question')}
+															</Typography>
+															<Typography sx={{ fontSize: '0.78rem', color: '#0c4a6e', lineHeight: 1.55, fontStyle: 'italic' }}>
+																{rf.suggestedInterviewQuestion}
+															</Typography>
+														</Box>
+													</Box>
 												)}
 											</Box>
-											<Typography sx={{ fontSize: '0.78rem', color: '#475569', lineHeight: 1.55 }}>{w.evidence}</Typography>
-										</Box>
-									);
-								})}
-							</Box>
-						</Paper>
-					)}
-
-					{/* Red Flags */}
-					{Array.isArray(details.redFlags) && details.redFlags.length > 0 && (
-						<Paper elevation={0} sx={{ border: '1px solid #fecaca', borderRadius: 2.5, p: 2.5 }}>
-							<SectionHeader icon={ReportProblemOutlinedIcon} label={t('appCVScreening.redFlags', 'Red Flags')} />
-							<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.75 }}>
-								{details.redFlags.map((rf, i) => {
-									const sevKey = (rf.severity || 'medium').toLowerCase();
-									const sevSx  = severityChipSx[sevKey] ?? severityChipSx.medium;
-									return (
-										<Box key={`rf-${i}`}>
-											<Box sx={{
-												borderLeft: '3px solid #dc2626', pl: 1.5, py: 0.5,
-												borderRadius: '0 8px 8px 0', backgroundColor: 'rgba(220,38,38,0.04)',
-											}}>
-												<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1, mb: 0.5 }}>
-													<Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: '#0f172a' }}>{rf.title}</Typography>
-													{rf.severity && (
-														<Chip label={rf.severity} size="small"
-															sx={{ height: 18, fontSize: '0.62rem', fontWeight: 700, flexShrink: 0, ...sevSx }} />
-													)}
-												</Box>
-												<Typography sx={{ fontSize: '0.78rem', color: '#475569', lineHeight: 1.55 }}>{rf.evidence}</Typography>
-											</Box>
-											{rf.suggestedInterviewQuestion && (
-												<Box sx={{
-													mt: 1, mx: 0.5, px: 1.5, py: 1, borderRadius: 1.5,
-													backgroundColor: '#f0f9ff', border: '1px solid #bae6fd',
-													display: 'flex', alignItems: 'flex-start', gap: 1,
-												}}>
-													<QuestionAnswerOutlinedIcon sx={{ fontSize: 14, color: '#0369a1', mt: 0.2, flexShrink: 0 }} />
-													<Box>
-														<Typography sx={{ fontSize: '0.62rem', fontWeight: 700, color: '#0369a1', textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.25 }}>
-															{t('appCVScreening.suggestedQuestion', 'Suggested interview question')}
-														</Typography>
-														<Typography sx={{ fontSize: '0.78rem', color: '#0c4a6e', lineHeight: 1.55, fontStyle: 'italic' }}>
-															{rf.suggestedInterviewQuestion}
-														</Typography>
-													</Box>
-												</Box>
-											)}
-										</Box>
-									);
-								})}
-							</Box>
-						</Paper>
-					)}
-
-				</Box>
-
-				{/* ── Right sidebar: Candidate Profile ── */}
-				<Box sx={{ width: { xs: '100%', md: '25%' }, maxWidth: { md: 280 }, flexShrink: 0, alignSelf: 'flex-start', position: { md: 'sticky' }, top: 0 }}>
-					<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5 }}>
-						<SectionHeader icon={PersonOutlineOutlinedIcon} label={t('appCVScreening.candidateProfile')} />
-						{candidate.candidateProfileSummary && (
-							<Typography sx={{ fontSize: '0.80rem', color: '#334155', lineHeight: 1.6, mb: 1.5 }}>
-								{candidate.candidateProfileSummary}
-							</Typography>
+										);
+									})}
+								</Box>
+							</Paper>
 						)}
-						{Array.isArray(candidate.skills) && candidate.skills.length > 0 && (
-							<>
-								<Divider sx={{ my: 1.5, borderColor: '#f1f5f9' }} />
-								<Typography sx={{ fontSize: '0.68rem', fontWeight: 700, color: THEME_GREEN, textTransform: 'uppercase', letterSpacing: '0.07em', mb: 1 }}>
-									{t('appCVScreening.skills')}
+
+					</Box>
+
+					{/* ── Right sidebar: Candidate Profile ── */}
+					<Box sx={{ width: { xs: '100%', md: '25%' }, maxWidth: { md: 280 }, flexShrink: 0, alignSelf: 'flex-start', position: { md: 'sticky' }, top: 0 }}>
+						<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5 }}>
+							<SectionHeader icon={PersonOutlineOutlinedIcon} label={t('appCVScreening.candidateProfile')} />
+							{candidate.candidateProfileSummary && (
+								<Typography sx={{ fontSize: '0.80rem', color: '#334155', lineHeight: 1.6, mb: 1.5 }}>
+									{candidate.candidateProfileSummary}
 								</Typography>
-								<Stack direction="row" spacing={0.75} flexWrap="wrap" useFlexGap>
-									{candidate.skills.map((sk, i) => (
-										<Chip key={`sk-${i}`} label={sk} size="small"
-											sx={{ height: 22, fontSize: '0.72rem', fontWeight: 500, backgroundColor: 'rgba(98,156,68,0.10)', color: '#166534', border: '1px solid rgba(98,156,68,0.25)' }} />
-									))}
-								</Stack>
-							</>
-						)}
-					</Paper>
-				</Box>
+							)}
+							{Array.isArray(candidate.skills) && candidate.skills.length > 0 && (
+								<>
+									<Divider sx={{ my: 1.5, borderColor: '#f1f5f9' }} />
+									<Typography sx={{ fontSize: '0.68rem', fontWeight: 700, color: THEME_GREEN, textTransform: 'uppercase', letterSpacing: '0.07em', mb: 1 }}>
+										{t('appCVScreening.skills')}
+									</Typography>
+									<Stack direction="row" spacing={0.75} flexWrap="wrap" useFlexGap>
+										{candidate.skills.map((sk, i) => (
+											<Chip key={`sk-${i}`} label={sk} size="small"
+												sx={{ height: 22, fontSize: '0.72rem', fontWeight: 500, backgroundColor: 'rgba(98,156,68,0.10)', color: '#166534', border: '1px solid rgba(98,156,68,0.25)' }} />
+										))}
+									</Stack>
+								</>
+							)}
+						</Paper>
+					</Box>
 
+				</Box>
 			</Box>
 		</Box>
 	);
