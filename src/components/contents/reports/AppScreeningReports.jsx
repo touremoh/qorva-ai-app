@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect, useMemo } from 'react';
 import {
-	Avatar, Box, Button, Chip, Dialog, DialogActions, DialogContent,
+	Avatar, Box, Button, Chip, CircularProgress, Dialog, DialogActions, DialogContent,
 	DialogTitle, FormControl, IconButton, InputAdornment,
 	InputLabel, ListItemButton, Menu, MenuItem, Pagination,
 	Select, TextField, Tooltip, Typography,
@@ -12,11 +12,16 @@ import ArrowDownwardOutlinedIcon from '@mui/icons-material/ArrowDownwardOutlined
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { useTranslation } from 'react-i18next';
 import AppScreeningReportDetails from './AppScreeningReportDetails.jsx';
-import apiClient from '../../../../axiosConfig.js';
+import { getReports, getReportsByFilter, startScreening, deleteReport } from '../../../services/reportService.js';
+import { getJobs } from '../../../services/jobService.js';
 
-const reportsPerPage = 25;
+const PAGE_SIZES = [10, 25, 50, 100];
 
 const scoreChipSx = (score) => {
 	if (score >= 70) return { backgroundColor: '#dcfce7', color: '#166534' };
@@ -37,6 +42,8 @@ const AppScreeningReports = () => {
 	const [sortOrder, setSortOrder] = useState('desc');
 	const [currentPage, setCurrentPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(0);
+	const [totalElements, setTotalElements] = useState(0);
+	const [pageSize, setPageSize] = useState(25);
 	const [selectedJobId, setSelectedJobId] = useState('');
 	const [filterRecommendation, setFilterRecommendation] = useState('');
 	const [filterConfidence, setFilterConfidence] = useState('');
@@ -44,22 +51,24 @@ const AppScreeningReports = () => {
 	const [menuReport, setMenuReport] = useState(null);
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 	const [deletingReport, setDeletingReport] = useState(false);
+	const [screeningLoading, setScreeningLoading] = useState(false);
+	const [screeningSubmitted, setScreeningSubmitted] = useState(false);
+	const [bannerDismissed, setBannerDismissed] = useState(false);
 
-	const fetchData = async (pageNumber, jobId, term, recommendation, confidence) => {
+	const fetchData = async (pageNumber, jobId, term, recommendation, confidence, size) => {
 		try {
 			const hasSearch = term && term.trim();
-			const url = hasSearch
-				? `${import.meta.env.VITE_APP_API_REPORT_URL}/search`
-				: import.meta.env.VITE_APP_API_REPORT_URL;
 			const params = {
 				pageNumber,
-				pageSize: reportsPerPage,
+				pageSize: size ?? pageSize,
 				...(jobId ? { jobPostId: jobId } : {}),
 				...(hasSearch ? { searchTerms: term.trim() } : {}),
 				...(recommendation ? { recommendation } : {}),
 				...(confidence ? { confidenceLevel: confidence } : {}),
 			};
-			const response = await apiClient.get(url, { params });
+			const response = hasSearch
+				? await getReportsByFilter(params)
+				: await getReports(params);
 			const content = response?.data?.data?.content ?? [];
 			const sorted = [...content].sort((a, b) => {
 				const sa = a.matchingReportDetails?.decisionSummary?.finalScore ?? 0;
@@ -68,6 +77,7 @@ const AppScreeningReports = () => {
 			});
 			setReports(content);
 			setTotalPages(response?.data?.data?.totalPages ?? 1);
+			setTotalElements(response?.data?.data?.totalElements ?? 0);
 			setSelectedReport(sorted[0] ?? null);
 		} catch (error) {
 			console.error('Error fetching reports:', error);
@@ -76,9 +86,7 @@ const AppScreeningReports = () => {
 
 	const fetchJobs = async () => {
 		try {
-			const response = await apiClient.get(import.meta.env.VITE_APP_API_JOB_POSTS_URL, {
-				params: { pageSize: 25, pageNumber: 0 },
-			});
+			const response = await getJobs({ pageSize: 25, pageNumber: 0 });
 			setJobs(response?.data?.data?.content ?? []);
 		} catch (error) {
 			console.error('Error fetching jobs:', error);
@@ -123,6 +131,13 @@ const AppScreeningReports = () => {
 		fetchData(value - 1, selectedJobId, searchTerm, filterRecommendation, filterConfidence);
 	};
 
+	const handlePageSizeChange = (e) => {
+		const newSize = e.target.value;
+		setPageSize(newSize);
+		setCurrentPage(1);
+		fetchData(0, selectedJobId, searchTerm, filterRecommendation, filterConfidence, newSize);
+	};
+
 	const sortedReports = useMemo(() => {
 		return [...reports].sort((a, b) => {
 			const sa = a.matchingReportDetails?.decisionSummary?.finalScore ?? 0;
@@ -130,6 +145,25 @@ const AppScreeningReports = () => {
 			return sortOrder === 'asc' ? sa - sb : sb - sa;
 		});
 	}, [reports, sortOrder]);
+
+	const pendingScreeningCount = useMemo(
+		() => jobs.filter(j => j.matchingReportsNeeded === true).length,
+		[jobs]
+	);
+
+	const handleStartScreening = async () => {
+		try {
+			setScreeningLoading(true);
+			await startScreening();
+			await fetchJobs();
+			setScreeningSubmitted(true);
+			setBannerDismissed(false);
+		} catch (error) {
+			console.error('Error starting screening:', error);
+		} finally {
+			setScreeningLoading(false);
+		}
+	};
 
 	const handleMenuOpen = (event, report) => {
 		event.stopPropagation();
@@ -147,7 +181,7 @@ const AppScreeningReports = () => {
 		if (!menuReport) return;
 		try {
 			setDeletingReport(true);
-			await apiClient.delete(`${import.meta.env.VITE_APP_API_REPORT_URL}/${menuReport.id}`);
+			await deleteReport(menuReport.id);
 			setReports(prev => prev.filter(r => r.id !== menuReport.id));
 			if (selectedReport?.id === menuReport.id) setSelectedReport(null);
 		} catch (error) {
@@ -268,6 +302,68 @@ const AppScreeningReports = () => {
 				</Tooltip>
 			</Box>
 
+			{/* Screening status banner */}
+			{pendingScreeningCount > 0 && (
+				<Box sx={{
+					display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+					px: 2.5, py: 1.25,
+					backgroundColor: 'rgba(245,158,11,0.07)',
+					borderBottom: '1px solid rgba(245,158,11,0.18)',
+					flexShrink: 0, flexWrap: 'wrap', gap: 1.5,
+				}}>
+					<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+						<WarningAmberIcon sx={{ fontSize: 17, color: '#d97706' }} />
+						<Typography sx={{ fontSize: '0.84rem', color: '#92400e', fontWeight: 500 }}>
+							{t('appReportContent.screeningNeeded', { count: pendingScreeningCount })}
+						</Typography>
+					</Box>
+					<Button
+						variant="contained"
+						size="small"
+						onClick={handleStartScreening}
+						disabled={screeningLoading || screeningSubmitted}
+						startIcon={screeningLoading
+							? <CircularProgress size={14} color="inherit" />
+							: <PlayArrowRoundedIcon sx={{ fontSize: 17 }} />
+						}
+						sx={{
+							backgroundColor: '#d97706',
+							'&:hover': { backgroundColor: '#b45309' },
+							'&.Mui-disabled': { backgroundColor: 'rgba(245,158,11,0.3)', color: '#92400e', boxShadow: 'none' },
+							borderRadius: 1.5, textTransform: 'none', fontSize: '0.82rem', fontWeight: 600,
+							boxShadow: '0 2px 6px rgba(217,119,6,0.3)', flexShrink: 0,
+						}}
+					>
+						{screeningLoading
+							? t('appReportContent.screeningInProgress')
+							: t('appReportContent.startScreening')}
+					</Button>
+				</Box>
+			)}
+			{pendingScreeningCount === 0 && !bannerDismissed && (
+				<Box sx={{
+					display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+					px: 2.5, py: 0.75,
+					backgroundColor: 'rgba(98,156,68,0.05)',
+					borderBottom: '1px solid rgba(98,156,68,0.12)',
+					flexShrink: 0,
+				}}>
+					<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+						<CheckCircleOutlineIcon sx={{ fontSize: 16, color: '#629C44' }} />
+						<Typography sx={{ fontSize: '0.82rem', color: '#3a6827' }}>
+							{t('appReportContent.noScreeningNeeded')}
+						</Typography>
+					</Box>
+					<IconButton
+						size="small"
+						onClick={() => setBannerDismissed(true)}
+						sx={{ color: '#629C44', opacity: 0.6, '&:hover': { opacity: 1, backgroundColor: 'rgba(98,156,68,0.08)' } }}
+					>
+						<CloseRoundedIcon sx={{ fontSize: 14 }} />
+					</IconButton>
+				</Box>
+			)}
+
 			{/* Split pane */}
 			<Box sx={{ display: 'flex', flex: 1, minHeight: 0 }}>
 
@@ -352,20 +448,34 @@ const AppScreeningReports = () => {
 						)}
 					</Box>
 
-					{/* Pagination */}
-					{totalPages > 1 && (
-						<Box sx={{ py: 1, display: 'flex', justifyContent: 'center', borderTop: '1px solid #f1f5f9', flexShrink: 0 }}>
-							<Pagination
-								count={totalPages}
-								page={currentPage}
-								onChange={handlePageChange}
+					{/* Pagination footer */}
+					<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 1.5, py: 0.75, borderTop: '1px solid #f1f5f9', flexShrink: 0, gap: 1, flexWrap: 'wrap', backgroundColor: '#fafafa' }}>
+						<Typography sx={{ fontSize: '0.72rem', color: '#94a3b8' }}>
+							{t('appReportContent.reportCount', { count: totalElements })}
+							{totalPages > 1 && <span> · {t('appCVContent.pageOf', { page: currentPage, total: totalPages })}</span>}
+						</Typography>
+						<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+							<Select
 								size="small"
-								siblingCount={0}
-								boundaryCount={1}
-								sx={{ '& .MuiPaginationItem-root': { fontSize: '0.72rem' } }}
-							/>
+								value={pageSize}
+								onChange={handlePageSizeChange}
+								sx={{ fontSize: '0.72rem', height: 24, '& .MuiSelect-select': { py: 0, px: 1 } }}
+							>
+								{PAGE_SIZES.map(n => <MenuItem key={n} value={n} sx={{ fontSize: '0.78rem' }}>{n}</MenuItem>)}
+							</Select>
+							{totalPages > 1 && (
+								<Pagination
+									count={totalPages}
+									page={currentPage}
+									onChange={handlePageChange}
+									size="small"
+									siblingCount={0}
+									boundaryCount={1}
+									sx={{ '& .MuiPaginationItem-root': { fontSize: '0.72rem' } }}
+								/>
+							)}
 						</Box>
-					)}
+					</Box>
 				</Box>
 
 				{/* Right panel */}

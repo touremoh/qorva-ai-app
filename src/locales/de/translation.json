@@ -67,7 +67,7 @@
     "screening": "Screening",
     "jobs": "Stellen",
     "cvs": "Lebenslauf-Archiv",
-    "reports": "Screening-Berichte",
+    "reports": "Match Intelligence",
     "accountSettings": "Kontoeinstellungen",
     "logout": "Abmelden",
     "aiResumeChat": "KI-Lebenslauf-Chat"
@@ -135,7 +135,17 @@
     "weightExperience": "Erfahrung",
     "weightLocation": "Standort",
     "weightIndustry": "Branche",
-    "totalWeight": "Gesamt"
+    "totalWeight": "Gesamt",
+    "candidateFilters": "Kandidatenfilter",
+    "filterOpenToWork": "Nur offene Kandidaten",
+    "filterOpenToWorkDesc": "Kandidaten ausschließen, die nicht für neue Stellen offen sind",
+    "availabilityStatus": {
+      "activelyLooking": "Aktiv suchend",
+      "openButNotSearching": "Offen, aber nicht suchend",
+      "notAvailable": "Nicht verfügbar",
+      "freelanceOnly": "Nur Freelance"
+    },
+    "availabilityStatuses": "Einzuschließende Verfügbarkeitsstatus"
   },
   "appCVContent": {
     "createCVEntry": "Lebenslauf hinzufügen",
@@ -159,7 +169,23 @@
     "availability": {
       "title": "Verfügbarkeit",
       "interviews": "Interviewzeiten",
-      "startDate": "Startdatum"
+      "startDate": "Startdatum",
+      "openToWork": "Offen für Stellen",
+      "notOpenToWork": "Nicht offen für Stellen",
+      "availableFrom": "Verfügbar ab",
+      "noticePeriod": "Kündigungsfrist",
+      "days": "Tage",
+      "preferredWorkTypes": "Bevorzugte Arbeitsformen",
+      "preferredContractTypes": "Bevorzugte Vertragsarten",
+      "willingToRelocate": "Umzugsbereit",
+      "notWillingToRelocate": "Kein Umzug",
+      "remoteOnly": "Nur Remote",
+      "statusValue": {
+        "activelyLooking": "Aktiv suchend",
+        "openButNotSearching": "Offen, aber nicht suchend",
+        "notAvailable": "Nicht verfügbar",
+        "freelanceOnly": "Nur Freelance"
+      }
     },
     "summary": "Profil",
     "keySkills": "Kernkompetenzen",
@@ -239,7 +265,9 @@
     "filterByName": "Nach Name filtern…",
     "filterByRole": "Nach Rolle filtern…",
     "filterBySkill": "Nach Fähigkeit filtern…",
-    "filterMinExp": "Min. Jahre…"
+    "filterMinExp": "Min. Jahre…",
+    "resumeCount": "{{count}} Lebenslauf/-läufe",
+    "pageOf": "Seite {{page}} von {{total}}"
   },
   "appCVScreening": {
     "selectJobPost": "Stelle auswählen",
@@ -314,7 +342,12 @@
     "filterByConfidence": "Konfidenz",
     "allConfidences": "Alle Konfidenzstufen",
     "sortAsc": "Sortieren: Aufsteigend",
-    "sortDesc": "Sortieren: Absteigend"
+    "sortDesc": "Sortieren: Absteigend",
+    "startScreening": "Screening starten",
+    "screeningInProgress": "Screening läuft…",
+    "screeningNeeded": "{{count}} Stellenanzeige(n) benötigen Screening",
+    "noScreeningNeeded": "Alle Stellenanzeigen sind aktuell — kein Screening erforderlich.",
+    "reportCount": "{{count}} Bericht(e)"
   },
   "errors": {
     "404": {
@@ -366,7 +399,11 @@
     },
     "language": "Sprache",
     "languageHint": "Wählen Sie die Oberflächensprache",
-    "tabs": { "profile": "Mein Profil", "users": "Benutzer", "billing": "Abrechnung" },
+    "tabs": {
+      "profile": "Mein Profil",
+      "users": "Benutzer",
+      "billing": "Abrechnung"
+    },
     "editProfile": "Profil bearbeiten",
     "saveChanges": "Speichern",
     "cancel": "Abbrechen",
@@ -386,10 +423,47 @@
     "deleteUserMessage": "Möchten Sie diesen Benutzer wirklich entfernen? Diese Aktion kann nicht rückgängig gemacht werden.",
     "managePermissions": "Berechtigungen verwalten",
     "permissions": "Zugriffsberechtigungen",
-    "tableUser": "Benutzer", "tableEmail": "E-Mail", "tableRole": "Rolle", "tableActions": "Aktionen",
+    "tableUser": "Benutzer",
+    "tableEmail": "E-Mail",
+    "tableRole": "Rolle",
+    "tableActions": "Aktionen",
     "roleUser": "Benutzer",
-    "authorityGroups": { "dashboard": "Dashboard", "resumes": "Lebensläufe", "jobPosts": "Stellenangebote", "reports": "Berichte", "aiChat": "KI-Chat", "users": "Benutzerverwaltung", "atsExport": "ATS-Export", "billing": "Abrechnung" },
-    "authorities": { "VIEW_DASHBOARD": "Dashboard anzeigen", "ADD_CV": "Lebenslauf hinzufügen", "VIEW_CV": "Lebensläufe anzeigen", "MODIFY_CV": "Lebensläufe bearbeiten", "DELETE_CV": "Lebensläufe löschen", "ADD_JOB": "Stelle hinzufügen", "VIEW_JOB": "Stellen anzeigen", "MODIFY_JOB": "Stellen bearbeiten", "DELETE_JOB": "Stellen löschen", "GENERATE_REPORT": "Berichte generieren", "VIEW_REPORT": "Berichte anzeigen", "MODIFY_REPORT": "Berichte bearbeiten", "DELETE_REPORT": "Berichte löschen", "START_CHAT": "Chat starten", "VIEW_CHAT": "Chats anzeigen", "VIEW_MESSAGE": "Nachrichten anzeigen", "REPLY_MESSAGE": "Auf Nachrichten antworten", "MODIFY_CHAT": "Chat aktualisieren", "DELETE_CHAT": "Chat löschen", "VIEW_USERS": "Benutzer anzeigen", "MANAGE_USERS": "Benutzer verwalten", "ATS_REPORT_EXPORT": "ATS-Export", "UPDATE_SUBSCRIPTION": "Abonnement aktualisieren", "CANCEL_SUBSCRIPTION": "Abonnement kündigen" }
+    "authorityGroups": {
+      "dashboard": "Dashboard",
+      "resumes": "Lebensläufe",
+      "jobPosts": "Stellenangebote",
+      "reports": "Berichte",
+      "aiChat": "KI-Chat",
+      "users": "Benutzerverwaltung",
+      "atsExport": "ATS-Export",
+      "billing": "Abrechnung"
+    },
+    "authorities": {
+      "VIEW_DASHBOARD": "Dashboard anzeigen",
+      "ADD_CV": "Lebenslauf hinzufügen",
+      "VIEW_CV": "Lebensläufe anzeigen",
+      "MODIFY_CV": "Lebensläufe bearbeiten",
+      "DELETE_CV": "Lebensläufe löschen",
+      "ADD_JOB": "Stelle hinzufügen",
+      "VIEW_JOB": "Stellen anzeigen",
+      "MODIFY_JOB": "Stellen bearbeiten",
+      "DELETE_JOB": "Stellen löschen",
+      "GENERATE_REPORT": "Berichte generieren",
+      "VIEW_REPORT": "Berichte anzeigen",
+      "MODIFY_REPORT": "Berichte bearbeiten",
+      "DELETE_REPORT": "Berichte löschen",
+      "START_CHAT": "Chat starten",
+      "VIEW_CHAT": "Chats anzeigen",
+      "VIEW_MESSAGE": "Nachrichten anzeigen",
+      "REPLY_MESSAGE": "Auf Nachrichten antworten",
+      "MODIFY_CHAT": "Chat aktualisieren",
+      "DELETE_CHAT": "Chat löschen",
+      "VIEW_USERS": "Benutzer anzeigen",
+      "MANAGE_USERS": "Benutzer verwalten",
+      "ATS_REPORT_EXPORT": "ATS-Export",
+      "UPDATE_SUBSCRIPTION": "Abonnement aktualisieren",
+      "CANCEL_SUBSCRIPTION": "Abonnement kündigen"
+    }
   },
   "dashboard": {
     "errors": {
@@ -408,13 +482,13 @@
       "totalCVs": "Lebensläufe",
       "totalJobsPosted": "Stellenanzeigen",
       "totalUsers": "Benutzer",
-      "totalResumeAnalysis": "Gesamtanzahl analysierter Lebensläufe",
-      "totalResumesProcessedCurrentMonth": "Diesen Monat analysiert"
+      "totalResumeAnalysis": "Match-Berichte"
     },
     "sections": {
       "skillsReport": "Top 10 Fähigkeiten",
       "jobPostsReport": "Bewerbungen pro Stelle",
-      "topCandidates": "Top 5 Kandidaten pro Stellenanzeige"
+      "topCandidates": "Top 5 Kandidaten pro Stellenanzeige",
+      "usageMonitoring": "Nutzungsüberwachung"
     },
     "empty": {
       "skills": "Keine Daten zu Kompetenzen.",
@@ -424,6 +498,15 @@
       "jobPostTitle": "Stellentitel",
       "totalMatch": "Bewerbungen",
       "candidate": "Kandidat"
+    },
+    "usage": {
+      "screeningActions": "Matching-Aktionen",
+      "aiResumeChats": "KI-Lebenslauf-Chats",
+      "talentIntelligenceQueries": "Talent-Intelligenz",
+      "used": "genutzt",
+      "cumulativeTooltip": "Gesamtzahl über alle Zeiträume",
+      "allTime": "gesamt",
+      "lastUpdated": "Zuletzt aktualisiert"
     }
   },
   "appAIResumeChat": {

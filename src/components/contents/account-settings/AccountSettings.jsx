@@ -27,7 +27,8 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import LanguageSwitcher from '../../../components/languages/LanguageSwitcher.jsx';
 import { useNavigate } from 'react-router-dom';
-import apiClient from '../../../../axiosConfig.js';
+import { createPortalSession } from '../../../services/stripeService.js';
+import { updateProfile, updatePassword } from '../../../services/userService.js';
 import { useTranslation } from 'react-i18next';
 import {
 	SUBSCRIPTION_STATUS,
@@ -124,8 +125,7 @@ const AccountSettings = () => {
 	const handleOpenBillingPortal = async () => {
 		try {
 			setLoadingPortal(true);
-			const endpoint = import.meta.env.VITE_APP_API_PORTAL_SESSION_URL;
-			const res = await apiClient.post(endpoint);
+			const res = await createPortalSession();
 			if (res?.data?.url) { window.location.href = res.data.url; return; }
 			const fallback = import.meta.env.VITE_STRIPE_TEST_PORTAL_URL;
 			if (fallback) window.location.href = fallback;
@@ -140,8 +140,7 @@ const AccountSettings = () => {
 	const handleSaveProfile = async () => {
 		try {
 			setSavingProfile(true);
-			const usersUrl = import.meta.env.VITE_APP_API_USERS_URL;
-			await apiClient.patch(`${usersUrl}/${userInfo.id}`, { firstName: editValues.firstName, lastName: editValues.lastName });
+			await updateProfile(userInfo.id, { firstName: editValues.firstName, lastName: editValues.lastName });
 			const updated = { ...userInfo, firstName: editValues.firstName, lastName: editValues.lastName };
 			setUserInfo(updated);
 			localStorage.setItem(USER_FIRST_NAME, editValues.firstName);
@@ -166,8 +165,7 @@ const AccountSettings = () => {
 		}
 		try {
 			setSavingPw(true);
-			const usersUrl = import.meta.env.VITE_APP_API_USERS_URL;
-			await apiClient.patch(`${usersUrl}/${userInfo.id}/password`, {
+			await updatePassword(userInfo.id, {
 				currentPassword: pwValues.currentPassword,
 				newPassword: pwValues.newPassword,
 			});

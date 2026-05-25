@@ -40,8 +40,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import apiClient from '../../../../axiosConfig.js';
-import { AUTH_TOKEN, QORVA_USER_LANGUAGE } from '../../../constants.js';
+import { getChats, getMessages, createChat, sendMessage as sendChatMessage, updateChatStatus, deleteChat } from '../../../services/chatService.js';
+import { getCVs, searchCVs } from '../../../services/cvService.js';
+import { getJobs } from '../../../services/jobService.js';
+import { findReportByCriteria } from '../../../services/reportService.js';
+import { QORVA_USER_LANGUAGE } from '../../../constants.js';
 
 const ls = (k, d = null) => { try { const v = localStorage.getItem(k); return v ?? d; } catch { return d; } };
 
@@ -116,20 +119,13 @@ const AppAIResumeChat = () => {
 	const [headerMenuAnchor, setHeaderMenuAnchor] = useState(null);
 
 	const userLang = ls(QORVA_USER_LANGUAGE, 'en');
-	const bearer = ls(AUTH_TOKEN);
-	const chatBaseUrl = import.meta.env.VITE_APP_API_CHAT_URL;
-	const jobsUrl = import.meta.env.VITE_APP_API_JOB_POSTS_URL;
-	const reportSearchUrl = import.meta.env.VITE_APP_API_REPORT_URL
-		? `${import.meta.env.VITE_APP_API_REPORT_URL}/search`
-		: null;
 
 	const fetchChatsPage = async (pageNumber = 0, filter = statusFilter) => {
-		if (!chatBaseUrl) return;
 		try {
 			setLoadingChats(true);
 			const params = { page: pageNumber, size: PAGE_SIZE_CHATS };
 			if (filter) params.status = filter;
-			const resp = await apiClient.get(chatBaseUrl, { params });
+			const resp = await getChats(params);
 			const content = resp?.data?.content ?? resp?.data?.data?.content ?? [];
 			const totalPages = resp?.data?.totalPages ?? resp?.data?.data?.totalPages ?? 1;
 			setChats(prev => (pageNumber === 0 ? content : [...prev, ...content]));
@@ -143,12 +139,10 @@ const AppAIResumeChat = () => {
 	};
 
 	const fetchMessagesPage = async (chatId, pageNumber = 0) => {
-		if (!chatBaseUrl || !chatId) return;
+		if (!chatId) return;
 		try {
 			setLoadingMessages(true);
-			const resp = await apiClient.get(`${chatBaseUrl}/${chatId}/messages`, {
-				params: { pageNumber, pageSize: PAGE_SIZE_MESSAGES },
-			});
+			const resp = await getMessages(chatId, { pageNumber, pageSize: PAGE_SIZE_MESSAGES });
 			const content = resp?.data?.content ?? resp?.data?.data?.content ?? [];
 			const totalPages = resp?.data?.totalPages ?? resp?.data?.data?.totalPages ?? 1;
 			setMessages(prev => (pageNumber === 0 ? content : [...prev, ...content]));
@@ -171,13 +165,10 @@ const AppAIResumeChat = () => {
 		fetchMessagesPage(chat.id, 0);
 	};
 
-	const getAllCVEntries = async () =>
-		apiClient.get(import.meta.env.VITE_APP_API_CV_URL, { params: { pageNumber: 0, pageSize: 50 } });
+	const getAllCVEntries = async () => getCVs({ pageNumber: 0, pageSize: 50 });
 
 	const searchCVEntriesByCriteria = async (searchTerm) =>
-		apiClient.get(`${import.meta.env.VITE_APP_API_CV_URL}/search`, {
-			params: { pageNumber: 0, pageSize: 25, searchTerms: searchTerm.trim() },
-		});
+		searchCVs({ pageNumber: 0, pageSize: 25, searchTerms: searchTerm.trim() });
 
 	const handleSearchChange = async (value) => {
 		setCvSearch(value);
@@ -200,7 +191,7 @@ const AppAIResumeChat = () => {
 			setCvList(cvResp?.data?.data?.content ?? cvResp?.data?.content ?? []);
 		} catch (e) { setCvList([]); }
 		try {
-			const jobsResp = await apiClient.get(jobsUrl, { params: { pageSize: 50 } });
+			const jobsResp = await getJobs({ pageSize: 50 });
 			setJobs(jobsResp?.data?.data?.content ?? jobsResp?.data?.content ?? []);
 		} catch (e) { setJobs([]); }
 	};
@@ -216,14 +207,14 @@ const AppAIResumeChat = () => {
 
 	useEffect(() => {
 		const candidateId = getCandidateIdFromCV(selectedCV);
-		if (!openCreateModal || !selectedCV || !selectedJob || !reportSearchUrl || !candidateId) {
+		if (!openCreateModal || !selectedCV || !selectedJob || !candidateId) {
 			setResumeMatch(null); setSelectedResumeMatchId(''); return;
 		}
 		let cancelled = false;
 		const search = async () => {
 			try {
 				setLoadingResumeMatch(true);
-				const resp = await apiClient.post(reportSearchUrl, { jobPostId: selectedJob.id, candidateInfo: { candidateId } });
+				const resp = await findReportByCriteria({ jobPostId: selectedJob.id, candidateInfo: { candidateId } });
 				if (cancelled) return;
 				const found = resp?.data?.data || null;
 				setResumeMatch(found);
@@ -241,7 +232,7 @@ const AppAIResumeChat = () => {
 	}, [openCreateModal, selectedCV, selectedJob]);
 
 	const handleCreateChat = async () => {
-		if (!chatBaseUrl || !selectedCV || !selectedJob) {
+		if (!selectedCV || !selectedJob) {
 			alert(t('appAIResumeChat.selectCvAndJob'));
 			return;
 		}
@@ -255,7 +246,7 @@ const AppAIResumeChat = () => {
 				participants: [{ role: 'OWNER' }],
 				language: locale,
 			};
-			const resp = await apiClient.post(chatBaseUrl, body);
+			const resp = await createChat(body);
 			const created = resp?.data;
 			setChats(prev => [created, ...prev]);
 			setSelectedChat(created);
@@ -278,9 +269,7 @@ const AppAIResumeChat = () => {
 		setComposer('');
 		setAssistantTyping(true);
 		try {
-			await apiClient.post(`${chatBaseUrl}/${chatId}/messages`, { content }, {
-				headers: bearer ? { Authorization: `Bearer ${bearer}` } : undefined,
-			});
+			await sendChatMessage(chatId, content);
 			await fetchMessagesPage(chatId, 0);
 		} catch (e) {
 			console.error('Error sending message:', e);
@@ -293,7 +282,7 @@ const AppAIResumeChat = () => {
 		if (!chatToDelete) return;
 		try {
 			setDeletingChat(true);
-			await apiClient.delete(`${chatBaseUrl}/${chatToDelete.id}`);
+			await deleteChat(chatToDelete.id);
 			setChats(prev => prev.filter(c => c.id !== chatToDelete.id));
 			if (selectedChat?.id === chatToDelete.id) {
 				setSelectedChat(null);
@@ -310,7 +299,7 @@ const AppAIResumeChat = () => {
 	const handleUpdateStatus = async (chat, status) => {
 		try {
 			setUpdatingStatusChatId(chat.id);
-			const resp = await apiClient.patch(`${chatBaseUrl}/${chat.id}/status`, null, { params: { status } });
+			const resp = await updateChatStatus(chat.id, status);
 			const newStatus = resp?.data?.status ?? status;
 			if (statusFilter && newStatus !== statusFilter) {
 				setChats(prev => prev.filter(c => c.id !== chat.id));

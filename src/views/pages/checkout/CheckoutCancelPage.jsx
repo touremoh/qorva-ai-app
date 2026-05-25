@@ -13,7 +13,8 @@ import {
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import ReplayRoundedIcon from '@mui/icons-material/ReplayRounded';
 import { useTranslation } from 'react-i18next';
-import apiClient from '../../../../axiosConfig.js';
+import { getCheckoutCancel } from '../../../services/stripeService.js';
+import { createCheckoutSession } from '../../../services/registrationService.js';
 import { TENANT_ID, USER_ID } from '../../../constants.js';
 
 const CheckoutCancelPage = () => {
@@ -28,8 +29,7 @@ const CheckoutCancelPage = () => {
 	const canRetry = Boolean(tenantId && userId && priceId);
 
 	useEffect(() => {
-		apiClient
-			.get(import.meta.env.VITE_APP_API_STRIPE_CANCEL_URL)
+		getCheckoutCancel()
 			.catch(() => {})
 			.finally(() => setConfirming(false));
 	}, []);
@@ -39,10 +39,7 @@ const CheckoutCancelPage = () => {
 		setRetryLoading(true);
 		setRetryError('');
 		try {
-			const response = await apiClient.post(
-				import.meta.env.VITE_APP_API_CHECKOUT_SESSION_URL,
-				{ tenantId, userId, priceId }
-			);
+			const response = await createCheckoutSession({ tenantId, userId, priceId });
 			const checkoutUrl = response.data?.data?.checkoutUrl;
 			if (checkoutUrl) {
 				window.location.href = checkoutUrl;

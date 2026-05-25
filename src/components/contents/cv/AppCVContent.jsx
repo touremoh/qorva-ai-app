@@ -19,8 +19,7 @@ import TableRowsIcon from '@mui/icons-material/TableRows';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import AppCVDetails from './AppCVDetails.jsx';
 import AppCVEntries from './AppCVEntries.jsx';
-import apiClient, { apiFormDataClient } from '../../../../axiosConfig.js';
-import { AUTH_TOKEN } from '../../../constants.js';
+import { getCVs, uploadCVs, deleteCV } from '../../../services/cvService.js';
 
 const MAX_FILES = 100;
 const FILE_TYPE_PDF = 'application/pdf';
@@ -30,6 +29,7 @@ const AppCVContent = () => {
 	const { t } = useTranslation();
 	const [cvEntries, setCvEntries] = useState([]);
 	const [totalPages, setTotalPages] = useState(0);
+	const [totalElements, setTotalElements] = useState(0);
 	const [selectedCV, setSelectedCV] = useState(null);
 	const [viewMode, setViewMode] = useState('table');
 	const [openUploadModal, setOpenUploadModal] = useState(false);
@@ -41,11 +41,10 @@ const AppCVContent = () => {
 
 	const fetchCVEntries = async () => {
 		try {
-			const response = await apiClient.get(import.meta.env.VITE_APP_API_CV_URL, {
-				params: { pageSize: 25 },
-			});
+			const response = await getCVs({ pageSize: 25 });
 			setCvEntries(response.data.data.content);
 			setTotalPages(response.data.data.totalPages ?? 0);
+			setTotalElements(response.data.data.totalElements ?? 0);
 		} catch (error) {
 			console.error('Error fetching CV entries:', error);
 		}
@@ -76,11 +75,7 @@ const AppCVContent = () => {
 			setIsUploading(true);
 			const formData = new FormData();
 			selectedFiles.forEach(f => formData.append('files', f));
-			const response = await apiFormDataClient.post(
-				import.meta.env.VITE_APP_API_CV_UPLOAD_URL,
-				formData,
-				{ headers: { Authorization: `Bearer ${localStorage.getItem(AUTH_TOKEN)}` } }
-			);
+			const response = await uploadCVs(formData);
 			if (response.status === 200) {
 				await fetchCVEntries();
 				setSelectedFiles([]);
@@ -96,9 +91,7 @@ const AppCVContent = () => {
 	const handleDeleteCV = async () => {
 		if (!selectedCV) return;
 		try {
-			await apiClient.delete(`${import.meta.env.VITE_APP_API_CV_URL}/${selectedCV.id}`, {
-				headers: { Authorization: `Bearer ${localStorage.getItem(AUTH_TOKEN)}` },
-			});
+			await deleteCV(selectedCV.id);
 			setCvEntries(cvEntries.filter(cv => cv.id !== selectedCV.id));
 			setSelectedCV(null);
 			setDeleteDialogOpen(false);
@@ -217,6 +210,8 @@ const AppCVContent = () => {
 						selectedCV={selectedCV}
 						totalPages={totalPages}
 						setTotalPages={setTotalPages}
+						totalElements={totalElements}
+						setTotalElements={setTotalElements}
 					/>
 				</Box>
 

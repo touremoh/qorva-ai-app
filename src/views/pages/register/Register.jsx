@@ -22,7 +22,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import apiClient from '../../../../axiosConfig.js';
+import { registerUser } from '../../../services/registrationService.js';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../../../components/languages/LanguageSwitcher.jsx';
 import { TENANT_ID, USER_ID } from '../../../constants.js';
@@ -115,11 +115,7 @@ const UserRegistration = () => {
 		setLoading(true);
 		try {
 			const currentLang = acceptedLanguages.includes(i18n.language) ? i18n.language : 'en';
-			const response = await apiClient.post(
-				import.meta.env.VITE_APP_API_REGISTER_URL,
-				{ ...userInfo, priceId: selectedPriceId, languageCode: currentLang },
-				{ headers: { 'Accept-Language': currentLang } }
-			);
+			const response = await registerUser({ ...userInfo, priceId: selectedPriceId, languageCode: currentLang });
 			if (response.status === 200) {
 				localStorage.clear();
 				localStorage.setItem(TENANT_ID, response.data?.data?.tenantId);

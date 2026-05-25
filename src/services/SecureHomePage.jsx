@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import apiClient from "../../axiosConfig.js";
+import { validateToken, refreshToken } from './authService.js';
 import { t } from "i18next";
 import {
 	AUTH_TOKEN,
@@ -17,9 +17,7 @@ const SecureHomePage = ({ children }) => {
 	const isTokenValid = async () => {
 		try {
 			if (!token) return false;
-			const response = await apiClient.post(import.meta.env.VITE_APP_API_VALIDATE_TOKEN_URL, null, {
-				headers: { Authorization: `Bearer ${token}` },
-			});
+			const response = await validateToken(token);
 			return response.data?.data === true;
 		} catch {
 			return false;
@@ -35,10 +33,7 @@ const SecureHomePage = ({ children }) => {
 			}
 
 			try {
-				const response = await apiClient.post(
-					import.meta.env.VITE_APP_API_REFRESH_TOKEN_URL,
-					{ headers: { Authorization: `Bearer ${localStorage.getItem(AUTH_TOKEN)}` } }
-				);
+				const response = await refreshToken();
 
 				if (response.status !== 200) {
 					navigate('/error', { state: { errorCode: response.status, errorMessage: t('errors.generic.message') } });

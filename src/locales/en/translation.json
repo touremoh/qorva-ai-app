@@ -74,7 +74,7 @@
     "screening": "Screening",
     "jobs": "Jobs",
     "cvs": "Resume Library",
-    "reports": "Screening Reports",
+    "reports": "Match Intelligence",
     "accountSettings": "Account Settings",
     "logout": "Sign Out",
     "aiResumeChat": "AI Resume Chat"
@@ -142,7 +142,17 @@
     "weightExperience": "Experience",
     "weightLocation": "Location",
     "weightIndustry": "Industry",
-    "totalWeight": "Total"
+    "totalWeight": "Total",
+    "candidateFilters": "Candidate Filters",
+    "filterOpenToWork": "Open to Work Only",
+    "filterOpenToWorkDesc": "Exclude candidates who are not open to new opportunities",
+    "availabilityStatus": {
+      "activelyLooking": "Actively Looking",
+      "openButNotSearching": "Open but Not Searching",
+      "notAvailable": "Not Available",
+      "freelanceOnly": "Freelance Only"
+    },
+    "availabilityStatuses": "Availability Statuses to Match"
   },
   "appCVContent": {
     "createCVEntry": "Add Resume",
@@ -164,7 +174,23 @@
     "availability": {
       "title": "Availability",
       "interviews": "Interview Availability",
-      "startDate": "Start Date"
+      "startDate": "Start Date",
+      "openToWork": "Open to Work",
+      "notOpenToWork": "Not Open to Work",
+      "availableFrom": "Available From",
+      "noticePeriod": "Notice Period",
+      "days": "days",
+      "preferredWorkTypes": "Preferred Work Types",
+      "preferredContractTypes": "Preferred Contract Types",
+      "willingToRelocate": "Willing to Relocate",
+      "notWillingToRelocate": "Not Willing to Relocate",
+      "remoteOnly": "Remote Only",
+      "statusValue": {
+        "activelyLooking": "Actively Looking",
+        "openButNotSearching": "Open but Not Searching",
+        "notAvailable": "Not Available",
+        "freelanceOnly": "Freelance Only"
+      }
     },
     "summary": "Summary",
     "keySkills": "Key Skills",
@@ -242,7 +268,9 @@
     "filterByName": "Filter by name…",
     "filterByRole": "Filter by role…",
     "filterBySkill": "Filter by skill…",
-    "filterMinExp": "Min. years…"
+    "filterMinExp": "Min. years…",
+    "resumeCount": "{{count}} resume(s)",
+    "pageOf": "page {{page}} of {{total}}"
   },
   "appCVScreening": {
     "selectJobPost": "Choose Job Post",
@@ -317,7 +345,12 @@
     "filterByConfidence": "Confidence",
     "allConfidences": "All Confidence Levels",
     "sortAsc": "Sort: Low to High",
-    "sortDesc": "Sort: High to Low"
+    "sortDesc": "Sort: High to Low",
+    "startScreening": "Run Screening",
+    "screeningInProgress": "Screening in progress…",
+    "screeningNeeded": "{{count}} job post(s) pending screening",
+    "noScreeningNeeded": "All job posts are up to date — no screening needed.",
+    "reportCount": "{{count}} report(s)"
   },
   "errors": {
     "404": {
@@ -452,13 +485,13 @@
       "totalCVs": "Resumes",
       "totalJobsPosted": "Job Posts",
       "totalUsers": "Users",
-      "totalResumeAnalysis": "Resumes Screened",
-      "totalResumesProcessedCurrentMonth": "Screened This Month"
+      "totalResumeAnalysis": "Match Reports"
     },
     "sections": {
       "skillsReport": "Top 10 Skills",
       "jobPostsReport": "Applications per Job",
-      "topCandidates": "Top 5 Candidates per Job Post"
+      "topCandidates": "Top 5 Candidates per Job Post",
+      "usageMonitoring": "Usage Monitoring"
     },
     "empty": {
       "skills": "No skills data available",
@@ -468,6 +501,15 @@
       "jobPostTitle": "Job Title",
       "totalMatch": "Applications",
       "candidate": "Candidate"
+    },
+    "usage": {
+      "screeningActions": "Matching Actions",
+      "aiResumeChats": "AI Resume Chats",
+      "talentIntelligenceQueries": "Talent Intelligence",
+      "used": "used",
+      "cumulativeTooltip": "All-time total across all periods",
+      "allTime": "all-time",
+      "lastUpdated": "Last updated"
     }
   },
   "appAIResumeChat": {

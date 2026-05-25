@@ -67,7 +67,7 @@
     "screening": "Screening",
     "jobs": "Vacatures",
     "cvs": "CV-archief",
-    "reports": "Rapporten",
+    "reports": "Match Intelligence",
     "accountSettings": "Account",
     "logout": "Uitloggen",
     "aiResumeChat": "AI CV-chat"
@@ -135,7 +135,17 @@
     "weightExperience": "Ervaring",
     "weightLocation": "Locatie",
     "weightIndustry": "Sector",
-    "totalWeight": "Totaal"
+    "totalWeight": "Totaal",
+    "candidateFilters": "Kandidaatfilters",
+    "filterOpenToWork": "Alleen beschikbare kandidaten",
+    "filterOpenToWorkDesc": "Kandidaten uitsluiten die niet openstaan voor nieuwe kansen",
+    "availabilityStatus": {
+      "activelyLooking": "Actief zoekend",
+      "openButNotSearching": "Open maar niet actief zoekend",
+      "notAvailable": "Niet beschikbaar",
+      "freelanceOnly": "Alleen freelance"
+    },
+    "availabilityStatuses": "Te matchen beschikbaarheidsstatussen"
   },
   "appCVContent": {
     "createCVEntry": "CV toevoegen",
@@ -159,7 +169,23 @@
     "availability": {
       "title": "Beschikbaarheid",
       "interviews": "Beschikbaar voor gesprekken",
-      "startDate": "Beschikbaar vanaf"
+      "startDate": "Beschikbaar vanaf",
+      "openToWork": "Open voor kansen",
+      "notOpenToWork": "Niet beschikbaar",
+      "availableFrom": "Beschikbaar vanaf",
+      "noticePeriod": "Opzegtermijn",
+      "days": "dagen",
+      "preferredWorkTypes": "Voorkeur werkvorm",
+      "preferredContractTypes": "Voorkeur contracttype",
+      "willingToRelocate": "Bereid te verhuizen",
+      "notWillingToRelocate": "Geen verhuizing",
+      "remoteOnly": "Alleen remote",
+      "statusValue": {
+        "activelyLooking": "Actief zoekend",
+        "openButNotSearching": "Open maar niet actief zoekend",
+        "notAvailable": "Niet beschikbaar",
+        "freelanceOnly": "Alleen freelance"
+      }
     },
     "summary": "Samenvatting",
     "keySkills": "Kernvaardigheden",
@@ -239,7 +265,9 @@
     "filterByName": "Filteren op naam…",
     "filterByRole": "Filteren op rol…",
     "filterBySkill": "Filteren op vaardigheid…",
-    "filterMinExp": "Min. jaren…"
+    "filterMinExp": "Min. jaren…",
+    "resumeCount": "{{count}} CV('s)",
+    "pageOf": "pagina {{page}} van {{total}}"
   },
   "appCVScreening": {
     "selectJobPost": "Selecteer vacature",
@@ -311,7 +339,12 @@
     "filterByConfidence": "Zekerheid",
     "allConfidences": "Alle zekerheidsniveaus",
     "sortAsc": "Sorteren: Oplopend",
-    "sortDesc": "Sorteren: Aflopend"
+    "sortDesc": "Sorteren: Aflopend",
+    "startScreening": "Screening starten",
+    "screeningInProgress": "Screening bezig…",
+    "screeningNeeded": "{{count}} vacature(s) wachten op screening",
+    "noScreeningNeeded": "Alle vacatures zijn up-to-date — geen screening nodig.",
+    "reportCount": "{{count}} rapport(en)"
   },
   "errors": {
     "404": {
@@ -363,7 +396,11 @@
     },
     "language": "Taal",
     "languageHint": "Kies de interfacetaal",
-    "tabs": { "profile": "Mijn Profiel", "users": "Gebruikers", "billing": "Facturering" },
+    "tabs": {
+      "profile": "Mijn Profiel",
+      "users": "Gebruikers",
+      "billing": "Facturering"
+    },
     "editProfile": "Profiel bewerken",
     "saveChanges": "Wijzigingen opslaan",
     "cancel": "Annuleren",
@@ -383,10 +420,47 @@
     "deleteUserMessage": "Weet u zeker dat u deze gebruiker wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.",
     "managePermissions": "Rechten beheren",
     "permissions": "Toegangsrechten",
-    "tableUser": "Gebruiker", "tableEmail": "E-mail", "tableRole": "Rol", "tableActions": "Acties",
+    "tableUser": "Gebruiker",
+    "tableEmail": "E-mail",
+    "tableRole": "Rol",
+    "tableActions": "Acties",
     "roleUser": "Gebruiker",
-    "authorityGroups": { "dashboard": "Dashboard", "resumes": "CV's", "jobPosts": "Vacatures", "reports": "Rapporten", "aiChat": "AI Chat", "users": "Gebruikersbeheer", "atsExport": "ATS-export", "billing": "Facturering" },
-    "authorities": { "VIEW_DASHBOARD": "Dashboard bekijken", "ADD_CV": "CV toevoegen", "VIEW_CV": "CV's bekijken", "MODIFY_CV": "CV's bewerken", "DELETE_CV": "CV's verwijderen", "ADD_JOB": "Vacature toevoegen", "VIEW_JOB": "Vacatures bekijken", "MODIFY_JOB": "Vacatures bewerken", "DELETE_JOB": "Vacatures verwijderen", "GENERATE_REPORT": "Rapporten genereren", "VIEW_REPORT": "Rapporten bekijken", "MODIFY_REPORT": "Rapporten bewerken", "DELETE_REPORT": "Rapporten verwijderen", "START_CHAT": "Chat starten", "VIEW_CHAT": "Chats bekijken", "VIEW_MESSAGE": "Berichten bekijken", "REPLY_MESSAGE": "Berichten beantwoorden", "MODIFY_CHAT": "Chat bijwerken", "DELETE_CHAT": "Chat verwijderen", "VIEW_USERS": "Gebruikers bekijken", "MANAGE_USERS": "Gebruikers beheren", "ATS_REPORT_EXPORT": "ATS-export", "UPDATE_SUBSCRIPTION": "Abonnement bijwerken", "CANCEL_SUBSCRIPTION": "Abonnement opzeggen" }
+    "authorityGroups": {
+      "dashboard": "Dashboard",
+      "resumes": "CV's",
+      "jobPosts": "Vacatures",
+      "reports": "Rapporten",
+      "aiChat": "AI Chat",
+      "users": "Gebruikersbeheer",
+      "atsExport": "ATS-export",
+      "billing": "Facturering"
+    },
+    "authorities": {
+      "VIEW_DASHBOARD": "Dashboard bekijken",
+      "ADD_CV": "CV toevoegen",
+      "VIEW_CV": "CV's bekijken",
+      "MODIFY_CV": "CV's bewerken",
+      "DELETE_CV": "CV's verwijderen",
+      "ADD_JOB": "Vacature toevoegen",
+      "VIEW_JOB": "Vacatures bekijken",
+      "MODIFY_JOB": "Vacatures bewerken",
+      "DELETE_JOB": "Vacatures verwijderen",
+      "GENERATE_REPORT": "Rapporten genereren",
+      "VIEW_REPORT": "Rapporten bekijken",
+      "MODIFY_REPORT": "Rapporten bewerken",
+      "DELETE_REPORT": "Rapporten verwijderen",
+      "START_CHAT": "Chat starten",
+      "VIEW_CHAT": "Chats bekijken",
+      "VIEW_MESSAGE": "Berichten bekijken",
+      "REPLY_MESSAGE": "Berichten beantwoorden",
+      "MODIFY_CHAT": "Chat bijwerken",
+      "DELETE_CHAT": "Chat verwijderen",
+      "VIEW_USERS": "Gebruikers bekijken",
+      "MANAGE_USERS": "Gebruikers beheren",
+      "ATS_REPORT_EXPORT": "ATS-export",
+      "UPDATE_SUBSCRIPTION": "Abonnement bijwerken",
+      "CANCEL_SUBSCRIPTION": "Abonnement opzeggen"
+    }
   },
   "dashboard": {
     "errors": {
@@ -405,13 +479,13 @@
       "totalCVs": "CV’s",
       "totalJobsPosted": "Vacatures",
       "totalUsers": "Gebruikers",
-      "totalResumeAnalysis": "Totaal gescreende CV’s",
-      "totalResumesProcessedCurrentMonth": "Deze maand gescreende CV’s"
+      "totalResumeAnalysis": "Match-rapporten"
     },
     "sections": {
       "skillsReport": "Top 10 vaardigheden",
       "jobPostsReport": "Sollicitaties per vacature",
-      "topCandidates": "Top 5 kandidaten per vacature"
+      "topCandidates": "Top 5 kandidaten per vacature",
+      "usageMonitoring": "Gebruiksmonitoring"
     },
     "empty": {
       "skills": "Geen vaardigheidsdata beschikbaar.",
@@ -421,6 +495,15 @@
       "jobPostTitle": "Vacaturetitel",
       "totalMatch": "Aantal sollicitaties",
       "candidate": "Kandidaat"
+    },
+    "usage": {
+      "screeningActions": "Matching-acties",
+      "aiResumeChats": "AI CV-chats",
+      "talentIntelligenceQueries": "Talentinformatie",
+      "used": "gebruikt",
+      "cumulativeTooltip": "Totaal over alle perioden",
+      "allTime": "totaal",
+      "lastUpdated": "Laatste update"
     }
   },
   "appAIResumeChat": {

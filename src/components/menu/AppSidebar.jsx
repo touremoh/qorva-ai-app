@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Drawer, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import AppMenuList from './AppMenuList/AppMenuList.jsx';
-import apiClient from '../../../axiosConfig.js';
+import { getChatAllowedStatus } from '../../services/chatService.js';
 import PropTypes from 'prop-types';
 
 export const SIDEBAR_WIDTH = 240;
@@ -21,8 +21,7 @@ const AppSidebar = ({ isSidebarOpen, isSidebarCollapsed, handleSidebarToggle, ha
 	};
 
 	useEffect(() => {
-		apiClient
-			.get(`${import.meta.env.VITE_APP_API_CHAT_URL}/allowed`)
+		getChatAllowedStatus()
 			.then((res) => setIsChatAllowed(res.data))
 			.catch(() => setIsChatAllowed(false));
 	}, []);

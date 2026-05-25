@@ -13,7 +13,7 @@ import {
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import LoginRoundedIcon from '@mui/icons-material/LoginRounded';
 import { useTranslation } from 'react-i18next';
-import apiClient from '../../../../axiosConfig.js';
+import { getCheckoutSuccess } from '../../../services/stripeService.js';
 
 const CheckoutSuccessPage = () => {
 	const { t } = useTranslation();
@@ -22,12 +22,7 @@ const CheckoutSuccessPage = () => {
 
 	useEffect(() => {
 		const sessionId = searchParams.get('session_id');
-		const url = sessionId
-			? `${import.meta.env.VITE_APP_API_STRIPE_SUCCESS_URL}?session_id=${sessionId}`
-			: import.meta.env.VITE_APP_API_STRIPE_SUCCESS_URL;
-
-		apiClient
-			.get(url)
+		getCheckoutSuccess(sessionId)
 			.catch(() => {})
 			.finally(() => setConfirming(false));
 	}, []);

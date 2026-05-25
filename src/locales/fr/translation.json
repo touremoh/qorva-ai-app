@@ -67,7 +67,7 @@
     "screening": "Évaluation",
     "jobs": "Offres",
     "cvs": "CVthèque",
-    "reports": "Rapports",
+    "reports": "Match Intelligence",
     "accountSettings": "Compte",
     "logout": "Déconnexion",
     "aiResumeChat": "Chat CV IA"
@@ -135,7 +135,17 @@
     "weightExperience": "Expérience",
     "weightLocation": "Localisation",
     "weightIndustry": "Secteur",
-    "totalWeight": "Total"
+    "totalWeight": "Total",
+    "candidateFilters": "Filtres candidats",
+    "filterOpenToWork": "Ouvert aux opportunités uniquement",
+    "filterOpenToWorkDesc": "Exclure les candidats qui ne sont pas ouverts à de nouvelles opportunités",
+    "availabilityStatus": {
+      "activelyLooking": "En recherche active",
+      "openButNotSearching": "Ouvert mais non en recherche",
+      "notAvailable": "Non disponible",
+      "freelanceOnly": "Freelance uniquement"
+    },
+    "availabilityStatuses": "Statuts de disponibilité à inclure"
   },
   "appCVContent": {
     "createCVEntry": "Ajouter un CV",
@@ -159,7 +169,23 @@
     "availability": {
       "title": "Disponibilité",
       "interviews": "Pour entretiens",
-      "startDate": "Date de début"
+      "startDate": "Date de début",
+      "openToWork": "Ouvert aux opportunités",
+      "notOpenToWork": "Non disponible",
+      "availableFrom": "Disponible à partir de",
+      "noticePeriod": "Préavis",
+      "days": "jours",
+      "preferredWorkTypes": "Types de travail préférés",
+      "preferredContractTypes": "Types de contrat préférés",
+      "willingToRelocate": "Mobilité géographique",
+      "notWillingToRelocate": "Pas de mobilité",
+      "remoteOnly": "Télétravail uniquement",
+      "statusValue": {
+        "activelyLooking": "En recherche active",
+        "openButNotSearching": "Ouvert mais non en recherche",
+        "notAvailable": "Non disponible",
+        "freelanceOnly": "Freelance uniquement"
+      }
     },
     "summary": "Résumé",
     "keySkills": "Compétences clés",
@@ -239,7 +265,9 @@
     "filterByName": "Filtrer par nom…",
     "filterByRole": "Filtrer par rôle…",
     "filterBySkill": "Filtrer par compétence…",
-    "filterMinExp": "Années min.…"
+    "filterMinExp": "Années min.…",
+    "resumeCount": "{{count}} CV",
+    "pageOf": "page {{page}} sur {{total}}"
   },
   "appCVScreening": {
     "selectJobPost": "Sélectionner une offre",
@@ -314,7 +342,12 @@
     "filterByConfidence": "Confiance",
     "allConfidences": "Tous les niveaux de confiance",
     "sortAsc": "Trier : croissant",
-    "sortDesc": "Trier : décroissant"
+    "sortDesc": "Trier : décroissant",
+    "startScreening": "Lancer l'analyse",
+    "screeningInProgress": "Analyse en cours…",
+    "screeningNeeded": "{{count}} offre(s) en attente d'analyse",
+    "noScreeningNeeded": "Toutes les offres sont à jour — aucune analyse requise.",
+    "reportCount": "{{count}} rapport(s)"
   },
   "errors": {
     "404": {
@@ -366,7 +399,11 @@
     },
     "language": "Langue",
     "languageHint": "Choisissez la langue de l'interface",
-    "tabs": { "profile": "Mon Profil", "users": "Utilisateurs", "billing": "Facturation" },
+    "tabs": {
+      "profile": "Mon Profil",
+      "users": "Utilisateurs",
+      "billing": "Facturation"
+    },
     "editProfile": "Modifier le profil",
     "saveChanges": "Enregistrer",
     "cancel": "Annuler",
@@ -386,10 +423,47 @@
     "deleteUserMessage": "Voulez-vous vraiment supprimer cet utilisateur ? Cette action est irréversible.",
     "managePermissions": "Gérer les permissions",
     "permissions": "Permissions d'accès",
-    "tableUser": "Utilisateur", "tableEmail": "E-mail", "tableRole": "Rôle", "tableActions": "Actions",
+    "tableUser": "Utilisateur",
+    "tableEmail": "E-mail",
+    "tableRole": "Rôle",
+    "tableActions": "Actions",
     "roleUser": "Utilisateur",
-    "authorityGroups": { "dashboard": "Tableau de bord", "resumes": "CV", "jobPosts": "Offres d'emploi", "reports": "Rapports", "aiChat": "IA Chat", "users": "Gestion des utilisateurs", "atsExport": "Export ATS", "billing": "Facturation" },
-    "authorities": { "VIEW_DASHBOARD": "Voir le tableau de bord", "ADD_CV": "Ajouter un CV", "VIEW_CV": "Voir les CV", "MODIFY_CV": "Modifier les CV", "DELETE_CV": "Supprimer les CV", "ADD_JOB": "Ajouter une offre", "VIEW_JOB": "Voir les offres", "MODIFY_JOB": "Modifier les offres", "DELETE_JOB": "Supprimer les offres", "GENERATE_REPORT": "Générer des rapports", "VIEW_REPORT": "Voir les rapports", "MODIFY_REPORT": "Modifier les rapports", "DELETE_REPORT": "Supprimer les rapports", "START_CHAT": "Démarrer un chat", "VIEW_CHAT": "Voir les chats", "VIEW_MESSAGE": "Voir les messages", "REPLY_MESSAGE": "Répondre aux messages", "MODIFY_CHAT": "Modifier le chat", "DELETE_CHAT": "Supprimer le chat", "VIEW_USERS": "Voir les utilisateurs", "MANAGE_USERS": "Gérer les utilisateurs", "ATS_REPORT_EXPORT": "Export ATS", "UPDATE_SUBSCRIPTION": "Mettre à jour l'abonnement", "CANCEL_SUBSCRIPTION": "Annuler l'abonnement" }
+    "authorityGroups": {
+      "dashboard": "Tableau de bord",
+      "resumes": "CV",
+      "jobPosts": "Offres d'emploi",
+      "reports": "Rapports",
+      "aiChat": "IA Chat",
+      "users": "Gestion des utilisateurs",
+      "atsExport": "Export ATS",
+      "billing": "Facturation"
+    },
+    "authorities": {
+      "VIEW_DASHBOARD": "Voir le tableau de bord",
+      "ADD_CV": "Ajouter un CV",
+      "VIEW_CV": "Voir les CV",
+      "MODIFY_CV": "Modifier les CV",
+      "DELETE_CV": "Supprimer les CV",
+      "ADD_JOB": "Ajouter une offre",
+      "VIEW_JOB": "Voir les offres",
+      "MODIFY_JOB": "Modifier les offres",
+      "DELETE_JOB": "Supprimer les offres",
+      "GENERATE_REPORT": "Générer des rapports",
+      "VIEW_REPORT": "Voir les rapports",
+      "MODIFY_REPORT": "Modifier les rapports",
+      "DELETE_REPORT": "Supprimer les rapports",
+      "START_CHAT": "Démarrer un chat",
+      "VIEW_CHAT": "Voir les chats",
+      "VIEW_MESSAGE": "Voir les messages",
+      "REPLY_MESSAGE": "Répondre aux messages",
+      "MODIFY_CHAT": "Modifier le chat",
+      "DELETE_CHAT": "Supprimer le chat",
+      "VIEW_USERS": "Voir les utilisateurs",
+      "MANAGE_USERS": "Gérer les utilisateurs",
+      "ATS_REPORT_EXPORT": "Export ATS",
+      "UPDATE_SUBSCRIPTION": "Mettre à jour l'abonnement",
+      "CANCEL_SUBSCRIPTION": "Annuler l'abonnement"
+    }
   },
   "dashboard": {
     "errors": {
@@ -408,13 +482,13 @@
       "totalCVs": "CV",
       "totalJobsPosted": "Offres",
       "totalUsers": "Utilisateurs",
-      "totalResumeAnalysis": "CV analysés au total",
-      "totalResumesProcessedCurrentMonth": "CV analysés ce mois"
+      "totalResumeAnalysis": "Rapports de matching"
     },
     "sections": {
       "skillsReport": "Top 10 compétences",
       "jobPostsReport": "Candidatures par offre",
-      "topCandidates": "Top 5 candidats par offre d'emploi"
+      "topCandidates": "Top 5 candidats par offre d'emploi",
+      "usageMonitoring": "Suivi de consommation"
     },
     "empty": {
       "skills": "Aucune donnée de compétences.",
@@ -424,6 +498,15 @@
       "jobPostTitle": "Intitulé du poste",
       "totalMatch": "Candidatures",
       "candidate": "Candidat"
+    },
+    "usage": {
+      "screeningActions": "Actions de matching",
+      "aiResumeChats": "Chats IA CV",
+      "talentIntelligenceQueries": "Intelligence talents",
+      "used": "utilisé",
+      "cumulativeTooltip": "Total cumulé sur toutes les périodes",
+      "allTime": "total",
+      "lastUpdated": "Dernière mise à jour"
     }
   },
   "appAIResumeChat": {

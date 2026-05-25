@@ -35,6 +35,7 @@ import DownhillSkiingIcon from '@mui/icons-material/DownhillSkiing';
 import LabelIcon from '@mui/icons-material/Label';
 import ContactsIcon from '@mui/icons-material/Contacts';
 import TranslateIcon from '@mui/icons-material/Translate';
+import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
 
 // ─── Local helpers ────────────────────────────────────────────────────────────
 
@@ -196,6 +197,119 @@ const AppCVDetails = ({ cv, onClose }) => {
 						<Typography sx={{ fontSize: '0.84rem', color: '#334155', lineHeight: 1.7 }}>
 							{candidateProfileSummary}
 						</Typography>
+					</Card>
+				)}
+
+				{/* Availability */}
+				{pi.availability && (
+					<Card sx={{ mb: 2 }}>
+						<SectionHeader Icon={AccessTimeOutlinedIcon} title={t('appCVContent.availability.title')} />
+						<Grid2 container spacing={2}>
+
+							{/* Status badges row */}
+							<Grid2 size={{ xs: 12 }}>
+								<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75, alignItems: 'center' }}>
+									{pi.availability.status && (
+										<Chip
+											label={t(`appCVContent.availability.statusValue.${pi.availability.status}`, pi.availability.status)}
+											size="small"
+											sx={availabilityStatusChipSx(pi.availability.status)}
+										/>
+									)}
+									{pi.availability.openToWork != null && (
+										<Chip
+											label={pi.availability.openToWork
+												? t('appCVContent.availability.openToWork')
+												: t('appCVContent.availability.notOpenToWork')}
+											size="small"
+											sx={{
+												fontSize: '0.72rem', height: 22, fontWeight: 600, borderRadius: 0.75,
+												...(pi.availability.openToWork
+													? { backgroundColor: 'rgba(98,156,68,0.10)', color: '#3a6827' }
+													: { backgroundColor: '#fee2e2', color: '#991b1b' }),
+											}}
+										/>
+									)}
+									{pi.availability.remoteOnly && (
+										<Chip label={t('appCVContent.availability.remoteOnly')} size="small"
+											sx={{ fontSize: '0.72rem', height: 22, borderRadius: 0.75, fontWeight: 600, backgroundColor: 'rgba(139,92,246,0.08)', color: '#5b21b6' }} />
+									)}
+									{pi.availability.willingToRelocate != null && (
+										<Chip
+											label={pi.availability.willingToRelocate
+												? t('appCVContent.availability.willingToRelocate')
+												: t('appCVContent.availability.notWillingToRelocate')}
+											size="small"
+											sx={{
+												fontSize: '0.72rem', height: 22, borderRadius: 0.75, fontWeight: 500,
+												...(pi.availability.willingToRelocate
+													? { backgroundColor: 'rgba(59,130,246,0.08)', color: '#1e40af' }
+													: { backgroundColor: '#f1f5f9', color: '#64748b' }),
+											}}
+										/>
+									)}
+								</Box>
+							</Grid2>
+
+							{/* Timing: available from + notice period */}
+							{(pi.availability.availableFrom || pi.availability.noticePeriodDays != null) && (
+								<Grid2 size={{ xs: 12, sm: 6 }}>
+									<Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
+										{pi.availability.availableFrom && (
+											<Box>
+												<Typography sx={availLabelSx}>{t('appCVContent.availability.availableFrom')}</Typography>
+												<Typography sx={availValueSx}>{pi.availability.availableFrom}</Typography>
+											</Box>
+										)}
+										{pi.availability.noticePeriodDays != null && (
+											<Box>
+												<Typography sx={availLabelSx}>{t('appCVContent.availability.noticePeriod')}</Typography>
+												<Typography sx={availValueSx}>
+													{pi.availability.noticePeriodDays} {t('appCVContent.availability.days')}
+												</Typography>
+											</Box>
+										)}
+									</Box>
+								</Grid2>
+							)}
+
+							{/* Preferred work types */}
+							{pi.availability.preferredWorkTypes?.length > 0 && (
+								<Grid2 size={{ xs: 12, sm: 6 }}>
+									<Typography sx={availLabelSx}>{t('appCVContent.availability.preferredWorkTypes')}</Typography>
+									<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mt: 0.5 }}>
+										{pi.availability.preferredWorkTypes.map((type, i) => (
+											<Chip key={i} label={type} size="small" sx={softSkillChipSx} />
+										))}
+									</Box>
+								</Grid2>
+							)}
+
+							{/* Preferred contract types */}
+							{pi.availability.preferredContractTypes?.length > 0 && (
+								<Grid2 size={{ xs: 12, sm: 6 }}>
+									<Typography sx={availLabelSx}>{t('appCVContent.availability.preferredContractTypes')}</Typography>
+									<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mt: 0.5 }}>
+										{pi.availability.preferredContractTypes.map((type, i) => (
+											<Chip key={i} label={type} size="small" sx={softSkillChipSx} />
+										))}
+									</Box>
+								</Grid2>
+							)}
+
+							{/* Interview availability */}
+							{pi.availability.interviewAvailability?.length > 0 && (
+								<Grid2 size={{ xs: 12 }}>
+									<Typography sx={availLabelSx}>{t('appCVContent.availability.interviews')}</Typography>
+									<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mt: 0.5 }}>
+										{pi.availability.interviewAvailability.map((slot, i) => (
+											<Chip key={i} label={slot} size="small"
+												sx={{ fontSize: '0.72rem', height: 22, backgroundColor: '#f1f5f9', color: '#475569', borderRadius: 0.75 }} />
+										))}
+									</Box>
+								</Grid2>
+							)}
+						</Grid2>
 					</Card>
 				)}
 
@@ -503,6 +617,33 @@ const softSkillChipSx = {
 	height: 24,
 };
 
+const availLabelSx = {
+	fontSize: '0.70rem',
+	color: '#94a3b8',
+	textTransform: 'uppercase',
+	letterSpacing: '0.05em',
+	mb: 0.25,
+};
+
+const availValueSx = {
+	fontWeight: 700,
+	fontSize: '0.88rem',
+	color: '#0f172a',
+};
+
+const availabilityStatusChipSx = (status) => {
+	const map = {
+		activelyLooking:     { backgroundColor: 'rgba(98,156,68,0.12)',  color: '#3a6827' },
+		openButNotSearching: { backgroundColor: 'rgba(59,130,246,0.10)', color: '#1e40af' },
+		notAvailable:        { backgroundColor: '#f1f5f9',               color: '#64748b' },
+		freelanceOnly:       { backgroundColor: 'rgba(139,92,246,0.10)', color: '#5b21b6' },
+	};
+	return {
+		fontSize: '0.72rem', height: 22, fontWeight: 700, borderRadius: 0.75,
+		...(map[status] ?? { backgroundColor: '#f1f5f9', color: '#64748b' }),
+	};
+};
+
 const langThSx = {
 	fontWeight: 700,
 	fontSize: '0.70rem',
@@ -529,6 +670,17 @@ AppCVDetails.propTypes = {
 					github: PropTypes.string,
 					website: PropTypes.string,
 				}),
+			}),
+			availability: PropTypes.shape({
+				openToWork: PropTypes.bool,
+				status: PropTypes.oneOf(['activelyLooking', 'openButNotSearching', 'notAvailable', 'freelanceOnly']),
+				availableFrom: PropTypes.string,
+				noticePeriodDays: PropTypes.number,
+				interviewAvailability: PropTypes.arrayOf(PropTypes.string),
+				preferredWorkTypes: PropTypes.arrayOf(PropTypes.string),
+				preferredContractTypes: PropTypes.arrayOf(PropTypes.string),
+				willingToRelocate: PropTypes.bool,
+				remoteOnly: PropTypes.bool,
 			}),
 		}),
 		workExperience: PropTypes.arrayOf(PropTypes.shape({

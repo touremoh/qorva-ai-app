@@ -9,6 +9,7 @@ import {
 	IconButton,
 	Menu,
 	MenuItem,
+	Select,
 	TextField,
 	Pagination,
 	Avatar,
@@ -24,31 +25,43 @@ import {
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SearchIcon from '@mui/icons-material/Search';
 import { useTranslation } from 'react-i18next';
-import apiClient from '../../../../axiosConfig.js';
+import { getCVs, searchCVs } from '../../../services/cvService.js';
 
-const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntries, viewMode, selectedCV, totalPages, setTotalPages }) => {
+const PAGE_SIZES = [10, 25, 50, 100];
+
+const AppCVEntries = ({
+	cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntries,
+	viewMode, selectedCV, totalPages, setTotalPages, totalElements, setTotalElements,
+}) => {
 	const { t } = useTranslation();
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [menuCVId, setMenuCVId] = useState(null);
 	const [searchTerm, setSearchTerm] = useState('');
 	const [currentPage, setCurrentPage] = useState(1);
+	const [pageSize, setPageSize] = useState(25);
 	const [tableSort, setTableSort] = useState({ column: 'lastUpdatedAt', order: 'desc' });
 	const [filterName, setFilterName] = useState('');
 	const [filterRole, setFilterRole] = useState('');
 	const [filterSkills, setFilterSkills] = useState('');
 	const [filterExperience, setFilterExperience] = useState('');
 
-	const entriesPerPage = 25;
 	const searchTermRef = useRef(searchTerm);
 	useEffect(() => { searchTermRef.current = searchTerm; }, [searchTerm]);
 
-	const buildFilterParams = (page = 0) => {
-		const params = { pageNumber: page, pageSize: entriesPerPage };
+	const buildFilterParams = (page = 0, size = pageSize) => {
+		const params = { pageNumber: page, pageSize: size };
 		if (filterName.trim()) params.name = filterName.trim();
 		if (filterRole.trim()) params.role = filterRole.trim();
 		if (filterSkills.trim()) params.skills = filterSkills.trim();
 		if (filterExperience !== '') params.minYearsOfExperience = parseInt(filterExperience, 10);
 		return params;
+	};
+
+	const applyResponse = (response) => {
+		const data = response.data.data;
+		setCVEntries(data.content);
+		setTotalPages(data.totalPages ?? 0);
+		setTotalElements(data.totalElements ?? 0);
 	};
 
 	useEffect(() => {
@@ -57,21 +70,14 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 				const hasFilters = filterName || filterRole || filterSkills || filterExperience !== '';
 				let response;
 				if (hasFilters) {
-					response = await apiClient.get(import.meta.env.VITE_APP_API_CV_URL, {
-						params: buildFilterParams(0),
-					});
+					response = await getCVs(buildFilterParams(0));
 				} else {
 					response = searchTermRef.current.trim()
-						? await apiClient.get(`${import.meta.env.VITE_APP_API_CV_URL}/search`, {
-							params: { pageNumber: 0, pageSize: entriesPerPage, searchTerms: searchTermRef.current.trim() },
-						})
-						: await apiClient.get(import.meta.env.VITE_APP_API_CV_URL, {
-							params: { pageNumber: 0, pageSize: entriesPerPage },
-						});
+						? await searchCVs({ pageNumber: 0, pageSize, searchTerms: searchTermRef.current.trim() })
+						: await getCVs({ pageNumber: 0, pageSize });
 				}
 				setCurrentPage(1);
-				setCVEntries(response.data.data.content);
-				setTotalPages(response.data.data.totalPages ?? 0);
+				applyResponse(response);
 			} catch (error) {
 				console.error('Error filtering CVs:', error);
 			}
@@ -79,24 +85,15 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 		return () => clearTimeout(timer);
 	}, [filterName, filterRole, filterSkills, filterExperience]);
 
-	const getAllCVEntries = () =>
-		apiClient.get(import.meta.env.VITE_APP_API_CV_URL, {
-			params: { pageNumber: 0, pageSize: entriesPerPage },
-		});
-
-	const searchCV = (term) =>
-		apiClient.get(`${import.meta.env.VITE_APP_API_CV_URL}/search`, {
-			params: { pageNumber: 0, pageSize: entriesPerPage, searchTerms: term.trim() },
-		});
-
 	const handleSearchChange = async (e) => {
 		const value = e.target.value;
 		setSearchTerm(value);
 		setCurrentPage(1);
 		try {
-			const response = value.length === 0 ? await getAllCVEntries() : await searchCV(value);
-			setCVEntries(response.data.data.content);
-			setTotalPages(response.data.data.totalPages ?? 0);
+			const response = value.length === 0
+				? await getCVs({ pageNumber: 0, pageSize })
+				: await searchCVs({ pageNumber: 0, pageSize, searchTerms: value.trim() });
+			applyResponse(response);
 		} catch (error) {
 			console.error('Error during search:', error);
 		}
@@ -106,22 +103,37 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 		setCurrentPage(page);
 		try {
 			const hasFilters = filterName || filterRole || filterSkills || filterExperience !== '';
-			let url, params;
+			let response;
 			if (hasFilters) {
-				url = import.meta.env.VITE_APP_API_CV_URL;
-				params = buildFilterParams(page - 1);
+				response = await getCVs(buildFilterParams(page - 1));
 			} else if (searchTerm.trim()) {
-				url = `${import.meta.env.VITE_APP_API_CV_URL}/search`;
-				params = { pageNumber: page - 1, pageSize: entriesPerPage, searchTerms: searchTerm.trim() };
+				response = await searchCVs({ pageNumber: page - 1, pageSize, searchTerms: searchTerm.trim() });
 			} else {
-				url = import.meta.env.VITE_APP_API_CV_URL;
-				params = { pageNumber: page - 1, pageSize: entriesPerPage };
+				response = await getCVs({ pageNumber: page - 1, pageSize });
 			}
-			const response = await apiClient.get(url, { params });
-			setCVEntries(response.data.data.content);
-			setTotalPages(response.data.data.totalPages);
+			applyResponse(response);
 		} catch (error) {
 			console.error('Error fetching paginated data:', error);
+		}
+	};
+
+	const handlePageSizeChange = async (e) => {
+		const newSize = e.target.value;
+		setPageSize(newSize);
+		setCurrentPage(1);
+		try {
+			const hasFilters = filterName || filterRole || filterSkills || filterExperience !== '';
+			let response;
+			if (hasFilters) {
+				response = await getCVs(buildFilterParams(0, newSize));
+			} else if (searchTerm.trim()) {
+				response = await searchCVs({ pageNumber: 0, pageSize: newSize, searchTerms: searchTerm.trim() });
+			} else {
+				response = await getCVs({ pageNumber: 0, pageSize: newSize });
+			}
+			applyResponse(response);
+		} catch (error) {
+			console.error('Error changing page size:', error);
 		}
 	};
 
@@ -134,11 +146,9 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 					const yb = b.nbYearsOfExperience ?? 0;
 					return order === 'asc' ? ya - yb : yb - ya;
 				}
-				// lastUpdatedAt
 				const da = new Date(a.lastUpdatedAt), db = new Date(b.lastUpdatedAt);
 				return order === 'asc' ? da - db : db - da;
 			}
-			// list view sort (newest first)
 			const da = new Date(a.lastUpdatedAt), db = new Date(b.lastUpdatedAt);
 			return db - da;
 		})
@@ -221,9 +231,56 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 		</Menu>
 	);
 
-	const pagination = totalPages > 1 && (
-		<Box sx={{ display: 'flex', justifyContent: 'center', py: 1.5, borderTop: '1px solid #f1f5f9', flexShrink: 0 }}>
-			<Pagination count={totalPages} page={currentPage} onChange={handlePageChange} size="small" />
+	const paginationFooter = (
+		<Box sx={{
+			display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+			px: 1.5, py: 0.75,
+			borderTop: '1px solid #f1f5f9',
+			flexShrink: 0, gap: 1, flexWrap: 'wrap',
+			backgroundColor: '#fafafa',
+		}}>
+			<Typography sx={{ fontSize: '0.72rem', color: '#94a3b8', flexShrink: 0 }}>
+				{totalElements > 0
+					? t('appCVContent.resumeCount', { count: totalElements })
+					: `${cvEntries.length} ${t('appCVContent.resumeCount', { count: cvEntries.length })}`
+				}
+				{totalPages > 1 && (
+					<Box component="span" sx={{ ml: 1, color: '#cbd5e1' }}>·</Box>
+				)}
+				{totalPages > 1 && (
+					<Box component="span" sx={{ ml: 1 }}>
+						{t('appCVContent.pageOf', { page: currentPage, total: totalPages })}
+					</Box>
+				)}
+			</Typography>
+			<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+				<Select
+					size="small"
+					value={pageSize}
+					onChange={handlePageSizeChange}
+					variant="outlined"
+					sx={{
+						fontSize: '0.72rem', height: 24, minWidth: 52,
+						'& .MuiSelect-select': { py: '2px', px: '8px' },
+						'& .MuiOutlinedInput-notchedOutline': { borderColor: '#e2e8f0' },
+					}}
+				>
+					{PAGE_SIZES.map(n => (
+						<MenuItem key={n} value={n} sx={{ fontSize: '0.78rem' }}>{n}</MenuItem>
+					))}
+				</Select>
+				{totalPages > 1 && (
+					<Pagination
+						count={totalPages}
+						page={currentPage}
+						onChange={handlePageChange}
+						size="small"
+						siblingCount={0}
+						boundaryCount={1}
+						sx={{ '& .MuiPaginationItem-root': { fontSize: '0.72rem', minWidth: 24, height: 24 } }}
+					/>
+				)}
+			</Box>
 		</Box>
 	);
 
@@ -301,7 +358,7 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 						))}
 					</List>
 				)}
-				{pagination}
+				{paginationFooter}
 				{contextMenu}
 			</Box>
 		);
@@ -466,7 +523,7 @@ const AppCVEntries = ({ cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntr
 						</TableBody>
 					</Table>
 				</TableContainer>
-			{pagination}
+			{paginationFooter}
 			{contextMenu}
 		</Box>
 	);
@@ -515,6 +572,8 @@ AppCVEntries.propTypes = {
 	selectedCV: PropTypes.object,
 	totalPages: PropTypes.number.isRequired,
 	setTotalPages: PropTypes.func.isRequired,
+	totalElements: PropTypes.number.isRequired,
+	setTotalElements: PropTypes.func.isRequired,
 };
 
 export default AppCVEntries;

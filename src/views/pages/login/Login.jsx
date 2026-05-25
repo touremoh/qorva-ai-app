@@ -16,7 +16,8 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import CircularProgress from "@mui/material/CircularProgress";
-import apiClient from "../../../../axiosConfig.js";
+import { login as loginUser } from '../../../services/authService.js';
+import { createCheckoutSession } from '../../../services/registrationService.js';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../../../components/languages/LanguageSwitcher.jsx';
 import { setAuthResults } from "../../../../localStorageManager.js";
@@ -72,10 +73,7 @@ const Login = () => {
 
 		setLoading(true);
 		try {
-			const response = await apiClient.post(import.meta.env.VITE_APP_API_LOGIN_URL, {
-				email,
-				rawPassword: password,
-			});
+			const response = await loginUser(email, password);
 
 			if (response.status === 200) {
 				const { user } = response.data.data;
@@ -89,10 +87,7 @@ const Login = () => {
 					const userId = user.id;
 					const priceId = user.tenant?.subscriptionInfo?.priceId;
 					try {
-						const checkoutRes = await apiClient.post(
-							import.meta.env.VITE_APP_API_CHECKOUT_SESSION_URL,
-							{ tenantId, userId, priceId }
-						);
+						const checkoutRes = await createCheckoutSession({ tenantId, userId, priceId });
 						const checkoutUrl = checkoutRes.data?.data?.checkoutUrl;
 						if (checkoutUrl) {
 							window.location.href = checkoutUrl;

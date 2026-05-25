@@ -12,6 +12,8 @@ import {
 	Tooltip,
 	Switch,
 	FormControlLabel,
+	Checkbox,
+	FormGroup,
 	Dialog,
 	DialogActions,
 	DialogContent,
@@ -42,8 +44,9 @@ import ConstructionIcon from '@mui/icons-material/Construction';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import BusinessCenterOutlinedIcon from '@mui/icons-material/BusinessCenterOutlined';
 import TuneIcon from '@mui/icons-material/Tune';
+import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined';
 import { useTranslation } from 'react-i18next';
-import apiClient from '../../../../axiosConfig.js';
+import { getJobs, createJob, updateJob, patchJobStatus, deleteJob } from '../../../services/jobService.js';
 import { default as ReactQuill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
@@ -97,6 +100,8 @@ const stepperSx = {
 // ─── Scoring form helpers ─────────────────────────────────────────────────────
 
 const emptySkill = () => ({ name: '', importance: 'mandatory', weight: 50, minYearsOfExperience: 1, exactSkillOnly: false });
+
+const AVAILABILITY_STATUSES = ['activelyLooking', 'openButNotSearching', 'notAvailable', 'freelanceOnly'];
 
 const SectionTitle = ({ label }) => (
 	<Typography sx={{ fontWeight: 700, fontSize: '0.78rem', color: '#475569', textTransform: 'uppercase', letterSpacing: '0.07em', mb: 1.5, mt: 0.5 }}>
@@ -360,6 +365,48 @@ const JobScoringForm = ({ scoringConfig, setScoringConfig, onBack, onSkip, onSav
 					)}
 				</Box>
 
+				<Divider sx={{ my: 2 }} />
+
+				{/* ── Candidate Availability Filters ── */}
+				<SectionTitle label={t('jobContent.candidateFilters')} />
+				<FormControlLabel
+					control={
+						<Switch size="small" checked={sc.filterOpenToWork}
+							onChange={(e) => set({ filterOpenToWork: e.target.checked })}
+							sx={{ '& .MuiSwitch-switchBase.Mui-checked': { color: THEME_GREEN }, '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: THEME_GREEN } }} />
+					}
+					label={
+						<Box>
+							<Typography sx={{ fontSize: '0.84rem', color: '#334155' }}>{t('jobContent.filterOpenToWork')}</Typography>
+							<Typography sx={{ fontSize: '0.73rem', color: '#94a3b8', lineHeight: 1.4 }}>{t('jobContent.filterOpenToWorkDesc')}</Typography>
+						</Box>
+					}
+					sx={{ mb: 2, ml: 0, alignItems: 'flex-start', gap: 0.5 }}
+				/>
+				<Typography sx={{ fontSize: '0.78rem', color: '#475569', fontWeight: 600, mb: 0.75 }}>
+					{t('jobContent.availabilityStatuses')}
+				</Typography>
+				<FormGroup sx={{ gap: 0.25, mb: 1 }}>
+					{AVAILABILITY_STATUSES.map(status => (
+						<FormControlLabel key={status}
+							control={
+								<Checkbox size="small"
+									checked={sc.availabilityStatuses.includes(status)}
+									onChange={(e) => {
+										const next = e.target.checked
+											? [...sc.availabilityStatuses, status]
+											: sc.availabilityStatuses.filter(s => s !== status);
+										set({ availabilityStatuses: next });
+									}}
+									sx={{ color: '#94a3b8', '&.Mui-checked': { color: THEME_GREEN }, py: 0.5 }}
+								/>
+							}
+							label={<Typography sx={{ fontSize: '0.82rem', color: '#334155' }}>{t(`jobContent.availabilityStatus.${status}`)}</Typography>}
+							sx={{ ml: 0 }}
+						/>
+					))}
+				</FormGroup>
+
 			</Box>
 
 			{/* Fixed action bar — always visible */}
@@ -402,6 +449,8 @@ const emptyScoringConfig = () => ({
 	locationPreferences: { allowedLocations: [], remoteAllowed: false, strictness: '' },
 	industryPreferences: { preferredIndustries: [], strictness: '' },
 	scoringWeight: { skills: 50, experience: 35, location: 10, industry: 5 },
+	filterOpenToWork: false,
+	availabilityStatuses: [],
 });
 
 const tabsSx = {
@@ -581,6 +630,31 @@ const JobScoringView = ({ scoringRules, t }) => {
 				</CVCard>
 			)}
 
+			{/* ── Candidate Availability Filters ── */}
+			{(sr.filterOpenToWork || sr.availabilityStatuses?.length > 0) && (
+				<CVCard>
+					<CVSectionHeader Icon={FilterListOutlinedIcon} title={t('jobContent.candidateFilters')} />
+					{sr.filterOpenToWork && (
+						<Chip label={t('jobContent.filterOpenToWork')} size="small" sx={{
+							fontSize: '0.72rem', height: 22, fontWeight: 600, borderRadius: 0.75,
+							backgroundColor: 'rgba(98,156,68,0.10)', color: '#3a6827',
+							mb: sr.availabilityStatuses?.length > 0 ? 1.5 : 0,
+						}} />
+					)}
+					{sr.availabilityStatuses?.length > 0 && (
+						<Box>
+							<Typography sx={{ ...statLabelSx, mb: 0.75 }}>{t('jobContent.availabilityStatuses')}</Typography>
+							<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.6 }}>
+								{sr.availabilityStatuses.map(status => (
+									<Chip key={status} label={t(`jobContent.availabilityStatus.${status}`)} size="small"
+										sx={{ fontSize: '0.72rem', height: 22, backgroundColor: '#fee2e2', color: '#991b1b', borderRadius: 0.75 }} />
+								))}
+							</Box>
+						</Box>
+					)}
+				</CVCard>
+			)}
+
 		</Box>
 	);
 };
@@ -617,6 +691,8 @@ const loadScoringConfig = (job) => {
 			location: Math.round((sc.scoringWeight?.location ?? 0) * 100),
 			industry: Math.round((sc.scoringWeight?.industry ?? 0) * 100),
 		},
+		filterOpenToWork: sc.filterOpenToWork || false,
+		availabilityStatuses: sc.availabilityStatuses || [],
 	};
 };
 
@@ -649,6 +725,10 @@ const buildScoringPayload = (scoringConfig) => ({
 		location: scoringConfig.scoringWeight.location / 100,
 		industry: scoringConfig.scoringWeight.industry / 100,
 	},
+	...(scoringConfig.filterOpenToWork ? { filterOpenToWork: true } : {}),
+	...(scoringConfig.availabilityStatuses?.length > 0
+		? { availabilityStatuses: scoringConfig.availabilityStatuses }
+		: {}),
 });
 
 const JobContent = () => {
@@ -669,7 +749,7 @@ const JobContent = () => {
 
 	const fetchJobs = async () => {
 		try {
-			const response = await apiClient.get(`${import.meta.env.VITE_APP_API_JOB_POSTS_URL}`);
+			const response = await getJobs();
 			setJobs(response.data.data.content);
 		} catch (error) {
 			console.error('Error fetching job posts:', error);
@@ -727,7 +807,7 @@ const JobContent = () => {
 				language: i18n.language,
 			};
 			if (withScoringConfig) payload.scoringRules = buildScoringPayload(scoringConfig);
-			const response = await apiClient.post(import.meta.env.VITE_APP_API_JOB_POSTS_URL, payload);
+			const response = await createJob(payload);
 			const created = response.data?.data;
 			if (created) {
 				setJobs(prev => [...prev, created]);
@@ -771,7 +851,7 @@ const JobContent = () => {
 				language: i18n.language,
 			};
 			if (withScoringConfig) payload.scoringRules = buildScoringPayload(scoringConfig);
-			await apiClient.put(`${import.meta.env.VITE_APP_API_JOB_POSTS_URL}/${selectedJob.id}`, payload);
+			await updateJob(selectedJob.id, payload);
 			setJobs(jobs.map(j => j.id === selectedJob.id ? payload : j));
 			setSelectedJob(payload);
 			setEditMode(false);
@@ -788,7 +868,7 @@ const JobContent = () => {
 	const handleDeleteJob = async () => {
 		if (!selectedJob) return;
 		try {
-			await apiClient.delete(`${import.meta.env.VITE_APP_API_JOB_POSTS_URL}/${selectedJob.id}`);
+			await deleteJob(selectedJob.id);
 			setJobs(jobs.filter(j => j.id !== selectedJob.id));
 			setSelectedJob(null);
 			setDeleteDialogOpen(false);
@@ -801,7 +881,7 @@ const JobContent = () => {
 		if (!selectedJob) return;
 		const next = selectedJob.status === 'open' ? 'closed' : 'open';
 		try {
-			await apiClient.patch(`${import.meta.env.VITE_APP_API_JOB_POSTS_URL}/${selectedJob.id}`, { status: next });
+			await patchJobStatus(selectedJob.id, next);
 			setJobs(jobs.map(j => j.id === selectedJob.id ? { ...j, status: next } : j));
 			setSelectedJob({ ...selectedJob, status: next });
 		} catch (error) {

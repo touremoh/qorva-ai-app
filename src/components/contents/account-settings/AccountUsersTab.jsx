@@ -28,7 +28,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
 import { useTranslation } from 'react-i18next';
-import apiClient from '../../../../axiosConfig.js';
+import { getUsers, createUser, updateUserAuthorities, deleteUser } from '../../../services/userService.js';
 
 const ALL_ACTIONS = [
 	'VIEW_DASHBOARD',
@@ -108,8 +108,6 @@ const BTN_GREEN_SX = {
 
 const AccountUsersTab = () => {
 	const { t } = useTranslation();
-	const usersUrl = import.meta.env.VITE_APP_API_USERS_URL;
-
 	const [users, setUsers] = useState([]);
 	const [loadingUsers, setLoadingUsers] = useState(false);
 
@@ -126,10 +124,9 @@ const AccountUsersTab = () => {
 	const [deleting, setDeleting] = useState(false);
 
 	const fetchUsers = async () => {
-		if (!usersUrl) return;
 		try {
 			setLoadingUsers(true);
-			const resp = await apiClient.get(usersUrl);
+			const resp = await getUsers();
 			const raw = resp?.data;
 			setUsers(Array.isArray(raw) ? raw : Array.isArray(raw?.content) ? raw.content : []);
 		} catch (e) {
@@ -144,7 +141,7 @@ const AccountUsersTab = () => {
 	const handleAddUser = async () => {
 		try {
 			setSaving(true);
-			const resp = await apiClient.post(usersUrl, {
+			const resp = await createUser({
 				email: addForm.email.trim(),
 				firstName: addForm.firstName.trim(),
 				lastName: addForm.lastName.trim(),
@@ -166,7 +163,7 @@ const AccountUsersTab = () => {
 		try {
 			setSavingEdit(true);
 			const authorities = permsToAuthorities(editPerms);
-			await apiClient.put(`${usersUrl}/${editUser.id}/authorities`, { authorities });
+			await updateUserAuthorities(editUser.id, authorities);
 			setUsers(prev => prev.map(u => u.id === editUser.id ? { ...u, authorities } : u));
 			setEditUser(null);
 		} catch (e) {
@@ -180,7 +177,7 @@ const AccountUsersTab = () => {
 		if (!userToDelete) return;
 		try {
 			setDeleting(true);
-			await apiClient.delete(`${usersUrl}/${userToDelete.id}`);
+			await deleteUser(userToDelete.id);
 			setUsers(prev => prev.filter(u => u.id !== userToDelete.id));
 			setUserToDelete(null);
 		} catch (e) {

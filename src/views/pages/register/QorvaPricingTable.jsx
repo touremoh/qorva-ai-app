@@ -19,7 +19,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { styled } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
-import axios from 'axios';
+import { getProducts } from '../../../services/registrationService.js';
 
 const PLAN_FEATURES = {
 	Starter: [
@@ -99,8 +99,7 @@ const QorvaPricingTable = ({ selectedPriceId, onSelectPlan }) => {
 	const [error, setError] = useState('');
 
 	useEffect(() => {
-		axios
-			.get(`${import.meta.env.VITE_APP_API_BASE_URL}${import.meta.env.VITE_APP_API_PRODUCTS_URL}`)
+		getProducts()
 			.then((res) => {
 				const sorted = (res.data?.data || []).sort((a, b) => {
 					const aAmt = a.prices.find((p) => p.interval === 'month')?.unitAmount ?? 0;
