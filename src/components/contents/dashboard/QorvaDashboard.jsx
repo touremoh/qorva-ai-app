@@ -63,7 +63,7 @@ const KPI_CONFIG = (t) => [
 const USAGE_FEATURE_CONFIG = (t) => [
 	{
 		key: 'screeningActions',
-		label: t('dashboard.usage.screeningActions', 'Screening Actions'),
+		label: t('dashboard.usage.matchingActions', 'Matching Actions'),
 		icon: ManageSearchOutlinedIcon,
 		accent: '#629C44',
 		bg: 'rgba(98,156,68,0.08)',

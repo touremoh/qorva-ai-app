@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import {
 	Avatar, Box, Button, Chip, CircularProgress, Dialog, DialogActions, DialogContent,
 	DialogTitle, FormControl, IconButton, InputAdornment,
@@ -17,8 +17,8 @@ import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { useTranslation } from 'react-i18next';
-import AppScreeningReportDetails from './AppScreeningReportDetails.jsx';
-import { getReports, getReportsByFilter, startScreening, deleteReport } from '../../../services/reportService.js';
+import AppMatchingReportDetails from './AppMatchingReportDetails.jsx';
+import { getReports, getReportsByFilter, startMatching, deleteReport } from '../../../services/reportService.js';
 import { getJobs } from '../../../services/jobService.js';
 
 const PAGE_SIZES = [10, 25, 50, 100];
@@ -32,7 +32,7 @@ const scoreChipSx = (score) => {
 const getInitials = (name = '') =>
 	name.split(' ').slice(0, 2).map((p) => p[0] ?? '').join('').toUpperCase();
 
-const AppScreeningReports = () => {
+const AppMatchingReports = () => {
 	const { t } = useTranslation();
 
 	const [reports, setReports] = useState([]);
@@ -51,9 +51,12 @@ const AppScreeningReports = () => {
 	const [menuReport, setMenuReport] = useState(null);
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 	const [deletingReport, setDeletingReport] = useState(false);
-	const [screeningLoading, setScreeningLoading] = useState(false);
-	const [screeningSubmitted, setScreeningSubmitted] = useState(false);
+	const [matchingLoading, setScreeningLoading] = useState(false);
+	const [matchingSubmitted, setScreeningSubmitted] = useState(false);
 	const [bannerDismissed, setBannerDismissed] = useState(false);
+
+	const pollingRef     = useRef(null);
+	const latestParamsRef = useRef({ selectedJobId: '', searchTerm: '', filterRecommendation: '', filterConfidence: '', pageSize: 25 });
 
 	const fetchData = async (pageNumber, jobId, term, recommendation, confidence, size) => {
 		try {
@@ -97,6 +100,44 @@ const AppScreeningReports = () => {
 		fetchData(0, '', '', '', '');
 		fetchJobs();
 	}, []);
+
+	// Keep latest filter params accessible inside the polling closure without recreating the interval
+	useEffect(() => {
+		latestParamsRef.current = { selectedJobId, searchTerm, filterRecommendation, filterConfidence, pageSize };
+	}, [selectedJobId, searchTerm, filterRecommendation, filterConfidence, pageSize]);
+
+	// Poll every 5 s while matching is in progress; stop when no jobs remain pending
+	useEffect(() => {
+		if (!matchingSubmitted) {
+			if (pollingRef.current) { clearInterval(pollingRef.current); pollingRef.current = null; }
+			return;
+		}
+
+		let attempts = 0;
+		const MAX_ATTEMPTS = 72; // 6 minutes max
+
+		const poll = async () => {
+			attempts += 1;
+			const { selectedJobId, searchTerm, filterRecommendation, filterConfidence, pageSize } = latestParamsRef.current;
+			try {
+				await fetchData(0, selectedJobId, searchTerm, filterRecommendation, filterConfidence, pageSize);
+				const jobsRes = await getJobs({ pageSize: 25, pageNumber: 0 });
+				const updatedJobs = jobsRes?.data?.data?.content ?? [];
+				setJobs(updatedJobs);
+				const pending = updatedJobs.filter(j => j.matchingReportsNeeded === true).length;
+				if (pending === 0 || attempts >= MAX_ATTEMPTS) {
+					clearInterval(pollingRef.current);
+					pollingRef.current = null;
+					setScreeningSubmitted(false);
+				}
+			} catch (err) {
+				console.error('Polling error:', err);
+			}
+		};
+
+		pollingRef.current = setInterval(poll, 5000);
+		return () => { clearInterval(pollingRef.current); pollingRef.current = null; };
+	}, [matchingSubmitted]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleSearchChange = (event) => {
 		const value = event.target.value;
@@ -146,20 +187,20 @@ const AppScreeningReports = () => {
 		});
 	}, [reports, sortOrder]);
 
-	const pendingScreeningCount = useMemo(
+	const pendingMatchingCount = useMemo(
 		() => jobs.filter(j => j.matchingReportsNeeded === true).length,
 		[jobs]
 	);
 
-	const handleStartScreening = async () => {
+	const handleStartMatching = async () => {
 		try {
 			setScreeningLoading(true);
-			await startScreening();
+			await startMatching();
 			await fetchJobs();
 			setScreeningSubmitted(true);
 			setBannerDismissed(false);
 		} catch (error) {
-			console.error('Error starting screening:', error);
+			console.error('Error starting matching:', error);
 		} finally {
 			setScreeningLoading(false);
 		}
@@ -261,7 +302,7 @@ const AppScreeningReports = () => {
 							<MenuItem value="">{t('appReportContent.allRecommendations')}</MenuItem>
 							{['strong_interview', 'interview', 'may_be', 'reject'].map((key) => (
 								<MenuItem key={key} value={key} sx={{ fontSize: '0.82rem' }}>
-									{t(`appCVScreening.recommendation.${key}`)}
+									{t(`appCVMatching.recommendation.${key}`)}
 								</MenuItem>
 							))}
 						</Select>
@@ -278,7 +319,7 @@ const AppScreeningReports = () => {
 							<MenuItem value="">{t('appReportContent.allConfidences')}</MenuItem>
 							{['high', 'medium', 'low'].map((key) => (
 								<MenuItem key={key} value={key} sx={{ fontSize: '0.82rem' }}>
-									{t(`appCVScreening.confidence.${key}`)}
+									{t(`appCVMatching.confidence.${key}`)}
 								</MenuItem>
 							))}
 						</Select>
@@ -303,7 +344,7 @@ const AppScreeningReports = () => {
 			</Box>
 
 			{/* Screening status banner */}
-			{pendingScreeningCount > 0 && (
+			{pendingMatchingCount > 0 && (
 				<Box sx={{
 					display: 'flex', alignItems: 'center', justifyContent: 'space-between',
 					px: 2.5, py: 1.25,
@@ -314,15 +355,15 @@ const AppScreeningReports = () => {
 					<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
 						<WarningAmberIcon sx={{ fontSize: 17, color: '#d97706' }} />
 						<Typography sx={{ fontSize: '0.84rem', color: '#92400e', fontWeight: 500 }}>
-							{t('appReportContent.screeningNeeded', { count: pendingScreeningCount })}
+							{t('appReportContent.matchingNeeded', { count: pendingMatchingCount })}
 						</Typography>
 					</Box>
 					<Button
 						variant="contained"
 						size="small"
-						onClick={handleStartScreening}
-						disabled={screeningLoading || screeningSubmitted}
-						startIcon={screeningLoading
+						onClick={handleStartMatching}
+						disabled={matchingLoading || matchingSubmitted}
+						startIcon={matchingLoading
 							? <CircularProgress size={14} color="inherit" />
 							: <PlayArrowRoundedIcon sx={{ fontSize: 17 }} />
 						}
@@ -334,13 +375,13 @@ const AppScreeningReports = () => {
 							boxShadow: '0 2px 6px rgba(217,119,6,0.3)', flexShrink: 0,
 						}}
 					>
-						{screeningLoading
-							? t('appReportContent.screeningInProgress')
-							: t('appReportContent.startScreening')}
+						{matchingLoading
+							? t('appReportContent.matchingInProgress')
+							: t('appReportContent.startMatching')}
 					</Button>
 				</Box>
 			)}
-			{pendingScreeningCount === 0 && !bannerDismissed && (
+			{pendingMatchingCount === 0 && !bannerDismissed && (
 				<Box sx={{
 					display: 'flex', alignItems: 'center', justifyContent: 'space-between',
 					px: 2.5, py: 0.75,
@@ -351,7 +392,7 @@ const AppScreeningReports = () => {
 					<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
 						<CheckCircleOutlineIcon sx={{ fontSize: 16, color: '#629C44' }} />
 						<Typography sx={{ fontSize: '0.82rem', color: '#3a6827' }}>
-							{t('appReportContent.noScreeningNeeded')}
+							{t('appReportContent.noMatchingNeeded')}
 						</Typography>
 					</Box>
 					<IconButton
@@ -382,7 +423,7 @@ const AppScreeningReports = () => {
 						{sortedReports.length === 0 ? (
 							<Box sx={{ px: 2, pt: 2 }}>
 								<Typography sx={{ fontSize: '0.82rem', color: '#94a3b8' }}>
-									{t('appCVScreening.noAnalysisResult')}
+									{t('appCVMatching.noAnalysisResult')}
 								</Typography>
 							</Box>
 						) : (
@@ -480,7 +521,7 @@ const AppScreeningReports = () => {
 
 				{/* Right panel */}
 				<Box sx={{ flex: 1, minWidth: 0, overflow: 'hidden' }}>
-					<AppScreeningReportDetails reportData={selectedReport} />
+					<AppMatchingReportDetails reportData={selectedReport} />
 				</Box>
 			</Box>
 
@@ -557,4 +598,4 @@ const AppScreeningReports = () => {
 	);
 };
 
-export default AppScreeningReports;
+export default AppMatchingReports;

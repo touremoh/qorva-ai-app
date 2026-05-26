@@ -12,7 +12,7 @@ import {
 	COMP_ID_DASHBOARD,
 	COMP_ID_CHAT
 } from "../../constants.js";
-import AppScreeningReports from "./reports/AppScreeningReports.jsx";
+import AppMatchingReports from "./reports/AppMatchingReports.jsx";
 import QorvaDashboard from "./dashboard/QorvaDashboard.jsx";
 import AccountSettings from "./account-settings/AccountSettings.jsx";
 import AppAIResumeChat from "./chats/AppAIResumeChat.jsx";
@@ -27,7 +27,7 @@ const AppContent = ({ content, isSidebarCollapsed }) => {
 			case COMP_ID_JOBS:
 				return <JobContent />;
 			case COMP_ID_REPORTS:
-				return <AppScreeningReports />;
+				return <AppMatchingReports />;
 			case COMP_ID_CHAT:
 				return <AppAIResumeChat />;
 			case COMP_ID_SETTINGS:

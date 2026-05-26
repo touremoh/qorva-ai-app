@@ -12,7 +12,7 @@ export const findReportByCriteria = (body) =>
 export const deleteReport = (id) =>
     apiClient.delete(`/matching-reports/${id}`);
 
-export const startScreening = () =>
+export const startMatching = () =>
     apiClient.post('/ai/start-screening');
 
 export const generateReport = (data) =>

@@ -24,6 +24,7 @@ import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined';
 import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined';
+import HubOutlinedIcon from '@mui/icons-material/HubOutlined';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
 import LanguageIcon from '@mui/icons-material/Language';
@@ -66,6 +67,49 @@ const CONFIDENCE_CONFIG = {
 
 const getColor = (v) => v >= 70 ? '#16a34a' : v >= 40 ? '#d97706' : '#dc2626';
 const getBg    = (v) => v >= 70 ? '#dcfce7' : v >= 40 ? '#fef9c3' : '#fee2e2';
+
+const toLabel = (str = '') =>
+	str.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ').trim().replace(/^\w/, c => c.toUpperCase());
+
+// skillDepth: generalist | specialist | tShaped | hybrid | unknown
+const SKILL_DEPTH_STYLE = {
+	specialist: { color: '#7c3aed', bg: 'rgba(124,58,237,0.08)', bdr: 'rgba(124,58,237,0.2)' },
+	generalist: { color: '#2563eb', bg: 'rgba(37,99,235,0.08)',  bdr: 'rgba(37,99,235,0.2)'  },
+	tShaped:    { color: '#0891b2', bg: 'rgba(8,145,178,0.08)',  bdr: 'rgba(8,145,178,0.2)'  },
+	hybrid:     { color: '#6366f1', bg: 'rgba(99,102,241,0.08)', bdr: 'rgba(99,102,241,0.2)' },
+};
+const STYLE_UNKNOWN    = { color: '#94a3b8', bg: 'rgba(148,163,184,0.08)', bdr: 'rgba(148,163,184,0.2)' };
+const STYLE_GREEN      = { color: '#629C44', bg: 'rgba(98,156,68,0.08)',   bdr: 'rgba(98,156,68,0.2)'   };
+const STYLE_AMBER      = { color: '#d97706', bg: 'rgba(245,158,11,0.08)',  bdr: 'rgba(245,158,11,0.2)'  };
+const STYLE_SLATE      = { color: '#64748b', bg: 'rgba(100,116,139,0.08)', bdr: 'rgba(100,116,139,0.2)' };
+
+// seniorityLevel: junior | midLevel | senior | lead | principal | manager | director | executive | unknown
+const SENIORITY_HIGH = new Set(['senior', 'lead', 'principal', 'manager', 'director', 'executive']);
+const getSeniorityStyle = (v) => {
+	const lower = (v || '').toLowerCase();
+	if (SENIORITY_HIGH.has(lower)) return STYLE_GREEN;
+	if (lower === 'midlevel')      return STYLE_AMBER;
+	return STYLE_SLATE;
+};
+
+// leadershipAndInfluence: none | individualContributor | teamLead | crossFunctionalLeader | strategicLeader | executiveInfluence | unknown
+const LEADERSHIP_HIGH = new Set(['crossfunctionalleader', 'strategicleader', 'executiveinfluence']);
+const getLeadershipStyle = (v) => {
+	const lower = (v || '').toLowerCase();
+	if (LEADERSHIP_HIGH.has(lower)) return STYLE_GREEN;
+	if (lower === 'teamlead')       return STYLE_AMBER;
+	return STYLE_SLATE;
+};
+
+// learningVelocity: low | medium | high | veryHigh | unknown
+const getVelocityStyle = (v) => {
+	const lower = (v || '').toLowerCase();
+	if (lower === 'veryhigh') return { color: '#16a34a', bg: 'rgba(22,163,74,0.10)', bdr: 'rgba(22,163,74,0.3)' };
+	if (lower === 'high')     return { color: '#629C44', bg: 'rgba(98,156,68,0.10)', bdr: 'rgba(98,156,68,0.3)' };
+	if (lower === 'medium')   return STYLE_AMBER;
+	if (lower === 'low')      return { color: '#dc2626', bg: 'rgba(220,38,38,0.10)', bdr: 'rgba(220,38,38,0.3)' };
+	return STYLE_UNKNOWN;
+};
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
@@ -153,7 +197,7 @@ const DetailScoreCard = ({ icon: Icon, label, score, explanation }) => {
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
-const AppScreeningReportDetails = ({ reportData }) => {
+const AppMatchingReportDetails = ({ reportData }) => {
 	const { t } = useTranslation();
 
 	const componentRef = useRef(null);
@@ -192,7 +236,7 @@ const AppScreeningReportDetails = ({ reportData }) => {
 			<Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', backgroundColor: '#f8fafc', gap: 1.5 }}>
 				<AssessmentOutlinedIcon sx={{ fontSize: 40, color: '#cbd5e1' }} />
 				<Typography sx={{ fontSize: '0.85rem', color: '#94a3b8', fontWeight: 500 }}>
-					{t('appCVScreening.noAnalysisResult')}
+					{t('appCVMatching.noAnalysisResult')}
 				</Typography>
 			</Box>
 		);
@@ -208,10 +252,10 @@ const AppScreeningReportDetails = ({ reportData }) => {
 	const confConfig   = CONFIDENCE_CONFIG[confKey] ?? CONFIDENCE_CONFIG.medium;
 
 	const detailScores = [
-		{ key: 'skills',     icon: BuildOutlinedIcon,          label: t('appCVScreening.skillsMatch'),         score: Math.ceil(Number(details.skillsMatch?.score ?? 0)),     explanation: details.skillsMatch?.scoreSummary },
-		{ key: 'experience', icon: TrendingUpOutlinedIcon,     label: t('appCVScreening.experienceAlignment'), score: Math.ceil(Number(details.experienceMatch?.score ?? 0)),  explanation: details.experienceMatch?.scoreSummary },
-		{ key: 'location',   icon: LocationOnOutlinedIcon,     label: t('appCVScreening.locationMatch'),       score: Math.ceil(Number(details.locationMatch?.score ?? 0)),    explanation: details.locationMatch?.scoreSummary },
-		{ key: 'industry',   icon: BusinessCenterOutlinedIcon, label: t('appCVScreening.industryMatch'),       score: Math.ceil(Number(details.industryMatch?.score ?? 0)),    explanation: details.industryMatch?.scoreSummary },
+		{ key: 'skills',     icon: BuildOutlinedIcon,          label: t('appCVMatching.skillsMatch'),         score: Math.ceil(Number(details.skillsMatch?.score ?? 0)),     explanation: details.skillsMatch?.scoreSummary },
+		{ key: 'experience', icon: TrendingUpOutlinedIcon,     label: t('appCVMatching.experienceAlignment'), score: Math.ceil(Number(details.experienceMatch?.score ?? 0)),  explanation: details.experienceMatch?.scoreSummary },
+		{ key: 'location',   icon: LocationOnOutlinedIcon,     label: t('appCVMatching.locationMatch'),       score: Math.ceil(Number(details.locationMatch?.score ?? 0)),    explanation: details.locationMatch?.scoreSummary },
+		{ key: 'industry',   icon: BusinessCenterOutlinedIcon, label: t('appCVMatching.industryMatch'),       score: Math.ceil(Number(details.industryMatch?.score ?? 0)),    explanation: details.industryMatch?.scoreSummary },
 	];
 
 	return (
@@ -350,7 +394,7 @@ const AppScreeningReportDetails = ({ reportData }) => {
 								<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1, flexShrink: 0 }}>
 									<ScoreGaugeLarge value={finalScore} />
 									<Typography sx={{ fontSize: '0.62rem', fontWeight: 800, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.12em' }}>
-										{t('appCVScreening.finalScore')}
+										{t('appCVMatching.finalScore')}
 									</Typography>
 								</Box>
 								<Box sx={{ flex: 1, minWidth: 0, pt: 0.5 }}>
@@ -358,13 +402,13 @@ const AppScreeningReportDetails = ({ reportData }) => {
 										{recKey && (
 											<Chip
 												icon={recKey === 'interview' ? <ThumbUpOutlinedIcon sx={{ fontSize: '12px !important' }} /> : recKey === 'reject' ? <ThumbDownOutlinedIcon sx={{ fontSize: '12px !important' }} /> : undefined}
-												label={t(`appCVScreening.recommendation.${recKey}`, recKey)}
+												label={t(`appCVMatching.recommendation.${recKey}`, recKey)}
 												size="small"
 												sx={{ height: 22, fontSize: '0.72rem', fontWeight: 700, backgroundColor: recConfig.bg, color: recConfig.color, border: `1px solid ${recConfig.border}` }}
 											/>
 										)}
 										{confKey && (
-											<Chip label={t(`appCVScreening.confidence.${confKey}`, confKey)} size="small"
+											<Chip label={t(`appCVMatching.confidence.${confKey}`, confKey)} size="small"
 												sx={{ height: 22, fontSize: '0.72rem', fontWeight: 600, backgroundColor: confConfig.bg, color: confConfig.color }} />
 										)}
 									</Box>
@@ -397,7 +441,7 @@ const AppScreeningReportDetails = ({ reportData }) => {
 						{/* Matching Skills */}
 						{Array.isArray(details.skillsMatch?.matchingSkills) && details.skillsMatch.matchingSkills.length > 0 && (
 							<Paper elevation={0} sx={{ border: '1px solid #bbf7d0', borderRadius: 2.5, p: 2.5, backgroundColor: '#f0fdf4' }}>
-								<SectionHeader icon={StarOutlineOutlinedIcon} label={t('appCVScreening.matchingSkills')} />
+								<SectionHeader icon={StarOutlineOutlinedIcon} label={t('appCVMatching.matchingSkills')} />
 								<Stack direction="row" spacing={0.75} flexWrap="wrap" useFlexGap>
 									{details.skillsMatch.matchingSkills.map((sk, i) => (
 										<Chip key={`msk-${i}`} label={sk} size="small"
@@ -410,7 +454,7 @@ const AppScreeningReportDetails = ({ reportData }) => {
 						{/* Missing Skills */}
 						{details.missingSkills && (
 							<Paper elevation={0} sx={{ border: '1px solid #fecaca', borderRadius: 2.5, p: 2.5, backgroundColor: '#fffafa' }}>
-								<SectionHeader icon={ErrorOutlineOutlinedIcon} label={t('appCVScreening.lackingSkills')} />
+								<SectionHeader icon={ErrorOutlineOutlinedIcon} label={t('appCVMatching.lackingSkills')} />
 								{details.missingSkills.summary && (
 									<Typography sx={{ fontSize: '0.82rem', color: '#334155', lineHeight: 1.6, mb: 1.5 }}>
 										{details.missingSkills.summary}
@@ -440,7 +484,7 @@ const AppScreeningReportDetails = ({ reportData }) => {
 						{/* Strengths */}
 						{Array.isArray(details.strengths) && details.strengths.length > 0 && (
 							<Paper elevation={0} sx={{ border: '1px solid #bbf7d0', borderRadius: 2.5, p: 2.5 }}>
-								<SectionHeader icon={EmojiEventsOutlinedIcon} label={t('appCVScreening.strengths', 'Strengths')} />
+								<SectionHeader icon={EmojiEventsOutlinedIcon} label={t('appCVMatching.strengths', 'Strengths')} />
 								<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.25 }}>
 									{details.strengths.map((s, i) => (
 										<Box key={`str-${i}`} sx={{
@@ -464,7 +508,7 @@ const AppScreeningReportDetails = ({ reportData }) => {
 						{/* Weaknesses */}
 						{Array.isArray(details.weaknesses) && details.weaknesses.length > 0 && (
 							<Paper elevation={0} sx={{ border: '1px solid #fde68a', borderRadius: 2.5, p: 2.5 }}>
-								<SectionHeader icon={WarningAmberOutlinedIcon} label={t('appCVScreening.weaknesses', 'Weaknesses')} />
+								<SectionHeader icon={WarningAmberOutlinedIcon} label={t('appCVMatching.weaknesses', 'Weaknesses')} />
 								<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.25 }}>
 									{details.weaknesses.map((w, i) => {
 										const sevKey = (w.severity || 'medium').toLowerCase();
@@ -492,7 +536,7 @@ const AppScreeningReportDetails = ({ reportData }) => {
 						{/* Red Flags */}
 						{Array.isArray(details.redFlags) && details.redFlags.length > 0 && (
 							<Paper elevation={0} sx={{ border: '1px solid #fecaca', borderRadius: 2.5, p: 2.5 }}>
-								<SectionHeader icon={ReportProblemOutlinedIcon} label={t('appCVScreening.redFlags', 'Red Flags')} />
+								<SectionHeader icon={ReportProblemOutlinedIcon} label={t('appCVMatching.redFlags', 'Red Flags')} />
 								<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.75 }}>
 									{details.redFlags.map((rf, i) => {
 										const sevKey = (rf.severity || 'medium').toLowerCase();
@@ -521,7 +565,7 @@ const AppScreeningReportDetails = ({ reportData }) => {
 														<QuestionAnswerOutlinedIcon sx={{ fontSize: 14, color: '#0369a1', mt: 0.2, flexShrink: 0 }} />
 														<Box>
 															<Typography sx={{ fontSize: '0.62rem', fontWeight: 700, color: '#0369a1', textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.25 }}>
-																{t('appCVScreening.suggestedQuestion', 'Suggested interview question')}
+																{t('appCVMatching.suggestedQuestion', 'Suggested interview question')}
 															</Typography>
 															<Typography sx={{ fontSize: '0.78rem', color: '#0c4a6e', lineHeight: 1.55, fontStyle: 'italic' }}>
 																{rf.suggestedInterviewQuestion}
@@ -538,10 +582,12 @@ const AppScreeningReportDetails = ({ reportData }) => {
 
 					</Box>
 
-					{/* ── Right sidebar: Candidate Profile ── */}
-					<Box sx={{ width: { xs: '100%', md: '25%' }, maxWidth: { md: 280 }, flexShrink: 0, alignSelf: 'flex-start', position: { md: 'sticky' }, top: 0 }}>
+					{/* ── Right sidebar: Candidate Profile + Clustering ── */}
+					<Box sx={{ width: { xs: '100%', md: '30%' }, maxWidth: { md: 340 }, flexShrink: 0, alignSelf: 'flex-start', display: 'flex', flexDirection: 'column', gap: 2 }}>
+
+						{/* Candidate Profile */}
 						<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5 }}>
-							<SectionHeader icon={PersonOutlineOutlinedIcon} label={t('appCVScreening.candidateProfile')} />
+							<SectionHeader icon={PersonOutlineOutlinedIcon} label={t('appCVMatching.candidateProfile')} />
 							{candidate.candidateProfileSummary && (
 								<Typography sx={{ fontSize: '0.80rem', color: '#334155', lineHeight: 1.6, mb: 1.5 }}>
 									{candidate.candidateProfileSummary}
@@ -551,7 +597,7 @@ const AppScreeningReportDetails = ({ reportData }) => {
 								<>
 									<Divider sx={{ my: 1.5, borderColor: '#f1f5f9' }} />
 									<Typography sx={{ fontSize: '0.68rem', fontWeight: 700, color: THEME_GREEN, textTransform: 'uppercase', letterSpacing: '0.07em', mb: 1 }}>
-										{t('appCVScreening.skills')}
+										{t('appCVMatching.skills')}
 									</Typography>
 									<Stack direction="row" spacing={0.75} flexWrap="wrap" useFlexGap>
 										{candidate.skills.map((sk, i) => (
@@ -562,6 +608,159 @@ const AppScreeningReportDetails = ({ reportData }) => {
 								</>
 							)}
 						</Paper>
+
+						{/* Candidate Clustering */}
+						{candidate.candidateClustering && (() => {
+							const cl = candidate.candidateClustering;
+							const attrRows = [
+								{ key: 'skillDepth',             label: t('appCVMatching.clustering.skillDepth'),      value: cl.skillDepth,             ...(SKILL_DEPTH_STYLE[cl.skillDepth] ?? STYLE_UNKNOWN) },
+								{ key: 'seniorityLevel',         label: t('appCVMatching.clustering.seniority'),        value: cl.seniorityLevel,         ...getSeniorityStyle(cl.seniorityLevel) },
+								{ key: 'leadershipAndInfluence', label: t('appCVMatching.clustering.leadership'),       value: cl.leadershipAndInfluence, ...getLeadershipStyle(cl.leadershipAndInfluence) },
+								{ key: 'learningVelocity',       label: t('appCVMatching.clustering.learningVelocity'), value: cl.learningVelocity,       ...getVelocityStyle(cl.learningVelocity) },
+							].filter(r => r.value && r.value !== 'unknown');
+							const confPct = cl.clusterConfidenceScore != null
+								? Math.round(cl.clusterConfidenceScore * 100) : null;
+							return (
+								<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5 }}>
+									<SectionHeader icon={HubOutlinedIcon} label={t('appCVMatching.clustering.sectionTitle')} />
+
+									{/* Primary cluster */}
+									{cl.primaryCluster && (
+										<Chip label={cl.primaryCluster} size="small" sx={{
+											mb: 1.5, height: 'auto', py: 0.5, fontSize: '0.75rem', fontWeight: 700, width: '100%',
+											backgroundColor: 'rgba(99,102,241,0.08)', color: '#4f46e5',
+											border: '1px solid rgba(99,102,241,0.2)', borderRadius: 1.5,
+											'& .MuiChip-label': { whiteSpace: 'normal', textAlign: 'center' },
+										}} />
+									)}
+
+									{/* Secondary clusters */}
+									{Array.isArray(cl.secondaryClusters) && cl.secondaryClusters.length > 0 && (
+										<>
+											<Typography sx={{ fontSize: '0.60rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.75 }}>
+												{t('appCVMatching.clustering.secondaryClusters')}
+											</Typography>
+											<Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap sx={{ mb: 1.5 }}>
+												{cl.secondaryClusters.map((sc, i) => (
+													<Chip key={`sc-${i}`} label={sc} size="small" sx={{ height: 22, fontSize: '0.68rem', fontWeight: 500, backgroundColor: 'rgba(99,102,241,0.05)', color: '#6366f1', border: '1px solid rgba(99,102,241,0.15)' }} />
+												))}
+											</Stack>
+										</>
+									)}
+
+									{/* Functional expertise */}
+									{Array.isArray(cl.functionalExpertise) && cl.functionalExpertise.length > 0 && (
+										<>
+											<Divider sx={{ my: 1.25, borderColor: '#f1f5f9' }} />
+											<Typography sx={{ fontSize: '0.60rem', fontWeight: 700, color: THEME_GREEN, textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.75 }}>
+												{t('appCVMatching.clustering.functionalExpertise')}
+											</Typography>
+											<Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap sx={{ mb: 0.5 }}>
+												{cl.functionalExpertise.map((fe, i) => (
+													<Chip key={`fe-${i}`} label={fe} size="small" sx={{ height: 22, fontSize: '0.68rem', fontWeight: 500, backgroundColor: 'rgba(98,156,68,0.08)', color: '#166534', border: '1px solid rgba(98,156,68,0.2)' }} />
+												))}
+											</Stack>
+										</>
+									)}
+
+									{/* Attribute rows */}
+									{attrRows.length > 0 && (
+										<>
+											<Divider sx={{ my: 1.25, borderColor: '#f1f5f9' }} />
+											<Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.75 }}>
+												{attrRows.map(row => (
+													<Box key={row.key} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1 }}>
+														<Typography sx={{ fontSize: '0.68rem', color: '#64748b', flexShrink: 0 }}>
+															{row.label}
+														</Typography>
+														<Chip label={toLabel(row.value)} size="small" sx={{ height: 18, fontSize: '0.62rem', fontWeight: 600, backgroundColor: row.bg, color: row.color, border: `1px solid ${row.bdr}` }} />
+													</Box>
+												))}
+											</Box>
+										</>
+									)}
+
+									{/* Industry domains */}
+									{Array.isArray(cl.industryDomains) && cl.industryDomains.length > 0 && (
+										<>
+											<Divider sx={{ my: 1.25, borderColor: '#f1f5f9' }} />
+											<Typography sx={{ fontSize: '0.60rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.75 }}>
+												{t('appCVMatching.clustering.industryDomains')}
+											</Typography>
+											<Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap>
+												{cl.industryDomains.map((d, i) => (
+													<Chip key={`id-${i}`} label={d} size="small" sx={{ height: 22, fontSize: '0.68rem', fontWeight: 500, backgroundColor: '#f1f5f9', color: '#334155', border: '1px solid #e2e8f0' }} />
+												))}
+											</Stack>
+										</>
+									)}
+
+									{/* Environment fit */}
+									{Array.isArray(cl.environmentFit) && cl.environmentFit.length > 0 && (
+										<>
+											<Divider sx={{ my: 1.25, borderColor: '#f1f5f9' }} />
+											<Typography sx={{ fontSize: '0.60rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.75 }}>
+												{t('appCVMatching.clustering.environmentFit')}
+											</Typography>
+											<Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap>
+												{cl.environmentFit.map((e, i) => (
+													<Chip key={`ef-${i}`} label={toLabel(e)} size="small" sx={{ height: 22, fontSize: '0.68rem', fontWeight: 500, backgroundColor: '#f0f9ff', color: '#0369a1', border: '1px solid #bae6fd' }} />
+												))}
+											</Stack>
+										</>
+									)}
+
+									{/* Business impact */}
+									{Array.isArray(cl.businessImpact) && cl.businessImpact.length > 0 && (
+										<>
+											<Divider sx={{ my: 1.25, borderColor: '#f1f5f9' }} />
+											<Typography sx={{ fontSize: '0.60rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.75 }}>
+												{t('appCVMatching.clustering.businessImpact')}
+											</Typography>
+											<Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+												{cl.businessImpact.map((impact, i) => (
+													<Box key={`bi-${i}`} sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.5 }}>
+														<CheckCircleOutlineOutlinedIcon sx={{ fontSize: 12, color: THEME_GREEN, mt: 0.25, flexShrink: 0 }} />
+														<Typography sx={{ fontSize: '0.73rem', color: '#334155', lineHeight: 1.5 }}>
+															{impact}
+														</Typography>
+													</Box>
+												))}
+											</Box>
+										</>
+									)}
+
+									{/* Cluster confidence */}
+									{confPct != null && (
+										<>
+											<Divider sx={{ my: 1.25, borderColor: '#f1f5f9' }} />
+											<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 0.6 }}>
+												<Typography sx={{ fontSize: '0.60rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+													{t('appCVMatching.clustering.confidence')}
+												</Typography>
+												<Typography sx={{ fontSize: '0.70rem', fontWeight: 700, color: THEME_GREEN }}>
+													{confPct}%
+												</Typography>
+											</Box>
+											<Box sx={{ height: 4, backgroundColor: '#e2e8f0', borderRadius: 99, overflow: 'hidden' }}>
+												<Box sx={{ height: '100%', width: `${confPct}%`, backgroundColor: THEME_GREEN, borderRadius: 99 }} />
+											</Box>
+										</>
+									)}
+
+									{/* Reasoning */}
+									{cl.clusterReasoning && (
+										<>
+											<Divider sx={{ my: 1.25, borderColor: '#f1f5f9' }} />
+											<Typography sx={{ fontSize: '0.72rem', color: '#64748b', lineHeight: 1.6, fontStyle: 'italic' }}>
+												{cl.clusterReasoning}
+											</Typography>
+										</>
+									)}
+								</Paper>
+							);
+						})()}
+
 					</Box>
 
 				</Box>
@@ -570,7 +769,7 @@ const AppScreeningReportDetails = ({ reportData }) => {
 	);
 };
 
-AppScreeningReportDetails.propTypes = {
+AppMatchingReportDetails.propTypes = {
 	reportData: PropTypes.shape({
 		id: PropTypes.string,
 		jobPostId: PropTypes.string,
@@ -603,4 +802,4 @@ AppScreeningReportDetails.propTypes = {
 	}),
 };
 
-export default AppScreeningReportDetails;
+export default AppMatchingReportDetails;

@@ -64,7 +64,7 @@
     }
   },
   "header": {
-    "screening": "Screening",
+    "matching": "Matching",
     "jobs": "Annunci",
     "cvs": "Archivio CV",
     "reports": "Match Intelligence",
@@ -275,7 +275,7 @@
     "resumeCount": "{{count}} CV",
     "pageOf": "pagina {{page}} di {{total}}"
   },
-  "appCVScreening": {
+  "appCVMatching": {
     "selectJobPost": "Seleziona annuncio",
     "selectCVs": "Seleziona CV",
     "analyzeCVs": "Analizza",
@@ -326,6 +326,20 @@
       "high": "Alta fiducia",
       "medium": "Fiducia media",
       "low": "Bassa fiducia"
+    },
+    "clustering": {
+      "sectionTitle": "Clustering candidato",
+      "secondaryClusters": "Cluster secondari",
+      "functionalExpertise": "Competenze funzionali",
+      "skillDepth": "Profondità competenze",
+      "businessImpact": "Impatto aziendale",
+      "industryDomains": "Settori",
+      "environmentFit": "Ambienti adatti",
+      "seniority": "Seniority",
+      "leadership": "Leadership",
+      "learningVelocity": "Velocità di apprendimento",
+      "confidence": "Confidenza del clustering",
+      "reasoning": "Ragionamento"
     }
   },
   "appReportContent": {
@@ -349,10 +363,10 @@
     "allConfidences": "Tutti i livelli di affidabilità",
     "sortAsc": "Ordina: Crescente",
     "sortDesc": "Ordina: Decrescente",
-    "startScreening": "Avvia analisi",
-    "screeningInProgress": "Analisi in corso…",
-    "screeningNeeded": "{{count}} offerta/e in attesa di analisi",
-    "noScreeningNeeded": "Tutte le offerte sono aggiornate — nessuna analisi necessaria.",
+    "startMatching": "Avvia analisi",
+    "matchingInProgress": "Analisi in corso…",
+    "matchingNeeded": "{{count}} offerta/e in attesa di analisi",
+    "noMatchingNeeded": "Tutte le offerte sono aggiornate — nessuna analisi necessaria.",
     "reportCount": "{{count}} report"
   },
   "errors": {
@@ -530,7 +544,7 @@
       "candidate": "Candidato"
     },
     "usage": {
-      "screeningActions": "Azioni di matching",
+      "matchingActions": "Azioni di matching",
       "aiResumeChats": "Chat IA CV",
       "talentIntelligenceQueries": "Intelligenza talenti",
       "used": "utilizzato",
@@ -558,7 +572,7 @@
     "cvSearch": "Cerca CV (per nome)",
     "cvSearchPlaceholder": "Digita un nome…",
     "jobPost": "Annuncio",
-    "relatedScreeningReport": "Report correlato",
+    "relatedMatchingReport": "Report correlato",
     "resumeMatchHint": "Seleziona CV e annuncio per verificare corrispondenze.",
     "searching": "Ricerca…",
     "job": "Posizione",

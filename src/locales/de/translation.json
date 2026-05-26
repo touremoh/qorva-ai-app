@@ -64,7 +64,7 @@
     }
   },
   "header": {
-    "screening": "Screening",
+    "matching": "Matching",
     "jobs": "Stellen",
     "cvs": "Lebenslauf-Archiv",
     "reports": "Match Intelligence",
@@ -275,7 +275,7 @@
     "resumeCount": "{{count}} Lebenslauf/-läufe",
     "pageOf": "Seite {{page}} von {{total}}"
   },
-  "appCVScreening": {
+  "appCVMatching": {
     "selectJobPost": "Stelle auswählen",
     "selectCVs": "Lebensläufe auswählen",
     "analyzeCVs": "Analyse starten",
@@ -326,6 +326,20 @@
       "high": "Hohe Konfidenz",
       "medium": "Mittlere Konfidenz",
       "low": "Niedrige Konfidenz"
+    },
+    "clustering": {
+      "sectionTitle": "Kandidaten-Clustering",
+      "secondaryClusters": "Sekundäre Cluster",
+      "functionalExpertise": "Funktionale Expertise",
+      "skillDepth": "Kenntnistiefe",
+      "businessImpact": "Geschäftlicher Einfluss",
+      "industryDomains": "Branchen",
+      "environmentFit": "Passende Umgebungen",
+      "seniority": "Seniorität",
+      "leadership": "Führungsrolle",
+      "learningVelocity": "Lerngeschwindigkeit",
+      "confidence": "Cluster-Konfidenz",
+      "reasoning": "Begründung"
     }
   },
   "appReportContent": {
@@ -349,10 +363,10 @@
     "allConfidences": "Alle Konfidenzstufen",
     "sortAsc": "Sortieren: Aufsteigend",
     "sortDesc": "Sortieren: Absteigend",
-    "startScreening": "Screening starten",
-    "screeningInProgress": "Screening läuft…",
-    "screeningNeeded": "{{count}} Stellenanzeige(n) benötigen Screening",
-    "noScreeningNeeded": "Alle Stellenanzeigen sind aktuell — kein Screening erforderlich.",
+    "startMatching": "Matching starten",
+    "matchingInProgress": "Matching läuft…",
+    "matchingNeeded": "{{count}} Stellenanzeige(n) warten auf Matching",
+    "noMatchingNeeded": "Alle Stellenanzeigen sind aktuell — kein Matching erforderlich.",
     "reportCount": "{{count}} Bericht(e)"
   },
   "errors": {
@@ -530,7 +544,7 @@
       "candidate": "Kandidat"
     },
     "usage": {
-      "screeningActions": "Matching-Aktionen",
+      "matchingActions": "Matching-Aktionen",
       "aiResumeChats": "KI-Lebenslauf-Chats",
       "talentIntelligenceQueries": "Talent-Intelligenz",
       "used": "genutzt",
@@ -558,7 +572,7 @@
     "cvSearch": "Lebenslauf suchen (nach Name)",
     "cvSearchPlaceholder": "Name eingeben…",
     "jobPost": "Stellenanzeige",
-    "relatedScreeningReport": "Zugehöriger Screening-Bericht",
+    "relatedMatchingReport": "Zugehöriger Matching-Bericht",
     "resumeMatchHint": "Lebenslauf und Stelle auswählen, um Übereinstimmungen zu prüfen.",
     "searching": "Suche…",
     "job": "Stellentitel",

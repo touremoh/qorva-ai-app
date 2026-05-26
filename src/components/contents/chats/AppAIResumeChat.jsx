@@ -960,10 +960,10 @@ const AppAIResumeChat = () => {
 							</Select>
 						</FormControl>
 
-						{/* Screening report match */}
+						{/* Matching report */}
 						<Box sx={{ p: 1.5, borderRadius: 2, backgroundColor: '#f8fafc', border: '1px solid #e2e8f0' }}>
 							<Typography sx={{ fontSize: '0.72rem', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.06em', mb: 1 }}>
-								{t('appAIResumeChat.relatedScreeningReport')}
+								{t('appAIResumeChat.relatedMatchingReport')}
 							</Typography>
 							{!selectedCV || !selectedJob ? (
 								<Typography sx={{ fontSize: '0.78rem', color: '#94a3b8' }}>

@@ -19,9 +19,9 @@
       "badge": "AI-Powered Recruitment",
       "headline": "Screen & rank CVs in seconds, not days.",
       "subtext": "Let AI do the heavy lifting. Qorva reads, scores, and ranks every application so you can focus on interviewing the right people.",
-      "bullet1": "Instant CV screening & candidate ranking",
+      "bullet1": "Instant candidate matching & ranking",
       "bullet2": "Built for small & medium-sized businesses",
-      "bullet3": "Cut screening time by up to 90%",
+      "bullet3": "Cut time-to-hire by up to 90%",
       "freeToStart": "Free to start"
     }
   },
@@ -71,7 +71,7 @@
     }
   },
   "header": {
-    "screening": "Screening",
+    "matching": "Matching",
     "jobs": "Jobs",
     "cvs": "Resume Library",
     "reports": "Match Intelligence",
@@ -278,7 +278,7 @@
     "resumeCount": "{{count}} resume(s)",
     "pageOf": "page {{page}} of {{total}}"
   },
-  "appCVScreening": {
+  "appCVMatching": {
     "selectJobPost": "Choose Job Post",
     "selectCVs": "Choose Resumes",
     "analyzeCVs": "Run Analysis",
@@ -329,6 +329,20 @@
       "high": "High confidence",
       "medium": "Medium confidence",
       "low": "Low confidence"
+    },
+    "clustering": {
+      "sectionTitle": "Candidate Clustering",
+      "secondaryClusters": "Secondary Clusters",
+      "functionalExpertise": "Functional Expertise",
+      "skillDepth": "Skill Depth",
+      "businessImpact": "Business Impact",
+      "industryDomains": "Industry Domains",
+      "environmentFit": "Environment Fit",
+      "seniority": "Seniority",
+      "leadership": "Leadership",
+      "learningVelocity": "Learning Velocity",
+      "confidence": "Cluster Confidence",
+      "reasoning": "Reasoning"
     }
   },
   "appReportContent": {
@@ -352,10 +366,10 @@
     "allConfidences": "All Confidence Levels",
     "sortAsc": "Sort: Low to High",
     "sortDesc": "Sort: High to Low",
-    "startScreening": "Run Screening",
-    "screeningInProgress": "Screening in progress…",
-    "screeningNeeded": "{{count}} job post(s) pending screening",
-    "noScreeningNeeded": "All job posts are up to date — no screening needed.",
+    "startMatching": "Run Matching",
+    "matchingInProgress": "Matching in progress…",
+    "matchingNeeded": "{{count}} job post(s) ready for matching",
+    "noMatchingNeeded": "All candidates are matched — no action needed.",
     "reportCount": "{{count}} report(s)"
   },
   "errors": {
@@ -533,7 +547,7 @@
       "candidate": "Candidate"
     },
     "usage": {
-      "screeningActions": "Matching Actions",
+      "matchingActions": "Matching Actions",
       "aiResumeChats": "AI Resume Chats",
       "talentIntelligenceQueries": "Talent Intelligence",
       "used": "used",
@@ -561,7 +575,7 @@
     "cvSearch": "Search Resume (by name)",
     "cvSearchPlaceholder": "Type a name…",
     "jobPost": "Job Post",
-    "relatedScreeningReport": "Linked Screening Report",
+    "relatedMatchingReport": "Linked Matching Report",
     "resumeMatchHint": "Select a resume and job to find a match.",
     "searching": "Searching…",
     "job": "Job Title",

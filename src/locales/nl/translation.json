@@ -64,7 +64,7 @@
     }
   },
   "header": {
-    "screening": "Screening",
+    "matching": "Matching",
     "jobs": "Vacatures",
     "cvs": "CV-archief",
     "reports": "Match Intelligence",
@@ -275,7 +275,7 @@
     "resumeCount": "{{count}} CV('s)",
     "pageOf": "pagina {{page}} van {{total}}"
   },
-  "appCVScreening": {
+  "appCVMatching": {
     "selectJobPost": "Selecteer vacature",
     "selectCVs": "Selecteer CV’s",
     "analyzeCVs": "Analyseren",
@@ -323,6 +323,20 @@
       "high": "Hoge zekerheid",
       "medium": "Gemiddelde zekerheid",
       "low": "Lage zekerheid"
+    },
+    "clustering": {
+      "sectionTitle": "Kandidaat clustering",
+      "secondaryClusters": "Secundaire clusters",
+      "functionalExpertise": "Functionele expertise",
+      "skillDepth": "Vaardigheidsdiepte",
+      "businessImpact": "Zakelijke impact",
+      "industryDomains": "Sectoren",
+      "environmentFit": "Geschikte omgevingen",
+      "seniority": "Senioriteit",
+      "leadership": "Leiderschap",
+      "learningVelocity": "Leersnelheid",
+      "confidence": "Clusterbetrouwbaarheid",
+      "reasoning": "Redenering"
     }
   },
   "appReportContent": {
@@ -346,10 +360,10 @@
     "allConfidences": "Alle zekerheidsniveaus",
     "sortAsc": "Sorteren: Oplopend",
     "sortDesc": "Sorteren: Aflopend",
-    "startScreening": "Screening starten",
-    "screeningInProgress": "Screening bezig…",
-    "screeningNeeded": "{{count}} vacature(s) wachten op screening",
-    "noScreeningNeeded": "Alle vacatures zijn up-to-date — geen screening nodig.",
+    "startMatching": "Matching starten",
+    "matchingInProgress": "Matching bezig…",
+    "matchingNeeded": "{{count}} vacature(s) wachten op matching",
+    "noMatchingNeeded": "Alle vacatures zijn up-to-date — geen matching nodig.",
     "reportCount": "{{count}} rapport(en)"
   },
   "errors": {
@@ -527,7 +541,7 @@
       "candidate": "Kandidaat"
     },
     "usage": {
-      "screeningActions": "Matching-acties",
+      "matchingActions": "Matching-acties",
       "aiResumeChats": "AI CV-chats",
       "talentIntelligenceQueries": "Talentinformatie",
       "used": "gebruikt",
@@ -555,7 +569,7 @@
     "cvSearch": "Zoek CV (op naam)",
     "cvSearchPlaceholder": "Typ een naam…",
     "jobPost": "Vacature",
-    "relatedScreeningReport": "Gekoppeld rapport",
+    "relatedMatchingReport": "Gekoppeld rapport",
     "resumeMatchHint": "Selecteer CV en vacature om een match te zoeken.",
     "searching": "Zoeken…",
     "job": "Functie",
