@@ -532,7 +532,7 @@
     },
     "sections": {
       "skillsReport": "Top 10 compétences",
-      "jobPostsReport": "Candidatures par offre",
+      "jobPostsReport": "Rapports par offre",
       "topCandidates": "Top 5 candidats par offre d'emploi",
       "usageMonitoring": "Suivi de consommation",
       "talentPoolInsight": "Analyse du vivier de talents"

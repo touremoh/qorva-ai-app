@@ -535,7 +535,7 @@
     },
     "sections": {
       "skillsReport": "Top 10 Skills",
-      "jobPostsReport": "Applications per Job",
+      "jobPostsReport": "Reports per Job",
       "topCandidates": "Top 5 Candidates per Job Post",
       "usageMonitoring": "Usage Monitoring",
       "talentPoolInsight": "Talent Pool Insight"
