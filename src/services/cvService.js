@@ -11,3 +11,6 @@ export const uploadCVs = (formData) =>
 
 export const deleteCV = (id) =>
     apiClient.delete(`/cvs/${id}`);
+
+export const updateCV = (id, patch) =>
+    apiClient.patch(`/cvs/${id}`, patch);

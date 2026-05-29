@@ -219,7 +219,14 @@ const AppCVContent = () => {
 				{(viewMode === 'list' || showDetails) && (
 					<Box sx={{ flex: 1, overflow: 'auto', minWidth: 0, backgroundColor: '#f8fafc' }}>
 						{showDetails ? (
-							<AppCVDetails cv={selectedCV} onClose={() => setSelectedCV(null)} />
+							<AppCVDetails
+										cv={selectedCV}
+										onClose={() => setSelectedCV(null)}
+										onUpdate={(updated) => {
+											setSelectedCV(updated);
+											setCvEntries(prev => prev.map(c => c.id === updated.id ? updated : c));
+										}}
+									/>
 						) : (
 							<Box sx={{
 								height: '100%',

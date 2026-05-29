@@ -1,14 +1,20 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
 	Box,
+	Button,
+	CircularProgress,
 	Typography,
 	Avatar,
 	Chip,
 	Divider,
+	FormControlLabel,
 	IconButton,
 	Grid2,
+	MenuItem,
 	Paper,
+	Select,
 	Stack,
+	Switch,
 	Tab,
 	Table,
 	TableBody,
@@ -17,6 +23,7 @@ import {
 	TableHead,
 	TableRow,
 	Tabs,
+	TextField,
 	Tooltip,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
@@ -48,10 +55,12 @@ import FingerprintOutlinedIcon from '@mui/icons-material/FingerprintOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
 import CheckIcon from '@mui/icons-material/Check';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import HubOutlinedIcon from '@mui/icons-material/HubOutlined';
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
 import apiClient from '../../../../axiosConfig.js';
 import { getTenantById } from '../../../services/tenantService.js';
+import { updateCV } from '../../../services/cvService.js';
 import { TENANT_ID } from '../../../constants.js';
 
 // ─── Clustering style helpers ────────────────────────────────────────────────
@@ -277,7 +286,7 @@ const ClusteringTabContent = ({ clustering, t }) => {
 const getInitials = (name = '') =>
 	name.split(' ').map(p => p[0]).filter(Boolean).join('').slice(0, 2).toUpperCase();
 
-const SectionHeader = ({ Icon, title }) => (
+const SectionHeader = ({ Icon, title, onEdit }) => (
 	<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5, pb: 0.75, borderBottom: '2px solid #629C44' }}>
 		<Icon sx={{ fontSize: 14, color: '#629C44' }} />
 		<Typography sx={{
@@ -286,9 +295,15 @@ const SectionHeader = ({ Icon, title }) => (
 			color: '#64748b',
 			textTransform: 'uppercase',
 			letterSpacing: '0.08em',
+			flex: 1,
 		}}>
 			{title}
 		</Typography>
+		{onEdit && (
+			<IconButton size="small" onClick={onEdit} sx={{ p: 0.25, color: '#94a3b8', '&:hover': { color: '#629C44' } }}>
+				<EditOutlinedIcon sx={{ fontSize: 14 }} />
+			</IconButton>
+		)}
 	</Box>
 );
 
@@ -300,7 +315,7 @@ const Card = ({ children, sx }) => (
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
-const AppCVDetails = ({ cv, onClose }) => {
+const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 	const { t } = useTranslation();
 
 	const [activeTab, setActiveTab] = useState(0);
@@ -315,6 +330,56 @@ const AppCVDetails = ({ cv, onClose }) => {
 
 	const [anonymized, setAnonymized] = useState(false);
 	const [refCopied, setRefCopied] = useState(false);
+	const [editingSection, setEditingSection] = useState(null);
+	const [draft, setDraft] = useState({});
+	const [tagInput, setTagInput] = useState('');
+	const [isSaving, setIsSaving] = useState(false);
+
+	const handleEdit = useCallback((section) => {
+		if (section === 'availability') {
+			setDraft(cv?.personalInformation?.availability ?? {});
+		} else if (section === 'tags') {
+			setDraft({ tags: cv?.tags ?? [] });
+		}
+		setEditingSection(section);
+	}, [cv]);
+
+	const handleCancelEdit = useCallback(() => {
+		setEditingSection(null);
+		setDraft({});
+		setTagInput('');
+	}, []);
+
+	const handleSave = useCallback(async () => {
+		if (!cv?.id) return;
+		setIsSaving(true);
+		try {
+			const patch = editingSection === 'availability'
+				? { personalInformation: { availability: draft } }
+				: { tags: draft.tags };
+			const res = await updateCV(cv.id, patch);
+			const updated = res?.data?.data ?? { ...cv, ...patch };
+			onUpdate?.(updated);
+			setEditingSection(null);
+			setDraft({});
+			setTagInput('');
+		} catch (err) {
+			console.error('Failed to save CV:', err);
+		} finally {
+			setIsSaving(false);
+		}
+	}, [cv, draft, editingSection, onUpdate]);
+
+	const handleAddTag = useCallback(() => {
+		const val = tagInput.trim();
+		if (!val || draft.tags?.includes(val)) return;
+		setDraft(d => ({ ...d, tags: [...(d.tags ?? []), val] }));
+		setTagInput('');
+	}, [tagInput, draft.tags]);
+
+	const handleRemoveTag = useCallback((tag) => {
+		setDraft(d => ({ ...d, tags: (d.tags ?? []).filter(t => t !== tag) }));
+	}, []);
 
 	const handleCopyRef = useCallback(() => {
 		const ref = cv?.applicantNumber;
@@ -647,9 +712,103 @@ const AppCVDetails = ({ cv, onClose }) => {
 				)}
 
 				{/* Availability */}
-				{pi.availability && (
+				{(pi.availability || editingSection === 'availability') && (
 					<Card sx={{ mb: 2 }}>
-						<SectionHeader Icon={AccessTimeOutlinedIcon} title={t('appCVContent.availability.title')} />
+						<SectionHeader
+							Icon={AccessTimeOutlinedIcon}
+							title={t('appCVContent.availability.title')}
+							onEdit={editingSection !== 'availability' ? () => handleEdit('availability') : undefined}
+						/>
+						{editingSection === 'availability' ? (
+							<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+								{/* Status */}
+								<Box>
+									<Typography sx={availLabelSx}>{t('appCVContent.availability.status', 'Status')}</Typography>
+									<Select
+										size="small"
+										value={draft.status ?? ''}
+										onChange={e => setDraft(d => ({ ...d, status: e.target.value }))}
+										displayEmpty
+										sx={{ fontSize: '0.82rem', minWidth: 200 }}
+									>
+										<MenuItem value="" sx={{ fontSize: '0.82rem' }}><em>—</em></MenuItem>
+										{['activelyLooking', 'openButNotSearching', 'notAvailable', 'freelanceOnly'].map(s => (
+											<MenuItem key={s} value={s} sx={{ fontSize: '0.82rem' }}>
+												{t(`appCVContent.availability.statusValue.${s}`, s)}
+											</MenuItem>
+										))}
+									</Select>
+								</Box>
+								{/* Toggles */}
+								<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+									{[
+										{ key: 'openToWork',        label: t('appCVContent.availability.openToWork', 'Open to work') },
+										{ key: 'remoteOnly',        label: t('appCVContent.availability.remoteOnly', 'Remote only') },
+										{ key: 'willingToRelocate', label: t('appCVContent.availability.willingToRelocate', 'Willing to relocate') },
+									].map(({ key, label }) => (
+										<FormControlLabel
+											key={key}
+											label={<Typography sx={{ fontSize: '0.78rem', color: '#334155' }}>{label}</Typography>}
+											control={
+												<Switch
+													size="small"
+													checked={!!draft[key]}
+													onChange={e => setDraft(d => ({ ...d, [key]: e.target.checked }))}
+													sx={{ '& .MuiSwitch-thumb': { width: 12, height: 12 }, '& .MuiSwitch-track': { borderRadius: 6 } }}
+												/>
+											}
+											sx={{ mr: 1 }}
+										/>
+									))}
+								</Box>
+								{/* Dates & notice */}
+								<Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+									<Box>
+										<Typography sx={availLabelSx}>{t('appCVContent.availability.availableFrom', 'Available from')}</Typography>
+										<TextField
+											size="small"
+											type="date"
+											value={draft.availableFrom ?? ''}
+											onChange={e => setDraft(d => ({ ...d, availableFrom: e.target.value }))}
+											InputProps={{ sx: { fontSize: '0.82rem' } }}
+											InputLabelProps={{ shrink: true }}
+										/>
+									</Box>
+									<Box>
+										<Typography sx={availLabelSx}>{t('appCVContent.availability.noticePeriod', 'Notice period (days)')}</Typography>
+										<TextField
+											size="small"
+											type="number"
+											value={draft.noticePeriodDays ?? ''}
+											onChange={e => setDraft(d => ({ ...d, noticePeriodDays: e.target.value === '' ? null : Number(e.target.value) }))}
+											inputProps={{ min: 0 }}
+											sx={{ width: 100 }}
+											InputProps={{ sx: { fontSize: '0.82rem' } }}
+										/>
+									</Box>
+								</Box>
+								{/* Save / Cancel */}
+								<Box sx={{ display: 'flex', gap: 1, pt: 0.5 }}>
+									<Button
+										size="small"
+										variant="contained"
+										disabled={isSaving}
+										onClick={handleSave}
+										startIcon={isSaving ? <CircularProgress size={12} color="inherit" /> : null}
+										sx={{ textTransform: 'none', fontSize: '0.78rem', backgroundColor: '#629C44', '&:hover': { backgroundColor: '#528035' }, borderRadius: 1.5, boxShadow: 'none', fontWeight: 600 }}
+									>
+										{t('appCVContent.save', 'Save')}
+									</Button>
+									<Button
+										size="small"
+										onClick={handleCancelEdit}
+										sx={{ textTransform: 'none', fontSize: '0.78rem', color: '#64748b', borderRadius: 1.5 }}
+									>
+										{t('appCVContent.cancel')}
+									</Button>
+								</Box>
+							</Box>
+						) : (
 						<Grid2 container spacing={2}>
 							<Grid2 size={{ xs: 12 }}>
 								<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75, alignItems: 'center' }}>
@@ -750,6 +909,7 @@ const AppCVDetails = ({ cv, onClose }) => {
 								</Grid2>
 							)}
 						</Grid2>
+					)}
 					</Card>
 				)}
 
@@ -979,16 +1139,82 @@ const AppCVDetails = ({ cv, onClose }) => {
 				)}
 
 				{/* Tags */}
-				{tags.length > 0 && (
-					<Card sx={{ mb: 2 }}>
-						<SectionHeader Icon={LabelIcon} title={t('appCVContent.tags')} />
+				<Card sx={{ mb: 2 }}>
+					<SectionHeader
+						Icon={LabelIcon}
+						title={t('appCVContent.tags')}
+						onEdit={editingSection !== 'tags' ? () => handleEdit('tags') : undefined}
+					/>
+					{editingSection === 'tags' ? (
+						<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+							{/* Current tags as removable chips */}
+							{draft.tags?.length > 0 && (
+								<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.6 }}>
+									{draft.tags.map((tag, i) => (
+										<Chip
+											key={i}
+											label={tag}
+											size="small"
+											onDelete={() => handleRemoveTag(tag)}
+											sx={{ ...techSkillChipSx, '& .MuiChip-deleteIcon': { fontSize: 13, color: '#629C44' } }}
+										/>
+									))}
+								</Box>
+							)}
+							{/* Add new tag */}
+							<Box sx={{ display: 'flex', gap: 1 }}>
+								<TextField
+									size="small"
+									placeholder={t('appCVContent.addTag', 'Add a tag…')}
+									value={tagInput}
+									onChange={e => setTagInput(e.target.value)}
+									onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); handleAddTag(); } }}
+									InputProps={{ sx: { fontSize: '0.82rem', borderRadius: 1.5 } }}
+									sx={{ flex: 1 }}
+								/>
+								<Button
+									size="small"
+									variant="outlined"
+									onClick={handleAddTag}
+									disabled={!tagInput.trim()}
+									sx={{ textTransform: 'none', fontSize: '0.78rem', borderRadius: 1.5, borderColor: '#629C44', color: '#629C44', '&:hover': { borderColor: '#528035', backgroundColor: 'rgba(98,156,68,0.05)' } }}
+								>
+									+
+								</Button>
+							</Box>
+							{/* Save / Cancel */}
+							<Box sx={{ display: 'flex', gap: 1 }}>
+								<Button
+									size="small"
+									variant="contained"
+									disabled={isSaving}
+									onClick={handleSave}
+									startIcon={isSaving ? <CircularProgress size={12} color="inherit" /> : null}
+									sx={{ textTransform: 'none', fontSize: '0.78rem', backgroundColor: '#629C44', '&:hover': { backgroundColor: '#528035' }, borderRadius: 1.5, boxShadow: 'none', fontWeight: 600 }}
+								>
+									{t('appCVContent.save', 'Save')}
+								</Button>
+								<Button
+									size="small"
+									onClick={handleCancelEdit}
+									sx={{ textTransform: 'none', fontSize: '0.78rem', color: '#64748b', borderRadius: 1.5 }}
+								>
+									{t('appCVContent.cancel')}
+								</Button>
+							</Box>
+						</Box>
+					) : (
 						<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.6 }}>
-							{tags.map((tag, i) => (
+							{tags.length === 0 ? (
+								<Typography sx={{ fontSize: '0.78rem', color: '#cbd5e1', fontStyle: 'italic' }}>
+									{t('appCVContent.noTags', 'No tags yet — click edit to add some.')}
+								</Typography>
+							) : tags.map((tag, i) => (
 								<Chip key={i} label={tag} size="small" sx={techSkillChipSx} />
 							))}
 						</Box>
-					</Card>
-				)}
+					)}
+				</Card>
 
 				{/* References — hide contact details when anonymized */}
 				{references.length > 0 && (
@@ -1190,6 +1416,7 @@ AppCVDetails.propTypes = {
 		lastUpdatedAt: PropTypes.string,
 	}),
 	onClose: PropTypes.func,
+	onUpdate: PropTypes.func,
 };
 
 export default AppCVDetails;
