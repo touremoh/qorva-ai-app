@@ -4,15 +4,19 @@ import {
 	Typography,
 	Avatar,
 	Chip,
+	Divider,
 	IconButton,
 	Grid2,
 	Paper,
+	Stack,
+	Tab,
 	Table,
 	TableBody,
 	TableCell,
 	TableContainer,
 	TableHead,
 	TableRow,
+	Tabs,
 	Tooltip,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
@@ -41,9 +45,232 @@ import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined';
 import FingerprintOutlinedIcon from '@mui/icons-material/FingerprintOutlined';
+import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
+import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
+import CheckIcon from '@mui/icons-material/Check';
+import HubOutlinedIcon from '@mui/icons-material/HubOutlined';
+import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
 import apiClient from '../../../../axiosConfig.js';
 import { getTenantById } from '../../../services/tenantService.js';
 import { TENANT_ID } from '../../../constants.js';
+
+// ─── Clustering style helpers ────────────────────────────────────────────────
+
+const toLabel = (str = '') =>
+	str.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ').trim().replace(/^\w/, c => c.toUpperCase());
+
+const SKILL_DEPTH_STYLE = {
+	specialist: { color: '#7c3aed', bg: 'rgba(124,58,237,0.08)', bdr: 'rgba(124,58,237,0.2)' },
+	generalist: { color: '#2563eb', bg: 'rgba(37,99,235,0.08)',  bdr: 'rgba(37,99,235,0.2)'  },
+	tShaped:    { color: '#0891b2', bg: 'rgba(8,145,178,0.08)',  bdr: 'rgba(8,145,178,0.2)'  },
+	hybrid:     { color: '#6366f1', bg: 'rgba(99,102,241,0.08)', bdr: 'rgba(99,102,241,0.2)' },
+};
+const STYLE_UNKNOWN = { color: '#94a3b8', bg: 'rgba(148,163,184,0.08)', bdr: 'rgba(148,163,184,0.2)' };
+const STYLE_GREEN   = { color: '#629C44', bg: 'rgba(98,156,68,0.08)',   bdr: 'rgba(98,156,68,0.2)'   };
+const STYLE_AMBER   = { color: '#d97706', bg: 'rgba(245,158,11,0.08)',  bdr: 'rgba(245,158,11,0.2)'  };
+const STYLE_SLATE   = { color: '#64748b', bg: 'rgba(100,116,139,0.08)', bdr: 'rgba(100,116,139,0.2)' };
+
+const getSeniorityStyle = (v) => {
+	const lower = (v || '').toLowerCase();
+	const HIGH = new Set(['senior', 'lead', 'principal', 'manager', 'director', 'executive']);
+	if (HIGH.has(lower))      return STYLE_GREEN;
+	if (lower === 'midlevel') return STYLE_AMBER;
+	return STYLE_SLATE;
+};
+
+const getLeadershipStyle = (v) => {
+	const lower = (v || '').toLowerCase();
+	const HIGH = new Set(['crossfunctionalleader', 'strategicleader', 'executiveinfluence']);
+	if (HIGH.has(lower))      return STYLE_GREEN;
+	if (lower === 'teamlead') return STYLE_AMBER;
+	return STYLE_SLATE;
+};
+
+const getVelocityStyle = (v) => {
+	const lower = (v || '').toLowerCase();
+	if (lower === 'veryhigh') return { color: '#16a34a', bg: 'rgba(22,163,74,0.10)',  bdr: 'rgba(22,163,74,0.3)'  };
+	if (lower === 'high')     return STYLE_GREEN;
+	if (lower === 'medium')   return STYLE_AMBER;
+	if (lower === 'low')      return { color: '#dc2626', bg: 'rgba(220,38,38,0.10)',  bdr: 'rgba(220,38,38,0.3)'  };
+	return STYLE_UNKNOWN;
+};
+
+// ─── ClusteringTabContent ─────────────────────────────────────────────────────
+
+const ClusteringTabContent = ({ clustering, t }) => {
+	if (!clustering) {
+		return (
+			<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', py: 8, gap: 1.5 }}>
+				<HubOutlinedIcon sx={{ fontSize: 40, color: '#cbd5e1' }} />
+				<Typography sx={{ fontSize: '0.85rem', color: '#94a3b8', fontWeight: 500 }}>
+					{t('appCVContent.noClusteringData', 'No talent intelligence data available for this candidate.')}
+				</Typography>
+			</Box>
+		);
+	}
+
+	const cl = clustering;
+	const confPct = cl.clusterConfidenceScore != null ? Math.round(cl.clusterConfidenceScore * 100) : null;
+
+	const attrRows = [
+		{ key: 'skillDepth',             label: t('appCVMatching.clustering.skillDepth'),      value: cl.skillDepth,             ...(SKILL_DEPTH_STYLE[cl.skillDepth] ?? STYLE_UNKNOWN) },
+		{ key: 'seniorityLevel',         label: t('appCVMatching.clustering.seniority'),        value: cl.seniorityLevel,         ...getSeniorityStyle(cl.seniorityLevel) },
+		{ key: 'leadershipAndInfluence', label: t('appCVMatching.clustering.leadership'),       value: cl.leadershipAndInfluence, ...getLeadershipStyle(cl.leadershipAndInfluence) },
+		{ key: 'learningVelocity',       label: t('appCVMatching.clustering.learningVelocity'), value: cl.learningVelocity,       ...getVelocityStyle(cl.learningVelocity) },
+	].filter(r => r.value && r.value !== 'unknown');
+
+	return (
+		<Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+
+			{/* Primary cluster + confidence */}
+			<Paper elevation={0} sx={{ p: 2.5, borderRadius: 2, border: '1px solid #e2e8f0' }}>
+				<Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 2, flexWrap: 'wrap' }}>
+					<Box sx={{ flex: 1, minWidth: 0 }}>
+						<Typography sx={{ fontSize: '0.60rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.07em', mb: 0.75 }}>
+							{t('appCVMatching.clustering.sectionTitle', 'Candidate Clustering')}
+						</Typography>
+						{cl.primaryCluster && (
+							<Chip label={cl.primaryCluster} sx={{
+								height: 'auto', py: 0.75, px: 0.5, fontSize: '0.85rem', fontWeight: 700,
+								backgroundColor: 'rgba(99,102,241,0.08)', color: '#4f46e5',
+								border: '1px solid rgba(99,102,241,0.2)', borderRadius: 1.5,
+								'& .MuiChip-label': { whiteSpace: 'normal' },
+							}} />
+						)}
+					</Box>
+					{confPct != null && (
+						<Box sx={{ minWidth: 100, textAlign: 'right' }}>
+							<Typography sx={{ fontSize: '0.60rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.07em', mb: 0.5 }}>
+								{t('appCVMatching.clustering.confidence', 'Cluster Confidence')}
+							</Typography>
+							<Typography sx={{ fontSize: '1.4rem', fontWeight: 800, color: '#629C44', lineHeight: 1 }}>
+								{confPct}%
+							</Typography>
+							<Box sx={{ height: 4, backgroundColor: '#e2e8f0', borderRadius: 99, overflow: 'hidden', mt: 0.75 }}>
+								<Box sx={{ height: '100%', width: `${confPct}%`, backgroundColor: '#629C44', borderRadius: 99 }} />
+							</Box>
+						</Box>
+					)}
+				</Box>
+			</Paper>
+
+			{/* 4-attribute chips */}
+			{attrRows.length > 0 && (
+				<Paper elevation={0} sx={{ p: 2.5, borderRadius: 2, border: '1px solid #e2e8f0' }}>
+					<Typography sx={{ fontSize: '0.60rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.07em', mb: 1.25 }}>
+						{t('appCVMatching.clustering.attributes', 'Profile Attributes')}
+					</Typography>
+					<Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+						{attrRows.map(row => (
+							<Box key={row.key} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 0.25 }}>
+								<Typography sx={{ fontSize: '0.60rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+									{row.label}
+								</Typography>
+								<Chip label={toLabel(row.value)} size="small" sx={{
+									height: 22, fontSize: '0.72rem', fontWeight: 600,
+									backgroundColor: row.bg, color: row.color, border: `1px solid ${row.bdr}`,
+								}} />
+							</Box>
+						))}
+					</Stack>
+				</Paper>
+			)}
+
+			{/* Functional Expertise + Industry Domains + Environment Fit */}
+			{(cl.functionalExpertise?.length > 0 || cl.industryDomains?.length > 0 || cl.environmentFit?.length > 0) && (
+				<Grid2 container spacing={2}>
+					{cl.functionalExpertise?.length > 0 && (
+						<Grid2 size={{ xs: 12, sm: 4 }}>
+							<Paper elevation={0} sx={{ p: 2, borderRadius: 2, border: '1px solid #e2e8f0', height: '100%' }}>
+								<Typography sx={{ fontSize: '0.60rem', fontWeight: 700, color: '#629C44', textTransform: 'uppercase', letterSpacing: '0.07em', mb: 1 }}>
+									{t('appCVMatching.clustering.functionalExpertise', 'Functional Expertise')}
+								</Typography>
+								<Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap>
+									{cl.functionalExpertise.map((fe, i) => (
+										<Chip key={i} label={fe} size="small" sx={{ height: 22, fontSize: '0.68rem', fontWeight: 500, backgroundColor: 'rgba(98,156,68,0.08)', color: '#166534', border: '1px solid rgba(98,156,68,0.2)' }} />
+									))}
+								</Stack>
+							</Paper>
+						</Grid2>
+					)}
+					{cl.industryDomains?.length > 0 && (
+						<Grid2 size={{ xs: 12, sm: 4 }}>
+							<Paper elevation={0} sx={{ p: 2, borderRadius: 2, border: '1px solid #e2e8f0', height: '100%' }}>
+								<Typography sx={{ fontSize: '0.60rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.07em', mb: 1 }}>
+									{t('appCVMatching.clustering.industryDomains', 'Industry Domains')}
+								</Typography>
+								<Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap>
+									{cl.industryDomains.map((d, i) => (
+										<Chip key={i} label={d} size="small" sx={{ height: 22, fontSize: '0.68rem', fontWeight: 500, backgroundColor: '#f1f5f9', color: '#334155', border: '1px solid #e2e8f0' }} />
+									))}
+								</Stack>
+							</Paper>
+						</Grid2>
+					)}
+					{cl.environmentFit?.length > 0 && (
+						<Grid2 size={{ xs: 12, sm: 4 }}>
+							<Paper elevation={0} sx={{ p: 2, borderRadius: 2, border: '1px solid #e2e8f0', height: '100%' }}>
+								<Typography sx={{ fontSize: '0.60rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.07em', mb: 1 }}>
+									{t('appCVMatching.clustering.environmentFit', 'Environment Fit')}
+								</Typography>
+								<Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap>
+									{cl.environmentFit.map((e, i) => (
+										<Chip key={i} label={toLabel(e)} size="small" sx={{ height: 22, fontSize: '0.68rem', fontWeight: 500, backgroundColor: '#f0f9ff', color: '#0369a1', border: '1px solid #bae6fd' }} />
+									))}
+								</Stack>
+							</Paper>
+						</Grid2>
+					)}
+				</Grid2>
+			)}
+
+			{/* Business Impact */}
+			{cl.businessImpact?.length > 0 && (
+				<Paper elevation={0} sx={{ p: 2.5, borderRadius: 2, border: '1px solid #e2e8f0' }}>
+					<Typography sx={{ fontSize: '0.60rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.07em', mb: 1 }}>
+						{t('appCVMatching.clustering.businessImpact', 'Business Impact')}
+					</Typography>
+					<Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.75 }}>
+						{cl.businessImpact.map((impact, i) => (
+							<Box key={i} sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.75 }}>
+								<CheckCircleOutlineOutlinedIcon sx={{ fontSize: 14, color: '#629C44', mt: 0.2, flexShrink: 0 }} />
+								<Typography sx={{ fontSize: '0.82rem', color: '#334155', lineHeight: 1.55 }}>
+									{impact}
+								</Typography>
+							</Box>
+						))}
+					</Box>
+				</Paper>
+			)}
+
+			{/* Secondary Clusters */}
+			{cl.secondaryClusters?.length > 0 && (
+				<Paper elevation={0} sx={{ p: 2.5, borderRadius: 2, border: '1px solid #e2e8f0' }}>
+					<Typography sx={{ fontSize: '0.60rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.07em', mb: 1 }}>
+						{t('appCVMatching.clustering.secondaryClusters', 'Secondary Clusters')}
+					</Typography>
+					<Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap>
+						{cl.secondaryClusters.map((sc, i) => (
+							<Chip key={i} label={sc} size="small" sx={{ height: 22, fontSize: '0.72rem', fontWeight: 500, backgroundColor: 'rgba(99,102,241,0.05)', color: '#6366f1', border: '1px solid rgba(99,102,241,0.15)' }} />
+						))}
+					</Stack>
+				</Paper>
+			)}
+
+			{/* Reasoning */}
+			{cl.clusterReasoning && (
+				<Paper elevation={0} sx={{ p: 2.5, borderRadius: 2, border: '1px solid #e2e8f0' }}>
+					<Typography sx={{ fontSize: '0.60rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.07em', mb: 1 }}>
+						{t('appCVMatching.clustering.reasoning', 'Reasoning')}
+					</Typography>
+					<Typography sx={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.65, fontStyle: 'italic' }}>
+						{cl.clusterReasoning}
+					</Typography>
+				</Paper>
+			)}
+		</Box>
+	);
+};
 
 // ─── Local helpers ────────────────────────────────────────────────────────────
 
@@ -76,11 +303,27 @@ const Card = ({ children, sx }) => (
 const AppCVDetails = ({ cv, onClose }) => {
 	const { t } = useTranslation();
 
-	const componentRef = useRef(null);
-	const printCV = useReactToPrint({ contentRef: componentRef });
-	const handleDownload = useCallback(() => printCV(), [printCV]);
+	const [activeTab, setActiveTab] = useState(0);
+	const resumeRef     = useRef(null);
+	const clusteringRef = useRef(null);
+	const printResume     = useReactToPrint({ contentRef: resumeRef });
+	const printClustering = useReactToPrint({ contentRef: clusteringRef });
+	const handleDownload  = useCallback(
+		() => activeTab === 0 ? printResume() : printClustering(),
+		[activeTab, printResume, printClustering],
+	);
 
 	const [anonymized, setAnonymized] = useState(false);
+	const [refCopied, setRefCopied] = useState(false);
+
+	const handleCopyRef = useCallback(() => {
+		const ref = cv?.applicantNumber;
+		if (!ref) return;
+		navigator.clipboard.writeText(ref).then(() => {
+			setRefCopied(true);
+			setTimeout(() => setRefCopied(false), 2000);
+		});
+	}, [cv?.applicantNumber]);
 	const [tenant, setTenant] = useState(null);
 	const [tenantLogoUrl, setTenantLogoUrl] = useState('');
 
@@ -116,6 +359,7 @@ const AppCVDetails = ({ cv, onClose }) => {
 
 	const {
 		applicantNumber,
+		candidateClustering,
 		personalInformation: pi = {},
 		candidateProfileSummary,
 		workExperience = [],
@@ -205,8 +449,25 @@ const AppCVDetails = ({ cv, onClose }) => {
 				)}
 			</Box>
 
-			{/* Scrollable + printable content */}
-			<Box sx={{ flex: 1, overflowY: 'auto', p: 2.5, textAlign: 'left' }} ref={componentRef}>
+			{/* Tab bar */}
+			<Tabs
+				value={activeTab}
+				onChange={(_, v) => setActiveTab(v)}
+				sx={{
+					px: 2.5,
+					borderBottom: '1px solid #e2e8f0',
+					minHeight: 40,
+					backgroundColor: '#ffffff',
+					flexShrink: 0,
+					'& .MuiTab-root': { minHeight: 40, fontSize: '0.78rem', textTransform: 'none', fontWeight: 600 },
+				}}
+			>
+				<Tab label={t('appCVContent.tabResume', 'Resume')} icon={<InfoOutlinedIcon sx={{ fontSize: 15 }} />} iconPosition="start" />
+				<Tab label={t('appCVContent.tabTalentIntelligence', 'Talent Intelligence')} icon={<HubOutlinedIcon sx={{ fontSize: 15 }} />} iconPosition="start" />
+			</Tabs>
+
+			{/* Resume tab — always in DOM for print ref */}
+			<Box ref={resumeRef} sx={{ display: activeTab === 0 ? 'block' : 'none', flex: 1, overflowY: 'auto', p: 2.5, textAlign: 'left' }}>
 
 				{/* Company branding header */}
 				{tenant && (
@@ -280,21 +541,54 @@ const AppCVDetails = ({ cv, onClose }) => {
 
 				{/* Candidate header card */}
 				<Card sx={{ mb: 2, display: 'flex', alignItems: 'flex-start', gap: 2 }}>
-					<Avatar sx={{
-						width: 52,
-						height: 52,
-						fontSize: '1.1rem',
-						fontWeight: 700,
-						backgroundColor: '#629C44',
-						color: '#ffffff',
-						flexShrink: 0,
-					}}>
-						{getInitials(pi.name)}
-					</Avatar>
+					{anonymized ? (
+						<Avatar sx={{
+							width: 52, height: 52, flexShrink: 0,
+							backgroundColor: '#f1f5f9', color: '#94a3b8',
+							border: '2px dashed #cbd5e1',
+						}}>
+							<PersonOutlinedIcon sx={{ fontSize: 28 }} />
+						</Avatar>
+					) : (
+						<Avatar sx={{
+							width: 52, height: 52,
+							fontSize: '1.1rem', fontWeight: 700,
+							backgroundColor: '#629C44', color: '#ffffff',
+							flexShrink: 0,
+						}}>
+							{getInitials(pi.name)}
+						</Avatar>
+					)}
 					<Box sx={{ flex: 1, minWidth: 0 }}>
-						<Typography sx={{ fontWeight: 700, fontSize: '1.1rem', color: '#0f172a', lineHeight: 1.2 }}>
-							{pi.name}
-						</Typography>
+						{anonymized ? (
+							<Tooltip title={refCopied ? t('appCVContent.copied', 'Copied!') : t('appCVContent.copyReference', 'Copy reference')} placement="top">
+								<Box
+									onClick={applicantNumber ? handleCopyRef : undefined}
+									sx={{
+										display: 'inline-flex', alignItems: 'center', gap: 0.75,
+										cursor: applicantNumber ? 'pointer' : 'default',
+										px: 1, py: 0.4, borderRadius: 1.5,
+										border: `1px solid ${refCopied ? 'rgba(98,156,68,0.3)' : '#e2e8f0'}`,
+										backgroundColor: refCopied ? 'rgba(98,156,68,0.06)' : '#f8fafc',
+										transition: 'all 0.15s ease',
+										'&:hover': applicantNumber ? { backgroundColor: '#f1f5f9', borderColor: '#cbd5e1' } : {},
+									}}
+								>
+									<Typography sx={{ fontWeight: 700, fontSize: '1rem', lineHeight: 1.2, fontFamily: 'monospace', letterSpacing: '0.04em', color: refCopied ? '#629C44' : '#64748b' }}>
+										{applicantNumber ? `#${applicantNumber}` : t('appCVContent.identityHidden', 'Identity hidden')}
+									</Typography>
+									{applicantNumber && (
+										refCopied
+											? <CheckIcon sx={{ fontSize: 14, color: '#629C44' }} />
+											: <ContentCopyOutlinedIcon sx={{ fontSize: 13, color: '#94a3b8' }} />
+									)}
+								</Box>
+							</Tooltip>
+						) : (
+							<Typography sx={{ fontWeight: 700, fontSize: '1.1rem', color: '#0f172a', lineHeight: 1.2 }}>
+								{pi.name}
+							</Typography>
+						)}
 						{pi.role && (
 							<Typography sx={{ fontSize: '0.85rem', color: '#64748b', mt: 0.25 }}>
 								{pi.role}
@@ -731,6 +1025,11 @@ const AppCVDetails = ({ cv, onClose }) => {
 					</Typography>
 				)}
 			</Box>
+
+			{/* Talent Intelligence tab — always in DOM for print ref */}
+			<Box ref={clusteringRef} sx={{ display: activeTab === 1 ? 'block' : 'none', flex: 1, overflowY: 'auto', p: 2.5, textAlign: 'left' }}>
+				<ClusteringTabContent clustering={candidateClustering} t={t} />
+			</Box>
 		</Box>
 	);
 };
@@ -805,6 +1104,20 @@ const langThSx = {
 AppCVDetails.propTypes = {
 	cv: PropTypes.shape({
 		candidateProfileSummary: PropTypes.string,
+		candidateClustering: PropTypes.shape({
+			primaryCluster: PropTypes.string,
+			secondaryClusters: PropTypes.arrayOf(PropTypes.string),
+			functionalExpertise: PropTypes.arrayOf(PropTypes.string),
+			skillDepth: PropTypes.string,
+			seniorityLevel: PropTypes.string,
+			leadershipAndInfluence: PropTypes.string,
+			learningVelocity: PropTypes.string,
+			industryDomains: PropTypes.arrayOf(PropTypes.string),
+			environmentFit: PropTypes.arrayOf(PropTypes.string),
+			businessImpact: PropTypes.arrayOf(PropTypes.string),
+			clusterConfidenceScore: PropTypes.number,
+			clusterReasoning: PropTypes.string,
+		}),
 		personalInformation: PropTypes.shape({
 			name: PropTypes.string,
 			role: PropTypes.string,

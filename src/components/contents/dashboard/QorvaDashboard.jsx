@@ -36,6 +36,10 @@ import ManageSearchOutlinedIcon from '@mui/icons-material/ManageSearchOutlined';
 import QuestionAnswerOutlinedIcon from '@mui/icons-material/QuestionAnswerOutlined';
 import InsightsOutlinedIcon from '@mui/icons-material/InsightsOutlined';
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
+import LayersOutlinedIcon from '@mui/icons-material/LayersOutlined';
+import TrendingUpOutlinedIcon from '@mui/icons-material/TrendingUpOutlined';
+import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
+import BoltOutlinedIcon from '@mui/icons-material/BoltOutlined';
 import { getDashboardData } from '../../../services/dashboardService.js';
 import QorvaChip from '../../commons/QorvaChip.jsx';
 
@@ -51,7 +55,44 @@ const initialDashboardData = {
 	skillsReport: [],
 	jobPostsReport: [],
 	topCandidatesPerJob: [],
+	skillDepthReport: [],
+	seniorityLevelReport: [],
+	leadershipReport: [],
+	learningVelocityReport: [],
 };
+
+const TALENT_INSIGHT_LABEL_MAP = {
+	specialist: 'Specialist',
+	tShaped: 'T-Shaped',
+	generalist: 'Generalist',
+	hybrid: 'Hybrid',
+	senior: 'Senior',
+	midLevel: 'Mid-Level',
+	junior: 'Junior',
+	lead: 'Lead',
+	principal: 'Principal',
+	manager: 'Manager',
+	director: 'Director',
+	executive: 'Executive',
+	individualContributor: 'Individual Contributor',
+	teamLead: 'Team Lead',
+	none: 'None',
+	crossFunctionalLeader: 'Cross-Functional',
+	strategicLeader: 'Strategic Leader',
+	executiveInfluence: 'Executive Influence',
+	high: 'High',
+	medium: 'Medium',
+	veryHigh: 'Very High',
+	low: 'Low',
+	unknown: 'Unknown',
+};
+
+const TALENT_POOL_INSIGHT_CONFIG = (t) => [
+	{ key: 'skillDepthReport',       label: t('dashboard.talent.skillDepth', 'Skill Depth'),         icon: LayersOutlinedIcon,     accent: '#8b5cf6', bg: 'rgba(139,92,246,0.08)'  },
+	{ key: 'seniorityLevelReport',   label: t('dashboard.talent.seniorityLevel', 'Seniority Level'),  icon: TrendingUpOutlinedIcon, accent: '#3b82f6', bg: 'rgba(59,130,246,0.08)'  },
+	{ key: 'leadershipReport',       label: t('dashboard.talent.leadership', 'Leadership'),            icon: GroupsOutlinedIcon,     accent: '#629C44', bg: 'rgba(98,156,68,0.08)'   },
+	{ key: 'learningVelocityReport', label: t('dashboard.talent.learningVelocity', 'Learning Velocity'), icon: BoltOutlinedIcon,    accent: '#f59e0b', bg: 'rgba(245,158,11,0.08)'  },
+];
 
 const KPI_CONFIG = (t) => [
 	{ key: 'totalCVs',            label: t('dashboard.kpi.totalCVs'),            icon: PeopleOutlinedIcon,        accent: '#629C44', bg: 'rgba(98,156,68,0.08)'  },
@@ -353,6 +394,79 @@ const TopCandidatesTable = ({ jobs, t }) => {
 	);
 };
 
+const InsightCard = ({ label, icon: Icon, accent, bg, items, t }) => {
+	const sorted = useMemo(() => {
+		const known = items.filter(i => i.name !== 'unknown').sort((a, b) => b.count - a.count);
+		const unknown = items.filter(i => i.name === 'unknown');
+		return [...known, ...unknown];
+	}, [items]);
+
+	return (
+		<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+			<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
+				<Box sx={{ width: 28, height: 28, borderRadius: 1.5, backgroundColor: bg, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+					<Icon sx={{ fontSize: 14, color: accent }} />
+				</Box>
+				<Typography sx={{ fontSize: '0.75rem', fontWeight: 700, color: '#334155' }}>
+					{label}
+				</Typography>
+			</Box>
+			<Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.9 }}>
+				{sorted.map(({ name, count, percentage }) => {
+					const isUnknown = name === 'unknown';
+					return (
+						<Box key={name}>
+							<Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.35 }}>
+								<Typography sx={{ fontSize: '0.69rem', color: isUnknown ? '#94a3b8' : '#475569', fontWeight: isUnknown ? 400 : 500 }}>
+									{t(`dashboard.talent.labels.${name}`, TALENT_INSIGHT_LABEL_MAP[name] ?? name)}
+								</Typography>
+								<Typography sx={{ fontSize: '0.69rem', color: isUnknown ? '#94a3b8' : '#64748b', fontWeight: 600 }}>
+									{count} · {percentage.toFixed(1)}%
+								</Typography>
+							</Box>
+							<Box sx={{ height: 5, backgroundColor: '#f1f5f9', borderRadius: 4, overflow: 'hidden' }}>
+								<Box sx={{
+									height: '100%',
+									width: `${percentage}%`,
+									backgroundColor: isUnknown ? '#e2e8f0' : accent,
+									borderRadius: 4,
+									transition: 'width 0.6s ease',
+									opacity: isUnknown ? 0.6 : 1,
+								}} />
+							</Box>
+						</Box>
+					);
+				})}
+			</Box>
+		</Box>
+	);
+};
+
+const TalentPoolInsightSection = ({ data, t }) => {
+	const config = useMemo(() => TALENT_POOL_INSIGHT_CONFIG(t), [t]);
+	const hasData = config.some(({ key }) => Array.isArray(data[key]) && data[key].length > 0);
+	if (!hasData) return null;
+
+	return (
+		<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5 }}>
+			<SectionHeader icon={InsightsOutlinedIcon} label={t('dashboard.sections.talentPoolInsight', 'Talent Pool Insight')} />
+			<Box sx={{
+				display: 'grid',
+				gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
+				gap: 3,
+			}}>
+				{config.map(({ key, label, icon, accent, bg }) => {
+					const items = data[key];
+					if (!Array.isArray(items) || items.length === 0) return null;
+					return (
+						<InsightCard key={key} label={label} icon={icon} accent={accent} bg={bg} items={items} t={t} />
+					);
+				})}
+			</Box>
+		</Paper>
+	);
+};
+
 const QorvaDashboard = () => {
 	const { t } = useTranslation();
 	const [dashboardData, setDashboardData] = useState(initialDashboardData);
@@ -369,6 +483,10 @@ const QorvaDashboard = () => {
 				data.skillsReport = Array.isArray(data.skillsReport) ? data.skillsReport : [];
 				data.jobPostsReport = Array.isArray(data.jobPostsReport) ? data.jobPostsReport : [];
 				data.topCandidatesPerJob = Array.isArray(data.topCandidatesPerJob) ? data.topCandidatesPerJob : [];
+				data.skillDepthReport = Array.isArray(data.skillDepthReport) ? data.skillDepthReport : [];
+				data.seniorityLevelReport = Array.isArray(data.seniorityLevelReport) ? data.seniorityLevelReport : [];
+				data.leadershipReport = Array.isArray(data.leadershipReport) ? data.leadershipReport : [];
+				data.learningVelocityReport = Array.isArray(data.learningVelocityReport) ? data.learningVelocityReport : [];
 				setDashboardData({ ...initialDashboardData, ...data });
 			} catch (e) {
 				console.error('Error loading dashboard data', e);
@@ -464,6 +582,9 @@ const QorvaDashboard = () => {
 						{dashboardData.usageMonitoring && (
 							<UsageMonitoringSection data={dashboardData.usageMonitoring} t={t} />
 						)}
+
+						{/* Talent pool insight */}
+						<TalentPoolInsightSection data={dashboardData} t={t} />
 
 						{/* Top candidates per job */}
 						{dashboardData.topCandidatesPerJob.length > 0 && (

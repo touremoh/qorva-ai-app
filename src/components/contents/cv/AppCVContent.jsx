@@ -31,7 +31,7 @@ const AppCVContent = () => {
 	const [totalPages, setTotalPages] = useState(0);
 	const [totalElements, setTotalElements] = useState(0);
 	const [selectedCV, setSelectedCV] = useState(null);
-	const [viewMode, setViewMode] = useState('table');
+	const [viewMode, setViewMode] = useState('list');
 	const [openUploadModal, setOpenUploadModal] = useState(false);
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 	const [selectedFiles, setSelectedFiles] = useState([]);
