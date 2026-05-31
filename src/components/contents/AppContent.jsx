@@ -10,12 +10,14 @@ import {
 	COMP_ID_SETTINGS,
 	COMP_ID_JOBS,
 	COMP_ID_DASHBOARD,
-	COMP_ID_CHAT
+	COMP_ID_CHAT,
+	COMP_ID_INTELLIGENCE,
 } from "../../constants.js";
 import AppMatchingReports from "./reports/AppMatchingReports.jsx";
 import QorvaDashboard from "./dashboard/QorvaDashboard.jsx";
 import AccountSettings from "./account-settings/AccountSettings.jsx";
 import AppAIResumeChat from "./chats/AppAIResumeChat.jsx";
+import AppLibraryInsights from "./intelligence/AppLibraryInsights.jsx";
 
 const AppContent = ({ content, isSidebarCollapsed }) => {
 	const renderContent = () => {
@@ -26,6 +28,8 @@ const AppContent = ({ content, isSidebarCollapsed }) => {
 				return <AppCVContent />;
 			case COMP_ID_JOBS:
 				return <JobContent />;
+			case COMP_ID_INTELLIGENCE:
+				return <AppLibraryInsights />;
 			case COMP_ID_REPORTS:
 				return <AppMatchingReports />;
 			case COMP_ID_CHAT:

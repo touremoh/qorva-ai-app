@@ -74,10 +74,11 @@
     "matching": "Matching",
     "jobs": "Jobs",
     "cvs": "Resume Library",
-    "reports": "Match Intelligence",
+    "reports": "Match Reports",
     "accountSettings": "Account Settings",
     "logout": "Sign Out",
-    "aiResumeChat": "AI Resume Chat"
+    "aiResumeChat": "AI Resume Chat",
+    "intelligence": "Talent Intelligence"
   },
   "footer": {
     "rightsReserved": "© Qorva AI. All rights reserved."

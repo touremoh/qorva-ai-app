@@ -67,10 +67,11 @@
     "matching": "Matching",
     "jobs": "Stellen",
     "cvs": "Lebenslauf-Archiv",
-    "reports": "Match Intelligence",
+    "reports": "Match-Berichte",
     "accountSettings": "Kontoeinstellungen",
     "logout": "Abmelden",
-    "aiResumeChat": "KI-Lebenslauf-Chat"
+    "aiResumeChat": "KI-Lebenslauf-Chat",
+    "intelligence": "Talent-Intelligenz"
   },
   "footer": {
     "rightsReserved": "© Qorva AI. Alle Rechte vorbehalten."

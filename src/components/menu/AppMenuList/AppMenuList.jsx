@@ -9,10 +9,12 @@ import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
+import PsychologyOutlinedIcon from '@mui/icons-material/PsychologyOutlined';
 import {
 	COMP_ID_CHAT,
 	COMP_ID_CVLIB,
 	COMP_ID_DASHBOARD,
+	COMP_ID_INTELLIGENCE,
 	COMP_ID_JOBS,
 	COMP_ID_REPORTS,
 	COMP_ID_SETTINGS,
@@ -31,8 +33,9 @@ const AppMenuList = ({ handleContentChange, isChatAllowed, collapsed, onToggleCo
 	const menuItems = [
 		{ id: COMP_ID_DASHBOARD, Icon: LeaderboardOutlinedIcon, label: 'Dashboard',                              display: true },
 		{ id: COMP_ID_CVLIB,     Icon: PeopleOutlinedIcon,      label: t('header.cvs'),                         display: true },
-		{ id: COMP_ID_JOBS,      Icon: WorkOutlineOutlinedIcon, label: t('header.jobs'),                        display: true },
-		{ id: COMP_ID_REPORTS,   Icon: AssessmentOutlinedIcon,  label: t('header.reports'),                     display: true },
+		{ id: COMP_ID_JOBS,         Icon: WorkOutlineOutlinedIcon,  label: t('header.jobs'),                      display: true },
+		{ id: COMP_ID_INTELLIGENCE, Icon: PsychologyOutlinedIcon,   label: t('header.intelligence', 'Intelligence'), display: true },
+		{ id: COMP_ID_REPORTS,      Icon: AssessmentOutlinedIcon,   label: t('header.reports'),                   display: true },
 		{ id: COMP_ID_CHAT,      Icon: AutoAwesomeOutlinedIcon, label: t('header.aiResumeChat') || 'AI Chat',   display: isChatAllowed },
 		{ id: COMP_ID_SETTINGS,  Icon: TuneOutlinedIcon,        label: t('header.accountSettings'),             display: true },
 	];

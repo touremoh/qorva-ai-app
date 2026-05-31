@@ -67,10 +67,11 @@
     "matching": "Matching",
     "jobs": "Ofertas",
     "cvs": "Biblioteca de CV",
-    "reports": "Match Intelligence",
+    "reports": "Informes de matching",
     "accountSettings": "Cuenta",
     "logout": "Cerrar sesión",
-    "aiResumeChat": "Chat CV con IA"
+    "aiResumeChat": "Chat CV con IA",
+    "intelligence": "Inteligencia de Talento"
   },
   "footer": {
     "rightsReserved": "© Qorva AI. Todos los derechos reservados."
