@@ -11,8 +11,10 @@ import PsychologyOutlinedIcon from '@mui/icons-material/PsychologyOutlined';
 import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
 import { useTranslation } from 'react-i18next';
 import { askInsight, getConversations, getConversationHistory } from '../../../services/libraryInsightsService.js';
+import { getCVById } from '../../../services/cvService.js';
 import InsightResultCard from './InsightResultCard.jsx';
 import InsightConversationList from './InsightConversationList.jsx';
+import AppCVDetails from '../cv/AppCVDetails.jsx';
 
 const EXAMPLE_PROMPTS = [
     'Show me a clustering of my talent pool',
@@ -47,6 +49,9 @@ const AppLibraryInsights = () => {
     const [question, setQuestion] = useState('');
     const [loading, setLoading] = useState(false);
     const [loadingHistory, setLoadingHistory] = useState(false);
+
+    const [selectedCV, setSelectedCV] = useState(null);
+    const [cvLoading, setCvLoading] = useState(false);
 
     const conversationIdRef = useRef(null);
     const bottomRef = useRef(null);
@@ -196,6 +201,20 @@ const AppLibraryInsights = () => {
 
     const handleFollowUp = useCallback((s) => submit(s), [submit]);
 
+    const handleCandidateClick = useCallback(async (candidate) => {
+        if (!candidate?.id) return;
+        if (selectedCV?.id === candidate.id) { setSelectedCV(null); return; }
+        setCvLoading(true);
+        try {
+            const res = await getCVById(candidate.id);
+            setSelectedCV(res?.data?.data ?? res?.data ?? null);
+        } catch {
+            setSelectedCV(null);
+        } finally {
+            setCvLoading(false);
+        }
+    }, [selectedCV?.id]);
+
     const activeTitle = conversations.find(c => c.conversationId === activeConvId)?.title;
     const isEmpty = turns.length === 0 && !loading && !loadingHistory;
 
@@ -221,8 +240,8 @@ const AppLibraryInsights = () => {
                 />
             </Box>
 
-            {/* ── Right panel: active conversation ──────────────────────────── */}
-            <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+            {/* ── Center panel: active conversation ─────────────────────────── */}
+            <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minWidth: 0 }}>
 
                 {/* Section header */}
                 <Box sx={{
@@ -344,7 +363,7 @@ const AppLibraryInsights = () => {
                         if (entry.type === 'answer') {
                             return (
                                 <Box key={i} sx={{ mb: 0.5 }}>
-                                    <InsightResultCard result={entry.result} onFollowUp={handleFollowUp} />
+                                    <InsightResultCard result={entry.result} onFollowUp={handleFollowUp} onCandidateClick={handleCandidateClick} />
                                 </Box>
                             );
                         }
@@ -468,6 +487,31 @@ const AppLibraryInsights = () => {
                     </Box>
                 </Box>
             </Box>
+
+            {/* ── Right panel: CV details ────────────────────────────────────── */}
+            {(selectedCV || cvLoading) && (
+                <Box sx={{
+                    width: '42%',
+                    flexShrink: 0,
+                    borderLeft: '1px solid #e2e8f0',
+                    backgroundColor: '#f8fafc',
+                    overflow: 'hidden',
+                    display: 'flex',
+                    flexDirection: 'column',
+                }}>
+                    {cvLoading ? (
+                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+                            <CircularProgress size={24} sx={{ color: '#629C44' }} />
+                        </Box>
+                    ) : (
+                        <AppCVDetails
+                            cv={selectedCV}
+                            onClose={() => setSelectedCV(null)}
+                            onUpdate={(updated) => setSelectedCV(updated)}
+                        />
+                    )}
+                </Box>
+            )}
         </Box>
     );
 };

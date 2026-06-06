@@ -31,7 +31,7 @@ const AppCVContent = () => {
 	const [totalPages, setTotalPages] = useState(0);
 	const [totalElements, setTotalElements] = useState(0);
 	const [selectedCV, setSelectedCV] = useState(null);
-	const [viewMode, setViewMode] = useState('list');
+	const [viewMode, setViewMode] = useState('table');
 	const [openUploadModal, setOpenUploadModal] = useState(false);
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 	const [selectedFiles, setSelectedFiles] = useState([]);
@@ -149,21 +149,6 @@ const AppCVContent = () => {
 
 				{/* View toggle */}
 				<Box sx={{ display: 'flex', backgroundColor: '#f1f5f9', borderRadius: 1.5, p: 0.4, gap: 0.25 }}>
-					<Tooltip title="List view">
-						<IconButton
-							size="small"
-							onClick={() => setViewMode('list')}
-							sx={{
-								borderRadius: 1,
-								color: viewMode === 'list' ? '#629C44' : '#94a3b8',
-								backgroundColor: viewMode === 'list' ? '#ffffff' : 'transparent',
-								boxShadow: viewMode === 'list' ? '0 1px 3px rgba(0,0,0,0.10)' : 'none',
-								'&:hover': { backgroundColor: viewMode === 'list' ? '#ffffff' : 'rgba(0,0,0,0.04)' },
-							}}
-						>
-							<ViewListIcon sx={{ fontSize: 18 }} />
-						</IconButton>
-					</Tooltip>
 					<Tooltip title="Table view">
 						<IconButton
 							size="small"
@@ -177,6 +162,21 @@ const AppCVContent = () => {
 							}}
 						>
 							<TableRowsIcon sx={{ fontSize: 18 }} />
+						</IconButton>
+					</Tooltip>
+					<Tooltip title="List view">
+						<IconButton
+							size="small"
+							onClick={() => setViewMode('list')}
+							sx={{
+								borderRadius: 1,
+								color: viewMode === 'list' ? '#629C44' : '#94a3b8',
+								backgroundColor: viewMode === 'list' ? '#ffffff' : 'transparent',
+								boxShadow: viewMode === 'list' ? '0 1px 3px rgba(0,0,0,0.10)' : 'none',
+								'&:hover': { backgroundColor: viewMode === 'list' ? '#ffffff' : 'rgba(0,0,0,0.04)' },
+							}}
+						>
+							<ViewListIcon sx={{ fontSize: 18 }} />
 						</IconButton>
 					</Tooltip>
 				</Box>

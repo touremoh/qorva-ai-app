@@ -24,7 +24,7 @@ const INTENT_CONFIG = {
     SENIORITY_DISTRIBUTION_ANALYSIS: { label: 'Seniority Distribution',   color: '#629C44', bg: 'rgba(98,156,68,0.07)'   },
 };
 
-const InsightResultCard = ({ result, onFollowUp }) => {
+const InsightResultCard = ({ result, onFollowUp, onCandidateClick }) => {
     const { intent, answerText, metrics, charts, candidates, followUpQuestions, disclaimer, showRediscoveredTag } = result;
     const cfg = INTENT_CONFIG[intent] ?? INTENT_CONFIG.GENERAL_RECRUITING_QUESTION;
 
@@ -88,7 +88,7 @@ const InsightResultCard = ({ result, onFollowUp }) => {
                         <Typography sx={{ fontSize: '0.65rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.08em', mb: 1 }}>
                             Candidates
                         </Typography>
-                        <CandidateSection candidates={candidates} showRediscoveredTag={showRediscoveredTag} />
+                        <CandidateSection candidates={candidates} showRediscoveredTag={showRediscoveredTag} onCandidateClick={onCandidateClick} />
                     </Box>
                 )}
 

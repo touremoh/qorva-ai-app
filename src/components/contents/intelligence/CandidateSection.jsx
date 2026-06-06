@@ -16,12 +16,12 @@ const toLabel = (str = '') =>
 const scoreColor = (s) => s >= 0.70 ? '#16a34a' : s >= 0.40 ? '#d97706' : '#dc2626';
 const scoreBg    = (s) => s >= 0.70 ? 'rgba(22,163,74,0.08)' : s >= 0.40 ? 'rgba(217,119,6,0.08)' : 'rgba(220,38,38,0.08)';
 
-const CandidateSection = ({ candidates, showRediscoveredTag }) => {
+const CandidateSection = ({ candidates, showRediscoveredTag, onCandidateClick }) => {
     if (!candidates?.length) return null;
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
             {candidates.map((c, i) => (
-                <Box key={c.id ?? i} sx={{
+                <Box key={c.id ?? i} onClick={() => onCandidateClick?.(c)} sx={{
                     display: 'flex',
                     gap: 1.25,
                     px: 1.5,
@@ -29,6 +29,9 @@ const CandidateSection = ({ candidates, showRediscoveredTag }) => {
                     borderRadius: 1.5,
                     backgroundColor: '#f8fafc',
                     border: '1px solid #f1f5f9',
+                    cursor: onCandidateClick ? 'pointer' : 'default',
+                    transition: 'background-color 0.15s ease, border-color 0.15s ease',
+                    '&:hover': onCandidateClick ? { backgroundColor: '#f1f5f9', borderColor: '#cbd5e1' } : {},
                 }}>
                     {/* Rank + Avatar */}
                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5, flexShrink: 0 }}>

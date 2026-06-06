@@ -431,6 +431,8 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 		education = [],
 		certifications = [],
 		skillsAndQualifications,
+		keySkills = [],
+		profiles,
 		projectsAndAchievements = [],
 		interestsAndHobbies = [],
 		references = [],
@@ -708,6 +710,35 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 						<Typography sx={{ fontSize: '0.84rem', color: '#334155', lineHeight: 1.7 }}>
 							{candidateProfileSummary}
 						</Typography>
+					</Card>
+				)}
+
+				{/* Profile — areas of expertise & key responsibilities */}
+				{(profiles?.areasOfExpertise?.length > 0 || profiles?.keyResponsibilities?.length > 0) && (
+					<Card sx={{ mb: 2 }}>
+						<SectionHeader Icon={PersonOutlinedIcon} title={t('appCVContent.profiles', 'Profile')} />
+						{profiles.areasOfExpertise?.length > 0 && (
+							<Box sx={{ mb: profiles.keyResponsibilities?.length > 0 ? 1.5 : 0 }}>
+								<Typography sx={availLabelSx}>{t('appCVContent.areasOfExpertise', 'Areas of Expertise')}</Typography>
+								<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.6, mt: 0.5 }}>
+									{profiles.areasOfExpertise.map((area, i) => (
+										<Chip key={i} label={area} size="small" sx={softSkillChipSx} />
+									))}
+								</Box>
+							</Box>
+						)}
+						{profiles.keyResponsibilities?.length > 0 && (
+							<Box>
+								<Typography sx={availLabelSx}>{t('appCVContent.keyResponsibilities', 'Key Responsibilities')}</Typography>
+								<Box component="ul" sx={{ m: 0, mt: 0.5, pl: 2, listStyleType: 'disc' }}>
+									{profiles.keyResponsibilities.map((resp, i) => (
+										<Box component="li" key={i} sx={{ fontSize: '0.78rem', color: '#64748b', lineHeight: 1.7, mb: 0.25 }}>
+											{resp}
+										</Box>
+									))}
+								</Box>
+							</Box>
+						)}
 					</Card>
 				)}
 
@@ -1013,8 +1044,28 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 						)}
 					</Grid2>
 
-					{/* Right: Skills + Languages + Certs */}
+					{/* Right: Key Skills + Skills + Languages + Certs */}
 					<Grid2 size={{ xs: 12, md: 5 }}>
+						{keySkills.length > 0 && (
+							<Card sx={{ mb: 2 }}>
+								<SectionHeader Icon={ConstructionIcon} title={t('appCVContent.keySkills', 'Key Skills')} />
+								<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.25 }}>
+									{keySkills.map((group, i) => (
+										<Box key={i}>
+											<Typography sx={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748b', mb: 0.5 }}>
+												{group.category}
+											</Typography>
+											<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+												{group.skills.map((skill, j) => (
+													<Chip key={j} label={skill} size="small" sx={techSkillChipSx} />
+												))}
+											</Box>
+										</Box>
+									))}
+								</Box>
+							</Card>
+						)}
+
 						{skills.technicalSkills?.length > 0 && (
 							<Card sx={{ mb: 2 }}>
 								<SectionHeader Icon={ConstructionIcon} title={t('appCVContent.technicalSkills')} />
