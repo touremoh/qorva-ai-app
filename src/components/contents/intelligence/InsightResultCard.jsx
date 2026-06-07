@@ -95,8 +95,8 @@ const InsightResultCard = ({ result, onFollowUp, onCandidateClick }) => {
                 {/* Disclaimer */}
                 <DisclaimerBanner text={disclaimer} />
 
-                {/* Follow-ups */}
-                {followUpQuestions?.length > 0 && (
+                {/* Follow-ups — temporarily hidden; remove `false &&` to re-enable */}
+                {false && followUpQuestions?.length > 0 && (
                     <Box sx={{ mt: 1.5, pt: 1.5, borderTop: '1px solid #f1f5f9' }}>
                         <FollowUpChips suggestions={followUpQuestions} onSelect={onFollowUp} />
                     </Box>
