@@ -701,5 +701,90 @@
     "emailNote": "We’ve sent a confirmation email to your inbox. Please verify your email to unlock all features. If you don’t see it, check your spam folder.",
     "ctaLogin": "Go to login",
     "help": "Need help? Contact support at support@qorva.ai"
+  },
+  "insight": {
+    "metrics": {
+      "TOTAL_MATCHING_PROFILES": "Total Matching Profiles",
+      "SHOWN_IN_RANKING": "Shown in Ranking",
+      "REDISCOVERED_PROFILES": "Rediscovered Profiles",
+      "TOTAL_MATCHING_CANDIDATES": "Total Matching Candidates",
+      "TOTAL_CANDIDATES_ANALYZED": "Total Candidates Analyzed",
+      "RARE_SKILLS_FOUND": "Rare Skills Found (<10% of pool)",
+      "RARE_SKILLS": "Rare Skills (<10% of pool)",
+      "MISSING_REQUESTED_SKILLS": "Missing Requested Skills",
+      "DIMENSION_SENIORITY_LEVEL": "Seniority Level",
+      "DIMENSION_SKILL_DEPTH": "Skill Depth",
+      "DIMENSION_LEADERSHIP_AND_INFLUENCE": "Leadership & Influence",
+      "DIMENSION_LEARNING_VELOCITY": "Learning Velocity",
+      "DIMENSION_PRIMARY_CLUSTER": "Primary Cluster"
+    },
+    "units": {
+      "UNIT_PROFILES": "profiles",
+      "UNIT_CANDIDATES": "candidates",
+      "UNIT_SKILLS": "skills"
+    },
+    "chartTitles": {
+      "CHART_TITLE_TOP_SKILLS_IN_POOL": "Top Skills in Pool",
+      "CHART_TITLE_RARE_SKILLS_DISTRIBUTION": "Rare Skills Distribution",
+      "CHART_TITLE_SKILL_FREQUENCY_DISTRIBUTION": "Skill Frequency Distribution",
+      "CHART_TITLE_SENIORITY_LEVEL_DISTRIBUTION": "Seniority Level Distribution",
+      "CHART_TITLE_SKILL_DEPTH_DISTRIBUTION": "Skill Depth Distribution",
+      "CHART_TITLE_LEADERSHIP_INFLUENCE_DISTRIBUTION": "Leadership & Influence Distribution",
+      "CHART_TITLE_LEARNING_VELOCITY_DISTRIBUTION": "Learning Velocity Distribution"
+    },
+    "clusters": {
+      "SENIORITY_JUNIOR": "Junior",
+      "SENIORITY_MID_LEVEL": "Mid-Level",
+      "SENIORITY_SENIOR": "Senior",
+      "SENIORITY_LEAD": "Lead",
+      "SENIORITY_PRINCIPAL": "Principal",
+      "SENIORITY_MANAGER": "Manager",
+      "SENIORITY_DIRECTOR": "Director",
+      "SENIORITY_EXECUTIVE": "Executive",
+      "SKILL_DEPTH_GENERALIST": "Generalist",
+      "SKILL_DEPTH_SPECIALIST": "Specialist",
+      "SKILL_DEPTH_T_SHAPED": "T-Shaped",
+      "SKILL_DEPTH_HYBRID": "Hybrid",
+      "LEADERSHIP_NONE": "None",
+      "LEADERSHIP_INDIVIDUAL_CONTRIBUTOR": "Individual Contributor",
+      "LEADERSHIP_TEAM_LEAD": "Team Lead",
+      "LEADERSHIP_CROSS_FUNCTIONAL_LEADER": "Cross-Functional Leader",
+      "LEADERSHIP_STRATEGIC_LEADER": "Strategic Leader",
+      "LEADERSHIP_EXECUTIVE_INFLUENCE": "Executive Influence",
+      "LEARNING_VELOCITY_LOW": "Low",
+      "LEARNING_VELOCITY_MEDIUM": "Medium",
+      "LEARNING_VELOCITY_HIGH": "High",
+      "LEARNING_VELOCITY_VERY_HIGH": "Very High",
+      "CLUSTER_UNKNOWN": "Unknown",
+      "TOTAL_CANDIDATES": "Total"
+    },
+    "intents": {
+      "TALENT_POOL_INTELLIGENCE": "Talent Pool Intelligence",
+      "TALENT_CLUSTERING": "Talent Clustering",
+      "CANDIDATE_RANKING": "Candidate Ranking",
+      "CANDIDATE_REDISCOVERY": "Candidate Rediscovery",
+      "SKILL_GAP_ANALYSIS": "Skill Gap Analysis",
+      "GENERAL_RECRUITING_QUESTION": "Recruiting Question",
+      "LOCATION_INTELLIGENCE": "Location Intelligence",
+      "SALARY_EXPECTATION_ANALYSIS": "Salary Analysis",
+      "CANDIDATE_COMPARISON": "Candidate Comparison",
+      "JOB_DESCRIPTION_ANALYSIS": "Job Description Analysis",
+      "RESUME_DATA_QUALITY_ANALYSIS": "Resume Quality Analysis",
+      "SENIORITY_DISTRIBUTION_ANALYSIS": "Seniority Distribution"
+    },
+    "intentsShort": {
+      "TALENT_POOL_INTELLIGENCE": "Talent Pool",
+      "TALENT_CLUSTERING": "Clustering",
+      "CANDIDATE_RANKING": "Ranking",
+      "CANDIDATE_REDISCOVERY": "Rediscovery",
+      "SKILL_GAP_ANALYSIS": "Skill Gap",
+      "GENERAL_RECRUITING_QUESTION": "General",
+      "LOCATION_INTELLIGENCE": "Location",
+      "SALARY_EXPECTATION_ANALYSIS": "Salary",
+      "CANDIDATE_COMPARISON": "Comparison",
+      "JOB_DESCRIPTION_ANALYSIS": "Job Description",
+      "RESUME_DATA_QUALITY_ANALYSIS": "Data Quality",
+      "SENIORITY_DISTRIBUTION_ANALYSIS": "Seniority"
+    }
   }
 }

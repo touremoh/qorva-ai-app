@@ -6,6 +6,7 @@ import Chip from '@mui/material/Chip';
 import CircularProgress from '@mui/material/CircularProgress';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
+import { useTranslation } from 'react-i18next';
 
 const INTENT_COLOR = {
     TALENT_POOL_INTELLIGENCE:        '#4f46e5',
@@ -68,8 +69,9 @@ const groupByDate = (conversations) => {
 };
 
 const ConversationItem = ({ conv, isActive, onSelect }) => {
+    const { t } = useTranslation();
     const intentColor = INTENT_COLOR[conv.intent] ?? '#64748b';
-    const intentLabel = INTENT_LABEL[conv.intent];
+    const intentLabel = t(`insight.intentsShort.${conv.intent}`, INTENT_LABEL[conv.intent]);
 
     return (
         <Box

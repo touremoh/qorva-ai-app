@@ -643,5 +643,90 @@
     "emailNote": "We hebben je een bevestigingsmail gestuurd. Verifieer je e-mail om alle functies te activeren. Zie je niets? Controleer dan je spammap.",
     "ctaLogin": "Inloggen",
     "help": "Hulp nodig? Neem contact op via support@qorva.ai"
+  },
+  "insight": {
+    "metrics": {
+      "TOTAL_MATCHING_PROFILES": "Overeenkomende profielen",
+      "SHOWN_IN_RANKING": "Weergegeven in ranking",
+      "REDISCOVERED_PROFILES": "Herontdekte profielen",
+      "TOTAL_MATCHING_CANDIDATES": "Overeenkomende kandidaten",
+      "TOTAL_CANDIDATES_ANALYZED": "Geanalyseerde kandidaten",
+      "RARE_SKILLS_FOUND": "Zeldzame vaardigheden (<10% van pool)",
+      "RARE_SKILLS": "Zeldzame vaardigheden (<10% van pool)",
+      "MISSING_REQUESTED_SKILLS": "Ontbrekende gevraagde vaardigheden",
+      "DIMENSION_SENIORITY_LEVEL": "Senioriteitsniveau",
+      "DIMENSION_SKILL_DEPTH": "Vaardigheidsdiepte",
+      "DIMENSION_LEADERSHIP_AND_INFLUENCE": "Leiderschap & Invloed",
+      "DIMENSION_LEARNING_VELOCITY": "Leersnelheid",
+      "DIMENSION_PRIMARY_CLUSTER": "Primaire cluster"
+    },
+    "units": {
+      "UNIT_PROFILES": "profielen",
+      "UNIT_CANDIDATES": "kandidaten",
+      "UNIT_SKILLS": "vaardigheden"
+    },
+    "chartTitles": {
+      "CHART_TITLE_TOP_SKILLS_IN_POOL": "Topvaardigheden in pool",
+      "CHART_TITLE_RARE_SKILLS_DISTRIBUTION": "Verdeling zeldzame vaardigheden",
+      "CHART_TITLE_SKILL_FREQUENCY_DISTRIBUTION": "Frequentieverdeling vaardigheden",
+      "CHART_TITLE_SENIORITY_LEVEL_DISTRIBUTION": "Verdeling senioriteitsniveaus",
+      "CHART_TITLE_SKILL_DEPTH_DISTRIBUTION": "Verdeling vaardigheidsdiepte",
+      "CHART_TITLE_LEADERSHIP_INFLUENCE_DISTRIBUTION": "Verdeling Leiderschap & Invloed",
+      "CHART_TITLE_LEARNING_VELOCITY_DISTRIBUTION": "Verdeling leersnelheid"
+    },
+    "clusters": {
+      "SENIORITY_JUNIOR": "Junior",
+      "SENIORITY_MID_LEVEL": "Middenniveau",
+      "SENIORITY_SENIOR": "Senior",
+      "SENIORITY_LEAD": "Lead",
+      "SENIORITY_PRINCIPAL": "Principal",
+      "SENIORITY_MANAGER": "Manager",
+      "SENIORITY_DIRECTOR": "Directeur",
+      "SENIORITY_EXECUTIVE": "Leidinggevende",
+      "SKILL_DEPTH_GENERALIST": "Generalist",
+      "SKILL_DEPTH_SPECIALIST": "Specialist",
+      "SKILL_DEPTH_T_SHAPED": "T-vormig",
+      "SKILL_DEPTH_HYBRID": "Hybride",
+      "LEADERSHIP_NONE": "Geen",
+      "LEADERSHIP_INDIVIDUAL_CONTRIBUTOR": "Individuele bijdrager",
+      "LEADERSHIP_TEAM_LEAD": "Teamleider",
+      "LEADERSHIP_CROSS_FUNCTIONAL_LEADER": "Functie-overstijgend leider",
+      "LEADERSHIP_STRATEGIC_LEADER": "Strategisch leider",
+      "LEADERSHIP_EXECUTIVE_INFLUENCE": "Uitvoerende invloed",
+      "LEARNING_VELOCITY_LOW": "Laag",
+      "LEARNING_VELOCITY_MEDIUM": "Gemiddeld",
+      "LEARNING_VELOCITY_HIGH": "Hoog",
+      "LEARNING_VELOCITY_VERY_HIGH": "Zeer hoog",
+      "CLUSTER_UNKNOWN": "Onbekend",
+      "TOTAL_CANDIDATES": "Totaal"
+    },
+    "intents": {
+      "TALENT_POOL_INTELLIGENCE": "Talentpool-analyse",
+      "TALENT_CLUSTERING": "Talentclustering",
+      "CANDIDATE_RANKING": "Kandidatenrangschikking",
+      "CANDIDATE_REDISCOVERY": "Kandidaten herontdekking",
+      "SKILL_GAP_ANALYSIS": "Vaardigheidskloof-analyse",
+      "GENERAL_RECRUITING_QUESTION": "Wervingsvraag",
+      "LOCATION_INTELLIGENCE": "Locatie-analyse",
+      "SALARY_EXPECTATION_ANALYSIS": "Salarisanalyse",
+      "CANDIDATE_COMPARISON": "Kandidatenvergelijking",
+      "JOB_DESCRIPTION_ANALYSIS": "Functieomschrijvingsanalyse",
+      "RESUME_DATA_QUALITY_ANALYSIS": "CV-datakwaliteitsanalyse",
+      "SENIORITY_DISTRIBUTION_ANALYSIS": "Senioriteitsverdeling"
+    },
+    "intentsShort": {
+      "TALENT_POOL_INTELLIGENCE": "Talentpool",
+      "TALENT_CLUSTERING": "Clustering",
+      "CANDIDATE_RANKING": "Rangschikking",
+      "CANDIDATE_REDISCOVERY": "Herontdekking",
+      "SKILL_GAP_ANALYSIS": "Vaardigheidskloof",
+      "GENERAL_RECRUITING_QUESTION": "Algemeen",
+      "LOCATION_INTELLIGENCE": "Locatie",
+      "SALARY_EXPECTATION_ANALYSIS": "Salaris",
+      "CANDIDATE_COMPARISON": "Vergelijking",
+      "JOB_DESCRIPTION_ANALYSIS": "Functiebeschrijving",
+      "RESUME_DATA_QUALITY_ANALYSIS": "Datakwaliteit",
+      "SENIORITY_DISTRIBUTION_ANALYSIS": "Senioriteit"
+    }
   }
 }

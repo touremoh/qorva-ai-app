@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 
 const COLORS = ['#629C44', '#4f46e5', '#0891b2', '#d97706', '#dc2626', '#7c3aed', '#0f766e'];
 
-// Mirrors LABEL_MAP / DIMENSION_MAP in MetricRow
+// Legacy camelCase fallback maps (pre-i18n-key era)
 const LABEL_MAP = {
     specialist: 'Specialist', tShaped: 'T-Shaped', generalist: 'Generalist', hybrid: 'Hybrid',
     senior: 'Senior', midLevel: 'Mid-Level', junior: 'Junior', lead: 'Lead',
@@ -24,13 +24,20 @@ const DIMENSION_MAP = {
     learningVelocity: 'Learning Velocity',
 };
 
-const translateBucketKey = (key, t) =>
-    t(`dashboard.talent.labels.${key}`, LABEL_MAP[key] ?? key);
+const CLUSTER_PREFIXES = ['SENIORITY_', 'SKILL_DEPTH_', 'LEADERSHIP_', 'LEARNING_VELOCITY_', 'CLUSTER_'];
+const isClusterKey = (k) => k && CLUSTER_PREFIXES.some(p => k.startsWith(p));
 
-// "seniorityLevel Distribution" → "Seniority Level Distribution"
-// Only translates words that are known domain keys; rest passed through as-is
+// Translate a bucket/cluster label — handles UPPERCASE keys and legacy camelCase
+// Skill names (React, Python, etc.) are not in any map and pass through as-is
+const translateBucketKey = (key, t) => {
+    if (isClusterKey(key)) return t(`insight.clusters.${key}`, key);
+    return t(`dashboard.talent.labels.${key}`, LABEL_MAP[key] ?? key);
+};
+
+// Translate a chart title — CHART_TITLE_* keys use the new section; legacy strings are word-tokenised
 const translateTitle = (title, t) => {
     if (!title) return title;
+    if (title.startsWith('CHART_TITLE_')) return t(`insight.chartTitles.${title}`, title);
     return title.split(' ').map(w =>
         DIMENSION_MAP[w] ? t(`dashboard.talent.${w}`, DIMENSION_MAP[w]) : w
     ).join(' ');

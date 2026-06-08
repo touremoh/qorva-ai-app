@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
 import PsychologyOutlinedIcon from '@mui/icons-material/PsychologyOutlined';
+import { useTranslation } from 'react-i18next';
 import MetricRow from './MetricRow.jsx';
 import ChartSection from './ChartSection.jsx';
 import CandidateSection from './CandidateSection.jsx';
@@ -25,6 +26,7 @@ const INTENT_CONFIG = {
 };
 
 const InsightResultCard = ({ result, onFollowUp, onCandidateClick }) => {
+    const { t } = useTranslation();
     const { intent, answerText, metrics, charts, candidates, followUpQuestions, disclaimer, showRediscoveredTag } = result;
     const cfg = INTENT_CONFIG[intent] ?? INTENT_CONFIG.GENERAL_RECRUITING_QUESTION;
 
@@ -53,7 +55,7 @@ const InsightResultCard = ({ result, onFollowUp, onCandidateClick }) => {
             }}>
                 <PsychologyOutlinedIcon sx={{ fontSize: 15, color: cfg.color, flexShrink: 0 }} />
                 <Chip
-                    label={cfg.label}
+                    label={t(`insight.intents.${intent}`, cfg.label)}
                     size="small"
                     sx={{
                         fontSize: '0.67rem',

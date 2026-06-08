@@ -646,5 +646,90 @@
     "emailNote": "Te hemos enviado un correo de confirmación. Verifica tu email para activar todas las funciones. Si no lo ves, revisa la carpeta de spam.",
     "ctaLogin": "Acceder",
     "help": "¿Necesitas ayuda? Escribe a support@qorva.ai"
+  },
+  "insight": {
+    "metrics": {
+      "TOTAL_MATCHING_PROFILES": "Perfiles coincidentes",
+      "SHOWN_IN_RANKING": "Mostrados en el ranking",
+      "REDISCOVERED_PROFILES": "Perfiles redescubiertos",
+      "TOTAL_MATCHING_CANDIDATES": "Candidatos coincidentes",
+      "TOTAL_CANDIDATES_ANALYZED": "Candidatos analizados",
+      "RARE_SKILLS_FOUND": "Habilidades raras (<10% del pool)",
+      "RARE_SKILLS": "Habilidades raras (<10% del pool)",
+      "MISSING_REQUESTED_SKILLS": "Habilidades solicitadas ausentes",
+      "DIMENSION_SENIORITY_LEVEL": "Nivel de seniority",
+      "DIMENSION_SKILL_DEPTH": "Profundidad de habilidades",
+      "DIMENSION_LEADERSHIP_AND_INFLUENCE": "Liderazgo e Influencia",
+      "DIMENSION_LEARNING_VELOCITY": "Velocidad de aprendizaje",
+      "DIMENSION_PRIMARY_CLUSTER": "Clúster principal"
+    },
+    "units": {
+      "UNIT_PROFILES": "perfiles",
+      "UNIT_CANDIDATES": "candidatos",
+      "UNIT_SKILLS": "habilidades"
+    },
+    "chartTitles": {
+      "CHART_TITLE_TOP_SKILLS_IN_POOL": "Principales habilidades del pool",
+      "CHART_TITLE_RARE_SKILLS_DISTRIBUTION": "Distribución de habilidades raras",
+      "CHART_TITLE_SKILL_FREQUENCY_DISTRIBUTION": "Distribución de frecuencia de habilidades",
+      "CHART_TITLE_SENIORITY_LEVEL_DISTRIBUTION": "Distribución de niveles de seniority",
+      "CHART_TITLE_SKILL_DEPTH_DISTRIBUTION": "Distribución de profundidad de habilidades",
+      "CHART_TITLE_LEADERSHIP_INFLUENCE_DISTRIBUTION": "Distribución Liderazgo e Influencia",
+      "CHART_TITLE_LEARNING_VELOCITY_DISTRIBUTION": "Distribución de velocidad de aprendizaje"
+    },
+    "clusters": {
+      "SENIORITY_JUNIOR": "Junior",
+      "SENIORITY_MID_LEVEL": "Nivel medio",
+      "SENIORITY_SENIOR": "Senior",
+      "SENIORITY_LEAD": "Lead",
+      "SENIORITY_PRINCIPAL": "Principal",
+      "SENIORITY_MANAGER": "Manager",
+      "SENIORITY_DIRECTOR": "Director",
+      "SENIORITY_EXECUTIVE": "Ejecutivo",
+      "SKILL_DEPTH_GENERALIST": "Generalista",
+      "SKILL_DEPTH_SPECIALIST": "Especialista",
+      "SKILL_DEPTH_T_SHAPED": "En T",
+      "SKILL_DEPTH_HYBRID": "Híbrido",
+      "LEADERSHIP_NONE": "Ninguno",
+      "LEADERSHIP_INDIVIDUAL_CONTRIBUTOR": "Colaborador individual",
+      "LEADERSHIP_TEAM_LEAD": "Líder de equipo",
+      "LEADERSHIP_CROSS_FUNCTIONAL_LEADER": "Líder transversal",
+      "LEADERSHIP_STRATEGIC_LEADER": "Líder estratégico",
+      "LEADERSHIP_EXECUTIVE_INFLUENCE": "Influencia ejecutiva",
+      "LEARNING_VELOCITY_LOW": "Baja",
+      "LEARNING_VELOCITY_MEDIUM": "Media",
+      "LEARNING_VELOCITY_HIGH": "Alta",
+      "LEARNING_VELOCITY_VERY_HIGH": "Muy alta",
+      "CLUSTER_UNKNOWN": "Desconocido",
+      "TOTAL_CANDIDATES": "Total"
+    },
+    "intents": {
+      "TALENT_POOL_INTELLIGENCE": "Inteligencia del pool de talento",
+      "TALENT_CLUSTERING": "Agrupación de talento",
+      "CANDIDATE_RANKING": "Clasificación de candidatos",
+      "CANDIDATE_REDISCOVERY": "Redescubrimiento de candidatos",
+      "SKILL_GAP_ANALYSIS": "Análisis de brechas de habilidades",
+      "GENERAL_RECRUITING_QUESTION": "Pregunta de reclutamiento",
+      "LOCATION_INTELLIGENCE": "Inteligencia geográfica",
+      "SALARY_EXPECTATION_ANALYSIS": "Análisis salarial",
+      "CANDIDATE_COMPARISON": "Comparación de candidatos",
+      "JOB_DESCRIPTION_ANALYSIS": "Análisis de descripción de puesto",
+      "RESUME_DATA_QUALITY_ANALYSIS": "Calidad de datos del CV",
+      "SENIORITY_DISTRIBUTION_ANALYSIS": "Distribución de seniority"
+    },
+    "intentsShort": {
+      "TALENT_POOL_INTELLIGENCE": "Pool de talento",
+      "TALENT_CLUSTERING": "Agrupación",
+      "CANDIDATE_RANKING": "Clasificación",
+      "CANDIDATE_REDISCOVERY": "Redescubrimiento",
+      "SKILL_GAP_ANALYSIS": "Brechas",
+      "GENERAL_RECRUITING_QUESTION": "General",
+      "LOCATION_INTELLIGENCE": "Localización",
+      "SALARY_EXPECTATION_ANALYSIS": "Salario",
+      "CANDIDATE_COMPARISON": "Comparación",
+      "JOB_DESCRIPTION_ANALYSIS": "Descripción",
+      "RESUME_DATA_QUALITY_ANALYSIS": "Calidad datos",
+      "SENIORITY_DISTRIBUTION_ANALYSIS": "Seniority"
+    }
   }
 }
