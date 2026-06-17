@@ -40,6 +40,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
+import CheckIcon from '@mui/icons-material/Check';
 import { getChats, getMessages, createChat, sendMessage as sendChatMessage, updateChatStatus, deleteChat } from '../../../services/chatService.js';
 import { getCVs, searchCVs } from '../../../services/cvService.js';
 import { getJobs } from '../../../services/jobService.js';
@@ -118,6 +120,14 @@ const AppAIResumeChat = () => {
 	const [listMenuAnchor, setListMenuAnchor] = useState(null);
 	const [headerMenuAnchor, setHeaderMenuAnchor] = useState(null);
 
+	const [copiedJobRef, setCopiedJobRef] = useState(null);
+	const handleCopyJobRef = (ref, e) => {
+		e.stopPropagation();
+		navigator.clipboard.writeText(ref).catch(() => {});
+		setCopiedJobRef(ref);
+		setTimeout(() => setCopiedJobRef(null), 1500);
+	};
+
 	const userLang = ls(QORVA_USER_LANGUAGE, 'en');
 
 	const fetchChatsPage = async (pageNumber = 0, filter = statusFilter) => {
@@ -165,10 +175,10 @@ const AppAIResumeChat = () => {
 		fetchMessagesPage(chat.id, 0);
 	};
 
-	const getAllCVEntries = async () => getCVs({ pageNumber: 0, pageSize: 50 });
+	const getAllCVEntries = async () => getCVs({ pageNumber: 0, pageSize: 10 });
 
 	const searchCVEntriesByCriteria = async (searchTerm) =>
-		searchCVs({ pageNumber: 0, pageSize: 25, searchTerms: searchTerm.trim() });
+		searchCVs({ pageNumber: 0, pageSize: 10, searchTerms: searchTerm.trim() });
 
 	const handleSearchChange = async (value) => {
 		setCvSearch(value);
@@ -191,7 +201,7 @@ const AppAIResumeChat = () => {
 			setCvList(cvResp?.data?.data?.content ?? cvResp?.data?.content ?? []);
 		} catch (e) { setCvList([]); }
 		try {
-			const jobsResp = await getJobs({ pageSize: 50 });
+			const jobsResp = await getJobs({ pageSize: 10, pageNumber: 0 });
 			setJobs(jobsResp?.data?.data?.content ?? jobsResp?.data?.content ?? []);
 		} catch (e) { setJobs([]); }
 	};
@@ -953,8 +963,24 @@ const AppAIResumeChat = () => {
 								sx={{ borderRadius: 2, fontSize: '0.85rem' }}
 							>
 								{jobs.map(j => (
-									<MenuItem key={j.id} value={j.id} sx={{ fontSize: '0.85rem' }}>
-										{j.title || j.jobPostTitle || j.id}
+									<MenuItem key={j.id} value={j.id} sx={{ fontSize: '0.85rem', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+										<Typography sx={{ fontSize: '0.85rem', color: '#0f172a' }}>{j.title || j.jobPostTitle || j.id}</Typography>
+										{j.jobReference && (
+											<Tooltip title={copiedJobRef === j.jobReference ? t('appAIResumeChat.copied') : t('appAIResumeChat.copyReference')} placement="right">
+												<Box
+													onClick={(e) => handleCopyJobRef(j.jobReference, e)}
+													sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.4, cursor: 'pointer', '&:hover': { opacity: 0.75 } }}
+												>
+													<Typography sx={{ fontSize: '0.72rem', color: copiedJobRef === j.jobReference ? '#629C44' : '#94a3b8' }}>
+														{j.jobReference}
+													</Typography>
+													{copiedJobRef === j.jobReference
+														? <CheckIcon sx={{ fontSize: 12, color: '#629C44' }} />
+														: <ContentCopyOutlinedIcon sx={{ fontSize: 11, color: '#94a3b8' }} />
+													}
+												</Box>
+											</Tooltip>
+										)}
 									</MenuItem>
 								))}
 							</Select>

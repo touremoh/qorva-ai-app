@@ -146,7 +146,9 @@
       "notAvailable": "Non disponible",
       "freelanceOnly": "Freelance uniquement"
     },
-    "availabilityStatuses": "Statuts de disponibilité à inclure"
+    "availabilityStatuses": "Statuts de disponibilité à inclure",
+    "copyReference": "Copier la référence",
+    "copied": "Copié !"
   },
   "appCVContent": {
     "createCVEntry": "Ajouter un CV",
@@ -635,7 +637,9 @@
     "archived": "Archivé",
     "archiveChat": "Archiver la conversation",
     "reopenChat": "Rouvrir la conversation",
-    "chatArchived": "Cette conversation est archivée et ne peut plus recevoir de messages."
+    "chatArchived": "Cette conversation est archivée et ne peut plus recevoir de messages.",
+    "copyReference": "Copier la référence",
+    "copied": "Copié !"
   },
   "pricing": {
     "title": "Qorva AI — Choisissez votre offre"

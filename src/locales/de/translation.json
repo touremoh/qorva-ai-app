@@ -146,7 +146,9 @@
       "notAvailable": "Nicht verfügbar",
       "freelanceOnly": "Nur Freelance"
     },
-    "availabilityStatuses": "Einzuschließende Verfügbarkeitsstatus"
+    "availabilityStatuses": "Einzuschließende Verfügbarkeitsstatus",
+    "copyReference": "Referenz kopieren",
+    "copied": "Kopiert!"
   },
   "appCVContent": {
     "createCVEntry": "Lebenslauf hinzufügen",
@@ -635,7 +637,9 @@
     "archived": "Archiviert",
     "archiveChat": "Chat archivieren",
     "reopenChat": "Chat wiedereröffnen",
-    "chatArchived": "Dieser Chat ist archiviert und kann keine neuen Nachrichten empfangen."
+    "chatArchived": "Dieser Chat ist archiviert und kann keine neuen Nachrichten empfangen.",
+    "copyReference": "Referenz kopieren",
+    "copied": "Kopiert!"
   },
   "pricing": {
     "title": "Qorva AI — Wählen Sie Ihren Tarif"

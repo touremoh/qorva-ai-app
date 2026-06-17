@@ -663,12 +663,21 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 						)}
 						{/* Reference number — always visible */}
 						{applicantNumber && (
-							<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 0.5 }}>
-								<FingerprintOutlinedIcon sx={{ fontSize: 11, color: '#94a3b8' }} />
-								<Typography sx={{ fontSize: '0.70rem', color: '#94a3b8', fontFamily: 'monospace', letterSpacing: '0.03em' }}>
-									{t('appCVContent.referenceNumber')}: {applicantNumber}
-								</Typography>
-							</Box>
+							<Tooltip title={refCopied ? t('appCVContent.copied', 'Copied!') : t('appCVContent.copyReference', 'Copy reference')} placement="top">
+								<Box
+									onClick={handleCopyRef}
+									sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5, mt: 0.5, cursor: 'pointer', '&:hover': { opacity: 0.75 } }}
+								>
+									<FingerprintOutlinedIcon sx={{ fontSize: 11, color: refCopied ? '#629C44' : '#94a3b8' }} />
+									<Typography sx={{ fontSize: '0.70rem', color: refCopied ? '#629C44' : '#94a3b8', fontFamily: 'monospace', letterSpacing: '0.03em' }}>
+										{t('appCVContent.referenceNumber')}: {applicantNumber}
+									</Typography>
+									{refCopied
+										? <CheckIcon sx={{ fontSize: 12, color: '#629C44' }} />
+										: <ContentCopyOutlinedIcon sx={{ fontSize: 11, color: '#94a3b8' }} />
+									}
+								</Box>
+							</Tooltip>
 						)}
 						{/* Contact details — hidden when anonymized */}
 						{!anonymized ? (

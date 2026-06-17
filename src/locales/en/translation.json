@@ -153,7 +153,9 @@
       "notAvailable": "Not Available",
       "freelanceOnly": "Freelance Only"
     },
-    "availabilityStatuses": "Availability Statuses to Match"
+    "availabilityStatuses": "Availability Statuses to Match",
+    "copyReference": "Copy reference",
+    "copied": "Copied!"
   },
   "appCVContent": {
     "createCVEntry": "Add Resume",
@@ -638,7 +640,9 @@
     "archived": "Archived",
     "archiveChat": "Archive Chat",
     "reopenChat": "Reopen Chat",
-    "chatArchived": "This chat is archived and cannot receive new messages."
+    "chatArchived": "This chat is archived and cannot receive new messages.",
+    "copyReference": "Copy reference",
+    "copied": "Copied!"
   },
   "pricing": {
     "title": "Qorva AI — Choose your plan",

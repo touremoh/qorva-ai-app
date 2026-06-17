@@ -146,7 +146,9 @@
       "notAvailable": "Niet beschikbaar",
       "freelanceOnly": "Alleen freelance"
     },
-    "availabilityStatuses": "Te matchen beschikbaarheidsstatussen"
+    "availabilityStatuses": "Te matchen beschikbaarheidsstatussen",
+    "copyReference": "Referentie kopiëren",
+    "copied": "Gekopieerd!"
   },
   "appCVContent": {
     "createCVEntry": "CV toevoegen",
@@ -632,7 +634,9 @@
     "archived": "Gearchiveerd",
     "archiveChat": "Gesprek archiveren",
     "reopenChat": "Gesprek heropenen",
-    "chatArchived": "Dit gesprek is gearchiveerd en kan geen nieuwe berichten ontvangen."
+    "chatArchived": "Dit gesprek is gearchiveerd en kan geen nieuwe berichten ontvangen.",
+    "copyReference": "Referentie kopiëren",
+    "copied": "Gekopieerd!"
   },
   "pricing": {
     "title": "Qorva AI — Kies uw abonnement"

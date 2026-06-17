@@ -45,6 +45,8 @@ import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import BusinessCenterOutlinedIcon from '@mui/icons-material/BusinessCenterOutlined';
 import TuneIcon from '@mui/icons-material/Tune';
 import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined';
+import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
+import CheckIcon from '@mui/icons-material/Check';
 import { useTranslation } from 'react-i18next';
 import { getJobs, createJob, updateJob, patchJobStatus, deleteJob } from '../../../services/jobService.js';
 import { default as ReactQuill } from 'react-quill';
@@ -740,6 +742,13 @@ const JobContent = () => {
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 	const [jobs, setJobs] = useState([]);
 	const [selectedJob, setSelectedJob] = useState(null);
+	const [copiedJobRef, setCopiedJobRef] = useState(null);
+	const handleCopyJobRef = (ref, e) => {
+		e.stopPropagation();
+		navigator.clipboard.writeText(ref).catch(() => {});
+		setCopiedJobRef(ref);
+		setTimeout(() => setCopiedJobRef(null), 1500);
+	};
 	const [jobTitle, setJobTitle] = useState('');
 	const [jobDescription, setJobDescription] = useState('');
 	const [scoringConfig, setScoringConfig] = useState(emptyScoringConfig());
@@ -1004,11 +1013,29 @@ const JobContent = () => {
 											<Typography sx={{ fontSize: '0.84rem', fontWeight: active ? 600 : 500, color: '#0f172a', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
 												{job.title}
 											</Typography>
-											<Chip label={isOpen ? 'Open' : 'Closed'} size="small" sx={{
-												mt: 0.25, height: 18, fontSize: '0.68rem', fontWeight: 600, borderRadius: 0.75,
-												backgroundColor: isOpen ? 'rgba(98,156,68,0.12)' : 'rgba(239,68,68,0.10)',
-												color: isOpen ? '#3a6827' : '#dc2626',
-											}} />
+											<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 0.25, flexWrap: 'wrap' }}>
+												<Chip label={isOpen ? 'Open' : 'Closed'} size="small" sx={{
+													height: 18, fontSize: '0.68rem', fontWeight: 600, borderRadius: 0.75,
+													backgroundColor: isOpen ? 'rgba(98,156,68,0.12)' : 'rgba(239,68,68,0.10)',
+													color: isOpen ? '#3a6827' : '#dc2626',
+												}} />
+												{job.jobReference && (
+													<Tooltip title={copiedJobRef === job.jobReference ? t('jobContent.copied') : t('jobContent.copyReference')} placement="right">
+														<Box
+															onClick={(e) => handleCopyJobRef(job.jobReference, e)}
+															sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.4, cursor: 'pointer', minWidth: 0, '&:hover': { opacity: 0.75 } }}
+														>
+															<Typography sx={{ fontSize: '0.68rem', color: copiedJobRef === job.jobReference ? THEME_GREEN : '#94a3b8', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+																{job.jobReference}
+															</Typography>
+															{copiedJobRef === job.jobReference
+																? <CheckIcon sx={{ fontSize: 11, color: THEME_GREEN, flexShrink: 0 }} />
+																: <ContentCopyOutlinedIcon sx={{ fontSize: 11, color: '#94a3b8', flexShrink: 0 }} />
+															}
+														</Box>
+													</Tooltip>
+												)}
+											</Box>
 										</Box>
 									</ListItemButton>
 								);
@@ -1110,11 +1137,29 @@ const JobContent = () => {
 												<Typography sx={{ fontWeight: 700, fontSize: '1.1rem', color: '#0f172a', lineHeight: 1.2 }}>
 													{selectedJob.title}
 												</Typography>
-												<Chip label={selectedJob.status === 'open' ? 'Open' : 'Closed'} size="small" sx={{
-													mt: 0.5, height: 20, fontSize: '0.70rem', fontWeight: 600, borderRadius: 0.75,
-													backgroundColor: selectedJob.status === 'open' ? 'rgba(98,156,68,0.12)' : 'rgba(239,68,68,0.10)',
-													color: selectedJob.status === 'open' ? '#3a6827' : '#dc2626',
-												}} />
+												<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 0.5, flexWrap: 'wrap' }}>
+													<Chip label={selectedJob.status === 'open' ? 'Open' : 'Closed'} size="small" sx={{
+														height: 20, fontSize: '0.70rem', fontWeight: 600, borderRadius: 0.75,
+														backgroundColor: selectedJob.status === 'open' ? 'rgba(98,156,68,0.12)' : 'rgba(239,68,68,0.10)',
+														color: selectedJob.status === 'open' ? '#3a6827' : '#dc2626',
+													}} />
+													{selectedJob.jobReference && (
+														<Tooltip title={copiedJobRef === selectedJob.jobReference ? t('jobContent.copied') : t('jobContent.copyReference')} placement="right">
+															<Box
+																onClick={(e) => handleCopyJobRef(selectedJob.jobReference, e)}
+																sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5, cursor: 'pointer', '&:hover': { opacity: 0.75 } }}
+															>
+																<Typography sx={{ fontSize: '0.72rem', color: copiedJobRef === selectedJob.jobReference ? THEME_GREEN : '#94a3b8' }}>
+																	{selectedJob.jobReference}
+																</Typography>
+																{copiedJobRef === selectedJob.jobReference
+																	? <CheckIcon sx={{ fontSize: 13, color: THEME_GREEN }} />
+																	: <ContentCopyOutlinedIcon sx={{ fontSize: 12, color: '#94a3b8' }} />
+																}
+															</Box>
+														</Tooltip>
+													)}
+												</Box>
 											</Box>
 										</Box>
 										<Box sx={{
