@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import MetricRow from './MetricRow.jsx';
 import ChartSection from './ChartSection.jsx';
 import CandidateSection from './CandidateSection.jsx';
+import CandidateComparisonSection from './CandidateComparisonSection.jsx';
 import FollowUpChips from './FollowUpChips.jsx';
 import DisclaimerBanner from './DisclaimerBanner.jsx';
 
@@ -28,7 +29,7 @@ const INTENT_CONFIG = {
 
 const InsightResultCard = ({ result, onFollowUp, onCandidateClick }) => {
     const { t } = useTranslation();
-    const { intent, answerText, metrics, charts, candidates, followUpQuestions, disclaimer, showRediscoveredTag } = result;
+    const { intent, answerText, metrics, charts, candidates, followUpQuestions, disclaimer, showRediscoveredTag, rawData } = result;
     const cfg = INTENT_CONFIG[intent] ?? INTENT_CONFIG.GENERAL_RECRUITING_QUESTION;
 
     return (
@@ -86,14 +87,18 @@ const InsightResultCard = ({ result, onFollowUp, onCandidateClick }) => {
                 <ChartSection charts={charts} />
 
                 {/* Candidates */}
-                {candidates?.length > 0 && (
+                {intent === 'CANDIDATE_COMPARISON' && candidates?.length > 0 ? (
+                    <Box sx={{ mt: 1.5, pt: 1.5, borderTop: '1px solid #f1f5f9' }}>
+                        <CandidateComparisonSection candidates={candidates} rawData={rawData ?? {}} onCandidateClick={onCandidateClick} />
+                    </Box>
+                ) : candidates?.length > 0 ? (
                     <Box sx={{ mt: 1.5, pt: 1.5, borderTop: '1px solid #f1f5f9' }}>
                         <Typography sx={{ fontSize: '0.65rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.08em', mb: 1 }}>
-                            Candidates
+                            {t('insight.candidates', 'Candidates')}
                         </Typography>
                         <CandidateSection candidates={candidates} showRediscoveredTag={showRediscoveredTag} onCandidateClick={onCandidateClick} />
                     </Box>
-                )}
+                ) : null}
 
                 {/* Disclaimer */}
                 <DisclaimerBanner text={disclaimer} />

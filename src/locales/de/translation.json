@@ -738,6 +738,20 @@
       "RESUME_DATA_QUALITY_ANALYSIS": "Datenqualität",
       "SENIORITY_DISTRIBUTION_ANALYSIS": "Seniorität",
       "SKILLS_DISTRIBUTION": "Fähigkeiten"
+    },
+    "comparison": {
+      "yearsExperience": "J. Erf.",
+      "differentiatingSkills": "Unterscheidende Fähigkeiten",
+      "commonSkills": "Gemeinsame Fähigkeiten",
+      "jobContext": "Stellenkontext",
+      "certifications": "Zertifizierungen"
+    },
+    "candidates": "Kandidaten",
+    "deleteConversation": {
+      "title": "Gespräch löschen",
+      "message": "Sind Sie sicher, dass Sie dieses Gespräch löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "cancel": "Abbrechen",
+      "confirm": "Löschen"
     }
   }
 }

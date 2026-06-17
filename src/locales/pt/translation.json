@@ -738,6 +738,20 @@
       "RESUME_DATA_QUALITY_ANALYSIS": "Qualidade dados",
       "SENIORITY_DISTRIBUTION_ANALYSIS": "Senioridade",
       "SKILLS_DISTRIBUTION": "Competências"
+    },
+    "comparison": {
+      "yearsExperience": "anos exp.",
+      "differentiatingSkills": "Competências diferenciadoras",
+      "commonSkills": "Competências comuns",
+      "jobContext": "Contexto da vaga",
+      "certifications": "Certificações"
+    },
+    "candidates": "Candidatos",
+    "deleteConversation": {
+      "title": "Eliminar conversa",
+      "message": "Tem certeza de que deseja eliminar esta conversa? Esta ação não pode ser desfeita.",
+      "cancel": "Cancelar",
+      "confirm": "Eliminar"
     }
   }
 }

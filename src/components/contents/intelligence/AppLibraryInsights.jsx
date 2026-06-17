@@ -6,11 +6,18 @@ import IconButton from '@mui/material/IconButton';
 import CircularProgress from '@mui/material/CircularProgress';
 import Paper from '@mui/material/Paper';
 import Tooltip from '@mui/material/Tooltip';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Divider from '@mui/material/Divider';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import PsychologyOutlinedIcon from '@mui/icons-material/PsychologyOutlined';
 import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
 import { useTranslation } from 'react-i18next';
-import { askInsight, getConversations, getConversationHistory } from '../../../services/libraryInsightsService.js';
+import { askInsight, getConversations, getConversationHistory, deleteConversation } from '../../../services/libraryInsightsService.js';
 import { getCVById } from '../../../services/cvService.js';
 import InsightResultCard from './InsightResultCard.jsx';
 import InsightConversationList from './InsightConversationList.jsx';
@@ -52,6 +59,9 @@ const AppLibraryInsights = () => {
 
     const [selectedCV, setSelectedCV] = useState(null);
     const [cvLoading, setCvLoading] = useState(false);
+
+    const [conversationToDelete, setConversationToDelete] = useState(null); // { id, title }
+    const [deletingConversation, setDeletingConversation] = useState(false);
 
     const conversationIdRef = useRef(null);
     const bottomRef = useRef(null);
@@ -201,6 +211,30 @@ const AppLibraryInsights = () => {
 
     const handleFollowUp = useCallback((s) => submit(s), [submit]);
 
+    const handleDeleteRequest = useCallback((convId, convTitle) => {
+        setConversationToDelete({ id: convId, title: convTitle });
+    }, []);
+
+    const handleDeleteConfirm = useCallback(async () => {
+        if (!conversationToDelete) return;
+        setDeletingConversation(true);
+        try {
+            await deleteConversation(conversationToDelete.id);
+            delete summaryCache.current[conversationToDelete.id];
+            setConversations(prev => prev.filter(c => c.conversationId !== conversationToDelete.id));
+            if (activeConvId === conversationToDelete.id) {
+                conversationIdRef.current = null;
+                setActiveConvId(null);
+                setTurns([]);
+            }
+            setConversationToDelete(null);
+        } catch {
+            // keep dialog open on error — user can retry or cancel
+        } finally {
+            setDeletingConversation(false);
+        }
+    }, [conversationToDelete, activeConvId]);
+
     const handleCandidateClick = useCallback(async (candidate) => {
         if (!candidate?.id) return;
         if (selectedCV?.id === candidate.id) { setSelectedCV(null); return; }
@@ -219,6 +253,7 @@ const AppLibraryInsights = () => {
     const isEmpty = turns.length === 0 && !loading && !loadingHistory;
 
     return (
+        <>
         <Box sx={{ display: 'flex', height: '100%', overflow: 'hidden', backgroundColor: '#f8fafc' }}>
 
             {/* ── Left panel: conversation list ─────────────────────────────── */}
@@ -236,6 +271,7 @@ const AppLibraryInsights = () => {
                     activeConvId={activeConvId}
                     onSelect={handleSelectConversation}
                     onNew={handleNewConversation}
+                    onDelete={handleDeleteRequest}
                     loading={listLoading}
                 />
             </Box>
@@ -513,6 +549,61 @@ const AppLibraryInsights = () => {
                 </Box>
             )}
         </Box>
+
+            {/* ── Delete conversation confirmation dialog ─────────────────────── */}
+            <Dialog
+                open={!!conversationToDelete}
+                onClose={() => { if (!deletingConversation) setConversationToDelete(null); }}
+                maxWidth="xs"
+                fullWidth
+                slotProps={{ paper: { elevation: 0, sx: { borderRadius: 3, border: '1px solid #e2e8f0' } } }}
+            >
+                <DialogTitle sx={{ pb: 1 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <DeleteOutlineIcon sx={{ fontSize: 18, color: '#ef4444' }} />
+                        <Typography sx={{ fontWeight: 700, fontSize: '1rem', color: '#0f172a' }}>
+                            {t('insight.deleteConversation.title')}
+                        </Typography>
+                    </Box>
+                </DialogTitle>
+                <Divider sx={{ borderColor: '#f1f5f9' }} />
+                <DialogContent sx={{ pt: 2 }}>
+                    <Typography sx={{ fontSize: '0.85rem', color: '#475569' }}>
+                        {t('insight.deleteConversation.message')}
+                    </Typography>
+                    {conversationToDelete?.title && (
+                        <Box sx={{ mt: 1.5, px: 1.5, py: 1, borderRadius: 2, backgroundColor: '#f8fafc', border: '1px solid #e2e8f0' }}>
+                            <Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: '#0f172a' }}>
+                                {conversationToDelete.title}
+                            </Typography>
+                        </Box>
+                    )}
+                </DialogContent>
+                <Divider sx={{ borderColor: '#f1f5f9' }} />
+                <DialogActions sx={{ px: 3, py: 2, gap: 1 }}>
+                    <Button
+                        onClick={() => setConversationToDelete(null)}
+                        disabled={deletingConversation}
+                        sx={{ borderRadius: 2, fontSize: '0.82rem', textTransform: 'none', color: '#64748b' }}
+                    >
+                        {t('insight.deleteConversation.cancel')}
+                    </Button>
+                    <Button
+                        onClick={handleDeleteConfirm}
+                        variant="contained"
+                        disabled={deletingConversation}
+                        startIcon={deletingConversation ? <CircularProgress size={14} color="inherit" /> : <DeleteOutlineIcon sx={{ fontSize: 16 }} />}
+                        sx={{
+                            backgroundColor: '#ef4444', borderRadius: 2, fontSize: '0.82rem',
+                            textTransform: 'none', fontWeight: 600, boxShadow: 'none',
+                            '&:hover': { backgroundColor: '#dc2626', boxShadow: 'none' },
+                        }}
+                    >
+                        {t('insight.deleteConversation.confirm')}
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </>
     );
 };
 

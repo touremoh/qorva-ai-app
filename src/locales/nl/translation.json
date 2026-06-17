@@ -735,6 +735,20 @@
       "RESUME_DATA_QUALITY_ANALYSIS": "Datakwaliteit",
       "SENIORITY_DISTRIBUTION_ANALYSIS": "Senioriteit",
       "SKILLS_DISTRIBUTION": "Vaardigheden"
+    },
+    "comparison": {
+      "yearsExperience": "jr. erv.",
+      "differentiatingSkills": "Onderscheidende vaardigheden",
+      "commonSkills": "Gemeenschappelijke vaardigheden",
+      "jobContext": "Vacaturecontext",
+      "certifications": "Certificeringen"
+    },
+    "candidates": "Kandidaten",
+    "deleteConversation": {
+      "title": "Gesprek verwijderen",
+      "message": "Weet u zeker dat u dit gesprek wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.",
+      "cancel": "Annuleren",
+      "confirm": "Verwijderen"
     }
   }
 }

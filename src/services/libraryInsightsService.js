@@ -8,3 +8,6 @@ export const getConversations = () =>
 
 export const getConversationHistory = (conversationId) =>
     apiClient.get(`/library-insights/conversations/${conversationId}`);
+
+export const deleteConversation = (conversationId) =>
+    apiClient.delete(`/library-insights/conversations/${conversationId}`);

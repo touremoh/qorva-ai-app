@@ -4,8 +4,10 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
 import CircularProgress from '@mui/material/CircularProgress';
+import IconButton from '@mui/material/IconButton';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useTranslation } from 'react-i18next';
 
 const INTENT_COLOR = {
@@ -70,7 +72,7 @@ const groupByDate = (conversations) => {
     return groups.filter(g => g.items.length > 0);
 };
 
-const ConversationItem = ({ conv, isActive, onSelect }) => {
+const ConversationItem = ({ conv, isActive, onSelect, onDelete }) => {
     const { t } = useTranslation();
     const intentColor = INTENT_COLOR[conv.intent] ?? '#64748b';
     const intentLabel = t(`insight.intentsShort.${conv.intent}`, INTENT_LABEL[conv.intent]);
@@ -87,7 +89,11 @@ const ConversationItem = ({ conv, isActive, onSelect }) => {
                 borderLeft: `3px solid ${isActive ? '#629C44' : 'transparent'}`,
                 backgroundColor: isActive ? 'rgba(98,156,68,0.07)' : 'transparent',
                 transition: 'all 0.13s ease',
-                '&:hover': { backgroundColor: isActive ? 'rgba(98,156,68,0.09)' : '#f8fafc' },
+                position: 'relative',
+                '&:hover': {
+                    backgroundColor: isActive ? 'rgba(98,156,68,0.09)' : '#f8fafc',
+                    '& .conv-delete-btn': { opacity: 1 },
+                },
             }}
         >
             <Typography sx={{
@@ -100,6 +106,7 @@ const ConversationItem = ({ conv, isActive, onSelect }) => {
                 WebkitBoxOrient: 'vertical',
                 overflow: 'hidden',
                 mb: 0.4,
+                pr: 2.5,
             }}>
                 {conv.title}
             </Typography>
@@ -123,11 +130,28 @@ const ConversationItem = ({ conv, isActive, onSelect }) => {
                     {formatTime(conv.lastActivityAt)}
                 </Typography>
             </Box>
+            <IconButton
+                className="conv-delete-btn"
+                size="small"
+                onClick={(e) => { e.stopPropagation(); onDelete?.(conv.conversationId, conv.title); }}
+                sx={{
+                    position: 'absolute',
+                    top: 6,
+                    right: 4,
+                    opacity: 0,
+                    transition: 'opacity 0.15s ease',
+                    p: 0.3,
+                    color: '#94a3b8',
+                    '&:hover': { color: '#ef4444', backgroundColor: 'rgba(239,68,68,0.08)' },
+                }}
+            >
+                <DeleteOutlineIcon sx={{ fontSize: 14 }} />
+            </IconButton>
         </Box>
     );
 };
 
-const InsightConversationList = ({ conversations, activeConvId, onSelect, onNew, loading }) => {
+const InsightConversationList = ({ conversations, activeConvId, onSelect, onNew, onDelete, loading }) => {
     const groups = groupByDate(conversations);
 
     return (
@@ -189,6 +213,7 @@ const InsightConversationList = ({ conversations, activeConvId, onSelect, onNew,
                                 conv={conv}
                                 isActive={conv.conversationId === activeConvId}
                                 onSelect={onSelect}
+                                onDelete={onDelete}
                             />
                         ))}
                     </Box>
