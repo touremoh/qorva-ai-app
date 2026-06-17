@@ -23,6 +23,7 @@ const INTENT_CONFIG = {
     JOB_DESCRIPTION_ANALYSIS:        { label: 'Job Description Analysis',  color: '#d97706', bg: 'rgba(217,119,6,0.07)'   },
     RESUME_DATA_QUALITY_ANALYSIS:    { label: 'Resume Quality Analysis',   color: '#64748b', bg: 'rgba(100,116,139,0.07)' },
     SENIORITY_DISTRIBUTION_ANALYSIS: { label: 'Seniority Distribution',   color: '#629C44', bg: 'rgba(98,156,68,0.07)'   },
+    SKILLS_DISTRIBUTION:             { label: 'Skills Distribution',      color: '#0284c7', bg: 'rgba(2,132,199,0.07)'    },
 };
 
 const InsightResultCard = ({ result, onFollowUp, onCandidateClick }) => {

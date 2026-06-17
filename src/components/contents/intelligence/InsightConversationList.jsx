@@ -21,6 +21,7 @@ const INTENT_COLOR = {
     JOB_DESCRIPTION_ANALYSIS:        '#d97706',
     RESUME_DATA_QUALITY_ANALYSIS:    '#64748b',
     SENIORITY_DISTRIBUTION_ANALYSIS: '#629C44',
+    SKILLS_DISTRIBUTION:             '#0284c7',
 };
 
 const INTENT_LABEL = {
@@ -36,6 +37,7 @@ const INTENT_LABEL = {
     JOB_DESCRIPTION_ANALYSIS:        'Job Description',
     RESUME_DATA_QUALITY_ANALYSIS:    'Data Quality',
     SENIORITY_DISTRIBUTION_ANALYSIS: 'Seniority',
+    SKILLS_DISTRIBUTION:             'Skills',
 };
 
 const formatTime = (iso) => {

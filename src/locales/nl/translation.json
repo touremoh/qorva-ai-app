@@ -658,7 +658,8 @@
       "DIMENSION_SKILL_DEPTH": "Vaardigheidsdiepte",
       "DIMENSION_LEADERSHIP_AND_INFLUENCE": "Leiderschap & Invloed",
       "DIMENSION_LEARNING_VELOCITY": "Leersnelheid",
-      "DIMENSION_PRIMARY_CLUSTER": "Primaire cluster"
+      "DIMENSION_PRIMARY_CLUSTER": "Primaire cluster",
+      "DIMENSION_SKILLS": "Vaardigheden"
     },
     "units": {
       "UNIT_PROFILES": "profielen",
@@ -672,7 +673,8 @@
       "CHART_TITLE_SENIORITY_LEVEL_DISTRIBUTION": "Verdeling senioriteitsniveaus",
       "CHART_TITLE_SKILL_DEPTH_DISTRIBUTION": "Verdeling vaardigheidsdiepte",
       "CHART_TITLE_LEADERSHIP_INFLUENCE_DISTRIBUTION": "Verdeling Leiderschap & Invloed",
-      "CHART_TITLE_LEARNING_VELOCITY_DISTRIBUTION": "Verdeling leersnelheid"
+      "CHART_TITLE_LEARNING_VELOCITY_DISTRIBUTION": "Verdeling leersnelheid",
+      "CHART_TITLE_SKILLS_DISTRIBUTION": "Verdeling vaardigheden"
     },
     "clusters": {
       "SENIORITY_JUNIOR": "Junior",
@@ -712,7 +714,8 @@
       "CANDIDATE_COMPARISON": "Kandidatenvergelijking",
       "JOB_DESCRIPTION_ANALYSIS": "Functieomschrijvingsanalyse",
       "RESUME_DATA_QUALITY_ANALYSIS": "CV-datakwaliteitsanalyse",
-      "SENIORITY_DISTRIBUTION_ANALYSIS": "Senioriteitsverdeling"
+      "SENIORITY_DISTRIBUTION_ANALYSIS": "Senioriteitsverdeling",
+      "SKILLS_DISTRIBUTION": "Vaardigheidsverdeling"
     },
     "intentsShort": {
       "TALENT_POOL_INTELLIGENCE": "Talentpool",
@@ -726,7 +729,8 @@
       "CANDIDATE_COMPARISON": "Vergelijking",
       "JOB_DESCRIPTION_ANALYSIS": "Functiebeschrijving",
       "RESUME_DATA_QUALITY_ANALYSIS": "Datakwaliteit",
-      "SENIORITY_DISTRIBUTION_ANALYSIS": "Senioriteit"
+      "SENIORITY_DISTRIBUTION_ANALYSIS": "Senioriteit",
+      "SKILLS_DISTRIBUTION": "Vaardigheden"
     }
   }
 }

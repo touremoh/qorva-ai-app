@@ -661,7 +661,8 @@
       "DIMENSION_SKILL_DEPTH": "Profundidad de habilidades",
       "DIMENSION_LEADERSHIP_AND_INFLUENCE": "Liderazgo e Influencia",
       "DIMENSION_LEARNING_VELOCITY": "Velocidad de aprendizaje",
-      "DIMENSION_PRIMARY_CLUSTER": "Clúster principal"
+      "DIMENSION_PRIMARY_CLUSTER": "Clúster principal",
+      "DIMENSION_SKILLS": "Habilidades"
     },
     "units": {
       "UNIT_PROFILES": "perfiles",
@@ -675,7 +676,8 @@
       "CHART_TITLE_SENIORITY_LEVEL_DISTRIBUTION": "Distribución de niveles de seniority",
       "CHART_TITLE_SKILL_DEPTH_DISTRIBUTION": "Distribución de profundidad de habilidades",
       "CHART_TITLE_LEADERSHIP_INFLUENCE_DISTRIBUTION": "Distribución Liderazgo e Influencia",
-      "CHART_TITLE_LEARNING_VELOCITY_DISTRIBUTION": "Distribución de velocidad de aprendizaje"
+      "CHART_TITLE_LEARNING_VELOCITY_DISTRIBUTION": "Distribución de velocidad de aprendizaje",
+      "CHART_TITLE_SKILLS_DISTRIBUTION": "Distribución de habilidades"
     },
     "clusters": {
       "SENIORITY_JUNIOR": "Junior",
@@ -715,7 +717,8 @@
       "CANDIDATE_COMPARISON": "Comparación de candidatos",
       "JOB_DESCRIPTION_ANALYSIS": "Análisis de descripción de puesto",
       "RESUME_DATA_QUALITY_ANALYSIS": "Calidad de datos del CV",
-      "SENIORITY_DISTRIBUTION_ANALYSIS": "Distribución de seniority"
+      "SENIORITY_DISTRIBUTION_ANALYSIS": "Distribución de seniority",
+      "SKILLS_DISTRIBUTION": "Distribución de habilidades"
     },
     "intentsShort": {
       "TALENT_POOL_INTELLIGENCE": "Pool de talento",
@@ -729,7 +732,8 @@
       "CANDIDATE_COMPARISON": "Comparación",
       "JOB_DESCRIPTION_ANALYSIS": "Descripción",
       "RESUME_DATA_QUALITY_ANALYSIS": "Calidad datos",
-      "SENIORITY_DISTRIBUTION_ANALYSIS": "Seniority"
+      "SENIORITY_DISTRIBUTION_ANALYSIS": "Seniority",
+      "SKILLS_DISTRIBUTION": "Habilidades"
     }
   }
 }
