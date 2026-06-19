@@ -375,7 +375,15 @@
     "matchingInProgress": "Analisi in corso…",
     "matchingNeeded": "{{count}} offerta/e in attesa di analisi",
     "noMatchingNeeded": "Tutte le offerte sono aggiornate — nessuna analisi necessaria.",
-    "reportCount": "{{count}} report"
+    "reportCount": "{{count}} report",
+    "remaining": "rimanenti",
+    "almostDone": "Quasi fatto…",
+    "matchingPhase1": "Analisi delle esigenze di assunzione…",
+    "matchingPhase2": "Individuazione dei talenti qualificati…",
+    "matchingPhase3": "Costruzione della lista ristretta…",
+    "matchingPhase4": "Generazione degli insight sui candidati…",
+    "matchingPhase5": "Preparazione delle raccomandazioni finali…",
+    "matchingReportsReady": "Report pronti."
   },
   "errors": {
     "404": {

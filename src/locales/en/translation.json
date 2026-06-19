@@ -378,7 +378,15 @@
     "matchingInProgress": "Matching in progress…",
     "matchingNeeded": "{{count}} job post(s) ready for matching",
     "noMatchingNeeded": "All candidates are matched — no action needed.",
-    "reportCount": "{{count}} report(s)"
+    "reportCount": "{{count}} report(s)",
+    "remaining": "remaining",
+    "almostDone": "Almost done…",
+    "matchingPhase1": "Understanding the hiring needs…",
+    "matchingPhase2": "Discovering qualified talents…",
+    "matchingPhase3": "Building the shortlist…",
+    "matchingPhase4": "Generating candidate insights…",
+    "matchingPhase5": "Preparing final recommendations…",
+    "matchingReportsReady": "Reports ready."
   },
   "errors": {
     "404": {

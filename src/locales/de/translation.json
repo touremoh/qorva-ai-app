@@ -375,7 +375,15 @@
     "matchingInProgress": "Matching läuft…",
     "matchingNeeded": "{{count}} Stellenanzeige(n) warten auf Matching",
     "noMatchingNeeded": "Alle Stellenanzeigen sind aktuell — kein Matching erforderlich.",
-    "reportCount": "{{count}} Bericht(e)"
+    "reportCount": "{{count}} Bericht(e)",
+    "remaining": "verbleibend",
+    "almostDone": "Fast fertig…",
+    "matchingPhase1": "Einstellungsbedarf wird analysiert…",
+    "matchingPhase2": "Qualifizierte Talente werden entdeckt…",
+    "matchingPhase3": "Shortlist wird erstellt…",
+    "matchingPhase4": "Kandidaten-Insights werden generiert…",
+    "matchingPhase5": "Abschließende Empfehlungen werden vorbereitet…",
+    "matchingReportsReady": "Berichte bereit."
   },
   "errors": {
     "404": {

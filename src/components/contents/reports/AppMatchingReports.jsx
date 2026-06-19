@@ -3,7 +3,7 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import {
 	Avatar, Box, Button, Chip, CircularProgress, Dialog, DialogActions, DialogContent,
 	DialogTitle, FormControl, IconButton, InputAdornment,
-	InputLabel, ListItemButton, Menu, MenuItem, Pagination,
+	InputLabel, LinearProgress, ListItemButton, Menu, MenuItem, Pagination,
 	Select, TextField, Tooltip, Typography,
 } from '@mui/material';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
@@ -22,6 +22,14 @@ import { getReports, getReportsByFilter, startMatching, deleteReport } from '../
 import { getJobs } from '../../../services/jobService.js';
 
 const PAGE_SIZES = [10, 25, 50, 100];
+
+const getMatchingPhaseKey = (elapsed) => {
+	if (elapsed < 10) return 'matchingPhase1';
+	if (elapsed < 20) return 'matchingPhase2';
+	if (elapsed < 30) return 'matchingPhase3';
+	if (elapsed < 50) return 'matchingPhase4';
+	return 'matchingPhase5';
+};
 
 const scoreChipSx = (score) => {
 	if (score >= 70) return { backgroundColor: '#dcfce7', color: '#166534' };
@@ -53,10 +61,16 @@ const AppMatchingReports = () => {
 	const [deletingReport, setDeletingReport] = useState(false);
 	const [matchingLoading, setScreeningLoading] = useState(false);
 	const [matchingSubmitted, setScreeningSubmitted] = useState(false);
+	const [matchingCompleted, setMatchingCompleted] = useState(false);
 	const [bannerDismissed, setBannerDismissed] = useState(false);
 
-	const pollingRef     = useRef(null);
+	const pollingRef      = useRef(null);
 	const latestParamsRef = useRef({ selectedJobId: '', searchTerm: '', filterRecommendation: '', filterConfidence: '', pageSize: 25 });
+	const progressTimerRef = useRef(null);
+	const matchingStartRef = useRef(null);
+
+	const [matchingProgress, setMatchingProgress] = useState(0);
+	const [matchingElapsed, setMatchingElapsed] = useState(0);
 
 	const fetchData = async (pageNumber, jobId, term, recommendation, confidence, size) => {
 		try {
@@ -129,6 +143,8 @@ const AppMatchingReports = () => {
 					clearInterval(pollingRef.current);
 					pollingRef.current = null;
 					setScreeningSubmitted(false);
+					setMatchingCompleted(true);
+					setBannerDismissed(false);
 				}
 			} catch (err) {
 				console.error('Polling error:', err);
@@ -138,6 +154,31 @@ const AppMatchingReports = () => {
 		pollingRef.current = setInterval(poll, 5000);
 		return () => { clearInterval(pollingRef.current); pollingRef.current = null; };
 	}, [matchingSubmitted]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	// Drive progress bar while matching is running (starts on button click, not just after API returns)
+	useEffect(() => {
+		const isActive = matchingLoading || matchingSubmitted;
+		if (isActive) {
+			if (!progressTimerRef.current) {
+				matchingStartRef.current = Date.now();
+				setMatchingProgress(0);
+				setMatchingElapsed(0);
+				progressTimerRef.current = setInterval(() => {
+					const elapsed = Math.floor((Date.now() - matchingStartRef.current) / 1000);
+					setMatchingElapsed(elapsed);
+					setMatchingProgress(Math.min(92, (elapsed / 60) * 100));
+				}, 500);
+			}
+		} else {
+			clearInterval(progressTimerRef.current);
+			progressTimerRef.current = null;
+			setMatchingProgress(0);
+			setMatchingElapsed(0);
+		}
+	}, [matchingLoading, matchingSubmitted]);
+
+	// Clear timer on unmount
+	useEffect(() => () => { clearInterval(progressTimerRef.current); }, []);
 
 	const handleSearchChange = (event) => {
 		const value = event.target.value;
@@ -195,10 +236,11 @@ const AppMatchingReports = () => {
 	const handleStartMatching = async () => {
 		try {
 			setScreeningLoading(true);
+			setMatchingCompleted(false);
+			setBannerDismissed(false);
 			await startMatching();
 			await fetchJobs();
 			setScreeningSubmitted(true);
-			setBannerDismissed(false);
 		} catch (error) {
 			console.error('Error starting matching:', error);
 		} finally {
@@ -343,8 +385,54 @@ const AppMatchingReports = () => {
 				</Tooltip>
 			</Box>
 
-			{/* Screening status banner */}
-			{pendingMatchingCount > 0 && (
+			{/* Matching in progress — progress bar */}
+			{(matchingLoading || matchingSubmitted) && (
+				<Box sx={{
+					px: 2.5, py: 1.5,
+					backgroundColor: 'rgba(99,102,241,0.05)',
+					borderBottom: '1px solid rgba(99,102,241,0.15)',
+					flexShrink: 0,
+				}}>
+					<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 0.75 }}>
+						<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+							<CircularProgress size={14} thickness={5} sx={{ color: '#6366f1' }} />
+							<Typography sx={{ fontSize: '0.84rem', fontWeight: 600, color: '#3730a3' }}>
+								{t('appReportContent.matchingInProgress')}
+							</Typography>
+						</Box>
+						<Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+							<Typography sx={{ fontSize: '0.75rem', color: '#6366f1', fontWeight: 500 }}>
+								{Math.round(matchingProgress)}%
+							</Typography>
+							<Typography sx={{ fontSize: '0.75rem', color: '#6b7280' }}>
+								{matchingElapsed < 60
+									? `~${Math.max(0, 60 - matchingElapsed)}s ${t('appReportContent.remaining')}`
+									: t('appReportContent.almostDone')
+								}
+							</Typography>
+						</Box>
+					</Box>
+					<LinearProgress
+						variant="determinate"
+						value={matchingProgress}
+						sx={{
+							height: 7, borderRadius: 4,
+							backgroundColor: 'rgba(99,102,241,0.12)',
+							'& .MuiLinearProgress-bar': {
+								borderRadius: 4,
+								background: 'linear-gradient(90deg, #6366f1 0%, #818cf8 60%, #a5b4fc 100%)',
+								transition: 'transform 0.5s linear',
+							},
+						}}
+					/>
+					<Typography sx={{ fontSize: '0.72rem', color: '#6366f1', mt: 0.75, fontStyle: 'italic' }}>
+						{t(`appReportContent.${getMatchingPhaseKey(matchingElapsed)}`)}
+					</Typography>
+				</Box>
+			)}
+
+			{/* Pending matching banner — start button */}
+			{pendingMatchingCount > 0 && !matchingLoading && !matchingSubmitted && (
 				<Box sx={{
 					display: 'flex', alignItems: 'center', justifyContent: 'space-between',
 					px: 2.5, py: 1.25,
@@ -362,7 +450,7 @@ const AppMatchingReports = () => {
 						variant="contained"
 						size="small"
 						onClick={handleStartMatching}
-						disabled={matchingLoading || matchingSubmitted}
+						disabled={matchingLoading}
 						startIcon={matchingLoading
 							? <CircularProgress size={14} color="inherit" />
 							: <PlayArrowRoundedIcon sx={{ fontSize: 17 }} />
@@ -381,7 +469,7 @@ const AppMatchingReports = () => {
 					</Button>
 				</Box>
 			)}
-			{pendingMatchingCount === 0 && !bannerDismissed && (
+			{matchingCompleted && !bannerDismissed && (
 				<Box sx={{
 					display: 'flex', alignItems: 'center', justifyContent: 'space-between',
 					px: 2.5, py: 0.75,
@@ -392,7 +480,7 @@ const AppMatchingReports = () => {
 					<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
 						<CheckCircleOutlineIcon sx={{ fontSize: 16, color: '#629C44' }} />
 						<Typography sx={{ fontSize: '0.82rem', color: '#3a6827' }}>
-							{t('appReportContent.noMatchingNeeded')}
+							{t('appReportContent.matchingReportsReady')}
 						</Typography>
 					</Box>
 					<IconButton

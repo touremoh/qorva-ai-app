@@ -372,7 +372,15 @@
     "matchingInProgress": "Matching bezig…",
     "matchingNeeded": "{{count}} vacature(s) wachten op matching",
     "noMatchingNeeded": "Alle vacatures zijn up-to-date — geen matching nodig.",
-    "reportCount": "{{count}} rapport(en)"
+    "reportCount": "{{count}} rapport(en)",
+    "remaining": "resterend",
+    "almostDone": "Bijna klaar…",
+    "matchingPhase1": "Wervingsbehoeften worden geanalyseerd…",
+    "matchingPhase2": "Gekwalificeerde talenten worden ontdekt…",
+    "matchingPhase3": "Shortlist wordt opgesteld…",
+    "matchingPhase4": "Kandidaadinzichten worden gegenereerd…",
+    "matchingPhase5": "Definitieve aanbevelingen worden voorbereid…",
+    "matchingReportsReady": "Rapporten gereed."
   },
   "errors": {
     "404": {

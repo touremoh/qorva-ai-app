@@ -34,8 +34,8 @@ const AppMenuList = ({ handleContentChange, isChatAllowed, collapsed, onToggleCo
 		{ id: COMP_ID_DASHBOARD, Icon: LeaderboardOutlinedIcon, label: 'Dashboard',                              display: true },
 		{ id: COMP_ID_CVLIB,     Icon: PeopleOutlinedIcon,      label: t('header.cvs'),                         display: true },
 		{ id: COMP_ID_JOBS,         Icon: WorkOutlineOutlinedIcon,  label: t('header.jobs'),                      display: true },
-		{ id: COMP_ID_INTELLIGENCE, Icon: PsychologyOutlinedIcon,   label: t('header.intelligence', 'Intelligence'), display: true },
 		{ id: COMP_ID_REPORTS,      Icon: AssessmentOutlinedIcon,   label: t('header.reports'),                   display: true },
+		{ id: COMP_ID_INTELLIGENCE, Icon: PsychologyOutlinedIcon,   label: t('header.intelligence', 'Intelligence'), display: true },
 		{ id: COMP_ID_CHAT,      Icon: AutoAwesomeOutlinedIcon, label: t('header.aiResumeChat') || 'AI Chat',   display: isChatAllowed },
 		{ id: COMP_ID_SETTINGS,  Icon: TuneOutlinedIcon,        label: t('header.accountSettings'),             display: true },
 	];
