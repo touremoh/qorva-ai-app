@@ -16,12 +16,12 @@
     "subscriptionInactive": "Your account is not active. Please contact support.",
     "togglePasswordVisibility": "Show/Hide password",
     "panel": {
-      "badge": "AI-Powered Recruitment",
-      "headline": "Screen & rank CVs in seconds, not days.",
-      "subtext": "Let AI do the heavy lifting. Qorva reads, scores, and ranks every application so you can focus on interviewing the right people.",
-      "bullet1": "Instant candidate matching & ranking",
-      "bullet2": "Built for small & medium-sized businesses",
-      "bullet3": "Cut time-to-hire by up to 90%",
+      "badge": "AI-Powered Talent Platform",
+      "headline": "Transform your CV graveyard into a goldmine.",
+      "subtext": "Qorva AI extracts, clusters, and ranks up to 100 CVs at once — matching jobs to candidates with custom scoring rules and real-time talent insights.",
+      "bullet1": "Talent Intelligence Engine",
+      "bullet2": "Job to candidate matching",
+      "bullet3": "AI Resume Chat",
       "freeToStart": "Free to start"
     }
   },
@@ -60,7 +60,7 @@
     "continueToCheckout": "Continue to Checkout",
     "panel": {
       "badge": "No credit card required",
-      "headline": "Start hiring smarter today.",
+      "headline": "Everything you need to hire smarter.",
       "subtext": "Join teams that screen candidates in seconds, not days."
     },
     "success": {
@@ -386,7 +386,9 @@
     "matchingPhase3": "Building the shortlist…",
     "matchingPhase4": "Generating candidate insights…",
     "matchingPhase5": "Preparing final recommendations…",
-    "matchingReportsReady": "Reports ready."
+    "matchingReportsReady": "Reports ready.",
+    "exportCsv": "Export CSV",
+    "exportCsvSelectJob": "Select a job to export"
   },
   "errors": {
     "404": {
@@ -653,12 +655,12 @@
     "copied": "Copied!"
   },
   "pricing": {
-    "title": "Qorva AI — Choose your plan",
+    "title": "Simple, Transparent Pricing",
     "chooseYourPlan": "Choose Your Plan",
     "stepSubtitle": "Start free, upgrade when you're ready. Cancel anytime.",
     "monthly": "Monthly",
     "yearly": "Yearly",
-    "periodMonthly": "/mo",
+    "periodMonthly": "/month",
     "saveChip": "Save 20%",
     "billedYearly": "Billed {{price}}/year",
     "mostPopular": "Most Popular",
@@ -667,29 +669,36 @@
     "noPlanSelected": "Please select a plan to continue.",
     "loadError": "Failed to load plans. Please try again.",
     "badge": "Simple, transparent pricing",
-    "subtitle": "Scale your hiring with AI-powered resume screening. Start free, upgrade when you're ready.",
+    "subtitle": "Choose the plan that fits your team",
     "footer": "Payments are securely processed by Stripe. You can cancel or change your plan at any time.",
+    "matchingActionNote": "1 matching action = 1 CV extraction or 1 job match report",
+    "button": {
+      "freeTrial": "Start Free Trial"
+    },
     "features": {
-      "freeTrial": "7-day free trial with access to all features",
-      "aiResumeChat": "AI Resume Chat",
-      "accountManager": "Dedicated Account Manager",
+      "freeTrial": "7-day free trial",
+      "brandedCvExport": "Branded CV exports",
+      "brandedMatchReport": "Branded match reports",
+      "accountManager": "Dedicated account manager",
       "sla": "SLA guarantees"
     },
-    "analytics": {
-      "advanced": "Advanced analytics dashboard"
-    },
-    "support": {
-      "priority8h": "Priority email support (8h response)",
-      "priority4h": "Priority email support (4h response)"
-    },
     "starter": {
-      "cvs": "Up to 500 CV analyses per month"
+      "users": "2 users",
+      "matchingActions": "1,000 matching actions / month",
+      "aiChat": "300 AI Resume Chat messages / month",
+      "queries": "500 Talent Intelligence Queries / month"
     },
-    "professional": {
-      "cvs": "Up to 2,000 CV analyses per month"
+    "pro": {
+      "users": "5 users",
+      "matchingActions": "5,000 matching actions / month",
+      "aiChat": "700 AI Resume Chat messages / month",
+      "queries": "1,500 Talent Intelligence Queries / month"
     },
-    "enterprise": {
-      "cvs": "Unlimited CV analyses per month"
+    "scale": {
+      "users": "10 users",
+      "matchingActions": "12,000 matching actions / month",
+      "aiChat": "2,000 AI Resume Chat messages / month",
+      "queries": "4,000 Talent Intelligence Queries / month"
     }
   },
   "checkoutSuccess": {

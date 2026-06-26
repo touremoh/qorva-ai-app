@@ -14,12 +14,12 @@
     "invalidCredentials": "E-mail ou palavra-passe incorretos",
     "togglePasswordVisibility": "Mostrar/ocultar palavra-passe",
     "panel": {
-      "badge": "Recrutamento com IA",
-      "headline": "Analise e classifique CV em segundos.",
-      "subtext": "Deixe a IA fazer o trabalho. Qorva lê, pontua e classifica cada candidatura para que se concentre nas entrevistas certas.",
-      "bullet1": "Triagem e classificação de CV instantâneas",
-      "bullet2": "Criado para pequenas e médias empresas",
-      "bullet3": "Reduza o tempo de seleção em até 90%",
+      "badge": "Plataforma de Talentos com IA",
+      "headline": "Transforme o seu cemitério de CV numa mina de ouro.",
+      "subtext": "Qorva AI extrai, agrupa e classifica até 100 CV de uma vez — com regras de pontuação personalizadas e insights de talentos em tempo real.",
+      "bullet1": "Motor de Inteligência de Talentos",
+      "bullet2": "Matching de vagas para candidatos",
+      "bullet3": "Chat CV IA",
       "freeToStart": "Gratuito para começar."
     }
   },
@@ -51,9 +51,14 @@
     "registerButton": "Registar",
     "alreadyHaveAccount": "Já tem uma conta?",
     "signIn": "Entrar",
+    "step1": "Detalhes da conta",
+    "step2": "Escolher plano",
+    "next": "Próximo: escolher plano",
+    "back": "Voltar",
+    "continueToCheckout": "Continuar para o pagamento",
     "panel": {
       "badge": "Sem cartão de crédito",
-      "headline": "Comece a recrutar de forma mais inteligente.",
+      "headline": "Tudo o que precisa para recrutar de forma mais inteligente.",
       "subtext": "Junte-se a equipas que avaliam candidatos em segundos."
     },
     "success": {
@@ -383,7 +388,9 @@
     "matchingPhase3": "A construir a lista restrita…",
     "matchingPhase4": "A gerar insights sobre os candidatos…",
     "matchingPhase5": "A preparar as recomendações finais…",
-    "matchingReportsReady": "Relatórios prontos."
+    "matchingReportsReady": "Relatórios prontos.",
+    "exportCsv": "Exportar CSV",
+    "exportCsvSelectJob": "Selecione um cargo para exportar"
   },
   "errors": {
     "404": {
@@ -650,7 +657,51 @@
     "copied": "Copiado!"
   },
   "pricing": {
-    "title": "Qorva AI — Escolha o seu plano"
+    "title": "Qorva AI — Escolha o seu plano",
+    "chooseYourPlan": "Escolha o seu plano",
+    "stepSubtitle": "Comece grátis, faça upgrade quando estiver pronto. Cancele a qualquer momento.",
+    "monthly": "Mensal",
+    "yearly": "Anual",
+    "periodMonthly": "/mês",
+    "saveChip": "Poupe 20%",
+    "billedYearly": "Faturado {{price}}/ano",
+    "mostPopular": "Mais popular",
+    "selectPlan": "Selecionar plano",
+    "selected": "Selecionado",
+    "noPlanSelected": "Por favor, selecione um plano para continuar.",
+    "loadError": "Não foi possível carregar os planos. Tente novamente.",
+    "badge": "Preços simples e transparentes",
+    "subtitle": "Escolha o plano que se adequa à sua equipa",
+    "footer": "Os pagamentos são processados de forma segura pelo Stripe. Pode cancelar ou alterar o seu plano a qualquer momento.",
+    "matchingActionNote": "Uma ação de matching = 1 oferta correspondida com todos os candidatos no seu pool de talentos",
+    "button": {
+      "freeTrial": "Iniciar período de teste gratuito"
+    },
+    "features": {
+      "freeTrial": "Período de teste gratuito de 7 dias",
+      "brandedCvExport": "Exportação de CV com marca",
+      "brandedMatchReport": "Relatório de matching com marca",
+      "accountManager": "Gestor de conta dedicado",
+      "sla": "Garantias de SLA"
+    },
+    "starter": {
+      "users": "1 utilizador",
+      "matchingActions": "5 ações de matching / mês",
+      "aiChat": "50 mensagens de chat IA / mês",
+      "queries": "10 consultas de pool de talentos / mês"
+    },
+    "pro": {
+      "users": "Até 3 utilizadores",
+      "matchingActions": "20 ações de matching / mês",
+      "aiChat": "200 mensagens de chat IA / mês",
+      "queries": "50 consultas de pool de talentos / mês"
+    },
+    "scale": {
+      "users": "Utilizadores ilimitados",
+      "matchingActions": "Ações de matching ilimitadas",
+      "aiChat": "Mensagens de chat IA ilimitadas",
+      "queries": "Consultas de pool de talentos ilimitadas"
+    }
   },
   "registrationSuccess": {
     "title": "Está tudo pronto!",

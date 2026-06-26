@@ -14,12 +14,12 @@
     "invalidCredentials": "E-mail ou mot de passe incorrect",
     "togglePasswordVisibility": "Afficher/masquer le mot de passe",
     "panel": {
-      "badge": "Recrutement IA",
-      "headline": "Analysez et classez les CV en quelques secondes.",
-      "subtext": "Laissez l'IA faire le travail. Qorva lit, note et classe chaque candidature pour que vous puissiez vous concentrer sur les bons entretiens.",
-      "bullet1": "Screening et classement des CV instantanés",
-      "bullet2": "Conçu pour les PME",
-      "bullet3": "Réduisez le temps de sélection de 90%",
+      "badge": "Plateforme IA de Recrutement",
+      "headline": "Transformez votre cimetière de CV en véritable mine d'or.",
+      "subtext": "Qorva AI extrait, regroupe et classe jusqu'à 100 CV en une fois — avec des règles de scoring personnalisées et des analyses de talents en temps réel.",
+      "bullet1": "Moteur d'Intelligence des Talents",
+      "bullet2": "Matching emploi-candidats",
+      "bullet3": "Chat CV IA",
       "freeToStart": "Gratuit pour commencer"
     }
   },
@@ -51,9 +51,14 @@
     "registerButton": "S’inscrire",
     "alreadyHaveAccount": "Vous avez déjà un compte ?",
     "signIn": "Se connecter",
+    "step1": "Détails du compte",
+    "step2": "Choisir un forfait",
+    "next": "Suivant : choisir un forfait",
+    "back": "Retour",
+    "continueToCheckout": "Continuer vers le paiement",
     "panel": {
       "badge": "Sans carte bancaire",
-      "headline": "Recrutez plus intelligemment dès aujourd’hui.",
+      "headline": "Tout ce dont vous avez besoin pour recruter intelligemment.",
       "subtext": "Rejoignez les équipes qui évaluent les candidats en quelques secondes."
     },
     "success": {
@@ -383,7 +388,9 @@
     "matchingPhase3": "Constitution de la liste restreinte…",
     "matchingPhase4": "Génération des insights candidats…",
     "matchingPhase5": "Préparation des recommandations finales…",
-    "matchingReportsReady": "Rapports prêts."
+    "matchingReportsReady": "Rapports prêts.",
+    "exportCsv": "Exporter CSV",
+    "exportCsvSelectJob": "Sélectionnez un poste pour exporter"
   },
   "errors": {
     "404": {
@@ -650,7 +657,51 @@
     "copied": "Copié !"
   },
   "pricing": {
-    "title": "Qorva AI — Choisissez votre offre"
+    "title": "Qorva AI — Choisissez votre forfait",
+    "chooseYourPlan": "Choisissez votre forfait",
+    "stepSubtitle": "Commencez gratuitement, évoluez à votre rythme. Résiliation à tout moment.",
+    "monthly": "Mensuel",
+    "yearly": "Annuel",
+    "periodMonthly": "/mois",
+    "saveChip": "Économisez 20%",
+    "billedYearly": "Facturé {{price}}/an",
+    "mostPopular": "Le plus populaire",
+    "selectPlan": "Choisir ce forfait",
+    "selected": "Sélectionné",
+    "noPlanSelected": "Veuillez sélectionner un forfait pour continuer.",
+    "loadError": "Impossible de charger les forfaits. Réessayez.",
+    "badge": "Tarifs simples et transparents",
+    "subtitle": "Choisissez le forfait adapté à votre équipe",
+    "footer": "Les paiements sont traités en toute sécurité par Stripe. Vous pouvez annuler ou changer de forfait à tout moment.",
+    "matchingActionNote": "Une action de matching = 1 offre mise en correspondance avec tous les candidats de votre vivier",
+    "button": {
+      "freeTrial": "Démarrer l'essai gratuit"
+    },
+    "features": {
+      "freeTrial": "Essai gratuit de 7 jours",
+      "brandedCvExport": "Export de CV brandé",
+      "brandedMatchReport": "Rapport de matching brandé",
+      "accountManager": "Gestionnaire de compte dédié",
+      "sla": "Garanties SLA"
+    },
+    "starter": {
+      "users": "1 utilisateur",
+      "matchingActions": "5 actions de matching / mois",
+      "aiChat": "50 messages AI chat / mois",
+      "queries": "10 requêtes vivier de talents / mois"
+    },
+    "pro": {
+      "users": "Jusqu'à 3 utilisateurs",
+      "matchingActions": "20 actions de matching / mois",
+      "aiChat": "200 messages AI chat / mois",
+      "queries": "50 requêtes vivier de talents / mois"
+    },
+    "scale": {
+      "users": "Utilisateurs illimités",
+      "matchingActions": "Actions de matching illimitées",
+      "aiChat": "Messages AI chat illimités",
+      "queries": "Requêtes vivier de talents illimitées"
+    }
   },
   "registrationSuccess": {
     "title": "C’est tout bon !",

@@ -17,3 +17,6 @@ export const startMatching = () =>
 
 export const generateReport = (data) =>
     apiClient.post('/reports/generate', data);
+
+export const exportCsv = (jobPostId, format) =>
+    apiClient.get('/matching-reports/export/csv', { params: { jobPostId, format }, responseType: 'blob' });

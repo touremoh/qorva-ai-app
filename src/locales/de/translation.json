@@ -14,12 +14,12 @@
     "invalidCredentials": "E-Mail oder Passwort ungültig",
     "togglePasswordVisibility": "Passwort ein-/ausblenden",
     "panel": {
-      "badge": "KI-gestützte Rekrutierung",
-      "headline": "CVs in Sekunden screenen und ranken.",
-      "subtext": "Lassen Sie die KI die Arbeit übernehmen. Qorva liest, bewertet und rankt jede Bewerbung, damit Sie sich auf die richtigen Vorstellungsgespräche konzentrieren können.",
-      "bullet1": "Sofortiges CV-Screening und Kandidaten-Ranking",
-      "bullet2": "Entwickelt für kleine und mittlere Unternehmen",
-      "bullet3": "Auswahlzeit um bis zu 90 % reduzieren",
+      "badge": "KI-gestützte Talent-Plattform",
+      "headline": "Verwandeln Sie Ihren Lebenslauf-Friedhof in eine Goldgrube.",
+      "subtext": "Qorva AI extrahiert, gruppiert und bewertet bis zu 100 Lebensläufe auf einmal — mit benutzerdefinierten Bewertungsregeln und Echtzeit-Talent-Insights.",
+      "bullet1": "Talent-Intelligence-Engine",
+      "bullet2": "Job-Kandidaten-Matching",
+      "bullet3": "KI-Lebenslauf-Chat",
       "freeToStart": "Kostenlos starten"
     }
   },
@@ -51,9 +51,14 @@
     "registerButton": "Registrieren",
     "alreadyHaveAccount": "Bereits ein Konto?",
     "signIn": "Anmelden",
+    "step1": "Kontodetails",
+    "step2": "Plan wählen",
+    "next": "Weiter: Plan wählen",
+    "back": "Zurück",
+    "continueToCheckout": "Weiter zur Zahlung",
     "panel": {
       "badge": "Keine Kreditkarte erforderlich",
-      "headline": "Starten Sie noch heute klüger zu rekrutieren.",
+      "headline": "Alles, was Sie für klügeres Recruiting brauchen.",
       "subtext": "Schließen Sie sich Teams an, die Kandidaten in Sekunden screenen."
     },
     "success": {
@@ -383,7 +388,9 @@
     "matchingPhase3": "Shortlist wird erstellt…",
     "matchingPhase4": "Kandidaten-Insights werden generiert…",
     "matchingPhase5": "Abschließende Empfehlungen werden vorbereitet…",
-    "matchingReportsReady": "Berichte bereit."
+    "matchingReportsReady": "Berichte bereit.",
+    "exportCsv": "CSV exportieren",
+    "exportCsvSelectJob": "Job auswählen zum Exportieren"
   },
   "errors": {
     "404": {
@@ -650,7 +657,51 @@
     "copied": "Kopiert!"
   },
   "pricing": {
-    "title": "Qorva AI — Wählen Sie Ihren Tarif"
+    "title": "Qorva AI — Wählen Sie Ihren Plan",
+    "chooseYourPlan": "Wählen Sie Ihren Plan",
+    "stepSubtitle": "Starten Sie kostenlos, upgraden Sie nach Bedarf. Jederzeit kündbar.",
+    "monthly": "Monatlich",
+    "yearly": "Jährlich",
+    "periodMonthly": "/Monat",
+    "saveChip": "20% sparen",
+    "billedYearly": "{{price}}/Jahr abgerechnet",
+    "mostPopular": "Am beliebtesten",
+    "selectPlan": "Plan wählen",
+    "selected": "Ausgewählt",
+    "noPlanSelected": "Bitte wählen Sie einen Plan, um fortzufahren.",
+    "loadError": "Pläne konnten nicht geladen werden. Bitte erneut versuchen.",
+    "badge": "Einfache, transparente Preise",
+    "subtitle": "Wählen Sie den Plan, der zu Ihrem Team passt",
+    "footer": "Zahlungen werden sicher über Stripe verarbeitet. Sie können Ihren Plan jederzeit ändern oder kündigen.",
+    "matchingActionNote": "Eine Matching-Aktion = 1 Stelle mit allen Kandidaten in Ihrem Talentpool abgeglichen",
+    "button": {
+      "freeTrial": "Kostenlose Testversion starten"
+    },
+    "features": {
+      "freeTrial": "7 Tage kostenlose Testversion",
+      "brandedCvExport": "Markengebundener Lebenslauf-Export",
+      "brandedMatchReport": "Markengebundener Matching-Bericht",
+      "accountManager": "Dedizierter Account Manager",
+      "sla": "SLA-Garantien"
+    },
+    "starter": {
+      "users": "1 Benutzer",
+      "matchingActions": "5 Matching-Aktionen / Monat",
+      "aiChat": "50 KI-Chat-Nachrichten / Monat",
+      "queries": "10 Talentpool-Abfragen / Monat"
+    },
+    "pro": {
+      "users": "Bis zu 3 Benutzer",
+      "matchingActions": "20 Matching-Aktionen / Monat",
+      "aiChat": "200 KI-Chat-Nachrichten / Monat",
+      "queries": "50 Talentpool-Abfragen / Monat"
+    },
+    "scale": {
+      "users": "Unbegrenzte Benutzer",
+      "matchingActions": "Unbegrenzte Matching-Aktionen",
+      "aiChat": "Unbegrenzte KI-Chat-Nachrichten",
+      "queries": "Unbegrenzte Talentpool-Abfragen"
+    }
   },
   "registrationSuccess": {
     "title": "Alles erledigt!",

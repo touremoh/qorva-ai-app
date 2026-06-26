@@ -16,10 +16,12 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import { useTranslation } from 'react-i18next';
 import AppMatchingReportDetails from './AppMatchingReportDetails.jsx';
-import { getReports, getReportsByFilter, startMatching, deleteReport } from '../../../services/reportService.js';
+import { getReports, getReportsByFilter, startMatching, deleteReport, exportCsv } from '../../../services/reportService.js';
 import { getJobs } from '../../../services/jobService.js';
+import { QORVA_USER_LANGUAGE } from '../../../constants.js';
 
 const PAGE_SIZES = [10, 25, 50, 100];
 
@@ -71,6 +73,7 @@ const AppMatchingReports = () => {
 
 	const [matchingProgress, setMatchingProgress] = useState(0);
 	const [matchingElapsed, setMatchingElapsed] = useState(0);
+	const [exportLoading, setExportLoading] = useState(false);
 
 	const fetchData = async (pageNumber, jobId, term, recommendation, confidence, size) => {
 		try {
@@ -281,6 +284,28 @@ const AppMatchingReports = () => {
 		setMenuReport(null);
 	};
 
+	const handleExportCsv = async () => {
+		if (!selectedJobId) return;
+		try {
+			setExportLoading(true);
+			const lang = localStorage.getItem(QORVA_USER_LANGUAGE) ?? 'en';
+			const format = lang === 'en' ? 'global' : 'eu';
+			const response = await exportCsv(selectedJobId, format);
+			const url = window.URL.createObjectURL(new Blob([response.data]));
+			const link = document.createElement('a');
+			link.href = url;
+			link.setAttribute('download', `matching-export-${selectedJobId}.csv`);
+			document.body.appendChild(link);
+			link.click();
+			link.remove();
+			window.URL.revokeObjectURL(url);
+		} catch (error) {
+			console.error('Error exporting CSV:', error);
+		} finally {
+			setExportLoading(false);
+		}
+	};
+
 	return (
 		<Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', overflow: 'hidden', backgroundColor: '#f8fafc' }}>
 
@@ -382,6 +407,29 @@ const AppMatchingReports = () => {
 							: <ArrowDownwardOutlinedIcon sx={{ fontSize: 18 }} />
 						}
 					</IconButton>
+				</Tooltip>
+
+				<Tooltip title={!selectedJobId ? t('appReportContent.exportCsvSelectJob') : ''}>
+					<span>
+						<Button
+							size="small"
+							variant="outlined"
+							onClick={handleExportCsv}
+							disabled={!selectedJobId || exportLoading}
+							startIcon={exportLoading
+								? <CircularProgress size={14} color="inherit" />
+								: <FileDownloadOutlinedIcon sx={{ fontSize: 17 }} />
+							}
+							sx={{
+								borderRadius: 1.5, textTransform: 'none', fontSize: '0.82rem',
+								borderColor: '#e2e8f0', color: '#475569',
+								'&:hover': { borderColor: '#629C44', color: '#629C44', backgroundColor: 'rgba(98,156,68,0.05)' },
+								'&.Mui-disabled': { borderColor: '#e2e8f0', color: '#cbd5e1' },
+							}}
+						>
+							{t('appReportContent.exportCsv')}
+						</Button>
+					</span>
 				</Tooltip>
 			</Box>
 

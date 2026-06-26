@@ -14,12 +14,12 @@
     "invalidCredentials": "Onjuiste e-mail of wachtwoord",
     "togglePasswordVisibility": "Wachtwoord tonen/verbergen",
     "panel": {
-      "badge": "AI-gedreven Werving",
-      "headline": "Screen en rangschik CV's in seconden.",
-      "subtext": "Laat de AI het werk doen. Qorva leest, beoordeelt en rangschikt elke sollicitatie zodat jij je kunt richten op de juiste gesprekken.",
-      "bullet1": "Direct CV-screening en kandidaatrangschikking",
-      "bullet2": "Ontworpen voor het midden- en kleinbedrijf",
-      "bullet3": "Verlaag de selectietijd met tot 90%",
+      "badge": "AI-gedreven Talentplatform",
+      "headline": "Verander uw CV-begraafplaats in een goudmijn.",
+      "subtext": "Qorva AI extraheert, groepeert en rangschikt tot 100 CV's tegelijk — met aangepaste scoringsregels en real-time talentinzichten.",
+      "bullet1": "Talent Intelligence Engine",
+      "bullet2": "Vacature-kandidaat matching",
+      "bullet3": "AI CV-chat",
       "freeToStart": "Gratis starten."
     }
   },
@@ -51,9 +51,14 @@
     "registerButton": "Registreren",
     "alreadyHaveAccount": "Heb je al een account?",
     "signIn": "Inloggen",
+    "step1": "Accountgegevens",
+    "step2": "Kies plan",
+    "next": "Volgende: kies plan",
+    "back": "Terug",
+    "continueToCheckout": "Doorgaan naar betaling",
     "panel": {
       "badge": "Geen creditcard nodig",
-      "headline": "Begin vandaag nog slimmer te werven.",
+      "headline": "Alles wat u nodig heeft om slimmer te werven.",
       "subtext": "Sluit je aan bij teams die kandidaten in seconden screenen."
     },
     "success": {
@@ -380,7 +385,9 @@
     "matchingPhase3": "Shortlist wordt opgesteld…",
     "matchingPhase4": "Kandidaadinzichten worden gegenereerd…",
     "matchingPhase5": "Definitieve aanbevelingen worden voorbereid…",
-    "matchingReportsReady": "Rapporten gereed."
+    "matchingReportsReady": "Rapporten gereed.",
+    "exportCsv": "CSV exporteren",
+    "exportCsvSelectJob": "Selecteer een vacature om te exporteren"
   },
   "errors": {
     "404": {
@@ -647,7 +654,51 @@
     "copied": "Gekopieerd!"
   },
   "pricing": {
-    "title": "Qorva AI — Kies uw abonnement"
+    "title": "Qorva AI — Kies uw plan",
+    "chooseYourPlan": "Kies uw plan",
+    "stepSubtitle": "Start gratis, upgrade wanneer u er klaar voor bent. Altijd opzegbaar.",
+    "monthly": "Maandelijks",
+    "yearly": "Jaarlijks",
+    "periodMonthly": "/mnd",
+    "saveChip": "Bespaar 20%",
+    "billedYearly": "Gefactureerd {{price}}/jaar",
+    "mostPopular": "Meest populair",
+    "selectPlan": "Plan kiezen",
+    "selected": "Geselecteerd",
+    "noPlanSelected": "Selecteer een plan om door te gaan.",
+    "loadError": "Plannen konden niet worden geladen. Probeer opnieuw.",
+    "badge": "Eenvoudige, transparante prijzen",
+    "subtitle": "Kies het plan dat bij uw team past",
+    "footer": "Betalingen worden veilig verwerkt via Stripe. U kunt uw plan op elk moment annuleren of wijzigen.",
+    "matchingActionNote": "Een matching-actie = 1 vacature gekoppeld aan alle kandidaten in uw talentpool",
+    "button": {
+      "freeTrial": "Gratis proefperiode starten"
+    },
+    "features": {
+      "freeTrial": "7 dagen gratis proefperiode",
+      "brandedCvExport": "Cv-export met huisstijl",
+      "brandedMatchReport": "Matchingrapport met huisstijl",
+      "accountManager": "Toegewijde accountmanager",
+      "sla": "SLA-garanties"
+    },
+    "starter": {
+      "users": "1 gebruiker",
+      "matchingActions": "5 matching-acties / maand",
+      "aiChat": "50 AI chat-berichten / maand",
+      "queries": "10 talentpool-zoekopdrachten / maand"
+    },
+    "pro": {
+      "users": "Tot 3 gebruikers",
+      "matchingActions": "20 matching-acties / maand",
+      "aiChat": "200 AI chat-berichten / maand",
+      "queries": "50 talentpool-zoekopdrachten / maand"
+    },
+    "scale": {
+      "users": "Onbeperkte gebruikers",
+      "matchingActions": "Onbeperkte matching-acties",
+      "aiChat": "Onbeperkte AI chat-berichten",
+      "queries": "Onbeperkte talentpool-zoekopdrachten"
+    }
   },
   "registrationSuccess": {
     "title": "Helemaal klaar!",

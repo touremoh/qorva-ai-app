@@ -14,12 +14,12 @@
     "invalidCredentials": "E-mail o password non corretti",
     "togglePasswordVisibility": "Mostra/nascondi password",
     "panel": {
-      "badge": "Recruiting con IA",
-      "headline": "Analizza e classifica i CV in pochi secondi.",
-      "subtext": "Lascia fare all'IA. Qorva legge, valuta e classifica ogni candidatura così puoi concentrarti sui colloqui giusti.",
-      "bullet1": "Screening e ranking dei CV istantanei",
-      "bullet2": "Pensato per le PMI",
-      "bullet3": "Riduci i tempi di selezione fino al 90%",
+      "badge": "Piattaforma Talenti con IA",
+      "headline": "Trasforma il tuo cimitero di CV in una miniera d'oro.",
+      "subtext": "Qorva AI estrae, raggruppa e classifica fino a 100 CV in una volta sola — con regole di punteggio personalizzate e insight sui talenti in tempo reale.",
+      "bullet1": "Motore di Intelligenza dei Talenti",
+      "bullet2": "Matching offerte-candidati",
+      "bullet3": "AI Resume Chat",
       "freeToStart": "Inizia gratis."
     }
   },
@@ -51,9 +51,14 @@
     "registerButton": "Registrati",
     "alreadyHaveAccount": "Hai già un account?",
     "signIn": "Accedi",
+    "step1": "Dettagli account",
+    "step2": "Scegli piano",
+    "next": "Avanti: scegli piano",
+    "back": "Indietro",
+    "continueToCheckout": "Continua al pagamento",
     "panel": {
       "badge": "Nessuna carta di credito richiesta",
-      "headline": "Inizia ad assumere in modo più intelligente.",
+      "headline": "Tutto ciò di cui hai bisogno per assumere in modo più intelligente.",
       "subtext": "Unisciti ai team che valutano i candidati in pochi secondi."
     },
     "success": {
@@ -383,7 +388,9 @@
     "matchingPhase3": "Costruzione della lista ristretta…",
     "matchingPhase4": "Generazione degli insight sui candidati…",
     "matchingPhase5": "Preparazione delle raccomandazioni finali…",
-    "matchingReportsReady": "Report pronti."
+    "matchingReportsReady": "Report pronti.",
+    "exportCsv": "Esporta CSV",
+    "exportCsvSelectJob": "Seleziona un lavoro per esportare"
   },
   "errors": {
     "404": {
@@ -650,7 +657,51 @@
     "copied": "Copiato!"
   },
   "pricing": {
-    "title": "Qorva AI — Scegli il tuo piano"
+    "title": "Qorva AI — Scegli il tuo piano",
+    "chooseYourPlan": "Scegli il tuo piano",
+    "stepSubtitle": "Inizia gratis, aggiorna quando sei pronto. Cancella in qualsiasi momento.",
+    "monthly": "Mensile",
+    "yearly": "Annuale",
+    "periodMonthly": "/mese",
+    "saveChip": "Risparmia il 20%",
+    "billedYearly": "Fatturato {{price}}/anno",
+    "mostPopular": "Più popolare",
+    "selectPlan": "Seleziona piano",
+    "selected": "Selezionato",
+    "noPlanSelected": "Seleziona un piano per continuare.",
+    "loadError": "Impossibile caricare i piani. Riprova.",
+    "badge": "Prezzi semplici e trasparenti",
+    "subtitle": "Scegli il piano adatto al tuo team",
+    "footer": "I pagamenti sono elaborati in modo sicuro tramite Stripe. Puoi annullare o cambiare piano in qualsiasi momento.",
+    "matchingActionNote": "Un'azione di matching = 1 offerta abbinata a tutti i candidati nel tuo talent pool",
+    "button": {
+      "freeTrial": "Inizia la prova gratuita"
+    },
+    "features": {
+      "freeTrial": "Prova gratuita di 7 giorni",
+      "brandedCvExport": "Esportazione CV brandizzata",
+      "brandedMatchReport": "Report di matching brandizzato",
+      "accountManager": "Account Manager dedicato",
+      "sla": "Garanzie SLA"
+    },
+    "starter": {
+      "users": "1 utente",
+      "matchingActions": "5 azioni di matching / mese",
+      "aiChat": "50 messaggi AI chat / mese",
+      "queries": "10 query del talent pool / mese"
+    },
+    "pro": {
+      "users": "Fino a 3 utenti",
+      "matchingActions": "20 azioni di matching / mese",
+      "aiChat": "200 messaggi AI chat / mese",
+      "queries": "50 query del talent pool / mese"
+    },
+    "scale": {
+      "users": "Utenti illimitati",
+      "matchingActions": "Azioni di matching illimitate",
+      "aiChat": "Messaggi AI chat illimitati",
+      "queries": "Query del talent pool illimitate"
+    }
   },
   "registrationSuccess": {
     "title": "Tutto pronto!",
