@@ -1,6 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import {
+	Autocomplete,
 	Avatar, Box, Button, Chip, CircularProgress, Dialog, DialogActions, DialogContent,
 	DialogTitle, FormControl, IconButton, InputAdornment,
 	InputLabel, LinearProgress, ListItemButton, Menu, MenuItem, Pagination,
@@ -74,6 +75,11 @@ const AppMatchingReports = () => {
 	const [matchingProgress, setMatchingProgress] = useState(0);
 	const [matchingElapsed, setMatchingElapsed] = useState(0);
 	const [exportLoading, setExportLoading] = useState(false);
+	const [selectedJobFilter, setSelectedJobFilter] = useState(null);
+	const [jobOptions, setJobOptions] = useState([]);
+	const [jobOptionsLoading, setJobOptionsLoading] = useState(false);
+	const [jobInputValue, setJobInputValue] = useState('');
+	const jobSearchRef = useRef(null);
 
 	const fetchData = async (pageNumber, jobId, term, recommendation, confidence, size) => {
 		try {
@@ -107,10 +113,23 @@ const AppMatchingReports = () => {
 	const fetchJobs = async () => {
 		try {
 			const response = await getJobs({ pageSize: 25, pageNumber: 0 });
-			setJobs(response?.data?.data?.content ?? []);
+			const content = response?.data?.data?.content ?? [];
+			setJobs(content);
+			setJobOptions(prev => prev.length === 0 ? content : prev);
 		} catch (error) {
 			console.error('Error fetching jobs:', error);
 		}
+	};
+
+	const fetchJobOptions = async (term = '') => {
+		setJobOptionsLoading(true);
+		try {
+			const params = { pageSize: 25, pageNumber: 0 };
+			if (term.trim()) { params.title = term.trim(); params.description = term.trim(); }
+			const res = await getJobs(params);
+			setJobOptions(res?.data?.data?.content ?? []);
+		} catch (e) { /* silent */ }
+		finally { setJobOptionsLoading(false); }
 	};
 
 	useEffect(() => {
@@ -190,8 +209,9 @@ const AppMatchingReports = () => {
 		fetchData(0, selectedJobId, value, filterRecommendation, filterConfidence);
 	};
 
-	const handleJobChange = (event) => {
-		const jobId = event.target.value || '';
+	const handleJobAutocompleteChange = (_, newValue) => {
+		setSelectedJobFilter(newValue);
+		const jobId = newValue?.id ?? '';
 		setSelectedJobId(jobId);
 		setCurrentPage(1);
 		fetchData(0, jobId, searchTerm, filterRecommendation, filterConfidence);
@@ -341,22 +361,48 @@ const AppMatchingReports = () => {
 					/>
 				</Box>
 
-				<FormControl size="small" sx={{ minWidth: 160 }}>
-					<InputLabel sx={{ fontSize: '0.82rem' }}>{t('appReportContent.filterByJob')}</InputLabel>
-					<Select
-						value={selectedJobId}
-						label={t('appReportContent.filterByJob')}
-						onChange={handleJobChange}
-						sx={{ borderRadius: 2, fontSize: '0.82rem' }}
-					>
-						<MenuItem value="">{t('appReportContent.allJobs')}</MenuItem>
-						{jobs.map((job) => (
-							<MenuItem key={job.id} value={job.id} sx={{ fontSize: '0.82rem' }}>
-								{job.title || job.jobTitle || job.name || job.id}
-							</MenuItem>
-						))}
-					</Select>
-				</FormControl>
+				<Autocomplete
+					size="small"
+					sx={{ minWidth: 200 }}
+					options={jobOptions}
+					loading={jobOptionsLoading}
+					value={selectedJobFilter}
+					inputValue={jobInputValue}
+					getOptionLabel={(opt) => opt.title || opt.jobTitle || opt.name || opt.id}
+					isOptionEqualToValue={(opt, val) => opt.id === val.id}
+					onChange={handleJobAutocompleteChange}
+					onInputChange={(_, val, reason) => {
+						setJobInputValue(val);
+						if (reason === 'input' || reason === 'clear') {
+							clearTimeout(jobSearchRef.current);
+							jobSearchRef.current = setTimeout(() => fetchJobOptions(val), 300);
+						}
+					}}
+					onOpen={() => { if (jobOptions.length === 0) fetchJobOptions(); }}
+					renderInput={(params) => (
+						<TextField
+							{...params}
+							label={t('appReportContent.filterByJob')}
+							InputProps={{
+								...params.InputProps,
+								endAdornment: (
+									<>
+										{jobOptionsLoading && <CircularProgress size={14} sx={{ mr: 0.5 }} />}
+										{params.InputProps.endAdornment}
+									</>
+								),
+								sx: { borderRadius: 2, fontSize: '0.82rem' },
+							}}
+							InputLabelProps={{ sx: { fontSize: '0.82rem' } }}
+						/>
+					)}
+					renderOption={(props, opt) => (
+						<li {...props} key={opt.id} style={{ fontSize: '0.82rem' }}>
+							{opt.title || opt.jobTitle || opt.name || opt.id}
+						</li>
+					)}
+					noOptionsText={<Typography sx={{ fontSize: '0.82rem' }}>{t('appReportContent.allJobs')}</Typography>}
+				/>
 
 				<FormControl size="small" sx={{ minWidth: 160 }}>
 						<InputLabel sx={{ fontSize: '0.82rem' }}>{t('appReportContent.filterByRecommendation')}</InputLabel>

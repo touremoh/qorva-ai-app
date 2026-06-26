@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
 	Box,
 	Button,
@@ -755,18 +755,25 @@ const JobContent = () => {
 	const [search, setSearch] = useState('');
 	const [detailTab, setDetailTab] = useState(0);
 	const [loading, setLoading] = useState(false);
+	const [jobsLoading, setJobsLoading] = useState(false);
+	const searchDebounceRef = useRef(null);
 
-	const fetchJobs = async () => {
+	const fetchJobs = async (term = '') => {
+		setJobsLoading(true);
 		try {
-			const response = await getJobs();
+			const params = { pageSize: 50, pageNumber: 0 };
+			if (term.trim()) { params.title = term.trim(); params.description = term.trim(); }
+			const response = await getJobs(params);
 			setJobs(response.data.data.content);
 		} catch (error) {
 			console.error('Error fetching job posts:', error);
+		} finally {
+			setJobsLoading(false);
 		}
 	};
 
 	useEffect(() => {
-		fetchJobs().then(r => console.log('All jobs fetched', r));
+		fetchJobs();
 	}, []);
 
 	const resetForm = () => { setJobTitle(''); setJobDescription(''); };
@@ -907,7 +914,6 @@ const JobContent = () => {
 		setEditMode(false);
 	};
 
-	const filtered = jobs.filter(j => j.title?.toLowerCase().includes(search.toLowerCase()));
 	const jobInitials = (title = '') => title.split(' ').map(w => w[0]).filter(Boolean).join('').slice(0, 2).toUpperCase();
 
 	const stepperHeader = (activeStep) => (
@@ -983,20 +989,27 @@ const JobContent = () => {
 				}}>
 					<Box sx={{ px: 1.5, pt: 1.5, pb: 1, flexShrink: 0 }}>
 						<TextField size="small" fullWidth placeholder={t('jobContent.jobListTitle')}
-							value={search} onChange={e => setSearch(e.target.value)}
+							value={search}
+							onChange={e => {
+								const val = e.target.value;
+								setSearch(val);
+								clearTimeout(searchDebounceRef.current);
+								searchDebounceRef.current = setTimeout(() => fetchJobs(val), 300);
+							}}
 							InputProps={{
 								startAdornment: <InputAdornment position="start"><SearchIcon sx={{ fontSize: 16, color: '#94a3b8' }} /></InputAdornment>,
+								endAdornment: jobsLoading ? <InputAdornment position="end"><CircularProgress size={12} sx={{ color: '#94a3b8' }} /></InputAdornment> : null,
 								sx: { fontSize: '0.82rem', borderRadius: 1.5 },
 							}}
 						/>
 					</Box>
-					{filtered.length === 0 ? (
+					{jobs.length === 0 ? (
 						<Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 							<Typography sx={{ fontSize: '0.84rem', color: '#94a3b8' }}>{t('jobContent.noJobPosts')}</Typography>
 						</Box>
 					) : (
 						<List disablePadding sx={{ flex: 1, overflowY: 'auto', px: 1 }}>
-							{filtered.map((job) => {
+							{jobs.map((job) => {
 								const active = selectedJob?.id === job.id && !createMode && !editMode;
 								const isOpen = job.status === 'open';
 								return (
