@@ -78,7 +78,8 @@
     "accountSettings": "Account Settings",
     "logout": "Sign Out",
     "aiResumeChat": "AI Resume Chat",
-    "intelligence": "Talent Intelligence"
+    "intelligence": "Talent Intelligence",
+    "usageMonitoring": "Usage Monitoring"
   },
   "footer": {
     "rightsReserved": "© Qorva AI. All rights reserved."

@@ -10,6 +10,7 @@ import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
 import PsychologyOutlinedIcon from '@mui/icons-material/PsychologyOutlined';
+import SpeedOutlinedIcon from '@mui/icons-material/SpeedOutlined';
 import {
 	COMP_ID_CHAT,
 	COMP_ID_CVLIB,
@@ -18,6 +19,7 @@ import {
 	COMP_ID_JOBS,
 	COMP_ID_REPORTS,
 	COMP_ID_SETTINGS,
+	COMP_ID_USAGE_MONITORING,
 } from '../../../constants.js';
 import PropTypes from 'prop-types';
 
@@ -36,8 +38,9 @@ const AppMenuList = ({ handleContentChange, isChatAllowed, collapsed, onToggleCo
 		{ id: COMP_ID_JOBS,         Icon: WorkOutlineOutlinedIcon,  label: t('header.jobs'),                      display: true },
 		{ id: COMP_ID_REPORTS,      Icon: AssessmentOutlinedIcon,   label: t('header.reports'),                   display: true },
 		{ id: COMP_ID_INTELLIGENCE, Icon: PsychologyOutlinedIcon,   label: t('header.intelligence', 'Intelligence'), display: true },
-		{ id: COMP_ID_CHAT,      Icon: AutoAwesomeOutlinedIcon, label: t('header.aiResumeChat') || 'AI Chat',   display: isChatAllowed },
-		{ id: COMP_ID_SETTINGS,  Icon: TuneOutlinedIcon,        label: t('header.accountSettings'),             display: true },
+		{ id: COMP_ID_CHAT,             Icon: AutoAwesomeOutlinedIcon, label: t('header.aiResumeChat') || 'AI Chat',              display: isChatAllowed },
+		{ id: COMP_ID_USAGE_MONITORING, Icon: SpeedOutlinedIcon,       label: t('header.usageMonitoring', 'Usage Monitoring'),   display: true },
+		{ id: COMP_ID_SETTINGS,         Icon: TuneOutlinedIcon,        label: t('header.accountSettings'),                      display: true },
 	];
 
 	return (

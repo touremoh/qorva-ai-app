@@ -76,7 +76,8 @@
     "accountSettings": "Kontoeinstellungen",
     "logout": "Abmelden",
     "aiResumeChat": "KI-Lebenslauf-Chat",
-    "intelligence": "Talent-Intelligenz"
+    "intelligence": "Talent-Intelligenz",
+    "usageMonitoring": "Nutzungsüberwachung"
   },
   "footer": {
     "rightsReserved": "© Qorva AI. Alle Rechte vorbehalten."

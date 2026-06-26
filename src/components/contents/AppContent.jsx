@@ -12,12 +12,14 @@ import {
 	COMP_ID_DASHBOARD,
 	COMP_ID_CHAT,
 	COMP_ID_INTELLIGENCE,
+	COMP_ID_USAGE_MONITORING,
 } from "../../constants.js";
 import AppMatchingReports from "./reports/AppMatchingReports.jsx";
 import QorvaDashboard from "./dashboard/QorvaDashboard.jsx";
 import AccountSettings from "./account-settings/AccountSettings.jsx";
 import AppAIResumeChat from "./chats/AppAIResumeChat.jsx";
 import AppLibraryInsights from "./intelligence/AppLibraryInsights.jsx";
+import UsageMonitoringContent from "./usage-monitoring/UsageMonitoringContent.jsx";
 
 const AppContent = ({ content, isSidebarCollapsed }) => {
 	const renderContent = () => {
@@ -34,6 +36,8 @@ const AppContent = ({ content, isSidebarCollapsed }) => {
 				return <AppMatchingReports />;
 			case COMP_ID_CHAT:
 				return <AppAIResumeChat />;
+			case COMP_ID_USAGE_MONITORING:
+				return <UsageMonitoringContent />;
 			case COMP_ID_SETTINGS:
 				return <AccountSettings />
 			default:

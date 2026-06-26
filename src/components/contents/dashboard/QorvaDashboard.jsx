@@ -34,11 +34,7 @@ import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import LeaderboardOutlinedIcon from '@mui/icons-material/LeaderboardOutlined';
 import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
-import SpeedOutlinedIcon from '@mui/icons-material/SpeedOutlined';
-import ManageSearchOutlinedIcon from '@mui/icons-material/ManageSearchOutlined';
-import QuestionAnswerOutlinedIcon from '@mui/icons-material/QuestionAnswerOutlined';
 import InsightsOutlinedIcon from '@mui/icons-material/InsightsOutlined';
-import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
 import LayersOutlinedIcon from '@mui/icons-material/LayersOutlined';
 import TrendingUpOutlinedIcon from '@mui/icons-material/TrendingUpOutlined';
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
@@ -54,7 +50,6 @@ const initialDashboardData = {
 	totalJobsPosted: 0,
 	totalUsers: 0,
 	totalResumeAnalysis: 0,
-	usageMonitoring: null,
 	skillsReport: [],
 	jobPostsReport: [],
 	skillDepthReport: [],
@@ -101,30 +96,6 @@ const KPI_CONFIG = (t) => [
 	{ key: 'totalJobsPosted',     label: t('dashboard.kpi.totalJobsPosted'),     icon: WorkOutlineOutlinedIcon,   accent: '#3b82f6', bg: 'rgba(59,130,246,0.08)' },
 	{ key: 'totalUsers',          label: t('dashboard.kpi.totalUsers'),          icon: PersonOutlineOutlinedIcon, accent: '#8b5cf6', bg: 'rgba(139,92,246,0.08)' },
 	{ key: 'totalResumeAnalysis', label: t('dashboard.kpi.totalResumeAnalysis'), icon: AssessmentOutlinedIcon,    accent: '#f59e0b', bg: 'rgba(245,158,11,0.08)' },
-];
-
-const USAGE_FEATURE_CONFIG = (t) => [
-	{
-		key: 'screeningActions',
-		label: t('dashboard.usage.matchingActions', 'Matching Actions'),
-		icon: ManageSearchOutlinedIcon,
-		accent: '#629C44',
-		bg: 'rgba(98,156,68,0.08)',
-	},
-	{
-		key: 'aiResumeChats',
-		label: t('dashboard.usage.aiResumeChats', 'AI Resume Chats'),
-		icon: QuestionAnswerOutlinedIcon,
-		accent: '#3b82f6',
-		bg: 'rgba(59,130,246,0.08)',
-	},
-	{
-		key: 'talentIntelligenceQueries',
-		label: t('dashboard.usage.talentIntelligenceQueries', 'Talent Intelligence'),
-		icon: InsightsOutlinedIcon,
-		accent: '#8b5cf6',
-		bg: 'rgba(139,92,246,0.08)',
-	},
 ];
 
 const scoreColor = (score) => {
@@ -179,103 +150,6 @@ const SCROLLBAR_SX = {
 	'&::-webkit-scrollbar': { width: 4, height: 4 },
 	'&::-webkit-scrollbar-track': { backgroundColor: 'transparent' },
 	'&::-webkit-scrollbar-thumb': { backgroundColor: '#e2e8f0', borderRadius: 4 },
-};
-
-const UsageMonitoringSection = ({ data, t }) => {
-	if (!data) return null;
-
-	const { currentPeriodStart, currentPeriodEnd, features, lastUpdatedAt } = data;
-
-	const formatPeriodDate = (iso) =>
-		new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-
-	const featureConfig = USAGE_FEATURE_CONFIG(t);
-
-	return (
-		<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5 }}>
-			<SectionHeader
-				icon={SpeedOutlinedIcon}
-				label={t('dashboard.sections.usageMonitoring', 'Usage Monitoring')}
-				right={
-					<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
-						<CalendarTodayOutlinedIcon sx={{ fontSize: 13, color: '#94a3b8' }} />
-						<Typography sx={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 500 }}>
-							{formatPeriodDate(currentPeriodStart)} – {formatPeriodDate(currentPeriodEnd)}
-						</Typography>
-					</Box>
-				}
-			/>
-
-			<Box sx={{
-				display: 'grid',
-				gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, 1fr)' },
-				gap: 2,
-			}}>
-				{featureConfig.map(({ key, label, icon: Icon, accent, bg }) => {
-					const feature = features?.[key];
-					if (!feature) return null;
-					const pct = feature.limit > 0 ? Math.min(100, (feature.consumed / feature.limit) * 100) : 0;
-					const isWarning = pct >= 80;
-					const barColor = isWarning ? '#f59e0b' : accent;
-
-					return (
-						<Box key={key} sx={{
-							border: `1px solid ${isWarning ? 'rgba(245,158,11,0.25)' : '#f1f5f9'}`,
-							borderRadius: 2,
-							p: 2,
-							backgroundColor: isWarning ? 'rgba(245,158,11,0.03)' : '#fafcfd',
-						}}>
-							<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.75 }}>
-								<Box sx={{ width: 32, height: 32, borderRadius: 1.5, backgroundColor: bg, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-									<Icon sx={{ fontSize: 16, color: accent }} />
-								</Box>
-								<Typography sx={{ fontSize: '0.78rem', fontWeight: 600, color: '#334155', lineHeight: 1.3 }}>
-									{label}
-								</Typography>
-							</Box>
-
-							<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', mb: 1 }}>
-								<Typography sx={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a', lineHeight: 1 }}>
-									{feature.consumed.toLocaleString()}
-								</Typography>
-								<Typography sx={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 500 }}>
-									/ {feature.limit.toLocaleString()}
-								</Typography>
-							</Box>
-
-							{/* Progress bar */}
-							<Box sx={{ height: 7, backgroundColor: '#e2e8f0', borderRadius: 4, overflow: 'hidden', mb: 0.75 }}>
-								<Box sx={{
-									height: '100%',
-									width: `${pct}%`,
-									backgroundColor: barColor,
-									borderRadius: 4,
-									transition: 'width 0.6s ease',
-								}} />
-							</Box>
-
-							<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-								<Typography sx={{ fontSize: '0.7rem', fontWeight: 600, color: isWarning ? '#b45309' : '#64748b' }}>
-									{pct.toFixed(1)}% {t('dashboard.usage.used', 'used')}
-								</Typography>
-								<Tooltip title={t('dashboard.usage.cumulativeTooltip', 'All-time total across all periods')} arrow placement="top">
-									<Typography sx={{ fontSize: '0.7rem', color: '#94a3b8', cursor: 'default' }}>
-										{feature.cumulative.toLocaleString()} {t('dashboard.usage.allTime', 'all-time')}
-									</Typography>
-								</Tooltip>
-							</Box>
-						</Box>
-					);
-				})}
-			</Box>
-
-			{lastUpdatedAt && (
-				<Typography sx={{ mt: 1.75, fontSize: '0.68rem', color: '#cbd5e1', textAlign: 'right' }}>
-					{t('dashboard.usage.lastUpdated', 'Last updated')}: {new Date(lastUpdatedAt).toLocaleString()}
-				</Typography>
-			)}
-		</Paper>
-	);
 };
 
 const JobCandidateCard = ({ job }) => {
@@ -606,11 +480,6 @@ const QorvaDashboard = () => {
 								<KPICard key={key} label={label} value={dashboardData[key]} icon={icon} accent={accent} bg={bg} />
 							))}
 						</Box>
-
-						{/* Usage monitoring */}
-						{dashboardData.usageMonitoring && (
-							<UsageMonitoringSection data={dashboardData.usageMonitoring} t={t} />
-						)}
 
 						{/* Talent pool insight */}
 						<TalentPoolInsightSection data={dashboardData} t={t} />

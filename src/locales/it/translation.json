@@ -76,7 +76,8 @@
     "accountSettings": "Account",
     "logout": "Disconnetti",
     "aiResumeChat": "Chat CV IA",
-    "intelligence": "Intelligenza dei Talenti"
+    "intelligence": "Intelligenza dei Talenti",
+    "usageMonitoring": "Monitoraggio utilizzo"
   },
   "footer": {
     "rightsReserved": "© Qorva AI. Tutti i diritti riservati."

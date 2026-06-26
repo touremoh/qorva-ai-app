@@ -1,5 +1,6 @@
 export const COMP_ID_REPORTS = 'REPORTS';
 export const COMP_ID_CHAT = 'CHAT';
+export const COMP_ID_USAGE_MONITORING = 'USAGE_MONITORING';
 export const COMP_ID_JOBS = 'JOBS';
 export const COMP_ID_INTELLIGENCE = 'INTELLIGENCE';
 export const COMP_ID_CVLIB = 'CVLIB';

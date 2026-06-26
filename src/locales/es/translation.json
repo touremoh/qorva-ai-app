@@ -76,7 +76,8 @@
     "accountSettings": "Cuenta",
     "logout": "Cerrar sesión",
     "aiResumeChat": "Chat CV con IA",
-    "intelligence": "Inteligencia de Talento"
+    "intelligence": "Inteligencia de Talento",
+    "usageMonitoring": "Supervisión de uso"
   },
   "footer": {
     "rightsReserved": "© Qorva AI. Todos los derechos reservados."

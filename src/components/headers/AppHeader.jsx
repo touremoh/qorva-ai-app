@@ -18,9 +18,11 @@ import {
 	COMP_ID_CHAT,
 	COMP_ID_CVLIB,
 	COMP_ID_DASHBOARD,
+	COMP_ID_INTELLIGENCE,
 	COMP_ID_JOBS,
 	COMP_ID_REPORTS,
 	COMP_ID_SETTINGS,
+	COMP_ID_USAGE_MONITORING,
 	USER_FIRST_NAME,
 	USER_LAST_NAME,
 } from '../../constants.js';
@@ -42,12 +44,14 @@ const AppHeader = ({ handleContentChange, contentTitle, isSidebarCollapsed }) =>
 	}, []);
 
 	const pageTitles = {
-		[COMP_ID_DASHBOARD]: 'Dashboard',
-		[COMP_ID_CVLIB]:     t('header.cvs'),
-		[COMP_ID_JOBS]:      t('header.jobs'),
-		[COMP_ID_REPORTS]:   t('header.reports'),
-		[COMP_ID_CHAT]:      t('header.aiResumeChat'),
-		[COMP_ID_SETTINGS]:  t('header.accountSettings'),
+		[COMP_ID_DASHBOARD]:        'Dashboard',
+		[COMP_ID_CVLIB]:            t('header.cvs'),
+		[COMP_ID_JOBS]:             t('header.jobs'),
+		[COMP_ID_REPORTS]:          t('header.reports'),
+		[COMP_ID_INTELLIGENCE]:     t('header.intelligence', 'Talent Intelligence'),
+		[COMP_ID_CHAT]:             t('header.aiResumeChat'),
+		[COMP_ID_USAGE_MONITORING]: t('header.usageMonitoring', 'Usage Monitoring'),
+		[COMP_ID_SETTINGS]:         t('header.accountSettings'),
 	};
 
 	const displayTitle = pageTitles[contentTitle] || 'Dashboard';

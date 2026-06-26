@@ -21,6 +21,7 @@ import {
 	DialogTitle,
 	CircularProgress,
 	InputAdornment,
+	Pagination,
 	Select,
 	MenuItem,
 	FormControl,
@@ -756,20 +757,31 @@ const JobContent = () => {
 	const [detailTab, setDetailTab] = useState(0);
 	const [loading, setLoading] = useState(false);
 	const [jobsLoading, setJobsLoading] = useState(false);
+	const [currentPage, setCurrentPage] = useState(1);
+	const [totalPages, setTotalPages] = useState(1);
+	const [totalElements, setTotalElements] = useState(0);
 	const searchDebounceRef = useRef(null);
 
-	const fetchJobs = async (term = '') => {
+	const fetchJobs = async (term = '', page = 0) => {
 		setJobsLoading(true);
 		try {
-			const params = { pageSize: 50, pageNumber: 0 };
+			const params = { pageSize: 20, pageNumber: page };
 			if (term.trim()) { params.title = term.trim(); params.description = term.trim(); }
 			const response = await getJobs(params);
-			setJobs(response.data.data.content);
+			const data = response.data.data;
+			setJobs(data.content ?? []);
+			setTotalPages(data.totalPages ?? 1);
+			setTotalElements(data.totalElements ?? 0);
 		} catch (error) {
 			console.error('Error fetching job posts:', error);
 		} finally {
 			setJobsLoading(false);
 		}
+	};
+
+	const handlePageChange = (_, value) => {
+		setCurrentPage(value);
+		fetchJobs(search, value - 1);
 	};
 
 	useEffect(() => {
@@ -826,8 +838,11 @@ const JobContent = () => {
 			const response = await createJob(payload);
 			const created = response.data?.data;
 			if (created) {
-				setJobs(prev => [...prev, created]);
 				handleCancelCreate();
+				setSearch('');
+				setCurrentPage(1);
+				fetchJobs('', 0);
+				setSelectedJob(created);
 			}
 		} catch (error) {
 			console.error('Error creating job post:', error);
@@ -885,9 +900,11 @@ const JobContent = () => {
 		if (!selectedJob) return;
 		try {
 			await deleteJob(selectedJob.id);
-			setJobs(jobs.filter(j => j.id !== selectedJob.id));
 			setSelectedJob(null);
 			setDeleteDialogOpen(false);
+			const nextPage = jobs.length === 1 && currentPage > 1 ? currentPage - 1 : currentPage;
+			setCurrentPage(nextPage);
+			fetchJobs(search, nextPage - 1);
 		} catch (error) {
 			console.error('Error deleting job post:', error);
 		}
@@ -993,8 +1010,9 @@ const JobContent = () => {
 							onChange={e => {
 								const val = e.target.value;
 								setSearch(val);
+								setCurrentPage(1);
 								clearTimeout(searchDebounceRef.current);
-								searchDebounceRef.current = setTimeout(() => fetchJobs(val), 300);
+								searchDebounceRef.current = setTimeout(() => fetchJobs(val, 0), 300);
 							}}
 							InputProps={{
 								startAdornment: <InputAdornment position="start"><SearchIcon sx={{ fontSize: 16, color: '#94a3b8' }} /></InputAdornment>,
@@ -1003,7 +1021,7 @@ const JobContent = () => {
 							}}
 						/>
 					</Box>
-					{jobs.length === 0 ? (
+					{jobs.length === 0 && !jobsLoading ? (
 						<Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 							<Typography sx={{ fontSize: '0.84rem', color: '#94a3b8' }}>{t('jobContent.noJobPosts')}</Typography>
 						</Box>
@@ -1055,6 +1073,27 @@ const JobContent = () => {
 							})}
 						</List>
 					)}
+
+					{/* Pagination footer */}
+					<Box sx={{
+						display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.25,
+						px: 1, py: 0.75, borderTop: '1px solid #f1f5f9', flexShrink: 0, backgroundColor: '#fafafa',
+					}}>
+						<Typography sx={{ fontSize: '0.68rem', color: '#94a3b8' }}>
+							{totalElements} {t('jobContent.jobs', 'jobs')}
+						</Typography>
+						{totalPages > 1 && (
+							<Pagination
+								count={totalPages}
+								page={currentPage}
+								onChange={handlePageChange}
+								size="small"
+								siblingCount={0}
+								boundaryCount={1}
+								sx={{ '& .MuiPaginationItem-root': { fontSize: '0.68rem', minWidth: 24, height: 24 } }}
+							/>
+						)}
+					</Box>
 				</Box>
 
 				{/* Right panel */}
