@@ -17,3 +17,6 @@ export const getCVById = (id) =>
 
 export const updateCV = (id, patch) =>
     apiClient.patch(`/cvs/${id}`, patch);
+
+export const getDuplicates = (pageNumber = 0, pageSize = 20) =>
+    apiClient.get('/cvs/duplicates', { params: { pageNumber, pageSize } });

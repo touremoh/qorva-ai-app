@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
+	Badge,
 	Box,
 	Button,
 	Typography,
@@ -17,9 +18,12 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import TableRowsIcon from '@mui/icons-material/TableRows';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import AppCVDetails from './AppCVDetails.jsx';
 import AppCVEntries from './AppCVEntries.jsx';
-import { getCVs, uploadCVs, deleteCV } from '../../../services/cvService.js';
+import AppCVDuplicates from './AppCVDuplicates.jsx';
+import { getCVs, uploadCVs, deleteCV, getDuplicates } from '../../../services/cvService.js';
 
 const MAX_FILES = 100;
 const FILE_TYPE_PDF = 'application/pdf';
@@ -32,8 +36,10 @@ const AppCVContent = () => {
 	const [totalElements, setTotalElements] = useState(0);
 	const [selectedCV, setSelectedCV] = useState(null);
 	const [viewMode, setViewMode] = useState('table');
+	const [viewDuplicates, setViewDuplicates] = useState(false);
 	const [openUploadModal, setOpenUploadModal] = useState(false);
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+	const [duplicatesCount, setDuplicatesCount] = useState(0);
 	const [selectedFiles, setSelectedFiles] = useState([]);
 	const [isUploading, setIsUploading] = useState(false);
 	const [isDragging, setIsDragging] = useState(false);
@@ -50,9 +56,29 @@ const AppCVContent = () => {
 		}
 	};
 
+	const fetchDuplicatesCount = async () => {
+		try {
+			const response = await getDuplicates(0, 1);
+			setDuplicatesCount(response.data.totalElements ?? 0);
+		} catch (error) {
+			console.error('Error fetching duplicates count:', error);
+		}
+	};
+
 	useEffect(() => {
 		fetchCVEntries().then(r => console.log('Fetch CV request done: ', r));
+		fetchDuplicatesCount();
 	}, []);
+
+	const handleEnterDuplicatesMode = () => {
+		setViewDuplicates(true);
+		setSelectedCV(null);
+	};
+
+	const handleExitDuplicatesMode = () => {
+		setViewDuplicates(false);
+		setSelectedCV(null);
+	};
 
 	const processFiles = (files) => {
 		const valid = Array.from(files)
@@ -101,6 +127,7 @@ const AppCVContent = () => {
 	};
 
 	const showDetails = selectedCV !== null;
+	const leftPanelWidth = viewMode === 'list' ? 300 : (showDetails ? '45%' : '100%');
 
 	return (
 		<Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', overflow: 'hidden', backgroundColor: '#f8fafc' }}>
@@ -145,41 +172,99 @@ const AppCVContent = () => {
 					</Box>
 				</Button>
 
+				{viewDuplicates ? (
+					<Button
+						startIcon={<FormatListBulletedIcon />}
+						variant="outlined"
+						onClick={handleExitDuplicatesMode}
+						sx={{
+							borderColor: '#629C44',
+							color: '#629C44',
+							'&:hover': { borderColor: '#528035', color: '#528035', backgroundColor: 'rgba(98,156,68,0.04)' },
+							borderRadius: 1.5,
+							textTransform: 'none',
+							fontWeight: 600,
+							fontSize: '0.84rem',
+							boxShadow: 'none',
+							px: 2,
+						}}
+					>
+						All CVs
+					</Button>
+				) : (
+					<Badge
+						badgeContent={duplicatesCount}
+						max={99}
+						sx={{
+							'& .MuiBadge-badge': {
+								backgroundColor: '#dc2626',
+								color: '#ffffff',
+								fontSize: '0.65rem',
+								fontWeight: 700,
+								minWidth: 17,
+								height: 17,
+								padding: '0 4px',
+							},
+						}}
+					>
+						<Button
+							startIcon={<ContentCopyIcon />}
+							variant="outlined"
+							onClick={handleEnterDuplicatesMode}
+							sx={{
+								borderColor: '#e2e8f0',
+								color: '#64748b',
+								'&:hover': { borderColor: '#629C44', color: '#629C44', backgroundColor: 'rgba(98,156,68,0.04)' },
+								borderRadius: 1.5,
+								textTransform: 'none',
+								fontWeight: 600,
+								fontSize: '0.84rem',
+								boxShadow: 'none',
+								px: 2,
+							}}
+						>
+							Duplicates
+						</Button>
+					</Badge>
+				)}
+
 				<Box sx={{ flexGrow: 1 }} />
 
-				{/* View toggle */}
-				<Box sx={{ display: 'flex', backgroundColor: '#f1f5f9', borderRadius: 1.5, p: 0.4, gap: 0.25 }}>
-					<Tooltip title="Table view">
-						<IconButton
-							size="small"
-							onClick={() => setViewMode('table')}
-							sx={{
-								borderRadius: 1,
-								color: viewMode === 'table' ? '#629C44' : '#94a3b8',
-								backgroundColor: viewMode === 'table' ? '#ffffff' : 'transparent',
-								boxShadow: viewMode === 'table' ? '0 1px 3px rgba(0,0,0,0.10)' : 'none',
-								'&:hover': { backgroundColor: viewMode === 'table' ? '#ffffff' : 'rgba(0,0,0,0.04)' },
-							}}
-						>
-							<TableRowsIcon sx={{ fontSize: 18 }} />
-						</IconButton>
-					</Tooltip>
-					<Tooltip title="List view">
-						<IconButton
-							size="small"
-							onClick={() => setViewMode('list')}
-							sx={{
-								borderRadius: 1,
-								color: viewMode === 'list' ? '#629C44' : '#94a3b8',
-								backgroundColor: viewMode === 'list' ? '#ffffff' : 'transparent',
-								boxShadow: viewMode === 'list' ? '0 1px 3px rgba(0,0,0,0.10)' : 'none',
-								'&:hover': { backgroundColor: viewMode === 'list' ? '#ffffff' : 'rgba(0,0,0,0.04)' },
-							}}
-						>
-							<ViewListIcon sx={{ fontSize: 18 }} />
-						</IconButton>
-					</Tooltip>
-				</Box>
+				{/* View toggle — hidden in duplicates mode */}
+				{!viewDuplicates && (
+					<Box sx={{ display: 'flex', backgroundColor: '#f1f5f9', borderRadius: 1.5, p: 0.4, gap: 0.25 }}>
+						<Tooltip title="Table view">
+							<IconButton
+								size="small"
+								onClick={() => setViewMode('table')}
+								sx={{
+									borderRadius: 1,
+									color: viewMode === 'table' ? '#629C44' : '#94a3b8',
+									backgroundColor: viewMode === 'table' ? '#ffffff' : 'transparent',
+									boxShadow: viewMode === 'table' ? '0 1px 3px rgba(0,0,0,0.10)' : 'none',
+									'&:hover': { backgroundColor: viewMode === 'table' ? '#ffffff' : 'rgba(0,0,0,0.04)' },
+								}}
+							>
+								<TableRowsIcon sx={{ fontSize: 18 }} />
+							</IconButton>
+						</Tooltip>
+						<Tooltip title="List view">
+							<IconButton
+								size="small"
+								onClick={() => setViewMode('list')}
+								sx={{
+									borderRadius: 1,
+									color: viewMode === 'list' ? '#629C44' : '#94a3b8',
+									backgroundColor: viewMode === 'list' ? '#ffffff' : 'transparent',
+									boxShadow: viewMode === 'list' ? '0 1px 3px rgba(0,0,0,0.10)' : 'none',
+									'&:hover': { backgroundColor: viewMode === 'list' ? '#ffffff' : 'rgba(0,0,0,0.04)' },
+								}}
+							>
+								<ViewListIcon sx={{ fontSize: 18 }} />
+							</IconButton>
+						</Tooltip>
+					</Box>
+				)}
 			</Box>
 
 			{/* Split pane */}
@@ -193,40 +278,50 @@ const AppCVContent = () => {
 			}}>
 				{/* Left panel */}
 				<Box sx={{
-					width: viewMode === 'list' ? 300 : (showDetails ? '45%' : '100%'),
+					width: viewDuplicates ? (showDetails ? '45%' : '100%') : leftPanelWidth,
 					flexShrink: 0,
 					transition: 'width 0.2s ease',
-					borderRight: (showDetails || viewMode === 'list') ? '1px solid #e2e8f0' : 'none',
+					borderRight: (showDetails || (!viewDuplicates && viewMode === 'list')) ? '1px solid #e2e8f0' : 'none',
 					overflow: 'hidden',
 					display: 'flex',
 					flexDirection: 'column',
 				}}>
-					<AppCVEntries
-						cvEntries={cvEntries}
-						setSelectedCV={setSelectedCV}
-						setDeleteDialogOpen={setDeleteDialogOpen}
-						setCVEntries={setCvEntries}
-						viewMode={viewMode}
-						selectedCV={selectedCV}
-						totalPages={totalPages}
-						setTotalPages={setTotalPages}
-						totalElements={totalElements}
-						setTotalElements={setTotalElements}
-					/>
+					{viewDuplicates ? (
+						<AppCVDuplicates
+							setSelectedCV={setSelectedCV}
+							selectedCV={selectedCV}
+							onCountChange={setDuplicatesCount}
+						/>
+					) : (
+						<AppCVEntries
+							cvEntries={cvEntries}
+							setSelectedCV={setSelectedCV}
+							setDeleteDialogOpen={setDeleteDialogOpen}
+							setCVEntries={setCvEntries}
+							viewMode={viewMode}
+							selectedCV={selectedCV}
+							totalPages={totalPages}
+							setTotalPages={setTotalPages}
+							totalElements={totalElements}
+							setTotalElements={setTotalElements}
+						/>
+					)}
 				</Box>
 
 				{/* Right panel */}
-				{(viewMode === 'list' || showDetails) && (
+				{((!viewDuplicates && viewMode === 'list') || showDetails) && (
 					<Box sx={{ flex: 1, overflow: 'auto', minWidth: 0, backgroundColor: '#f8fafc' }}>
 						{showDetails ? (
 							<AppCVDetails
-										cv={selectedCV}
-										onClose={() => setSelectedCV(null)}
-										onUpdate={(updated) => {
-											setSelectedCV(updated);
-											setCvEntries(prev => prev.map(c => c.id === updated.id ? updated : c));
-										}}
-									/>
+								cv={selectedCV}
+								onClose={() => setSelectedCV(null)}
+								onUpdate={(updated) => {
+									setSelectedCV(updated);
+									if (!viewDuplicates) {
+										setCvEntries(prev => prev.map(c => c.id === updated.id ? updated : c));
+									}
+								}}
+							/>
 						) : (
 							<Box sx={{
 								height: '100%',
@@ -333,7 +428,7 @@ const AppCVContent = () => {
 				</DialogActions>
 			</Dialog>
 
-			{/* Delete Confirmation Dialog */}
+			{/* Delete Confirmation Dialog — used for normal CV list mode */}
 			<Dialog
 				open={deleteDialogOpen}
 				onClose={() => setDeleteDialogOpen(false)}
