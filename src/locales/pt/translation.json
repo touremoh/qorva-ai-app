@@ -813,5 +813,77 @@
       "cancel": "Cancelar",
       "confirm": "Eliminar"
     }
+  },
+  "error": {
+    "auth": {
+      "token_expired": "A sua sessão expirou. Por favor, inicie sessão novamente.",
+      "token_invalid": "Token de autenticação inválido. Por favor, inicie sessão novamente.",
+      "authentication_failed": "Autenticação falhada. Verifique as suas credenciais.",
+      "subscription_inactive": "A sua subscrição não está ativa. Por favor, renove o seu plano.",
+      "user_not_found": "Utilizador não encontrado.",
+      "user_lookup_failed": "Ocorreu um erro ao recuperar o utilizador. Por favor, tente novamente."
+    },
+    "access": {
+      "forbidden": "Não tem permissão para realizar esta ação.",
+      "cross_tenant": "O acesso a este recurso não é permitido."
+    },
+    "user": {
+      "already_exists": "Já existe uma conta com este e-mail.",
+      "not_found": "Utilizador não encontrado.",
+      "password_incorrect": "A palavra-passe atual está incorreta.",
+      "seat_limit_reached": "Limite de lugares atingido. Por favor, faça upgrade do plano para adicionar mais utilizadores.",
+      "company_id_required": "A criação de um utilizador requer um ID de empresa."
+    },
+    "cv": {
+      "max_files_exceeded": "Pode carregar até 100 ficheiros de uma vez.",
+      "no_files_processed": "Nenhum dos ficheiros carregados pôde ser processado. Verifique os seus ficheiros e tente novamente.",
+      "content_empty": "O conteúdo do currículo não pôde ser lido. O ficheiro pode estar vazio ou corrompido.",
+      "extraction_failed": "A extração de dados do currículo falhou. Por favor, tente novamente."
+    },
+    "file": {
+      "empty": "O ficheiro «{{filename}}» está vazio.",
+      "pdf_read_failed": "Não foi possível ler o ficheiro PDF «{{filename}}». Verifique se não está corrompido.",
+      "word_read_failed": "Não foi possível ler o ficheiro Word «{{filename}}». Verifique se não está corrompido.",
+      "read_failed": "Não foi possível ler o ficheiro «{{filename}}». Verifique se não está corrompido.",
+      "name_null": "O nome do ficheiro está em falta.",
+      "unsupported_type": "Tipo de ficheiro não suportado «{{filename}}». Por favor, carregue um ficheiro PDF ou DOCX."
+    },
+    "report": {
+      "job_id_required": "Deve ser selecionado um anúncio de emprego para criar um relatório.",
+      "candidate_info_required": "São necessárias informações do candidato.",
+      "resume_match_not_found": "Nenhum relatório de correspondência encontrado para os dados fornecidos.",
+      "match_not_found_by_id": "O relatório «{{id}}» não foi encontrado.",
+      "no_reports_for_job": "Nenhum relatório encontrado para o emprego selecionado.",
+      "csv_export_failed": "Falha na geração da exportação CSV. Por favor, tente novamente."
+    },
+    "chat": {
+      "not_found": "Conversa não encontrada.",
+      "owner_required": "É necessário pelo menos um participante proprietário para criar uma conversa.",
+      "actor_not_found": "Conta de utilizador da conversa não encontrada."
+    },
+    "ai": {
+      "request_failed": "Algo correu mal. Por favor, tente novamente mais tarde."
+    },
+    "company": {
+      "logo_upload_failed": "Falha ao carregar o logótipo da empresa. Por favor, tente novamente.",
+      "logo_not_found": "Logótipo da empresa não encontrado.",
+      "logo_fetch_failed": "Falha ao recuperar o logótipo da empresa. Por favor, tente novamente."
+    },
+    "billing": {
+      "portal_failed": "Não foi possível abrir o portal de faturação. Por favor, tente novamente.",
+      "customer_creation_failed": "Falha ao configurar a sua conta de faturação. Por favor, contacte o suporte.",
+      "checkout_failed": "Falha ao iniciar o processo de pagamento. Por favor, tente novamente.",
+      "price_id_required": "Deve ser selecionado um plano de preços.",
+      "no_stripe_customer": "Nenhuma conta de pagamento encontrada. Por favor, contacte o suporte."
+    },
+    "http": {
+      "not_found": "O recurso solicitado não foi encontrado.",
+      "bad_request": "Parâmetros de pedido inválidos.",
+      "unauthorized": "Não autorizado. Por favor, inicie sessão para continuar.",
+      "forbidden": "O acesso a este recurso está proibido.",
+      "conflict": "O pedido não pôde ser concluído devido a um conflito.",
+      "validation": "Um ou mais campos falharam na validação.",
+      "unexpected": "Ocorreu um erro inesperado. Por favor, tente novamente mais tarde."
+    }
   }
 }

@@ -826,5 +826,77 @@
       "cancel": "Cancel",
       "confirm": "Delete"
     }
+  },
+  "error": {
+    "auth": {
+      "token_expired": "Your session has expired. Please sign in again.",
+      "token_invalid": "Invalid authentication token. Please sign in again.",
+      "authentication_failed": "Authentication failed. Please check your credentials.",
+      "subscription_inactive": "Your subscription is not active. Please renew your plan.",
+      "user_not_found": "User not found.",
+      "user_lookup_failed": "An error occurred while retrieving the user. Please try again."
+    },
+    "access": {
+      "forbidden": "You do not have permission to perform this action.",
+      "cross_tenant": "Access to this resource is not permitted."
+    },
+    "user": {
+      "already_exists": "An account with this email already exists.",
+      "not_found": "User not found.",
+      "password_incorrect": "Current password is incorrect.",
+      "seat_limit_reached": "Seat limit reached for your plan. Please upgrade to add more users.",
+      "company_id_required": "User creation requires a company ID."
+    },
+    "cv": {
+      "max_files_exceeded": "You can upload up to 100 files at once.",
+      "no_files_processed": "None of the uploaded files could be processed. Please check your files and try again.",
+      "content_empty": "The resume content could not be read. The file may be empty or corrupted.",
+      "extraction_failed": "Resume data extraction failed. Please try again."
+    },
+    "file": {
+      "empty": "The file \u201c{{filename}}\u201d is empty.",
+      "pdf_read_failed": "Could not read the PDF file \u201c{{filename}}\u201d. Please verify the file is not corrupted.",
+      "word_read_failed": "Could not read the Word file \u201c{{filename}}\u201d. Please verify the file is not corrupted.",
+      "read_failed": "Could not read the file \u201c{{filename}}\u201d. Please verify the file is not corrupted.",
+      "name_null": "File name is missing.",
+      "unsupported_type": "Unsupported file type \u201c{{filename}}\u201d. Please upload a PDF or DOCX file."
+    },
+    "report": {
+      "job_id_required": "A job post must be selected to create a matching report.",
+      "candidate_info_required": "Candidate information is required.",
+      "resume_match_not_found": "No matching report found for the provided data.",
+      "match_not_found_by_id": "Matching report \u201c{{id}}\u201d was not found.",
+      "no_reports_for_job": "No matching reports found for the selected job post.",
+      "csv_export_failed": "Failed to generate the CSV export. Please try again."
+    },
+    "chat": {
+      "not_found": "Chat not found.",
+      "owner_required": "At least one owner participant is required to create a chat.",
+      "actor_not_found": "Chat user account not found."
+    },
+    "ai": {
+      "request_failed": "Something went wrong. Please try again later."
+    },
+    "company": {
+      "logo_upload_failed": "Failed to upload the company logo. Please try again.",
+      "logo_not_found": "Company logo not found.",
+      "logo_fetch_failed": "Failed to retrieve the company logo. Please try again."
+    },
+    "billing": {
+      "portal_failed": "Unable to open the billing portal. Please try again.",
+      "customer_creation_failed": "Failed to set up your billing account. Please contact support.",
+      "checkout_failed": "Failed to start the checkout process. Please try again.",
+      "price_id_required": "A pricing plan must be selected.",
+      "no_stripe_customer": "No payment account found. Please contact support."
+    },
+    "http": {
+      "not_found": "The requested resource was not found.",
+      "bad_request": "Invalid request parameters.",
+      "unauthorized": "Unauthorized. Please sign in to continue.",
+      "forbidden": "Access to this resource is forbidden.",
+      "conflict": "The request could not be completed due to a conflict.",
+      "validation": "One or more fields failed validation.",
+      "unexpected": "An unexpected error occurred. Please try again later."
+    }
   }
 }

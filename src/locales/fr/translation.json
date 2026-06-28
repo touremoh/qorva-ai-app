@@ -813,5 +813,77 @@
       "cancel": "Annuler",
       "confirm": "Supprimer"
     }
+  },
+  "error": {
+    "auth": {
+      "token_expired": "Votre session a expiré. Veuillez vous reconnecter.",
+      "token_invalid": "Jeton d'authentification invalide. Veuillez vous reconnecter.",
+      "authentication_failed": "Authentification échouée. Vérifiez vos identifiants.",
+      "subscription_inactive": "Votre abonnement n'est pas actif. Veuillez renouveler votre forfait.",
+      "user_not_found": "Utilisateur introuvable.",
+      "user_lookup_failed": "Une erreur est survenue lors de la récupération de l'utilisateur. Veuillez réessayer."
+    },
+    "access": {
+      "forbidden": "Vous n'avez pas la permission d'effectuer cette action.",
+      "cross_tenant": "L'accès à cette ressource n'est pas autorisé."
+    },
+    "user": {
+      "already_exists": "Un compte avec cet email existe déjà.",
+      "not_found": "Utilisateur introuvable.",
+      "password_incorrect": "Le mot de passe actuel est incorrect.",
+      "seat_limit_reached": "Limite de sièges atteinte. Veuillez passer à un forfait supérieur.",
+      "company_id_required": "La création d'un utilisateur nécessite un identifiant d'entreprise."
+    },
+    "cv": {
+      "max_files_exceeded": "Vous pouvez télécharger jusqu'à 100 fichiers à la fois.",
+      "no_files_processed": "Aucun des fichiers téléchargés n'a pu être traité. Vérifiez vos fichiers et réessayez.",
+      "content_empty": "Le contenu du CV n'a pas pu être lu. Le fichier est peut-être vide ou corrompu.",
+      "extraction_failed": "L'extraction des données du CV a échoué. Veuillez réessayer."
+    },
+    "file": {
+      "empty": "Le fichier « {{filename}} » est vide.",
+      "pdf_read_failed": "Impossible de lire le fichier PDF « {{filename}} ». Vérifiez qu'il n'est pas corrompu.",
+      "word_read_failed": "Impossible de lire le fichier Word « {{filename}} ». Vérifiez qu'il n'est pas corrompu.",
+      "read_failed": "Impossible de lire le fichier « {{filename}} ». Vérifiez qu'il n'est pas corrompu.",
+      "name_null": "Le nom du fichier est manquant.",
+      "unsupported_type": "Type de fichier non pris en charge « {{filename}} ». Veuillez télécharger un fichier PDF ou DOCX."
+    },
+    "report": {
+      "job_id_required": "Un poste doit être sélectionné pour créer un rapport.",
+      "candidate_info_required": "Les informations du candidat sont requises.",
+      "resume_match_not_found": "Aucun rapport de correspondance trouvé pour les données fournies.",
+      "match_not_found_by_id": "Le rapport « {{id}} » est introuvable.",
+      "no_reports_for_job": "Aucun rapport trouvé pour le poste sélectionné.",
+      "csv_export_failed": "Échec de la génération de l'export CSV. Veuillez réessayer."
+    },
+    "chat": {
+      "not_found": "Conversation introuvable.",
+      "owner_required": "Au moins un participant propriétaire est requis pour créer une conversation.",
+      "actor_not_found": "Compte utilisateur de la conversation introuvable."
+    },
+    "ai": {
+      "request_failed": "Une erreur est survenue. Veuillez réessayer plus tard."
+    },
+    "company": {
+      "logo_upload_failed": "Échec du téléchargement du logo de l'entreprise. Veuillez réessayer.",
+      "logo_not_found": "Logo de l'entreprise introuvable.",
+      "logo_fetch_failed": "Échec de la récupération du logo de l'entreprise. Veuillez réessayer."
+    },
+    "billing": {
+      "portal_failed": "Impossible d'ouvrir le portail de facturation. Veuillez réessayer.",
+      "customer_creation_failed": "Échec de la configuration de votre compte de facturation. Veuillez contacter le support.",
+      "checkout_failed": "Échec du démarrage du processus de paiement. Veuillez réessayer.",
+      "price_id_required": "Un forfait tarifaire doit être sélectionné.",
+      "no_stripe_customer": "Aucun compte de paiement trouvé. Veuillez contacter le support."
+    },
+    "http": {
+      "not_found": "La ressource demandée est introuvable.",
+      "bad_request": "Paramètres de requête invalides.",
+      "unauthorized": "Non autorisé. Veuillez vous connecter pour continuer.",
+      "forbidden": "L'accès à cette ressource est interdit.",
+      "conflict": "La requête n'a pas pu être complétée en raison d'un conflit.",
+      "validation": "Un ou plusieurs champs ont échoué à la validation.",
+      "unexpected": "Une erreur inattendue s'est produite. Veuillez réessayer plus tard."
+    }
   }
 }

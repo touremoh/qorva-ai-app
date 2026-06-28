@@ -354,9 +354,13 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 		if (!cv?.id) return;
 		setIsSaving(true);
 		try {
+			const pendingTag = tagInput.trim();
+			const committedTags = editingSection === 'tags' && pendingTag && !draft.tags?.includes(pendingTag)
+				? [...(draft.tags ?? []), pendingTag]
+				: draft.tags;
 			const patch = editingSection === 'availability'
 				? { personalInformation: { availability: draft } }
-				: { tags: draft.tags };
+				: { tags: committedTags };
 			const res = await updateCV(cv.id, patch);
 			const updated = res?.data?.data ?? { ...cv, ...patch };
 			onUpdate?.(updated);
@@ -368,7 +372,7 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 		} finally {
 			setIsSaving(false);
 		}
-	}, [cv, draft, editingSection, onUpdate]);
+	}, [cv, draft, editingSection, tagInput, onUpdate]);
 
 	const handleAddTag = useCallback(() => {
 		const val = tagInput.trim();

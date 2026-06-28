@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {AUTH_TOKEN, QORVA_USER_LANGUAGE} from "./src/constants.js";
+import { toastError } from './src/utils/errorHandler.js';
 
 const authToken = localStorage.getItem(AUTH_TOKEN);
 
@@ -28,6 +29,24 @@ apiClient.interceptors.request.use(config => {
 apiFormDataClient.interceptors.request.use(config => {
 	return getConfig(config);
 }, error => Promise.reject(error));
+
+// Error codes that individual components handle with inline alerts — skip global toast
+const SILENT_ERROR_CODES = new Set([
+	'error.auth.authentication_failed',
+	'error.user.already_exists',
+	'error.user.password_incorrect',
+]);
+
+const handleResponseError = (error) => {
+	const errorCode = error?.response?.data?.errorCode;
+	if (!SILENT_ERROR_CODES.has(errorCode)) {
+		toastError(error);
+	}
+	return Promise.reject(error);
+};
+
+apiClient.interceptors.response.use(response => response, handleResponseError);
+apiFormDataClient.interceptors.response.use(response => response, handleResponseError);
 
 const publicEndpoint = (url) => url.includes('/registrations')
 	|| url.includes('/auth/login')

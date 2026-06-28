@@ -813,5 +813,77 @@
       "cancel": "Annulla",
       "confirm": "Elimina"
     }
+  },
+  "error": {
+    "auth": {
+      "token_expired": "La sua sessione è scaduta. Effettui nuovamente l'accesso.",
+      "token_invalid": "Token di autenticazione non valido. Effettui nuovamente l'accesso.",
+      "authentication_failed": "Autenticazione fallita. Verifichi le sue credenziali.",
+      "subscription_inactive": "Il suo abbonamento non è attivo. Rinnovi il suo piano.",
+      "user_not_found": "Utente non trovato.",
+      "user_lookup_failed": "Si è verificato un errore durante il recupero dell'utente. Riprovi."
+    },
+    "access": {
+      "forbidden": "Non ha il permesso di eseguire questa azione.",
+      "cross_tenant": "L'accesso a questa risorsa non è consentito."
+    },
+    "user": {
+      "already_exists": "Esiste già un account con questa email.",
+      "not_found": "Utente non trovato.",
+      "password_incorrect": "La password attuale non è corretta.",
+      "seat_limit_reached": "Limite di posti raggiunto. Effettui l'upgrade del piano per aggiungere altri utenti.",
+      "company_id_required": "La creazione di un utente richiede un ID azienda."
+    },
+    "cv": {
+      "max_files_exceeded": "È possibile caricare fino a 100 file alla volta.",
+      "no_files_processed": "Nessuno dei file caricati ha potuto essere elaborato. Verifichi i file e riprovi.",
+      "content_empty": "Il contenuto del curriculum non ha potuto essere letto. Il file potrebbe essere vuoto o danneggiato.",
+      "extraction_failed": "L'estrazione dei dati del curriculum è fallita. Riprovi."
+    },
+    "file": {
+      "empty": "Il file «{{filename}}» è vuoto.",
+      "pdf_read_failed": "Impossibile leggere il file PDF «{{filename}}». Verifichi che non sia danneggiato.",
+      "word_read_failed": "Impossibile leggere il file Word «{{filename}}». Verifichi che non sia danneggiato.",
+      "read_failed": "Impossibile leggere il file «{{filename}}». Verifichi che non sia danneggiato.",
+      "name_null": "Il nome del file è mancante.",
+      "unsupported_type": "Tipo di file non supportato «{{filename}}». Carichi un file PDF o DOCX."
+    },
+    "report": {
+      "job_id_required": "È necessario selezionare un'offerta di lavoro per creare un report.",
+      "candidate_info_required": "Sono richieste informazioni sul candidato.",
+      "resume_match_not_found": "Nessun report di corrispondenza trovato per i dati forniti.",
+      "match_not_found_by_id": "Il report «{{id}}» non è stato trovato.",
+      "no_reports_for_job": "Nessun report trovato per il lavoro selezionato.",
+      "csv_export_failed": "Impossibile generare l'esportazione CSV. Riprovi."
+    },
+    "chat": {
+      "not_found": "Chat non trovata.",
+      "owner_required": "È richiesto almeno un partecipante proprietario per creare una chat.",
+      "actor_not_found": "Account utente della chat non trovato."
+    },
+    "ai": {
+      "request_failed": "Si è verificato un errore. Riprovi più tardi."
+    },
+    "company": {
+      "logo_upload_failed": "Caricamento del logo aziendale non riuscito. Riprovi.",
+      "logo_not_found": "Logo aziendale non trovato.",
+      "logo_fetch_failed": "Recupero del logo aziendale non riuscito. Riprovi."
+    },
+    "billing": {
+      "portal_failed": "Impossibile aprire il portale di fatturazione. Riprovi.",
+      "customer_creation_failed": "Impossibile configurare il suo account di fatturazione. Contatti il supporto.",
+      "checkout_failed": "Impossibile avviare il processo di pagamento. Riprovi.",
+      "price_id_required": "È necessario selezionare un piano tariffario.",
+      "no_stripe_customer": "Nessun account di pagamento trovato. Contatti il supporto."
+    },
+    "http": {
+      "not_found": "La risorsa richiesta non è stata trovata.",
+      "bad_request": "Parametri della richiesta non validi.",
+      "unauthorized": "Non autorizzato. Effettui l'accesso per continuare.",
+      "forbidden": "L'accesso a questa risorsa è vietato.",
+      "conflict": "La richiesta non ha potuto essere completata a causa di un conflitto.",
+      "validation": "Uno o più campi non hanno superato la validazione.",
+      "unexpected": "Si è verificato un errore imprevisto. Riprovi più tardi."
+    }
   }
 }

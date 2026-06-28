@@ -813,5 +813,77 @@
       "cancel": "Abbrechen",
       "confirm": "Löschen"
     }
+  },
+  "error": {
+    "auth": {
+      "token_expired": "Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.",
+      "token_invalid": "Ungültiges Authentifizierungstoken. Bitte melden Sie sich erneut an.",
+      "authentication_failed": "Authentifizierung fehlgeschlagen. Bitte überprüfen Sie Ihre Anmeldedaten.",
+      "subscription_inactive": "Ihr Abonnement ist nicht aktiv. Bitte erneuern Sie Ihren Plan.",
+      "user_not_found": "Benutzer nicht gefunden.",
+      "user_lookup_failed": "Beim Abrufen des Benutzers ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
+    },
+    "access": {
+      "forbidden": "Sie haben keine Berechtigung, diese Aktion durchzuführen.",
+      "cross_tenant": "Der Zugriff auf diese Ressource ist nicht gestattet."
+    },
+    "user": {
+      "already_exists": "Ein Konto mit dieser E-Mail-Adresse existiert bereits.",
+      "not_found": "Benutzer nicht gefunden.",
+      "password_incorrect": "Das aktuelle Passwort ist falsch.",
+      "seat_limit_reached": "Das Sitzlimit für Ihren Plan wurde erreicht. Bitte upgraden Sie, um mehr Benutzer hinzuzufügen.",
+      "company_id_required": "Für die Benutzererstellung ist eine Unternehmens-ID erforderlich."
+    },
+    "cv": {
+      "max_files_exceeded": "Sie können bis zu 100 Dateien gleichzeitig hochladen.",
+      "no_files_processed": "Keine der hochgeladenen Dateien konnte verarbeitet werden. Bitte überprüfen Sie Ihre Dateien und versuchen Sie es erneut.",
+      "content_empty": "Der Lebenslaufinhalt konnte nicht gelesen werden. Die Datei ist möglicherweise leer oder beschädigt.",
+      "extraction_failed": "Die Extraktion der Lebenslaufdaten ist fehlgeschlagen. Bitte versuchen Sie es erneut."
+    },
+    "file": {
+      "empty": "Die Datei \u201e{{filename}}\u201c ist leer.",
+      "pdf_read_failed": "Die PDF-Datei \u201e{{filename}}\u201c konnte nicht gelesen werden. Bitte überprüfen Sie, ob sie beschädigt ist.",
+      "word_read_failed": "Die Word-Datei \u201e{{filename}}\u201c konnte nicht gelesen werden. Bitte überprüfen Sie, ob sie beschädigt ist.",
+      "read_failed": "Die Datei \u201e{{filename}}\u201c konnte nicht gelesen werden. Bitte überprüfen Sie, ob sie beschädigt ist.",
+      "name_null": "Der Dateiname fehlt.",
+      "unsupported_type": "Nicht unterstützter Dateityp \u201e{{filename}}\u201c. Bitte laden Sie eine PDF- oder DOCX-Datei hoch."
+    },
+    "report": {
+      "job_id_required": "Es muss eine Stellenanzeige ausgewählt werden, um einen Bericht zu erstellen.",
+      "candidate_info_required": "Kandidateninformationen sind erforderlich.",
+      "resume_match_not_found": "Kein passender Bericht für die angegebenen Daten gefunden.",
+      "match_not_found_by_id": "Übereinstimmungsbericht \u201e{{id}}\u201c wurde nicht gefunden.",
+      "no_reports_for_job": "Keine Berichte für die ausgewählte Stelle gefunden.",
+      "csv_export_failed": "Der CSV-Export konnte nicht generiert werden. Bitte versuchen Sie es erneut."
+    },
+    "chat": {
+      "not_found": "Chat nicht gefunden.",
+      "owner_required": "Für die Erstellung eines Chats ist mindestens ein Eigentümer-Teilnehmer erforderlich.",
+      "actor_not_found": "Chat-Benutzerkonto nicht gefunden."
+    },
+    "ai": {
+      "request_failed": "Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut."
+    },
+    "company": {
+      "logo_upload_failed": "Das Unternehmenslogo konnte nicht hochgeladen werden. Bitte versuchen Sie es erneut.",
+      "logo_not_found": "Unternehmenslogo nicht gefunden.",
+      "logo_fetch_failed": "Das Unternehmenslogo konnte nicht abgerufen werden. Bitte versuchen Sie es erneut."
+    },
+    "billing": {
+      "portal_failed": "Das Abrechnungsportal konnte nicht geöffnet werden. Bitte versuchen Sie es erneut.",
+      "customer_creation_failed": "Ihr Abrechnungskonto konnte nicht eingerichtet werden. Bitte kontaktieren Sie den Support.",
+      "checkout_failed": "Der Checkout-Prozess konnte nicht gestartet werden. Bitte versuchen Sie es erneut.",
+      "price_id_required": "Ein Preisplan muss ausgewählt werden.",
+      "no_stripe_customer": "Kein Zahlungskonto gefunden. Bitte kontaktieren Sie den Support."
+    },
+    "http": {
+      "not_found": "Die angeforderte Ressource wurde nicht gefunden.",
+      "bad_request": "Ungültige Anfrageparameter.",
+      "unauthorized": "Nicht autorisiert. Bitte melden Sie sich an, um fortzufahren.",
+      "forbidden": "Der Zugriff auf diese Ressource ist verboten.",
+      "conflict": "Die Anfrage konnte aufgrund eines Konflikts nicht abgeschlossen werden.",
+      "validation": "Ein oder mehrere Felder haben die Validierung nicht bestanden.",
+      "unexpected": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es später erneut."
+    }
   }
 }

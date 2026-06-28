@@ -810,5 +810,77 @@
       "cancel": "Annuleren",
       "confirm": "Verwijderen"
     }
+  },
+  "error": {
+    "auth": {
+      "token_expired": "Uw sessie is verlopen. Meld u opnieuw aan.",
+      "token_invalid": "Ongeldig authenticatietoken. Meld u opnieuw aan.",
+      "authentication_failed": "Authenticatie mislukt. Controleer uw inloggegevens.",
+      "subscription_inactive": "Uw abonnement is niet actief. Vernieuw uw abonnement.",
+      "user_not_found": "Gebruiker niet gevonden.",
+      "user_lookup_failed": "Er is een fout opgetreden bij het ophalen van de gebruiker. Probeer het opnieuw."
+    },
+    "access": {
+      "forbidden": "U heeft geen toestemming om deze actie uit te voeren.",
+      "cross_tenant": "Toegang tot deze bron is niet toegestaan."
+    },
+    "user": {
+      "already_exists": "Er bestaat al een account met dit e-mailadres.",
+      "not_found": "Gebruiker niet gevonden.",
+      "password_incorrect": "Het huidige wachtwoord is onjuist.",
+      "seat_limit_reached": "Plaatslimiet bereikt voor uw abonnement. Upgrade om meer gebruikers toe te voegen.",
+      "company_id_required": "Gebruikersaanmaak vereist een bedrijfs-ID."
+    },
+    "cv": {
+      "max_files_exceeded": "U kunt maximaal 100 bestanden tegelijk uploaden.",
+      "no_files_processed": "Geen van de geüploade bestanden kon worden verwerkt. Controleer uw bestanden en probeer het opnieuw.",
+      "content_empty": "De inhoud van het cv kon niet worden gelezen. Het bestand is mogelijk leeg of beschadigd.",
+      "extraction_failed": "Extractie van cv-gegevens mislukt. Probeer het opnieuw."
+    },
+    "file": {
+      "empty": "Het bestand '{{filename}}' is leeg.",
+      "pdf_read_failed": "Het PDF-bestand '{{filename}}' kon niet worden gelezen. Controleer of het niet beschadigd is.",
+      "word_read_failed": "Het Word-bestand '{{filename}}' kon niet worden gelezen. Controleer of het niet beschadigd is.",
+      "read_failed": "Het bestand '{{filename}}' kon niet worden gelezen. Controleer of het niet beschadigd is.",
+      "name_null": "Bestandsnaam ontbreekt.",
+      "unsupported_type": "Niet-ondersteund bestandstype '{{filename}}'. Upload een PDF- of DOCX-bestand."
+    },
+    "report": {
+      "job_id_required": "Er moet een vacature worden geselecteerd om een rapport aan te maken.",
+      "candidate_info_required": "Kandidaatinformatie is vereist.",
+      "resume_match_not_found": "Geen overeenkomstrapport gevonden voor de opgegeven gegevens.",
+      "match_not_found_by_id": "Overeenkomstrapport '{{id}}' niet gevonden.",
+      "no_reports_for_job": "Geen rapporten gevonden voor de geselecteerde vacature.",
+      "csv_export_failed": "Genereren van CSV-export mislukt. Probeer het opnieuw."
+    },
+    "chat": {
+      "not_found": "Chat niet gevonden.",
+      "owner_required": "Minimaal één eigenaar-deelnemer is vereist om een chat aan te maken.",
+      "actor_not_found": "Chat-gebruikersaccount niet gevonden."
+    },
+    "ai": {
+      "request_failed": "Er is iets misgegaan. Probeer het later opnieuw."
+    },
+    "company": {
+      "logo_upload_failed": "Uploaden van bedrijfslogo mislukt. Probeer het opnieuw.",
+      "logo_not_found": "Bedrijfslogo niet gevonden.",
+      "logo_fetch_failed": "Ophalen van bedrijfslogo mislukt. Probeer het opnieuw."
+    },
+    "billing": {
+      "portal_failed": "Kan facturatieportaal niet openen. Probeer het opnieuw.",
+      "customer_creation_failed": "Instellen van uw facturatieaccount mislukt. Neem contact op met ondersteuning.",
+      "checkout_failed": "Starten van het afrekenproces mislukt. Probeer het opnieuw.",
+      "price_id_required": "Er moet een prijsplan worden geselecteerd.",
+      "no_stripe_customer": "Geen betaalaccount gevonden. Neem contact op met ondersteuning."
+    },
+    "http": {
+      "not_found": "De gevraagde bron is niet gevonden.",
+      "bad_request": "Ongeldige verzoekparameters.",
+      "unauthorized": "Niet geautoriseerd. Meld u aan om door te gaan.",
+      "forbidden": "Toegang tot deze bron is verboden.",
+      "conflict": "Het verzoek kon niet worden voltooid vanwege een conflict.",
+      "validation": "Een of meer velden zijn niet geslaagd voor validatie.",
+      "unexpected": "Er is een onverwachte fout opgetreden. Probeer het later opnieuw."
+    }
   }
 }
