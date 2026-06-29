@@ -4,7 +4,7 @@ export const getUsers = () =>
     apiClient.get('/users');
 
 export const createUser = (data) =>
-    apiClient.post('/users', data);
+    apiClient.post('/users/invite', data);
 
 export const updateUserAuthorities = (id, authorities) =>
     apiClient.put(`/users/${id}/authorities`, { authorities });

@@ -11,7 +11,9 @@ import {
 	DialogTitle,
 	Divider,
 	IconButton,
+	MenuItem,
 	Paper,
+	Select,
 	Switch,
 	Table,
 	TableBody,
@@ -29,6 +31,8 @@ import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlin
 import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
 import { useTranslation } from 'react-i18next';
 import { getUsers, createUser, updateUserAuthorities, deleteUser } from '../../../services/userService.js';
+import { toastError } from '../../../utils/errorHandler.js';
+import { USER_EMAIL } from '../../../constants.js';
 
 const ALL_ACTIONS = [
 	'VIEW_DASHBOARD',
@@ -53,6 +57,7 @@ const AUTHORITY_GROUPS = [
 ];
 
 const emptyPerms = () => Object.fromEntries(ALL_ACTIONS.map(a => [a, false]));
+const fullPerms = () => Object.fromEntries(ALL_ACTIONS.map(a => [a, true]));
 
 const permsFromAuthorities = (authorities = []) => {
 	const p = emptyPerms();
@@ -64,10 +69,18 @@ const permsFromAuthorities = (authorities = []) => {
 	return p;
 };
 
-const permsToAuthorities = (perms) =>
+const getRoleFromAuthorities = (authorities = []) =>
+	(authorities || []).find(a => a.role)?.role ?? null;
+
+const ROLE_LABELS = {
+	ACCOUNT_OWNER: 'Owner',
+	ACCOUNT_MANAGER: 'Manager',
+};
+
+const permsToAuthorities = (perms, role) =>
 	Object.entries(perms)
 		.filter(([, v]) => v)
-		.map(([action]) => ({ action, permission: 'ALLOWED' }));
+		.map(([action]) => ({ role: role ?? null, action, permission: 'ALLOWED' }));
 
 const SWITCH_SX = {
 	'& .MuiSwitch-switchBase.Mui-checked': { color: '#629C44' },
@@ -113,7 +126,8 @@ const AccountUsersTab = () => {
 
 	const [openAdd, setOpenAdd] = useState(false);
 	const [addForm, setAddForm] = useState({ email: '', firstName: '', lastName: '' });
-	const [addPerms, setAddPerms] = useState(emptyPerms());
+	const [addRole, setAddRole] = useState('ACCOUNT_MANAGER');
+	const [addPerms, setAddPerms] = useState(fullPerms());
 	const [saving, setSaving] = useState(false);
 
 	const [editUser, setEditUser] = useState(null);
@@ -127,10 +141,10 @@ const AccountUsersTab = () => {
 		try {
 			setLoadingUsers(true);
 			const resp = await getUsers();
-			const raw = resp?.data;
-			setUsers(Array.isArray(raw) ? raw : Array.isArray(raw?.content) ? raw.content : []);
+			const raw = resp?.data?.data;
+			setUsers(Array.isArray(raw?.content) ? raw.content : []);
 		} catch (e) {
-			console.error('Error fetching users:', e);
+			toastError(e);
 		} finally {
 			setLoadingUsers(false);
 		}
@@ -145,14 +159,15 @@ const AccountUsersTab = () => {
 				email: addForm.email.trim(),
 				firstName: addForm.firstName.trim(),
 				lastName: addForm.lastName.trim(),
-				authorities: permsToAuthorities(addPerms),
+				authorities: permsToAuthorities(addPerms, addRole),
 			});
-			setUsers(prev => [...prev, resp.data]);
+			setUsers(prev => [...prev, resp.data?.data ?? resp.data]);
 			setOpenAdd(false);
 			setAddForm({ email: '', firstName: '', lastName: '' });
-			setAddPerms(emptyPerms());
+			setAddRole('ACCOUNT_MANAGER');
+			setAddPerms(fullPerms());
 		} catch (e) {
-			console.error('Error adding user:', e);
+			toastError(e);
 		} finally {
 			setSaving(false);
 		}
@@ -162,12 +177,13 @@ const AccountUsersTab = () => {
 		if (!editUser) return;
 		try {
 			setSavingEdit(true);
-			const authorities = permsToAuthorities(editPerms);
+			const role = getRoleFromAuthorities(editUser.authorities);
+			const authorities = permsToAuthorities(editPerms, role);
 			await updateUserAuthorities(editUser.id, authorities);
 			setUsers(prev => prev.map(u => u.id === editUser.id ? { ...u, authorities } : u));
 			setEditUser(null);
 		} catch (e) {
-			console.error('Error saving permissions:', e);
+			toastError(e);
 		} finally {
 			setSavingEdit(false);
 		}
@@ -181,7 +197,7 @@ const AccountUsersTab = () => {
 			setUsers(prev => prev.filter(u => u.id !== userToDelete.id));
 			setUserToDelete(null);
 		} catch (e) {
-			console.error('Error deleting user:', e);
+			toastError(e);
 		} finally {
 			setDeleting(false);
 		}
@@ -192,6 +208,7 @@ const AccountUsersTab = () => {
 		setEditPerms(permsFromAuthorities(user.authorities));
 	};
 
+	const currentEmail = localStorage.getItem(USER_EMAIL) || '';
 	const userDisplayName = (u) => `${u?.firstName || ''} ${u?.lastName || ''}`.trim() || u?.email || '—';
 
 	return (
@@ -239,17 +256,27 @@ const AccountUsersTab = () => {
 							</TableHead>
 							<TableBody>
 								{users.map((user) => {
+									const isSelf = user.email === currentEmail;
+									const role = getRoleFromAuthorities(user.authorities);
 									const initials = `${(user.firstName || '')[0] || ''}${(user.lastName || '')[0] || ''}`.toUpperCase() || '?';
 									return (
-										<TableRow key={user.id} sx={{ '&:last-child td': { borderBottom: 0 }, '&:hover': { backgroundColor: '#f8fafc' } }}>
+										<TableRow key={user.id} sx={{
+											'&:last-child td': { borderBottom: 0 },
+											'&:hover': { backgroundColor: isSelf ? 'rgba(98,156,68,0.06)' : '#f8fafc' },
+											...(isSelf && { backgroundColor: 'rgba(98,156,68,0.05)' }),
+										}}>
 											<TableCell sx={{ py: 1.25 }}>
 												<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-													<Avatar sx={{ width: 28, height: 28, fontSize: '0.65rem', fontWeight: 700, backgroundColor: 'rgba(98,156,68,0.12)', color: '#629C44' }}>
+													<Avatar sx={{ width: 28, height: 28, fontSize: '0.65rem', fontWeight: 700, backgroundColor: isSelf ? 'rgba(98,156,68,0.25)' : 'rgba(98,156,68,0.12)', color: '#629C44' }}>
 														{initials}
 													</Avatar>
-													<Typography sx={{ fontSize: '0.82rem', fontWeight: 500, color: '#0f172a' }}>
+													<Typography sx={{ fontSize: '0.82rem', fontWeight: isSelf ? 700 : 500, color: '#0f172a' }}>
 														{userDisplayName(user)}
 													</Typography>
+													{isSelf && (
+														<Chip size="small" label={t('accountSettings.you', 'You')}
+															sx={{ fontSize: '0.6rem', height: 16, backgroundColor: 'rgba(98,156,68,0.12)', color: '#629C44', fontWeight: 700, '& .MuiChip-label': { px: 0.75 } }} />
+													)}
 												</Box>
 											</TableCell>
 											<TableCell sx={{ fontSize: '0.82rem', color: '#475569', py: 1.25 }}>
@@ -258,8 +285,14 @@ const AccountUsersTab = () => {
 											<TableCell sx={{ py: 1.25 }}>
 												<Chip
 													size="small"
-													label={user.role || t('accountSettings.roleUser')}
-													sx={{ fontSize: '0.68rem', height: 18, backgroundColor: '#f1f5f9', color: '#475569', '& .MuiChip-label': { px: 0.75 } }}
+													label={ROLE_LABELS[role] || t('accountSettings.roleManager', 'Manager')}
+													sx={{
+														fontSize: '0.68rem', height: 18,
+														backgroundColor: role === 'ACCOUNT_OWNER' ? 'rgba(98,156,68,0.12)' : '#f1f5f9',
+														color: role === 'ACCOUNT_OWNER' ? '#629C44' : '#475569',
+														fontWeight: role === 'ACCOUNT_OWNER' ? 700 : 400,
+														'& .MuiChip-label': { px: 0.75 },
+													}}
 												/>
 											</TableCell>
 											<TableCell sx={{ py: 1.25 }}>
@@ -269,10 +302,13 @@ const AccountUsersTab = () => {
 															<ManageAccountsOutlinedIcon sx={{ fontSize: 16 }} />
 														</IconButton>
 													</Tooltip>
-													<Tooltip title={t('accountSettings.deleteUser')}>
-														<IconButton size="small" onClick={() => setUserToDelete(user)} sx={{ color: '#94a3b8', '&:hover': { color: '#ef4444' } }}>
-															<DeleteOutlineIcon sx={{ fontSize: 16 }} />
-														</IconButton>
+													<Tooltip title={isSelf ? t('accountSettings.cannotDeleteSelf', 'You cannot delete your own account') : t('accountSettings.deleteUser')}>
+														<span>
+															<IconButton size="small" onClick={() => setUserToDelete(user)} disabled={isSelf}
+																sx={{ color: '#94a3b8', '&:hover': { color: '#ef4444' }, '&.Mui-disabled': { color: '#e2e8f0' } }}>
+																<DeleteOutlineIcon sx={{ fontSize: 16 }} />
+															</IconButton>
+														</span>
 													</Tooltip>
 												</Box>
 											</TableCell>
@@ -286,7 +322,7 @@ const AccountUsersTab = () => {
 			</Paper>
 
 			{/* ── Add User Dialog ── */}
-			<Dialog open={openAdd} onClose={() => { if (!saving) setOpenAdd(false); }} maxWidth="md" fullWidth slotProps={{ paper: DIALOG_PAPER_SX }}>
+			<Dialog open={openAdd} onClose={() => { if (!saving) { setOpenAdd(false); setAddRole('ACCOUNT_MANAGER'); } }} maxWidth="md" fullWidth slotProps={{ paper: DIALOG_PAPER_SX }}>
 				<DialogTitle sx={{ pb: 1 }}>
 					<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
 						<PersonAddOutlinedIcon sx={{ fontSize: 18, color: '#629C44' }} />
@@ -306,6 +342,15 @@ const AccountUsersTab = () => {
 							<TextField size="small" label={t('accountSettings.email')} value={addForm.email} type="email"
 								onChange={e => setAddForm(p => ({ ...p, email: e.target.value }))}
 								sx={{ gridColumn: { sm: '1 / -1' }, '& .MuiOutlinedInput-root': { borderRadius: 2, fontSize: '0.85rem' } }} />
+							<Select size="small" value={addRole} onChange={e => setAddRole(e.target.value)}
+								sx={{ gridColumn: { sm: '1 / -1' }, borderRadius: 2, fontSize: '0.85rem' }}>
+								<MenuItem value="ACCOUNT_MANAGER" sx={{ fontSize: '0.85rem' }}>
+									{t('accountSettings.roleManager', 'Manager')}
+								</MenuItem>
+								<MenuItem value="ACCOUNT_OWNER" sx={{ fontSize: '0.85rem' }}>
+									{t('accountSettings.roleOwner', 'Owner')}
+								</MenuItem>
+							</Select>
 						</Box>
 						<Typography sx={{ fontSize: '0.72rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.07em' }}>
 							{t('accountSettings.permissions')}
@@ -315,7 +360,7 @@ const AccountUsersTab = () => {
 				</DialogContent>
 				<Divider sx={{ borderColor: '#f1f5f9' }} />
 				<DialogActions sx={{ px: 3, py: 2, gap: 1 }}>
-					<Button onClick={() => setOpenAdd(false)} disabled={saving} sx={{ borderRadius: 2, textTransform: 'none', fontSize: '0.82rem', color: '#64748b' }}>
+					<Button onClick={() => { setOpenAdd(false); setAddRole('ACCOUNT_MANAGER'); }} disabled={saving} sx={{ borderRadius: 2, textTransform: 'none', fontSize: '0.82rem', color: '#64748b' }}>
 						{t('accountSettings.cancel')}
 					</Button>
 					<Button variant="contained" onClick={handleAddUser} disabled={saving || !addForm.email.trim()}
