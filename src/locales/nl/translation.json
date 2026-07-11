@@ -779,7 +779,29 @@
       "JOB_DESCRIPTION_ANALYSIS": "Functieomschrijvingsanalyse",
       "RESUME_DATA_QUALITY_ANALYSIS": "CV-datakwaliteitsanalyse",
       "SENIORITY_DISTRIBUTION_ANALYSIS": "Senioriteitsverdeling",
-      "SKILLS_DISTRIBUTION": "Vaardigheidsverdeling"
+      "SKILLS_DISTRIBUTION": "Vaardigheidsverdeling",
+      "descriptions": {
+        "TALENT_POOL_INTELLIGENCE": "Overzicht van de omvang, gezondheid en samenstelling van je talentenpool.",
+        "TALENT_CLUSTERING": "Groepeer kandidaten op vaardigheden, senioriteit en leersnelheid.",
+        "CANDIDATE_RANKING": "Rangschik de beste kandidaten voor een rol of criterium.",
+        "CANDIDATE_REDISCOVERY": "Herontdek eerdere kandidaten die passen bij je huidige behoeften.",
+        "SKILL_GAP_ANALYSIS": "Vind ontbrekende vaardigheden in je pijplijn voor een doelrol.",
+        "SKILLS_DISTRIBUTION": "Zie hoe vaardigheden verdeeld zijn over je talentenpool.",
+        "CANDIDATE_COMPARISON": "Vergelijk kandidaten onderling of tegen een specifieke vacature."
+      },
+      "examples": {
+        "TALENT_POOL_INTELLIGENCE": "Hebben we genoeg senior Java-ontwikkelaars in België?",
+        "TALENT_CLUSTERING": "Hoe is mijn pool verdeeld over seniority-niveaus?",
+        "CANDIDATE_RANKING": "Wie zijn mijn top 10 kandidaten voor een senior DevOps-rol?",
+        "CANDIDATE_REDISCOVERY": "Vind vorig jaar afgewezen kandidaten die nu bij deze senior rol passen.",
+        "SKILL_GAP_ANALYSIS": "Welke belangrijke vaardigheden ontbreken in onze cybersecurity-pool?",
+        "SKILLS_DISTRIBUTION": "Welke vaardigheden komen het meest voor in mijn senior pool?",
+        "CANDIDATE_COMPARISON": "Vergelijk @Alice en @Bob tegen #Senior Java Developer. Wie past beter?"
+      }
+    },
+    "intro": {
+      "title": "Nieuwe conversatie starten",
+      "subtitle": "Kies een thema hieronder of stel je eigen vraag. Gebruik @ voor kandidaten en # voor vacatures."
     },
     "intentsShort": {
       "TALENT_POOL_INTELLIGENCE": "Talentpool",
@@ -809,6 +831,10 @@
       "message": "Weet u zeker dat u dit gesprek wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.",
       "cancel": "Annuleren",
       "confirm": "Verwijderen"
+    },
+    "input": {
+      "placeholder": "Vraag over je talentenpool… @ voor kandidaten, # voor vacatures",
+      "hint": "Enter om te verzenden · Shift+Enter voor nieuwe regel · @ kandidaten · # vacatures"
     }
   },
   "error": {

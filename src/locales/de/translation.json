@@ -782,7 +782,29 @@
       "JOB_DESCRIPTION_ANALYSIS": "Stellenbeschreibungsanalyse",
       "RESUME_DATA_QUALITY_ANALYSIS": "Lebenslaufqualitätsanalyse",
       "SENIORITY_DISTRIBUTION_ANALYSIS": "Seniorität-Verteilung",
-      "SKILLS_DISTRIBUTION": "Fähigkeitsverteilung"
+      "SKILLS_DISTRIBUTION": "Fähigkeitsverteilung",
+      "descriptions": {
+        "TALENT_POOL_INTELLIGENCE": "Einblick in Größe, Gesundheit und Zusammensetzung deines Talentpools.",
+        "TALENT_CLUSTERING": "Kandidaten nach Kompetenzen, Seniorität und Lerngeschwindigkeit gruppieren.",
+        "CANDIDATE_RANKING": "Top-Kandidaten für eine Rolle oder anhand von Kriterien einordnen.",
+        "CANDIDATE_REDISCOVERY": "Frühere starke Kandidaten wiederentdecken, die zu heutigen Anforderungen passen.",
+        "SKILL_GAP_ANALYSIS": "Fehlende Kompetenzen in deiner Pipeline für eine Zielrolle finden.",
+        "SKILLS_DISTRIBUTION": "Wie sich Kompetenzen über deinen Talentpool verteilen.",
+        "CANDIDATE_COMPARISON": "Kandidaten direkt vergleichen oder gegen eine bestimmte Stelle."
+      },
+      "examples": {
+        "TALENT_POOL_INTELLIGENCE": "Haben wir genug Senior-Java-Entwickler in Belgien?",
+        "TALENT_CLUSTERING": "Wie verteilt sich mein Pool auf die Seniority-Level?",
+        "CANDIDATE_RANKING": "Wer sind meine Top-10-Kandidaten für eine Senior-DevOps-Rolle?",
+        "CANDIDATE_REDISCOVERY": "Finde letztes Jahr abgelehnte Kandidaten, die zu dieser Senior-Rolle passen.",
+        "SKILL_GAP_ANALYSIS": "Welche wichtigen Kompetenzen fehlen in unserem Cybersecurity-Pool?",
+        "SKILLS_DISTRIBUTION": "Welche Kompetenzen sind in meinem Senior-Pool am häufigsten?",
+        "CANDIDATE_COMPARISON": "Vergleiche @Alice und @Bob gegen #Senior Java Developer. Wer passt besser?"
+      }
+    },
+    "intro": {
+      "title": "Neue Konversation starten",
+      "subtitle": "Wähle einen Vorschlag unten oder stelle deine eigene Frage. Mit @ Kandidaten und # Stellen erwähnen."
     },
     "intentsShort": {
       "TALENT_POOL_INTELLIGENCE": "Talentpool",
@@ -812,6 +834,10 @@
       "message": "Sind Sie sicher, dass Sie dieses Gespräch löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
       "cancel": "Abbrechen",
       "confirm": "Löschen"
+    },
+    "input": {
+      "placeholder": "Frage zu deinem Talentpool stellen… @ für Kandidaten, # für Stellen",
+      "hint": "Enter zum Senden · Umschalt+Enter für neue Zeile · @ Kandidaten · # Stellen"
     }
   },
   "error": {

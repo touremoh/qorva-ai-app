@@ -1,11 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
 import CircularProgress from '@mui/material/CircularProgress';
-import Paper from '@mui/material/Paper';
-import Tooltip from '@mui/material/Tooltip';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -13,7 +9,6 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Divider from '@mui/material/Divider';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import PsychologyOutlinedIcon from '@mui/icons-material/PsychologyOutlined';
 import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
 import { useTranslation } from 'react-i18next';
@@ -21,15 +16,9 @@ import { askInsight, getConversations, getConversationHistory, deleteConversatio
 import { getCVById } from '../../../services/cvService.js';
 import InsightResultCard from './InsightResultCard.jsx';
 import InsightConversationList from './InsightConversationList.jsx';
+import InsightIntentCards from './InsightIntentCards.jsx';
+import MentionInput from './MentionInput.jsx';
 import AppCVDetails from '../cv/AppCVDetails.jsx';
-
-const EXAMPLE_PROMPTS = [
-    'Show me a clustering of my talent pool',
-    'Who are my top candidates for senior engineering roles?',
-    'What skill gaps exist in my pipeline?',
-    'Find rediscoverable candidates for product management roles',
-    'How healthy is my current hiring pipeline?',
-];
 
 // Map InsightConversationTurnDTO to the shape InsightResultCard expects
 const turnToResult = (turn) => ({
@@ -41,6 +30,7 @@ const turnToResult = (turn) => ({
     charts:              turn.charts,
     followUpQuestions:   turn.followUpQuestions,
     disclaimer:          turn.disclaimer,
+    rawData:             turn.rawData,
 });
 
 const AppLibraryInsights = () => {
@@ -54,8 +44,10 @@ const AppLibraryInsights = () => {
     const [activeConvId, setActiveConvId] = useState(null);
     const [turns, setTurns] = useState([]);
     const [question, setQuestion] = useState('');
+    const [mentions, setMentions] = useState([]);
     const [loading, setLoading] = useState(false);
     const [loadingHistory, setLoadingHistory] = useState(false);
+    const [inputFocusToken, setInputFocusToken] = useState(0);
 
     const [selectedCV, setSelectedCV] = useState(null);
     const [cvLoading, setCvLoading] = useState(false);
@@ -105,6 +97,7 @@ const AppLibraryInsights = () => {
         setActiveConvId(null);
         setTurns([]);
         setQuestion('');
+        setMentions([]);
     }, []);
 
     // ── Load existing conversation ───────────────────────────────────────────
@@ -142,18 +135,25 @@ const AppLibraryInsights = () => {
     }, [activeConvId]);
 
     // ── Submit a question ────────────────────────────────────────────────────
-    const submit = useCallback(async (q) => {
+    const submit = useCallback(async (q, mentionsOverride) => {
         const trimmed = (q ?? question).trim();
         if (!trimmed || loading) return;
 
+        const submittedMentions = mentionsOverride ?? mentions;
+        const wireMentions = submittedMentions
+            .filter((m) => trimmed.includes(`${m.type === 'job' ? '#' : '@'}${m.name}`))
+            .map(({ type, id, name }) => ({ type, id, name }));
+
         setTurns(prev => [...prev, { type: 'question', text: trimmed }]);
         setQuestion('');
+        setMentions([]);
         setLoading(true);
         scrollToBottom();
 
         try {
             const isFirstTurn = !conversationIdRef.current;
             const payload = { question: trimmed };
+            if (wireMentions.length > 0) payload.mentions = wireMentions;
             if (conversationIdRef.current) payload.conversationId = conversationIdRef.current;
 
             const res = await askInsight(payload);
@@ -200,16 +200,9 @@ const AppLibraryInsights = () => {
             setLoading(false);
             scrollToBottom();
         }
-    }, [question, loading]);
+    }, [question, mentions, loading]);
 
-    const handleKeyDown = (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            submit();
-        }
-    };
-
-    const handleFollowUp = useCallback((s) => submit(s), [submit]);
+    const handleFollowUp = useCallback((s) => submit(s, []), [submit]);
 
     const handleDeleteRequest = useCallback((convId, convTitle) => {
         setConversationToDelete({ id: convId, title: convTitle });
@@ -327,7 +320,7 @@ const AppLibraryInsights = () => {
 
                     {/* Empty state */}
                     {isEmpty && (
-                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 6, gap: 2.5 }}>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 4, gap: 2 }}>
                             <Box sx={{
                                 width: 56,
                                 height: 56,
@@ -340,33 +333,17 @@ const AppLibraryInsights = () => {
                                 <ForumOutlinedIcon sx={{ fontSize: 26, color: '#629C44' }} />
                             </Box>
                             <Typography sx={{ fontWeight: 600, fontSize: '0.95rem', color: '#1e293b', textAlign: 'center' }}>
-                                Start a new conversation
+                                {t('insight.intro.title')}
                             </Typography>
-                            <Typography sx={{ fontSize: '0.8rem', color: '#94a3b8', textAlign: 'center', maxWidth: 380 }}>
-                                Get clustering insights, candidate shortlists, skill gap analysis, and more.
+                            <Typography sx={{ fontSize: '0.8rem', color: '#94a3b8', textAlign: 'center', maxWidth: 480 }}>
+                                {t('insight.intro.subtitle')}
                             </Typography>
-                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75, justifyContent: 'center', maxWidth: 520 }}>
-                                {EXAMPLE_PROMPTS.map((p, i) => (
-                                    <Paper
-                                        key={i}
-                                        onClick={() => submit(p)}
-                                        elevation={0}
-                                        sx={{
-                                            px: 1.5,
-                                            py: 0.75,
-                                            fontSize: '0.74rem',
-                                            color: '#475569',
-                                            border: '1px solid #e2e8f0',
-                                            borderRadius: 2,
-                                            cursor: 'pointer',
-                                            transition: 'all 0.15s ease',
-                                            '&:hover': { backgroundColor: '#f1f5f9', borderColor: '#cbd5e1', color: '#1e293b' },
-                                        }}
-                                    >
-                                        {p}
-                                    </Paper>
-                                ))}
-                            </Box>
+                            <InsightIntentCards
+                                onCardClick={(example) => {
+                                    setQuestion(example);
+                                    setInputFocusToken((n) => n + 1);
+                                }}
+                            />
                         </Box>
                     )}
 
@@ -462,9 +439,6 @@ const AppLibraryInsights = () => {
                 }}>
                     <Box sx={{ maxWidth: 820, mx: 'auto' }}>
                         <Box sx={{
-                            display: 'flex',
-                            gap: 1,
-                            alignItems: 'flex-end',
                             backgroundColor: '#f8fafc',
                             border: '1.5px solid #e2e8f0',
                             borderRadius: 3,
@@ -477,48 +451,19 @@ const AppLibraryInsights = () => {
                                 backgroundColor: '#ffffff',
                             },
                         }}>
-                            <TextField
-                                fullWidth
-                                multiline
-                                maxRows={4}
+                            <MentionInput
                                 value={question}
-                                onChange={(e) => setQuestion(e.target.value)}
-                                onKeyDown={handleKeyDown}
-                                placeholder="Ask about your talent pool…"
+                                onChange={setQuestion}
+                                mentions={mentions}
+                                onMentionsChange={setMentions}
+                                onSubmit={() => submit()}
                                 disabled={loading || loadingHistory}
-                                variant="standard"
-                                sx={{
-                                    '& .MuiInput-root': {
-                                        fontSize: '0.85rem',
-                                        color: '#1e293b',
-                                        '&::before, &::after': { display: 'none' },
-                                    },
-                                    '& .MuiInput-input': { py: 0.5 },
-                                }}
+                                placeholder={t('insight.input.placeholder')}
+                                focusToken={inputFocusToken}
                             />
-                            <Tooltip title="Send (Enter)">
-                                <span>
-                                    <IconButton
-                                        onClick={() => submit()}
-                                        disabled={!question.trim() || loading || loadingHistory}
-                                        sx={{
-                                            width: 34,
-                                            height: 34,
-                                            backgroundColor: question.trim() && !loading ? '#629C44' : 'transparent',
-                                            color: question.trim() && !loading ? '#ffffff' : '#cbd5e1',
-                                            borderRadius: 2,
-                                            flexShrink: 0,
-                                            '&:hover': { backgroundColor: question.trim() && !loading ? '#4d7a35' : 'rgba(0,0,0,0.04)' },
-                                            transition: 'all 0.15s ease',
-                                        }}
-                                    >
-                                        <SendOutlinedIcon sx={{ fontSize: 16 }} />
-                                    </IconButton>
-                                </span>
-                            </Tooltip>
                         </Box>
                         <Typography sx={{ fontSize: '0.62rem', color: '#cbd5e1', textAlign: 'center', mt: 0.6 }}>
-                            Enter to send · Shift+Enter for new line
+                            {t('insight.input.hint')}
                         </Typography>
                     </Box>
                 </Box>
