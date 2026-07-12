@@ -782,7 +782,29 @@
       "JOB_DESCRIPTION_ANALYSIS": "Analyse de description de poste",
       "RESUME_DATA_QUALITY_ANALYSIS": "Qualité des données de CV",
       "SENIORITY_DISTRIBUTION_ANALYSIS": "Distribution de séniorité",
-      "SKILLS_DISTRIBUTION": "Distribution des compétences"
+      "SKILLS_DISTRIBUTION": "Distribution des compétences",
+      "descriptions": {
+        "TALENT_POOL_INTELLIGENCE": "Obtenez un aperçu de la taille, de la santé et de la composition de votre vivier.",
+        "TALENT_CLUSTERING": "Regroupez les candidats par compétences, séniorité et vitesse d'apprentissage.",
+        "CANDIDATE_RANKING": "Classez les meilleurs candidats pour un poste ou selon vos critères.",
+        "CANDIDATE_REDISCOVERY": "Faites ressortir d'anciens candidats qui correspondent à vos besoins actuels.",
+        "SKILL_GAP_ANALYSIS": "Identifiez les compétences manquantes dans votre pipeline pour un poste cible.",
+        "SKILLS_DISTRIBUTION": "Visualisez comment les compétences se répartissent dans votre vivier.",
+        "CANDIDATE_COMPARISON": "Comparez des candidats entre eux ou face à une offre spécifique."
+      },
+      "examples": {
+        "TALENT_POOL_INTELLIGENCE": "Avons-nous assez de développeurs Java seniors en Belgique ?",
+        "TALENT_CLUSTERING": "Comment mon vivier est-il réparti par niveau de séniorité ?",
+        "CANDIDATE_RANKING": "Qui sont mes 10 meilleurs candidats pour un poste DevOps senior ?",
+        "CANDIDATE_REDISCOVERY": "Trouve des candidats rejetés l'an dernier qui correspondent à ce poste senior.",
+        "SKILL_GAP_ANALYSIS": "Quelles compétences importantes manquent dans mon vivier cybersécurité ?",
+        "SKILLS_DISTRIBUTION": "Quelles compétences sont les plus fréquentes dans mon vivier senior ?",
+        "CANDIDATE_COMPARISON": "Compare @Alice et @Bob face à #Senior Java Developer. Qui est le meilleur profil ?"
+      }
+    },
+    "intro": {
+      "title": "Démarrer une nouvelle conversation",
+      "subtitle": "Choisissez un thème ci-dessous ou posez votre propre question. Utilisez @ pour mentionner des candidats et # pour des offres."
     },
     "intentsShort": {
       "TALENT_POOL_INTELLIGENCE": "Pool de talents",
@@ -812,6 +834,10 @@
       "message": "Êtes-vous sûr de vouloir supprimer cette conversation ? Cette action est irréversible.",
       "cancel": "Annuler",
       "confirm": "Supprimer"
+    },
+    "input": {
+      "placeholder": "Interrogez votre vivier de talents… @ pour les candidats, # pour les offres",
+      "hint": "Entrée pour envoyer · Maj+Entrée pour nouvelle ligne · @ candidats · # offres"
     }
   },
   "error": {

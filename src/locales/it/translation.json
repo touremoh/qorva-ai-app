@@ -782,7 +782,29 @@
       "JOB_DESCRIPTION_ANALYSIS": "Analisi descrizione posizione",
       "RESUME_DATA_QUALITY_ANALYSIS": "Qualità dati CV",
       "SENIORITY_DISTRIBUTION_ANALYSIS": "Distribuzione seniority",
-      "SKILLS_DISTRIBUTION": "Distribuzione competenze"
+      "SKILLS_DISTRIBUTION": "Distribuzione competenze",
+      "descriptions": {
+        "TALENT_POOL_INTELLIGENCE": "Ottieni una panoramica su dimensione, salute e composizione del tuo bacino.",
+        "TALENT_CLUSTERING": "Raggruppa i candidati per competenze, seniority e velocità di apprendimento.",
+        "CANDIDATE_RANKING": "Classifica i migliori candidati per una posizione o un criterio.",
+        "CANDIDATE_REDISCOVERY": "Riscopri candidati precedenti che rispondono alle tue esigenze attuali.",
+        "SKILL_GAP_ANALYSIS": "Individua le competenze mancanti nel tuo pipeline per un ruolo specifico.",
+        "SKILLS_DISTRIBUTION": "Vedi come sono distribuite le competenze nel tuo bacino.",
+        "CANDIDATE_COMPARISON": "Confronta i candidati tra loro o rispetto a una posizione specifica."
+      },
+      "examples": {
+        "TALENT_POOL_INTELLIGENCE": "Abbiamo abbastanza sviluppatori Java senior in Belgio?",
+        "TALENT_CLUSTERING": "Com'è distribuito il mio bacino per livello di seniority?",
+        "CANDIDATE_RANKING": "Chi sono i miei top 10 candidati per un ruolo DevOps senior?",
+        "CANDIDATE_REDISCOVERY": "Trova candidati scartati l'anno scorso che ora corrispondono a questo ruolo senior.",
+        "SKILL_GAP_ANALYSIS": "Quali competenze importanti mancano nel mio bacino di cybersecurity?",
+        "SKILLS_DISTRIBUTION": "Quali competenze sono più comuni nel mio bacino senior?",
+        "CANDIDATE_COMPARISON": "Confronta @Alice e @Bob rispetto a #Senior Java Developer. Chi è più adatto?"
+      }
+    },
+    "intro": {
+      "title": "Avvia una nuova conversazione",
+      "subtitle": "Scegli un tema qui sotto o poni la tua domanda. Usa @ per menzionare candidati e # per offerte."
     },
     "intentsShort": {
       "TALENT_POOL_INTELLIGENCE": "Pool talenti",
@@ -812,6 +834,10 @@
       "message": "Sei sicuro di voler eliminare questa conversazione? Questa azione non può essere annullata.",
       "cancel": "Annulla",
       "confirm": "Elimina"
+    },
+    "input": {
+      "placeholder": "Interroga il tuo bacino di talenti… @ per i candidati, # per le offerte",
+      "hint": "Invio per inviare · Maiusc+Invio per nuova riga · @ candidati · # offerte"
     }
   },
   "error": {

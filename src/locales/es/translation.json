@@ -782,7 +782,29 @@
       "JOB_DESCRIPTION_ANALYSIS": "Análisis de descripción de puesto",
       "RESUME_DATA_QUALITY_ANALYSIS": "Calidad de datos del CV",
       "SENIORITY_DISTRIBUTION_ANALYSIS": "Distribución de seniority",
-      "SKILLS_DISTRIBUTION": "Distribución de habilidades"
+      "SKILLS_DISTRIBUTION": "Distribución de habilidades",
+      "descriptions": {
+        "TALENT_POOL_INTELLIGENCE": "Obtén un panorama del tamaño, salud y composición de tu banco de talento.",
+        "TALENT_CLUSTERING": "Agrupa candidatos por competencias, seniority y velocidad de aprendizaje.",
+        "CANDIDATE_RANKING": "Clasifica a los mejores candidatos para un puesto o criterio.",
+        "CANDIDATE_REDISCOVERY": "Redescubre candidatos previos que encajan con tus necesidades actuales.",
+        "SKILL_GAP_ANALYSIS": "Encuentra habilidades faltantes en tu pipeline para un puesto objetivo.",
+        "SKILLS_DISTRIBUTION": "Visualiza cómo se distribuyen las habilidades en tu banco de talento.",
+        "CANDIDATE_COMPARISON": "Compara candidatos entre sí o frente a una vacante específica."
+      },
+      "examples": {
+        "TALENT_POOL_INTELLIGENCE": "¿Tenemos suficientes desarrolladores Java senior en Bélgica?",
+        "TALENT_CLUSTERING": "¿Cómo se distribuye mi banco por nivel de seniority?",
+        "CANDIDATE_RANKING": "¿Quiénes son mis 10 mejores candidatos para un rol DevOps senior?",
+        "CANDIDATE_REDISCOVERY": "Encuentra candidatos rechazados el año pasado que ahora encajen en este rol senior.",
+        "SKILL_GAP_ANALYSIS": "¿Qué habilidades importantes faltan en mi banco de ciberseguridad?",
+        "SKILLS_DISTRIBUTION": "¿Qué habilidades son las más comunes en mi banco senior?",
+        "CANDIDATE_COMPARISON": "Compara @Alice y @Bob frente a #Senior Java Developer. ¿Quién encaja mejor?"
+      }
+    },
+    "intro": {
+      "title": "Iniciar una nueva conversación",
+      "subtitle": "Elige un tema abajo o haz tu propia pregunta. Usa @ para mencionar candidatos y # para vacantes."
     },
     "intentsShort": {
       "TALENT_POOL_INTELLIGENCE": "Pool de talento",
@@ -812,6 +834,10 @@
       "message": "¿Está seguro de que desea eliminar esta conversación? Esta acción no se puede deshacer.",
       "cancel": "Cancelar",
       "confirm": "Eliminar"
+    },
+    "input": {
+      "placeholder": "Consulta tu banco de talentos… @ para candidatos, # para vacantes",
+      "hint": "Intro para enviar · Mayús+Intro para nueva línea · @ candidatos · # vacantes"
     }
   },
   "error": {

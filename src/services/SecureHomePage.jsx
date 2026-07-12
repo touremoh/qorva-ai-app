@@ -1,5 +1,7 @@
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Box, CircularProgress } from '@mui/material';
+import PropTypes from 'prop-types';
 import { validateToken, refreshToken } from './authService.js';
 import { t } from "i18next";
 import {
@@ -12,21 +14,23 @@ import { setAuthResults } from "../../localStorageManager.js";
 
 const SecureHomePage = ({ children }) => {
 	const navigate = useNavigate();
-	const token = localStorage.getItem(AUTH_TOKEN);
-
-	const isTokenValid = async () => {
-		try {
-			if (!token) return false;
-			const response = await validateToken(token);
-			return response.data?.data === true;
-		} catch {
-			return false;
-		}
-	};
+	const [isAuthorized, setIsAuthorized] = useState(false);
 
 	useEffect(() => {
+		const isTokenValid = async (token) => {
+			try {
+				if (!token) return false;
+				const response = await validateToken(token);
+				return response.data?.data === true;
+			} catch {
+				return false;
+			}
+		};
+
 		const verifyToken = async () => {
-			if (!(await isTokenValid())) {
+			const token = localStorage.getItem(AUTH_TOKEN);
+
+			if (!(await isTokenValid(token))) {
 				localStorage.clear();
 				navigate('/login');
 				return;
@@ -44,7 +48,7 @@ const SecureHomePage = ({ children }) => {
 				const subscriptionStatus = localStorage.getItem(SUBSCRIPTION_STATUS);
 
 				if (DASHBOARD_STATUSES.includes(subscriptionStatus)) {
-					// valid — stay on dashboard
+					setIsAuthorized(true);
 				} else if (NEEDS_PAYMENT_STATUSES.includes(subscriptionStatus)) {
 					navigate('/billing/cancel');
 				} else {
@@ -58,7 +62,27 @@ const SecureHomePage = ({ children }) => {
 		verifyToken();
 	}, [navigate]);
 
+	if (!isAuthorized) {
+		return (
+			<Box
+				sx={{
+					height: '100vh',
+					width: '100vw',
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+				}}
+			>
+				<CircularProgress sx={{ color: '#629C44' }} />
+			</Box>
+		);
+	}
+
 	return children;
+};
+
+SecureHomePage.propTypes = {
+	children: PropTypes.node,
 };
 
 export default SecureHomePage;
