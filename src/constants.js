@@ -13,8 +13,31 @@ export const USER_FIRST_NAME = 'USER_FIRST_NAME';
 export const USER_LAST_NAME = 'USER_LAST_NAME';
 export const TENANT_ID = 'TENANT_ID';
 export const SUBSCRIPTION_STATUS = 'SUBSCRIPTION_STATUS';
+export const USER_ACCOUNT_STATUS = 'USER_ACCOUNT_STATUS';
+export const USER_AUTHORITIES = 'USER_AUTHORITIES';
 export const TOKEN_EXPIRY = 'tokenExpiry';
 export const QORVA_USER_LANGUAGE = 'QORVA_USER_LANGUAGE';
+
+// Account lifecycle status (user.userAccountStatus) — distinct from subscription status.
+export const ACCOUNT_STATUS_DEMO = 'DEMO';
+export const ACCOUNT_STATUS_ACTIVE = 'ACTIVE';
+
+// Supported UI languages (base codes). `en` is the default/fallback.
+export const SUPPORTED_LANGUAGES = ['en', 'fr', 'de', 'es', 'it', 'nl', 'pt'];
+
+// recruitmentType enum values — human labels are localized via i18n (`recruitment.<value>`).
+export const RECRUITMENT_TYPES = [
+	'TECH_IT',
+	'ENGINEERING',
+	'FINANCE_ACCOUNTING',
+	'SALES_MARKETING',
+	'HEALTHCARE_LIFESCIENCES',
+	'EXECUTIVE_MANAGEMENT',
+	'GENERALIST',
+];
+
+// organizationSize buckets — the label string itself is submitted to the backend.
+export const ORGANIZATION_SIZES = ['1-10', '11-50', '51-200', '201-500', '500+'];
 // Subscription status values returned by the API
 export const STATUS_ACTIVE = 'active';
 export const STATUS_TRIALING = 'trialing';

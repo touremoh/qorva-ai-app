@@ -10,3 +10,12 @@ export const validateToken = (token) =>
 
 export const refreshToken = () =>
     apiClient.post('/auth/token/refresh');
+
+// Public — set a new password using the JWT from the activation email link.
+export const setPassword = (token, newPassword) =>
+    apiClient.post('/auth/password/set', { token, newPassword });
+
+// Public — request a fresh activation / set-password link. Always resolves
+// with { data: true } (no account enumeration).
+export const resendActivation = (email) =>
+    apiClient.post('/auth/password/resend', { email });

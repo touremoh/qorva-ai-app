@@ -39,6 +39,8 @@ import {
 } from '../../../constants.js';
 import AccountUsersTab from './AccountUsersTab.jsx';
 import AccountCompanyTab from './AccountCompanyTab.jsx';
+import { isDemoUser } from '../../../utils/demoMode.js';
+import UpgradeButton from '../../demo/UpgradeButton.jsx';
 
 const SectionHeader = ({ icon: Icon, label, action }) => (
 	<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2, pb: 1, borderBottom: '2px solid #629C44' }}>
@@ -90,6 +92,7 @@ const NAV_TABS = [
 const AccountSettings = () => {
 	const { t } = useTranslation();
 	const navigate = useNavigate();
+	const demo = isDemoUser();
 
 	const [activeTab, setActiveTab] = useState('profile');
 	const [loadingPortal, setLoadingPortal] = useState(false);
@@ -275,7 +278,7 @@ const AccountSettings = () => {
 							<SectionHeader
 								icon={PersonOutlineOutlinedIcon}
 								label={t('accountSettings.profileInformation')}
-								action={!editMode && (
+								action={!demo && !editMode && (
 									<Tooltip title={t('accountSettings.editProfile')}>
 										<IconButton size="small" onClick={() => setEditMode(true)}
 											sx={{ color: '#629C44', border: '1px solid rgba(98,156,68,0.3)', borderRadius: 1.5, p: 0.5 }}>
@@ -388,6 +391,9 @@ const AccountSettings = () => {
 				{/* ══ Billing Tab ══ */}
 				{activeTab === 'billing' && (
 					<Box sx={{ maxWidth: 480 }}>
+						{demo ? (
+							<UpgradeButton reason="billing" variant="outlined" size="small" />
+						) : (
 						<Paper
 							elevation={0}
 							onClick={handleOpenBillingPortal}
@@ -425,6 +431,7 @@ const AccountSettings = () => {
 								</>
 							)}
 						</Paper>
+						)}
 						<Typography sx={{ fontSize: '0.72rem', color: '#94a3b8', lineHeight: 1.6, px: 0.5, mt: 2 }}>
 							{t('accountSettings.footerHint')}
 						</Typography>

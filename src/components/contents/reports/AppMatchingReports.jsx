@@ -23,6 +23,8 @@ import AppMatchingReportDetails from './AppMatchingReportDetails.jsx';
 import { getReports, getReportsByFilter, startMatching, deleteReport, exportCsv } from '../../../services/reportService.js';
 import { getJobs } from '../../../services/jobService.js';
 import { QORVA_USER_LANGUAGE } from '../../../constants.js';
+import { isDemoUser } from '../../../utils/demoMode.js';
+import QuotaIndicator from '../../demo/QuotaIndicator.jsx';
 
 const PAGE_SIZES = [10, 25, 50, 100];
 
@@ -45,6 +47,7 @@ const getInitials = (name = '') =>
 
 const AppMatchingReports = () => {
 	const { t } = useTranslation();
+	const demo = isDemoUser();
 
 	const [reports, setReports] = useState([]);
 	const [jobs, setJobs] = useState([]);
@@ -455,47 +458,51 @@ const AppMatchingReports = () => {
 					</IconButton>
 				</Tooltip>
 
-				<Tooltip title={!selectedJobId ? t('appReportContent.exportCsvSelectJob') : ''}>
-					<span>
-						<Button
-							size="small"
-							variant="outlined"
-							onClick={handleExportCsv}
-							disabled={!selectedJobId || exportLoading}
-							startIcon={exportLoading
-								? <CircularProgress size={14} color="inherit" />
-								: <FileDownloadOutlinedIcon sx={{ fontSize: 17 }} />
-							}
-							sx={{
-								borderRadius: 1.5, textTransform: 'none', fontSize: '0.82rem',
-								borderColor: '#e2e8f0', color: '#475569',
-								'&:hover': { borderColor: '#629C44', color: '#629C44', backgroundColor: 'rgba(98,156,68,0.05)' },
-								'&.Mui-disabled': { borderColor: '#e2e8f0', color: '#cbd5e1' },
-							}}
-						>
-							{t('appReportContent.exportCsv')}
-						</Button>
-					</span>
-				</Tooltip>
+				{demo ? (
+					<QuotaIndicator />
+				) : (
+					<Tooltip title={!selectedJobId ? t('appReportContent.exportCsvSelectJob') : ''}>
+						<span>
+							<Button
+								size="small"
+								variant="outlined"
+								onClick={handleExportCsv}
+								disabled={!selectedJobId || exportLoading}
+								startIcon={exportLoading
+									? <CircularProgress size={14} color="inherit" />
+									: <FileDownloadOutlinedIcon sx={{ fontSize: 17 }} />
+								}
+								sx={{
+									borderRadius: 1.5, textTransform: 'none', fontSize: '0.82rem',
+									borderColor: '#e2e8f0', color: '#475569',
+									'&:hover': { borderColor: '#629C44', color: '#629C44', backgroundColor: 'rgba(98,156,68,0.05)' },
+									'&.Mui-disabled': { borderColor: '#e2e8f0', color: '#cbd5e1' },
+								}}
+							>
+								{t('appReportContent.exportCsv')}
+							</Button>
+						</span>
+					</Tooltip>
+				)}
 			</Box>
 
 			{/* Matching in progress — progress bar */}
 			{(matchingLoading || matchingSubmitted) && (
 				<Box sx={{
 					px: 2.5, py: 1.5,
-					backgroundColor: 'rgba(99,102,241,0.05)',
-					borderBottom: '1px solid rgba(99,102,241,0.15)',
+					backgroundColor: 'rgba(98,156,68,0.05)',
+					borderBottom: '1px solid rgba(98,156,68,0.2)',
 					flexShrink: 0,
 				}}>
 					<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 0.75 }}>
 						<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-							<CircularProgress size={14} thickness={5} sx={{ color: '#6366f1' }} />
-							<Typography sx={{ fontSize: '0.84rem', fontWeight: 600, color: '#3730a3' }}>
+							<CircularProgress size={14} thickness={5} sx={{ color: '#629C44' }} />
+							<Typography sx={{ fontSize: '0.84rem', fontWeight: 600, color: '#166534' }}>
 								{t('appReportContent.matchingInProgress')}
 							</Typography>
 						</Box>
 						<Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-							<Typography sx={{ fontSize: '0.75rem', color: '#6366f1', fontWeight: 500 }}>
+							<Typography sx={{ fontSize: '0.75rem', color: '#629C44', fontWeight: 600 }}>
 								{Math.round(matchingProgress)}%
 							</Typography>
 							<Typography sx={{ fontSize: '0.75rem', color: '#6b7280' }}>
@@ -511,15 +518,15 @@ const AppMatchingReports = () => {
 						value={matchingProgress}
 						sx={{
 							height: 7, borderRadius: 4,
-							backgroundColor: 'rgba(99,102,241,0.12)',
+							backgroundColor: 'rgba(98,156,68,0.12)',
 							'& .MuiLinearProgress-bar': {
 								borderRadius: 4,
-								background: 'linear-gradient(90deg, #6366f1 0%, #818cf8 60%, #a5b4fc 100%)',
+								background: 'linear-gradient(90deg, #629C44 0%, #7cb342 60%, #aed581 100%)',
 								transition: 'transform 0.5s linear',
 							},
 						}}
 					/>
-					<Typography sx={{ fontSize: '0.72rem', color: '#6366f1', mt: 0.75, fontStyle: 'italic' }}>
+					<Typography sx={{ fontSize: '0.72rem', color: '#629C44', mt: 0.75, fontStyle: 'italic' }}>
 						{t(`appReportContent.${getMatchingPhaseKey(matchingElapsed)}`)}
 					</Typography>
 				</Box>

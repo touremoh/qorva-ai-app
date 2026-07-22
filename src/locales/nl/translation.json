@@ -10,7 +10,6 @@
     "emailRequired": "E-mail is verplicht",
     "emailInvalid": "Voer een geldig e-mailadres in",
     "passwordRequired": "Wachtwoord is verplicht",
-    "passwordInvalid": "8–20 tekens met hoofdletter, kleine letter, cijfer en symbool",
     "invalidCredentials": "Onjuiste e-mail of wachtwoord",
     "togglePasswordVisibility": "Wachtwoord tonen/verbergen",
     "panel": {
@@ -66,7 +65,17 @@
       "message": "Je account is succesvol aangemaakt.",
       "confirmationEmail": "Een bevestigingsmail is verstuurd.",
       "signInLink": "Log in om direct te starten."
-    }
+    },
+    "demoSubtext": "Maak uw gratis demowerkruimte — geen creditcard, geen betaling.",
+    "organizationName": "Naam van de organisatie",
+    "organizationNameRequired": "Naam van de organisatie is verplicht",
+    "recruitmentType": "Welk type werving doet u voornamelijk?",
+    "recruitmentTypeRequired": "Selecteer een type werving",
+    "organizationSize": "Omvang van de organisatie",
+    "organizationSizeRequired": "Selecteer een omvang",
+    "orgSizeEmployees": "{{size}} medewerkers",
+    "createDemoAccount": "Gratis demo-account aanmaken",
+    "accountExists": "Er bestaat al een account met dit e-mailadres. Log in."
   },
   "header": {
     "matching": "Matching",
@@ -281,6 +290,16 @@
     "uploadFiles": "Bestanden uploaden",
     "uploadInProgress": "Bezig met uploaden…",
     "uploadCVInfo": "Upload max. 100 CV’s in .pdf of .docx.",
+    "uploadProgressTitle": "Je cv's worden verwerkt…",
+    "uploadComplete": "Cv's succesvol geüpload!",
+    "remaining": "resterend",
+    "almostDone": "Bijna klaar…",
+    "uploadPhase1": "Je cv's worden geüpload…",
+    "uploadPhase2": "Tekst en contactgegevens extraheren…",
+    "uploadPhase3": "Ervaring en vaardigheden analyseren…",
+    "uploadPhase4": "Kandidaatprofielen structureren…",
+    "uploadPhase5": "Kandidaten groeperen…",
+    "uploadPhase6": "Afronden en controleren op duplicaten…",
     "skills": "Vaardigheden",
     "filterByName": "Filteren op naam…",
     "filterByRole": "Filteren op rol…",
@@ -704,9 +723,13 @@
   "registrationSuccess": {
     "title": "Helemaal klaar!",
     "subtitle": "Je Qorva AI-account is succesvol aangemaakt.",
-    "emailNote": "We hebben je een bevestigingsmail gestuurd. Verifieer je e-mail om alle functies te activeren. Zie je niets? Controleer dan je spammap.",
+    "emailNote": "We hebben een e-mail gestuurd om uw account te activeren en uw wachtwoord in te stellen. Ziet u die niet, controleer dan uw spammap.",
     "ctaLogin": "Inloggen",
-    "help": "Hulp nodig? Neem contact op via support@qorva.ai"
+    "help": "Hulp nodig? Neem contact op via support@qorva.ai",
+    "noEmail": "Niet ontvangen?",
+    "resend": "Opnieuw versturen",
+    "resending": "Versturen…",
+    "resendConfirm": "Als dat e-mailadres bestaat, hebben we een nieuwe link gestuurd."
   },
   "insight": {
     "metrics": {
@@ -908,5 +931,72 @@
       "validation": "Een of meer velden zijn niet geslaagd voor validatie.",
       "unexpected": "Er is een onverwachte fout opgetreden. Probeer het later opnieuw."
     }
+  },
+  "recruitment": {
+    "TECH_IT": "Tech & IT",
+    "ENGINEERING": "Engineering",
+    "FINANCE_ACCOUNTING": "Financiën & boekhouding",
+    "SALES_MARKETING": "Sales & marketing",
+    "HEALTHCARE_LIFESCIENCES": "Zorg & life sciences",
+    "EXECUTIVE_MANAGEMENT": "Directie & management",
+    "GENERALIST": "Generalist"
+  },
+  "demo": {
+    "upgradeToUnlock": "Upgraden om te ontgrendelen",
+    "upgradeTooltip": "Upgrade voor volledige toegang",
+    "bannerTitle": "U bevindt zich in de demomodus",
+    "bannerSubtitle": "met voorbeeldgegevens",
+    "startTrial": "Start gratis proefperiode van 14 dagen",
+    "startTrialCta": "Start gratis proefperiode",
+    "upgradeTitle": "Upgrade uw werkruimte",
+    "upgradeSubtitle": "Ontgrendel uploads, vacatures, teambeheer en onbeperkte rapporten. 14 dagen gratis, altijd opzegbaar.",
+    "upgradeForbiddenSubtitle": "Voor deze actie is een betaald abonnement nodig. Start uw gratis proefperiode van 14 dagen voor volledige toegang.",
+    "selectPlanFirst": "Selecteer een abonnement om door te gaan.",
+    "upgradeError": "Kan de betaling niet starten. Probeer het opnieuw.",
+    "stripeNote": "Veilig afrekenen via Stripe. Uw proefperiode van 14 dagen begint vandaag — altijd opzegbaar.",
+    "close": "Sluiten",
+    "reportsQuota": "Demorapporten",
+    "quotaExhaustedTooltip": "Rapportlimiet bereikt — upgrade voor onbeperkte rapporten"
+  },
+  "setPassword": {
+    "title": "Stel uw wachtwoord in",
+    "subtitle": "Kies een wachtwoord om uw account te activeren.",
+    "newPassword": "Nieuw wachtwoord",
+    "confirmPassword": "Bevestig wachtwoord",
+    "passwordRequired": "Wachtwoord is verplicht",
+    "passwordTooShort": "Het wachtwoord moet minstens 8 tekens bevatten",
+    "passwordInvalid": "8–64 tekens met minstens 1 hoofdletter, 1 kleine letter, 1 cijfer en 1 speciaal teken",
+    "confirmRequired": "Bevestig uw wachtwoord",
+    "passwordMismatch": "De wachtwoorden komen niet overeen",
+    "passwordHint": "Minstens 8 tekens, met een hoofdletter, kleine letter, cijfer en speciaal teken",
+    "togglePasswordVisibility": "Wachtwoordzichtbaarheid wisselen",
+    "submit": "Wachtwoord instellen & activeren",
+    "successTitle": "Wachtwoord ingesteld!",
+    "successMessage": "Uw account is nu actief. U wordt doorgestuurd naar de login…",
+    "errorInvalid": "Deze link is ongeldig of verlopen.",
+    "errorUsed": "Deze link is al gebruikt.",
+    "errorGeneric": "Er is iets misgegaan. Probeer het opnieuw.",
+    "requestNewLink": "Nieuwe link aanvragen",
+    "goToLogin": "Inloggen"
+  },
+  "resendActivation": {
+    "title": "Activatielink opnieuw versturen",
+    "subtitle": "Voer uw e-mailadres in en we sturen u een nieuwe link om uw account te activeren en uw wachtwoord in te stellen.",
+    "emailLabel": "Zakelijk e-mailadres",
+    "emailRequired": "E-mailadres is verplicht",
+    "emailInvalid": "Voer een geldig e-mailadres in",
+    "submit": "Link versturen",
+    "sentTitle": "Controleer uw inbox",
+    "sentMessage": "Als dat e-mailadres bestaat, hebben we een link gestuurd om uw account te activeren en uw wachtwoord in te stellen.",
+    "backToLogin": "Terug naar login"
+  },
+  "checkoutSuccess": {
+    "activatingTitle": "Uw proefperiode activeren…",
+    "activatingSubtitle": "We bevestigen uw betaling en ontgrendelen volledige toegang. Dit duurt maar een paar seconden.",
+    "trialStartedTitle": "Proefperiode gestart!",
+    "trialStartedSubtitle": "Uw gratis proefperiode van 14 dagen is actief en volledige toegang is ontgrendeld. Uw werkruimte is klaar voor echte gegevens.",
+    "goToWorkspace": "Ga naar uw werkruimte",
+    "pendingTitle": "Betaling ontvangen",
+    "pendingSubtitle": "Uw proefperiode wordt geactiveerd. Dit kan even duren — open uw werkruimte en deze wordt automatisch ontgrendeld."
   }
 }

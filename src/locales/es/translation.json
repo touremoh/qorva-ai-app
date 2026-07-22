@@ -10,7 +10,6 @@
     "emailRequired": "El correo electrónico es obligatorio",
     "emailInvalid": "Introduzca un correo electrónico válido",
     "passwordRequired": "La contraseña es obligatoria",
-    "passwordInvalid": "8–20 caracteres, con mayúscula, minúscula, número y símbolo",
     "invalidCredentials": "Correo o contraseña incorrectos",
     "togglePasswordVisibility": "Mostrar/ocultar contraseña",
     "panel": {
@@ -66,7 +65,17 @@
       "message": "Su cuenta ha sido creada.",
       "confirmationEmail": "Le hemos enviado un correo de confirmación.",
       "signInLink": "Acceda ahora para empezar a utilizar la aplicación."
-    }
+    },
+    "demoSubtext": "Cree su espacio de demostración gratuito: sin tarjeta de crédito, sin pago.",
+    "organizationName": "Nombre de la organización",
+    "organizationNameRequired": "El nombre de la organización es obligatorio",
+    "recruitmentType": "¿Qué tipo de reclutamiento realiza principalmente?",
+    "recruitmentTypeRequired": "Seleccione un tipo de reclutamiento",
+    "organizationSize": "Tamaño de la organización",
+    "organizationSizeRequired": "Seleccione un tamaño",
+    "orgSizeEmployees": "{{size}} empleados",
+    "createDemoAccount": "Crear cuenta demo gratuita",
+    "accountExists": "Ya existe una cuenta con este correo. Inicie sesión."
   },
   "header": {
     "matching": "Matching",
@@ -281,6 +290,16 @@
     "uploadFiles": "Subir archivos",
     "uploadInProgress": "Subiendo… espere",
     "uploadCVInfo": "Puede subir hasta 100 CV en formato .pdf o .docx.",
+    "uploadProgressTitle": "Procesando tus CV…",
+    "uploadComplete": "¡CV subidos correctamente!",
+    "remaining": "restante",
+    "almostDone": "Casi listo…",
+    "uploadPhase1": "Subiendo tus CV…",
+    "uploadPhase2": "Extrayendo texto y datos de contacto…",
+    "uploadPhase3": "Analizando experiencia y habilidades…",
+    "uploadPhase4": "Estructurando los perfiles de candidatos…",
+    "uploadPhase5": "Agrupando candidatos…",
+    "uploadPhase6": "Finalizando y buscando duplicados…",
     "skills": "Habilidades",
     "filterByName": "Filtrar por nombre…",
     "filterByRole": "Filtrar por rol…",
@@ -707,9 +726,13 @@
   "registrationSuccess": {
     "title": "¡Todo listo!",
     "subtitle": "Tu cuenta de Qorva AI se ha creado correctamente.",
-    "emailNote": "Te hemos enviado un correo de confirmación. Verifica tu email para activar todas las funciones. Si no lo ves, revisa la carpeta de spam.",
+    "emailNote": "Hemos enviado un correo para activar su cuenta y establecer su contraseña. Si no lo ve, revise su carpeta de spam.",
     "ctaLogin": "Acceder",
-    "help": "¿Necesitas ayuda? Escribe a support@qorva.ai"
+    "help": "¿Necesitas ayuda? Escribe a support@qorva.ai",
+    "noEmail": "¿No lo recibió?",
+    "resend": "Reenviar",
+    "resending": "Enviando…",
+    "resendConfirm": "Si ese correo existe, hemos enviado un nuevo enlace."
   },
   "insight": {
     "metrics": {
@@ -911,5 +934,72 @@
       "validation": "Uno o más campos no superaron la validación.",
       "unexpected": "Ocurrió un error inesperado. Por favor, inténtelo de nuevo más tarde."
     }
+  },
+  "recruitment": {
+    "TECH_IT": "Tecnología e IT",
+    "ENGINEERING": "Ingeniería",
+    "FINANCE_ACCOUNTING": "Finanzas y contabilidad",
+    "SALES_MARKETING": "Ventas y marketing",
+    "HEALTHCARE_LIFESCIENCES": "Salud y ciencias de la vida",
+    "EXECUTIVE_MANAGEMENT": "Dirección y gestión",
+    "GENERALIST": "Generalista"
+  },
+  "demo": {
+    "upgradeToUnlock": "Mejorar para desbloquear",
+    "upgradeTooltip": "Mejore su plan para acceso completo",
+    "bannerTitle": "Está en modo demo",
+    "bannerSubtitle": "usando datos de ejemplo",
+    "startTrial": "Iniciar prueba gratuita de 14 días",
+    "startTrialCta": "Iniciar prueba gratuita",
+    "upgradeTitle": "Mejore su espacio de trabajo",
+    "upgradeSubtitle": "Desbloquee cargas, ofertas de empleo, gestión de equipos e informes ilimitados. 14 días gratis, cancele cuando quiera.",
+    "upgradeForbiddenSubtitle": "Esa acción requiere un plan de pago. Inicie su prueba gratuita de 14 días para acceso completo.",
+    "selectPlanFirst": "Seleccione un plan para continuar.",
+    "upgradeError": "No se pudo iniciar el pago. Inténtelo de nuevo.",
+    "stripeNote": "Pago seguro con Stripe. Su prueba de 14 días comienza hoy: cancele cuando quiera.",
+    "close": "Cerrar",
+    "reportsQuota": "Informes demo",
+    "quotaExhaustedTooltip": "Límite de informes alcanzado: mejore su plan para informes ilimitados"
+  },
+  "setPassword": {
+    "title": "Establezca su contraseña",
+    "subtitle": "Elija una contraseña para activar su cuenta.",
+    "newPassword": "Nueva contraseña",
+    "confirmPassword": "Confirmar contraseña",
+    "passwordRequired": "La contraseña es obligatoria",
+    "passwordTooShort": "La contraseña debe tener al menos 8 caracteres",
+    "passwordInvalid": "8–64 caracteres con al menos 1 mayúscula, 1 minúscula, 1 número y 1 carácter especial",
+    "confirmRequired": "Confirme su contraseña",
+    "passwordMismatch": "Las contraseñas no coinciden",
+    "passwordHint": "Al menos 8 caracteres, con una mayúscula, una minúscula, un número y un carácter especial",
+    "togglePasswordVisibility": "Mostrar/ocultar contraseña",
+    "submit": "Establecer contraseña y activar",
+    "successTitle": "¡Contraseña establecida!",
+    "successMessage": "Su cuenta ya está activa. Redirigiendo al inicio de sesión…",
+    "errorInvalid": "Este enlace no es válido o ha caducado.",
+    "errorUsed": "Este enlace ya se ha utilizado.",
+    "errorGeneric": "Algo salió mal. Inténtelo de nuevo.",
+    "requestNewLink": "Solicitar un nuevo enlace",
+    "goToLogin": "Iniciar sesión"
+  },
+  "resendActivation": {
+    "title": "Reenviar enlace de activación",
+    "subtitle": "Introduzca su correo y le enviaremos un nuevo enlace para activar su cuenta y establecer su contraseña.",
+    "emailLabel": "Correo profesional",
+    "emailRequired": "El correo es obligatorio",
+    "emailInvalid": "Introduzca una dirección de correo válida",
+    "submit": "Enviar enlace",
+    "sentTitle": "Revise su bandeja de entrada",
+    "sentMessage": "Si ese correo existe, hemos enviado un enlace para activar su cuenta y establecer su contraseña.",
+    "backToLogin": "Volver al inicio de sesión"
+  },
+  "checkoutSuccess": {
+    "activatingTitle": "Activando su prueba…",
+    "activatingSubtitle": "Estamos confirmando su pago y desbloqueando el acceso completo. Solo tarda unos segundos.",
+    "trialStartedTitle": "¡Prueba iniciada!",
+    "trialStartedSubtitle": "Su prueba gratuita de 14 días está activa y el acceso completo está desbloqueado. Su espacio de trabajo está listo para datos reales.",
+    "goToWorkspace": "Ir a su espacio de trabajo",
+    "pendingTitle": "Pago recibido",
+    "pendingSubtitle": "Su prueba se está activando. Puede tardar un momento: abra su espacio de trabajo y se desbloqueará automáticamente."
   }
 }

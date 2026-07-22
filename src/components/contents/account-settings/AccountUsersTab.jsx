@@ -33,6 +33,8 @@ import { useTranslation } from 'react-i18next';
 import { getUsers, createUser, updateUserAuthorities, deleteUser } from '../../../services/userService.js';
 import { toastError } from '../../../utils/errorHandler.js';
 import { USER_EMAIL } from '../../../constants.js';
+import { isDemoUser } from '../../../utils/demoMode.js';
+import UpgradeButton from '../../demo/UpgradeButton.jsx';
 
 const ALL_ACTIONS = [
 	'VIEW_DASHBOARD',
@@ -121,6 +123,7 @@ const BTN_GREEN_SX = {
 
 const AccountUsersTab = () => {
 	const { t } = useTranslation();
+	const demo = isDemoUser();
 	const [users, setUsers] = useState([]);
 	const [loadingUsers, setLoadingUsers] = useState(false);
 
@@ -219,15 +222,19 @@ const AccountUsersTab = () => {
 				<Typography sx={{ fontWeight: 600, fontSize: '0.95rem', color: '#0f172a', flex: 1 }}>
 					{t('accountSettings.tabs.users')}
 				</Typography>
-				<Button
-					variant="contained"
-					size="small"
-					startIcon={<PersonAddOutlinedIcon sx={{ fontSize: 15 }} />}
-					onClick={() => setOpenAdd(true)}
-					sx={{ ...BTN_GREEN_SX, px: 1.5, fontSize: '0.78rem' }}
-				>
-					{t('accountSettings.addUser')}
-				</Button>
+				{demo ? (
+					<UpgradeButton reason="invite-user" variant="contained" size="medium" />
+				) : (
+					<Button
+						variant="contained"
+						size="small"
+						startIcon={<PersonAddOutlinedIcon sx={{ fontSize: 15 }} />}
+						onClick={() => setOpenAdd(true)}
+						sx={{ ...BTN_GREEN_SX, px: 1.5, fontSize: '0.78rem' }}
+					>
+						{t('accountSettings.addUser')}
+					</Button>
+				)}
 			</Box>
 
 			{/* Users table */}
@@ -297,19 +304,23 @@ const AccountUsersTab = () => {
 											</TableCell>
 											<TableCell sx={{ py: 1.25 }}>
 												<Box sx={{ display: 'flex', gap: 0.5 }}>
-													<Tooltip title={t('accountSettings.managePermissions')}>
-														<IconButton size="small" onClick={() => openEditPermissions(user)} sx={{ color: '#64748b', '&:hover': { color: '#629C44' } }}>
-															<ManageAccountsOutlinedIcon sx={{ fontSize: 16 }} />
-														</IconButton>
-													</Tooltip>
-													<Tooltip title={isSelf ? t('accountSettings.cannotDeleteSelf', 'You cannot delete your own account') : t('accountSettings.deleteUser')}>
-														<span>
-															<IconButton size="small" onClick={() => setUserToDelete(user)} disabled={isSelf}
-																sx={{ color: '#94a3b8', '&:hover': { color: '#ef4444' }, '&.Mui-disabled': { color: '#e2e8f0' } }}>
-																<DeleteOutlineIcon sx={{ fontSize: 16 }} />
+													{!demo && (
+														<Tooltip title={t('accountSettings.managePermissions')}>
+															<IconButton size="small" onClick={() => openEditPermissions(user)} sx={{ color: '#64748b', '&:hover': { color: '#629C44' } }}>
+																<ManageAccountsOutlinedIcon sx={{ fontSize: 16 }} />
 															</IconButton>
-														</span>
-													</Tooltip>
+														</Tooltip>
+													)}
+													{!demo && (
+														<Tooltip title={isSelf ? t('accountSettings.cannotDeleteSelf', 'You cannot delete your own account') : t('accountSettings.deleteUser')}>
+															<span>
+																<IconButton size="small" onClick={() => setUserToDelete(user)} disabled={isSelf}
+																	sx={{ color: '#94a3b8', '&:hover': { color: '#ef4444' }, '&.Mui-disabled': { color: '#e2e8f0' } }}>
+																	<DeleteOutlineIcon sx={{ fontSize: 16 }} />
+																</IconButton>
+															</span>
+														</Tooltip>
+													)}
 												</Box>
 											</TableCell>
 										</TableRow>

@@ -5,6 +5,7 @@ import {
 	Button,
 	Typography,
 	CircularProgress,
+	LinearProgress,
 	Dialog,
 	DialogTitle,
 	DialogContent,
@@ -18,19 +19,38 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import TableRowsIcon from '@mui/icons-material/TableRows';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import AppCVDetails from './AppCVDetails.jsx';
 import AppCVEntries from './AppCVEntries.jsx';
 import AppCVDuplicates from './AppCVDuplicates.jsx';
 import { getCVs, uploadCVs, deleteCV, getDuplicates } from '../../../services/cvService.js';
+import { isDemoUser } from '../../../utils/demoMode.js';
+import UpgradeButton from '../../demo/UpgradeButton.jsx';
 
 const MAX_FILES = 100;
 const FILE_TYPE_PDF = 'application/pdf';
 const FILE_TYPE_WORD = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
 
+// The backend parses all uploaded resumes in parallel, so the wait is roughly
+// constant (~45s max) regardless of how many files were selected.
+const UPLOAD_ESTIMATE_SECONDS = 45;
+
+// Maps elapsed seconds to a translation key describing what's happening
+// server-side, so the user sees progress instead of a bare spinner.
+const getUploadPhaseKey = (elapsed) => {
+	if (elapsed < 8) return 'uploadPhase1';
+	if (elapsed < 16) return 'uploadPhase2';
+	if (elapsed < 24) return 'uploadPhase3';
+	if (elapsed < 32) return 'uploadPhase4';
+	if (elapsed < 40) return 'uploadPhase5';
+	return 'uploadPhase6';
+};
+
 const AppCVContent = () => {
 	const { t } = useTranslation();
+	const demo = isDemoUser();
 	const [cvEntries, setCvEntries] = useState([]);
 	const [totalPages, setTotalPages] = useState(0);
 	const [totalElements, setTotalElements] = useState(0);
@@ -42,8 +62,13 @@ const AppCVContent = () => {
 	const [duplicatesCount, setDuplicatesCount] = useState(0);
 	const [selectedFiles, setSelectedFiles] = useState([]);
 	const [isUploading, setIsUploading] = useState(false);
+	const [uploadComplete, setUploadComplete] = useState(false);
+	const [uploadProgress, setUploadProgress] = useState(0);
+	const [uploadElapsed, setUploadElapsed] = useState(0);
 	const [isDragging, setIsDragging] = useState(false);
 	const fileInputRef = useRef(null);
+	const uploadTimerRef = useRef(null);
+	const uploadStartRef = useRef(null);
 
 	const fetchCVEntries = async () => {
 		try {
@@ -69,6 +94,24 @@ const AppCVContent = () => {
 		fetchCVEntries().then(r => console.log('Fetch CV request done: ', r));
 		fetchDuplicatesCount();
 	}, []);
+
+	// Drive the upload progress bar / ETA / phase text while an upload is running.
+	// Progress is capped at 95% so it never appears finished before the backend responds.
+	useEffect(() => {
+		if (isUploading) {
+			uploadStartRef.current = Date.now();
+			setUploadProgress(0);
+			setUploadElapsed(0);
+			uploadTimerRef.current = setInterval(() => {
+				const elapsed = Math.floor((Date.now() - uploadStartRef.current) / 1000);
+				setUploadElapsed(elapsed);
+				setUploadProgress(Math.min(95, (elapsed / UPLOAD_ESTIMATE_SECONDS) * 100));
+			}, 500);
+		} else {
+			clearInterval(uploadTimerRef.current);
+		}
+		return () => clearInterval(uploadTimerRef.current);
+	}, [isUploading]);
 
 	const handleEnterDuplicatesMode = () => {
 		setViewDuplicates(true);
@@ -103,13 +146,19 @@ const AppCVContent = () => {
 			selectedFiles.forEach(f => formData.append('files', f));
 			const response = await uploadCVs(formData);
 			if (response.status === 200) {
+				// Stop the ticking estimate and show a completed state before closing.
+				clearInterval(uploadTimerRef.current);
+				setUploadProgress(100);
+				setUploadComplete(true);
 				await fetchCVEntries();
 				setSelectedFiles([]);
+				await new Promise(resolve => setTimeout(resolve, 1200));
 			}
 		} catch (error) {
 			console.error('Error uploading files:', error);
 		} finally {
 			setIsUploading(false);
+			setUploadComplete(false);
 			setOpenUploadModal(false);
 		}
 	};
@@ -143,34 +192,38 @@ const AppCVContent = () => {
 				mb: 2,
 				px: 2,
 			}}>
-				<Button
-					startIcon={isUploading ? <CircularProgress size={16} color="inherit" /> : <FileUploadIcon />}
-					variant="contained"
-					disabled={isUploading}
-					onClick={() => setOpenUploadModal(true)}
-					sx={{
-						backgroundColor: '#629C44',
-						'&:hover': { backgroundColor: '#528035' },
-						borderRadius: 1.5,
-						textTransform: 'none',
-						fontWeight: 600,
-						fontSize: '0.84rem',
-						boxShadow: 'none',
-						px: 2,
-					}}
-				>
-					{t('appCVContent.uploadCV')}
-					<Box component="span" sx={{
-						ml: 1, px: 0.75, py: 0.15,
-						backgroundColor: 'rgba(255,255,255,0.22)',
-						borderRadius: 0.75,
-						fontSize: '0.72rem',
-						fontWeight: 500,
-						letterSpacing: '0.02em',
-					}}>
-						· up to {MAX_FILES}
-					</Box>
-				</Button>
+				{demo ? (
+					<UpgradeButton reason="cv-upload" variant="contained" size="medium" />
+				) : (
+					<Button
+						startIcon={isUploading ? <CircularProgress size={16} color="inherit" /> : <FileUploadIcon />}
+						variant="contained"
+						disabled={isUploading}
+						onClick={() => setOpenUploadModal(true)}
+						sx={{
+							backgroundColor: '#629C44',
+							'&:hover': { backgroundColor: '#528035' },
+							borderRadius: 1.5,
+							textTransform: 'none',
+							fontWeight: 600,
+							fontSize: '0.84rem',
+							boxShadow: 'none',
+							px: 2,
+						}}
+					>
+						{t('appCVContent.uploadCV')}
+						<Box component="span" sx={{
+							ml: 1, px: 0.75, py: 0.15,
+							backgroundColor: 'rgba(255,255,255,0.22)',
+							borderRadius: 0.75,
+							fontSize: '0.72rem',
+							fontWeight: 500,
+							letterSpacing: '0.02em',
+						}}>
+							· up to {MAX_FILES}
+						</Box>
+					</Button>
+				)}
 
 				{viewDuplicates ? (
 					<Button
@@ -356,49 +409,107 @@ const AppCVContent = () => {
 					</Typography>
 				</DialogTitle>
 				<DialogContent sx={{ px: 3 }}>
-					<Box
-						onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
-						onDragLeave={() => setIsDragging(false)}
-						onDrop={handleDrop}
-						onClick={() => fileInputRef.current?.click()}
-						sx={{
-							border: `2px dashed ${isDragging ? '#629C44' : '#cbd5e1'}`,
+					{isUploading ? (
+						/* Upload / processing progress — shows ETA and what's happening server-side */
+						<Box sx={{
+							py: 2.5,
+							px: 2.5,
+							my: 1,
+							backgroundColor: 'rgba(98,156,68,0.05)',
+							border: '1px solid rgba(98,156,68,0.2)',
 							borderRadius: 2,
-							py: 4,
-							display: 'flex',
-							flexDirection: 'column',
-							alignItems: 'center',
-							gap: 1,
-							cursor: 'pointer',
-							backgroundColor: isDragging ? 'rgba(98,156,68,0.04)' : '#f8fafc',
-							transition: 'all 0.15s ease',
-							'&:hover': { borderColor: '#629C44', backgroundColor: 'rgba(98,156,68,0.04)' },
-						}}
-					>
-						<CloudUploadIcon sx={{ fontSize: 36, color: isDragging ? '#629C44' : '#94a3b8' }} />
-						<Typography sx={{ fontSize: '0.88rem', fontWeight: 600, color: '#334155' }}>
-							Drag & drop files here
-						</Typography>
-						<Typography sx={{ fontSize: '0.78rem', color: '#94a3b8' }}>
-							or click to browse — .pdf or .docx, up to {MAX_FILES} files
-						</Typography>
-						<input
-							ref={fileInputRef}
-							type="file"
-							accept=".pdf,.docx"
-							multiple
-							onChange={handleFileSelect}
-							disabled={isUploading}
-							style={{ display: 'none' }}
-						/>
-					</Box>
-
-					{selectedFiles.length > 0 && (
-						<Box sx={{ mt: 2, p: 1.5, backgroundColor: '#f0fdf4', borderRadius: 1.5, border: '1px solid #bbf7d0' }}>
-							<Typography sx={{ fontSize: '0.82rem', color: '#16a34a', fontWeight: 600 }}>
-								{selectedFiles.length} file{selectedFiles.length > 1 ? 's' : ''} ready to upload
-							</Typography>
+						}}>
+							<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
+								<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+									{uploadComplete
+										? <CheckCircleRoundedIcon sx={{ fontSize: 18, color: '#16a34a' }} />
+										: <CircularProgress size={14} thickness={5} sx={{ color: '#629C44' }} />}
+									<Typography sx={{ fontSize: '0.9rem', fontWeight: 600, color: '#166534' }}>
+										{uploadComplete
+											? t('appCVContent.uploadComplete')
+											: t('appCVContent.uploadProgressTitle')}
+									</Typography>
+								</Box>
+								<Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+									<Typography sx={{ fontSize: '0.78rem', color: '#629C44', fontWeight: 600 }}>
+										{Math.round(uploadProgress)}%
+									</Typography>
+									{!uploadComplete && (
+										<Typography sx={{ fontSize: '0.78rem', color: '#6b7280' }}>
+											{uploadElapsed < UPLOAD_ESTIMATE_SECONDS
+												? `~${Math.max(0, UPLOAD_ESTIMATE_SECONDS - uploadElapsed)}s ${t('appCVContent.remaining')}`
+												: t('appCVContent.almostDone')}
+										</Typography>
+									)}
+								</Box>
+							</Box>
+							<LinearProgress
+								variant="determinate"
+								value={uploadProgress}
+								sx={{
+									height: 8,
+									borderRadius: 4,
+									backgroundColor: 'rgba(98,156,68,0.12)',
+									'& .MuiLinearProgress-bar': {
+										borderRadius: 4,
+										background: 'linear-gradient(90deg, #629C44 0%, #7cb342 60%, #aed581 100%)',
+										transition: 'transform 0.5s linear',
+									},
+								}}
+							/>
+							{!uploadComplete && (
+								<Typography sx={{ fontSize: '0.78rem', color: '#629C44', mt: 1, fontStyle: 'italic' }}>
+									{t(`appCVContent.${getUploadPhaseKey(uploadElapsed)}`)}
+								</Typography>
+							)}
 						</Box>
+					) : (
+						<>
+							<Box
+								onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+								onDragLeave={() => setIsDragging(false)}
+								onDrop={handleDrop}
+								onClick={() => fileInputRef.current?.click()}
+								sx={{
+									border: `2px dashed ${isDragging ? '#629C44' : '#cbd5e1'}`,
+									borderRadius: 2,
+									py: 4,
+									display: 'flex',
+									flexDirection: 'column',
+									alignItems: 'center',
+									gap: 1,
+									cursor: 'pointer',
+									backgroundColor: isDragging ? 'rgba(98,156,68,0.04)' : '#f8fafc',
+									transition: 'all 0.15s ease',
+									'&:hover': { borderColor: '#629C44', backgroundColor: 'rgba(98,156,68,0.04)' },
+								}}
+							>
+								<CloudUploadIcon sx={{ fontSize: 36, color: isDragging ? '#629C44' : '#94a3b8' }} />
+								<Typography sx={{ fontSize: '0.88rem', fontWeight: 600, color: '#334155' }}>
+									Drag & drop files here
+								</Typography>
+								<Typography sx={{ fontSize: '0.78rem', color: '#94a3b8' }}>
+									or click to browse — .pdf or .docx, up to {MAX_FILES} files
+								</Typography>
+								<input
+									ref={fileInputRef}
+									type="file"
+									accept=".pdf,.docx"
+									multiple
+									onChange={handleFileSelect}
+									disabled={isUploading}
+									style={{ display: 'none' }}
+								/>
+							</Box>
+
+							{selectedFiles.length > 0 && (
+								<Box sx={{ mt: 2, p: 1.5, backgroundColor: '#f0fdf4', borderRadius: 1.5, border: '1px solid #bbf7d0' }}>
+									<Typography sx={{ fontSize: '0.82rem', color: '#16a34a', fontWeight: 600 }}>
+										{selectedFiles.length} file{selectedFiles.length > 1 ? 's' : ''} ready to upload
+									</Typography>
+								</Box>
+							)}
+						</>
 					)}
 				</DialogContent>
 				<DialogActions sx={{ px: 3, pb: 3, gap: 1 }}>

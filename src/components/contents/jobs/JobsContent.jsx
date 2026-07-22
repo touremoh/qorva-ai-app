@@ -50,8 +50,11 @@ import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
 import CheckIcon from '@mui/icons-material/Check';
 import { useTranslation } from 'react-i18next';
 import { getJobs, createJob, updateJob, patchJobStatus, deleteJob } from '../../../services/jobService.js';
+import { isDemoUser } from '../../../utils/demoMode.js';
+import UpgradeButton from '../../demo/UpgradeButton.jsx';
 import { default as ReactQuill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import DOMPurify from 'dompurify';
 
 // ─── Shared style constants ───────────────────────────────────────────────────
 
@@ -736,6 +739,7 @@ const buildScoringPayload = (scoringConfig) => ({
 
 const JobContent = () => {
 	const { t, i18n } = useTranslation();
+	const demo = isDemoUser();
 	const [createMode, setCreateMode] = useState(false);
 	const [createStep, setCreateStep] = useState(0);
 	const [editMode, setEditMode] = useState(false);
@@ -789,6 +793,26 @@ const JobContent = () => {
 	}, []);
 
 	const resetForm = () => { setJobTitle(''); setJobDescription(''); };
+
+	// Descriptions authored in the app are Quill HTML, but seeded/imported jobs
+	// may carry plain text with newline paragraph breaks — normalise those to
+	// paragraph-only HTML (Quill's normal form, so edit round-trips are stable).
+	// Everything is sanitised before reaching dangerouslySetInnerHTML or Quill.
+	// dir="auto" lets each paragraph pick its direction for RTL scripts.
+	const escapeHtml = (s) =>
+		s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+	const HTML_DESCRIPTION_REGEX = /<(p|div|br|ul|ol|li|strong|em|b|i|u|s|a|h[1-6]|span|blockquote|pre)[\s/>]/i;
+	const descriptionToHtml = (desc = '') => {
+		if (!desc.trim()) return '';
+		const html = HTML_DESCRIPTION_REGEX.test(desc)
+			? desc
+			: desc.split(/\r?\n+/)
+				.map(p => p.trim())
+				.filter(Boolean)
+				.map(p => `<p dir="auto">${escapeHtml(p)}</p>`)
+				.join('');
+		return DOMPurify.sanitize(html);
+	};
 
 	const sanitizeDescription = (html) => {
 		const doc = new DOMParser().parseFromString(html, 'text/html');
@@ -865,7 +889,7 @@ const JobContent = () => {
 		setEditStep(0);
 		if (selectedJob) {
 			setJobTitle(selectedJob.title);
-			setJobDescription(selectedJob.description);
+			setJobDescription(descriptionToHtml(selectedJob.description));
 		}
 		setScoringConfig(emptyScoringConfig());
 	};
@@ -925,7 +949,7 @@ const JobContent = () => {
 	const handleJobClick = (job) => {
 		setSelectedJob(job);
 		setJobTitle(job.title);
-		setJobDescription(job.description);
+		setJobDescription(descriptionToHtml(job.description));
 		setDetailTab(0);
 		setCreateMode(false);
 		setEditMode(false);
@@ -986,13 +1010,17 @@ const JobContent = () => {
 				display: 'flex', alignItems: 'center', gap: 1.5, px: 2.5, py: 1.5,
 				backgroundColor: '#ffffff', borderBottom: '1px solid #e2e8f0', flexShrink: 0,
 			}}>
-				<Button startIcon={<AddIcon />} variant="contained" onClick={handleStartCreate}
-					sx={{
-						backgroundColor: THEME_GREEN, '&:hover': { backgroundColor: THEME_GREEN_DARK },
-						borderRadius: 1.5, textTransform: 'none', fontWeight: 600, fontSize: '0.84rem', boxShadow: 'none', px: 2,
-					}}>
-					{t('jobContent.createJobPost')}
-				</Button>
+				{demo ? (
+					<UpgradeButton reason="job-create" variant="contained" size="medium" />
+				) : (
+					<Button startIcon={<AddIcon />} variant="contained" onClick={handleStartCreate}
+						sx={{
+							backgroundColor: THEME_GREEN, '&:hover': { backgroundColor: THEME_GREEN_DARK },
+							borderRadius: 1.5, textTransform: 'none', fontWeight: 600, fontSize: '0.84rem', boxShadow: 'none', px: 2,
+						}}>
+						{t('jobContent.createJobPost')}
+					</Button>
+				)}
 			</Box>
 
 			{/* Split pane */}
@@ -1156,18 +1184,22 @@ const JobContent = () => {
 								</Box>
 								<Box sx={{ flexGrow: 1, minWidth: 4 }} />
 								<Box sx={{ display: 'flex', gap: 1, flexShrink: 0, ml: 'auto' }}>
-									<Tooltip title={t('jobContent.editJobPost')}>
-										<IconButton size="small" onClick={handleStartEdit}
-											sx={{ border: '1px solid #e2e8f0', borderRadius: 1.5, color: '#64748b', '&:hover': { backgroundColor: '#f1f5f9' } }}>
-											<EditOutlinedIcon sx={{ fontSize: 16 }} />
-										</IconButton>
-									</Tooltip>
-									<Tooltip title={t('jobContent.deleteJobTitle')}>
-										<IconButton size="small" onClick={() => setDeleteDialogOpen(true)}
-											sx={{ border: '1px solid #fecaca', borderRadius: 1.5, color: '#ef4444', '&:hover': { backgroundColor: '#fef2f2' } }}>
-											<DeleteOutlineIcon sx={{ fontSize: 16 }} />
-										</IconButton>
-									</Tooltip>
+									{!demo && (
+										<>
+											<Tooltip title={t('jobContent.editJobPost')}>
+												<IconButton size="small" onClick={handleStartEdit}
+													sx={{ border: '1px solid #e2e8f0', borderRadius: 1.5, color: '#64748b', '&:hover': { backgroundColor: '#f1f5f9' } }}>
+													<EditOutlinedIcon sx={{ fontSize: 16 }} />
+												</IconButton>
+											</Tooltip>
+											<Tooltip title={t('jobContent.deleteJobTitle')}>
+												<IconButton size="small" onClick={() => setDeleteDialogOpen(true)}
+													sx={{ border: '1px solid #fecaca', borderRadius: 1.5, color: '#ef4444', '&:hover': { backgroundColor: '#fef2f2' } }}>
+													<DeleteOutlineIcon sx={{ fontSize: 16 }} />
+												</IconButton>
+											</Tooltip>
+										</>
+									)}
 								</Box>
 							</Box>
 
@@ -1215,12 +1247,13 @@ const JobContent = () => {
 											</Box>
 										</Box>
 										<Box sx={{
+											textAlign: 'start',
 											'& p': { fontSize: '0.88rem', lineHeight: 1.8, color: '#334155', mb: 1 },
 											'& ul, & ol': { pl: 2.5, mb: 1 },
 											'& li': { fontSize: '0.88rem', lineHeight: 1.8, color: '#334155', mb: 0.25 },
 											'& strong': { fontWeight: 700, color: '#0f172a' },
 											'& h1, & h2, & h3': { color: '#0f172a', mt: 2, mb: 1 },
-										}} dangerouslySetInnerHTML={{ __html: selectedJob.description }} />
+										}} dir="auto" dangerouslySetInnerHTML={{ __html: descriptionToHtml(selectedJob.description) }} />
 									</Box>
 								)}
 								{detailTab === 1 && <JobScoringView scoringRules={selectedJob.scoringRules} t={t} />}

@@ -12,6 +12,8 @@ import RegistrationSuccessful from "./views/pages/success/RegistrationSuccessful
 import CheckLoginPage from "./services/CheckLoginPage.jsx";
 import CheckoutSuccessPage from "./views/pages/checkout/CheckoutSuccessPage.jsx";
 import CheckoutCancelPage from "./views/pages/checkout/CheckoutCancelPage.jsx";
+import SetPassword from "./views/pages/auth/SetPassword.jsx";
+import ResendActivation from "./views/pages/auth/ResendActivation.jsx";
 import {initGA} from "./utils/analytics.js";
 
 function App() {
@@ -42,6 +44,9 @@ function App() {
               />
               <Route path="/register" element={<Register />} />
               <Route path="/success" element={<RegistrationSuccessful />} />
+              <Route path="/resend-activation" element={<ResendActivation />} />
+              <Route path="/:lang/set-password" element={<SetPassword />} />
+              <Route path="/set-password" element={<SetPassword />} />
               <Route path="/billing/success" element={<CheckoutSuccessPage />} />
               <Route path="/billing/cancel" element={<CheckoutCancelPage />} />
               <Route path="/error" element={<ErrorPage />} />

@@ -21,10 +21,9 @@ import { createCheckoutSession } from '../../../services/registrationService.js'
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../../../components/languages/LanguageSwitcher.jsx';
 import { setAuthResults } from "../../../../localStorageManager.js";
-import { DASHBOARD_STATUSES, NEEDS_PAYMENT_STATUSES } from '../../../constants.js';
+import { DASHBOARD_STATUSES, NEEDS_PAYMENT_STATUSES, ACCOUNT_STATUS_DEMO } from '../../../constants.js';
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/;
-const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
 
 const Login = () => {
 	const { t } = useTranslation();
@@ -47,11 +46,6 @@ const Login = () => {
 		}
 		if (!values.password) {
 			next.password = t('login.passwordRequired', 'Password is required');
-		} else if (!PASSWORD_REGEX.test(values.password)) {
-			next.password = t(
-				'login.passwordInvalid',
-				'8–20 chars, 1 uppercase, 1 lowercase, 1 number, 1 special character'
-			);
 		}
 		return next;
 	};
@@ -79,7 +73,12 @@ const Login = () => {
 				const { user } = response.data.data;
 				const subscriptionStatus = user.tenant?.subscriptionInfo?.subscriptionStatus;
 
-				if (DASHBOARD_STATUSES.includes(subscriptionStatus)) {
+				// Demo accounts enter the workspace directly — no active subscription
+				// is required; the UI runs in restricted demo mode with sample data.
+				if (user.userAccountStatus === ACCOUNT_STATUS_DEMO) {
+					setAuthResults(response.data.data);
+					navigate('/');
+				} else if (DASHBOARD_STATUSES.includes(subscriptionStatus)) {
 					setAuthResults(response.data.data);
 					navigate('/');
 				} else if (NEEDS_PAYMENT_STATUSES.includes(subscriptionStatus)) {

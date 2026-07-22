@@ -10,7 +10,6 @@
     "emailRequired": "Email is required",
     "emailInvalid": "Enter a valid business email",
     "passwordRequired": "Password is required",
-    "passwordInvalid": "8–20 characters, with uppercase, lowercase, number, and special character",
     "invalidCredentials": "Incorrect email or password",
     "checkoutError": "Could not initiate checkout. Please contact support.",
     "subscriptionInactive": "Your account is not active. Please contact support.",
@@ -68,7 +67,17 @@
       "message": "Your account has been created.",
       "confirmationEmail": "We sent a confirmation email to your inbox.",
       "signInLink": "Sign in now to get started."
-    }
+    },
+    "demoSubtext": "Create your free demo workspace — no credit card, no payment.",
+    "organizationName": "Organization Name",
+    "organizationNameRequired": "Organization name is required",
+    "recruitmentType": "What type of recruitment do you mostly do?",
+    "recruitmentTypeRequired": "Please select a recruitment type",
+    "organizationSize": "Organization Size",
+    "organizationSizeRequired": "Please select an organization size",
+    "orgSizeEmployees": "{{size}} employees",
+    "createDemoAccount": "Create Free Demo Account",
+    "accountExists": "An account with this email already exists. Please log in."
   },
   "header": {
     "matching": "Matching",
@@ -279,6 +288,16 @@
     "uploadFiles": "Upload Files",
     "uploadInProgress": "Uploading… please wait",
     "uploadCVInfo": "Upload up to 100 resumes (.pdf or .docx).",
+    "uploadProgressTitle": "Processing your resumes…",
+    "uploadComplete": "Resumes uploaded successfully!",
+    "remaining": "remaining",
+    "almostDone": "Almost done…",
+    "uploadPhase1": "Uploading your resumes…",
+    "uploadPhase2": "Extracting text and contact details…",
+    "uploadPhase3": "Parsing experience and skills…",
+    "uploadPhase4": "Structuring candidate profiles…",
+    "uploadPhase5": "Clustering candidates…",
+    "uploadPhase6": "Finalizing and checking for duplicates…",
     "skills": "Skills",
     "filterByName": "Filter by name…",
     "filterByRole": "Filter by role…",
@@ -707,7 +726,14 @@
     "subtitle": "Your subscription is now active. Welcome to Qorva AI!",
     "emailNote": "We've sent a confirmation email to your inbox. Sign in to start hiring smarter.",
     "cta": "Sign In to Qorva",
-    "help": "Need help? Contact us at support@qorva.ai"
+    "help": "Need help? Contact us at support@qorva.ai",
+    "activatingTitle": "Activating your trial…",
+    "activatingSubtitle": "We're confirming your payment and unlocking full access. This only takes a few seconds.",
+    "trialStartedTitle": "Trial started!",
+    "trialStartedSubtitle": "Your 14-day free trial is active and full access is unlocked. Your workspace is ready for real data.",
+    "goToWorkspace": "Go to your workspace",
+    "pendingTitle": "Payment received",
+    "pendingSubtitle": "Your trial is being activated. It can take a moment — open your workspace and it'll unlock automatically."
   },
   "checkoutCancel": {
     "title": "Payment Cancelled",
@@ -720,9 +746,13 @@
   "registrationSuccess": {
     "title": "You’re all set!",
     "subtitle": "Your Qorva AI account has been created successfully.",
-    "emailNote": "We’ve sent a confirmation email to your inbox. Please verify your email to unlock all features. If you don’t see it, check your spam folder.",
+    "emailNote": "We've sent an email to activate your account and set your password. If you don't see it, check your spam folder.",
     "ctaLogin": "Go to login",
-    "help": "Need help? Contact support at support@qorva.ai"
+    "help": "Need help? Contact support at support@qorva.ai",
+    "noEmail": "Didn't get it?",
+    "resend": "Resend",
+    "resending": "Sending…",
+    "resendConfirm": "If that email exists, we've sent a new link."
   },
   "insight": {
     "metrics": {
@@ -880,18 +910,18 @@
       "extraction_failed": "Resume data extraction failed. Please try again."
     },
     "file": {
-      "empty": "The file \u201c{{filename}}\u201d is empty.",
-      "pdf_read_failed": "Could not read the PDF file \u201c{{filename}}\u201d. Please verify the file is not corrupted.",
-      "word_read_failed": "Could not read the Word file \u201c{{filename}}\u201d. Please verify the file is not corrupted.",
-      "read_failed": "Could not read the file \u201c{{filename}}\u201d. Please verify the file is not corrupted.",
+      "empty": "The file “{{filename}}” is empty.",
+      "pdf_read_failed": "Could not read the PDF file “{{filename}}”. Please verify the file is not corrupted.",
+      "word_read_failed": "Could not read the Word file “{{filename}}”. Please verify the file is not corrupted.",
+      "read_failed": "Could not read the file “{{filename}}”. Please verify the file is not corrupted.",
       "name_null": "File name is missing.",
-      "unsupported_type": "Unsupported file type \u201c{{filename}}\u201d. Please upload a PDF or DOCX file."
+      "unsupported_type": "Unsupported file type “{{filename}}”. Please upload a PDF or DOCX file."
     },
     "report": {
       "job_id_required": "A job post must be selected to create a matching report.",
       "candidate_info_required": "Candidate information is required.",
       "resume_match_not_found": "No matching report found for the provided data.",
-      "match_not_found_by_id": "Matching report \u201c{{id}}\u201d was not found.",
+      "match_not_found_by_id": "Matching report “{{id}}” was not found.",
       "no_reports_for_job": "No matching reports found for the selected job post.",
       "csv_export_failed": "Failed to generate the CSV export. Please try again."
     },
@@ -924,5 +954,63 @@
       "validation": "One or more fields failed validation.",
       "unexpected": "An unexpected error occurred. Please try again later."
     }
+  },
+  "recruitment": {
+    "TECH_IT": "Tech & IT",
+    "ENGINEERING": "Engineering",
+    "FINANCE_ACCOUNTING": "Finance & Accounting",
+    "SALES_MARKETING": "Sales & Marketing",
+    "HEALTHCARE_LIFESCIENCES": "Healthcare & Life Sciences",
+    "EXECUTIVE_MANAGEMENT": "Executive & Management",
+    "GENERALIST": "Generalist"
+  },
+  "demo": {
+    "upgradeToUnlock": "Upgrade to unlock",
+    "upgradeTooltip": "Upgrade to unlock full access",
+    "bannerTitle": "You're in demo mode",
+    "bannerSubtitle": "using sample data",
+    "startTrial": "Start 14-day free trial",
+    "startTrialCta": "Start free trial",
+    "upgradeTitle": "Upgrade your workspace",
+    "upgradeSubtitle": "Unlock uploads, job posts, team management and unlimited reports. 14 days free, cancel anytime.",
+    "upgradeForbiddenSubtitle": "That action needs a paid plan. Start your 14-day free trial to unlock full access.",
+    "selectPlanFirst": "Please select a plan to continue.",
+    "upgradeError": "Could not start checkout. Please try again.",
+    "stripeNote": "Secure checkout by Stripe. Your 14-day trial starts today — cancel anytime.",
+    "close": "Close",
+    "reportsQuota": "Demo reports",
+    "quotaExhaustedTooltip": "Report quota reached — upgrade for unlimited reports"
+  },
+  "setPassword": {
+    "title": "Set your password",
+    "subtitle": "Choose a password to activate your account.",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
+    "passwordRequired": "Password is required",
+    "passwordTooShort": "Password must be at least 8 characters",
+    "passwordInvalid": "8–64 characters with at least 1 uppercase, 1 lowercase, 1 number and 1 special character",
+    "confirmRequired": "Please confirm your password",
+    "passwordMismatch": "Passwords do not match",
+    "passwordHint": "At least 8 characters, with an uppercase, a lowercase, a number and a special character",
+    "togglePasswordVisibility": "Toggle password visibility",
+    "submit": "Set password & activate",
+    "successTitle": "Password set!",
+    "successMessage": "Your account is now active. Redirecting you to login…",
+    "errorInvalid": "This link is invalid or has expired.",
+    "errorUsed": "This link has already been used.",
+    "errorGeneric": "Something went wrong. Please try again.",
+    "requestNewLink": "Request a new link",
+    "goToLogin": "Log in"
+  },
+  "resendActivation": {
+    "title": "Resend activation link",
+    "subtitle": "Enter your email and we'll send you a fresh link to activate your account and set your password.",
+    "emailLabel": "Work email",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Please enter a valid email address",
+    "submit": "Send link",
+    "sentTitle": "Check your inbox",
+    "sentMessage": "If that email exists, we've sent a link to activate your account and set your password.",
+    "backToLogin": "Back to login"
   }
 }

@@ -28,6 +28,7 @@ import apiClient from '../../../../axiosConfig.js';
 import { getTenantById, updateTenantProfile } from '../../../services/tenantService.js';
 import { TENANT_ID } from '../../../constants.js';
 import QorvaChip from '../../commons/QorvaChip.jsx';
+import { isDemoUser } from '../../../utils/demoMode.js';
 
 const SectionHeader = ({ icon: Icon, label, action }) => (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2, pb: 1, borderBottom: '2px solid #629C44' }}>
@@ -99,6 +100,7 @@ const formatPrice = (cents) => {
 
 const AccountCompanyTab = () => {
     const { t } = useTranslation();
+    const demo = isDemoUser();
     const logoInputRef = useRef(null);
 
     const [loading, setLoading] = useState(true);
@@ -372,7 +374,7 @@ const AccountCompanyTab = () => {
                 <SectionHeader
                     icon={BusinessOutlinedIcon}
                     label={t('accountSettings.company.profileSection')}
-                    action={!editMode && (
+                    action={!demo && !editMode && (
                         <Tooltip title={t('accountSettings.editProfile')}>
                             <IconButton
                                 size="small"

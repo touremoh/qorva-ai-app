@@ -20,8 +20,11 @@ import AccountSettings from "./account-settings/AccountSettings.jsx";
 import AppAIResumeChat from "./chats/AppAIResumeChat.jsx";
 import AppLibraryInsights from "./intelligence/AppLibraryInsights.jsx";
 import UsageMonitoringContent from "./usage-monitoring/UsageMonitoringContent.jsx";
+import DemoBanner from "../demo/DemoBanner.jsx";
+import { isDemoUser } from "../../utils/demoMode.js";
 
 const AppContent = ({ content, isSidebarCollapsed }) => {
+	const demo = isDemoUser();
 	const renderContent = () => {
 		switch (content) {
 			case COMP_ID_DASHBOARD:
@@ -55,10 +58,15 @@ const AppContent = ({ content, isSidebarCollapsed }) => {
 			margin: 0,
 			backgroundColor: '#f8fafc',
 			p: 0,
+			display: 'flex',
+			flexDirection: 'column',
 			overflow: 'hidden',
 			transition: 'left 0.2s ease',
 		}}>
-			{renderContent()}
+			{demo && <DemoBanner />}
+			<Box sx={{ flex: 1, minHeight: 0, overflow: 'hidden' }}>
+				{renderContent()}
+			</Box>
 		</Box>
 	);
 };
