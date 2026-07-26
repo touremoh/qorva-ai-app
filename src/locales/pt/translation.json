@@ -20,7 +20,11 @@
       "bullet2": "Matching de vagas para candidatos",
       "bullet3": "Chat CV IA",
       "freeToStart": "Gratuito para começar."
-    }
+    },
+    "signingIn": "A iniciar sessão…",
+    "signedIn": "Sessão iniciada!",
+    "checkoutError": "Não foi possível iniciar o pagamento. Por favor, contacte o suporte.",
+    "subscriptionInactive": "A sua conta não está ativa. Por favor, contacte o suporte."
   },
   "registration": {
     "freeTrialTitle": "Período gratuito",
@@ -74,8 +78,15 @@
     "organizationSize": "Dimensão da organização",
     "organizationSizeRequired": "Selecione uma dimensão",
     "orgSizeEmployees": "{{size}} colaboradores",
-    "createDemoAccount": "Criar conta demo gratuita",
-    "accountExists": "Já existe uma conta com este e-mail. Inicie sessão."
+    "accountExists": "Já existe uma conta com este e-mail. Inicie sessão.",
+    "createFreeAccount": "Criar conta gratuita",
+    "progress": {
+      "creatingAccount": "A criar a sua conta…",
+      "settingUpWorkspace": "A configurar o seu espaço de trabalho…",
+      "preparingLibrary": "A carregar currículos de exemplo na sua biblioteca…",
+      "almostDone": "Quase pronto…",
+      "done": "Conta criada!"
+    }
   },
   "header": {
     "matching": "Matching",
@@ -86,7 +97,9 @@
     "logout": "Terminar sessão",
     "aiResumeChat": "Chat CV IA",
     "intelligence": "Inteligência de Talentos",
-    "usageMonitoring": "Monitorização de utilização"
+    "usageMonitoring": "Monitorização de utilização",
+    "libraryQuality": "Qualidade da biblioteca",
+    "resumes": "Currículos"
   },
   "footer": {
     "rightsReserved": "© Qorva AI. Todos os direitos reservados."
@@ -1001,5 +1014,98 @@
     "goToWorkspace": "Ir para o seu espaço de trabalho",
     "pendingTitle": "Pagamento recebido",
     "pendingSubtitle": "A sua avaliação está a ser ativada. Pode demorar um momento — abra o seu espaço de trabalho e será desbloqueado automaticamente."
+  },
+  "libraryQuality": {
+    "overall": "Saúde da biblioteca",
+    "totalCVs": "{{count}} currículos analisados",
+    "error": "Não foi possível carregar o relatório de qualidade. Por favor, tente novamente.",
+    "retry": "Tentar novamente",
+    "empty": {
+      "title": "Ainda não há currículos",
+      "subtitle": "Envie currículos para a sua biblioteca para ver a pontuação de saúde e receber sugestões de melhoria."
+    },
+    "noIssues": "Nenhum problema encontrado — a sua biblioteca está em ótima forma!",
+    "view": "Ver",
+    "dimensions": {
+      "completeness": "Completude",
+      "completenessHint": "Dados de contacto e de perfil presentes nos seus currículos.",
+      "freshness": "Atualidade",
+      "freshnessHint": "Quão atualizado o conteúdo dos currículos realmente está.",
+      "uniqueness": "Unicidade",
+      "uniquenessHint": "{{count}} grupos de duplicados detetados.",
+      "parseConfidence": "Confiança da IA",
+      "parseConfidenceHint": "{{count}} currículos precisam de revisão."
+    },
+    "sections": {
+      "completeness": "Completude dos campos",
+      "freshness": "Atualidade do conteúdo",
+      "issues": "Problemas a corrigir"
+    },
+    "groups": {
+      "critical": "Crítico",
+      "important": "Importante",
+      "enrichment": "Enriquecimento"
+    },
+    "fields": {
+      "email": "E-mail",
+      "phone": "Telefone",
+      "name": "Nome",
+      "role": "Cargo",
+      "workExperience": "Experiência profissional",
+      "keySkills": "Competências-chave",
+      "careerStartYear": "Início de carreira",
+      "education": "Formação",
+      "languages": "Idiomas",
+      "certifications": "Certificações",
+      "salaryExpectation": "Expectativa salarial",
+      "linkedin": "LinkedIn",
+      "summary": "Resumo"
+    },
+    "buckets": {
+      "UP_TO_DATE": "Atualizado",
+      "REVIEW_SUGGESTED": "Revisão sugerida",
+      "OUTDATED": "Desatualizado",
+      "UNKNOWN": "Desconhecido"
+    },
+    "severity": {
+      "CRITICAL": "Crítico",
+      "HIGH": "Alto",
+      "MEDIUM": "Médio"
+    },
+    "issues": {
+      "MISSING_CONTACT": "Sem informações de contacto (e-mail e telefone em falta)",
+      "MISSING_EMAIL": "Endereço de e-mail em falta",
+      "MISSING_PHONE": "Número de telefone em falta",
+      "NO_WORK_EXPERIENCE": "Nenhuma experiência profissional extraída",
+      "NO_SKILLS": "Nenhuma competência extraída",
+      "MISSING_SUMMARY": "Resumo do perfil em falta",
+      "OUTDATED": "Conteúdo desatualizado (mais de 18 meses)",
+      "UNKNOWN_FRESHNESS": "Atualidade desconhecida (sem conteúdo datável)",
+      "LOW_PARSE_CONFIDENCE": "Baixa confiança da análise de IA",
+      "DUPLICATES": "Currículos duplicados"
+    },
+    "drilldown": {
+      "name": "Nome",
+      "role": "Cargo",
+      "email": "E-mail",
+      "phone": "Telefone",
+      "contentDate": "Data do conteúdo",
+      "lastUpdated": "Última atualização",
+      "empty": "Nenhum currículo encontrado para este problema."
+    },
+    "verdict": {
+      "excellent": "Excelente",
+      "good": "Bom",
+      "fair": "Razoável",
+      "poor": "Precisa de atenção",
+      "drag": "{{rating}} — {{dimension}} está a baixar a sua pontuação.",
+      "healthy": "{{rating}} — todas as dimensões parecem saudáveis."
+    },
+    "duplicates": {
+      "empty": "Nenhum duplicado encontrado.",
+      "added": "Adicionado",
+      "delete": "Eliminar currículo",
+      "groupCount": "{{count}} grupos de duplicados"
+    }
   }
 }

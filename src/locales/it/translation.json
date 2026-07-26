@@ -20,7 +20,11 @@
       "bullet2": "Matching offerte-candidati",
       "bullet3": "AI Resume Chat",
       "freeToStart": "Inizia gratis."
-    }
+    },
+    "signingIn": "Accesso in corso…",
+    "signedIn": "Accesso effettuato!",
+    "checkoutError": "Impossibile avviare il pagamento. Contatta l'assistenza.",
+    "subscriptionInactive": "Il tuo account non è attivo. Contatta l'assistenza."
   },
   "registration": {
     "freeTrialTitle": "Prova gratuita",
@@ -74,8 +78,15 @@
     "organizationSize": "Dimensione dell'organizzazione",
     "organizationSizeRequired": "Seleziona una dimensione",
     "orgSizeEmployees": "{{size}} dipendenti",
-    "createDemoAccount": "Crea account demo gratuito",
-    "accountExists": "Esiste già un account con questa email. Accedi."
+    "accountExists": "Esiste già un account con questa email. Accedi.",
+    "createFreeAccount": "Crea un account gratuito",
+    "progress": {
+      "creatingAccount": "Creazione dell'account…",
+      "settingUpWorkspace": "Configurazione dello spazio di lavoro…",
+      "preparingLibrary": "Caricamento dei curriculum di esempio nella tua libreria…",
+      "almostDone": "Quasi fatto…",
+      "done": "Account creato!"
+    }
   },
   "header": {
     "matching": "Matching",
@@ -86,7 +97,9 @@
     "logout": "Disconnetti",
     "aiResumeChat": "Chat CV IA",
     "intelligence": "Intelligenza dei Talenti",
-    "usageMonitoring": "Monitoraggio utilizzo"
+    "usageMonitoring": "Monitoraggio utilizzo",
+    "libraryQuality": "Qualità della libreria",
+    "resumes": "Curriculum"
   },
   "footer": {
     "rightsReserved": "© Qorva AI. Tutti i diritti riservati."
@@ -1001,5 +1014,98 @@
     "goToWorkspace": "Vai al tuo spazio di lavoro",
     "pendingTitle": "Pagamento ricevuto",
     "pendingSubtitle": "La tua prova è in fase di attivazione. Può richiedere un momento: apri il tuo spazio di lavoro e si sbloccherà automaticamente."
+  },
+  "libraryQuality": {
+    "overall": "Salute della libreria",
+    "totalCVs": "{{count}} curriculum analizzati",
+    "error": "Impossibile caricare il report sulla qualità. Riprova.",
+    "retry": "Riprova",
+    "empty": {
+      "title": "Nessun curriculum",
+      "subtitle": "Carica i curriculum nella tua libreria per vedere il punteggio di salute e ricevere suggerimenti di miglioramento."
+    },
+    "noIssues": "Nessun problema rilevato — la tua libreria è in ottima forma!",
+    "view": "Vedi",
+    "dimensions": {
+      "completeness": "Completezza",
+      "completenessHint": "Contatti e dati di profilo presenti nei tuoi curriculum.",
+      "freshness": "Attualità",
+      "freshnessHint": "Quanto è realmente aggiornato il contenuto dei curriculum.",
+      "uniqueness": "Unicità",
+      "uniquenessHint": "{{count}} gruppi di duplicati rilevati.",
+      "parseConfidence": "Affidabilità IA",
+      "parseConfidenceHint": "{{count}} curriculum da rivedere."
+    },
+    "sections": {
+      "completeness": "Completezza dei campi",
+      "freshness": "Attualità dei contenuti",
+      "issues": "Problemi da risolvere"
+    },
+    "groups": {
+      "critical": "Critico",
+      "important": "Importante",
+      "enrichment": "Arricchimento"
+    },
+    "fields": {
+      "email": "E-mail",
+      "phone": "Telefono",
+      "name": "Nome",
+      "role": "Ruolo",
+      "workExperience": "Esperienza lavorativa",
+      "keySkills": "Competenze chiave",
+      "careerStartYear": "Inizio carriera",
+      "education": "Istruzione",
+      "languages": "Lingue",
+      "certifications": "Certificazioni",
+      "salaryExpectation": "Aspettativa salariale",
+      "linkedin": "LinkedIn",
+      "summary": "Riepilogo"
+    },
+    "buckets": {
+      "UP_TO_DATE": "Aggiornato",
+      "REVIEW_SUGGESTED": "Revisione consigliata",
+      "OUTDATED": "Obsoleto",
+      "UNKNOWN": "Sconosciuto"
+    },
+    "severity": {
+      "CRITICAL": "Critico",
+      "HIGH": "Alto",
+      "MEDIUM": "Medio"
+    },
+    "issues": {
+      "MISSING_CONTACT": "Nessun contatto (e-mail e telefono mancanti)",
+      "MISSING_EMAIL": "Indirizzo e-mail mancante",
+      "MISSING_PHONE": "Numero di telefono mancante",
+      "NO_WORK_EXPERIENCE": "Nessuna esperienza lavorativa estratta",
+      "NO_SKILLS": "Nessuna competenza estratta",
+      "MISSING_SUMMARY": "Riepilogo del profilo mancante",
+      "OUTDATED": "Contenuto obsoleto (più di 18 mesi)",
+      "UNKNOWN_FRESHNESS": "Attualità sconosciuta (nessun contenuto databile)",
+      "LOW_PARSE_CONFIDENCE": "Bassa affidabilità dell'analisi IA",
+      "DUPLICATES": "Curriculum duplicati"
+    },
+    "drilldown": {
+      "name": "Nome",
+      "role": "Ruolo",
+      "email": "E-mail",
+      "phone": "Telefono",
+      "contentDate": "Data del contenuto",
+      "lastUpdated": "Ultimo aggiornamento",
+      "empty": "Nessun curriculum trovato per questo problema."
+    },
+    "verdict": {
+      "excellent": "Eccellente",
+      "good": "Buono",
+      "fair": "Discreto",
+      "poor": "Da migliorare",
+      "drag": "{{rating}} — {{dimension}} sta abbassando il tuo punteggio.",
+      "healthy": "{{rating}} — tutte le dimensioni sono in buona salute."
+    },
+    "duplicates": {
+      "empty": "Nessun duplicato trovato.",
+      "added": "Aggiunto",
+      "delete": "Elimina curriculum",
+      "groupCount": "{{count}} gruppi di duplicati"
+    }
   }
 }

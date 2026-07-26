@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import {
 	Grid2,
 	Typography,
@@ -17,12 +17,22 @@ import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined';
 import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
+import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import { registerUser } from '../../../services/registrationService.js';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../../../components/languages/LanguageSwitcher.jsx';
 import { RECRUITMENT_TYPES, ORGANIZATION_SIZES } from '../../../constants.js';
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/;
+
+// Sequential status messages shown while the register call runs (account creation also
+// provisions the workspace and seeds the sample resume library, so it takes a while).
+const PROGRESS_STEPS = [
+	{ key: 'registration.progress.creatingAccount', fallback: 'Creating your account…' },
+	{ key: 'registration.progress.settingUpWorkspace', fallback: 'Setting up your workspace…' },
+	{ key: 'registration.progress.preparingLibrary', fallback: 'Loading sample resumes into your library…' },
+	{ key: 'registration.progress.almostDone', fallback: 'Almost done…' },
+];
 
 const UserRegistration = () => {
 	const { t } = useTranslation();
@@ -39,7 +49,20 @@ const UserRegistration = () => {
 	const [touched, setTouched] = useState({});
 	const [formError, setFormError] = useState('');
 	const [accountExists, setAccountExists] = useState(false);
-	const [loading, setLoading] = useState(false);
+	// idle → loading (spinner + staged progress text) → success (green check, then navigate)
+	const [status, setStatus] = useState('idle');
+	const [progressStep, setProgressStep] = useState(0);
+
+	// Advance the behind-the-scenes message while the request is in flight.
+	useEffect(() => {
+		if (status !== 'loading') return undefined;
+		setProgressStep(0);
+		const interval = setInterval(
+			() => setProgressStep((step) => Math.min(step + 1, PROGRESS_STEPS.length - 1)),
+			2200,
+		);
+		return () => clearInterval(interval);
+	}, [status]);
 
 	const validate = (values) => {
 		const next = {};
@@ -79,28 +102,30 @@ const UserRegistration = () => {
 		});
 		if (Object.keys(finalErrors).length) return;
 
-		setLoading(true);
+		setStatus('loading');
 		try {
 			const response = await registerUser(userInfo);
 			if (response.status === 200 && response.data?.data?.success) {
-				navigate('/success', { state: { email: userInfo.email } });
+				// Flash the green success state so the user sees the API responded before we move on.
+				setStatus('success');
+				setTimeout(() => navigate('/success', { state: { email: userInfo.email } }), 900);
 			} else {
+				setStatus('idle');
 				setFormError(t('registration.errorMessage', 'Something went wrong. Try again.'));
 			}
 		} catch (error) {
-			const status = error?.response?.status;
+			setStatus('idle');
+			const httpStatus = error?.response?.status;
 			const backend = error?.response?.data;
-			if (status === 406 || backend?.errorCode === 'error.user.already_exists') {
+			if (httpStatus === 406 || backend?.errorCode === 'error.user.already_exists') {
 				setAccountExists(true);
-			} else if (status >= 400 && status < 500) {
+			} else if (httpStatus >= 400 && httpStatus < 500) {
 				setFormError(backend?.message || t('registration.clientError', 'Request error. Check your input.'));
-			} else if (status >= 500) {
+			} else if (httpStatus >= 500) {
 				setFormError(backend?.message || t('registration.serverError', 'Server issue. Please try later.'));
 			} else {
 				setFormError(backend?.message || t('registration.networkError', 'Network issue. Check your connection.'));
 			}
-		} finally {
-			setLoading(false);
 		}
 	};
 
@@ -387,7 +412,7 @@ const UserRegistration = () => {
 								type="submit"
 								fullWidth
 								variant="contained"
-								disabled={loading}
+								disabled={status !== 'idle'}
 								sx={{
 									mt: 2,
 									py: 1.3,
@@ -405,12 +430,24 @@ const UserRegistration = () => {
 										transform: 'translateY(-1px)',
 									},
 									'&:active': { transform: 'translateY(0)' },
-									'&.Mui-disabled': { backgroundColor: '#b8d4a8', boxShadow: 'none' },
+									'&.Mui-disabled': status === 'success'
+										? { backgroundColor: '#dcfce7', color: '#166534', boxShadow: 'none' }
+										: { backgroundColor: '#b8d4a8', color: 'rgba(255,255,255,0.9)', boxShadow: 'none' },
 								}}
 							>
-								{loading
-									? <CircularProgress size={20} sx={{ color: 'rgba(255,255,255,0.8)' }} />
-									: t('registration.createDemoAccount', 'Create Free Demo Account')}
+								{status === 'loading' && (
+									<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+										<CircularProgress size={16} sx={{ color: 'rgba(255,255,255,0.9)' }} />
+										{t(PROGRESS_STEPS[progressStep].key, PROGRESS_STEPS[progressStep].fallback)}
+									</Box>
+								)}
+								{status === 'success' && (
+									<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
+										<CheckCircleRoundedIcon sx={{ fontSize: 19, color: '#16a34a' }} />
+										{t('registration.progress.done', 'Account created!')}
+									</Box>
+								)}
+								{status === 'idle' && t('registration.createFreeAccount', 'Create free account')}
 							</Button>
 						</Box>
 

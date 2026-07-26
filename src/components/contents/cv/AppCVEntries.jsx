@@ -157,8 +157,8 @@ const AppCVEntries = ({
 	const filtered = sorted;
 	const paginated = sorted;
 
-	const getInitials = (name = '') =>
-		name.split(' ').map(p => p[0]).filter(Boolean).join('').slice(0, 2).toUpperCase();
+	const getInitials = (name) =>
+		(name || '').split(' ').map(p => p[0]).filter(Boolean).join('').slice(0, 2).toUpperCase() || '?';
 
 	const isActive = (cv) => selectedCV?.id === cv.id;
 
@@ -324,7 +324,7 @@ const AppCVEntries = ({
 									mr: 1.5,
 									flexShrink: 0,
 								}}>
-									{getInitials(cv.personalInformation.name)}
+									{getInitials(cv.personalInformation?.name)}
 								</Avatar>
 								<Box sx={{ flex: 1, minWidth: 0 }}>
 									<Typography sx={{
@@ -335,7 +335,7 @@ const AppCVEntries = ({
 										textOverflow: 'ellipsis',
 										whiteSpace: 'nowrap',
 									}}>
-										{cv.personalInformation.name}
+										{cv.personalInformation?.name || '—'}
 									</Typography>
 									<Typography sx={{
 										fontSize: '0.74rem',
@@ -344,7 +344,7 @@ const AppCVEntries = ({
 										textOverflow: 'ellipsis',
 										whiteSpace: 'nowrap',
 									}}>
-										{cv.personalInformation.role}
+										{cv.personalInformation?.role}
 									</Typography>
 								</Box>
 								<IconButton
@@ -474,15 +474,15 @@ const AppCVEntries = ({
 												backgroundColor: isActive(cv) ? '#629C44' : '#e2e8f0',
 												color: isActive(cv) ? '#ffffff' : '#64748b',
 											}}>
-												{getInitials(cv.personalInformation.name)}
+												{getInitials(cv.personalInformation?.name)}
 											</Avatar>
 											<Typography sx={{ fontSize: '0.84rem', fontWeight: 500, color: '#0f172a' }}>
-												{cv.personalInformation.name}
+												{cv.personalInformation?.name || '—'}
 											</Typography>
 										</Box>
 									</TableCell>
 									<TableCell sx={{ fontSize: '0.82rem', color: '#64748b', py: 1.25 }}>
-										{cv.personalInformation.role}
+										{cv.personalInformation?.role}
 									</TableCell>
 									<TableCell sx={{ py: 1.25 }}>
 										<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>

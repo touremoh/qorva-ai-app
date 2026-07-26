@@ -426,26 +426,27 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 		);
 	}
 
+	// Missing fields arrive as explicit null (not undefined), so destructuring defaults
+	// don't apply — coalesce every nullable field before rendering.
 	const {
 		applicantNumber,
 		candidateClustering,
-		personalInformation: pi = {},
 		candidateProfileSummary,
-		workExperience = [],
-		education = [],
-		certifications = [],
-		skillsAndQualifications,
-		keySkills = [],
 		profiles,
-		projectsAndAchievements = [],
-		interestsAndHobbies = [],
-		references = [],
-		tags = [],
 		lastUpdatedAt,
 	} = cv;
+	const pi = cv.personalInformation ?? {};
+	const workExperience = cv.workExperience ?? [];
+	const education = cv.education ?? [];
+	const certifications = cv.certifications ?? [];
+	const keySkills = cv.keySkills ?? [];
+	const projectsAndAchievements = cv.projectsAndAchievements ?? [];
+	const interestsAndHobbies = cv.interestsAndHobbies ?? [];
+	const references = cv.references ?? [];
+	const tags = cv.tags ?? [];
 
 	const contact = pi.contact || {};
-	const skills = skillsAndQualifications || {};
+	const skills = cv.skillsAndQualifications || {};
 
 	return (
 		<Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', backgroundColor: '#f8fafc' }}>
@@ -1069,7 +1070,7 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 												{group.category}
 											</Typography>
 											<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-												{group.skills.map((skill, j) => (
+												{(group.skills ?? []).map((skill, j) => (
 													<Chip key={j} label={skill} size="small" sx={techSkillChipSx} />
 												))}
 											</Box>

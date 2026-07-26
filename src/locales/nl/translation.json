@@ -20,7 +20,11 @@
       "bullet2": "Vacature-kandidaat matching",
       "bullet3": "AI CV-chat",
       "freeToStart": "Gratis starten."
-    }
+    },
+    "signingIn": "U wordt aangemeld…",
+    "signedIn": "Aangemeld!",
+    "checkoutError": "Kon de betaling niet starten. Neem contact op met support.",
+    "subscriptionInactive": "Uw account is niet actief. Neem contact op met support."
   },
   "registration": {
     "freeTrialTitle": "Gratis proefperiode",
@@ -74,8 +78,15 @@
     "organizationSize": "Omvang van de organisatie",
     "organizationSizeRequired": "Selecteer een omvang",
     "orgSizeEmployees": "{{size}} medewerkers",
-    "createDemoAccount": "Gratis demo-account aanmaken",
-    "accountExists": "Er bestaat al een account met dit e-mailadres. Log in."
+    "accountExists": "Er bestaat al een account met dit e-mailadres. Log in.",
+    "createFreeAccount": "Gratis account aanmaken",
+    "progress": {
+      "creatingAccount": "Uw account wordt aangemaakt…",
+      "settingUpWorkspace": "Uw werkruimte wordt ingericht…",
+      "preparingLibrary": "Voorbeeld-cv's worden in uw bibliotheek geladen…",
+      "almostDone": "Bijna klaar…",
+      "done": "Account aangemaakt!"
+    }
   },
   "header": {
     "matching": "Matching",
@@ -86,7 +97,9 @@
     "logout": "Uitloggen",
     "aiResumeChat": "AI CV-chat",
     "intelligence": "Talent Intelligentie",
-    "usageMonitoring": "Gebruiksmonitoring"
+    "usageMonitoring": "Gebruiksmonitoring",
+    "libraryQuality": "Bibliotheekkwaliteit",
+    "resumes": "Cv's"
   },
   "footer": {
     "rightsReserved": "© Qorva AI. Alle rechten voorbehouden."
@@ -998,5 +1011,98 @@
     "goToWorkspace": "Ga naar uw werkruimte",
     "pendingTitle": "Betaling ontvangen",
     "pendingSubtitle": "Uw proefperiode wordt geactiveerd. Dit kan even duren — open uw werkruimte en deze wordt automatisch ontgrendeld."
+  },
+  "libraryQuality": {
+    "overall": "Bibliotheekgezondheid",
+    "totalCVs": "{{count}} cv's geanalyseerd",
+    "error": "Het kwaliteitsrapport kon niet worden geladen. Probeer het opnieuw.",
+    "retry": "Opnieuw proberen",
+    "empty": {
+      "title": "Nog geen cv's",
+      "subtitle": "Upload cv's naar uw bibliotheek om de gezondheidsscore en verbetersuggesties te zien."
+    },
+    "noIssues": "Geen problemen gevonden — uw bibliotheek is in topvorm!",
+    "view": "Bekijken",
+    "dimensions": {
+      "completeness": "Volledigheid",
+      "completenessHint": "Contactgegevens en profielgegevens aanwezig in uw cv's.",
+      "freshness": "Actualiteit",
+      "freshnessHint": "Hoe actueel de cv-inhoud werkelijk is.",
+      "uniqueness": "Uniciteit",
+      "uniquenessHint": "{{count}} duplicaatgroepen gedetecteerd.",
+      "parseConfidence": "AI-vertrouwen",
+      "parseConfidenceHint": "{{count}} cv's vereisen controle."
+    },
+    "sections": {
+      "completeness": "Veldvolledigheid",
+      "freshness": "Inhoudsactualiteit",
+      "issues": "Op te lossen problemen"
+    },
+    "groups": {
+      "critical": "Kritiek",
+      "important": "Belangrijk",
+      "enrichment": "Verrijking"
+    },
+    "fields": {
+      "email": "E-mail",
+      "phone": "Telefoon",
+      "name": "Naam",
+      "role": "Functie",
+      "workExperience": "Werkervaring",
+      "keySkills": "Kernvaardigheden",
+      "careerStartYear": "Start carrière",
+      "education": "Opleiding",
+      "languages": "Talen",
+      "certifications": "Certificeringen",
+      "salaryExpectation": "Salarisverwachting",
+      "linkedin": "LinkedIn",
+      "summary": "Samenvatting"
+    },
+    "buckets": {
+      "UP_TO_DATE": "Actueel",
+      "REVIEW_SUGGESTED": "Controle aanbevolen",
+      "OUTDATED": "Verouderd",
+      "UNKNOWN": "Onbekend"
+    },
+    "severity": {
+      "CRITICAL": "Kritiek",
+      "HIGH": "Hoog",
+      "MEDIUM": "Gemiddeld"
+    },
+    "issues": {
+      "MISSING_CONTACT": "Geen contactgegevens (e-mail en telefoon ontbreken)",
+      "MISSING_EMAIL": "E-mailadres ontbreekt",
+      "MISSING_PHONE": "Telefoonnummer ontbreekt",
+      "NO_WORK_EXPERIENCE": "Geen werkervaring geëxtraheerd",
+      "NO_SKILLS": "Geen vaardigheden geëxtraheerd",
+      "MISSING_SUMMARY": "Profielsamenvatting ontbreekt",
+      "OUTDATED": "Inhoud verouderd (ouder dan 18 maanden)",
+      "UNKNOWN_FRESHNESS": "Actualiteit onbekend (geen dateerbare inhoud)",
+      "LOW_PARSE_CONFIDENCE": "Laag vertrouwen in AI-analyse",
+      "DUPLICATES": "Dubbele cv's"
+    },
+    "drilldown": {
+      "name": "Naam",
+      "role": "Functie",
+      "email": "E-mail",
+      "phone": "Telefoon",
+      "contentDate": "Inhoudsdatum",
+      "lastUpdated": "Laatst bijgewerkt",
+      "empty": "Geen cv's gevonden voor dit probleem."
+    },
+    "verdict": {
+      "excellent": "Uitstekend",
+      "good": "Goed",
+      "fair": "Redelijk",
+      "poor": "Aandacht nodig",
+      "drag": "{{rating}} — {{dimension}} trekt uw score omlaag.",
+      "healthy": "{{rating}} — alle dimensies zien er gezond uit."
+    },
+    "duplicates": {
+      "empty": "Geen duplicaten gevonden.",
+      "added": "Toegevoegd",
+      "delete": "Cv verwijderen",
+      "groupCount": "{{count}} duplicaatgroepen"
+    }
   }
 }

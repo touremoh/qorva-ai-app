@@ -1,22 +1,27 @@
 import React, { useState } from 'react';
-import { Box, IconButton, List, ListItemButton, Tooltip, Typography } from '@mui/material';
+import { Box, Collapse, IconButton, List, ListItemButton, Tooltip, Typography } from '@mui/material';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import ExpandLessRoundedIcon from '@mui/icons-material/ExpandLessRounded';
+import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded';
 import { useTranslation } from 'react-i18next';
 import LeaderboardOutlinedIcon from '@mui/icons-material/LeaderboardOutlined';
 import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
 import PsychologyOutlinedIcon from '@mui/icons-material/PsychologyOutlined';
 import SpeedOutlinedIcon from '@mui/icons-material/SpeedOutlined';
+import FactCheckOutlinedIcon from '@mui/icons-material/FactCheckOutlined';
 import {
 	COMP_ID_CHAT,
 	COMP_ID_CVLIB,
 	COMP_ID_DASHBOARD,
 	COMP_ID_INTELLIGENCE,
 	COMP_ID_JOBS,
+	COMP_ID_LIBRARY_QUALITY,
 	COMP_ID_REPORTS,
 	COMP_ID_SETTINGS,
 	COMP_ID_USAGE_MONITORING,
@@ -26,6 +31,7 @@ import PropTypes from 'prop-types';
 const AppMenuList = ({ handleContentChange, isChatAllowed, collapsed, onToggleCollapse }) => {
 	const { t } = useTranslation();
 	const [selectedItem, setSelectedItem] = useState(COMP_ID_DASHBOARD);
+	const [openGroups, setOpenGroups] = useState({});
 
 	const handleNavigation = (id) => {
 		setSelectedItem(id);
@@ -34,7 +40,11 @@ const AppMenuList = ({ handleContentChange, isChatAllowed, collapsed, onToggleCo
 
 	const menuItems = [
 		{ id: COMP_ID_DASHBOARD, Icon: LeaderboardOutlinedIcon, label: 'Dashboard',                              display: true },
-		{ id: COMP_ID_CVLIB,     Icon: PeopleOutlinedIcon,      label: t('header.cvs'),                         display: true },
+		{ groupId: 'RESUME_LIBRARY', Icon: PeopleOutlinedIcon,  label: t('header.cvs'),                         display: true,
+			children: [
+				{ id: COMP_ID_CVLIB,           Icon: DescriptionOutlinedIcon, label: t('header.resumes', 'Resumes'),               display: true },
+				{ id: COMP_ID_LIBRARY_QUALITY, Icon: FactCheckOutlinedIcon,   label: t('header.libraryQuality', 'Library Quality'), display: true },
+			] },
 		{ id: COMP_ID_JOBS,         Icon: WorkOutlineOutlinedIcon,  label: t('header.jobs'),                      display: true },
 		{ id: COMP_ID_REPORTS,      Icon: AssessmentOutlinedIcon,   label: t('header.reports'),                   display: true },
 		{ id: COMP_ID_INTELLIGENCE, Icon: PsychologyOutlinedIcon,   label: t('header.intelligence', 'Intelligence'), display: true },
@@ -82,43 +92,92 @@ const AppMenuList = ({ handleContentChange, isChatAllowed, collapsed, onToggleCo
 			<List disablePadding sx={{ px: collapsed ? 0.5 : 1.5, flex: 1 }}>
 				{menuItems.map((item) => {
 					if (!item.display) return null;
+
+					const renderLeaf = (entry, isChild = false) => {
+						const { Icon } = entry;
+						const isActive = selectedItem === entry.id;
+						return (
+							<ListItemButton
+								key={entry.id}
+								onClick={() => handleNavigation(entry.id)}
+								title={collapsed ? entry.label : undefined}
+								sx={{
+									borderRadius: 1.5,
+									mb: 0.5,
+									px: collapsed ? 0 : 1.5,
+									pl: collapsed ? 0 : (isChild ? 3.5 : 1.5),
+									py: isChild ? 0.7 : 0.9,
+									justifyContent: collapsed ? 'center' : 'flex-start',
+									color: isActive ? '#ffffff' : 'rgba(255,255,255,0.55)',
+									backgroundColor: isActive ? 'rgba(98,156,68,0.18)' : 'transparent',
+									borderLeft: collapsed ? 'none' : (isActive ? '3px solid #629C44' : '3px solid transparent'),
+									transition: 'all 0.15s ease',
+									'&:hover': {
+										backgroundColor: isActive ? 'rgba(98,156,68,0.24)' : 'rgba(255,255,255,0.06)',
+										color: '#ffffff',
+									},
+								}}
+							>
+								<Icon sx={{ fontSize: isChild ? 16 : 18, mr: collapsed ? 0 : 1.5, flexShrink: 0 }} />
+								{!collapsed && (
+									<Typography
+										sx={{
+											fontSize: isChild ? '0.78rem' : '0.84rem',
+											fontWeight: isActive ? 600 : 400,
+											lineHeight: 1.2,
+											letterSpacing: '-0.01em',
+										}}
+									>
+										{entry.label}
+									</Typography>
+								)}
+							</ListItemButton>
+						);
+					};
+
+					// Plain item
+					if (!item.children) {
+						return renderLeaf(item);
+					}
+
+					const visibleChildren = item.children.filter((child) => child.display);
+
+					// Collapsed rail has no room for expansion — show the children as flat icons
+					if (collapsed) {
+						return visibleChildren.map((child) => renderLeaf(child));
+					}
+
+					// Expandable group: parent toggles, children render inside a Collapse
 					const { Icon } = item;
-					const isActive = selectedItem === item.id;
+					const childActive = visibleChildren.some((child) => child.id === selectedItem);
+					const isOpen = openGroups[item.groupId] ?? childActive;
 					return (
-						<ListItemButton
-							key={item.id}
-							onClick={() => handleNavigation(item.id)}
-							title={collapsed ? item.label : undefined}
-							sx={{
-								borderRadius: 1.5,
-								mb: 0.5,
-								px: collapsed ? 0 : 1.5,
-								py: 0.9,
-								justifyContent: collapsed ? 'center' : 'flex-start',
-								color: isActive ? '#ffffff' : 'rgba(255,255,255,0.55)',
-								backgroundColor: isActive ? 'rgba(98,156,68,0.18)' : 'transparent',
-								borderLeft: collapsed ? 'none' : (isActive ? '3px solid #629C44' : '3px solid transparent'),
-								transition: 'all 0.15s ease',
-								'&:hover': {
-									backgroundColor: isActive ? 'rgba(98,156,68,0.24)' : 'rgba(255,255,255,0.06)',
-									color: '#ffffff',
-								},
-							}}
-						>
-							<Icon sx={{ fontSize: 18, mr: collapsed ? 0 : 1.5, flexShrink: 0 }} />
-							{!collapsed && (
-								<Typography
-									sx={{
-										fontSize: '0.84rem',
-										fontWeight: isActive ? 600 : 400,
-										lineHeight: 1.2,
-										letterSpacing: '-0.01em',
-									}}
-								>
+						<React.Fragment key={item.groupId}>
+							<ListItemButton
+								onClick={() => setOpenGroups((prev) => ({ ...prev, [item.groupId]: !isOpen }))}
+								sx={{
+									borderRadius: 1.5,
+									mb: 0.5,
+									px: 1.5,
+									py: 0.9,
+									color: childActive ? '#ffffff' : 'rgba(255,255,255,0.55)',
+									borderLeft: childActive && !isOpen ? '3px solid #629C44' : '3px solid transparent',
+									transition: 'all 0.15s ease',
+									'&:hover': { backgroundColor: 'rgba(255,255,255,0.06)', color: '#ffffff' },
+								}}
+							>
+								<Icon sx={{ fontSize: 18, mr: 1.5, flexShrink: 0 }} />
+								<Typography sx={{ flex: 1, fontSize: '0.84rem', fontWeight: childActive ? 600 : 400, lineHeight: 1.2, letterSpacing: '-0.01em' }}>
 									{item.label}
 								</Typography>
-							)}
-						</ListItemButton>
+								{isOpen
+									? <ExpandLessRoundedIcon sx={{ fontSize: 17, opacity: 0.7 }} />
+									: <ExpandMoreRoundedIcon sx={{ fontSize: 17, opacity: 0.7 }} />}
+							</ListItemButton>
+							<Collapse in={isOpen} timeout="auto" unmountOnExit>
+								{visibleChildren.map((child) => renderLeaf(child, true))}
+							</Collapse>
+						</React.Fragment>
 					);
 				})}
 			</List>

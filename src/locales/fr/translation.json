@@ -20,7 +20,11 @@
       "bullet2": "Matching emploi-candidats",
       "bullet3": "Chat CV IA",
       "freeToStart": "Gratuit pour commencer"
-    }
+    },
+    "signingIn": "Connexion en cours…",
+    "signedIn": "Connecté !",
+    "checkoutError": "Impossible de lancer le paiement. Veuillez contacter le support.",
+    "subscriptionInactive": "Votre compte n'est pas actif. Veuillez contacter le support."
   },
   "registration": {
     "freeTrialTitle": "Essai gratuit",
@@ -74,8 +78,15 @@
     "organizationSize": "Taille de l'organisation",
     "organizationSizeRequired": "Veuillez sélectionner une taille",
     "orgSizeEmployees": "{{size}} employés",
-    "createDemoAccount": "Créer un compte démo gratuit",
-    "accountExists": "Un compte avec cet e-mail existe déjà. Veuillez vous connecter."
+    "accountExists": "Un compte avec cet e-mail existe déjà. Veuillez vous connecter.",
+    "createFreeAccount": "Créer un compte gratuit",
+    "progress": {
+      "creatingAccount": "Création de votre compte…",
+      "settingUpWorkspace": "Préparation de votre espace de travail…",
+      "preparingLibrary": "Chargement des CV d'exemple dans votre CVthèque…",
+      "almostDone": "Presque terminé…",
+      "done": "Compte créé !"
+    }
   },
   "header": {
     "matching": "Matching",
@@ -86,7 +97,9 @@
     "logout": "Déconnexion",
     "aiResumeChat": "Chat CV IA",
     "intelligence": "Talent Intelligence",
-    "usageMonitoring": "Suivi d'utilisation"
+    "usageMonitoring": "Suivi d'utilisation",
+    "libraryQuality": "Qualité de la CVthèque",
+    "resumes": "CV"
   },
   "footer": {
     "rightsReserved": "© Qorva AI. Tous droits réservés."
@@ -1001,5 +1014,98 @@
     "goToWorkspace": "Accéder à votre espace de travail",
     "pendingTitle": "Paiement reçu",
     "pendingSubtitle": "Votre essai est en cours d'activation. Cela peut prendre un instant — ouvrez votre espace de travail et il se débloquera automatiquement."
+  },
+  "libraryQuality": {
+    "overall": "Santé de la CVthèque",
+    "totalCVs": "{{count}} CV analysés",
+    "error": "Impossible de charger le rapport de qualité. Veuillez réessayer.",
+    "retry": "Réessayer",
+    "empty": {
+      "title": "Aucun CV pour le moment",
+      "subtitle": "Ajoutez des CV à votre CVthèque pour voir son score de santé et obtenir des suggestions d'amélioration."
+    },
+    "noIssues": "Aucun problème détecté — votre CVthèque est en pleine forme !",
+    "view": "Voir",
+    "dimensions": {
+      "completeness": "Complétude",
+      "completenessHint": "Coordonnées et données de profil présentes sur vos CV.",
+      "freshness": "Fraîcheur",
+      "freshnessHint": "À quel point le contenu des CV est réellement à jour.",
+      "uniqueness": "Unicité",
+      "uniquenessHint": "{{count}} groupes de doublons détectés.",
+      "parseConfidence": "Confiance IA",
+      "parseConfidenceHint": "{{count}} CV à vérifier."
+    },
+    "sections": {
+      "completeness": "Complétude des champs",
+      "freshness": "Fraîcheur du contenu",
+      "issues": "Problèmes à corriger"
+    },
+    "groups": {
+      "critical": "Critique",
+      "important": "Important",
+      "enrichment": "Enrichissement"
+    },
+    "fields": {
+      "email": "E-mail",
+      "phone": "Téléphone",
+      "name": "Nom",
+      "role": "Poste",
+      "workExperience": "Expérience professionnelle",
+      "keySkills": "Compétences clés",
+      "careerStartYear": "Début de carrière",
+      "education": "Formation",
+      "languages": "Langues",
+      "certifications": "Certifications",
+      "salaryExpectation": "Prétentions salariales",
+      "linkedin": "LinkedIn",
+      "summary": "Résumé"
+    },
+    "buckets": {
+      "UP_TO_DATE": "À jour",
+      "REVIEW_SUGGESTED": "Vérification conseillée",
+      "OUTDATED": "Obsolète",
+      "UNKNOWN": "Inconnu"
+    },
+    "severity": {
+      "CRITICAL": "Critique",
+      "HIGH": "Élevé",
+      "MEDIUM": "Moyen"
+    },
+    "issues": {
+      "MISSING_CONTACT": "Aucune coordonnée (e-mail et téléphone manquants)",
+      "MISSING_EMAIL": "Adresse e-mail manquante",
+      "MISSING_PHONE": "Numéro de téléphone manquant",
+      "NO_WORK_EXPERIENCE": "Aucune expérience professionnelle extraite",
+      "NO_SKILLS": "Aucune compétence extraite",
+      "MISSING_SUMMARY": "Résumé de profil manquant",
+      "OUTDATED": "Contenu obsolète (plus de 18 mois)",
+      "UNKNOWN_FRESHNESS": "Fraîcheur inconnue (aucune date exploitable)",
+      "LOW_PARSE_CONFIDENCE": "Faible confiance de l'analyse IA",
+      "DUPLICATES": "CV en doublon"
+    },
+    "drilldown": {
+      "name": "Nom",
+      "role": "Poste",
+      "email": "E-mail",
+      "phone": "Téléphone",
+      "contentDate": "Date du contenu",
+      "lastUpdated": "Dernière mise à jour",
+      "empty": "Aucun CV trouvé pour ce problème."
+    },
+    "verdict": {
+      "excellent": "Excellent",
+      "good": "Bon",
+      "fair": "Passable",
+      "poor": "À améliorer",
+      "drag": "{{rating}} — {{dimension}} fait baisser votre score.",
+      "healthy": "{{rating}} — toutes les dimensions sont saines."
+    },
+    "duplicates": {
+      "empty": "Aucun doublon trouvé.",
+      "added": "Ajouté le",
+      "delete": "Supprimer le CV",
+      "groupCount": "{{count}} groupes de doublons"
+    }
   }
 }

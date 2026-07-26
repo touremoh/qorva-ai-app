@@ -20,7 +20,11 @@
       "bullet2": "Job-Kandidaten-Matching",
       "bullet3": "KI-Lebenslauf-Chat",
       "freeToStart": "Kostenlos starten"
-    }
+    },
+    "signingIn": "Sie werden angemeldet…",
+    "signedIn": "Angemeldet!",
+    "checkoutError": "Der Bezahlvorgang konnte nicht gestartet werden. Bitte kontaktieren Sie den Support.",
+    "subscriptionInactive": "Ihr Konto ist nicht aktiv. Bitte kontaktieren Sie den Support."
   },
   "registration": {
     "freeTrialTitle": "Kostenlose Testphase",
@@ -74,8 +78,15 @@
     "organizationSize": "Größe der Organisation",
     "organizationSizeRequired": "Bitte wählen Sie eine Größe",
     "orgSizeEmployees": "{{size}} Mitarbeitende",
-    "createDemoAccount": "Kostenloses Demo-Konto erstellen",
-    "accountExists": "Ein Konto mit dieser E-Mail existiert bereits. Bitte melden Sie sich an."
+    "accountExists": "Ein Konto mit dieser E-Mail existiert bereits. Bitte melden Sie sich an.",
+    "createFreeAccount": "Kostenloses Konto erstellen",
+    "progress": {
+      "creatingAccount": "Ihr Konto wird erstellt…",
+      "settingUpWorkspace": "Ihr Arbeitsbereich wird eingerichtet…",
+      "preparingLibrary": "Beispiel-Lebensläufe werden in Ihre Bibliothek geladen…",
+      "almostDone": "Fast fertig…",
+      "done": "Konto erstellt!"
+    }
   },
   "header": {
     "matching": "Matching",
@@ -86,7 +97,9 @@
     "logout": "Abmelden",
     "aiResumeChat": "KI-Lebenslauf-Chat",
     "intelligence": "Talent-Intelligenz",
-    "usageMonitoring": "Nutzungsüberwachung"
+    "usageMonitoring": "Nutzungsüberwachung",
+    "libraryQuality": "Bibliotheksqualität",
+    "resumes": "Lebensläufe"
   },
   "footer": {
     "rightsReserved": "© Qorva AI. Alle Rechte vorbehalten."
@@ -1001,5 +1014,98 @@
     "goToWorkspace": "Zum Arbeitsbereich",
     "pendingTitle": "Zahlung erhalten",
     "pendingSubtitle": "Ihre Testphase wird aktiviert. Das kann einen Moment dauern — öffnen Sie Ihren Arbeitsbereich, er wird automatisch freigeschaltet."
+  },
+  "libraryQuality": {
+    "overall": "Bibliotheksgesundheit",
+    "totalCVs": "{{count}} Lebensläufe analysiert",
+    "error": "Der Qualitätsbericht konnte nicht geladen werden. Bitte versuchen Sie es erneut.",
+    "retry": "Erneut versuchen",
+    "empty": {
+      "title": "Noch keine Lebensläufe",
+      "subtitle": "Laden Sie Lebensläufe hoch, um den Gesundheitsscore Ihrer Bibliothek und Verbesserungsvorschläge zu sehen."
+    },
+    "noIssues": "Keine Probleme gefunden — Ihre Bibliothek ist in Bestform!",
+    "view": "Ansehen",
+    "dimensions": {
+      "completeness": "Vollständigkeit",
+      "completenessHint": "Kontaktdaten und Profildaten in Ihren Lebensläufen.",
+      "freshness": "Aktualität",
+      "freshnessHint": "Wie aktuell der Inhalt der Lebensläufe tatsächlich ist.",
+      "uniqueness": "Eindeutigkeit",
+      "uniquenessHint": "{{count}} Duplikatgruppen erkannt.",
+      "parseConfidence": "KI-Konfidenz",
+      "parseConfidenceHint": "{{count}} Lebensläufe benötigen Überprüfung."
+    },
+    "sections": {
+      "completeness": "Feldvollständigkeit",
+      "freshness": "Inhaltsaktualität",
+      "issues": "Zu behebende Probleme"
+    },
+    "groups": {
+      "critical": "Kritisch",
+      "important": "Wichtig",
+      "enrichment": "Anreicherung"
+    },
+    "fields": {
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "name": "Name",
+      "role": "Position",
+      "workExperience": "Berufserfahrung",
+      "keySkills": "Kernkompetenzen",
+      "careerStartYear": "Karrierebeginn",
+      "education": "Ausbildung",
+      "languages": "Sprachen",
+      "certifications": "Zertifizierungen",
+      "salaryExpectation": "Gehaltsvorstellung",
+      "linkedin": "LinkedIn",
+      "summary": "Zusammenfassung"
+    },
+    "buckets": {
+      "UP_TO_DATE": "Aktuell",
+      "REVIEW_SUGGESTED": "Überprüfung empfohlen",
+      "OUTDATED": "Veraltet",
+      "UNKNOWN": "Unbekannt"
+    },
+    "severity": {
+      "CRITICAL": "Kritisch",
+      "HIGH": "Hoch",
+      "MEDIUM": "Mittel"
+    },
+    "issues": {
+      "MISSING_CONTACT": "Keine Kontaktdaten (E-Mail und Telefon fehlen)",
+      "MISSING_EMAIL": "E-Mail-Adresse fehlt",
+      "MISSING_PHONE": "Telefonnummer fehlt",
+      "NO_WORK_EXPERIENCE": "Keine Berufserfahrung extrahiert",
+      "NO_SKILLS": "Keine Kompetenzen extrahiert",
+      "MISSING_SUMMARY": "Profilzusammenfassung fehlt",
+      "OUTDATED": "Inhalt veraltet (älter als 18 Monate)",
+      "UNKNOWN_FRESHNESS": "Aktualität unbekannt (keine datierbaren Inhalte)",
+      "LOW_PARSE_CONFIDENCE": "Geringe KI-Analysekonfidenz",
+      "DUPLICATES": "Doppelte Lebensläufe"
+    },
+    "drilldown": {
+      "name": "Name",
+      "role": "Position",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "contentDate": "Inhaltsdatum",
+      "lastUpdated": "Zuletzt aktualisiert",
+      "empty": "Keine Lebensläufe für dieses Problem gefunden."
+    },
+    "verdict": {
+      "excellent": "Ausgezeichnet",
+      "good": "Gut",
+      "fair": "Ausreichend",
+      "poor": "Verbesserungsbedürftig",
+      "drag": "{{rating}} — {{dimension}} zieht Ihren Score nach unten.",
+      "healthy": "{{rating}} — alle Dimensionen sehen gesund aus."
+    },
+    "duplicates": {
+      "empty": "Keine Duplikate gefunden.",
+      "added": "Hinzugefügt",
+      "delete": "Lebenslauf löschen",
+      "groupCount": "{{count}} Duplikatgruppen"
+    }
   }
 }

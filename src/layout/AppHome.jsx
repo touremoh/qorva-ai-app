@@ -1,4 +1,5 @@
 // src/pages/AppHome.jsx
+// eslint-disable-next-line no-unused-vars
 import React, {useEffect, useState} from 'react';
 import { Box } from '@mui/material';
 import AppHeader from '../components/headers/AppHeader.jsx';

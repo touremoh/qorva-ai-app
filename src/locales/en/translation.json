@@ -22,7 +22,9 @@
       "bullet2": "Job to candidate matching",
       "bullet3": "AI Resume Chat",
       "freeToStart": "Free to start"
-    }
+    },
+    "signingIn": "Signing you in…",
+    "signedIn": "Signed in!"
   },
   "registration": {
     "freeTrialTitle": "Free Trial",
@@ -76,8 +78,15 @@
     "organizationSize": "Organization Size",
     "organizationSizeRequired": "Please select an organization size",
     "orgSizeEmployees": "{{size}} employees",
-    "createDemoAccount": "Create Free Demo Account",
-    "accountExists": "An account with this email already exists. Please log in."
+    "accountExists": "An account with this email already exists. Please log in.",
+    "createFreeAccount": "Create free account",
+    "progress": {
+      "creatingAccount": "Creating your account…",
+      "settingUpWorkspace": "Setting up your workspace…",
+      "preparingLibrary": "Loading sample resumes into your library…",
+      "almostDone": "Almost done…",
+      "done": "Account created!"
+    }
   },
   "header": {
     "matching": "Matching",
@@ -88,7 +97,9 @@
     "logout": "Sign Out",
     "aiResumeChat": "AI Resume Chat",
     "intelligence": "Talent Intelligence",
-    "usageMonitoring": "Usage Monitoring"
+    "usageMonitoring": "Usage Monitoring",
+    "libraryQuality": "Library Quality",
+    "resumes": "Resumes"
   },
   "footer": {
     "rightsReserved": "© Qorva AI. All rights reserved."
@@ -1012,5 +1023,98 @@
     "sentTitle": "Check your inbox",
     "sentMessage": "If that email exists, we've sent a link to activate your account and set your password.",
     "backToLogin": "Back to login"
+  },
+  "libraryQuality": {
+    "overall": "Library Health",
+    "totalCVs": "{{count}} resumes analyzed",
+    "error": "Could not load the library quality report. Please try again.",
+    "retry": "Retry",
+    "empty": {
+      "title": "No resumes yet",
+      "subtitle": "Upload resumes to your library to see its health score and get improvement suggestions."
+    },
+    "noIssues": "No issues found — your library is in great shape!",
+    "view": "View",
+    "dimensions": {
+      "completeness": "Completeness",
+      "completenessHint": "Contact details and profile data present on your resumes.",
+      "freshness": "Freshness",
+      "freshnessHint": "How current the resume content actually is.",
+      "uniqueness": "Uniqueness",
+      "uniquenessHint": "{{count}} duplicate groups detected.",
+      "parseConfidence": "AI Confidence",
+      "parseConfidenceHint": "{{count}} resumes need review."
+    },
+    "sections": {
+      "completeness": "Field Completeness",
+      "freshness": "Content Freshness",
+      "issues": "Issues To Fix"
+    },
+    "groups": {
+      "critical": "Critical",
+      "important": "Important",
+      "enrichment": "Enrichment"
+    },
+    "fields": {
+      "email": "Email",
+      "phone": "Phone",
+      "name": "Name",
+      "role": "Role",
+      "workExperience": "Work Experience",
+      "keySkills": "Key Skills",
+      "careerStartYear": "Career Start Year",
+      "education": "Education",
+      "languages": "Languages",
+      "certifications": "Certifications",
+      "salaryExpectation": "Salary Expectation",
+      "linkedin": "LinkedIn",
+      "summary": "Summary"
+    },
+    "buckets": {
+      "UP_TO_DATE": "Up to date",
+      "REVIEW_SUGGESTED": "Review suggested",
+      "OUTDATED": "Outdated",
+      "UNKNOWN": "Unknown"
+    },
+    "severity": {
+      "CRITICAL": "Critical",
+      "HIGH": "High",
+      "MEDIUM": "Medium"
+    },
+    "issues": {
+      "MISSING_CONTACT": "No contact information (email and phone missing)",
+      "MISSING_EMAIL": "Missing email address",
+      "MISSING_PHONE": "Missing phone number",
+      "NO_WORK_EXPERIENCE": "No work experience extracted",
+      "NO_SKILLS": "No skills extracted",
+      "MISSING_SUMMARY": "Missing profile summary",
+      "OUTDATED": "Content outdated (over 18 months old)",
+      "UNKNOWN_FRESHNESS": "Freshness unknown (no dateable content)",
+      "LOW_PARSE_CONFIDENCE": "Low AI analysis confidence",
+      "DUPLICATES": "Duplicate resumes"
+    },
+    "drilldown": {
+      "name": "Name",
+      "role": "Role",
+      "email": "Email",
+      "phone": "Phone",
+      "contentDate": "Content Date",
+      "lastUpdated": "Last Updated",
+      "empty": "No resumes found for this issue."
+    },
+    "verdict": {
+      "excellent": "Excellent",
+      "good": "Good",
+      "fair": "Fair",
+      "poor": "Needs attention",
+      "drag": "{{rating}} — {{dimension}} is dragging your score down.",
+      "healthy": "{{rating}} — all dimensions look healthy."
+    },
+    "duplicates": {
+      "empty": "No duplicates found.",
+      "added": "Added",
+      "delete": "Delete resume",
+      "groupCount": "{{count}} duplicate groups"
+    }
   }
 }
