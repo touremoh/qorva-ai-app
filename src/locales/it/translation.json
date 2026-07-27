@@ -176,7 +176,11 @@
     },
     "availabilityStatuses": "Statuti di disponibilità da includere",
     "copyReference": "Copia riferimento",
-    "copied": "Copiato!"
+    "copied": "Copiato!",
+    "aiPrefill": {
+      "drafting": "L'IA sta preparando le tue regole di scoring…",
+      "applied": "Regole di scoring suggerite dall'IA — rivedi e modifica prima di salvare."
+    }
   },
   "appCVContent": {
     "createCVEntry": "Aggiungi CV",
@@ -319,7 +323,29 @@
     "filterBySkill": "Filtra per competenza…",
     "filterMinExp": "Anni min.…",
     "resumeCount": "{{count}} CV",
-    "pageOf": "pagina {{page}} di {{total}}"
+    "pageOf": "pagina {{page}} di {{total}}",
+    "uploadResults": {
+      "title": "Risultati del caricamento",
+      "failed": "Questo file non è stato elaborato.",
+      "duplicateOf": "Corrisponde a {{name}} (aggiunto il {{date}})",
+      "replace": "Sostituisci la vecchia versione",
+      "keepBoth": "Mantieni entrambi",
+      "replaceAll": "Sostituisci tutte le vecchie versioni",
+      "replaced": "Vecchia versione sostituita.",
+      "kept": "Entrambe le versioni conservate.",
+      "done": "Fatto"
+    },
+    "uploadWarnings": {
+      "MISSING_PHONE": "telefono mancante",
+      "MISSING_EMAIL": "e-mail mancante",
+      "MISSING_CONTACT": "nessun contatto",
+      "NO_WORK_EXPERIENCE": "nessuna esperienza",
+      "LOW_AI_CONFIDENCE": "bassa affidabilità IA",
+      "NO_AI_ANALYSIS": "nessuna analisi IA"
+    },
+    "archived": "Archiviati",
+    "showArchivedTooltip": "Mostra curriculum archiviati",
+    "unarchive": "Ripristina"
   },
   "appCVMatching": {
     "selectJobPost": "Seleziona annuncio",
@@ -1091,7 +1117,10 @@
       "phone": "Telefono",
       "contentDate": "Data del contenuto",
       "lastUpdated": "Ultimo aggiornamento",
-      "empty": "Nessun curriculum trovato per questo problema."
+      "empty": "Nessun curriculum trovato per questo problema.",
+      "add": "Aggiungi",
+      "confirmCurrent": "Conferma aggiornato ({{count}})",
+      "confirmHint": "Seleziona i curriculum verificati come ancora corretti (max {{max}})"
     },
     "verdict": {
       "excellent": "Eccellente",
@@ -1106,6 +1135,57 @@
       "added": "Aggiunto",
       "delete": "Elimina curriculum",
       "groupCount": "{{count}} gruppi di duplicati"
+    },
+    "badgeTooltip": "{{count}} problemi da risolvere",
+    "archiveAll": "Archivia tutto",
+    "archiveAllTitle": "Archivia curriculum",
+    "archiveAllConfirmation": "Questa azione archivierà {{count}} curriculum. I curriculum archiviati sono esclusi dal matching e dal report qualità; puoi ripristinarli in qualsiasi momento dalla libreria.",
+    "dismiss": "Ignora — accettato, nascondi dai problemi aperti",
+    "reopen": "Riapri questo problema",
+    "dismissedSection": "Ignorati ({{count}})",
+    "jobs": {
+      "reanalyzeAll": "Rianalizza tutto",
+      "cancel": "Annulla",
+      "running": "Rianalisi IA in corso — {{processed}}/{{total}} curriculum",
+      "confirmTitle": "Rianalizza i curriculum con l'IA",
+      "confirmBody": "Questa azione rieseguirà l'estrazione IA su {{count}} curriculum e userà {{actions}} azioni di screening{{quota}}.",
+      "confirmQuota": " ({{remaining}} rimanenti in questo periodo)",
+      "confirmSkipped": "{{count}} curriculum più vecchi non hanno testo sorgente memorizzato e verranno saltati — ricaricali per aggiornarli.",
+      "confirmStart": "Avvia rianalisi",
+      "resultDetail": "{{succeeded}} aggiornati · {{failed}} falliti · {{skipped}} saltati (nessun testo)",
+      "status": {
+        "COMPLETED": "Rianalisi completata",
+        "COMPLETED_WITH_ERRORS": "Rianalisi completata con errori",
+        "FAILED": "Rianalisi fallita",
+        "CANCELLED": "Rianalisi annullata"
+      }
+    },
+    "campaign": {
+      "requestUpdates": "Richiedi aggiornamenti",
+      "confirmTitle": "Richiedi aggiornamenti ai candidati",
+      "confirmBody": "Fino a {{count}} candidati riceveranno un link sicuro per aggiornare disponibilità, aspettative salariali e curriculum. I candidati senza e-mail, disiscritti o con una richiesta in sospeso vengono saltati automaticamente.",
+      "confirmSend": "Invia richieste"
     }
+  },
+  "candidateUpdate": {
+    "invalid": "Questo link non è più valido. Potrebbe essere scaduto o già stato utilizzato.",
+    "title": "Ciao {{name}}, mantieni aggiornato il tuo profilo",
+    "subtitle": "Conferma disponibilità e aspettative — richiede un minuto.",
+    "status": "Disponibilità",
+    "availableFrom": "Disponibile dal",
+    "noticePeriod": "Preavviso (giorni)",
+    "currency": "Valuta",
+    "salaryMin": "Salario min",
+    "salaryMax": "Salario max",
+    "uploadCV": "Carica un curriculum più recente (opzionale, .pdf o .docx)",
+    "consent": "Inviando, accetti che queste informazioni siano condivise con il recruiter che detiene il tuo profilo e trattate per mantenerlo accurato.",
+    "submit": "Aggiorna il mio profilo",
+    "doneTitle": "Grazie — il tuo profilo è aggiornato!",
+    "doneSubtitle": "Puoi chiudere questa pagina.",
+    "unsubscribeTitle": "Annullare l'iscrizione alle richieste di aggiornamento?",
+    "unsubscribeSubtitle": "Non riceverai più e-mail di aggiornamento da questo recruiter.",
+    "unsubscribeButton": "Annulla iscrizione",
+    "unsubscribedTitle": "Iscrizione annullata.",
+    "unsubscribedSubtitle": "Non riceverai altre richieste di aggiornamento."
   }
 }

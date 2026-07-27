@@ -176,7 +176,11 @@
     },
     "availabilityStatuses": "Te matchen beschikbaarheidsstatussen",
     "copyReference": "Referentie kopiëren",
-    "copied": "Gekopieerd!"
+    "copied": "Gekopieerd!",
+    "aiPrefill": {
+      "drafting": "AI stelt uw scoringsregels op…",
+      "applied": "Door AI voorgestelde scoringsregels — controleer en pas aan vóór het opslaan."
+    }
   },
   "appCVContent": {
     "createCVEntry": "CV toevoegen",
@@ -319,7 +323,29 @@
     "filterBySkill": "Filteren op vaardigheid…",
     "filterMinExp": "Min. jaren…",
     "resumeCount": "{{count}} CV('s)",
-    "pageOf": "pagina {{page}} van {{total}}"
+    "pageOf": "pagina {{page}} van {{total}}",
+    "uploadResults": {
+      "title": "Uploadresultaten",
+      "failed": "Dit bestand kon niet worden verwerkt.",
+      "duplicateOf": "Komt overeen met {{name}} (toegevoegd op {{date}})",
+      "replace": "Oude versie vervangen",
+      "keepBoth": "Beide behouden",
+      "replaceAll": "Alle oude versies vervangen",
+      "replaced": "Oude versie vervangen.",
+      "kept": "Beide versies behouden.",
+      "done": "Klaar"
+    },
+    "uploadWarnings": {
+      "MISSING_PHONE": "telefoon ontbreekt",
+      "MISSING_EMAIL": "e-mail ontbreekt",
+      "MISSING_CONTACT": "geen contactgegevens",
+      "NO_WORK_EXPERIENCE": "geen werkervaring",
+      "LOW_AI_CONFIDENCE": "laag AI-vertrouwen",
+      "NO_AI_ANALYSIS": "geen AI-analyse"
+    },
+    "archived": "Gearchiveerd",
+    "showArchivedTooltip": "Gearchiveerde cv's tonen",
+    "unarchive": "Herstellen"
   },
   "appCVMatching": {
     "selectJobPost": "Selecteer vacature",
@@ -1088,7 +1114,10 @@
       "phone": "Telefoon",
       "contentDate": "Inhoudsdatum",
       "lastUpdated": "Laatst bijgewerkt",
-      "empty": "Geen cv's gevonden voor dit probleem."
+      "empty": "Geen cv's gevonden voor dit probleem.",
+      "add": "Toevoegen",
+      "confirmCurrent": "Bevestig actueel ({{count}})",
+      "confirmHint": "Selecteer cv's die u als nog correct heeft geverifieerd (max {{max}})"
     },
     "verdict": {
       "excellent": "Uitstekend",
@@ -1103,6 +1132,57 @@
       "added": "Toegevoegd",
       "delete": "Cv verwijderen",
       "groupCount": "{{count}} duplicaatgroepen"
+    },
+    "badgeTooltip": "{{count}} op te lossen problemen",
+    "archiveAll": "Alles archiveren",
+    "archiveAllTitle": "Cv's archiveren",
+    "archiveAllConfirmation": "Hiermee worden {{count}} cv's gearchiveerd. Gearchiveerde cv's zijn uitgesloten van matching en het kwaliteitsrapport; u kunt ze op elk moment herstellen vanuit de bibliotheek.",
+    "dismiss": "Negeren — geaccepteerd, verbergen uit open problemen",
+    "reopen": "Probleem heropenen",
+    "dismissedSection": "Genegeerd ({{count}})",
+    "jobs": {
+      "reanalyzeAll": "Alles opnieuw analyseren",
+      "cancel": "Annuleren",
+      "running": "AI-heranalyse bezig — {{processed}}/{{total}} cv's",
+      "confirmTitle": "Cv's opnieuw analyseren met AI",
+      "confirmBody": "Dit voert de AI-extractie opnieuw uit op {{count}} cv's en verbruikt {{actions}} screeningacties{{quota}}.",
+      "confirmQuota": " ({{remaining}} resterend deze periode)",
+      "confirmSkipped": "{{count}} oudere cv's hebben geen opgeslagen brontekst en worden overgeslagen — upload ze opnieuw om te verversen.",
+      "confirmStart": "Heranalyse starten",
+      "resultDetail": "{{succeeded}} bijgewerkt · {{failed}} mislukt · {{skipped}} overgeslagen (geen tekst)",
+      "status": {
+        "COMPLETED": "Heranalyse voltooid",
+        "COMPLETED_WITH_ERRORS": "Heranalyse voltooid met fouten",
+        "FAILED": "Heranalyse mislukt",
+        "CANCELLED": "Heranalyse geannuleerd"
+      }
+    },
+    "campaign": {
+      "requestUpdates": "Updates aanvragen",
+      "confirmTitle": "Updates aanvragen bij kandidaten",
+      "confirmBody": "Tot {{count}} kandidaten ontvangen per e-mail een beveiligde link om hun beschikbaarheid, salarisverwachting en cv te verversen. Kandidaten zonder e-mail, afgemelde kandidaten en kandidaten met een openstaand verzoek worden automatisch overgeslagen.",
+      "confirmSend": "Verzoeken versturen"
     }
+  },
+  "candidateUpdate": {
+    "invalid": "Deze link is niet meer geldig. Hij is mogelijk verlopen of al gebruikt.",
+    "title": "Hallo {{name}}, houd uw profiel actueel",
+    "subtitle": "Bevestig uw beschikbaarheid en verwachtingen — het duurt een minuut.",
+    "status": "Beschikbaarheid",
+    "availableFrom": "Beschikbaar vanaf",
+    "noticePeriod": "Opzegtermijn (dagen)",
+    "currency": "Valuta",
+    "salaryMin": "Salaris min",
+    "salaryMax": "Salaris max",
+    "uploadCV": "Upload een nieuwer cv (optioneel, .pdf of .docx)",
+    "consent": "Door te verzenden gaat u ermee akkoord dat deze informatie wordt gedeeld met de recruiter die uw profiel beheert en wordt verwerkt om het accuraat te houden.",
+    "submit": "Mijn profiel bijwerken",
+    "doneTitle": "Bedankt — uw profiel is actueel!",
+    "doneSubtitle": "U kunt deze pagina sluiten.",
+    "unsubscribeTitle": "Afmelden voor update-verzoeken?",
+    "unsubscribeSubtitle": "U ontvangt geen profielupdate-e-mails meer van deze recruiter.",
+    "unsubscribeButton": "Afmelden",
+    "unsubscribedTitle": "U bent afgemeld.",
+    "unsubscribedSubtitle": "U ontvangt geen verdere update-verzoeken."
   }
 }

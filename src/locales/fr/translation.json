@@ -176,7 +176,11 @@
     },
     "availabilityStatuses": "Statuts de disponibilité à inclure",
     "copyReference": "Copier la référence",
-    "copied": "Copié !"
+    "copied": "Copié !",
+    "aiPrefill": {
+      "drafting": "L'IA prépare vos règles de scoring…",
+      "applied": "Règles de scoring suggérées par l'IA — vérifiez et ajustez avant d'enregistrer."
+    }
   },
   "appCVContent": {
     "createCVEntry": "Ajouter un CV",
@@ -319,7 +323,29 @@
     "filterBySkill": "Filtrer par compétence…",
     "filterMinExp": "Années min.…",
     "resumeCount": "{{count}} CV",
-    "pageOf": "page {{page}} sur {{total}}"
+    "pageOf": "page {{page}} sur {{total}}",
+    "uploadResults": {
+      "title": "Résultats de l'import",
+      "failed": "Ce fichier n'a pas pu être traité.",
+      "duplicateOf": "Correspond à {{name}} (ajouté le {{date}})",
+      "replace": "Remplacer l'ancienne version",
+      "keepBoth": "Garder les deux",
+      "replaceAll": "Remplacer toutes les anciennes versions",
+      "replaced": "Ancienne version remplacée.",
+      "kept": "Les deux versions conservées.",
+      "done": "Terminé"
+    },
+    "uploadWarnings": {
+      "MISSING_PHONE": "téléphone manquant",
+      "MISSING_EMAIL": "e-mail manquant",
+      "MISSING_CONTACT": "aucune coordonnée",
+      "NO_WORK_EXPERIENCE": "aucune expérience",
+      "LOW_AI_CONFIDENCE": "confiance IA faible",
+      "NO_AI_ANALYSIS": "aucune analyse IA"
+    },
+    "archived": "Archivés",
+    "showArchivedTooltip": "Afficher les CV archivés",
+    "unarchive": "Désarchiver"
   },
   "appCVMatching": {
     "selectJobPost": "Sélectionner une offre",
@@ -1091,7 +1117,10 @@
       "phone": "Téléphone",
       "contentDate": "Date du contenu",
       "lastUpdated": "Dernière mise à jour",
-      "empty": "Aucun CV trouvé pour ce problème."
+      "empty": "Aucun CV trouvé pour ce problème.",
+      "add": "Ajouter",
+      "confirmCurrent": "Confirmer à jour ({{count}})",
+      "confirmHint": "Sélectionnez les CV vérifiés comme toujours exacts (max {{max}})"
     },
     "verdict": {
       "excellent": "Excellent",
@@ -1106,6 +1135,57 @@
       "added": "Ajouté le",
       "delete": "Supprimer le CV",
       "groupCount": "{{count}} groupes de doublons"
+    },
+    "badgeTooltip": "{{count}} problèmes à corriger",
+    "archiveAll": "Tout archiver",
+    "archiveAllTitle": "Archiver les CV",
+    "archiveAllConfirmation": "Cette action archivera {{count}} CV. Les CV archivés sont exclus du matching et du rapport de qualité ; vous pouvez les désarchiver à tout moment depuis la CVthèque.",
+    "dismiss": "Ignorer — accepté, masquer des problèmes ouverts",
+    "reopen": "Rouvrir ce problème",
+    "dismissedSection": "Ignorés ({{count}})",
+    "jobs": {
+      "reanalyzeAll": "Tout ré-analyser",
+      "cancel": "Annuler",
+      "running": "Ré-analyse IA en cours — {{processed}}/{{total}} CV",
+      "confirmTitle": "Ré-analyser les CV avec l'IA",
+      "confirmBody": "Cette action relancera l'extraction IA sur {{count}} CV et utilisera {{actions}} actions de screening{{quota}}.",
+      "confirmQuota": " ({{remaining}} restantes cette période)",
+      "confirmSkipped": "{{count}} CV plus anciens n'ont pas de texte source stocké et seront ignorés — ré-importez-les pour les actualiser.",
+      "confirmStart": "Lancer la ré-analyse",
+      "resultDetail": "{{succeeded}} mis à jour · {{failed}} échoués · {{skipped}} ignorés (pas de texte stocké)",
+      "status": {
+        "COMPLETED": "Ré-analyse terminée",
+        "COMPLETED_WITH_ERRORS": "Ré-analyse terminée avec des erreurs",
+        "FAILED": "Ré-analyse échouée",
+        "CANCELLED": "Ré-analyse annulée"
+      }
+    },
+    "campaign": {
+      "requestUpdates": "Demander des mises à jour",
+      "confirmTitle": "Demander des mises à jour aux candidats",
+      "confirmBody": "Jusqu'à {{count}} candidats recevront un lien sécurisé pour actualiser leur disponibilité, leurs prétentions salariales et leur CV. Les candidats sans e-mail, désinscrits ou avec une demande en attente sont ignorés automatiquement.",
+      "confirmSend": "Envoyer les demandes"
     }
+  },
+  "candidateUpdate": {
+    "invalid": "Ce lien n'est plus valide. Il a peut-être expiré ou déjà été utilisé.",
+    "title": "Bonjour {{name}}, gardez votre profil à jour",
+    "subtitle": "Confirmez votre disponibilité et vos attentes — cela prend une minute.",
+    "status": "Disponibilité",
+    "availableFrom": "Disponible à partir de",
+    "noticePeriod": "Préavis (jours)",
+    "currency": "Devise",
+    "salaryMin": "Salaire min",
+    "salaryMax": "Salaire max",
+    "uploadCV": "Téléversez un CV plus récent (optionnel, .pdf ou .docx)",
+    "consent": "En envoyant, vous acceptez que ces informations soient partagées avec le recruteur qui détient votre profil et traitées pour le maintenir exact.",
+    "submit": "Mettre à jour mon profil",
+    "doneTitle": "Merci — votre profil est à jour !",
+    "doneSubtitle": "Vous pouvez fermer cette page.",
+    "unsubscribeTitle": "Vous désinscrire des demandes de mise à jour ?",
+    "unsubscribeSubtitle": "Vous ne recevrez plus d'e-mails de mise à jour de ce recruteur.",
+    "unsubscribeButton": "Se désinscrire",
+    "unsubscribedTitle": "Vous êtes désinscrit.",
+    "unsubscribedSubtitle": "Vous ne recevrez plus de demandes de mise à jour."
   }
 }

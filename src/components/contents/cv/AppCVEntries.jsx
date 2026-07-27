@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -32,6 +33,7 @@ const PAGE_SIZES = [10, 25, 50, 100];
 const AppCVEntries = ({
 	cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntries,
 	viewMode, selectedCV, totalPages, setTotalPages, totalElements, setTotalElements,
+	showArchived = false, onUnarchive,
 }) => {
 	const { t } = useTranslation();
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -50,6 +52,7 @@ const AppCVEntries = ({
 
 	const buildFilterParams = (page = 0, size = pageSize) => {
 		const params = { pageNumber: page, pageSize: size };
+		if (showArchived) params.archived = 'true';
 		if (filterName.trim()) params.name = filterName.trim();
 		if (filterRole.trim()) params.role = filterRole.trim();
 		if (filterSkills.trim()) params.skills = filterSkills.trim();
@@ -74,7 +77,7 @@ const AppCVEntries = ({
 				} else {
 					response = searchTermRef.current.trim()
 						? await searchCVs({ pageNumber: 0, pageSize, searchTerms: searchTermRef.current.trim() })
-						: await getCVs({ pageNumber: 0, pageSize });
+						: await getCVs(buildFilterParams(0));
 				}
 				setCurrentPage(1);
 				applyResponse(response);
@@ -83,7 +86,7 @@ const AppCVEntries = ({
 			}
 		}, 400);
 		return () => clearTimeout(timer);
-	}, [filterName, filterRole, filterSkills, filterExperience]);
+	}, [filterName, filterRole, filterSkills, filterExperience, showArchived]);
 
 	const handleSearchChange = async (e) => {
 		const value = e.target.value;
@@ -91,7 +94,7 @@ const AppCVEntries = ({
 		setCurrentPage(1);
 		try {
 			const response = value.length === 0
-				? await getCVs({ pageNumber: 0, pageSize })
+				? await getCVs(buildFilterParams(0))
 				: await searchCVs({ pageNumber: 0, pageSize, searchTerms: value.trim() });
 			applyResponse(response);
 		} catch (error) {
@@ -109,7 +112,7 @@ const AppCVEntries = ({
 			} else if (searchTerm.trim()) {
 				response = await searchCVs({ pageNumber: page - 1, pageSize, searchTerms: searchTerm.trim() });
 			} else {
-				response = await getCVs({ pageNumber: page - 1, pageSize });
+				response = await getCVs(buildFilterParams(page - 1));
 			}
 			applyResponse(response);
 		} catch (error) {
@@ -222,6 +225,14 @@ const AppCVEntries = ({
 				},
 			}}
 		>
+			{showArchived && onUnarchive && (
+				<MenuItem
+					onClick={() => { onUnarchive(menuCVId); handleMenuClose(); }}
+					sx={{ fontSize: '0.84rem', color: '#629C44', py: 1 }}
+				>
+					{t('appCVContent.unarchive', 'Unarchive')}
+				</MenuItem>
+			)}
 			<MenuItem
 				onClick={handleDeleteClick}
 				sx={{ fontSize: '0.84rem', color: '#ef4444', py: 1 }}
@@ -574,6 +585,8 @@ AppCVEntries.propTypes = {
 	setTotalPages: PropTypes.func.isRequired,
 	totalElements: PropTypes.number.isRequired,
 	setTotalElements: PropTypes.func.isRequired,
+	showArchived: PropTypes.bool,
+	onUnarchive: PropTypes.func,
 };
 
 export default AppCVEntries;

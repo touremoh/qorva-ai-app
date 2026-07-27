@@ -49,7 +49,7 @@ import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined';
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
 import CheckIcon from '@mui/icons-material/Check';
 import { useTranslation } from 'react-i18next';
-import { getJobs, createJob, updateJob, patchJobStatus, deleteJob } from '../../../services/jobService.js';
+import { getJobs, createJob, updateJob, patchJobStatus, deleteJob, suggestScoringRules } from '../../../services/jobService.js';
 import { isDemoUser } from '../../../utils/demoMode.js';
 import UpgradeButton from '../../demo/UpgradeButton.jsx';
 import { default as ReactQuill } from 'react-quill';
@@ -757,6 +757,11 @@ const JobContent = () => {
 	const [jobTitle, setJobTitle] = useState('');
 	const [jobDescription, setJobDescription] = useState('');
 	const [scoringConfig, setScoringConfig] = useState(emptyScoringConfig());
+	// AI pre-fill of scoring rules (create mode only). lastSuggestedFor guards against
+	// re-billing an LLM call when the user bounces Back/Next without changing the description.
+	const [aiPrefillBusy, setAiPrefillBusy] = useState(false);
+	const [aiPrefillApplied, setAiPrefillApplied] = useState(false);
+	const [lastSuggestedFor, setLastSuggestedFor] = useState(null);
 	const [search, setSearch] = useState('');
 	const [detailTab, setDetailTab] = useState(0);
 	const [loading, setLoading] = useState(false);
@@ -792,7 +797,10 @@ const JobContent = () => {
 		fetchJobs();
 	}, []);
 
-	const resetForm = () => { setJobTitle(''); setJobDescription(''); };
+	const resetForm = () => {
+		setJobTitle(''); setJobDescription('');
+		setAiPrefillApplied(false); setAiPrefillBusy(false); setLastSuggestedFor(null);
+	};
 
 	// Descriptions authored in the app are Quill HTML, but seeded/imported jobs
 	// may carry plain text with newline paragraph breaks — normalise those to
@@ -846,6 +854,32 @@ const JobContent = () => {
 		setCreateStep(0);
 		resetForm();
 		setScoringConfig(emptyScoringConfig());
+	};
+
+	/**
+	 * Create-mode "Next": advance immediately, then let AI draft the scoring rules —
+	 * only when the form is still untouched and the description changed since the last
+	 * suggestion. Failures fall back silently to the empty form (accelerator, not blocker).
+	 */
+	const handleCreateNext = async () => {
+		setCreateStep(1);
+		const descriptionKey = `${jobTitle}::${jobDescription}`;
+		const formUntouched = JSON.stringify(scoringConfig) === JSON.stringify(emptyScoringConfig()) || aiPrefillApplied;
+		if (!jobDescription || !formUntouched || descriptionKey === lastSuggestedFor) return;
+		setAiPrefillBusy(true);
+		try {
+			const res = await suggestScoringRules(jobTitle, sanitizeDescription(jobDescription));
+			const suggestion = res.data?.data ?? res.data;
+			if (suggestion) {
+				setScoringConfig(loadScoringConfig({ scoringRules: suggestion }));
+				setAiPrefillApplied(true);
+				setLastSuggestedFor(descriptionKey);
+			}
+		} catch (error) {
+			console.error('Scoring rules pre-fill failed (falling back to manual setup):', error);
+		} finally {
+			setAiPrefillBusy(false);
+		}
 	};
 
 	const handleCreateJob = async (withScoringConfig) => {
@@ -1128,12 +1162,34 @@ const JobContent = () => {
 				<Box sx={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden', backgroundColor: '#f8fafc' }}>
 
 					{/* ── Create: Step 1 ── */}
-					{createMode && createStep === 0 && step1Form(handleCancelCreate, () => setCreateStep(1))}
+					{createMode && createStep === 0 && step1Form(handleCancelCreate, handleCreateNext)}
 
 					{/* ── Create: Step 2 ── */}
 					{createMode && createStep === 1 && (
-						<Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0, backgroundColor: '#ffffff' }}>
+						<Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0, backgroundColor: '#ffffff', position: 'relative' }}>
 							{stepperHeader(1)}
+							{aiPrefillBusy && (
+								<Box sx={{
+									position: 'absolute', inset: 0, zIndex: 5,
+									backgroundColor: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(1px)',
+									display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 1.5,
+								}}>
+									<CircularProgress size={26} sx={{ color: '#629C44' }} />
+									<Typography sx={{ fontSize: '0.85rem', fontWeight: 600, color: '#334155' }}>
+										{t('jobContent.aiPrefill.drafting', 'AI is drafting your scoring rules…')}
+									</Typography>
+								</Box>
+							)}
+							{aiPrefillApplied && !aiPrefillBusy && (
+								<Box sx={{
+									mx: 2.5, mt: 1, px: 1.5, py: 0.75, borderRadius: 1.5,
+									backgroundColor: 'rgba(98,156,68,0.08)', border: '1px solid rgba(98,156,68,0.3)',
+								}}>
+									<Typography sx={{ fontSize: '0.74rem', color: '#3f6212', fontWeight: 600 }}>
+										{t('jobContent.aiPrefill.applied', 'AI-suggested scoring rules — review and adjust before saving.')}
+									</Typography>
+								</Box>
+							)}
 							<JobScoringForm
 								scoringConfig={scoringConfig}
 								setScoringConfig={setScoringConfig}

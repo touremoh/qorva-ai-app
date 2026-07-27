@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Box, Collapse, IconButton, List, ListItemButton, Tooltip, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Badge, Box, Collapse, IconButton, List, ListItemButton, Tooltip, Typography } from '@mui/material';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import ExpandLessRoundedIcon from '@mui/icons-material/ExpandLessRounded';
@@ -32,6 +32,38 @@ const AppMenuList = ({ handleContentChange, isChatAllowed, collapsed, onToggleCo
 	const { t } = useTranslation();
 	const [selectedItem, setSelectedItem] = useState(COMP_ID_DASHBOARD);
 	const [openGroups, setOpenGroups] = useState({});
+	const [qualityIssueCount, setQualityIssueCount] = useState(0);
+
+	// Sidebar badge: cheap cached summary on mount + every 5 min; instant update via the
+	// qorva:quality-changed event dispatched whenever the quality page loads/mutates data.
+	useEffect(() => {
+		let cancelled = false;
+		const fetchSummary = async () => {
+			try {
+				const { getLibraryQualitySummary } = await import('../../../services/libraryQualityService.js');
+				const res = await getLibraryQualitySummary();
+				const data = res.data?.data ?? res.data;
+				if (!cancelled && Number.isFinite(data?.openIssueCount)) {
+					setQualityIssueCount(data.openIssueCount);
+				}
+			} catch { /* badge is best-effort */ }
+		};
+		fetchSummary();
+		const interval = setInterval(fetchSummary, 5 * 60 * 1000);
+		const onChanged = (event) => {
+			if (Number.isFinite(event.detail?.openIssueCount)) {
+				setQualityIssueCount(event.detail.openIssueCount);
+			} else {
+				fetchSummary();
+			}
+		};
+		window.addEventListener('qorva:quality-changed', onChanged);
+		return () => {
+			cancelled = true;
+			clearInterval(interval);
+			window.removeEventListener('qorva:quality-changed', onChanged);
+		};
+	}, []);
 
 	const handleNavigation = (id) => {
 		setSelectedItem(id);
@@ -43,7 +75,9 @@ const AppMenuList = ({ handleContentChange, isChatAllowed, collapsed, onToggleCo
 		{ groupId: 'RESUME_LIBRARY', Icon: PeopleOutlinedIcon,  label: t('header.cvs'),                         display: true,
 			children: [
 				{ id: COMP_ID_CVLIB,           Icon: DescriptionOutlinedIcon, label: t('header.resumes', 'Resumes'),               display: true },
-				{ id: COMP_ID_LIBRARY_QUALITY, Icon: FactCheckOutlinedIcon,   label: t('header.libraryQuality', 'Library Quality'), display: true },
+				{ id: COMP_ID_LIBRARY_QUALITY, Icon: FactCheckOutlinedIcon,   label: t('header.libraryQuality', 'Library Quality'), display: true,
+					badge: qualityIssueCount,
+					badgeTooltip: t('libraryQuality.badgeTooltip', '{{count}} issues to fix', { count: qualityIssueCount }) },
 			] },
 		{ id: COMP_ID_JOBS,         Icon: WorkOutlineOutlinedIcon,  label: t('header.jobs'),                      display: true },
 		{ id: COMP_ID_REPORTS,      Icon: AssessmentOutlinedIcon,   label: t('header.reports'),                   display: true },
@@ -96,6 +130,7 @@ const AppMenuList = ({ handleContentChange, isChatAllowed, collapsed, onToggleCo
 					const renderLeaf = (entry, isChild = false) => {
 						const { Icon } = entry;
 						const isActive = selectedItem === entry.id;
+						const showBadge = Number.isFinite(entry.badge) && entry.badge > 0;
 						return (
 							<ListItemButton
 								key={entry.id}
@@ -118,10 +153,17 @@ const AppMenuList = ({ handleContentChange, isChatAllowed, collapsed, onToggleCo
 									},
 								}}
 							>
-								<Icon sx={{ fontSize: isChild ? 16 : 18, mr: collapsed ? 0 : 1.5, flexShrink: 0 }} />
+								{collapsed && showBadge ? (
+									<Badge variant="dot" sx={{ '& .MuiBadge-badge': { backgroundColor: '#dc2626' } }}>
+										<Icon sx={{ fontSize: isChild ? 16 : 18, flexShrink: 0 }} />
+									</Badge>
+								) : (
+									<Icon sx={{ fontSize: isChild ? 16 : 18, mr: collapsed ? 0 : 1.5, flexShrink: 0 }} />
+								)}
 								{!collapsed && (
 									<Typography
 										sx={{
+											flex: 1,
 											fontSize: isChild ? '0.78rem' : '0.84rem',
 											fontWeight: isActive ? 600 : 400,
 											lineHeight: 1.2,
@@ -130,6 +172,17 @@ const AppMenuList = ({ handleContentChange, isChatAllowed, collapsed, onToggleCo
 									>
 										{entry.label}
 									</Typography>
+								)}
+								{!collapsed && showBadge && (
+									<Tooltip title={entry.badgeTooltip ?? ''} placement="right">
+										<Box sx={{
+											px: 0.7, py: 0.1, borderRadius: 2, flexShrink: 0,
+											backgroundColor: '#dc2626', color: '#ffffff',
+											fontSize: '0.62rem', fontWeight: 700, lineHeight: 1.6,
+										}}>
+											{entry.badge > 99 ? '99+' : entry.badge}
+										</Box>
+									</Tooltip>
 								)}
 							</ListItemButton>
 						);

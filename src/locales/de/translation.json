@@ -176,7 +176,11 @@
     },
     "availabilityStatuses": "Einzuschließende Verfügbarkeitsstatus",
     "copyReference": "Referenz kopieren",
-    "copied": "Kopiert!"
+    "copied": "Kopiert!",
+    "aiPrefill": {
+      "drafting": "Die KI entwirft Ihre Scoring-Regeln…",
+      "applied": "KI-Vorschlag für Scoring-Regeln — prüfen und anpassen vor dem Speichern."
+    }
   },
   "appCVContent": {
     "createCVEntry": "Lebenslauf hinzufügen",
@@ -319,7 +323,29 @@
     "filterBySkill": "Nach Fähigkeit filtern…",
     "filterMinExp": "Min. Jahre…",
     "resumeCount": "{{count}} Lebenslauf/-läufe",
-    "pageOf": "Seite {{page}} von {{total}}"
+    "pageOf": "Seite {{page}} von {{total}}",
+    "uploadResults": {
+      "title": "Upload-Ergebnisse",
+      "failed": "Diese Datei konnte nicht verarbeitet werden.",
+      "duplicateOf": "Entspricht {{name}} (hinzugefügt am {{date}})",
+      "replace": "Alte Version ersetzen",
+      "keepBoth": "Beide behalten",
+      "replaceAll": "Alle alten Versionen ersetzen",
+      "replaced": "Alte Version ersetzt.",
+      "kept": "Beide Versionen behalten.",
+      "done": "Fertig"
+    },
+    "uploadWarnings": {
+      "MISSING_PHONE": "Telefon fehlt",
+      "MISSING_EMAIL": "E-Mail fehlt",
+      "MISSING_CONTACT": "keine Kontaktdaten",
+      "NO_WORK_EXPERIENCE": "keine Berufserfahrung",
+      "LOW_AI_CONFIDENCE": "geringe KI-Konfidenz",
+      "NO_AI_ANALYSIS": "keine KI-Analyse"
+    },
+    "archived": "Archiviert",
+    "showArchivedTooltip": "Archivierte Lebensläufe anzeigen",
+    "unarchive": "Wiederherstellen"
   },
   "appCVMatching": {
     "selectJobPost": "Stelle auswählen",
@@ -1091,7 +1117,10 @@
       "phone": "Telefon",
       "contentDate": "Inhaltsdatum",
       "lastUpdated": "Zuletzt aktualisiert",
-      "empty": "Keine Lebensläufe für dieses Problem gefunden."
+      "empty": "Keine Lebensläufe für dieses Problem gefunden.",
+      "add": "Hinzufügen",
+      "confirmCurrent": "Als aktuell bestätigen ({{count}})",
+      "confirmHint": "Wählen Sie geprüfte, weiterhin korrekte Lebensläufe aus (max. {{max}})"
     },
     "verdict": {
       "excellent": "Ausgezeichnet",
@@ -1106,6 +1135,57 @@
       "added": "Hinzugefügt",
       "delete": "Lebenslauf löschen",
       "groupCount": "{{count}} Duplikatgruppen"
+    },
+    "badgeTooltip": "{{count}} zu behebende Probleme",
+    "archiveAll": "Alle archivieren",
+    "archiveAllTitle": "Lebensläufe archivieren",
+    "archiveAllConfirmation": "Dadurch werden {{count}} Lebensläufe archiviert. Archivierte Lebensläufe sind vom Matching und Qualitätsbericht ausgeschlossen; Sie können sie jederzeit in der Bibliothek wiederherstellen.",
+    "dismiss": "Verwerfen — akzeptiert, aus offenen Problemen ausblenden",
+    "reopen": "Problem wieder öffnen",
+    "dismissedSection": "Verworfen ({{count}})",
+    "jobs": {
+      "reanalyzeAll": "Alle neu analysieren",
+      "cancel": "Abbrechen",
+      "running": "KI-Neuanalyse läuft — {{processed}}/{{total}} Lebensläufe",
+      "confirmTitle": "Lebensläufe mit KI neu analysieren",
+      "confirmBody": "Dies führt die KI-Extraktion für {{count}} Lebensläufe erneut aus und verbraucht {{actions}} Screening-Aktionen{{quota}}.",
+      "confirmQuota": " ({{remaining}} in diesem Zeitraum übrig)",
+      "confirmSkipped": "{{count}} ältere Lebensläufe haben keinen gespeicherten Quelltext und werden übersprungen — laden Sie sie erneut hoch.",
+      "confirmStart": "Neuanalyse starten",
+      "resultDetail": "{{succeeded}} aktualisiert · {{failed}} fehlgeschlagen · {{skipped}} übersprungen (kein Text)",
+      "status": {
+        "COMPLETED": "Neuanalyse abgeschlossen",
+        "COMPLETED_WITH_ERRORS": "Neuanalyse mit Fehlern abgeschlossen",
+        "FAILED": "Neuanalyse fehlgeschlagen",
+        "CANCELLED": "Neuanalyse abgebrochen"
+      }
+    },
+    "campaign": {
+      "requestUpdates": "Updates anfragen",
+      "confirmTitle": "Updates von Kandidaten anfragen",
+      "confirmBody": "Bis zu {{count}} Kandidaten erhalten per E-Mail einen sicheren Link, um Verfügbarkeit, Gehaltsvorstellung und Lebenslauf zu aktualisieren. Kandidaten ohne E-Mail, abgemeldete Kandidaten und solche mit offener Anfrage werden automatisch übersprungen.",
+      "confirmSend": "Anfragen senden"
     }
+  },
+  "candidateUpdate": {
+    "invalid": "Dieser Link ist nicht mehr gültig. Er ist möglicherweise abgelaufen oder wurde bereits verwendet.",
+    "title": "Hallo {{name}}, halten Sie Ihr Profil aktuell",
+    "subtitle": "Bestätigen Sie Ihre Verfügbarkeit und Erwartungen — es dauert eine Minute.",
+    "status": "Verfügbarkeit",
+    "availableFrom": "Verfügbar ab",
+    "noticePeriod": "Kündigungsfrist (Tage)",
+    "currency": "Währung",
+    "salaryMin": "Gehalt min",
+    "salaryMax": "Gehalt max",
+    "uploadCV": "Neueren Lebenslauf hochladen (optional, .pdf oder .docx)",
+    "consent": "Mit dem Absenden stimmen Sie zu, dass diese Informationen an den Recruiter weitergegeben und zur Aktualität Ihres Profils verarbeitet werden.",
+    "submit": "Profil aktualisieren",
+    "doneTitle": "Danke — Ihr Profil ist aktuell!",
+    "doneSubtitle": "Sie können diese Seite schließen.",
+    "unsubscribeTitle": "Von Update-Anfragen abmelden?",
+    "unsubscribeSubtitle": "Sie erhalten keine Profil-Update-E-Mails mehr von diesem Recruiter.",
+    "unsubscribeButton": "Abmelden",
+    "unsubscribedTitle": "Sie wurden abgemeldet.",
+    "unsubscribedSubtitle": "Sie erhalten keine weiteren Update-Anfragen."
   }
 }

@@ -20,9 +20,13 @@ import ViewListIcon from '@mui/icons-material/ViewList';
 import TableRowsIcon from '@mui/icons-material/TableRows';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
 import AppCVDetails from './AppCVDetails.jsx';
 import AppCVEntries from './AppCVEntries.jsx';
-import { getCVs, uploadCVs, deleteCV } from '../../../services/cvService.js';
+import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
+import { getCVs, uploadCVs, deleteCV, replaceDuplicateCV } from '../../../services/cvService.js';
+import { notifyQualityChanged, performQualityAction } from '../../../services/libraryQualityService.js';
 import { isDemoUser } from '../../../utils/demoMode.js';
 import UpgradeButton from '../../demo/UpgradeButton.jsx';
 
@@ -53,9 +57,11 @@ const AppCVContent = () => {
 	const [totalElements, setTotalElements] = useState(0);
 	const [selectedCV, setSelectedCV] = useState(null);
 	const [viewMode, setViewMode] = useState('table');
+	const [showArchived, setShowArchived] = useState(false);
 	const [openUploadModal, setOpenUploadModal] = useState(false);
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 	const [selectedFiles, setSelectedFiles] = useState([]);
+	const [uploadResults, setUploadResults] = useState(null);
 	const [isUploading, setIsUploading] = useState(false);
 	const [uploadComplete, setUploadComplete] = useState(false);
 	const [uploadProgress, setUploadProgress] = useState(0);
@@ -64,6 +70,17 @@ const AppCVContent = () => {
 	const fileInputRef = useRef(null);
 	const uploadTimerRef = useRef(null);
 	const uploadStartRef = useRef(null);
+
+	const handleUnarchive = async (cvId) => {
+		try {
+			await performQualityAction('UNARCHIVE', { cvIds: [cvId] });
+			setCvEntries(prev => prev.filter(cv => cv.id !== cvId));
+			if (selectedCV?.id === cvId) setSelectedCV(null);
+			notifyQualityChanged();
+		} catch (error) {
+			console.error('Error unarchiving CV:', error);
+		}
+	};
 
 	const fetchCVEntries = async () => {
 		try {
@@ -121,20 +138,52 @@ const AppCVContent = () => {
 			selectedFiles.forEach(f => formData.append('files', f));
 			const response = await uploadCVs(formData);
 			if (response.status === 200) {
-				// Stop the ticking estimate and show a completed state before closing.
+				// Stop the ticking estimate, then keep the dialog open on the per-file results
+				// screen — failures, parse warnings and duplicate collisions are resolved here.
 				clearInterval(uploadTimerRef.current);
 				setUploadProgress(100);
 				setUploadComplete(true);
 				await fetchCVEntries();
+				notifyQualityChanged();
 				setSelectedFiles([]);
-				await new Promise(resolve => setTimeout(resolve, 1200));
+				await new Promise(resolve => setTimeout(resolve, 600));
+				setUploadResults(Array.isArray(response.data) ? response.data : []);
 			}
 		} catch (error) {
 			console.error('Error uploading files:', error);
+			setOpenUploadModal(false);
 		} finally {
 			setIsUploading(false);
 			setUploadComplete(false);
-			setOpenUploadModal(false);
+		}
+	};
+
+	const handleCloseUploadDialog = () => {
+		setOpenUploadModal(false);
+		setSelectedFiles([]);
+		setUploadResults(null);
+	};
+
+	const handleReplaceDuplicate = async (result) => {
+		try {
+			await replaceDuplicateCV(result.cv.id, result.match.existingCvId);
+			setUploadResults(prev => prev.map(r => (r === result ? { ...r, resolution: 'REPLACED' } : r)));
+			await fetchCVEntries();
+			notifyQualityChanged();
+		} catch (error) {
+			console.error('Error replacing duplicate:', error);
+		}
+	};
+
+	const handleKeepBoth = (result) => {
+		setUploadResults(prev => prev.map(r => (r === result ? { ...r, resolution: 'KEPT' } : r)));
+	};
+
+	const handleReplaceAll = async () => {
+		const pending = (uploadResults ?? []).filter(r => r.status === 'DUPLICATE_DETECTED' && !r.resolution);
+		for (const result of pending) {
+			// Sequential on purpose — each replace deletes a CV; parallel bursts add no value here.
+			await handleReplaceDuplicate(result);
 		}
 	};
 
@@ -199,6 +248,28 @@ const AppCVContent = () => {
 						</Box>
 					</Button>
 				)}
+
+				<Tooltip title={t('appCVContent.showArchivedTooltip', 'Show archived resumes')}>
+					<Button
+						startIcon={<Inventory2OutlinedIcon sx={{ fontSize: 16 }} />}
+						variant="outlined"
+						onClick={() => { setShowArchived(prev => !prev); setSelectedCV(null); }}
+						sx={{
+							borderColor: showArchived ? '#629C44' : '#e2e8f0',
+							color: showArchived ? '#629C44' : '#64748b',
+							backgroundColor: showArchived ? 'rgba(98,156,68,0.06)' : 'transparent',
+							'&:hover': { borderColor: '#629C44', color: '#629C44', backgroundColor: 'rgba(98,156,68,0.04)' },
+							borderRadius: 1.5,
+							textTransform: 'none',
+							fontWeight: 600,
+							fontSize: '0.8rem',
+							boxShadow: 'none',
+							px: 1.5,
+						}}
+					>
+						{t('appCVContent.archived', 'Archived')}
+					</Button>
+				</Tooltip>
 
 				<Box sx={{ flexGrow: 1 }} />
 
@@ -267,6 +338,8 @@ const AppCVContent = () => {
 						setTotalPages={setTotalPages}
 						totalElements={totalElements}
 						setTotalElements={setTotalElements}
+						showArchived={showArchived}
+						onUnarchive={handleUnarchive}
 					/>
 				</Box>
 
@@ -304,19 +377,90 @@ const AppCVContent = () => {
 			{/* Upload Dialog */}
 			<Dialog
 				open={openUploadModal}
-				onClose={() => !isUploading && setOpenUploadModal(false)}
+				onClose={() => !isUploading && handleCloseUploadDialog()}
 				maxWidth="sm"
 				fullWidth
 				PaperProps={{ sx: { borderRadius: 3 } }}
 			>
 				<DialogTitle sx={{ px: 3, pt: 3, pb: 1, fontWeight: 700, fontSize: '1rem', color: '#0f172a' }}>
-					{t('appCVContent.uploadCV')}
-					<Typography sx={{ fontSize: '0.82rem', color: '#64748b', fontWeight: 400, mt: 0.25 }}>
-						{t('appCVContent.uploadCVInfo')}
-					</Typography>
+					{uploadResults ? t('appCVContent.uploadResults.title', 'Upload results') : t('appCVContent.uploadCV')}
+					{!uploadResults && (
+						<Typography sx={{ fontSize: '0.82rem', color: '#64748b', fontWeight: 400, mt: 0.25 }}>
+							{t('appCVContent.uploadCVInfo')}
+						</Typography>
+					)}
 				</DialogTitle>
 				<DialogContent sx={{ px: 3 }}>
-					{isUploading ? (
+					{uploadResults ? (
+						<Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.75, py: 0.5 }}>
+							{uploadResults.filter(r => r.status === 'DUPLICATE_DETECTED' && !r.resolution).length > 1 && (
+								<Button
+									size="small"
+									onClick={handleReplaceAll}
+									sx={{ alignSelf: 'flex-end', textTransform: 'none', fontWeight: 600, color: '#629C44', fontSize: '0.76rem' }}
+								>
+									{t('appCVContent.uploadResults.replaceAll', 'Replace all old versions')}
+								</Button>
+							)}
+							{uploadResults.map((result, i) => {
+								const isDuplicate = result.status === 'DUPLICATE_DETECTED';
+								const isFailed = result.status === 'FAILED';
+								return (
+									<Box key={i} sx={{
+										border: '1px solid #e2e8f0', borderRadius: 1.5, px: 1.5, py: 1,
+										display: 'flex', flexDirection: 'column', gap: 0.5,
+									}}>
+										<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+											{isFailed
+												? <ErrorOutlineIcon sx={{ fontSize: 17, color: '#dc2626', flexShrink: 0 }} />
+												: isDuplicate && !result.resolution
+													? <WarningAmberRoundedIcon sx={{ fontSize: 17, color: '#f59e0b', flexShrink: 0 }} />
+													: <CheckCircleRoundedIcon sx={{ fontSize: 17, color: '#16a34a', flexShrink: 0 }} />}
+											<Typography sx={{ flex: 1, fontSize: '0.8rem', fontWeight: 600, color: '#0f172a', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+												{result.fileName}
+											</Typography>
+											{result.warnings?.length > 0 && !isFailed && (
+												<Typography sx={{ fontSize: '0.68rem', color: '#b45309', flexShrink: 0 }}>
+													{result.warnings.map(w => t(`appCVContent.uploadWarnings.${w}`, w)).join(' · ')}
+												</Typography>
+											)}
+										</Box>
+										{isFailed && (
+											<Typography sx={{ fontSize: '0.74rem', color: '#dc2626' }}>
+												{t('appCVContent.uploadResults.failed', 'This file could not be processed.')}
+											</Typography>
+										)}
+										{isDuplicate && (
+											<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
+												<Typography sx={{ flex: 1, fontSize: '0.74rem', color: '#64748b', minWidth: 180 }}>
+													{result.resolution === 'REPLACED'
+														? t('appCVContent.uploadResults.replaced', 'Old version replaced.')
+														: result.resolution === 'KEPT'
+															? t('appCVContent.uploadResults.kept', 'Both versions kept.')
+															: t('appCVContent.uploadResults.duplicateOf', 'Matches existing {{name}} (added {{date}})', {
+																name: result.match?.existingName || '—',
+																date: result.match?.existingCreatedAt ? new Date(result.match.existingCreatedAt).toLocaleDateString() : '—',
+															})}
+												</Typography>
+												{!result.resolution && (
+													<>
+														<Button size="small" onClick={() => handleReplaceDuplicate(result)}
+															sx={{ textTransform: 'none', fontWeight: 600, fontSize: '0.72rem', color: '#629C44' }}>
+															{t('appCVContent.uploadResults.replace', 'Replace old version')}
+														</Button>
+														<Button size="small" onClick={() => handleKeepBoth(result)}
+															sx={{ textTransform: 'none', fontWeight: 600, fontSize: '0.72rem', color: '#64748b' }}>
+															{t('appCVContent.uploadResults.keepBoth', 'Keep both')}
+														</Button>
+													</>
+												)}
+											</Box>
+										)}
+									</Box>
+								);
+							})}
+						</Box>
+					) : isUploading ? (
 						/* Upload / processing progress — shows ETA and what's happening server-side */
 						<Box sx={{
 							py: 2.5,
@@ -420,29 +564,49 @@ const AppCVContent = () => {
 					)}
 				</DialogContent>
 				<DialogActions sx={{ px: 3, pb: 3, gap: 1 }}>
-					<Button
-						onClick={() => { setOpenUploadModal(false); setSelectedFiles([]); }}
-						disabled={isUploading}
-						sx={{ textTransform: 'none', color: '#64748b', borderRadius: 1.5 }}
-					>
-						{t('appCVContent.cancel')}
-					</Button>
-					<Button
-						onClick={handleUploadCV}
-						disabled={isUploading || selectedFiles.length === 0}
-						variant="contained"
-						sx={{
-							textTransform: 'none',
-							backgroundColor: '#629C44',
-							'&:hover': { backgroundColor: '#528035' },
-							borderRadius: 1.5,
-							boxShadow: 'none',
-							fontWeight: 600,
-							minWidth: 120,
-						}}
-					>
-						{isUploading ? <CircularProgress size={18} color="inherit" /> : t('appCVContent.uploadFiles')}
-					</Button>
+					{uploadResults ? (
+						<Button
+							onClick={handleCloseUploadDialog}
+							variant="contained"
+							sx={{
+								textTransform: 'none',
+								backgroundColor: '#629C44',
+								'&:hover': { backgroundColor: '#528035' },
+								borderRadius: 1.5,
+								boxShadow: 'none',
+								fontWeight: 600,
+								minWidth: 120,
+							}}
+						>
+							{t('appCVContent.uploadResults.done', 'Done')}
+						</Button>
+					) : (
+						<>
+							<Button
+								onClick={handleCloseUploadDialog}
+								disabled={isUploading}
+								sx={{ textTransform: 'none', color: '#64748b', borderRadius: 1.5 }}
+							>
+								{t('appCVContent.cancel')}
+							</Button>
+							<Button
+								onClick={handleUploadCV}
+								disabled={isUploading || selectedFiles.length === 0}
+								variant="contained"
+								sx={{
+									textTransform: 'none',
+									backgroundColor: '#629C44',
+									'&:hover': { backgroundColor: '#528035' },
+									borderRadius: 1.5,
+									boxShadow: 'none',
+									fontWeight: 600,
+									minWidth: 120,
+								}}
+							>
+								{isUploading ? <CircularProgress size={18} color="inherit" /> : t('appCVContent.uploadFiles')}
+							</Button>
+						</>
+					)}
 				</DialogActions>
 			</Dialog>
 

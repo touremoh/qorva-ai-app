@@ -8,7 +8,14 @@ import {
 	Chip,
 	CircularProgress,
 	Collapse,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogContentText,
+	DialogTitle,
+	IconButton,
 	Paper,
+	Tooltip,
 	Typography,
 } from '@mui/material';
 import { PieChart } from '@mui/x-charts';
@@ -21,9 +28,36 @@ import PsychologyOutlinedIcon from '@mui/icons-material/PsychologyOutlined';
 import ReportProblemOutlinedIcon from '@mui/icons-material/ReportProblemOutlined';
 import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded';
 import ExpandLessRoundedIcon from '@mui/icons-material/ExpandLessRounded';
-import { getLibraryQuality } from '../../../services/libraryQualityService.js';
+import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
+import RestoreOutlinedIcon from '@mui/icons-material/RestoreOutlined';
+import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
+import AutorenewRoundedIcon from '@mui/icons-material/AutorenewRounded';
+import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
+import { LinearProgress } from '@mui/material';
+import {
+	getLibraryQuality,
+	notifyQualityChanged,
+	performQualityAction,
+	dismissQualityIssue,
+	reopenQualityIssue,
+	submitQualityJob,
+	getQualityJobs,
+	cancelQualityJob,
+} from '../../../services/libraryQualityService.js';
 import QualityIssueList from './QualityIssueList.jsx';
 import QualityDuplicatesList from './QualityDuplicatesList.jsx';
+
+// Freshness issues offer criteria-level "archive all" — the only bulk that scales to thousands of hits.
+const ARCHIVABLE_ISSUES = new Set(['OUTDATED', 'UNKNOWN_FRESHNESS']);
+
+// Parse-quality issues can be fixed by re-running AI extraction from the stored source text.
+const REANALYZABLE_ISSUES = new Set([
+	'MISSING_EMAIL', 'MISSING_PHONE', 'MISSING_CONTACT',
+	'NO_WORK_EXPERIENCE', 'NO_SKILLS', 'MISSING_SUMMARY',
+	'LOW_PARSE_CONFIDENCE', 'UNKNOWN_FRESHNESS',
+]);
+
+const ACTIVE_JOB_STATUSES = new Set(['PENDING', 'RUNNING']);
 
 const initialReport = {
 	totalCVs: 0,
@@ -149,7 +183,7 @@ Meter.propTypes = {
 };
 
 const AppLibraryQuality = () => {
-	const { t } = useTranslation();
+	const { t, i18n } = useTranslation();
 	const [report, setReport] = useState(initialReport);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState('');
@@ -161,6 +195,7 @@ const AppLibraryQuality = () => {
 		try {
 			const res = await getLibraryQuality();
 			const data = res.data?.data ?? res.data ?? {};
+			const issues = Array.isArray(data.issues) ? data.issues : [];
 			setReport({
 				...initialReport,
 				...data,
@@ -168,8 +203,9 @@ const AppLibraryQuality = () => {
 				freshness: data.freshness ?? initialReport.freshness,
 				uniqueness: data.uniqueness ?? initialReport.uniqueness,
 				parseConfidence: data.parseConfidence ?? initialReport.parseConfidence,
-				issues: Array.isArray(data.issues) ? data.issues : [],
+				issues,
 			});
+			notifyQualityChanged(issues.filter(i => !i.dismissed).length); // keep the sidebar badge in sync
 		} catch {
 			setError(t('libraryQuality.error', 'Could not load the library quality report. Please try again.'));
 		} finally {
@@ -187,6 +223,134 @@ const AppLibraryQuality = () => {
 
 	const handleIssueAction = (issue) => {
 		setExpandedIssue((prev) => (prev === issue.issueKey ? null : issue.issueKey));
+	};
+
+	const [archiveConfirm, setArchiveConfirm] = useState(null); // issue pending "archive all" confirmation
+	const [actionBusy, setActionBusy] = useState(false);
+	const [activeJob, setActiveJob] = useState(null);
+	const [reanalyzeEstimate, setReanalyzeEstimate] = useState(null); // { issue, estimate }
+	const [jobPollNonce, setJobPollNonce] = useState(0);
+
+	// Track the active background job: check on mount (and whenever a job is submitted),
+	// then poll while one is running.
+	useEffect(() => {
+		let cancelled = false;
+		let timer;
+		const check = async () => {
+			try {
+				const res = await getQualityJobs();
+				const jobs = (res.data?.data ?? res.data)?.jobs ?? [];
+				const current = jobs.find(j => ACTIVE_JOB_STATUSES.has(j.status)) ?? jobs[0] ?? null;
+				if (cancelled) return;
+				setActiveJob(prev => {
+					// Refresh the report the moment a previously-active job finishes.
+					if (prev && ACTIVE_JOB_STATUSES.has(prev.status) && current && !ACTIVE_JOB_STATUSES.has(current.status)) {
+						fetchReport();
+					}
+					return current;
+				});
+				if (current && ACTIVE_JOB_STATUSES.has(current.status)) {
+					timer = setTimeout(check, 4000);
+				}
+			} catch { /* job card is best-effort */ }
+		};
+		check();
+		return () => { cancelled = true; clearTimeout(timer); };
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [jobPollNonce]);
+
+	const handleReanalyzeRequest = async (issue) => {
+		try {
+			const res = await submitQualityJob('REANALYZE', issue.issueKey, true);
+			const estimate = (res.data?.data ?? res.data)?.estimate;
+			setReanalyzeEstimate({ issue, estimate });
+		} catch (error) {
+			console.error('Error estimating re-analysis:', error);
+		}
+	};
+
+	const handleReanalyzeConfirm = async () => {
+		if (!reanalyzeEstimate) return;
+		setActionBusy(true);
+		try {
+			const res = await submitQualityJob('REANALYZE', reanalyzeEstimate.issue.issueKey, false);
+			const job = (res.data?.data ?? res.data)?.job;
+			setReanalyzeEstimate(null);
+			if (job) {
+				setActiveJob(job);
+				setJobPollNonce(n => n + 1); // restart the polling loop for the fresh job
+			}
+		} catch (error) {
+			console.error('Error submitting re-analysis job:', error);
+		} finally {
+			setActionBusy(false);
+		}
+	};
+
+	const [campaignEstimate, setCampaignEstimate] = useState(null); // { issue, estimate }
+
+	const handleCampaignRequest = async (issue) => {
+		try {
+			const res = await submitQualityJob('CANDIDATE_UPDATE_CAMPAIGN', issue.issueKey, true);
+			const estimate = (res.data?.data ?? res.data)?.estimate;
+			setCampaignEstimate({ issue, estimate });
+		} catch (error) {
+			console.error('Error estimating update campaign:', error);
+		}
+	};
+
+	const handleCampaignConfirm = async () => {
+		if (!campaignEstimate) return;
+		setActionBusy(true);
+		try {
+			const language = (i18n.language || 'en').split('-')[0];
+			const res = await submitQualityJob('CANDIDATE_UPDATE_CAMPAIGN', campaignEstimate.issue.issueKey, false, language);
+			const job = (res.data?.data ?? res.data)?.job;
+			setCampaignEstimate(null);
+			if (job) {
+				setActiveJob(job);
+				setJobPollNonce(n => n + 1);
+			}
+		} catch (error) {
+			console.error('Error submitting update campaign:', error);
+		} finally {
+			setActionBusy(false);
+		}
+	};
+
+	const handleCancelJob = async () => {
+		if (!activeJob) return;
+		try {
+			const res = await cancelQualityJob(activeJob.id);
+			setActiveJob(res.data?.data ?? res.data);
+			await fetchReport();
+		} catch (error) {
+			console.error('Error cancelling job:', error);
+		}
+	};
+
+	const handleArchiveAll = async () => {
+		if (!archiveConfirm) return;
+		setActionBusy(true);
+		try {
+			await performQualityAction('ARCHIVE', { issueKey: archiveConfirm.issueKey });
+			setArchiveConfirm(null);
+			await fetchReport();
+		} catch (error) {
+			console.error('Error archiving resumes:', error);
+		} finally {
+			setActionBusy(false);
+		}
+	};
+
+	const handleDismissToggle = async (issue) => {
+		try {
+			if (issue.dismissed) await reopenQualityIssue(issue.issueKey);
+			else await dismissQualityIssue(issue.issueKey);
+			await fetchReport();
+		} catch (error) {
+			console.error('Error updating issue state:', error);
+		}
 	};
 
 	if (loading) {
@@ -383,6 +547,46 @@ const AppLibraryQuality = () => {
 				</Paper>
 			</Box>
 
+			{/* Background job progress */}
+			{activeJob && (ACTIVE_JOB_STATUSES.has(activeJob.status) || (activeJob.finishedAt && Date.now() - new Date(activeJob.finishedAt).getTime() < 60000)) && (
+				<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderLeft: '3px solid #629C44', borderRadius: 2.5, p: 2 }}>
+					<Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, mb: ACTIVE_JOB_STATUSES.has(activeJob.status) ? 1 : 0 }}>
+						<AutorenewRoundedIcon sx={{
+							fontSize: 18, color: '#629C44',
+							animation: ACTIVE_JOB_STATUSES.has(activeJob.status) ? 'spin 2s linear infinite' : 'none',
+							'@keyframes spin': { from: { transform: 'rotate(0deg)' }, to: { transform: 'rotate(360deg)' } },
+						}} />
+						<Typography sx={{ flex: 1, fontSize: '0.8rem', fontWeight: 600, color: '#334155' }}>
+							{ACTIVE_JOB_STATUSES.has(activeJob.status)
+								? t('libraryQuality.jobs.running', 'AI re-analysis in progress — {{processed}}/{{total}} resumes', { processed: activeJob.processed, total: activeJob.total })
+								: t(`libraryQuality.jobs.status.${activeJob.status}`, activeJob.status)}
+						</Typography>
+						{ACTIVE_JOB_STATUSES.has(activeJob.status) && (
+							<Button size="small" onClick={handleCancelJob}
+								sx={{ textTransform: 'none', fontSize: '0.72rem', fontWeight: 600, color: '#64748b' }}>
+								{t('libraryQuality.jobs.cancel', 'Cancel')}
+							</Button>
+						)}
+					</Box>
+					{ACTIVE_JOB_STATUSES.has(activeJob.status) && (
+						<LinearProgress
+							variant={activeJob.total > 0 ? 'determinate' : 'indeterminate'}
+							value={activeJob.total > 0 ? (activeJob.processed / activeJob.total) * 100 : 0}
+							sx={{
+								height: 6, borderRadius: 3, backgroundColor: 'rgba(98,156,68,0.12)',
+								'& .MuiLinearProgress-bar': { borderRadius: 3, backgroundColor: '#629C44' },
+							}}
+						/>
+					)}
+					{!ACTIVE_JOB_STATUSES.has(activeJob.status) && (activeJob.failed > 0 || activeJob.skipped > 0) && (
+						<Typography sx={{ fontSize: '0.72rem', color: '#94a3b8', mt: 0.5 }}>
+							{t('libraryQuality.jobs.resultDetail', '{{succeeded}} updated · {{failed}} failed · {{skipped}} skipped (no stored text)', {
+								succeeded: activeJob.succeeded, failed: activeJob.failed, skipped: activeJob.skipped })}
+						</Typography>
+					)}
+				</Paper>
+			)}
+
 			{/* Issues */}
 			<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5 }}>
 				<SectionHeader icon={ReportProblemOutlinedIcon} label={t('libraryQuality.sections.issues', 'Issues To Fix')} />
@@ -390,49 +594,191 @@ const AppLibraryQuality = () => {
 					<Typography sx={{ fontSize: '0.8rem', color: '#629C44', fontWeight: 600 }}>
 						{t('libraryQuality.noIssues', 'No issues found — your library is in great shape!')}
 					</Typography>
-				) : (
-					<Box sx={{ display: 'flex', flexDirection: 'column' }}>
-						{report.issues.map((issue, index) => {
-							const chip = SEVERITY_CHIP[issue.severity] ?? SEVERITY_CHIP.MEDIUM;
-							const isDuplicates = issue.issueKey === 'DUPLICATES';
-							const isExpanded = expandedIssue === issue.issueKey;
-							return (
-								<Box key={issue.issueKey} sx={{ borderBottom: index < report.issues.length - 1 ? '1px solid #f1f5f9' : 'none' }}>
-									<Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, py: 1.1 }}>
-										<Chip
-											label={t(`libraryQuality.severity.${issue.severity}`, issue.severity)}
-											size="small"
-											sx={{ backgroundColor: chip.bg, color: chip.color, fontWeight: 700, fontSize: '0.62rem', height: 20 }}
-										/>
-										<Typography sx={{ flex: 1, fontSize: '0.8rem', color: '#334155', fontWeight: 500, minWidth: 0 }}>
-											{t(`libraryQuality.issues.${issue.issueKey}`, issue.issueKey)}
-										</Typography>
-										<Typography sx={{ fontSize: '0.8rem', color: '#0f172a', fontWeight: 800 }}>
-											{issue.count}
-										</Typography>
+				) : (() => {
+					const openIssues = report.issues.filter(i => !i.dismissed);
+					const dismissedIssues = report.issues.filter(i => i.dismissed);
+					const renderIssueRow = (issue, index, list) => {
+						const chip = SEVERITY_CHIP[issue.severity] ?? SEVERITY_CHIP.MEDIUM;
+						const isDuplicates = issue.issueKey === 'DUPLICATES';
+						const isExpanded = expandedIssue === issue.issueKey;
+						return (
+							<Box key={issue.issueKey} sx={{ borderBottom: index < list.length - 1 ? '1px solid #f1f5f9' : 'none', opacity: issue.dismissed ? 0.6 : 1 }}>
+								<Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, py: 1.1 }}>
+									<Chip
+										label={t(`libraryQuality.severity.${issue.severity}`, issue.severity)}
+										size="small"
+										sx={{ backgroundColor: chip.bg, color: chip.color, fontWeight: 700, fontSize: '0.62rem', height: 20 }}
+									/>
+									<Typography sx={{ flex: 1, fontSize: '0.8rem', color: '#334155', fontWeight: 500, minWidth: 0 }}>
+										{t(`libraryQuality.issues.${issue.issueKey}`, issue.issueKey)}
+									</Typography>
+									<Typography sx={{ fontSize: '0.8rem', color: '#0f172a', fontWeight: 800 }}>
+										{issue.count}
+									</Typography>
+									{!issue.dismissed && REANALYZABLE_ISSUES.has(issue.issueKey) && (
 										<Button
 											size="small"
-											onClick={() => handleIssueAction(issue)}
-											endIcon={isExpanded ? <ExpandLessRoundedIcon sx={{ fontSize: 16 }} /> : <ExpandMoreRoundedIcon sx={{ fontSize: 16 }} />}
-											sx={{ fontSize: '0.7rem', fontWeight: 600, textTransform: 'none', color: '#629C44' }}
+											disabled={Boolean(activeJob && ACTIVE_JOB_STATUSES.has(activeJob.status))}
+											startIcon={<AutorenewRoundedIcon sx={{ fontSize: 13 }} />}
+											onClick={() => handleReanalyzeRequest(issue)}
+											sx={{ fontSize: '0.7rem', fontWeight: 600, textTransform: 'none', color: '#64748b' }}
 										>
-											{t('libraryQuality.view', 'View')}
+											{t('libraryQuality.jobs.reanalyzeAll', 'Re-analyze all')}
 										</Button>
-									</Box>
-									<Collapse in={isExpanded} timeout="auto" unmountOnExit>
-										<Box sx={{ pb: 1.5, pl: 1 }}>
-											{isDuplicates
-												? <QualityDuplicatesList onChanged={fetchReport} />
-												: <QualityIssueList issueKey={issue.issueKey} />}
-										</Box>
-									</Collapse>
+									)}
+									{!issue.dismissed && ARCHIVABLE_ISSUES.has(issue.issueKey) && (
+										<Button
+											size="small"
+											disabled={Boolean(activeJob && ACTIVE_JOB_STATUSES.has(activeJob.status))}
+											startIcon={<SendOutlinedIcon sx={{ fontSize: 13 }} />}
+											onClick={() => handleCampaignRequest(issue)}
+											sx={{ fontSize: '0.7rem', fontWeight: 600, textTransform: 'none', color: '#64748b' }}
+										>
+											{t('libraryQuality.campaign.requestUpdates', 'Request updates')}
+										</Button>
+									)}
+									{!issue.dismissed && ARCHIVABLE_ISSUES.has(issue.issueKey) && (
+										<Button
+											size="small"
+											startIcon={<Inventory2OutlinedIcon sx={{ fontSize: 13 }} />}
+											onClick={() => setArchiveConfirm(issue)}
+											sx={{ fontSize: '0.7rem', fontWeight: 600, textTransform: 'none', color: '#64748b' }}
+										>
+											{t('libraryQuality.archiveAll', 'Archive all')}
+										</Button>
+									)}
+									<Button
+										size="small"
+										onClick={() => handleIssueAction(issue)}
+										endIcon={isExpanded ? <ExpandLessRoundedIcon sx={{ fontSize: 16 }} /> : <ExpandMoreRoundedIcon sx={{ fontSize: 16 }} />}
+										sx={{ fontSize: '0.7rem', fontWeight: 600, textTransform: 'none', color: '#629C44' }}
+									>
+										{t('libraryQuality.view', 'View')}
+									</Button>
+									<Tooltip title={issue.dismissed
+										? t('libraryQuality.reopen', 'Reopen this issue')
+										: t('libraryQuality.dismiss', 'Dismiss — accepted, hide from open issues')}>
+										<IconButton size="small" onClick={() => handleDismissToggle(issue)} sx={{ color: '#94a3b8' }}>
+											{issue.dismissed
+												? <RestoreOutlinedIcon sx={{ fontSize: 16 }} />
+												: <VisibilityOffOutlinedIcon sx={{ fontSize: 16 }} />}
+										</IconButton>
+									</Tooltip>
 								</Box>
-							);
-						})}
-					</Box>
-				)}
+								<Collapse in={isExpanded} timeout="auto" unmountOnExit>
+									<Box sx={{ pb: 1.5, pl: 1 }}>
+										{isDuplicates
+											? <QualityDuplicatesList onChanged={fetchReport} />
+											: <QualityIssueList issueKey={issue.issueKey} onChanged={fetchReport} />}
+									</Box>
+								</Collapse>
+							</Box>
+						);
+					};
+					return (
+						<Box sx={{ display: 'flex', flexDirection: 'column' }}>
+							{openIssues.map((issue, i) => renderIssueRow(issue, i, openIssues))}
+							{dismissedIssues.length > 0 && (
+								<>
+									<Typography sx={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em', mt: 2, mb: 0.5 }}>
+										{t('libraryQuality.dismissedSection', 'Dismissed ({{count}})', { count: dismissedIssues.length })}
+									</Typography>
+									{dismissedIssues.map((issue, i) => renderIssueRow(issue, i, dismissedIssues))}
+								</>
+							)}
+						</Box>
+					);
+				})()}
 			</Paper>
 		</Box>
+
+		{/* Candidate-update campaign confirmation */}
+		<Dialog open={Boolean(campaignEstimate)} onClose={() => !actionBusy && setCampaignEstimate(null)} PaperProps={{ sx: { borderRadius: 2.5 } }}>
+			<DialogTitle sx={{ fontWeight: 700, fontSize: '0.95rem', color: '#0f172a' }}>
+				{t('libraryQuality.campaign.confirmTitle', 'Request updates from candidates')}
+			</DialogTitle>
+			<DialogContent>
+				<DialogContentText sx={{ fontSize: '0.88rem', color: '#64748b' }}>
+					{t('libraryQuality.campaign.confirmBody',
+						'This will email up to {{count}} candidates a secure link to refresh their availability, salary expectations, and resume. Candidates without an email address, unsubscribed candidates, and those with a pending request are skipped automatically.',
+						{ count: campaignEstimate?.estimate?.affectedCount ?? 0 })}
+				</DialogContentText>
+			</DialogContent>
+			<DialogActions sx={{ px: 2, pb: 2, gap: 1 }}>
+				<Button onClick={() => setCampaignEstimate(null)} disabled={actionBusy}
+					sx={{ textTransform: 'none', color: '#64748b', borderRadius: 1.5 }}>
+					{t('appCVContent.cancel')}
+				</Button>
+				<Button onClick={handleCampaignConfirm} disabled={actionBusy || (campaignEstimate?.estimate?.affectedCount ?? 0) === 0}
+					variant="contained"
+					sx={{ textTransform: 'none', borderRadius: 1.5, boxShadow: 'none', backgroundColor: '#629C44', '&:hover': { backgroundColor: '#528035' } }}>
+					{actionBusy ? <CircularProgress size={16} color="inherit" /> : t('libraryQuality.campaign.confirmSend', 'Send requests')}
+				</Button>
+			</DialogActions>
+		</Dialog>
+
+		{/* Re-analyze pre-flight confirmation */}
+		<Dialog open={Boolean(reanalyzeEstimate)} onClose={() => !actionBusy && setReanalyzeEstimate(null)} PaperProps={{ sx: { borderRadius: 2.5 } }}>
+			<DialogTitle sx={{ fontWeight: 700, fontSize: '0.95rem', color: '#0f172a' }}>
+				{t('libraryQuality.jobs.confirmTitle', 'Re-analyze resumes with AI')}
+			</DialogTitle>
+			<DialogContent>
+				<DialogContentText sx={{ fontSize: '0.88rem', color: '#64748b' }}>
+					{t('libraryQuality.jobs.confirmBody',
+						'This will re-run AI extraction on {{count}} resumes and use {{actions}} screening actions{{quota}}.',
+						{
+							count: reanalyzeEstimate?.estimate?.estimatedActions ?? 0,
+							actions: reanalyzeEstimate?.estimate?.estimatedActions ?? 0,
+							quota: Number.isFinite(reanalyzeEstimate?.estimate?.remainingQuota)
+								? t('libraryQuality.jobs.confirmQuota', ' ({{remaining}} remaining this period)', { remaining: reanalyzeEstimate.estimate.remainingQuota })
+								: '',
+						})}
+					{reanalyzeEstimate?.estimate?.skippedNoRawText > 0 && (
+						<>
+							{' '}
+							{t('libraryQuality.jobs.confirmSkipped',
+								'{{count}} older resumes have no stored source text and will be skipped — re-upload them to refresh.',
+								{ count: reanalyzeEstimate.estimate.skippedNoRawText })}
+						</>
+					)}
+				</DialogContentText>
+			</DialogContent>
+			<DialogActions sx={{ px: 2, pb: 2, gap: 1 }}>
+				<Button onClick={() => setReanalyzeEstimate(null)} disabled={actionBusy}
+					sx={{ textTransform: 'none', color: '#64748b', borderRadius: 1.5 }}>
+					{t('appCVContent.cancel')}
+				</Button>
+				<Button onClick={handleReanalyzeConfirm} disabled={actionBusy || (reanalyzeEstimate?.estimate?.estimatedActions ?? 0) === 0}
+					variant="contained"
+					sx={{ textTransform: 'none', borderRadius: 1.5, boxShadow: 'none', backgroundColor: '#629C44', '&:hover': { backgroundColor: '#528035' } }}>
+					{actionBusy ? <CircularProgress size={16} color="inherit" /> : t('libraryQuality.jobs.confirmStart', 'Start re-analysis')}
+				</Button>
+			</DialogActions>
+		</Dialog>
+
+		{/* Archive-all confirmation */}
+		<Dialog open={Boolean(archiveConfirm)} onClose={() => !actionBusy && setArchiveConfirm(null)} PaperProps={{ sx: { borderRadius: 2.5 } }}>
+			<DialogTitle sx={{ fontWeight: 700, fontSize: '0.95rem', color: '#0f172a' }}>
+				{t('libraryQuality.archiveAllTitle', 'Archive resumes')}
+			</DialogTitle>
+			<DialogContent>
+				<DialogContentText sx={{ fontSize: '0.88rem', color: '#64748b' }}>
+					{t('libraryQuality.archiveAllConfirmation',
+						'This will archive {{count}} resumes. Archived resumes are excluded from matching and quality reporting; you can unarchive them from the Resume Library at any time.',
+						{ count: archiveConfirm?.count ?? 0 })}
+				</DialogContentText>
+			</DialogContent>
+			<DialogActions sx={{ px: 2, pb: 2, gap: 1 }}>
+				<Button onClick={() => setArchiveConfirm(null)} disabled={actionBusy}
+					sx={{ textTransform: 'none', color: '#64748b', borderRadius: 1.5 }}>
+					{t('appCVContent.cancel')}
+				</Button>
+				<Button onClick={handleArchiveAll} disabled={actionBusy} variant="contained"
+					sx={{ textTransform: 'none', borderRadius: 1.5, boxShadow: 'none', backgroundColor: '#629C44', '&:hover': { backgroundColor: '#528035' } }}>
+					{actionBusy ? <CircularProgress size={16} color="inherit" /> : t('libraryQuality.archiveAll', 'Archive all')}
+				</Button>
+			</DialogActions>
+		</Dialog>
 		</Box>
 	);
 };

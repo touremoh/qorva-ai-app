@@ -176,7 +176,11 @@
     },
     "availabilityStatuses": "Availability Statuses to Match",
     "copyReference": "Copy reference",
-    "copied": "Copied!"
+    "copied": "Copied!",
+    "aiPrefill": {
+      "drafting": "AI is drafting your scoring rules…",
+      "applied": "AI-suggested scoring rules — review and adjust before saving."
+    }
   },
   "appCVContent": {
     "createCVEntry": "Add Resume",
@@ -315,7 +319,29 @@
     "filterBySkill": "Filter by skill…",
     "filterMinExp": "Min. years…",
     "resumeCount": "{{count}} resume(s)",
-    "pageOf": "page {{page}} of {{total}}"
+    "pageOf": "page {{page}} of {{total}}",
+    "uploadResults": {
+      "title": "Upload results",
+      "failed": "This file could not be processed.",
+      "duplicateOf": "Matches existing {{name}} (added {{date}})",
+      "replace": "Replace old version",
+      "keepBoth": "Keep both",
+      "replaceAll": "Replace all old versions",
+      "replaced": "Old version replaced.",
+      "kept": "Both versions kept.",
+      "done": "Done"
+    },
+    "uploadWarnings": {
+      "MISSING_PHONE": "missing phone",
+      "MISSING_EMAIL": "missing email",
+      "MISSING_CONTACT": "no contact info",
+      "NO_WORK_EXPERIENCE": "no work experience",
+      "LOW_AI_CONFIDENCE": "low AI confidence",
+      "NO_AI_ANALYSIS": "no AI analysis"
+    },
+    "archived": "Archived",
+    "showArchivedTooltip": "Show archived resumes",
+    "unarchive": "Unarchive"
   },
   "appCVMatching": {
     "selectJobPost": "Choose Job Post",
@@ -1100,7 +1126,10 @@
       "phone": "Phone",
       "contentDate": "Content Date",
       "lastUpdated": "Last Updated",
-      "empty": "No resumes found for this issue."
+      "empty": "No resumes found for this issue.",
+      "add": "Add",
+      "confirmCurrent": "Confirm current ({{count}})",
+      "confirmHint": "Select resumes you verified as still accurate (max {{max}})"
     },
     "verdict": {
       "excellent": "Excellent",
@@ -1115,6 +1144,57 @@
       "added": "Added",
       "delete": "Delete resume",
       "groupCount": "{{count}} duplicate groups"
+    },
+    "badgeTooltip": "{{count}} issues to fix",
+    "archiveAll": "Archive all",
+    "archiveAllTitle": "Archive resumes",
+    "archiveAllConfirmation": "This will archive {{count}} resumes. Archived resumes are excluded from matching and quality reporting; you can unarchive them from the Resume Library at any time.",
+    "dismiss": "Dismiss — accepted, hide from open issues",
+    "reopen": "Reopen this issue",
+    "dismissedSection": "Dismissed ({{count}})",
+    "jobs": {
+      "reanalyzeAll": "Re-analyze all",
+      "cancel": "Cancel",
+      "running": "AI re-analysis in progress — {{processed}}/{{total}} resumes",
+      "confirmTitle": "Re-analyze resumes with AI",
+      "confirmBody": "This will re-run AI extraction on {{count}} resumes and use {{actions}} screening actions{{quota}}.",
+      "confirmQuota": " ({{remaining}} remaining this period)",
+      "confirmSkipped": "{{count}} older resumes have no stored source text and will be skipped — re-upload them to refresh.",
+      "confirmStart": "Start re-analysis",
+      "resultDetail": "{{succeeded}} updated · {{failed}} failed · {{skipped}} skipped (no stored text)",
+      "status": {
+        "COMPLETED": "Re-analysis completed",
+        "COMPLETED_WITH_ERRORS": "Re-analysis completed with errors",
+        "FAILED": "Re-analysis failed",
+        "CANCELLED": "Re-analysis cancelled"
+      }
+    },
+    "campaign": {
+      "requestUpdates": "Request updates",
+      "confirmTitle": "Request updates from candidates",
+      "confirmBody": "This will email up to {{count}} candidates a secure link to refresh their availability, salary expectations, and resume. Candidates without an email address, unsubscribed candidates, and those with a pending request are skipped automatically.",
+      "confirmSend": "Send requests"
     }
+  },
+  "candidateUpdate": {
+    "invalid": "This link is no longer valid. It may have expired or already been used.",
+    "title": "Hi {{name}}, keep your profile up to date",
+    "subtitle": "Confirm your availability and expectations — it takes a minute.",
+    "status": "Availability",
+    "availableFrom": "Available from",
+    "noticePeriod": "Notice period (days)",
+    "currency": "Currency",
+    "salaryMin": "Salary min",
+    "salaryMax": "Salary max",
+    "uploadCV": "Upload a newer resume (optional, .pdf or .docx)",
+    "consent": "By submitting, you agree that this information is shared with the recruiter who holds your profile and processed to keep it accurate.",
+    "submit": "Update my profile",
+    "doneTitle": "Thank you — your profile is up to date!",
+    "doneSubtitle": "You can close this page.",
+    "unsubscribeTitle": "Unsubscribe from update requests?",
+    "unsubscribeSubtitle": "You will no longer receive profile update emails from this recruiter.",
+    "unsubscribeButton": "Unsubscribe",
+    "unsubscribedTitle": "You have been unsubscribed.",
+    "unsubscribedSubtitle": "You will not receive further update requests."
   }
 }
