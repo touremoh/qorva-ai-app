@@ -812,9 +812,20 @@ const JobContent = () => {
 	const HTML_DESCRIPTION_REGEX = /<(p|div|br|ul|ol|li|strong|em|b|i|u|s|a|h[1-6]|span|blockquote|pre)[\s/>]/i;
 	const descriptionToHtml = (desc = '') => {
 		if (!desc.trim()) return '';
-		const html = HTML_DESCRIPTION_REGEX.test(desc)
-			? desc
-			: desc.split(/\r?\n+/)
+		// Quill paste artifact: plain text pasted into the editor lands in a single
+		// <pre class="ql-syntax"> block, often with literal "\n" sequences. A <pre>
+		// doesn't wrap, so the whole description overflows off-screen and looks empty.
+		// Unwrap it back to plain text and let the paragraph path below format it.
+		let source = desc;
+		const quillPre = /^\s*<pre class="ql-syntax"[^>]*>([\s\S]*)<\/pre>\s*$/i.exec(source);
+		if (quillPre) {
+			source = quillPre[1]
+				.replace(/\\n/g, '\n')
+				.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+		}
+		const html = quillPre == null && HTML_DESCRIPTION_REGEX.test(source)
+			? source
+			: source.split(/\r?\n+/)
 				.map(p => p.trim())
 				.filter(Boolean)
 				.map(p => `<p dir="auto">${escapeHtml(p)}</p>`)
@@ -1011,8 +1022,13 @@ const JobContent = () => {
 				/>
 				<Box sx={{
 					'.ql-container': { borderRadius: '0 0 8px 8px', fontSize: '0.88rem' },
-					'.ql-toolbar': { borderRadius: '8px 8px 0 0', borderColor: '#e2e8f0' },
-					'.ql-container.ql-snow': { borderColor: '#e2e8f0', minHeight: 300 },
+					'.ql-toolbar': { borderRadius: '8px 8px 0 0', borderColor: '#e2e8f0', transition: 'border-color 0.2s, box-shadow 0.2s' },
+					'.ql-container.ql-snow': { borderColor: '#e2e8f0', minHeight: 300, transition: 'border-color 0.2s, box-shadow 0.2s' },
+					// Mirror the title TextField's states (inputSx): hover darkens, focus turns green
+					// with a 1.5px-feel ring (box-shadow instead of border-width to avoid layout shift).
+					'&:hover .ql-toolbar, &:hover .ql-container.ql-snow': { borderColor: '#cbd5e1' },
+					'&:focus-within .ql-toolbar': { borderColor: '#629C44', boxShadow: 'inset 0 0 0 0.5px #629C44' },
+					'&:focus-within .ql-container.ql-snow': { borderColor: '#629C44', boxShadow: 'inset 0 0 0 0.5px #629C44' },
 				}}>
 					<ReactQuill theme="snow" value={jobDescription} onChange={setJobDescription} style={{ color: '#0f172a' }} />
 				</Box>
@@ -1112,22 +1128,6 @@ const JobContent = () => {
 													backgroundColor: isOpen ? 'rgba(98,156,68,0.12)' : 'rgba(239,68,68,0.10)',
 													color: isOpen ? '#3a6827' : '#dc2626',
 												}} />
-												{job.jobReference && (
-													<Tooltip title={copiedJobRef === job.jobReference ? t('jobContent.copied') : t('jobContent.copyReference')} placement="right">
-														<Box
-															onClick={(e) => handleCopyJobRef(job.jobReference, e)}
-															sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.4, cursor: 'pointer', minWidth: 0, '&:hover': { opacity: 0.75 } }}
-														>
-															<Typography sx={{ fontSize: '0.68rem', color: copiedJobRef === job.jobReference ? THEME_GREEN : '#94a3b8', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-																{job.jobReference}
-															</Typography>
-															{copiedJobRef === job.jobReference
-																? <CheckIcon sx={{ fontSize: 11, color: THEME_GREEN, flexShrink: 0 }} />
-																: <ContentCopyOutlinedIcon sx={{ fontSize: 11, color: '#94a3b8', flexShrink: 0 }} />
-															}
-														</Box>
-													</Tooltip>
-												)}
 											</Box>
 										</Box>
 									</ListItemButton>
@@ -1309,6 +1309,8 @@ const JobContent = () => {
 											'& li': { fontSize: '0.88rem', lineHeight: 1.8, color: '#334155', mb: 0.25 },
 											'& strong': { fontWeight: 700, color: '#0f172a' },
 											'& h1, & h2, & h3': { color: '#0f172a', mt: 2, mb: 1 },
+											// A non-wrapping <pre> would push the whole text off-screen and read as "empty".
+											'& pre': { whiteSpace: 'pre-wrap', wordBreak: 'break-word', fontFamily: 'inherit', fontSize: '0.88rem', lineHeight: 1.8, color: '#334155', m: 0 },
 										}} dir="auto" dangerouslySetInnerHTML={{ __html: descriptionToHtml(selectedJob.description) }} />
 									</Box>
 								)}

@@ -74,7 +74,7 @@ const AppMenuList = ({ handleContentChange, isChatAllowed, collapsed, onToggleCo
 		{ id: COMP_ID_DASHBOARD, Icon: LeaderboardOutlinedIcon, label: 'Dashboard',                              display: true },
 		{ groupId: 'RESUME_LIBRARY', Icon: PeopleOutlinedIcon,  label: t('header.cvs'),                         display: true,
 			children: [
-				{ id: COMP_ID_CVLIB,           Icon: DescriptionOutlinedIcon, label: t('header.resumes', 'Resumes'),               display: true },
+				{ id: COMP_ID_CVLIB,           Icon: DescriptionOutlinedIcon, label: t('header.resumes', 'All Resumes'),           display: true },
 				{ id: COMP_ID_LIBRARY_QUALITY, Icon: FactCheckOutlinedIcon,   label: t('header.libraryQuality', 'Library Quality'), display: true,
 					badge: qualityIssueCount,
 					badgeTooltip: t('libraryQuality.badgeTooltip', '{{count}} issues to fix', { count: qualityIssueCount }) },
