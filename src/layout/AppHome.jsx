@@ -1,10 +1,12 @@
 // src/pages/AppHome.jsx
+// eslint-disable-next-line no-unused-vars
 import React, {useEffect, useState} from 'react';
 import { Box } from '@mui/material';
 import AppHeader from '../components/headers/AppHeader.jsx';
 
 import AppContent from '../components/contents/AppContent.jsx';
 import AppSidebar from "../components/menu/AppSidebar.jsx";
+import UpgradeDialog from "../components/demo/UpgradeDialog.jsx";
 import {logPageView} from "../utils/analytics.js";
 import {useLocation} from "react-router-dom";
 
@@ -47,6 +49,9 @@ const AppHome = () => {
 				{/* Content */}
 				<AppContent content={content} isSidebarCollapsed={isSidebarCollapsed} />
 			</Box>
+
+			{/* Global demo → paid upgrade flow (opened via window event) */}
+			<UpgradeDialog />
 		</Box>
 	);
 };

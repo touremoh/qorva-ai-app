@@ -49,9 +49,12 @@ import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined';
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
 import CheckIcon from '@mui/icons-material/Check';
 import { useTranslation } from 'react-i18next';
-import { getJobs, createJob, updateJob, patchJobStatus, deleteJob } from '../../../services/jobService.js';
+import { getJobs, createJob, updateJob, patchJobStatus, deleteJob, suggestScoringRules } from '../../../services/jobService.js';
+import { isDemoUser } from '../../../utils/demoMode.js';
+import UpgradeButton from '../../demo/UpgradeButton.jsx';
 import { default as ReactQuill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import DOMPurify from 'dompurify';
 
 // ─── Shared style constants ───────────────────────────────────────────────────
 
@@ -736,6 +739,7 @@ const buildScoringPayload = (scoringConfig) => ({
 
 const JobContent = () => {
 	const { t, i18n } = useTranslation();
+	const demo = isDemoUser();
 	const [createMode, setCreateMode] = useState(false);
 	const [createStep, setCreateStep] = useState(0);
 	const [editMode, setEditMode] = useState(false);
@@ -753,6 +757,11 @@ const JobContent = () => {
 	const [jobTitle, setJobTitle] = useState('');
 	const [jobDescription, setJobDescription] = useState('');
 	const [scoringConfig, setScoringConfig] = useState(emptyScoringConfig());
+	// AI pre-fill of scoring rules (create mode only). lastSuggestedFor guards against
+	// re-billing an LLM call when the user bounces Back/Next without changing the description.
+	const [aiPrefillBusy, setAiPrefillBusy] = useState(false);
+	const [aiPrefillApplied, setAiPrefillApplied] = useState(false);
+	const [lastSuggestedFor, setLastSuggestedFor] = useState(null);
 	const [search, setSearch] = useState('');
 	const [detailTab, setDetailTab] = useState(0);
 	const [loading, setLoading] = useState(false);
@@ -788,7 +797,41 @@ const JobContent = () => {
 		fetchJobs();
 	}, []);
 
-	const resetForm = () => { setJobTitle(''); setJobDescription(''); };
+	const resetForm = () => {
+		setJobTitle(''); setJobDescription('');
+		setAiPrefillApplied(false); setAiPrefillBusy(false); setLastSuggestedFor(null);
+	};
+
+	// Descriptions authored in the app are Quill HTML, but seeded/imported jobs
+	// may carry plain text with newline paragraph breaks — normalise those to
+	// paragraph-only HTML (Quill's normal form, so edit round-trips are stable).
+	// Everything is sanitised before reaching dangerouslySetInnerHTML or Quill.
+	// dir="auto" lets each paragraph pick its direction for RTL scripts.
+	const escapeHtml = (s) =>
+		s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+	const HTML_DESCRIPTION_REGEX = /<(p|div|br|ul|ol|li|strong|em|b|i|u|s|a|h[1-6]|span|blockquote|pre)[\s/>]/i;
+	const descriptionToHtml = (desc = '') => {
+		if (!desc.trim()) return '';
+		// Quill paste artifact: plain text pasted into the editor lands in a single
+		// <pre class="ql-syntax"> block, often with literal "\n" sequences. A <pre>
+		// doesn't wrap, so the whole description overflows off-screen and looks empty.
+		// Unwrap it back to plain text and let the paragraph path below format it.
+		let source = desc;
+		const quillPre = /^\s*<pre class="ql-syntax"[^>]*>([\s\S]*)<\/pre>\s*$/i.exec(source);
+		if (quillPre) {
+			source = quillPre[1]
+				.replace(/\\n/g, '\n')
+				.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+		}
+		const html = quillPre == null && HTML_DESCRIPTION_REGEX.test(source)
+			? source
+			: source.split(/\r?\n+/)
+				.map(p => p.trim())
+				.filter(Boolean)
+				.map(p => `<p dir="auto">${escapeHtml(p)}</p>`)
+				.join('');
+		return DOMPurify.sanitize(html);
+	};
 
 	const sanitizeDescription = (html) => {
 		const doc = new DOMParser().parseFromString(html, 'text/html');
@@ -822,6 +865,32 @@ const JobContent = () => {
 		setCreateStep(0);
 		resetForm();
 		setScoringConfig(emptyScoringConfig());
+	};
+
+	/**
+	 * Create-mode "Next": advance immediately, then let AI draft the scoring rules —
+	 * only when the form is still untouched and the description changed since the last
+	 * suggestion. Failures fall back silently to the empty form (accelerator, not blocker).
+	 */
+	const handleCreateNext = async () => {
+		setCreateStep(1);
+		const descriptionKey = `${jobTitle}::${jobDescription}`;
+		const formUntouched = JSON.stringify(scoringConfig) === JSON.stringify(emptyScoringConfig()) || aiPrefillApplied;
+		if (!jobDescription || !formUntouched || descriptionKey === lastSuggestedFor) return;
+		setAiPrefillBusy(true);
+		try {
+			const res = await suggestScoringRules(jobTitle, sanitizeDescription(jobDescription));
+			const suggestion = res.data?.data ?? res.data;
+			if (suggestion) {
+				setScoringConfig(loadScoringConfig({ scoringRules: suggestion }));
+				setAiPrefillApplied(true);
+				setLastSuggestedFor(descriptionKey);
+			}
+		} catch (error) {
+			console.error('Scoring rules pre-fill failed (falling back to manual setup):', error);
+		} finally {
+			setAiPrefillBusy(false);
+		}
 	};
 
 	const handleCreateJob = async (withScoringConfig) => {
@@ -865,7 +934,7 @@ const JobContent = () => {
 		setEditStep(0);
 		if (selectedJob) {
 			setJobTitle(selectedJob.title);
-			setJobDescription(selectedJob.description);
+			setJobDescription(descriptionToHtml(selectedJob.description));
 		}
 		setScoringConfig(emptyScoringConfig());
 	};
@@ -925,7 +994,7 @@ const JobContent = () => {
 	const handleJobClick = (job) => {
 		setSelectedJob(job);
 		setJobTitle(job.title);
-		setJobDescription(job.description);
+		setJobDescription(descriptionToHtml(job.description));
 		setDetailTab(0);
 		setCreateMode(false);
 		setEditMode(false);
@@ -953,8 +1022,13 @@ const JobContent = () => {
 				/>
 				<Box sx={{
 					'.ql-container': { borderRadius: '0 0 8px 8px', fontSize: '0.88rem' },
-					'.ql-toolbar': { borderRadius: '8px 8px 0 0', borderColor: '#e2e8f0' },
-					'.ql-container.ql-snow': { borderColor: '#e2e8f0', minHeight: 300 },
+					'.ql-toolbar': { borderRadius: '8px 8px 0 0', borderColor: '#e2e8f0', transition: 'border-color 0.2s, box-shadow 0.2s' },
+					'.ql-container.ql-snow': { borderColor: '#e2e8f0', minHeight: 300, transition: 'border-color 0.2s, box-shadow 0.2s' },
+					// Mirror the title TextField's states (inputSx): hover darkens, focus turns green
+					// with a 1.5px-feel ring (box-shadow instead of border-width to avoid layout shift).
+					'&:hover .ql-toolbar, &:hover .ql-container.ql-snow': { borderColor: '#cbd5e1' },
+					'&:focus-within .ql-toolbar': { borderColor: '#629C44', boxShadow: 'inset 0 0 0 0.5px #629C44' },
+					'&:focus-within .ql-container.ql-snow': { borderColor: '#629C44', boxShadow: 'inset 0 0 0 0.5px #629C44' },
 				}}>
 					<ReactQuill theme="snow" value={jobDescription} onChange={setJobDescription} style={{ color: '#0f172a' }} />
 				</Box>
@@ -986,13 +1060,17 @@ const JobContent = () => {
 				display: 'flex', alignItems: 'center', gap: 1.5, px: 2.5, py: 1.5,
 				backgroundColor: '#ffffff', borderBottom: '1px solid #e2e8f0', flexShrink: 0,
 			}}>
-				<Button startIcon={<AddIcon />} variant="contained" onClick={handleStartCreate}
-					sx={{
-						backgroundColor: THEME_GREEN, '&:hover': { backgroundColor: THEME_GREEN_DARK },
-						borderRadius: 1.5, textTransform: 'none', fontWeight: 600, fontSize: '0.84rem', boxShadow: 'none', px: 2,
-					}}>
-					{t('jobContent.createJobPost')}
-				</Button>
+				{demo ? (
+					<UpgradeButton reason="job-create" variant="contained" size="medium" />
+				) : (
+					<Button startIcon={<AddIcon />} variant="contained" onClick={handleStartCreate}
+						sx={{
+							backgroundColor: THEME_GREEN, '&:hover': { backgroundColor: THEME_GREEN_DARK },
+							borderRadius: 1.5, textTransform: 'none', fontWeight: 600, fontSize: '0.84rem', boxShadow: 'none', px: 2,
+						}}>
+						{t('jobContent.createJobPost')}
+					</Button>
+				)}
 			</Box>
 
 			{/* Split pane */}
@@ -1050,22 +1128,6 @@ const JobContent = () => {
 													backgroundColor: isOpen ? 'rgba(98,156,68,0.12)' : 'rgba(239,68,68,0.10)',
 													color: isOpen ? '#3a6827' : '#dc2626',
 												}} />
-												{job.jobReference && (
-													<Tooltip title={copiedJobRef === job.jobReference ? t('jobContent.copied') : t('jobContent.copyReference')} placement="right">
-														<Box
-															onClick={(e) => handleCopyJobRef(job.jobReference, e)}
-															sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.4, cursor: 'pointer', minWidth: 0, '&:hover': { opacity: 0.75 } }}
-														>
-															<Typography sx={{ fontSize: '0.68rem', color: copiedJobRef === job.jobReference ? THEME_GREEN : '#94a3b8', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-																{job.jobReference}
-															</Typography>
-															{copiedJobRef === job.jobReference
-																? <CheckIcon sx={{ fontSize: 11, color: THEME_GREEN, flexShrink: 0 }} />
-																: <ContentCopyOutlinedIcon sx={{ fontSize: 11, color: '#94a3b8', flexShrink: 0 }} />
-															}
-														</Box>
-													</Tooltip>
-												)}
 											</Box>
 										</Box>
 									</ListItemButton>
@@ -1100,12 +1162,34 @@ const JobContent = () => {
 				<Box sx={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden', backgroundColor: '#f8fafc' }}>
 
 					{/* ── Create: Step 1 ── */}
-					{createMode && createStep === 0 && step1Form(handleCancelCreate, () => setCreateStep(1))}
+					{createMode && createStep === 0 && step1Form(handleCancelCreate, handleCreateNext)}
 
 					{/* ── Create: Step 2 ── */}
 					{createMode && createStep === 1 && (
-						<Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0, backgroundColor: '#ffffff' }}>
+						<Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0, backgroundColor: '#ffffff', position: 'relative' }}>
 							{stepperHeader(1)}
+							{aiPrefillBusy && (
+								<Box sx={{
+									position: 'absolute', inset: 0, zIndex: 5,
+									backgroundColor: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(1px)',
+									display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 1.5,
+								}}>
+									<CircularProgress size={26} sx={{ color: '#629C44' }} />
+									<Typography sx={{ fontSize: '0.85rem', fontWeight: 600, color: '#334155' }}>
+										{t('jobContent.aiPrefill.drafting', 'AI is drafting your scoring rules…')}
+									</Typography>
+								</Box>
+							)}
+							{aiPrefillApplied && !aiPrefillBusy && (
+								<Box sx={{
+									mx: 2.5, mt: 1, px: 1.5, py: 0.75, borderRadius: 1.5,
+									backgroundColor: 'rgba(98,156,68,0.08)', border: '1px solid rgba(98,156,68,0.3)',
+								}}>
+									<Typography sx={{ fontSize: '0.74rem', color: '#3f6212', fontWeight: 600 }}>
+										{t('jobContent.aiPrefill.applied', 'AI-suggested scoring rules — review and adjust before saving.')}
+									</Typography>
+								</Box>
+							)}
 							<JobScoringForm
 								scoringConfig={scoringConfig}
 								setScoringConfig={setScoringConfig}
@@ -1156,18 +1240,22 @@ const JobContent = () => {
 								</Box>
 								<Box sx={{ flexGrow: 1, minWidth: 4 }} />
 								<Box sx={{ display: 'flex', gap: 1, flexShrink: 0, ml: 'auto' }}>
-									<Tooltip title={t('jobContent.editJobPost')}>
-										<IconButton size="small" onClick={handleStartEdit}
-											sx={{ border: '1px solid #e2e8f0', borderRadius: 1.5, color: '#64748b', '&:hover': { backgroundColor: '#f1f5f9' } }}>
-											<EditOutlinedIcon sx={{ fontSize: 16 }} />
-										</IconButton>
-									</Tooltip>
-									<Tooltip title={t('jobContent.deleteJobTitle')}>
-										<IconButton size="small" onClick={() => setDeleteDialogOpen(true)}
-											sx={{ border: '1px solid #fecaca', borderRadius: 1.5, color: '#ef4444', '&:hover': { backgroundColor: '#fef2f2' } }}>
-											<DeleteOutlineIcon sx={{ fontSize: 16 }} />
-										</IconButton>
-									</Tooltip>
+									{!demo && (
+										<>
+											<Tooltip title={t('jobContent.editJobPost')}>
+												<IconButton size="small" onClick={handleStartEdit}
+													sx={{ border: '1px solid #e2e8f0', borderRadius: 1.5, color: '#64748b', '&:hover': { backgroundColor: '#f1f5f9' } }}>
+													<EditOutlinedIcon sx={{ fontSize: 16 }} />
+												</IconButton>
+											</Tooltip>
+											<Tooltip title={t('jobContent.deleteJobTitle')}>
+												<IconButton size="small" onClick={() => setDeleteDialogOpen(true)}
+													sx={{ border: '1px solid #fecaca', borderRadius: 1.5, color: '#ef4444', '&:hover': { backgroundColor: '#fef2f2' } }}>
+													<DeleteOutlineIcon sx={{ fontSize: 16 }} />
+												</IconButton>
+											</Tooltip>
+										</>
+									)}
 								</Box>
 							</Box>
 
@@ -1215,12 +1303,15 @@ const JobContent = () => {
 											</Box>
 										</Box>
 										<Box sx={{
+											textAlign: 'start',
 											'& p': { fontSize: '0.88rem', lineHeight: 1.8, color: '#334155', mb: 1 },
 											'& ul, & ol': { pl: 2.5, mb: 1 },
 											'& li': { fontSize: '0.88rem', lineHeight: 1.8, color: '#334155', mb: 0.25 },
 											'& strong': { fontWeight: 700, color: '#0f172a' },
 											'& h1, & h2, & h3': { color: '#0f172a', mt: 2, mb: 1 },
-										}} dangerouslySetInnerHTML={{ __html: selectedJob.description }} />
+											// A non-wrapping <pre> would push the whole text off-screen and read as "empty".
+											'& pre': { whiteSpace: 'pre-wrap', wordBreak: 'break-word', fontFamily: 'inherit', fontSize: '0.88rem', lineHeight: 1.8, color: '#334155', m: 0 },
+										}} dir="auto" dangerouslySetInnerHTML={{ __html: descriptionToHtml(selectedJob.description) }} />
 									</Box>
 								)}
 								{detailTab === 1 && <JobScoringView scoringRules={selectedJob.scoringRules} t={t} />}

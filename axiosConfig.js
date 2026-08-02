@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {AUTH_TOKEN, QORVA_USER_LANGUAGE} from "./src/constants.js";
 import { toastError } from './src/utils/errorHandler.js';
+import { isDemoUser, openUpgradeDialog } from './src/utils/demoMode.js';
 
 const authToken = localStorage.getItem(AUTH_TOKEN);
 
@@ -38,6 +39,16 @@ const SILENT_ERROR_CODES = new Set([
 ]);
 
 const handleResponseError = (error) => {
+	const status = error?.response?.status;
+
+	// A demo user hit a backend-enforced write restriction (or an exhausted
+	// quota). Turn the raw 403 into an "Upgrade to unlock" prompt instead of a
+	// bare error toast.
+	if (status === 403 && isDemoUser()) {
+		openUpgradeDialog('forbidden');
+		return Promise.reject(error);
+	}
+
 	const errorCode = error?.response?.data?.errorCode;
 	if (!SILENT_ERROR_CODES.has(errorCode)) {
 		toastError(error);
@@ -51,6 +62,8 @@ apiFormDataClient.interceptors.response.use(response => response, handleResponse
 const publicEndpoint = (url) => url.includes('/registrations')
 	|| url.includes('/auth/login')
 	|| url.includes('/auth/token/validate')
+	|| url.includes('/auth/password/set')
+	|| url.includes('/auth/password/resend')
 	|| url.includes('/stripe/checkout/success')
 	|| url.includes('/stripe/checkout/cancel');
 

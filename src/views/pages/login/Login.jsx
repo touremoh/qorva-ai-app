@@ -15,16 +15,16 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import CircularProgress from "@mui/material/CircularProgress";
 import { login as loginUser } from '../../../services/authService.js';
 import { createCheckoutSession } from '../../../services/registrationService.js';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../../../components/languages/LanguageSwitcher.jsx';
 import { setAuthResults } from "../../../../localStorageManager.js";
-import { DASHBOARD_STATUSES, NEEDS_PAYMENT_STATUSES } from '../../../constants.js';
+import { DASHBOARD_STATUSES, NEEDS_PAYMENT_STATUSES, ACCOUNT_STATUS_DEMO } from '../../../constants.js';
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/;
-const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
 
 const Login = () => {
 	const { t } = useTranslation();
@@ -36,7 +36,8 @@ const Login = () => {
 	const [touched, setTouched] = useState({ email: false, password: false });
 	const [errors, setErrors] = useState({ email: "", password: "" });
 	const [formError, setFormError] = useState("");
-	const [loading, setLoading] = useState(false);
+	// idle → loading (spinner + progress text) → success (green check, then navigate)
+	const [status, setStatus] = useState('idle');
 
 	const validate = (values) => {
 		const next = { email: "", password: "" };
@@ -47,11 +48,6 @@ const Login = () => {
 		}
 		if (!values.password) {
 			next.password = t('login.passwordRequired', 'Password is required');
-		} else if (!PASSWORD_REGEX.test(values.password)) {
-			next.password = t(
-				'login.passwordInvalid',
-				'8–20 chars, 1 uppercase, 1 lowercase, 1 number, 1 special character'
-			);
 		}
 		return next;
 	};
@@ -71,7 +67,7 @@ const Login = () => {
 		setTouched({ email: true, password: true });
 		if (Object.values(finalErrors).some(Boolean)) return;
 
-		setLoading(true);
+		setStatus('loading');
 		try {
 			const response = await loginUser(email, password);
 
@@ -79,9 +75,14 @@ const Login = () => {
 				const { user } = response.data.data;
 				const subscriptionStatus = user.tenant?.subscriptionInfo?.subscriptionStatus;
 
-				if (DASHBOARD_STATUSES.includes(subscriptionStatus)) {
+				// Demo accounts enter the workspace directly — no active subscription
+				// is required; the UI runs in restricted demo mode with sample data.
+				if (user.userAccountStatus === ACCOUNT_STATUS_DEMO) {
 					setAuthResults(response.data.data);
-					navigate('/');
+					showSuccessThen(() => navigate('/'));
+				} else if (DASHBOARD_STATUSES.includes(subscriptionStatus)) {
+					setAuthResults(response.data.data);
+					showSuccessThen(() => navigate('/'));
 				} else if (NEEDS_PAYMENT_STATUSES.includes(subscriptionStatus)) {
 					const tenantId = user.tenantId;
 					const userId = user.id;
@@ -90,34 +91,43 @@ const Login = () => {
 						const checkoutRes = await createCheckoutSession({ tenantId, userId, priceId });
 						const checkoutUrl = checkoutRes.data?.data?.checkoutUrl;
 						if (checkoutUrl) {
-							window.location.href = checkoutUrl;
+							showSuccessThen(() => { window.location.href = checkoutUrl; });
 						} else {
+							setStatus('idle');
 							setFormError(t('login.checkoutError', 'Could not initiate checkout. Please contact support.'));
 						}
 					} catch {
+						setStatus('idle');
 						setFormError(t('login.checkoutError', 'Could not initiate checkout. Please contact support.'));
 					}
 				} else {
+					setStatus('idle');
 					setFormError(t('login.subscriptionInactive', 'Your account is not active. Please contact support.'));
 				}
 			} else {
+				setStatus('idle');
 				setFormError(t('errors.unexpected', 'Something went wrong. Please try again.'));
 			}
 		} catch (error) {
-			const status = error?.response?.status;
+			setStatus('idle');
+			const httpStatus = error?.response?.status;
 			const backend = error?.response?.data;
-			if (status === 401) {
+			if (httpStatus === 401) {
 				setFormError(backend?.message || t('login.invalidCredentials', 'Invalid email or password'));
-			} else if (status >= 400 && status < 500) {
+			} else if (httpStatus >= 400 && httpStatus < 500) {
 				setFormError(backend?.message || t('errors.client', 'Request error.'));
-			} else if (status >= 500) {
+			} else if (httpStatus >= 500) {
 				setFormError(t('errors.server', 'Server error. Please try again later.'));
 			} else {
 				setFormError(t('errors.network', 'Network error. Check your connection.'));
 			}
-		} finally {
-			setLoading(false);
 		}
+	};
+
+	// Flash the green success state so the user sees the API responded before we move on.
+	const showSuccessThen = (action) => {
+		setStatus('success');
+		setTimeout(action, 800);
 	};
 
 	return (
@@ -274,7 +284,7 @@ const Login = () => {
 								type="submit"
 								fullWidth
 								variant="contained"
-								disabled={loading}
+								disabled={status !== 'idle'}
 								sx={{
 									mt: 0.5,
 									py: 1.3,
@@ -292,13 +302,24 @@ const Login = () => {
 										transform: 'translateY(-1px)',
 									},
 									'&:active': { transform: 'translateY(0)' },
-									'&.Mui-disabled': { backgroundColor: '#b8d4a8', boxShadow: 'none' },
+									'&.Mui-disabled': status === 'success'
+										? { backgroundColor: '#dcfce7', color: '#166534', boxShadow: 'none' }
+										: { backgroundColor: '#b8d4a8', color: 'rgba(255,255,255,0.9)', boxShadow: 'none' },
 								}}
 							>
-								{loading
-									? <CircularProgress size={20} sx={{ color: 'rgba(255,255,255,0.8)' }} />
-									: t('login.signInButton')
-								}
+								{status === 'loading' && (
+									<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+										<CircularProgress size={16} sx={{ color: 'rgba(255,255,255,0.9)' }} />
+										{t('login.signingIn', 'Signing you in…')}
+									</Box>
+								)}
+								{status === 'success' && (
+									<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
+										<CheckCircleRoundedIcon sx={{ fontSize: 19, color: '#16a34a' }} />
+										{t('login.signedIn', 'Signed in!')}
+									</Box>
+								)}
+								{status === 'idle' && t('login.signInButton')}
 							</Button>
 						</Box>
 

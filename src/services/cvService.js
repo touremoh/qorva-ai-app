@@ -20,3 +20,6 @@ export const updateCV = (id, patch) =>
 
 export const getDuplicates = (pageNumber = 0, pageSize = 20) =>
     apiClient.get('/cvs/duplicates', { params: { pageNumber, pageSize } });
+
+export const replaceDuplicateCV = (newCvId, oldCvId) =>
+    apiClient.post(`/cvs/${newCvId}/replace/${oldCvId}`);

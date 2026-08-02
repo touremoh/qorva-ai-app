@@ -10,7 +10,6 @@
     "emailRequired": "E-mail is verplicht",
     "emailInvalid": "Voer een geldig e-mailadres in",
     "passwordRequired": "Wachtwoord is verplicht",
-    "passwordInvalid": "8–20 tekens met hoofdletter, kleine letter, cijfer en symbool",
     "invalidCredentials": "Onjuiste e-mail of wachtwoord",
     "togglePasswordVisibility": "Wachtwoord tonen/verbergen",
     "panel": {
@@ -21,7 +20,11 @@
       "bullet2": "Vacature-kandidaat matching",
       "bullet3": "AI CV-chat",
       "freeToStart": "Gratis starten."
-    }
+    },
+    "signingIn": "U wordt aangemeld…",
+    "signedIn": "Aangemeld!",
+    "checkoutError": "Kon de betaling niet starten. Neem contact op met support.",
+    "subscriptionInactive": "Uw account is niet actief. Neem contact op met support."
   },
   "registration": {
     "freeTrialTitle": "Gratis proefperiode",
@@ -66,6 +69,23 @@
       "message": "Je account is succesvol aangemaakt.",
       "confirmationEmail": "Een bevestigingsmail is verstuurd.",
       "signInLink": "Log in om direct te starten."
+    },
+    "demoSubtext": "Maak uw gratis demowerkruimte — geen creditcard, geen betaling.",
+    "organizationName": "Naam van de organisatie",
+    "organizationNameRequired": "Naam van de organisatie is verplicht",
+    "recruitmentType": "Welk type werving doet u voornamelijk?",
+    "recruitmentTypeRequired": "Selecteer een type werving",
+    "organizationSize": "Omvang van de organisatie",
+    "organizationSizeRequired": "Selecteer een omvang",
+    "orgSizeEmployees": "{{size}} medewerkers",
+    "accountExists": "Er bestaat al een account met dit e-mailadres. Log in.",
+    "createFreeAccount": "Gratis account aanmaken",
+    "progress": {
+      "creatingAccount": "Uw account wordt aangemaakt…",
+      "settingUpWorkspace": "Uw werkruimte wordt ingericht…",
+      "preparingLibrary": "Voorbeeld-cv's worden in uw bibliotheek geladen…",
+      "almostDone": "Bijna klaar…",
+      "done": "Account aangemaakt!"
     }
   },
   "header": {
@@ -77,7 +97,10 @@
     "logout": "Uitloggen",
     "aiResumeChat": "AI CV-chat",
     "intelligence": "Talent Intelligentie",
-    "usageMonitoring": "Gebruiksmonitoring"
+    "usageMonitoring": "Gebruiksmonitoring",
+    "libraryQuality": "Bibliotheekkwaliteit",
+    "resumes": "Alle cv's",
+    "emailTemplates": "E-mailsjablonen"
   },
   "footer": {
     "rightsReserved": "© Qorva AI. Alle rechten voorbehouden."
@@ -154,7 +177,11 @@
     },
     "availabilityStatuses": "Te matchen beschikbaarheidsstatussen",
     "copyReference": "Referentie kopiëren",
-    "copied": "Gekopieerd!"
+    "copied": "Gekopieerd!",
+    "aiPrefill": {
+      "drafting": "AI stelt uw scoringsregels op…",
+      "applied": "Door AI voorgestelde scoringsregels — controleer en pas aan vóór het opslaan."
+    }
   },
   "appCVContent": {
     "createCVEntry": "CV toevoegen",
@@ -281,13 +308,45 @@
     "uploadFiles": "Bestanden uploaden",
     "uploadInProgress": "Bezig met uploaden…",
     "uploadCVInfo": "Upload max. 100 CV’s in .pdf of .docx.",
+    "uploadProgressTitle": "Je cv's worden verwerkt…",
+    "uploadComplete": "Cv's succesvol geüpload!",
+    "remaining": "resterend",
+    "almostDone": "Bijna klaar…",
+    "uploadPhase1": "Je cv's worden geüpload…",
+    "uploadPhase2": "Tekst en contactgegevens extraheren…",
+    "uploadPhase3": "Ervaring en vaardigheden analyseren…",
+    "uploadPhase4": "Kandidaatprofielen structureren…",
+    "uploadPhase5": "Kandidaten groeperen…",
+    "uploadPhase6": "Afronden en controleren op duplicaten…",
     "skills": "Vaardigheden",
     "filterByName": "Filteren op naam…",
     "filterByRole": "Filteren op rol…",
     "filterBySkill": "Filteren op vaardigheid…",
     "filterMinExp": "Min. jaren…",
     "resumeCount": "{{count}} CV('s)",
-    "pageOf": "pagina {{page}} van {{total}}"
+    "pageOf": "pagina {{page}} van {{total}}",
+    "uploadResults": {
+      "title": "Uploadresultaten",
+      "failed": "Dit bestand kon niet worden verwerkt.",
+      "duplicateOf": "Komt overeen met {{name}} (toegevoegd op {{date}})",
+      "replace": "Oude versie vervangen",
+      "keepBoth": "Beide behouden",
+      "replaceAll": "Alle oude versies vervangen",
+      "replaced": "Oude versie vervangen.",
+      "kept": "Beide versies behouden.",
+      "done": "Klaar"
+    },
+    "uploadWarnings": {
+      "MISSING_PHONE": "telefoon ontbreekt",
+      "MISSING_EMAIL": "e-mail ontbreekt",
+      "MISSING_CONTACT": "geen contactgegevens",
+      "NO_WORK_EXPERIENCE": "geen werkervaring",
+      "LOW_AI_CONFIDENCE": "laag AI-vertrouwen",
+      "NO_AI_ANALYSIS": "geen AI-analyse"
+    },
+    "archived": "Gearchiveerd",
+    "showArchivedTooltip": "Gearchiveerde cv's tonen",
+    "unarchive": "Herstellen"
   },
   "appCVMatching": {
     "selectJobPost": "Selecteer vacature",
@@ -603,7 +662,10 @@
       "used": "gebruikt",
       "cumulativeTooltip": "Totaal over alle perioden",
       "allTime": "totaal",
-      "lastUpdated": "Laatste update"
+      "lastUpdated": "Laatste update",
+      "unlimited": "Onbeperkt",
+      "planAllowance": "plantegoed",
+      "templatesTooltip": "Opgeslagen uitnodigingssjablonen — een plantegoed, geen maandelijks quotum"
     }
   },
   "appAIResumeChat": {
@@ -683,30 +745,37 @@
       "sla": "SLA-garanties"
     },
     "starter": {
-      "users": "1 gebruiker",
-      "matchingActions": "5 matching-acties / maand",
-      "aiChat": "50 AI chat-berichten / maand",
-      "queries": "10 talentpool-zoekopdrachten / maand"
+      "users": "2 gebruikers",
+      "matchingActions": "2.000 matching-acties / maand",
+      "aiChat": "500 AI chat-berichten / maand",
+      "queries": "1.000 talentpool-zoekopdrachten / maand",
+      "emailTemplates": "3 e-mailsjablonen"
     },
     "pro": {
-      "users": "Tot 3 gebruikers",
-      "matchingActions": "20 matching-acties / maand",
-      "aiChat": "200 AI chat-berichten / maand",
-      "queries": "50 talentpool-zoekopdrachten / maand"
+      "users": "5 gebruikers",
+      "matchingActions": "10.000 matching-acties / maand",
+      "aiChat": "1.500 AI chat-berichten / maand",
+      "queries": "3.000 talentpool-zoekopdrachten / maand",
+      "emailTemplates": "15 e-mailsjablonen"
     },
     "scale": {
-      "users": "Onbeperkte gebruikers",
-      "matchingActions": "Onbeperkte matching-acties",
-      "aiChat": "Onbeperkte AI chat-berichten",
-      "queries": "Onbeperkte talentpool-zoekopdrachten"
+      "users": "15 gebruikers",
+      "matchingActions": "25.000 matching-acties / maand",
+      "aiChat": "4.000 AI chat-berichten / maand",
+      "queries": "8.000 talentpool-zoekopdrachten / maand",
+      "emailTemplates": "50 e-mailsjablonen"
     }
   },
   "registrationSuccess": {
     "title": "Helemaal klaar!",
     "subtitle": "Je Qorva AI-account is succesvol aangemaakt.",
-    "emailNote": "We hebben je een bevestigingsmail gestuurd. Verifieer je e-mail om alle functies te activeren. Zie je niets? Controleer dan je spammap.",
+    "emailNote": "We hebben een e-mail gestuurd om uw account te activeren en uw wachtwoord in te stellen. Ziet u die niet, controleer dan uw spammap.",
     "ctaLogin": "Inloggen",
-    "help": "Hulp nodig? Neem contact op via support@qorva.ai"
+    "help": "Hulp nodig? Neem contact op via support@qorva.ai",
+    "noEmail": "Niet ontvangen?",
+    "resend": "Opnieuw versturen",
+    "resending": "Versturen…",
+    "resendConfirm": "Als dat e-mailadres bestaat, hebben we een nieuwe link gestuurd."
   },
   "insight": {
     "metrics": {
@@ -908,5 +977,256 @@
       "validation": "Een of meer velden zijn niet geslaagd voor validatie.",
       "unexpected": "Er is een onverwachte fout opgetreden. Probeer het later opnieuw."
     }
+  },
+  "recruitment": {
+    "TECH_IT": "Tech & IT",
+    "ENGINEERING": "Engineering",
+    "FINANCE_ACCOUNTING": "Financiën & boekhouding",
+    "SALES_MARKETING": "Sales & marketing",
+    "HEALTHCARE_LIFESCIENCES": "Zorg & life sciences",
+    "EXECUTIVE_MANAGEMENT": "Directie & management",
+    "GENERALIST": "Generalist"
+  },
+  "demo": {
+    "upgradeToUnlock": "Upgraden om te ontgrendelen",
+    "upgradeTooltip": "Upgrade voor volledige toegang",
+    "bannerTitle": "U bevindt zich in de demomodus",
+    "bannerSubtitle": "met voorbeeldgegevens",
+    "startTrial": "Start gratis proefperiode van 14 dagen",
+    "startTrialCta": "Start gratis proefperiode",
+    "upgradeTitle": "Upgrade uw werkruimte",
+    "upgradeSubtitle": "Ontgrendel uploads, vacatures, teambeheer en onbeperkte rapporten. 14 dagen gratis, altijd opzegbaar.",
+    "upgradeForbiddenSubtitle": "Voor deze actie is een betaald abonnement nodig. Start uw gratis proefperiode van 14 dagen voor volledige toegang.",
+    "selectPlanFirst": "Selecteer een abonnement om door te gaan.",
+    "upgradeError": "Kan de betaling niet starten. Probeer het opnieuw.",
+    "stripeNote": "Veilig afrekenen via Stripe. Uw proefperiode van 14 dagen begint vandaag — altijd opzegbaar.",
+    "close": "Sluiten",
+    "reportsQuota": "Demorapporten",
+    "quotaExhaustedTooltip": "Rapportlimiet bereikt — upgrade voor onbeperkte rapporten"
+  },
+  "setPassword": {
+    "title": "Stel uw wachtwoord in",
+    "subtitle": "Kies een wachtwoord om uw account te activeren.",
+    "newPassword": "Nieuw wachtwoord",
+    "confirmPassword": "Bevestig wachtwoord",
+    "passwordRequired": "Wachtwoord is verplicht",
+    "passwordTooShort": "Het wachtwoord moet minstens 8 tekens bevatten",
+    "passwordInvalid": "8–64 tekens met minstens 1 hoofdletter, 1 kleine letter, 1 cijfer en 1 speciaal teken",
+    "confirmRequired": "Bevestig uw wachtwoord",
+    "passwordMismatch": "De wachtwoorden komen niet overeen",
+    "passwordHint": "Minstens 8 tekens, met een hoofdletter, kleine letter, cijfer en speciaal teken",
+    "togglePasswordVisibility": "Wachtwoordzichtbaarheid wisselen",
+    "submit": "Wachtwoord instellen & activeren",
+    "successTitle": "Wachtwoord ingesteld!",
+    "successMessage": "Uw account is nu actief. U wordt doorgestuurd naar de login…",
+    "errorInvalid": "Deze link is ongeldig of verlopen.",
+    "errorUsed": "Deze link is al gebruikt.",
+    "errorGeneric": "Er is iets misgegaan. Probeer het opnieuw.",
+    "requestNewLink": "Nieuwe link aanvragen",
+    "goToLogin": "Inloggen"
+  },
+  "resendActivation": {
+    "title": "Activatielink opnieuw versturen",
+    "subtitle": "Voer uw e-mailadres in en we sturen u een nieuwe link om uw account te activeren en uw wachtwoord in te stellen.",
+    "emailLabel": "Zakelijk e-mailadres",
+    "emailRequired": "E-mailadres is verplicht",
+    "emailInvalid": "Voer een geldig e-mailadres in",
+    "submit": "Link versturen",
+    "sentTitle": "Controleer uw inbox",
+    "sentMessage": "Als dat e-mailadres bestaat, hebben we een link gestuurd om uw account te activeren en uw wachtwoord in te stellen.",
+    "backToLogin": "Terug naar login"
+  },
+  "checkoutSuccess": {
+    "activatingTitle": "Uw proefperiode activeren…",
+    "activatingSubtitle": "We bevestigen uw betaling en ontgrendelen volledige toegang. Dit duurt maar een paar seconden.",
+    "trialStartedTitle": "Proefperiode gestart!",
+    "trialStartedSubtitle": "Uw gratis proefperiode van 14 dagen is actief en volledige toegang is ontgrendeld. Uw werkruimte is klaar voor echte gegevens.",
+    "goToWorkspace": "Ga naar uw werkruimte",
+    "pendingTitle": "Betaling ontvangen",
+    "pendingSubtitle": "Uw proefperiode wordt geactiveerd. Dit kan even duren — open uw werkruimte en deze wordt automatisch ontgrendeld."
+  },
+  "libraryQuality": {
+    "overall": "Bibliotheekgezondheid",
+    "totalCVs": "{{count}} cv's geanalyseerd",
+    "error": "Het kwaliteitsrapport kon niet worden geladen. Probeer het opnieuw.",
+    "retry": "Opnieuw proberen",
+    "empty": {
+      "title": "Nog geen cv's",
+      "subtitle": "Upload cv's naar uw bibliotheek om de gezondheidsscore en verbetersuggesties te zien."
+    },
+    "noIssues": "Geen problemen gevonden — uw bibliotheek is in topvorm!",
+    "view": "Bekijken",
+    "dimensions": {
+      "completeness": "Volledigheid",
+      "completenessHint": "Contactgegevens en profielgegevens aanwezig in uw cv's.",
+      "freshness": "Actualiteit",
+      "freshnessHint": "Hoe actueel de cv-inhoud werkelijk is.",
+      "uniqueness": "Uniciteit",
+      "uniquenessHint": "{{count}} duplicaatgroepen gedetecteerd.",
+      "parseConfidence": "AI-vertrouwen",
+      "parseConfidenceHint": "{{count}} cv's vereisen controle."
+    },
+    "sections": {
+      "completeness": "Veldvolledigheid",
+      "freshness": "Inhoudsactualiteit",
+      "issues": "Op te lossen problemen"
+    },
+    "groups": {
+      "critical": "Kritiek",
+      "important": "Belangrijk",
+      "enrichment": "Verrijking"
+    },
+    "fields": {
+      "email": "E-mail",
+      "phone": "Telefoon",
+      "name": "Naam",
+      "role": "Functie",
+      "workExperience": "Werkervaring",
+      "keySkills": "Kernvaardigheden",
+      "careerStartYear": "Start carrière",
+      "education": "Opleiding",
+      "languages": "Talen",
+      "certifications": "Certificeringen",
+      "salaryExpectation": "Salarisverwachting",
+      "linkedin": "LinkedIn",
+      "summary": "Samenvatting"
+    },
+    "buckets": {
+      "UP_TO_DATE": "Actueel",
+      "REVIEW_SUGGESTED": "Controle aanbevolen",
+      "OUTDATED": "Verouderd",
+      "UNKNOWN": "Onbekend"
+    },
+    "severity": {
+      "CRITICAL": "Kritiek",
+      "HIGH": "Hoog",
+      "MEDIUM": "Gemiddeld"
+    },
+    "issues": {
+      "MISSING_CONTACT": "Geen contactgegevens (e-mail en telefoon ontbreken)",
+      "MISSING_EMAIL": "E-mailadres ontbreekt",
+      "MISSING_PHONE": "Telefoonnummer ontbreekt",
+      "NO_WORK_EXPERIENCE": "Geen werkervaring geëxtraheerd",
+      "NO_SKILLS": "Geen vaardigheden geëxtraheerd",
+      "MISSING_SUMMARY": "Profielsamenvatting ontbreekt",
+      "OUTDATED": "Inhoud verouderd (ouder dan 18 maanden)",
+      "UNKNOWN_FRESHNESS": "Actualiteit onbekend (geen dateerbare inhoud)",
+      "LOW_PARSE_CONFIDENCE": "Laag vertrouwen in AI-analyse",
+      "DUPLICATES": "Dubbele cv's"
+    },
+    "drilldown": {
+      "name": "Naam",
+      "role": "Functie",
+      "email": "E-mail",
+      "phone": "Telefoon",
+      "contentDate": "Inhoudsdatum",
+      "lastUpdated": "Laatst bijgewerkt",
+      "empty": "Geen cv's gevonden voor dit probleem.",
+      "add": "Toevoegen",
+      "confirmCurrent": "Bevestig actueel ({{count}})",
+      "confirmHint": "Selecteer cv's die u als nog correct heeft geverifieerd (max {{max}})"
+    },
+    "verdict": {
+      "excellent": "Uitstekend",
+      "good": "Goed",
+      "fair": "Redelijk",
+      "poor": "Aandacht nodig",
+      "drag": "{{rating}} — {{dimension}} trekt uw score omlaag.",
+      "healthy": "{{rating}} — alle dimensies zien er gezond uit."
+    },
+    "duplicates": {
+      "empty": "Geen duplicaten gevonden.",
+      "added": "Toegevoegd",
+      "delete": "Cv verwijderen",
+      "groupCount": "{{count}} duplicaatgroepen"
+    },
+    "badgeTooltip": "{{count}} op te lossen problemen",
+    "archiveAll": "Alles archiveren",
+    "archiveAllTitle": "Cv's archiveren",
+    "archiveAllConfirmation": "Hiermee worden {{count}} cv's gearchiveerd. Gearchiveerde cv's zijn uitgesloten van matching en het kwaliteitsrapport; u kunt ze op elk moment herstellen vanuit de bibliotheek.",
+    "dismiss": "Negeren — geaccepteerd, verbergen uit open problemen",
+    "reopen": "Probleem heropenen",
+    "dismissedSection": "Genegeerd ({{count}})",
+    "jobs": {
+      "reanalyzeAll": "Alles opnieuw analyseren",
+      "cancel": "Annuleren",
+      "running": "AI-heranalyse bezig — {{processed}}/{{total}} cv's",
+      "confirmTitle": "Cv's opnieuw analyseren met AI",
+      "confirmBody": "Dit voert de AI-extractie opnieuw uit op {{count}} cv's en verbruikt {{actions}} screeningacties{{quota}}.",
+      "confirmQuota": " ({{remaining}} resterend deze periode)",
+      "confirmSkipped": "{{count}} oudere cv's hebben geen opgeslagen brontekst en worden overgeslagen — upload ze opnieuw om te verversen.",
+      "confirmStart": "Heranalyse starten",
+      "resultDetail": "{{succeeded}} bijgewerkt · {{failed}} mislukt · {{skipped}} overgeslagen (geen tekst)",
+      "status": {
+        "COMPLETED": "Heranalyse voltooid",
+        "COMPLETED_WITH_ERRORS": "Heranalyse voltooid met fouten",
+        "FAILED": "Heranalyse mislukt",
+        "CANCELLED": "Heranalyse geannuleerd"
+      }
+    },
+    "campaign": {
+      "requestUpdates": "Updates aanvragen",
+      "confirmTitle": "Updates aanvragen bij kandidaten",
+      "confirmBody": "Tot {{count}} kandidaten ontvangen per e-mail een beveiligde link om hun beschikbaarheid, salarisverwachting en cv te verversen. Kandidaten zonder e-mail, afgemelde kandidaten en kandidaten met een openstaand verzoek worden automatisch overgeslagen.",
+      "confirmSend": "Verzoeken versturen",
+      "template": "E-mailsjabloon",
+      "defaultTemplate": "Standaard Qorva-bericht",
+      "manageTemplates": "Beheren…"
+    }
+  },
+  "candidateUpdate": {
+    "invalid": "Deze link is niet meer geldig. Hij is mogelijk verlopen of al gebruikt.",
+    "title": "Hallo {{name}}, houd uw profiel actueel",
+    "subtitle": "Bevestig uw beschikbaarheid en verwachtingen — het duurt een minuut.",
+    "status": "Beschikbaarheid",
+    "availableFrom": "Beschikbaar vanaf",
+    "noticePeriod": "Opzegtermijn (dagen)",
+    "currency": "Valuta",
+    "salaryMin": "Salaris min",
+    "salaryMax": "Salaris max",
+    "uploadCV": "Upload een nieuwer cv (optioneel, .pdf of .docx)",
+    "consent": "Door te verzenden gaat u ermee akkoord dat deze informatie wordt gedeeld met de recruiter die uw profiel beheert en wordt verwerkt om het accuraat te houden.",
+    "submit": "Mijn profiel bijwerken",
+    "doneTitle": "Bedankt — uw profiel is actueel!",
+    "doneSubtitle": "U kunt deze pagina sluiten.",
+    "unsubscribeTitle": "Afmelden voor update-verzoeken?",
+    "unsubscribeSubtitle": "U ontvangt geen profielupdate-e-mails meer van deze recruiter.",
+    "unsubscribeButton": "Afmelden",
+    "unsubscribedTitle": "U bent afgemeld.",
+    "unsubscribedSubtitle": "U ontvangt geen verdere update-verzoeken.",
+    "submitError": "Er is iets misgegaan — probeer het opnieuw.",
+    "processingFailed": "We konden uw cv niet verwerken — probeer het opnieuw.",
+    "processingTitle": "Uw profiel wordt bijgewerkt",
+    "stageReceived": "Cv ontvangen…",
+    "stageParsing": "Uw cv wordt gelezen…",
+    "stageUpdating": "Uw profiel wordt bijgewerkt…",
+    "processingHint": "Dit duurt meestal minder dan een minuut.",
+    "processingSlow": "Dit duurt langer dan verwacht — u kunt deze pagina sluiten; uw update wordt automatisch voltooid."
+  },
+  "emailTemplates": {
+    "pageTitle": "E-mailsjablonen",
+    "pageSubtitle": "Stel de berichten op die kandidaten ontvangen wanneer u een profielupdate aanvraagt. Kies een sjabloon bij het starten van een campagne vanuit Bibliotheekkwaliteit — of laat het leeg om het standaard Qorva-bericht te gebruiken.",
+    "title": "Uitnodigings-e-mailsjablonen",
+    "new": "Nieuw sjabloon",
+    "none": "Nog geen sjablonen — campagnes gebruiken het standaard Qorva-bericht.",
+    "name": "Sjabloonnaam",
+    "subject": "Onderwerp",
+    "body": "Bericht",
+    "bodyHint": "Platte tekst. Lege regels beginnen een nieuwe alinea. De begroeting, actieknop, uw handtekening (naam en bedrijf) en de afmeldlink worden automatisch toegevoegd.",
+    "placeholders": "Invoegen:",
+    "preview": "Voorbeeld",
+    "save": "Opslaan",
+    "saved": "Sjabloon opgeslagen.",
+    "close": "Sluiten",
+    "sendTest": "Stuur mij een test",
+    "testSent": "Test-e-mail verzonden naar uw adres.",
+    "deleteHint": "Dit sjabloon verwijderen",
+    "loadError": "Kon de sjablonen niet laden.",
+    "saveError": "Kon het sjabloon niet opslaan.",
+    "deleteError": "Kon het sjabloon niet verwijderen.",
+    "previewError": "Kon het voorbeeld niet weergeven.",
+    "testError": "Kon de test-e-mail niet verzenden.",
+    "limitNote": "{{count}} van {{limit}} sjablonen gebruikt",
+    "limitReached": "Planlimiet bereikt — verwijder een sjabloon of upgrade uw plan."
   }
 }

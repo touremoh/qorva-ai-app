@@ -10,7 +10,6 @@
     "emailRequired": "L’e-mail est obligatoire",
     "emailInvalid": "Veuillez saisir une adresse e-mail valide",
     "passwordRequired": "Le mot de passe est obligatoire",
-    "passwordInvalid": "8–20 caractères, avec majuscule, minuscule, chiffre et symbole",
     "invalidCredentials": "E-mail ou mot de passe incorrect",
     "togglePasswordVisibility": "Afficher/masquer le mot de passe",
     "panel": {
@@ -21,7 +20,11 @@
       "bullet2": "Matching emploi-candidats",
       "bullet3": "Chat CV IA",
       "freeToStart": "Gratuit pour commencer"
-    }
+    },
+    "signingIn": "Connexion en cours…",
+    "signedIn": "Connecté !",
+    "checkoutError": "Impossible de lancer le paiement. Veuillez contacter le support.",
+    "subscriptionInactive": "Votre compte n'est pas actif. Veuillez contacter le support."
   },
   "registration": {
     "freeTrialTitle": "Essai gratuit",
@@ -66,6 +69,23 @@
       "message": "Votre compte a bien été créé.",
       "confirmationEmail": "Un e-mail de confirmation a été envoyé.",
       "signInLink": "Connectez-vous pour commencer à utiliser la plateforme."
+    },
+    "demoSubtext": "Créez votre espace de démonstration gratuit — sans carte bancaire, sans paiement.",
+    "organizationName": "Nom de l'organisation",
+    "organizationNameRequired": "Le nom de l'organisation est requis",
+    "recruitmentType": "Quel type de recrutement effectuez-vous principalement ?",
+    "recruitmentTypeRequired": "Veuillez sélectionner un type de recrutement",
+    "organizationSize": "Taille de l'organisation",
+    "organizationSizeRequired": "Veuillez sélectionner une taille",
+    "orgSizeEmployees": "{{size}} employés",
+    "accountExists": "Un compte avec cet e-mail existe déjà. Veuillez vous connecter.",
+    "createFreeAccount": "Créer un compte gratuit",
+    "progress": {
+      "creatingAccount": "Création de votre compte…",
+      "settingUpWorkspace": "Préparation de votre espace de travail…",
+      "preparingLibrary": "Chargement des CV d'exemple dans votre CVthèque…",
+      "almostDone": "Presque terminé…",
+      "done": "Compte créé !"
     }
   },
   "header": {
@@ -77,7 +97,10 @@
     "logout": "Déconnexion",
     "aiResumeChat": "Chat CV IA",
     "intelligence": "Talent Intelligence",
-    "usageMonitoring": "Suivi d'utilisation"
+    "usageMonitoring": "Suivi d'utilisation",
+    "libraryQuality": "Qualité de la CVthèque",
+    "resumes": "Tous les CV",
+    "emailTemplates": "Modèles d'e-mails"
   },
   "footer": {
     "rightsReserved": "© Qorva AI. Tous droits réservés."
@@ -154,7 +177,11 @@
     },
     "availabilityStatuses": "Statuts de disponibilité à inclure",
     "copyReference": "Copier la référence",
-    "copied": "Copié !"
+    "copied": "Copié !",
+    "aiPrefill": {
+      "drafting": "L'IA prépare vos règles de scoring…",
+      "applied": "Règles de scoring suggérées par l'IA — vérifiez et ajustez avant d'enregistrer."
+    }
   },
   "appCVContent": {
     "createCVEntry": "Ajouter un CV",
@@ -281,13 +308,45 @@
     "uploadFiles": "Importer des fichiers",
     "uploadInProgress": "Import en cours…",
     "uploadCVInfo": "Vous pouvez importer jusqu’à 100 CV en .pdf ou .docx.",
+    "uploadProgressTitle": "Traitement de vos CV…",
+    "uploadComplete": "CV importés avec succès !",
+    "remaining": "restant",
+    "almostDone": "Presque terminé…",
+    "uploadPhase1": "Import de vos CV…",
+    "uploadPhase2": "Extraction du texte et des coordonnées…",
+    "uploadPhase3": "Analyse de l’expérience et des compétences…",
+    "uploadPhase4": "Structuration des profils candidats…",
+    "uploadPhase5": "Regroupement des candidats…",
+    "uploadPhase6": "Finalisation et détection des doublons…",
     "skills": "Compétences",
     "filterByName": "Filtrer par nom…",
     "filterByRole": "Filtrer par rôle…",
     "filterBySkill": "Filtrer par compétence…",
     "filterMinExp": "Années min.…",
     "resumeCount": "{{count}} CV",
-    "pageOf": "page {{page}} sur {{total}}"
+    "pageOf": "page {{page}} sur {{total}}",
+    "uploadResults": {
+      "title": "Résultats de l'import",
+      "failed": "Ce fichier n'a pas pu être traité.",
+      "duplicateOf": "Correspond à {{name}} (ajouté le {{date}})",
+      "replace": "Remplacer l'ancienne version",
+      "keepBoth": "Garder les deux",
+      "replaceAll": "Remplacer toutes les anciennes versions",
+      "replaced": "Ancienne version remplacée.",
+      "kept": "Les deux versions conservées.",
+      "done": "Terminé"
+    },
+    "uploadWarnings": {
+      "MISSING_PHONE": "téléphone manquant",
+      "MISSING_EMAIL": "e-mail manquant",
+      "MISSING_CONTACT": "aucune coordonnée",
+      "NO_WORK_EXPERIENCE": "aucune expérience",
+      "LOW_AI_CONFIDENCE": "confiance IA faible",
+      "NO_AI_ANALYSIS": "aucune analyse IA"
+    },
+    "archived": "Archivés",
+    "showArchivedTooltip": "Afficher les CV archivés",
+    "unarchive": "Désarchiver"
   },
   "appCVMatching": {
     "selectJobPost": "Sélectionner une offre",
@@ -606,7 +665,10 @@
       "used": "utilisé",
       "cumulativeTooltip": "Total cumulé sur toutes les périodes",
       "allTime": "total",
-      "lastUpdated": "Dernière mise à jour"
+      "lastUpdated": "Dernière mise à jour",
+      "unlimited": "Illimité",
+      "planAllowance": "quota du plan",
+      "templatesTooltip": "Modèles d'invitation enregistrés — un quota du plan, pas un quota mensuel"
     }
   },
   "appAIResumeChat": {
@@ -686,30 +748,37 @@
       "sla": "Garanties SLA"
     },
     "starter": {
-      "users": "1 utilisateur",
-      "matchingActions": "5 actions de matching / mois",
-      "aiChat": "50 messages AI chat / mois",
-      "queries": "10 requêtes vivier de talents / mois"
+      "users": "2 utilisateurs",
+      "matchingActions": "2 000 actions de matching / mois",
+      "aiChat": "500 messages AI chat / mois",
+      "queries": "1 000 requêtes vivier de talents / mois",
+      "emailTemplates": "3 modèles d'e-mails"
     },
     "pro": {
-      "users": "Jusqu'à 3 utilisateurs",
-      "matchingActions": "20 actions de matching / mois",
-      "aiChat": "200 messages AI chat / mois",
-      "queries": "50 requêtes vivier de talents / mois"
+      "users": "5 utilisateurs",
+      "matchingActions": "10 000 actions de matching / mois",
+      "aiChat": "1 500 messages AI chat / mois",
+      "queries": "3 000 requêtes vivier de talents / mois",
+      "emailTemplates": "15 modèles d'e-mails"
     },
     "scale": {
-      "users": "Utilisateurs illimités",
-      "matchingActions": "Actions de matching illimitées",
-      "aiChat": "Messages AI chat illimités",
-      "queries": "Requêtes vivier de talents illimitées"
+      "users": "15 utilisateurs",
+      "matchingActions": "25 000 actions de matching / mois",
+      "aiChat": "4 000 messages AI chat / mois",
+      "queries": "8 000 requêtes vivier de talents / mois",
+      "emailTemplates": "50 modèles d'e-mails"
     }
   },
   "registrationSuccess": {
     "title": "C’est tout bon !",
     "subtitle": "Votre compte Qorva AI a bien été créé.",
-    "emailNote": "Un e-mail de confirmation vient de vous être envoyé. Veuillez vérifier votre adresse e-mail pour activer toutes les fonctionnalités. Si vous ne le trouvez pas, regardez dans vos courriers indésirables.",
+    "emailNote": "Nous avons envoyé un e-mail pour activer votre compte et définir votre mot de passe. Si vous ne le voyez pas, vérifiez vos spams.",
     "ctaLogin": "Se connecter",
-    "help": "Besoin d’aide ? Contactez le support à support@qorva.ai"
+    "help": "Besoin d’aide ? Contactez le support à support@qorva.ai",
+    "noEmail": "Vous ne l'avez pas reçu ?",
+    "resend": "Renvoyer",
+    "resending": "Envoi…",
+    "resendConfirm": "Si cet e-mail existe, nous avons envoyé un nouveau lien."
   },
   "insight": {
     "metrics": {
@@ -911,5 +980,256 @@
       "validation": "Un ou plusieurs champs ont échoué à la validation.",
       "unexpected": "Une erreur inattendue s'est produite. Veuillez réessayer plus tard."
     }
+  },
+  "recruitment": {
+    "TECH_IT": "Tech & informatique",
+    "ENGINEERING": "Ingénierie",
+    "FINANCE_ACCOUNTING": "Finance & comptabilité",
+    "SALES_MARKETING": "Ventes & marketing",
+    "HEALTHCARE_LIFESCIENCES": "Santé & sciences de la vie",
+    "EXECUTIVE_MANAGEMENT": "Direction & management",
+    "GENERALIST": "Généraliste"
+  },
+  "demo": {
+    "upgradeToUnlock": "Passer à la version supérieure",
+    "upgradeTooltip": "Améliorez votre offre pour un accès complet",
+    "bannerTitle": "Vous êtes en mode démo",
+    "bannerSubtitle": "avec des données de démonstration",
+    "startTrial": "Démarrer l'essai gratuit de 14 jours",
+    "startTrialCta": "Démarrer l'essai gratuit",
+    "upgradeTitle": "Améliorez votre espace de travail",
+    "upgradeSubtitle": "Débloquez les imports, les offres d'emploi, la gestion d'équipe et les rapports illimités. 14 jours gratuits, annulable à tout moment.",
+    "upgradeForbiddenSubtitle": "Cette action nécessite une offre payante. Démarrez votre essai gratuit de 14 jours pour un accès complet.",
+    "selectPlanFirst": "Veuillez sélectionner une offre pour continuer.",
+    "upgradeError": "Impossible de démarrer le paiement. Veuillez réessayer.",
+    "stripeNote": "Paiement sécurisé par Stripe. Votre essai de 14 jours commence aujourd'hui — annulable à tout moment.",
+    "close": "Fermer",
+    "reportsQuota": "Rapports démo",
+    "quotaExhaustedTooltip": "Quota de rapports atteint — améliorez votre offre pour des rapports illimités"
+  },
+  "setPassword": {
+    "title": "Définir votre mot de passe",
+    "subtitle": "Choisissez un mot de passe pour activer votre compte.",
+    "newPassword": "Nouveau mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "passwordRequired": "Le mot de passe est requis",
+    "passwordTooShort": "Le mot de passe doit comporter au moins 8 caractères",
+    "passwordInvalid": "8–64 caractères avec au moins 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial",
+    "confirmRequired": "Veuillez confirmer votre mot de passe",
+    "passwordMismatch": "Les mots de passe ne correspondent pas",
+    "passwordHint": "Au moins 8 caractères, avec une majuscule, une minuscule, un chiffre et un caractère spécial",
+    "togglePasswordVisibility": "Afficher/masquer le mot de passe",
+    "submit": "Définir le mot de passe et activer",
+    "successTitle": "Mot de passe défini !",
+    "successMessage": "Votre compte est maintenant actif. Redirection vers la connexion…",
+    "errorInvalid": "Ce lien est invalide ou a expiré.",
+    "errorUsed": "Ce lien a déjà été utilisé.",
+    "errorGeneric": "Une erreur s'est produite. Veuillez réessayer.",
+    "requestNewLink": "Demander un nouveau lien",
+    "goToLogin": "Se connecter"
+  },
+  "resendActivation": {
+    "title": "Renvoyer le lien d'activation",
+    "subtitle": "Saisissez votre e-mail et nous vous enverrons un nouveau lien pour activer votre compte et définir votre mot de passe.",
+    "emailLabel": "E-mail professionnel",
+    "emailRequired": "L'e-mail est requis",
+    "emailInvalid": "Veuillez saisir une adresse e-mail valide",
+    "submit": "Envoyer le lien",
+    "sentTitle": "Consultez votre boîte de réception",
+    "sentMessage": "Si cet e-mail existe, nous avons envoyé un lien pour activer votre compte et définir votre mot de passe.",
+    "backToLogin": "Retour à la connexion"
+  },
+  "checkoutSuccess": {
+    "activatingTitle": "Activation de votre essai…",
+    "activatingSubtitle": "Nous confirmons votre paiement et débloquons l'accès complet. Cela ne prend que quelques secondes.",
+    "trialStartedTitle": "Essai démarré !",
+    "trialStartedSubtitle": "Votre essai gratuit de 14 jours est actif et l'accès complet est débloqué. Votre espace de travail est prêt pour vos données.",
+    "goToWorkspace": "Accéder à votre espace de travail",
+    "pendingTitle": "Paiement reçu",
+    "pendingSubtitle": "Votre essai est en cours d'activation. Cela peut prendre un instant — ouvrez votre espace de travail et il se débloquera automatiquement."
+  },
+  "libraryQuality": {
+    "overall": "Santé de la CVthèque",
+    "totalCVs": "{{count}} CV analysés",
+    "error": "Impossible de charger le rapport de qualité. Veuillez réessayer.",
+    "retry": "Réessayer",
+    "empty": {
+      "title": "Aucun CV pour le moment",
+      "subtitle": "Ajoutez des CV à votre CVthèque pour voir son score de santé et obtenir des suggestions d'amélioration."
+    },
+    "noIssues": "Aucun problème détecté — votre CVthèque est en pleine forme !",
+    "view": "Voir",
+    "dimensions": {
+      "completeness": "Complétude",
+      "completenessHint": "Coordonnées et données de profil présentes sur vos CV.",
+      "freshness": "Fraîcheur",
+      "freshnessHint": "À quel point le contenu des CV est réellement à jour.",
+      "uniqueness": "Unicité",
+      "uniquenessHint": "{{count}} groupes de doublons détectés.",
+      "parseConfidence": "Confiance IA",
+      "parseConfidenceHint": "{{count}} CV à vérifier."
+    },
+    "sections": {
+      "completeness": "Complétude des champs",
+      "freshness": "Fraîcheur du contenu",
+      "issues": "Problèmes à corriger"
+    },
+    "groups": {
+      "critical": "Critique",
+      "important": "Important",
+      "enrichment": "Enrichissement"
+    },
+    "fields": {
+      "email": "E-mail",
+      "phone": "Téléphone",
+      "name": "Nom",
+      "role": "Poste",
+      "workExperience": "Expérience professionnelle",
+      "keySkills": "Compétences clés",
+      "careerStartYear": "Début de carrière",
+      "education": "Formation",
+      "languages": "Langues",
+      "certifications": "Certifications",
+      "salaryExpectation": "Prétentions salariales",
+      "linkedin": "LinkedIn",
+      "summary": "Résumé"
+    },
+    "buckets": {
+      "UP_TO_DATE": "À jour",
+      "REVIEW_SUGGESTED": "Vérification conseillée",
+      "OUTDATED": "Obsolète",
+      "UNKNOWN": "Inconnu"
+    },
+    "severity": {
+      "CRITICAL": "Critique",
+      "HIGH": "Élevé",
+      "MEDIUM": "Moyen"
+    },
+    "issues": {
+      "MISSING_CONTACT": "Aucune coordonnée (e-mail et téléphone manquants)",
+      "MISSING_EMAIL": "Adresse e-mail manquante",
+      "MISSING_PHONE": "Numéro de téléphone manquant",
+      "NO_WORK_EXPERIENCE": "Aucune expérience professionnelle extraite",
+      "NO_SKILLS": "Aucune compétence extraite",
+      "MISSING_SUMMARY": "Résumé de profil manquant",
+      "OUTDATED": "Contenu obsolète (plus de 18 mois)",
+      "UNKNOWN_FRESHNESS": "Fraîcheur inconnue (aucune date exploitable)",
+      "LOW_PARSE_CONFIDENCE": "Faible confiance de l'analyse IA",
+      "DUPLICATES": "CV en doublon"
+    },
+    "drilldown": {
+      "name": "Nom",
+      "role": "Poste",
+      "email": "E-mail",
+      "phone": "Téléphone",
+      "contentDate": "Date du contenu",
+      "lastUpdated": "Dernière mise à jour",
+      "empty": "Aucun CV trouvé pour ce problème.",
+      "add": "Ajouter",
+      "confirmCurrent": "Confirmer à jour ({{count}})",
+      "confirmHint": "Sélectionnez les CV vérifiés comme toujours exacts (max {{max}})"
+    },
+    "verdict": {
+      "excellent": "Excellent",
+      "good": "Bon",
+      "fair": "Passable",
+      "poor": "À améliorer",
+      "drag": "{{rating}} — {{dimension}} fait baisser votre score.",
+      "healthy": "{{rating}} — toutes les dimensions sont saines."
+    },
+    "duplicates": {
+      "empty": "Aucun doublon trouvé.",
+      "added": "Ajouté le",
+      "delete": "Supprimer le CV",
+      "groupCount": "{{count}} groupes de doublons"
+    },
+    "badgeTooltip": "{{count}} problèmes à corriger",
+    "archiveAll": "Tout archiver",
+    "archiveAllTitle": "Archiver les CV",
+    "archiveAllConfirmation": "Cette action archivera {{count}} CV. Les CV archivés sont exclus du matching et du rapport de qualité ; vous pouvez les désarchiver à tout moment depuis la CVthèque.",
+    "dismiss": "Ignorer — accepté, masquer des problèmes ouverts",
+    "reopen": "Rouvrir ce problème",
+    "dismissedSection": "Ignorés ({{count}})",
+    "jobs": {
+      "reanalyzeAll": "Tout ré-analyser",
+      "cancel": "Annuler",
+      "running": "Ré-analyse IA en cours — {{processed}}/{{total}} CV",
+      "confirmTitle": "Ré-analyser les CV avec l'IA",
+      "confirmBody": "Cette action relancera l'extraction IA sur {{count}} CV et utilisera {{actions}} actions de screening{{quota}}.",
+      "confirmQuota": " ({{remaining}} restantes cette période)",
+      "confirmSkipped": "{{count}} CV plus anciens n'ont pas de texte source stocké et seront ignorés — ré-importez-les pour les actualiser.",
+      "confirmStart": "Lancer la ré-analyse",
+      "resultDetail": "{{succeeded}} mis à jour · {{failed}} échoués · {{skipped}} ignorés (pas de texte stocké)",
+      "status": {
+        "COMPLETED": "Ré-analyse terminée",
+        "COMPLETED_WITH_ERRORS": "Ré-analyse terminée avec des erreurs",
+        "FAILED": "Ré-analyse échouée",
+        "CANCELLED": "Ré-analyse annulée"
+      }
+    },
+    "campaign": {
+      "requestUpdates": "Demander des mises à jour",
+      "confirmTitle": "Demander des mises à jour aux candidats",
+      "confirmBody": "Jusqu'à {{count}} candidats recevront un lien sécurisé pour actualiser leur disponibilité, leurs prétentions salariales et leur CV. Les candidats sans e-mail, désinscrits ou avec une demande en attente sont ignorés automatiquement.",
+      "confirmSend": "Envoyer les demandes",
+      "template": "Modèle d'e-mail",
+      "defaultTemplate": "Message Qorva standard",
+      "manageTemplates": "Gérer…"
+    }
+  },
+  "candidateUpdate": {
+    "invalid": "Ce lien n'est plus valide. Il a peut-être expiré ou déjà été utilisé.",
+    "title": "Bonjour {{name}}, gardez votre profil à jour",
+    "subtitle": "Confirmez votre disponibilité et vos attentes — cela prend une minute.",
+    "status": "Disponibilité",
+    "availableFrom": "Disponible à partir de",
+    "noticePeriod": "Préavis (jours)",
+    "currency": "Devise",
+    "salaryMin": "Salaire min",
+    "salaryMax": "Salaire max",
+    "uploadCV": "Téléversez un CV plus récent (optionnel, .pdf ou .docx)",
+    "consent": "En envoyant, vous acceptez que ces informations soient partagées avec le recruteur qui détient votre profil et traitées pour le maintenir exact.",
+    "submit": "Mettre à jour mon profil",
+    "doneTitle": "Merci — votre profil est à jour !",
+    "doneSubtitle": "Vous pouvez fermer cette page.",
+    "unsubscribeTitle": "Vous désinscrire des demandes de mise à jour ?",
+    "unsubscribeSubtitle": "Vous ne recevrez plus d'e-mails de mise à jour de ce recruteur.",
+    "unsubscribeButton": "Se désinscrire",
+    "unsubscribedTitle": "Vous êtes désinscrit.",
+    "unsubscribedSubtitle": "Vous ne recevrez plus de demandes de mise à jour.",
+    "submitError": "Une erreur s'est produite — veuillez réessayer.",
+    "processingFailed": "Nous n'avons pas pu traiter votre CV — veuillez réessayer.",
+    "processingTitle": "Mise à jour de votre profil",
+    "stageReceived": "CV reçu…",
+    "stageParsing": "Lecture de votre CV…",
+    "stageUpdating": "Mise à jour de votre profil…",
+    "processingHint": "Cela prend généralement moins d'une minute.",
+    "processingSlow": "Cela prend plus de temps que prévu — vous pouvez fermer cette page ; votre mise à jour se terminera automatiquement."
+  },
+  "emailTemplates": {
+    "pageTitle": "Modèles d'e-mails",
+    "pageSubtitle": "Rédigez les messages que reçoivent les candidats lorsque vous demandez une mise à jour de profil. Choisissez un modèle au lancement d'une campagne depuis Qualité de la bibliothèque — ou laissez vide pour utiliser le message Qorva standard.",
+    "title": "Modèles d'e-mail d'invitation",
+    "new": "Nouveau modèle",
+    "none": "Aucun modèle pour l'instant — les campagnes utilisent le message Qorva standard.",
+    "name": "Nom du modèle",
+    "subject": "Objet",
+    "body": "Message",
+    "bodyHint": "Texte brut. Une ligne vide commence un nouveau paragraphe. La salutation, le bouton d'action, votre signature (nom et société) et le lien de désinscription sont ajoutés automatiquement.",
+    "placeholders": "Insérer :",
+    "preview": "Aperçu",
+    "save": "Enregistrer",
+    "saved": "Modèle enregistré.",
+    "close": "Fermer",
+    "sendTest": "M'envoyer un test",
+    "testSent": "E-mail de test envoyé à votre adresse.",
+    "deleteHint": "Supprimer ce modèle",
+    "loadError": "Impossible de charger les modèles.",
+    "saveError": "Impossible d'enregistrer le modèle.",
+    "deleteError": "Impossible de supprimer le modèle.",
+    "previewError": "Impossible de générer l'aperçu.",
+    "testError": "Impossible d'envoyer l'e-mail de test.",
+    "limitNote": "{{count}} modèles sur {{limit}} utilisés",
+    "limitReached": "Limite du plan atteinte — supprimez un modèle ou passez à un plan supérieur."
   }
 }

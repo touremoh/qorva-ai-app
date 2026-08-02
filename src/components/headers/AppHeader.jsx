@@ -20,6 +20,7 @@ import {
 	COMP_ID_DASHBOARD,
 	COMP_ID_INTELLIGENCE,
 	COMP_ID_JOBS,
+	COMP_ID_LIBRARY_QUALITY,
 	COMP_ID_REPORTS,
 	COMP_ID_SETTINGS,
 	COMP_ID_USAGE_MONITORING,
@@ -46,6 +47,7 @@ const AppHeader = ({ handleContentChange, contentTitle, isSidebarCollapsed }) =>
 	const pageTitles = {
 		[COMP_ID_DASHBOARD]:        'Dashboard',
 		[COMP_ID_CVLIB]:            t('header.cvs'),
+		[COMP_ID_LIBRARY_QUALITY]:  t('header.libraryQuality', 'Library Quality'),
 		[COMP_ID_JOBS]:             t('header.jobs'),
 		[COMP_ID_REPORTS]:          t('header.reports'),
 		[COMP_ID_INTELLIGENCE]:     t('header.intelligence', 'Talent Intelligence'),
