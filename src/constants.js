@@ -5,6 +5,7 @@ export const COMP_ID_JOBS = 'JOBS';
 export const COMP_ID_INTELLIGENCE = 'INTELLIGENCE';
 export const COMP_ID_CVLIB = 'CVLIB';
 export const COMP_ID_LIBRARY_QUALITY = 'LIBRARY_QUALITY';
+export const COMP_ID_EMAIL_TEMPLATES = 'EMAIL_TEMPLATES';
 export const COMP_ID_SETTINGS = 'SETTINGS';
 export const COMP_ID_DASHBOARD = 'DASHBOARD';
 export const AUTH_TOKEN = 'authToken';

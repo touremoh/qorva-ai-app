@@ -99,7 +99,8 @@
     "intelligence": "Talent-Intelligenz",
     "usageMonitoring": "Nutzungsüberwachung",
     "libraryQuality": "Bibliotheksqualität",
-    "resumes": "Alle Lebensläufe"
+    "resumes": "Alle Lebensläufe",
+    "emailTemplates": "E-Mail-Vorlagen"
   },
   "footer": {
     "rightsReserved": "© Qorva AI. Alle Rechte vorbehalten."
@@ -664,7 +665,10 @@
       "used": "genutzt",
       "cumulativeTooltip": "Gesamtzahl über alle Zeiträume",
       "allTime": "gesamt",
-      "lastUpdated": "Zuletzt aktualisiert"
+      "lastUpdated": "Zuletzt aktualisiert",
+      "unlimited": "Unbegrenzt",
+      "planAllowance": "Plankontingent",
+      "templatesTooltip": "Gespeicherte Einladungsvorlagen — ein Plankontingent, kein monatliches Kontingent"
     }
   },
   "appAIResumeChat": {
@@ -744,22 +748,25 @@
       "sla": "SLA-Garantien"
     },
     "starter": {
-      "users": "1 Benutzer",
-      "matchingActions": "5 Matching-Aktionen / Monat",
-      "aiChat": "50 KI-Chat-Nachrichten / Monat",
-      "queries": "10 Talentpool-Abfragen / Monat"
+      "users": "2 Benutzer",
+      "matchingActions": "2.000 Matching-Aktionen / Monat",
+      "aiChat": "500 KI-Chat-Nachrichten / Monat",
+      "queries": "1.000 Talentpool-Abfragen / Monat",
+      "emailTemplates": "3 E-Mail-Vorlagen"
     },
     "pro": {
-      "users": "Bis zu 3 Benutzer",
-      "matchingActions": "20 Matching-Aktionen / Monat",
-      "aiChat": "200 KI-Chat-Nachrichten / Monat",
-      "queries": "50 Talentpool-Abfragen / Monat"
+      "users": "5 Benutzer",
+      "matchingActions": "10.000 Matching-Aktionen / Monat",
+      "aiChat": "1.500 KI-Chat-Nachrichten / Monat",
+      "queries": "3.000 Talentpool-Abfragen / Monat",
+      "emailTemplates": "15 E-Mail-Vorlagen"
     },
     "scale": {
-      "users": "Unbegrenzte Benutzer",
-      "matchingActions": "Unbegrenzte Matching-Aktionen",
-      "aiChat": "Unbegrenzte KI-Chat-Nachrichten",
-      "queries": "Unbegrenzte Talentpool-Abfragen"
+      "users": "15 Benutzer",
+      "matchingActions": "25.000 Matching-Aktionen / Monat",
+      "aiChat": "4.000 KI-Chat-Nachrichten / Monat",
+      "queries": "8.000 Talentpool-Abfragen / Monat",
+      "emailTemplates": "50 E-Mail-Vorlagen"
     }
   },
   "registrationSuccess": {
@@ -1164,7 +1171,10 @@
       "requestUpdates": "Updates anfragen",
       "confirmTitle": "Updates von Kandidaten anfragen",
       "confirmBody": "Bis zu {{count}} Kandidaten erhalten per E-Mail einen sicheren Link, um Verfügbarkeit, Gehaltsvorstellung und Lebenslauf zu aktualisieren. Kandidaten ohne E-Mail, abgemeldete Kandidaten und solche mit offener Anfrage werden automatisch übersprungen.",
-      "confirmSend": "Anfragen senden"
+      "confirmSend": "Anfragen senden",
+      "template": "E-Mail-Vorlage",
+      "defaultTemplate": "Standard-Qorva-Nachricht",
+      "manageTemplates": "Verwalten…"
     }
   },
   "candidateUpdate": {
@@ -1186,6 +1196,40 @@
     "unsubscribeSubtitle": "Sie erhalten keine Profil-Update-E-Mails mehr von diesem Recruiter.",
     "unsubscribeButton": "Abmelden",
     "unsubscribedTitle": "Sie wurden abgemeldet.",
-    "unsubscribedSubtitle": "Sie erhalten keine weiteren Update-Anfragen."
+    "unsubscribedSubtitle": "Sie erhalten keine weiteren Update-Anfragen.",
+    "submitError": "Etwas ist schiefgelaufen — bitte versuchen Sie es erneut.",
+    "processingFailed": "Wir konnten Ihren Lebenslauf nicht verarbeiten — bitte versuchen Sie es erneut.",
+    "processingTitle": "Ihr Profil wird aktualisiert",
+    "stageReceived": "Lebenslauf erhalten…",
+    "stageParsing": "Ihr Lebenslauf wird gelesen…",
+    "stageUpdating": "Ihr Profil wird aktualisiert…",
+    "processingHint": "Das dauert in der Regel weniger als eine Minute.",
+    "processingSlow": "Das dauert länger als erwartet — Sie können diese Seite schließen; Ihre Aktualisierung wird automatisch abgeschlossen."
+  },
+  "emailTemplates": {
+    "pageTitle": "E-Mail-Vorlagen",
+    "pageSubtitle": "Gestalten Sie die Nachrichten, die Kandidaten erhalten, wenn Sie eine Profilaktualisierung anfordern. Wählen Sie beim Start einer Kampagne aus der Bibliotheksqualität eine Vorlage — oder lassen Sie das Feld leer, um die Standard-Qorva-Nachricht zu verwenden.",
+    "title": "Einladungs-E-Mail-Vorlagen",
+    "new": "Neue Vorlage",
+    "none": "Noch keine Vorlagen — Kampagnen verwenden die Standard-Qorva-Nachricht.",
+    "name": "Vorlagenname",
+    "subject": "Betreff",
+    "body": "Nachricht",
+    "bodyHint": "Nur Text. Leerzeilen beginnen einen neuen Absatz. Begrüßung, Aktionsschaltfläche, Ihre Signatur (Name und Unternehmen) und der Abmeldelink werden automatisch hinzugefügt.",
+    "placeholders": "Einfügen:",
+    "preview": "Vorschau",
+    "save": "Speichern",
+    "saved": "Vorlage gespeichert.",
+    "close": "Schließen",
+    "sendTest": "Test an mich senden",
+    "testSent": "Test-E-Mail an Ihre Adresse gesendet.",
+    "deleteHint": "Diese Vorlage löschen",
+    "loadError": "Vorlagen konnten nicht geladen werden.",
+    "saveError": "Vorlage konnte nicht gespeichert werden.",
+    "deleteError": "Vorlage konnte nicht gelöscht werden.",
+    "previewError": "Vorschau konnte nicht erstellt werden.",
+    "testError": "Test-E-Mail konnte nicht gesendet werden.",
+    "limitNote": "{{count}} von {{limit}} Vorlagen verwendet",
+    "limitReached": "Planlimit erreicht — löschen Sie eine Vorlage oder führen Sie ein Upgrade durch."
   }
 }

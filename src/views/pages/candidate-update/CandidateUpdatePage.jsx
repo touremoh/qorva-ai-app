@@ -5,6 +5,7 @@ import {
 	Box,
 	Button,
 	CircularProgress,
+	LinearProgress,
 	MenuItem,
 	Paper,
 	TextField,
@@ -25,13 +26,19 @@ const AVAILABILITY_STATUSES = ['activelyLooking', 'openButNotSearching', 'notAva
 
 const inputSx = { '& .MuiOutlinedInput-root': { borderRadius: 1.5, backgroundColor: '#f8fafc' } };
 
+// Server-reported async-processing stages; the bar eases toward each stage's cap so the
+// motion is smooth while the boundaries stay honest.
+const STAGE_PROGRESS_CAPS = { SUBMITTED: 25, PARSING: 80, UPDATING: 95 };
+const STATUS_POLL_MS = 3000;
+const PROCESSING_TIMEOUT_MS = 180000;
+
 const CandidateUpdatePage = () => {
 	const { t, i18n } = useTranslation();
 	const { token } = useParams();
 	const [searchParams] = useSearchParams();
 	const unsubscribeMode = searchParams.get('unsubscribe') === 'true';
 
-	const [state, setState] = useState('loading'); // loading | form | unsubscribe | done | unsubscribed | invalid
+	const [state, setState] = useState('loading'); // loading | form | processing | unsubscribe | done | unsubscribed | invalid
 	const [prefill, setPrefill] = useState(null);
 	const [submitting, setSubmitting] = useState(false);
 	const [form, setForm] = useState({
@@ -39,6 +46,10 @@ const CandidateUpdatePage = () => {
 		openToWork: true, salaryCurrency: '', salaryMin: '', salaryMax: '',
 	});
 	const [file, setFile] = useState(null);
+	const [submitError, setSubmitError] = useState('');
+	const [processingStage, setProcessingStage] = useState('SUBMITTED');
+	const [progress, setProgress] = useState(0);
+	const [slowProcessing, setSlowProcessing] = useState(false);
 
 	useEffect(() => {
 		const load = async () => {
@@ -67,6 +78,7 @@ const CandidateUpdatePage = () => {
 
 	const handleSubmit = async () => {
 		setSubmitting(true);
+		setSubmitError('');
 		try {
 			const submission = {
 				availabilityStatus: form.availabilityStatus || null,
@@ -80,14 +92,69 @@ const CandidateUpdatePage = () => {
 			const payload = new FormData();
 			payload.append('submission', new Blob([JSON.stringify(submission)], { type: 'application/json' }));
 			if (file) payload.append('file', file);
-			await publicClient.post(`/public/candidate-update/${token}`, payload);
-			setState('done');
-		} catch {
-			setState('invalid');
+			const res = await publicClient.post(`/public/candidate-update/${token}`, payload);
+			if (res.status === 202) {
+				// Resume staged — processing continues server-side; poll for progress.
+				setProcessingStage('SUBMITTED');
+				setProgress(5);
+				setSlowProcessing(false);
+				setState('processing');
+			} else {
+				setState('done');
+			}
+		} catch (err) {
+			// Only a dead token means the link is invalid; anything else is retryable.
+			if (err?.response?.status === 404) {
+				setState('invalid');
+			} else {
+				setSubmitError(t('candidateUpdate.submitError', 'Something went wrong — please try again.'));
+			}
 		} finally {
 			setSubmitting(false);
 		}
 	};
+
+	// Poll the async-processing status while the server works on the uploaded resume.
+	useEffect(() => {
+		if (state !== 'processing') return undefined;
+		let cancelled = false;
+		const startedAt = Date.now();
+		const poll = setInterval(async () => {
+			if (Date.now() - startedAt > PROCESSING_TIMEOUT_MS) {
+				clearInterval(poll);
+				setSlowProcessing(true);
+				return;
+			}
+			try {
+				const res = await publicClient.get(`/public/candidate-update/${token}/status`);
+				const status = (res.data?.data ?? res.data)?.state;
+				if (cancelled) return;
+				if (status === 'DONE') {
+					setProgress(100);
+					setState('done');
+				} else if (status === 'FAILED') {
+					setSubmitError(t('candidateUpdate.processingFailed', 'We could not process your resume — please try again.'));
+					setState('form');
+				} else if (status) {
+					setProcessingStage(status);
+				}
+			} catch { /* transient poll errors are ignored; the timeout message covers the rest */ }
+		}, STATUS_POLL_MS);
+		return () => { cancelled = true; clearInterval(poll); };
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [state, token]);
+
+	// Smooth motion between polls: ease toward the current stage's cap, never past it.
+	useEffect(() => {
+		if (state !== 'processing') return undefined;
+		const timer = setInterval(() => {
+			setProgress(prev => {
+				const cap = STAGE_PROGRESS_CAPS[processingStage] ?? 25;
+				return prev >= cap ? prev : prev + (cap - prev) * 0.08;
+			});
+		}, 400);
+		return () => clearInterval(timer);
+	}, [state, processingStage]);
 
 	const handleUnsubscribe = async () => {
 		setSubmitting(true);
@@ -132,6 +199,37 @@ const CandidateUpdatePage = () => {
 		);
 	}
 
+	if (state === 'processing') {
+		const stageLabel = processingStage === 'UPDATING'
+			? t('candidateUpdate.stageUpdating', 'Updating your profile…')
+			: processingStage === 'PARSING'
+				? t('candidateUpdate.stageParsing', 'Reading your resume…')
+				: t('candidateUpdate.stageReceived', 'Resume received…');
+		return shell(
+			<Box sx={{ textAlign: 'center', py: 2 }}>
+				<Typography sx={{ fontWeight: 700, color: '#0f172a', mb: 0.5 }}>
+					{t('candidateUpdate.processingTitle', 'Updating your profile')}
+				</Typography>
+				<Typography sx={{ fontSize: '0.85rem', color: '#64748b', mb: 3 }}>
+					{stageLabel}
+				</Typography>
+				<LinearProgress
+					variant="determinate"
+					value={Math.min(progress, 100)}
+					sx={{
+						height: 8, borderRadius: 4, backgroundColor: 'rgba(98,156,68,0.12)',
+						'& .MuiLinearProgress-bar': { borderRadius: 4, backgroundColor: '#629C44' },
+					}}
+				/>
+				<Typography sx={{ fontSize: '0.72rem', color: '#94a3b8', mt: 2 }}>
+					{slowProcessing
+						? t('candidateUpdate.processingSlow', 'This is taking longer than expected — you can close this page; your update will finish automatically.')
+						: t('candidateUpdate.processingHint', 'This usually takes less than a minute.')}
+				</Typography>
+			</Box>
+		);
+	}
+
 	if (state === 'done' || state === 'unsubscribed') {
 		return shell(
 			<Box sx={{ textAlign: 'center', py: 2 }}>
@@ -169,6 +267,9 @@ const CandidateUpdatePage = () => {
 
 	return shell(
 		<Box>
+			{submitError && (
+				<Alert severity="error" sx={{ borderRadius: 1.5, mb: 2 }}>{submitError}</Alert>
+			)}
 			<Typography sx={{ fontWeight: 700, fontSize: '1.1rem', color: '#0f172a', mb: 0.5 }}>
 				{t('candidateUpdate.title', 'Hi {{name}}, keep your profile up to date', { name: prefill?.firstName || '' })}
 			</Typography>

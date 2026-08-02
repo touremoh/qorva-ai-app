@@ -99,7 +99,8 @@
     "intelligence": "Talent Intelligentie",
     "usageMonitoring": "Gebruiksmonitoring",
     "libraryQuality": "Bibliotheekkwaliteit",
-    "resumes": "Alle cv's"
+    "resumes": "Alle cv's",
+    "emailTemplates": "E-mailsjablonen"
   },
   "footer": {
     "rightsReserved": "© Qorva AI. Alle rechten voorbehouden."
@@ -661,7 +662,10 @@
       "used": "gebruikt",
       "cumulativeTooltip": "Totaal over alle perioden",
       "allTime": "totaal",
-      "lastUpdated": "Laatste update"
+      "lastUpdated": "Laatste update",
+      "unlimited": "Onbeperkt",
+      "planAllowance": "plantegoed",
+      "templatesTooltip": "Opgeslagen uitnodigingssjablonen — een plantegoed, geen maandelijks quotum"
     }
   },
   "appAIResumeChat": {
@@ -741,22 +745,25 @@
       "sla": "SLA-garanties"
     },
     "starter": {
-      "users": "1 gebruiker",
-      "matchingActions": "5 matching-acties / maand",
-      "aiChat": "50 AI chat-berichten / maand",
-      "queries": "10 talentpool-zoekopdrachten / maand"
+      "users": "2 gebruikers",
+      "matchingActions": "2.000 matching-acties / maand",
+      "aiChat": "500 AI chat-berichten / maand",
+      "queries": "1.000 talentpool-zoekopdrachten / maand",
+      "emailTemplates": "3 e-mailsjablonen"
     },
     "pro": {
-      "users": "Tot 3 gebruikers",
-      "matchingActions": "20 matching-acties / maand",
-      "aiChat": "200 AI chat-berichten / maand",
-      "queries": "50 talentpool-zoekopdrachten / maand"
+      "users": "5 gebruikers",
+      "matchingActions": "10.000 matching-acties / maand",
+      "aiChat": "1.500 AI chat-berichten / maand",
+      "queries": "3.000 talentpool-zoekopdrachten / maand",
+      "emailTemplates": "15 e-mailsjablonen"
     },
     "scale": {
-      "users": "Onbeperkte gebruikers",
-      "matchingActions": "Onbeperkte matching-acties",
-      "aiChat": "Onbeperkte AI chat-berichten",
-      "queries": "Onbeperkte talentpool-zoekopdrachten"
+      "users": "15 gebruikers",
+      "matchingActions": "25.000 matching-acties / maand",
+      "aiChat": "4.000 AI chat-berichten / maand",
+      "queries": "8.000 talentpool-zoekopdrachten / maand",
+      "emailTemplates": "50 e-mailsjablonen"
     }
   },
   "registrationSuccess": {
@@ -1161,7 +1168,10 @@
       "requestUpdates": "Updates aanvragen",
       "confirmTitle": "Updates aanvragen bij kandidaten",
       "confirmBody": "Tot {{count}} kandidaten ontvangen per e-mail een beveiligde link om hun beschikbaarheid, salarisverwachting en cv te verversen. Kandidaten zonder e-mail, afgemelde kandidaten en kandidaten met een openstaand verzoek worden automatisch overgeslagen.",
-      "confirmSend": "Verzoeken versturen"
+      "confirmSend": "Verzoeken versturen",
+      "template": "E-mailsjabloon",
+      "defaultTemplate": "Standaard Qorva-bericht",
+      "manageTemplates": "Beheren…"
     }
   },
   "candidateUpdate": {
@@ -1183,6 +1193,40 @@
     "unsubscribeSubtitle": "U ontvangt geen profielupdate-e-mails meer van deze recruiter.",
     "unsubscribeButton": "Afmelden",
     "unsubscribedTitle": "U bent afgemeld.",
-    "unsubscribedSubtitle": "U ontvangt geen verdere update-verzoeken."
+    "unsubscribedSubtitle": "U ontvangt geen verdere update-verzoeken.",
+    "submitError": "Er is iets misgegaan — probeer het opnieuw.",
+    "processingFailed": "We konden uw cv niet verwerken — probeer het opnieuw.",
+    "processingTitle": "Uw profiel wordt bijgewerkt",
+    "stageReceived": "Cv ontvangen…",
+    "stageParsing": "Uw cv wordt gelezen…",
+    "stageUpdating": "Uw profiel wordt bijgewerkt…",
+    "processingHint": "Dit duurt meestal minder dan een minuut.",
+    "processingSlow": "Dit duurt langer dan verwacht — u kunt deze pagina sluiten; uw update wordt automatisch voltooid."
+  },
+  "emailTemplates": {
+    "pageTitle": "E-mailsjablonen",
+    "pageSubtitle": "Stel de berichten op die kandidaten ontvangen wanneer u een profielupdate aanvraagt. Kies een sjabloon bij het starten van een campagne vanuit Bibliotheekkwaliteit — of laat het leeg om het standaard Qorva-bericht te gebruiken.",
+    "title": "Uitnodigings-e-mailsjablonen",
+    "new": "Nieuw sjabloon",
+    "none": "Nog geen sjablonen — campagnes gebruiken het standaard Qorva-bericht.",
+    "name": "Sjabloonnaam",
+    "subject": "Onderwerp",
+    "body": "Bericht",
+    "bodyHint": "Platte tekst. Lege regels beginnen een nieuwe alinea. De begroeting, actieknop, uw handtekening (naam en bedrijf) en de afmeldlink worden automatisch toegevoegd.",
+    "placeholders": "Invoegen:",
+    "preview": "Voorbeeld",
+    "save": "Opslaan",
+    "saved": "Sjabloon opgeslagen.",
+    "close": "Sluiten",
+    "sendTest": "Stuur mij een test",
+    "testSent": "Test-e-mail verzonden naar uw adres.",
+    "deleteHint": "Dit sjabloon verwijderen",
+    "loadError": "Kon de sjablonen niet laden.",
+    "saveError": "Kon het sjabloon niet opslaan.",
+    "deleteError": "Kon het sjabloon niet verwijderen.",
+    "previewError": "Kon het voorbeeld niet weergeven.",
+    "testError": "Kon de test-e-mail niet verzenden.",
+    "limitNote": "{{count}} van {{limit}} sjablonen gebruikt",
+    "limitReached": "Planlimiet bereikt — verwijder een sjabloon of upgrade uw plan."
   }
 }

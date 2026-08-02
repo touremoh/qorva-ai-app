@@ -99,7 +99,8 @@
     "intelligence": "Intelligenza dei Talenti",
     "usageMonitoring": "Monitoraggio utilizzo",
     "libraryQuality": "Qualità della libreria",
-    "resumes": "Tutti i curriculum"
+    "resumes": "Tutti i curriculum",
+    "emailTemplates": "Modelli e-mail"
   },
   "footer": {
     "rightsReserved": "© Qorva AI. Tutti i diritti riservati."
@@ -664,7 +665,10 @@
       "used": "utilizzato",
       "cumulativeTooltip": "Totale cumulativo di tutti i periodi",
       "allTime": "totale",
-      "lastUpdated": "Ultimo aggiornamento"
+      "lastUpdated": "Ultimo aggiornamento",
+      "unlimited": "Illimitato",
+      "planAllowance": "quota del piano",
+      "templatesTooltip": "Modelli di invito salvati — una quota del piano, non mensile"
     }
   },
   "appAIResumeChat": {
@@ -744,22 +748,25 @@
       "sla": "Garanzie SLA"
     },
     "starter": {
-      "users": "1 utente",
-      "matchingActions": "5 azioni di matching / mese",
-      "aiChat": "50 messaggi AI chat / mese",
-      "queries": "10 query del talent pool / mese"
+      "users": "2 utenti",
+      "matchingActions": "2.000 azioni di matching / mese",
+      "aiChat": "500 messaggi AI chat / mese",
+      "queries": "1.000 query del talent pool / mese",
+      "emailTemplates": "3 modelli e-mail"
     },
     "pro": {
-      "users": "Fino a 3 utenti",
-      "matchingActions": "20 azioni di matching / mese",
-      "aiChat": "200 messaggi AI chat / mese",
-      "queries": "50 query del talent pool / mese"
+      "users": "5 utenti",
+      "matchingActions": "10.000 azioni di matching / mese",
+      "aiChat": "1.500 messaggi AI chat / mese",
+      "queries": "3.000 query del talent pool / mese",
+      "emailTemplates": "15 modelli e-mail"
     },
     "scale": {
-      "users": "Utenti illimitati",
-      "matchingActions": "Azioni di matching illimitate",
-      "aiChat": "Messaggi AI chat illimitati",
-      "queries": "Query del talent pool illimitate"
+      "users": "15 utenti",
+      "matchingActions": "25.000 azioni di matching / mese",
+      "aiChat": "4.000 messaggi AI chat / mese",
+      "queries": "8.000 query del talent pool / mese",
+      "emailTemplates": "50 modelli e-mail"
     }
   },
   "registrationSuccess": {
@@ -1164,7 +1171,10 @@
       "requestUpdates": "Richiedi aggiornamenti",
       "confirmTitle": "Richiedi aggiornamenti ai candidati",
       "confirmBody": "Fino a {{count}} candidati riceveranno un link sicuro per aggiornare disponibilità, aspettative salariali e curriculum. I candidati senza e-mail, disiscritti o con una richiesta in sospeso vengono saltati automaticamente.",
-      "confirmSend": "Invia richieste"
+      "confirmSend": "Invia richieste",
+      "template": "Modello e-mail",
+      "defaultTemplate": "Messaggio standard Qorva",
+      "manageTemplates": "Gestisci…"
     }
   },
   "candidateUpdate": {
@@ -1186,6 +1196,40 @@
     "unsubscribeSubtitle": "Non riceverai più e-mail di aggiornamento da questo recruiter.",
     "unsubscribeButton": "Annulla iscrizione",
     "unsubscribedTitle": "Iscrizione annullata.",
-    "unsubscribedSubtitle": "Non riceverai altre richieste di aggiornamento."
+    "unsubscribedSubtitle": "Non riceverai altre richieste di aggiornamento.",
+    "submitError": "Qualcosa è andato storto — riprova.",
+    "processingFailed": "Non siamo riusciti a elaborare il tuo curriculum — riprova.",
+    "processingTitle": "Aggiornamento del tuo profilo",
+    "stageReceived": "Curriculum ricevuto…",
+    "stageParsing": "Lettura del tuo curriculum…",
+    "stageUpdating": "Aggiornamento del tuo profilo…",
+    "processingHint": "Di solito richiede meno di un minuto.",
+    "processingSlow": "Sta impiegando più tempo del previsto — puoi chiudere questa pagina; l'aggiornamento verrà completato automaticamente."
+  },
+  "emailTemplates": {
+    "pageTitle": "Modelli e-mail",
+    "pageSubtitle": "Scrivi i messaggi che i candidati ricevono quando richiedi un aggiornamento del profilo. Scegli un modello quando avvii una campagna dalla Qualità della libreria — oppure lascialo vuoto per usare il messaggio standard Qorva.",
+    "title": "Modelli e-mail di invito",
+    "new": "Nuovo modello",
+    "none": "Nessun modello — le campagne usano il messaggio standard Qorva.",
+    "name": "Nome del modello",
+    "subject": "Oggetto",
+    "body": "Messaggio",
+    "bodyHint": "Testo semplice. Le righe vuote iniziano un nuovo paragrafo. Il saluto, il pulsante di azione, la tua firma (nome e azienda) e il link di annullamento dell'iscrizione vengono aggiunti automaticamente.",
+    "placeholders": "Inserisci:",
+    "preview": "Anteprima",
+    "save": "Salva",
+    "saved": "Modello salvato.",
+    "close": "Chiudi",
+    "sendTest": "Inviami un test",
+    "testSent": "E-mail di prova inviata al tuo indirizzo.",
+    "deleteHint": "Elimina questo modello",
+    "loadError": "Impossibile caricare i modelli.",
+    "saveError": "Impossibile salvare il modello.",
+    "deleteError": "Impossibile eliminare il modello.",
+    "previewError": "Impossibile generare l'anteprima.",
+    "testError": "Impossibile inviare l'e-mail di prova.",
+    "limitNote": "{{count}} modelli su {{limit}} utilizzati",
+    "limitReached": "Limite del piano raggiunto — elimina un modello o effettua un upgrade."
   }
 }

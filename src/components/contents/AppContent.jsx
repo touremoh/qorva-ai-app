@@ -6,6 +6,7 @@ import JobContent from "./jobs/JobsContent.jsx";
 import AppCVContent from "./cv/AppCVContent.jsx";
 import {
 	COMP_ID_CVLIB,
+	COMP_ID_EMAIL_TEMPLATES,
 	COMP_ID_LIBRARY_QUALITY,
 	COMP_ID_REPORTS,
 	COMP_ID_SETTINGS,
@@ -16,6 +17,7 @@ import {
 	COMP_ID_USAGE_MONITORING,
 } from "../../constants.js";
 import AppLibraryQuality from "./library-quality/AppLibraryQuality.jsx";
+import AppEmailTemplates from "./email-templates/AppEmailTemplates.jsx";
 import AppMatchingReports from "./reports/AppMatchingReports.jsx";
 import QorvaDashboard from "./dashboard/QorvaDashboard.jsx";
 import AccountSettings from "./account-settings/AccountSettings.jsx";
@@ -35,6 +37,8 @@ const AppContent = ({ content, isSidebarCollapsed }) => {
 				return <AppCVContent />;
 			case COMP_ID_LIBRARY_QUALITY:
 				return <AppLibraryQuality />;
+			case COMP_ID_EMAIL_TEMPLATES:
+				return <AppEmailTemplates />;
 			case COMP_ID_JOBS:
 				return <JobContent />;
 			case COMP_ID_INTELLIGENCE:

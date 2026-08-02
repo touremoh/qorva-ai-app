@@ -18,8 +18,8 @@ export const dismissQualityIssue = (issueKey) =>
 export const reopenQualityIssue = (issueKey) =>
     apiClient.post(`/library-quality/issues/${issueKey}/reopen`);
 
-export const submitQualityJob = (type, issueKey, dryRun = false, language = undefined) =>
-    apiClient.post('/library-quality/jobs', { type, issueKey, dryRun, language });
+export const submitQualityJob = (type, issueKey, dryRun = false, language = undefined, templateId = undefined) =>
+    apiClient.post('/library-quality/jobs', { type, issueKey, dryRun, language, templateId });
 
 export const getQualityJobs = () =>
     apiClient.get('/library-quality/jobs');

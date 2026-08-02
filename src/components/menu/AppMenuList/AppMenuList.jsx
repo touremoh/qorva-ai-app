@@ -15,10 +15,12 @@ import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
 import PsychologyOutlinedIcon from '@mui/icons-material/PsychologyOutlined';
 import SpeedOutlinedIcon from '@mui/icons-material/SpeedOutlined';
 import FactCheckOutlinedIcon from '@mui/icons-material/FactCheckOutlined';
+import MarkEmailReadOutlinedIcon from '@mui/icons-material/MarkEmailReadOutlined';
 import {
 	COMP_ID_CHAT,
 	COMP_ID_CVLIB,
 	COMP_ID_DASHBOARD,
+	COMP_ID_EMAIL_TEMPLATES,
 	COMP_ID_INTELLIGENCE,
 	COMP_ID_JOBS,
 	COMP_ID_LIBRARY_QUALITY,
@@ -78,6 +80,7 @@ const AppMenuList = ({ handleContentChange, isChatAllowed, collapsed, onToggleCo
 				{ id: COMP_ID_LIBRARY_QUALITY, Icon: FactCheckOutlinedIcon,   label: t('header.libraryQuality', 'Library Quality'), display: true,
 					badge: qualityIssueCount,
 					badgeTooltip: t('libraryQuality.badgeTooltip', '{{count}} issues to fix', { count: qualityIssueCount }) },
+				{ id: COMP_ID_EMAIL_TEMPLATES, Icon: MarkEmailReadOutlinedIcon, label: t('header.emailTemplates', 'Email Templates'), display: true },
 			] },
 		{ id: COMP_ID_JOBS,         Icon: WorkOutlineOutlinedIcon,  label: t('header.jobs'),                      display: true },
 		{ id: COMP_ID_REPORTS,      Icon: AssessmentOutlinedIcon,   label: t('header.reports'),                   display: true },

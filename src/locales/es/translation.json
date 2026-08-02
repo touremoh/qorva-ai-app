@@ -99,7 +99,8 @@
     "intelligence": "Inteligencia de Talento",
     "usageMonitoring": "Supervisión de uso",
     "libraryQuality": "Calidad de la biblioteca",
-    "resumes": "Todos los currículums"
+    "resumes": "Todos los currículums",
+    "emailTemplates": "Plantillas de correo"
   },
   "footer": {
     "rightsReserved": "© Qorva AI. Todos los derechos reservados."
@@ -664,7 +665,10 @@
       "used": "usado",
       "cumulativeTooltip": "Total acumulado en todos los períodos",
       "allTime": "total",
-      "lastUpdated": "Última actualización"
+      "lastUpdated": "Última actualización",
+      "unlimited": "Ilimitado",
+      "planAllowance": "cupo del plan",
+      "templatesTooltip": "Plantillas de invitación guardadas — un cupo del plan, no una cuota mensual"
     }
   },
   "appAIResumeChat": {
@@ -744,22 +748,25 @@
       "sla": "Garantías de SLA"
     },
     "starter": {
-      "users": "1 usuario",
-      "matchingActions": "5 acciones de matching / mes",
-      "aiChat": "50 mensajes de chat IA / mes",
-      "queries": "10 consultas de pool de talento / mes"
+      "users": "2 usuarios",
+      "matchingActions": "2.000 acciones de matching / mes",
+      "aiChat": "500 mensajes de chat IA / mes",
+      "queries": "1.000 consultas de pool de talento / mes",
+      "emailTemplates": "3 plantillas de correo"
     },
     "pro": {
-      "users": "Hasta 3 usuarios",
-      "matchingActions": "20 acciones de matching / mes",
-      "aiChat": "200 mensajes de chat IA / mes",
-      "queries": "50 consultas de pool de talento / mes"
+      "users": "5 usuarios",
+      "matchingActions": "10.000 acciones de matching / mes",
+      "aiChat": "1.500 mensajes de chat IA / mes",
+      "queries": "3.000 consultas de pool de talento / mes",
+      "emailTemplates": "15 plantillas de correo"
     },
     "scale": {
-      "users": "Usuarios ilimitados",
-      "matchingActions": "Acciones de matching ilimitadas",
-      "aiChat": "Mensajes de chat IA ilimitados",
-      "queries": "Consultas de pool de talento ilimitadas"
+      "users": "15 usuarios",
+      "matchingActions": "25.000 acciones de matching / mes",
+      "aiChat": "4.000 mensajes de chat IA / mes",
+      "queries": "8.000 consultas de pool de talento / mes",
+      "emailTemplates": "50 plantillas de correo"
     }
   },
   "registrationSuccess": {
@@ -1164,7 +1171,10 @@
       "requestUpdates": "Solicitar actualizaciones",
       "confirmTitle": "Solicitar actualizaciones a los candidatos",
       "confirmBody": "Se enviará a hasta {{count}} candidatos un enlace seguro para actualizar su disponibilidad, expectativa salarial y currículum. Los candidatos sin correo, dados de baja o con una solicitud pendiente se omiten automáticamente.",
-      "confirmSend": "Enviar solicitudes"
+      "confirmSend": "Enviar solicitudes",
+      "template": "Plantilla de correo",
+      "defaultTemplate": "Mensaje estándar de Qorva",
+      "manageTemplates": "Gestionar…"
     }
   },
   "candidateUpdate": {
@@ -1186,6 +1196,40 @@
     "unsubscribeSubtitle": "Ya no recibirás correos de actualización de este reclutador.",
     "unsubscribeButton": "Darme de baja",
     "unsubscribedTitle": "Te has dado de baja.",
-    "unsubscribedSubtitle": "No recibirás más solicitudes de actualización."
+    "unsubscribedSubtitle": "No recibirás más solicitudes de actualización.",
+    "submitError": "Algo salió mal — inténtelo de nuevo.",
+    "processingFailed": "No pudimos procesar su currículum — inténtelo de nuevo.",
+    "processingTitle": "Actualizando su perfil",
+    "stageReceived": "Currículum recibido…",
+    "stageParsing": "Leyendo su currículum…",
+    "stageUpdating": "Actualizando su perfil…",
+    "processingHint": "Esto suele tardar menos de un minuto.",
+    "processingSlow": "Está tardando más de lo esperado — puede cerrar esta página; su actualización se completará automáticamente."
+  },
+  "emailTemplates": {
+    "pageTitle": "Plantillas de correo",
+    "pageSubtitle": "Redacte los mensajes que reciben los candidatos cuando solicita una actualización de perfil. Elija una plantilla al lanzar una campaña desde Calidad de la biblioteca — o déjela sin definir para usar el mensaje estándar de Qorva.",
+    "title": "Plantillas de correo de invitación",
+    "new": "Nueva plantilla",
+    "none": "Aún no hay plantillas — las campañas usan el mensaje estándar de Qorva.",
+    "name": "Nombre de la plantilla",
+    "subject": "Asunto",
+    "body": "Mensaje",
+    "bodyHint": "Texto sin formato. Las líneas en blanco inician un nuevo párrafo. El saludo, el botón de acción, su firma (nombre y empresa) y el enlace para darse de baja se añaden automáticamente.",
+    "placeholders": "Insertar:",
+    "preview": "Vista previa",
+    "save": "Guardar",
+    "saved": "Plantilla guardada.",
+    "close": "Cerrar",
+    "sendTest": "Enviarme una prueba",
+    "testSent": "Correo de prueba enviado a su dirección.",
+    "deleteHint": "Eliminar esta plantilla",
+    "loadError": "No se pudieron cargar las plantillas.",
+    "saveError": "No se pudo guardar la plantilla.",
+    "deleteError": "No se pudo eliminar la plantilla.",
+    "previewError": "No se pudo generar la vista previa.",
+    "testError": "No se pudo enviar el correo de prueba.",
+    "limitNote": "{{count}} de {{limit}} plantillas utilizadas",
+    "limitReached": "Límite del plan alcanzado — elimine una plantilla o mejore su plan."
   }
 }

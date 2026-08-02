@@ -99,7 +99,8 @@
     "intelligence": "Talent Intelligence",
     "usageMonitoring": "Usage Monitoring",
     "libraryQuality": "Library Quality",
-    "resumes": "All Resumes"
+    "resumes": "All Resumes",
+    "emailTemplates": "Email Templates"
   },
   "footer": {
     "rightsReserved": "© Qorva AI. All rights reserved."
@@ -660,7 +661,10 @@
       "used": "used",
       "cumulativeTooltip": "All-time total across all periods",
       "allTime": "all-time",
-      "lastUpdated": "Last updated"
+      "lastUpdated": "Last updated",
+      "unlimited": "Unlimited",
+      "planAllowance": "plan allowance",
+      "templatesTooltip": "Saved invitation templates — a plan allowance, not a monthly quota"
     }
   },
   "appAIResumeChat": {
@@ -741,21 +745,24 @@
     },
     "starter": {
       "users": "2 users",
-      "matchingActions": "1,000 matching actions / month",
-      "aiChat": "300 AI Resume Chat messages / month",
-      "queries": "500 Talent Intelligence Queries / month"
+      "matchingActions": "2,000 matching actions / month",
+      "aiChat": "500 AI Resume Chat messages / month",
+      "queries": "1,000 Talent Intelligence Queries / month",
+      "emailTemplates": "3 email templates"
     },
     "pro": {
       "users": "5 users",
-      "matchingActions": "5,000 matching actions / month",
-      "aiChat": "700 AI Resume Chat messages / month",
-      "queries": "1,500 Talent Intelligence Queries / month"
+      "matchingActions": "10,000 matching actions / month",
+      "aiChat": "1,500 AI Resume Chat messages / month",
+      "queries": "3,000 Talent Intelligence Queries / month",
+      "emailTemplates": "15 email templates"
     },
     "scale": {
-      "users": "10 users",
-      "matchingActions": "12,000 matching actions / month",
-      "aiChat": "2,000 AI Resume Chat messages / month",
-      "queries": "4,000 Talent Intelligence Queries / month"
+      "users": "15 users",
+      "matchingActions": "25,000 matching actions / month",
+      "aiChat": "4,000 AI Resume Chat messages / month",
+      "queries": "8,000 Talent Intelligence Queries / month",
+      "emailTemplates": "50 email templates"
     }
   },
   "checkoutSuccess": {
@@ -1173,7 +1180,10 @@
       "requestUpdates": "Request updates",
       "confirmTitle": "Request updates from candidates",
       "confirmBody": "This will email up to {{count}} candidates a secure link to refresh their availability, salary expectations, and resume. Candidates without an email address, unsubscribed candidates, and those with a pending request are skipped automatically.",
-      "confirmSend": "Send requests"
+      "confirmSend": "Send requests",
+      "template": "Email template",
+      "defaultTemplate": "Standard Qorva message",
+      "manageTemplates": "Manage…"
     }
   },
   "candidateUpdate": {
@@ -1195,6 +1205,40 @@
     "unsubscribeSubtitle": "You will no longer receive profile update emails from this recruiter.",
     "unsubscribeButton": "Unsubscribe",
     "unsubscribedTitle": "You have been unsubscribed.",
-    "unsubscribedSubtitle": "You will not receive further update requests."
+    "unsubscribedSubtitle": "You will not receive further update requests.",
+    "submitError": "Something went wrong — please try again.",
+    "processingFailed": "We could not process your resume — please try again.",
+    "processingTitle": "Updating your profile",
+    "stageReceived": "Resume received…",
+    "stageParsing": "Reading your resume…",
+    "stageUpdating": "Updating your profile…",
+    "processingHint": "This usually takes less than a minute.",
+    "processingSlow": "This is taking longer than expected — you can close this page; your update will finish automatically."
+  },
+  "emailTemplates": {
+    "pageTitle": "Email Templates",
+    "pageSubtitle": "Craft the messages candidates receive when you request a profile update. Pick a template when launching an update campaign from Library Quality — or leave it unset to use the standard Qorva message.",
+    "title": "Invitation email templates",
+    "new": "New template",
+    "none": "No templates yet — campaigns use the standard Qorva message.",
+    "name": "Template name",
+    "subject": "Subject",
+    "body": "Message",
+    "bodyHint": "Plain text. Blank lines start a new paragraph. The greeting, action button, your signature (name and company), and unsubscribe link are added automatically.",
+    "placeholders": "Insert:",
+    "preview": "Preview",
+    "save": "Save",
+    "saved": "Template saved.",
+    "close": "Close",
+    "sendTest": "Send test to me",
+    "testSent": "Test email sent to your address.",
+    "deleteHint": "Delete this template",
+    "loadError": "Could not load templates.",
+    "saveError": "Could not save the template.",
+    "deleteError": "Could not delete the template.",
+    "previewError": "Could not render the preview.",
+    "testError": "Could not send the test email.",
+    "limitNote": "{{count}} of {{limit}} templates used",
+    "limitReached": "Plan limit reached — delete a template or upgrade to create more."
   }
 }

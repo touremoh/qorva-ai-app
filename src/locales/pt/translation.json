@@ -99,7 +99,8 @@
     "intelligence": "Inteligência de Talentos",
     "usageMonitoring": "Monitorização de utilização",
     "libraryQuality": "Qualidade da biblioteca",
-    "resumes": "Todos os currículos"
+    "resumes": "Todos os currículos",
+    "emailTemplates": "Modelos de e-mail"
   },
   "footer": {
     "rightsReserved": "© Qorva AI. Todos os direitos reservados."
@@ -664,7 +665,10 @@
       "used": "utilizado",
       "cumulativeTooltip": "Total acumulado em todos os períodos",
       "allTime": "total",
-      "lastUpdated": "Última atualização"
+      "lastUpdated": "Última atualização",
+      "unlimited": "Ilimitado",
+      "planAllowance": "limite do plano",
+      "templatesTooltip": "Modelos de convite guardados — um limite do plano, não uma quota mensal"
     }
   },
   "appAIResumeChat": {
@@ -744,22 +748,25 @@
       "sla": "Garantias de SLA"
     },
     "starter": {
-      "users": "1 utilizador",
-      "matchingActions": "5 ações de matching / mês",
-      "aiChat": "50 mensagens de chat IA / mês",
-      "queries": "10 consultas de pool de talentos / mês"
+      "users": "2 utilizadores",
+      "matchingActions": "2.000 ações de matching / mês",
+      "aiChat": "500 mensagens de chat IA / mês",
+      "queries": "1.000 consultas de pool de talentos / mês",
+      "emailTemplates": "3 modelos de e-mail"
     },
     "pro": {
-      "users": "Até 3 utilizadores",
-      "matchingActions": "20 ações de matching / mês",
-      "aiChat": "200 mensagens de chat IA / mês",
-      "queries": "50 consultas de pool de talentos / mês"
+      "users": "5 utilizadores",
+      "matchingActions": "10.000 ações de matching / mês",
+      "aiChat": "1.500 mensagens de chat IA / mês",
+      "queries": "3.000 consultas de pool de talentos / mês",
+      "emailTemplates": "15 modelos de e-mail"
     },
     "scale": {
-      "users": "Utilizadores ilimitados",
-      "matchingActions": "Ações de matching ilimitadas",
-      "aiChat": "Mensagens de chat IA ilimitadas",
-      "queries": "Consultas de pool de talentos ilimitadas"
+      "users": "15 utilizadores",
+      "matchingActions": "25.000 ações de matching / mês",
+      "aiChat": "4.000 mensagens de chat IA / mês",
+      "queries": "8.000 consultas de pool de talentos / mês",
+      "emailTemplates": "50 modelos de e-mail"
     }
   },
   "registrationSuccess": {
@@ -1164,7 +1171,10 @@
       "requestUpdates": "Pedir atualizações",
       "confirmTitle": "Pedir atualizações aos candidatos",
       "confirmBody": "Até {{count}} candidatos receberão por e-mail um link seguro para atualizar a disponibilidade, expectativa salarial e currículo. Candidatos sem e-mail, com subscrição cancelada ou com pedido pendente são ignorados automaticamente.",
-      "confirmSend": "Enviar pedidos"
+      "confirmSend": "Enviar pedidos",
+      "template": "Modelo de e-mail",
+      "defaultTemplate": "Mensagem padrão da Qorva",
+      "manageTemplates": "Gerir…"
     }
   },
   "candidateUpdate": {
@@ -1186,6 +1196,40 @@
     "unsubscribeSubtitle": "Deixará de receber e-mails de atualização deste recrutador.",
     "unsubscribeButton": "Cancelar subscrição",
     "unsubscribedTitle": "Subscrição cancelada.",
-    "unsubscribedSubtitle": "Não receberá mais pedidos de atualização."
+    "unsubscribedSubtitle": "Não receberá mais pedidos de atualização.",
+    "submitError": "Algo correu mal — tente novamente.",
+    "processingFailed": "Não conseguimos processar o seu currículo — tente novamente.",
+    "processingTitle": "A atualizar o seu perfil",
+    "stageReceived": "Currículo recebido…",
+    "stageParsing": "A ler o seu currículo…",
+    "stageUpdating": "A atualizar o seu perfil…",
+    "processingHint": "Normalmente demora menos de um minuto.",
+    "processingSlow": "Está a demorar mais do que o esperado — pode fechar esta página; a atualização será concluída automaticamente."
+  },
+  "emailTemplates": {
+    "pageTitle": "Modelos de e-mail",
+    "pageSubtitle": "Redija as mensagens que os candidatos recebem quando solicita uma atualização de perfil. Escolha um modelo ao lançar uma campanha a partir da Qualidade da biblioteca — ou deixe em branco para usar a mensagem padrão da Qorva.",
+    "title": "Modelos de e-mail de convite",
+    "new": "Novo modelo",
+    "none": "Ainda não há modelos — as campanhas usam a mensagem padrão da Qorva.",
+    "name": "Nome do modelo",
+    "subject": "Assunto",
+    "body": "Mensagem",
+    "bodyHint": "Texto simples. Linhas em branco iniciam um novo parágrafo. A saudação, o botão de ação, a sua assinatura (nome e empresa) e o link para cancelar a subscrição são adicionados automaticamente.",
+    "placeholders": "Inserir:",
+    "preview": "Pré-visualizar",
+    "save": "Guardar",
+    "saved": "Modelo guardado.",
+    "close": "Fechar",
+    "sendTest": "Enviar-me um teste",
+    "testSent": "E-mail de teste enviado para o seu endereço.",
+    "deleteHint": "Eliminar este modelo",
+    "loadError": "Não foi possível carregar os modelos.",
+    "saveError": "Não foi possível guardar o modelo.",
+    "deleteError": "Não foi possível eliminar o modelo.",
+    "previewError": "Não foi possível gerar a pré-visualização.",
+    "testError": "Não foi possível enviar o e-mail de teste.",
+    "limitNote": "{{count}} de {{limit}} modelos utilizados",
+    "limitReached": "Limite do plano atingido — elimine um modelo ou faça upgrade."
   }
 }

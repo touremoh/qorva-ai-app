@@ -12,8 +12,10 @@ import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined
 import ManageSearchOutlinedIcon from '@mui/icons-material/ManageSearchOutlined';
 import QuestionAnswerOutlinedIcon from '@mui/icons-material/QuestionAnswerOutlined';
 import InsightsOutlinedIcon from '@mui/icons-material/InsightsOutlined';
+import MarkEmailReadOutlinedIcon from '@mui/icons-material/MarkEmailReadOutlined';
 import { useTranslation } from 'react-i18next';
 import { getUsageMonitoring } from '../../../services/usageMonitoringService.js';
+import { getEmailTemplates } from '../../../services/emailTemplateService.js';
 
 const USAGE_FEATURE_CONFIG = (t) => [
     {
@@ -54,6 +56,7 @@ const SectionHeader = ({ icon: Icon, label, right }) => (
 const UsageMonitoringContent = () => {
     const { t } = useTranslation();
     const [data, setData] = useState(null);
+    const [templateUsage, setTemplateUsage] = useState(null); // { count, limit } — limit null = unlimited
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
@@ -70,6 +73,18 @@ const UsageMonitoringContent = () => {
             } finally {
                 setLoading(false);
             }
+        })();
+        // Email templates are a static plan cap, not a period metric — fetched separately;
+        // the card simply stays hidden for users without template permissions.
+        (async () => {
+            try {
+                const res = await getEmailTemplates();
+                const templates = (res.data?.data ?? res.data);
+                setTemplateUsage({
+                    count: (templates?.templates ?? []).length,
+                    limit: Number.isFinite(templates?.limit) ? templates.limit : null,
+                });
+            } catch { /* card is best-effort */ }
         })();
     }, [t]);
 
@@ -119,7 +134,7 @@ const UsageMonitoringContent = () => {
 
                         <Box sx={{
                             display: 'grid',
-                            gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, 1fr)' },
+                            gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
                             gap: 2,
                         }}>
                             {featureConfig.map(({ key, label, icon: Icon, accent, bg }) => {
@@ -177,6 +192,67 @@ const UsageMonitoringContent = () => {
                                     </Box>
                                 );
                             })}
+
+                            {/* Email templates: static plan cap (saved count), not a monthly consumption metric */}
+                            {templateUsage && (() => {
+                                const { count, limit } = templateUsage;
+                                const pct = limit > 0 ? Math.min(100, (count / limit) * 100) : 0;
+                                const isWarning = limit !== null && pct >= 80;
+                                const accent = '#f59e0b';
+                                return (
+                                    <Box sx={{
+                                        border: `1px solid ${isWarning ? 'rgba(245,158,11,0.25)' : '#f1f5f9'}`,
+                                        borderRadius: 2,
+                                        p: 2,
+                                        backgroundColor: isWarning ? 'rgba(245,158,11,0.03)' : '#fafcfd',
+                                    }}>
+                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.75 }}>
+                                            <Box sx={{ width: 32, height: 32, borderRadius: 1.5, backgroundColor: 'rgba(245,158,11,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                                                <MarkEmailReadOutlinedIcon sx={{ fontSize: 16, color: accent }} />
+                                            </Box>
+                                            <Typography sx={{ fontSize: '0.78rem', fontWeight: 600, color: '#334155', lineHeight: 1.3 }}>
+                                                {t('header.emailTemplates', 'Email Templates')}
+                                            </Typography>
+                                        </Box>
+
+                                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', mb: 1 }}>
+                                            <Typography sx={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a', lineHeight: 1 }}>
+                                                {count.toLocaleString()}
+                                            </Typography>
+                                            <Typography sx={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 500 }}>
+                                                {limit !== null
+                                                    ? `/ ${limit.toLocaleString()}`
+                                                    : t('dashboard.usage.unlimited', 'Unlimited')}
+                                            </Typography>
+                                        </Box>
+
+                                        {limit !== null && (
+                                            <Box sx={{ height: 7, backgroundColor: '#e2e8f0', borderRadius: 4, overflow: 'hidden', mb: 0.75 }}>
+                                                <Box sx={{
+                                                    height: '100%',
+                                                    width: `${pct}%`,
+                                                    backgroundColor: isWarning ? '#f59e0b' : '#629C44',
+                                                    borderRadius: 4,
+                                                    transition: 'width 0.6s ease',
+                                                }} />
+                                            </Box>
+                                        )}
+
+                                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                            {limit !== null && (
+                                                <Typography sx={{ fontSize: '0.7rem', fontWeight: 600, color: isWarning ? '#b45309' : '#64748b' }}>
+                                                    {pct.toFixed(1)}% {t('dashboard.usage.used', 'used')}
+                                                </Typography>
+                                            )}
+                                            <Tooltip title={t('dashboard.usage.templatesTooltip', 'Saved invitation templates — a plan allowance, not a monthly quota')} arrow placement="top">
+                                                <Typography sx={{ fontSize: '0.7rem', color: '#94a3b8', cursor: 'default', ml: 'auto' }}>
+                                                    {t('dashboard.usage.planAllowance', 'plan allowance')}
+                                                </Typography>
+                                            </Tooltip>
+                                        </Box>
+                                    </Box>
+                                );
+                            })()}
                         </Box>
 
                         {data.lastUpdatedAt && (

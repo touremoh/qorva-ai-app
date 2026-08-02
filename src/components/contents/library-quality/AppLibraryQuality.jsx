@@ -14,7 +14,9 @@ import {
 	DialogContentText,
 	DialogTitle,
 	IconButton,
+	MenuItem,
 	Paper,
+	TextField,
 	Tooltip,
 	Typography,
 } from '@mui/material';
@@ -46,6 +48,8 @@ import {
 } from '../../../services/libraryQualityService.js';
 import QualityIssueList from './QualityIssueList.jsx';
 import QualityDuplicatesList from './QualityDuplicatesList.jsx';
+import EmailTemplatesDialog from './EmailTemplatesDialog.jsx';
+import { getEmailTemplates } from '../../../services/emailTemplateService.js';
 
 // Freshness issues offer criteria-level "archive all" — the only bulk that scales to thousands of hits.
 const ARCHIVABLE_ISSUES = new Set(['OUTDATED', 'UNKNOWN_FRESHNESS']);
@@ -288,12 +292,26 @@ const AppLibraryQuality = () => {
 	};
 
 	const [campaignEstimate, setCampaignEstimate] = useState(null); // { issue, estimate }
+	const [emailTemplates, setEmailTemplates] = useState([]);
+	const [selectedTemplateId, setSelectedTemplateId] = useState(''); // '' = built-in Qorva message
+	const [manageTemplatesOpen, setManageTemplatesOpen] = useState(false);
+
+	const loadEmailTemplates = async () => {
+		try {
+			const res = await getEmailTemplates();
+			const templates = (res.data?.data ?? res.data)?.templates ?? [];
+			setEmailTemplates(templates);
+			// Deselect a template that was deleted in the manage dialog.
+			setSelectedTemplateId(prev => (prev && !templates.some(tpl => tpl.id === prev) ? '' : prev));
+		} catch { /* picker falls back to the default message */ }
+	};
 
 	const handleCampaignRequest = async (issue) => {
 		try {
 			const res = await submitQualityJob('CANDIDATE_UPDATE_CAMPAIGN', issue.issueKey, true);
 			const estimate = (res.data?.data ?? res.data)?.estimate;
 			setCampaignEstimate({ issue, estimate });
+			loadEmailTemplates();
 		} catch (error) {
 			console.error('Error estimating update campaign:', error);
 		}
@@ -304,7 +322,8 @@ const AppLibraryQuality = () => {
 		setActionBusy(true);
 		try {
 			const language = (i18n.language || 'en').split('-')[0];
-			const res = await submitQualityJob('CANDIDATE_UPDATE_CAMPAIGN', campaignEstimate.issue.issueKey, false, language);
+			const res = await submitQualityJob('CANDIDATE_UPDATE_CAMPAIGN', campaignEstimate.issue.issueKey, false, language,
+				selectedTemplateId || undefined);
 			const job = (res.data?.data ?? res.data)?.job;
 			setCampaignEstimate(null);
 			if (job) {
@@ -703,6 +722,27 @@ const AppLibraryQuality = () => {
 						'This will email up to {{count}} candidates a secure link to refresh their availability, salary expectations, and resume. Candidates without an email address, unsubscribed candidates, and those with a pending request are skipped automatically.',
 						{ count: campaignEstimate?.estimate?.affectedCount ?? 0 })}
 				</DialogContentText>
+				<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 2 }}>
+					<TextField
+						select fullWidth size="small"
+						label={t('libraryQuality.campaign.template', 'Email template')}
+						value={selectedTemplateId}
+						onChange={(e) => setSelectedTemplateId(e.target.value)}
+					>
+						<MenuItem value="">
+							{t('libraryQuality.campaign.defaultTemplate', 'Standard Qorva message')}
+						</MenuItem>
+						{emailTemplates.map((template) => (
+							<MenuItem key={template.id} value={template.id}>{template.name}</MenuItem>
+						))}
+					</TextField>
+					<Button
+						size="small"
+						onClick={() => setManageTemplatesOpen(true)}
+						sx={{ textTransform: 'none', fontSize: '0.72rem', fontWeight: 600, color: '#629C44', flexShrink: 0 }}>
+						{t('libraryQuality.campaign.manageTemplates', 'Manage…')}
+					</Button>
+				</Box>
 			</DialogContent>
 			<DialogActions sx={{ px: 2, pb: 2, gap: 1 }}>
 				<Button onClick={() => setCampaignEstimate(null)} disabled={actionBusy}
@@ -755,6 +795,13 @@ const AppLibraryQuality = () => {
 				</Button>
 			</DialogActions>
 		</Dialog>
+
+		{/* Invitation email template management */}
+		<EmailTemplatesDialog
+			open={manageTemplatesOpen}
+			onClose={() => { setManageTemplatesOpen(false); loadEmailTemplates(); }}
+			language={(i18n.language || 'en').split('-')[0]}
+		/>
 
 		{/* Archive-all confirmation */}
 		<Dialog open={Boolean(archiveConfirm)} onClose={() => !actionBusy && setArchiveConfirm(null)} PaperProps={{ sx: { borderRadius: 2.5 } }}>
