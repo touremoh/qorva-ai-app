@@ -14,3 +14,6 @@ export const patchJobStatus = (id, status) =>
 
 export const deleteJob = (id) =>
     apiClient.delete(`/jobs/${id}`);
+
+export const suggestScoringRules = (title, description) =>
+    apiClient.post('/jobs/scoring-rules/suggest', { title, description });

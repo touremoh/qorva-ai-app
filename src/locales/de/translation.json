@@ -10,7 +10,6 @@
     "emailRequired": "E-Mail wird benötigt",
     "emailInvalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
     "passwordRequired": "Passwort wird benötigt",
-    "passwordInvalid": "8–20 Zeichen, mindestens 1 Großbuchstabe, 1 Kleinbuchstabe, 1 Zahl und 1 Sonderzeichen",
     "invalidCredentials": "E-Mail oder Passwort ungültig",
     "togglePasswordVisibility": "Passwort ein-/ausblenden",
     "panel": {
@@ -21,7 +20,11 @@
       "bullet2": "Job-Kandidaten-Matching",
       "bullet3": "KI-Lebenslauf-Chat",
       "freeToStart": "Kostenlos starten"
-    }
+    },
+    "signingIn": "Sie werden angemeldet…",
+    "signedIn": "Angemeldet!",
+    "checkoutError": "Der Bezahlvorgang konnte nicht gestartet werden. Bitte kontaktieren Sie den Support.",
+    "subscriptionInactive": "Ihr Konto ist nicht aktiv. Bitte kontaktieren Sie den Support."
   },
   "registration": {
     "freeTrialTitle": "Kostenlose Testphase",
@@ -66,6 +69,23 @@
       "message": "Ihr Konto wurde erstellt.",
       "confirmationEmail": "Eine Bestätigung wurde an Ihre E-Mail gesendet.",
       "signInLink": "Jetzt anmelden und starten."
+    },
+    "demoSubtext": "Erstellen Sie Ihren kostenlosen Demo-Arbeitsbereich — keine Kreditkarte, keine Zahlung.",
+    "organizationName": "Name der Organisation",
+    "organizationNameRequired": "Name der Organisation ist erforderlich",
+    "recruitmentType": "Welche Art von Recruiting betreiben Sie hauptsächlich?",
+    "recruitmentTypeRequired": "Bitte wählen Sie eine Recruiting-Art",
+    "organizationSize": "Größe der Organisation",
+    "organizationSizeRequired": "Bitte wählen Sie eine Größe",
+    "orgSizeEmployees": "{{size}} Mitarbeitende",
+    "accountExists": "Ein Konto mit dieser E-Mail existiert bereits. Bitte melden Sie sich an.",
+    "createFreeAccount": "Kostenloses Konto erstellen",
+    "progress": {
+      "creatingAccount": "Ihr Konto wird erstellt…",
+      "settingUpWorkspace": "Ihr Arbeitsbereich wird eingerichtet…",
+      "preparingLibrary": "Beispiel-Lebensläufe werden in Ihre Bibliothek geladen…",
+      "almostDone": "Fast fertig…",
+      "done": "Konto erstellt!"
     }
   },
   "header": {
@@ -77,7 +97,10 @@
     "logout": "Abmelden",
     "aiResumeChat": "KI-Lebenslauf-Chat",
     "intelligence": "Talent-Intelligenz",
-    "usageMonitoring": "Nutzungsüberwachung"
+    "usageMonitoring": "Nutzungsüberwachung",
+    "libraryQuality": "Bibliotheksqualität",
+    "resumes": "Alle Lebensläufe",
+    "emailTemplates": "E-Mail-Vorlagen"
   },
   "footer": {
     "rightsReserved": "© Qorva AI. Alle Rechte vorbehalten."
@@ -154,7 +177,11 @@
     },
     "availabilityStatuses": "Einzuschließende Verfügbarkeitsstatus",
     "copyReference": "Referenz kopieren",
-    "copied": "Kopiert!"
+    "copied": "Kopiert!",
+    "aiPrefill": {
+      "drafting": "Die KI entwirft Ihre Scoring-Regeln…",
+      "applied": "KI-Vorschlag für Scoring-Regeln — prüfen und anpassen vor dem Speichern."
+    }
   },
   "appCVContent": {
     "createCVEntry": "Lebenslauf hinzufügen",
@@ -281,13 +308,45 @@
     "uploadFiles": "Dateien hochladen",
     "uploadInProgress": "Upload läuft…",
     "uploadCVInfo": "Bis zu 100 Lebensläufe (.pdf oder .docx) hochladen.",
+    "uploadProgressTitle": "Ihre Lebensläufe werden verarbeitet…",
+    "uploadComplete": "Lebensläufe erfolgreich hochgeladen!",
+    "remaining": "verbleibend",
+    "almostDone": "Fast fertig…",
+    "uploadPhase1": "Lebensläufe werden hochgeladen…",
+    "uploadPhase2": "Text und Kontaktdaten werden extrahiert…",
+    "uploadPhase3": "Erfahrung und Fähigkeiten werden analysiert…",
+    "uploadPhase4": "Kandidatenprofile werden strukturiert…",
+    "uploadPhase5": "Kandidaten werden gruppiert…",
+    "uploadPhase6": "Abschluss und Prüfung auf Duplikate…",
     "skills": "Fähigkeiten",
     "filterByName": "Nach Name filtern…",
     "filterByRole": "Nach Rolle filtern…",
     "filterBySkill": "Nach Fähigkeit filtern…",
     "filterMinExp": "Min. Jahre…",
     "resumeCount": "{{count}} Lebenslauf/-läufe",
-    "pageOf": "Seite {{page}} von {{total}}"
+    "pageOf": "Seite {{page}} von {{total}}",
+    "uploadResults": {
+      "title": "Upload-Ergebnisse",
+      "failed": "Diese Datei konnte nicht verarbeitet werden.",
+      "duplicateOf": "Entspricht {{name}} (hinzugefügt am {{date}})",
+      "replace": "Alte Version ersetzen",
+      "keepBoth": "Beide behalten",
+      "replaceAll": "Alle alten Versionen ersetzen",
+      "replaced": "Alte Version ersetzt.",
+      "kept": "Beide Versionen behalten.",
+      "done": "Fertig"
+    },
+    "uploadWarnings": {
+      "MISSING_PHONE": "Telefon fehlt",
+      "MISSING_EMAIL": "E-Mail fehlt",
+      "MISSING_CONTACT": "keine Kontaktdaten",
+      "NO_WORK_EXPERIENCE": "keine Berufserfahrung",
+      "LOW_AI_CONFIDENCE": "geringe KI-Konfidenz",
+      "NO_AI_ANALYSIS": "keine KI-Analyse"
+    },
+    "archived": "Archiviert",
+    "showArchivedTooltip": "Archivierte Lebensläufe anzeigen",
+    "unarchive": "Wiederherstellen"
   },
   "appCVMatching": {
     "selectJobPost": "Stelle auswählen",
@@ -606,7 +665,10 @@
       "used": "genutzt",
       "cumulativeTooltip": "Gesamtzahl über alle Zeiträume",
       "allTime": "gesamt",
-      "lastUpdated": "Zuletzt aktualisiert"
+      "lastUpdated": "Zuletzt aktualisiert",
+      "unlimited": "Unbegrenzt",
+      "planAllowance": "Plankontingent",
+      "templatesTooltip": "Gespeicherte Einladungsvorlagen — ein Plankontingent, kein monatliches Kontingent"
     }
   },
   "appAIResumeChat": {
@@ -686,30 +748,37 @@
       "sla": "SLA-Garantien"
     },
     "starter": {
-      "users": "1 Benutzer",
-      "matchingActions": "5 Matching-Aktionen / Monat",
-      "aiChat": "50 KI-Chat-Nachrichten / Monat",
-      "queries": "10 Talentpool-Abfragen / Monat"
+      "users": "2 Benutzer",
+      "matchingActions": "2.000 Matching-Aktionen / Monat",
+      "aiChat": "500 KI-Chat-Nachrichten / Monat",
+      "queries": "1.000 Talentpool-Abfragen / Monat",
+      "emailTemplates": "3 E-Mail-Vorlagen"
     },
     "pro": {
-      "users": "Bis zu 3 Benutzer",
-      "matchingActions": "20 Matching-Aktionen / Monat",
-      "aiChat": "200 KI-Chat-Nachrichten / Monat",
-      "queries": "50 Talentpool-Abfragen / Monat"
+      "users": "5 Benutzer",
+      "matchingActions": "10.000 Matching-Aktionen / Monat",
+      "aiChat": "1.500 KI-Chat-Nachrichten / Monat",
+      "queries": "3.000 Talentpool-Abfragen / Monat",
+      "emailTemplates": "15 E-Mail-Vorlagen"
     },
     "scale": {
-      "users": "Unbegrenzte Benutzer",
-      "matchingActions": "Unbegrenzte Matching-Aktionen",
-      "aiChat": "Unbegrenzte KI-Chat-Nachrichten",
-      "queries": "Unbegrenzte Talentpool-Abfragen"
+      "users": "15 Benutzer",
+      "matchingActions": "25.000 Matching-Aktionen / Monat",
+      "aiChat": "4.000 KI-Chat-Nachrichten / Monat",
+      "queries": "8.000 Talentpool-Abfragen / Monat",
+      "emailTemplates": "50 E-Mail-Vorlagen"
     }
   },
   "registrationSuccess": {
     "title": "Alles erledigt!",
     "subtitle": "Ihr Qorva AI-Konto wurde erfolgreich erstellt.",
-    "emailNote": "Wir haben Ihnen eine Bestätigungs-E-Mail gesendet. Bitte bestätigen Sie Ihre E-Mail-Adresse, um alle Funktionen freizuschalten. Prüfen Sie ggf. den Spam-Ordner.",
+    "emailNote": "Wir haben eine E-Mail gesendet, um Ihr Konto zu aktivieren und Ihr Passwort festzulegen. Falls Sie sie nicht sehen, prüfen Sie Ihren Spam-Ordner.",
     "ctaLogin": "Zum Login",
-    "help": "Brauchen Sie Hilfe? Kontaktieren Sie den Support unter support@qorva.ai"
+    "help": "Brauchen Sie Hilfe? Kontaktieren Sie den Support unter support@qorva.ai",
+    "noEmail": "Nicht erhalten?",
+    "resend": "Erneut senden",
+    "resending": "Wird gesendet…",
+    "resendConfirm": "Falls diese E-Mail existiert, haben wir einen neuen Link gesendet."
   },
   "insight": {
     "metrics": {
@@ -867,18 +936,18 @@
       "extraction_failed": "Die Extraktion der Lebenslaufdaten ist fehlgeschlagen. Bitte versuchen Sie es erneut."
     },
     "file": {
-      "empty": "Die Datei \u201e{{filename}}\u201c ist leer.",
-      "pdf_read_failed": "Die PDF-Datei \u201e{{filename}}\u201c konnte nicht gelesen werden. Bitte überprüfen Sie, ob sie beschädigt ist.",
-      "word_read_failed": "Die Word-Datei \u201e{{filename}}\u201c konnte nicht gelesen werden. Bitte überprüfen Sie, ob sie beschädigt ist.",
-      "read_failed": "Die Datei \u201e{{filename}}\u201c konnte nicht gelesen werden. Bitte überprüfen Sie, ob sie beschädigt ist.",
+      "empty": "Die Datei „{{filename}}“ ist leer.",
+      "pdf_read_failed": "Die PDF-Datei „{{filename}}“ konnte nicht gelesen werden. Bitte überprüfen Sie, ob sie beschädigt ist.",
+      "word_read_failed": "Die Word-Datei „{{filename}}“ konnte nicht gelesen werden. Bitte überprüfen Sie, ob sie beschädigt ist.",
+      "read_failed": "Die Datei „{{filename}}“ konnte nicht gelesen werden. Bitte überprüfen Sie, ob sie beschädigt ist.",
       "name_null": "Der Dateiname fehlt.",
-      "unsupported_type": "Nicht unterstützter Dateityp \u201e{{filename}}\u201c. Bitte laden Sie eine PDF- oder DOCX-Datei hoch."
+      "unsupported_type": "Nicht unterstützter Dateityp „{{filename}}“. Bitte laden Sie eine PDF- oder DOCX-Datei hoch."
     },
     "report": {
       "job_id_required": "Es muss eine Stellenanzeige ausgewählt werden, um einen Bericht zu erstellen.",
       "candidate_info_required": "Kandidateninformationen sind erforderlich.",
       "resume_match_not_found": "Kein passender Bericht für die angegebenen Daten gefunden.",
-      "match_not_found_by_id": "Übereinstimmungsbericht \u201e{{id}}\u201c wurde nicht gefunden.",
+      "match_not_found_by_id": "Übereinstimmungsbericht „{{id}}“ wurde nicht gefunden.",
       "no_reports_for_job": "Keine Berichte für die ausgewählte Stelle gefunden.",
       "csv_export_failed": "Der CSV-Export konnte nicht generiert werden. Bitte versuchen Sie es erneut."
     },
@@ -911,5 +980,256 @@
       "validation": "Ein oder mehrere Felder haben die Validierung nicht bestanden.",
       "unexpected": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es später erneut."
     }
+  },
+  "recruitment": {
+    "TECH_IT": "Tech & IT",
+    "ENGINEERING": "Ingenieurwesen",
+    "FINANCE_ACCOUNTING": "Finanzen & Buchhaltung",
+    "SALES_MARKETING": "Vertrieb & Marketing",
+    "HEALTHCARE_LIFESCIENCES": "Gesundheit & Life Sciences",
+    "EXECUTIVE_MANAGEMENT": "Führung & Management",
+    "GENERALIST": "Generalist"
+  },
+  "demo": {
+    "upgradeToUnlock": "Upgrade zum Freischalten",
+    "upgradeTooltip": "Upgraden für vollen Zugriff",
+    "bannerTitle": "Sie befinden sich im Demo-Modus",
+    "bannerSubtitle": "mit Beispieldaten",
+    "startTrial": "14-tägige kostenlose Testphase starten",
+    "startTrialCta": "Kostenlose Testphase starten",
+    "upgradeTitle": "Arbeitsbereich upgraden",
+    "upgradeSubtitle": "Schalten Sie Uploads, Stellenanzeigen, Teamverwaltung und unbegrenzte Berichte frei. 14 Tage gratis, jederzeit kündbar.",
+    "upgradeForbiddenSubtitle": "Diese Aktion erfordert einen kostenpflichtigen Tarif. Starten Sie Ihre 14-tägige kostenlose Testphase für vollen Zugriff.",
+    "selectPlanFirst": "Bitte wählen Sie einen Tarif, um fortzufahren.",
+    "upgradeError": "Checkout konnte nicht gestartet werden. Bitte erneut versuchen.",
+    "stripeNote": "Sichere Zahlung über Stripe. Ihre 14-tägige Testphase beginnt heute — jederzeit kündbar.",
+    "close": "Schließen",
+    "reportsQuota": "Demo-Berichte",
+    "quotaExhaustedTooltip": "Berichtslimit erreicht — upgraden für unbegrenzte Berichte"
+  },
+  "setPassword": {
+    "title": "Passwort festlegen",
+    "subtitle": "Wählen Sie ein Passwort, um Ihr Konto zu aktivieren.",
+    "newPassword": "Neues Passwort",
+    "confirmPassword": "Passwort bestätigen",
+    "passwordRequired": "Passwort ist erforderlich",
+    "passwordTooShort": "Das Passwort muss mindestens 8 Zeichen lang sein",
+    "passwordInvalid": "8–64 Zeichen mit mindestens 1 Großbuchstaben, 1 Kleinbuchstaben, 1 Zahl und 1 Sonderzeichen",
+    "confirmRequired": "Bitte bestätigen Sie Ihr Passwort",
+    "passwordMismatch": "Die Passwörter stimmen nicht überein",
+    "passwordHint": "Mindestens 8 Zeichen, mit Großbuchstabe, Kleinbuchstabe, Zahl und Sonderzeichen",
+    "togglePasswordVisibility": "Passwortsichtbarkeit umschalten",
+    "submit": "Passwort festlegen & aktivieren",
+    "successTitle": "Passwort festgelegt!",
+    "successMessage": "Ihr Konto ist jetzt aktiv. Weiterleitung zur Anmeldung…",
+    "errorInvalid": "Dieser Link ist ungültig oder abgelaufen.",
+    "errorUsed": "Dieser Link wurde bereits verwendet.",
+    "errorGeneric": "Etwas ist schiefgelaufen. Bitte erneut versuchen.",
+    "requestNewLink": "Neuen Link anfordern",
+    "goToLogin": "Anmelden"
+  },
+  "resendActivation": {
+    "title": "Aktivierungslink erneut senden",
+    "subtitle": "Geben Sie Ihre E-Mail ein und wir senden Ihnen einen neuen Link, um Ihr Konto zu aktivieren und Ihr Passwort festzulegen.",
+    "emailLabel": "Geschäftliche E-Mail",
+    "emailRequired": "E-Mail ist erforderlich",
+    "emailInvalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+    "submit": "Link senden",
+    "sentTitle": "Prüfen Sie Ihren Posteingang",
+    "sentMessage": "Falls diese E-Mail existiert, haben wir einen Link zum Aktivieren Ihres Kontos und Festlegen Ihres Passworts gesendet.",
+    "backToLogin": "Zurück zur Anmeldung"
+  },
+  "checkoutSuccess": {
+    "activatingTitle": "Ihre Testphase wird aktiviert…",
+    "activatingSubtitle": "Wir bestätigen Ihre Zahlung und schalten den vollen Zugriff frei. Das dauert nur wenige Sekunden.",
+    "trialStartedTitle": "Testphase gestartet!",
+    "trialStartedSubtitle": "Ihre 14-tägige kostenlose Testphase ist aktiv und der volle Zugriff ist freigeschaltet. Ihr Arbeitsbereich ist bereit für echte Daten.",
+    "goToWorkspace": "Zum Arbeitsbereich",
+    "pendingTitle": "Zahlung erhalten",
+    "pendingSubtitle": "Ihre Testphase wird aktiviert. Das kann einen Moment dauern — öffnen Sie Ihren Arbeitsbereich, er wird automatisch freigeschaltet."
+  },
+  "libraryQuality": {
+    "overall": "Bibliotheksgesundheit",
+    "totalCVs": "{{count}} Lebensläufe analysiert",
+    "error": "Der Qualitätsbericht konnte nicht geladen werden. Bitte versuchen Sie es erneut.",
+    "retry": "Erneut versuchen",
+    "empty": {
+      "title": "Noch keine Lebensläufe",
+      "subtitle": "Laden Sie Lebensläufe hoch, um den Gesundheitsscore Ihrer Bibliothek und Verbesserungsvorschläge zu sehen."
+    },
+    "noIssues": "Keine Probleme gefunden — Ihre Bibliothek ist in Bestform!",
+    "view": "Ansehen",
+    "dimensions": {
+      "completeness": "Vollständigkeit",
+      "completenessHint": "Kontaktdaten und Profildaten in Ihren Lebensläufen.",
+      "freshness": "Aktualität",
+      "freshnessHint": "Wie aktuell der Inhalt der Lebensläufe tatsächlich ist.",
+      "uniqueness": "Eindeutigkeit",
+      "uniquenessHint": "{{count}} Duplikatgruppen erkannt.",
+      "parseConfidence": "KI-Konfidenz",
+      "parseConfidenceHint": "{{count}} Lebensläufe benötigen Überprüfung."
+    },
+    "sections": {
+      "completeness": "Feldvollständigkeit",
+      "freshness": "Inhaltsaktualität",
+      "issues": "Zu behebende Probleme"
+    },
+    "groups": {
+      "critical": "Kritisch",
+      "important": "Wichtig",
+      "enrichment": "Anreicherung"
+    },
+    "fields": {
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "name": "Name",
+      "role": "Position",
+      "workExperience": "Berufserfahrung",
+      "keySkills": "Kernkompetenzen",
+      "careerStartYear": "Karrierebeginn",
+      "education": "Ausbildung",
+      "languages": "Sprachen",
+      "certifications": "Zertifizierungen",
+      "salaryExpectation": "Gehaltsvorstellung",
+      "linkedin": "LinkedIn",
+      "summary": "Zusammenfassung"
+    },
+    "buckets": {
+      "UP_TO_DATE": "Aktuell",
+      "REVIEW_SUGGESTED": "Überprüfung empfohlen",
+      "OUTDATED": "Veraltet",
+      "UNKNOWN": "Unbekannt"
+    },
+    "severity": {
+      "CRITICAL": "Kritisch",
+      "HIGH": "Hoch",
+      "MEDIUM": "Mittel"
+    },
+    "issues": {
+      "MISSING_CONTACT": "Keine Kontaktdaten (E-Mail und Telefon fehlen)",
+      "MISSING_EMAIL": "E-Mail-Adresse fehlt",
+      "MISSING_PHONE": "Telefonnummer fehlt",
+      "NO_WORK_EXPERIENCE": "Keine Berufserfahrung extrahiert",
+      "NO_SKILLS": "Keine Kompetenzen extrahiert",
+      "MISSING_SUMMARY": "Profilzusammenfassung fehlt",
+      "OUTDATED": "Inhalt veraltet (älter als 18 Monate)",
+      "UNKNOWN_FRESHNESS": "Aktualität unbekannt (keine datierbaren Inhalte)",
+      "LOW_PARSE_CONFIDENCE": "Geringe KI-Analysekonfidenz",
+      "DUPLICATES": "Doppelte Lebensläufe"
+    },
+    "drilldown": {
+      "name": "Name",
+      "role": "Position",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "contentDate": "Inhaltsdatum",
+      "lastUpdated": "Zuletzt aktualisiert",
+      "empty": "Keine Lebensläufe für dieses Problem gefunden.",
+      "add": "Hinzufügen",
+      "confirmCurrent": "Als aktuell bestätigen ({{count}})",
+      "confirmHint": "Wählen Sie geprüfte, weiterhin korrekte Lebensläufe aus (max. {{max}})"
+    },
+    "verdict": {
+      "excellent": "Ausgezeichnet",
+      "good": "Gut",
+      "fair": "Ausreichend",
+      "poor": "Verbesserungsbedürftig",
+      "drag": "{{rating}} — {{dimension}} zieht Ihren Score nach unten.",
+      "healthy": "{{rating}} — alle Dimensionen sehen gesund aus."
+    },
+    "duplicates": {
+      "empty": "Keine Duplikate gefunden.",
+      "added": "Hinzugefügt",
+      "delete": "Lebenslauf löschen",
+      "groupCount": "{{count}} Duplikatgruppen"
+    },
+    "badgeTooltip": "{{count}} zu behebende Probleme",
+    "archiveAll": "Alle archivieren",
+    "archiveAllTitle": "Lebensläufe archivieren",
+    "archiveAllConfirmation": "Dadurch werden {{count}} Lebensläufe archiviert. Archivierte Lebensläufe sind vom Matching und Qualitätsbericht ausgeschlossen; Sie können sie jederzeit in der Bibliothek wiederherstellen.",
+    "dismiss": "Verwerfen — akzeptiert, aus offenen Problemen ausblenden",
+    "reopen": "Problem wieder öffnen",
+    "dismissedSection": "Verworfen ({{count}})",
+    "jobs": {
+      "reanalyzeAll": "Alle neu analysieren",
+      "cancel": "Abbrechen",
+      "running": "KI-Neuanalyse läuft — {{processed}}/{{total}} Lebensläufe",
+      "confirmTitle": "Lebensläufe mit KI neu analysieren",
+      "confirmBody": "Dies führt die KI-Extraktion für {{count}} Lebensläufe erneut aus und verbraucht {{actions}} Screening-Aktionen{{quota}}.",
+      "confirmQuota": " ({{remaining}} in diesem Zeitraum übrig)",
+      "confirmSkipped": "{{count}} ältere Lebensläufe haben keinen gespeicherten Quelltext und werden übersprungen — laden Sie sie erneut hoch.",
+      "confirmStart": "Neuanalyse starten",
+      "resultDetail": "{{succeeded}} aktualisiert · {{failed}} fehlgeschlagen · {{skipped}} übersprungen (kein Text)",
+      "status": {
+        "COMPLETED": "Neuanalyse abgeschlossen",
+        "COMPLETED_WITH_ERRORS": "Neuanalyse mit Fehlern abgeschlossen",
+        "FAILED": "Neuanalyse fehlgeschlagen",
+        "CANCELLED": "Neuanalyse abgebrochen"
+      }
+    },
+    "campaign": {
+      "requestUpdates": "Updates anfragen",
+      "confirmTitle": "Updates von Kandidaten anfragen",
+      "confirmBody": "Bis zu {{count}} Kandidaten erhalten per E-Mail einen sicheren Link, um Verfügbarkeit, Gehaltsvorstellung und Lebenslauf zu aktualisieren. Kandidaten ohne E-Mail, abgemeldete Kandidaten und solche mit offener Anfrage werden automatisch übersprungen.",
+      "confirmSend": "Anfragen senden",
+      "template": "E-Mail-Vorlage",
+      "defaultTemplate": "Standard-Qorva-Nachricht",
+      "manageTemplates": "Verwalten…"
+    }
+  },
+  "candidateUpdate": {
+    "invalid": "Dieser Link ist nicht mehr gültig. Er ist möglicherweise abgelaufen oder wurde bereits verwendet.",
+    "title": "Hallo {{name}}, halten Sie Ihr Profil aktuell",
+    "subtitle": "Bestätigen Sie Ihre Verfügbarkeit und Erwartungen — es dauert eine Minute.",
+    "status": "Verfügbarkeit",
+    "availableFrom": "Verfügbar ab",
+    "noticePeriod": "Kündigungsfrist (Tage)",
+    "currency": "Währung",
+    "salaryMin": "Gehalt min",
+    "salaryMax": "Gehalt max",
+    "uploadCV": "Neueren Lebenslauf hochladen (optional, .pdf oder .docx)",
+    "consent": "Mit dem Absenden stimmen Sie zu, dass diese Informationen an den Recruiter weitergegeben und zur Aktualität Ihres Profils verarbeitet werden.",
+    "submit": "Profil aktualisieren",
+    "doneTitle": "Danke — Ihr Profil ist aktuell!",
+    "doneSubtitle": "Sie können diese Seite schließen.",
+    "unsubscribeTitle": "Von Update-Anfragen abmelden?",
+    "unsubscribeSubtitle": "Sie erhalten keine Profil-Update-E-Mails mehr von diesem Recruiter.",
+    "unsubscribeButton": "Abmelden",
+    "unsubscribedTitle": "Sie wurden abgemeldet.",
+    "unsubscribedSubtitle": "Sie erhalten keine weiteren Update-Anfragen.",
+    "submitError": "Etwas ist schiefgelaufen — bitte versuchen Sie es erneut.",
+    "processingFailed": "Wir konnten Ihren Lebenslauf nicht verarbeiten — bitte versuchen Sie es erneut.",
+    "processingTitle": "Ihr Profil wird aktualisiert",
+    "stageReceived": "Lebenslauf erhalten…",
+    "stageParsing": "Ihr Lebenslauf wird gelesen…",
+    "stageUpdating": "Ihr Profil wird aktualisiert…",
+    "processingHint": "Das dauert in der Regel weniger als eine Minute.",
+    "processingSlow": "Das dauert länger als erwartet — Sie können diese Seite schließen; Ihre Aktualisierung wird automatisch abgeschlossen."
+  },
+  "emailTemplates": {
+    "pageTitle": "E-Mail-Vorlagen",
+    "pageSubtitle": "Gestalten Sie die Nachrichten, die Kandidaten erhalten, wenn Sie eine Profilaktualisierung anfordern. Wählen Sie beim Start einer Kampagne aus der Bibliotheksqualität eine Vorlage — oder lassen Sie das Feld leer, um die Standard-Qorva-Nachricht zu verwenden.",
+    "title": "Einladungs-E-Mail-Vorlagen",
+    "new": "Neue Vorlage",
+    "none": "Noch keine Vorlagen — Kampagnen verwenden die Standard-Qorva-Nachricht.",
+    "name": "Vorlagenname",
+    "subject": "Betreff",
+    "body": "Nachricht",
+    "bodyHint": "Nur Text. Leerzeilen beginnen einen neuen Absatz. Begrüßung, Aktionsschaltfläche, Ihre Signatur (Name und Unternehmen) und der Abmeldelink werden automatisch hinzugefügt.",
+    "placeholders": "Einfügen:",
+    "preview": "Vorschau",
+    "save": "Speichern",
+    "saved": "Vorlage gespeichert.",
+    "close": "Schließen",
+    "sendTest": "Test an mich senden",
+    "testSent": "Test-E-Mail an Ihre Adresse gesendet.",
+    "deleteHint": "Diese Vorlage löschen",
+    "loadError": "Vorlagen konnten nicht geladen werden.",
+    "saveError": "Vorlage konnte nicht gespeichert werden.",
+    "deleteError": "Vorlage konnte nicht gelöscht werden.",
+    "previewError": "Vorschau konnte nicht erstellt werden.",
+    "testError": "Test-E-Mail konnte nicht gesendet werden.",
+    "limitNote": "{{count}} von {{limit}} Vorlagen verwendet",
+    "limitReached": "Planlimit erreicht — löschen Sie eine Vorlage oder führen Sie ein Upgrade durch."
   }
 }

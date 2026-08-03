@@ -10,7 +10,6 @@
     "emailRequired": "Email is required",
     "emailInvalid": "Enter a valid business email",
     "passwordRequired": "Password is required",
-    "passwordInvalid": "8–20 characters, with uppercase, lowercase, number, and special character",
     "invalidCredentials": "Incorrect email or password",
     "checkoutError": "Could not initiate checkout. Please contact support.",
     "subscriptionInactive": "Your account is not active. Please contact support.",
@@ -23,7 +22,9 @@
       "bullet2": "Job to candidate matching",
       "bullet3": "AI Resume Chat",
       "freeToStart": "Free to start"
-    }
+    },
+    "signingIn": "Signing you in…",
+    "signedIn": "Signed in!"
   },
   "registration": {
     "freeTrialTitle": "Free Trial",
@@ -68,6 +69,23 @@
       "message": "Your account has been created.",
       "confirmationEmail": "We sent a confirmation email to your inbox.",
       "signInLink": "Sign in now to get started."
+    },
+    "demoSubtext": "Create your free demo workspace — no credit card, no payment.",
+    "organizationName": "Organization Name",
+    "organizationNameRequired": "Organization name is required",
+    "recruitmentType": "What type of recruitment do you mostly do?",
+    "recruitmentTypeRequired": "Please select a recruitment type",
+    "organizationSize": "Organization Size",
+    "organizationSizeRequired": "Please select an organization size",
+    "orgSizeEmployees": "{{size}} employees",
+    "accountExists": "An account with this email already exists. Please log in.",
+    "createFreeAccount": "Create free account",
+    "progress": {
+      "creatingAccount": "Creating your account…",
+      "settingUpWorkspace": "Setting up your workspace…",
+      "preparingLibrary": "Loading sample resumes into your library…",
+      "almostDone": "Almost done…",
+      "done": "Account created!"
     }
   },
   "header": {
@@ -79,7 +97,10 @@
     "logout": "Sign Out",
     "aiResumeChat": "AI Resume Chat",
     "intelligence": "Talent Intelligence",
-    "usageMonitoring": "Usage Monitoring"
+    "usageMonitoring": "Usage Monitoring",
+    "libraryQuality": "Library Quality",
+    "resumes": "All Resumes",
+    "emailTemplates": "Email Templates"
   },
   "footer": {
     "rightsReserved": "© Qorva AI. All rights reserved."
@@ -156,7 +177,11 @@
     },
     "availabilityStatuses": "Availability Statuses to Match",
     "copyReference": "Copy reference",
-    "copied": "Copied!"
+    "copied": "Copied!",
+    "aiPrefill": {
+      "drafting": "AI is drafting your scoring rules…",
+      "applied": "AI-suggested scoring rules — review and adjust before saving."
+    }
   },
   "appCVContent": {
     "createCVEntry": "Add Resume",
@@ -279,13 +304,45 @@
     "uploadFiles": "Upload Files",
     "uploadInProgress": "Uploading… please wait",
     "uploadCVInfo": "Upload up to 100 resumes (.pdf or .docx).",
+    "uploadProgressTitle": "Processing your resumes…",
+    "uploadComplete": "Resumes uploaded successfully!",
+    "remaining": "remaining",
+    "almostDone": "Almost done…",
+    "uploadPhase1": "Uploading your resumes…",
+    "uploadPhase2": "Extracting text and contact details…",
+    "uploadPhase3": "Parsing experience and skills…",
+    "uploadPhase4": "Structuring candidate profiles…",
+    "uploadPhase5": "Clustering candidates…",
+    "uploadPhase6": "Finalizing and checking for duplicates…",
     "skills": "Skills",
     "filterByName": "Filter by name…",
     "filterByRole": "Filter by role…",
     "filterBySkill": "Filter by skill…",
     "filterMinExp": "Min. years…",
     "resumeCount": "{{count}} resume(s)",
-    "pageOf": "page {{page}} of {{total}}"
+    "pageOf": "page {{page}} of {{total}}",
+    "uploadResults": {
+      "title": "Upload results",
+      "failed": "This file could not be processed.",
+      "duplicateOf": "Matches existing {{name}} (added {{date}})",
+      "replace": "Replace old version",
+      "keepBoth": "Keep both",
+      "replaceAll": "Replace all old versions",
+      "replaced": "Old version replaced.",
+      "kept": "Both versions kept.",
+      "done": "Done"
+    },
+    "uploadWarnings": {
+      "MISSING_PHONE": "missing phone",
+      "MISSING_EMAIL": "missing email",
+      "MISSING_CONTACT": "no contact info",
+      "NO_WORK_EXPERIENCE": "no work experience",
+      "LOW_AI_CONFIDENCE": "low AI confidence",
+      "NO_AI_ANALYSIS": "no AI analysis"
+    },
+    "archived": "Archived",
+    "showArchivedTooltip": "Show archived resumes",
+    "unarchive": "Unarchive"
   },
   "appCVMatching": {
     "selectJobPost": "Choose Job Post",
@@ -604,7 +661,10 @@
       "used": "used",
       "cumulativeTooltip": "All-time total across all periods",
       "allTime": "all-time",
-      "lastUpdated": "Last updated"
+      "lastUpdated": "Last updated",
+      "unlimited": "Unlimited",
+      "planAllowance": "plan allowance",
+      "templatesTooltip": "Saved invitation templates — a plan allowance, not a monthly quota"
     }
   },
   "appAIResumeChat": {
@@ -685,21 +745,24 @@
     },
     "starter": {
       "users": "2 users",
-      "matchingActions": "1,000 matching actions / month",
-      "aiChat": "300 AI Resume Chat messages / month",
-      "queries": "500 Talent Intelligence Queries / month"
+      "matchingActions": "2,000 matching actions / month",
+      "aiChat": "500 AI Resume Chat messages / month",
+      "queries": "1,000 Talent Intelligence Queries / month",
+      "emailTemplates": "3 email templates"
     },
     "pro": {
       "users": "5 users",
-      "matchingActions": "5,000 matching actions / month",
-      "aiChat": "700 AI Resume Chat messages / month",
-      "queries": "1,500 Talent Intelligence Queries / month"
+      "matchingActions": "10,000 matching actions / month",
+      "aiChat": "1,500 AI Resume Chat messages / month",
+      "queries": "3,000 Talent Intelligence Queries / month",
+      "emailTemplates": "15 email templates"
     },
     "scale": {
-      "users": "10 users",
-      "matchingActions": "12,000 matching actions / month",
-      "aiChat": "2,000 AI Resume Chat messages / month",
-      "queries": "4,000 Talent Intelligence Queries / month"
+      "users": "15 users",
+      "matchingActions": "25,000 matching actions / month",
+      "aiChat": "4,000 AI Resume Chat messages / month",
+      "queries": "8,000 Talent Intelligence Queries / month",
+      "emailTemplates": "50 email templates"
     }
   },
   "checkoutSuccess": {
@@ -707,7 +770,14 @@
     "subtitle": "Your subscription is now active. Welcome to Qorva AI!",
     "emailNote": "We've sent a confirmation email to your inbox. Sign in to start hiring smarter.",
     "cta": "Sign In to Qorva",
-    "help": "Need help? Contact us at support@qorva.ai"
+    "help": "Need help? Contact us at support@qorva.ai",
+    "activatingTitle": "Activating your trial…",
+    "activatingSubtitle": "We're confirming your payment and unlocking full access. This only takes a few seconds.",
+    "trialStartedTitle": "Trial started!",
+    "trialStartedSubtitle": "Your 14-day free trial is active and full access is unlocked. Your workspace is ready for real data.",
+    "goToWorkspace": "Go to your workspace",
+    "pendingTitle": "Payment received",
+    "pendingSubtitle": "Your trial is being activated. It can take a moment — open your workspace and it'll unlock automatically."
   },
   "checkoutCancel": {
     "title": "Payment Cancelled",
@@ -720,9 +790,13 @@
   "registrationSuccess": {
     "title": "You’re all set!",
     "subtitle": "Your Qorva AI account has been created successfully.",
-    "emailNote": "We’ve sent a confirmation email to your inbox. Please verify your email to unlock all features. If you don’t see it, check your spam folder.",
+    "emailNote": "We've sent an email to activate your account and set your password. If you don't see it, check your spam folder.",
     "ctaLogin": "Go to login",
-    "help": "Need help? Contact support at support@qorva.ai"
+    "help": "Need help? Contact support at support@qorva.ai",
+    "noEmail": "Didn't get it?",
+    "resend": "Resend",
+    "resending": "Sending…",
+    "resendConfirm": "If that email exists, we've sent a new link."
   },
   "insight": {
     "metrics": {
@@ -880,18 +954,18 @@
       "extraction_failed": "Resume data extraction failed. Please try again."
     },
     "file": {
-      "empty": "The file \u201c{{filename}}\u201d is empty.",
-      "pdf_read_failed": "Could not read the PDF file \u201c{{filename}}\u201d. Please verify the file is not corrupted.",
-      "word_read_failed": "Could not read the Word file \u201c{{filename}}\u201d. Please verify the file is not corrupted.",
-      "read_failed": "Could not read the file \u201c{{filename}}\u201d. Please verify the file is not corrupted.",
+      "empty": "The file “{{filename}}” is empty.",
+      "pdf_read_failed": "Could not read the PDF file “{{filename}}”. Please verify the file is not corrupted.",
+      "word_read_failed": "Could not read the Word file “{{filename}}”. Please verify the file is not corrupted.",
+      "read_failed": "Could not read the file “{{filename}}”. Please verify the file is not corrupted.",
       "name_null": "File name is missing.",
-      "unsupported_type": "Unsupported file type \u201c{{filename}}\u201d. Please upload a PDF or DOCX file."
+      "unsupported_type": "Unsupported file type “{{filename}}”. Please upload a PDF or DOCX file."
     },
     "report": {
       "job_id_required": "A job post must be selected to create a matching report.",
       "candidate_info_required": "Candidate information is required.",
       "resume_match_not_found": "No matching report found for the provided data.",
-      "match_not_found_by_id": "Matching report \u201c{{id}}\u201d was not found.",
+      "match_not_found_by_id": "Matching report “{{id}}” was not found.",
       "no_reports_for_job": "No matching reports found for the selected job post.",
       "csv_export_failed": "Failed to generate the CSV export. Please try again."
     },
@@ -924,5 +998,247 @@
       "validation": "One or more fields failed validation.",
       "unexpected": "An unexpected error occurred. Please try again later."
     }
+  },
+  "recruitment": {
+    "TECH_IT": "Tech & IT",
+    "ENGINEERING": "Engineering",
+    "FINANCE_ACCOUNTING": "Finance & Accounting",
+    "SALES_MARKETING": "Sales & Marketing",
+    "HEALTHCARE_LIFESCIENCES": "Healthcare & Life Sciences",
+    "EXECUTIVE_MANAGEMENT": "Executive & Management",
+    "GENERALIST": "Generalist"
+  },
+  "demo": {
+    "upgradeToUnlock": "Upgrade to unlock",
+    "upgradeTooltip": "Upgrade to unlock full access",
+    "bannerTitle": "You're in demo mode",
+    "bannerSubtitle": "using sample data",
+    "startTrial": "Start 14-day free trial",
+    "startTrialCta": "Start free trial",
+    "upgradeTitle": "Upgrade your workspace",
+    "upgradeSubtitle": "Unlock uploads, job posts, team management and unlimited reports. 14 days free, cancel anytime.",
+    "upgradeForbiddenSubtitle": "That action needs a paid plan. Start your 14-day free trial to unlock full access.",
+    "selectPlanFirst": "Please select a plan to continue.",
+    "upgradeError": "Could not start checkout. Please try again.",
+    "stripeNote": "Secure checkout by Stripe. Your 14-day trial starts today — cancel anytime.",
+    "close": "Close",
+    "reportsQuota": "Demo reports",
+    "quotaExhaustedTooltip": "Report quota reached — upgrade for unlimited reports"
+  },
+  "setPassword": {
+    "title": "Set your password",
+    "subtitle": "Choose a password to activate your account.",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
+    "passwordRequired": "Password is required",
+    "passwordTooShort": "Password must be at least 8 characters",
+    "passwordInvalid": "8–64 characters with at least 1 uppercase, 1 lowercase, 1 number and 1 special character",
+    "confirmRequired": "Please confirm your password",
+    "passwordMismatch": "Passwords do not match",
+    "passwordHint": "At least 8 characters, with an uppercase, a lowercase, a number and a special character",
+    "togglePasswordVisibility": "Toggle password visibility",
+    "submit": "Set password & activate",
+    "successTitle": "Password set!",
+    "successMessage": "Your account is now active. Redirecting you to login…",
+    "errorInvalid": "This link is invalid or has expired.",
+    "errorUsed": "This link has already been used.",
+    "errorGeneric": "Something went wrong. Please try again.",
+    "requestNewLink": "Request a new link",
+    "goToLogin": "Log in"
+  },
+  "resendActivation": {
+    "title": "Resend activation link",
+    "subtitle": "Enter your email and we'll send you a fresh link to activate your account and set your password.",
+    "emailLabel": "Work email",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Please enter a valid email address",
+    "submit": "Send link",
+    "sentTitle": "Check your inbox",
+    "sentMessage": "If that email exists, we've sent a link to activate your account and set your password.",
+    "backToLogin": "Back to login"
+  },
+  "libraryQuality": {
+    "overall": "Library Health",
+    "totalCVs": "{{count}} resumes analyzed",
+    "error": "Could not load the library quality report. Please try again.",
+    "retry": "Retry",
+    "empty": {
+      "title": "No resumes yet",
+      "subtitle": "Upload resumes to your library to see its health score and get improvement suggestions."
+    },
+    "noIssues": "No issues found — your library is in great shape!",
+    "view": "View",
+    "dimensions": {
+      "completeness": "Completeness",
+      "completenessHint": "Contact details and profile data present on your resumes.",
+      "freshness": "Freshness",
+      "freshnessHint": "How current the resume content actually is.",
+      "uniqueness": "Uniqueness",
+      "uniquenessHint": "{{count}} duplicate groups detected.",
+      "parseConfidence": "AI Confidence",
+      "parseConfidenceHint": "{{count}} resumes need review."
+    },
+    "sections": {
+      "completeness": "Field Completeness",
+      "freshness": "Content Freshness",
+      "issues": "Issues To Fix"
+    },
+    "groups": {
+      "critical": "Critical",
+      "important": "Important",
+      "enrichment": "Enrichment"
+    },
+    "fields": {
+      "email": "Email",
+      "phone": "Phone",
+      "name": "Name",
+      "role": "Role",
+      "workExperience": "Work Experience",
+      "keySkills": "Key Skills",
+      "careerStartYear": "Career Start Year",
+      "education": "Education",
+      "languages": "Languages",
+      "certifications": "Certifications",
+      "salaryExpectation": "Salary Expectation",
+      "linkedin": "LinkedIn",
+      "summary": "Summary"
+    },
+    "buckets": {
+      "UP_TO_DATE": "Up to date",
+      "REVIEW_SUGGESTED": "Review suggested",
+      "OUTDATED": "Outdated",
+      "UNKNOWN": "Unknown"
+    },
+    "severity": {
+      "CRITICAL": "Critical",
+      "HIGH": "High",
+      "MEDIUM": "Medium"
+    },
+    "issues": {
+      "MISSING_CONTACT": "No contact information (email and phone missing)",
+      "MISSING_EMAIL": "Missing email address",
+      "MISSING_PHONE": "Missing phone number",
+      "NO_WORK_EXPERIENCE": "No work experience extracted",
+      "NO_SKILLS": "No skills extracted",
+      "MISSING_SUMMARY": "Missing profile summary",
+      "OUTDATED": "Content outdated (over 18 months old)",
+      "UNKNOWN_FRESHNESS": "Freshness unknown (no dateable content)",
+      "LOW_PARSE_CONFIDENCE": "Low AI analysis confidence",
+      "DUPLICATES": "Duplicate resumes"
+    },
+    "drilldown": {
+      "name": "Name",
+      "role": "Role",
+      "email": "Email",
+      "phone": "Phone",
+      "contentDate": "Content Date",
+      "lastUpdated": "Last Updated",
+      "empty": "No resumes found for this issue.",
+      "add": "Add",
+      "confirmCurrent": "Confirm current ({{count}})",
+      "confirmHint": "Select resumes you verified as still accurate (max {{max}})"
+    },
+    "verdict": {
+      "excellent": "Excellent",
+      "good": "Good",
+      "fair": "Fair",
+      "poor": "Needs attention",
+      "drag": "{{rating}} — {{dimension}} is dragging your score down.",
+      "healthy": "{{rating}} — all dimensions look healthy."
+    },
+    "duplicates": {
+      "empty": "No duplicates found.",
+      "added": "Added",
+      "delete": "Delete resume",
+      "groupCount": "{{count}} duplicate groups"
+    },
+    "badgeTooltip": "{{count}} issues to fix",
+    "archiveAll": "Archive all",
+    "archiveAllTitle": "Archive resumes",
+    "archiveAllConfirmation": "This will archive {{count}} resumes. Archived resumes are excluded from matching and quality reporting; you can unarchive them from the Resume Library at any time.",
+    "dismiss": "Dismiss — accepted, hide from open issues",
+    "reopen": "Reopen this issue",
+    "dismissedSection": "Dismissed ({{count}})",
+    "jobs": {
+      "reanalyzeAll": "Re-analyze all",
+      "cancel": "Cancel",
+      "running": "AI re-analysis in progress — {{processed}}/{{total}} resumes",
+      "confirmTitle": "Re-analyze resumes with AI",
+      "confirmBody": "This will re-run AI extraction on {{count}} resumes and use {{actions}} screening actions{{quota}}.",
+      "confirmQuota": " ({{remaining}} remaining this period)",
+      "confirmSkipped": "{{count}} older resumes have no stored source text and will be skipped — re-upload them to refresh.",
+      "confirmStart": "Start re-analysis",
+      "resultDetail": "{{succeeded}} updated · {{failed}} failed · {{skipped}} skipped (no stored text)",
+      "status": {
+        "COMPLETED": "Re-analysis completed",
+        "COMPLETED_WITH_ERRORS": "Re-analysis completed with errors",
+        "FAILED": "Re-analysis failed",
+        "CANCELLED": "Re-analysis cancelled"
+      }
+    },
+    "campaign": {
+      "requestUpdates": "Request updates",
+      "confirmTitle": "Request updates from candidates",
+      "confirmBody": "This will email up to {{count}} candidates a secure link to refresh their availability, salary expectations, and resume. Candidates without an email address, unsubscribed candidates, and those with a pending request are skipped automatically.",
+      "confirmSend": "Send requests",
+      "template": "Email template",
+      "defaultTemplate": "Standard Qorva message",
+      "manageTemplates": "Manage…"
+    }
+  },
+  "candidateUpdate": {
+    "invalid": "This link is no longer valid. It may have expired or already been used.",
+    "title": "Hi {{name}}, keep your profile up to date",
+    "subtitle": "Confirm your availability and expectations — it takes a minute.",
+    "status": "Availability",
+    "availableFrom": "Available from",
+    "noticePeriod": "Notice period (days)",
+    "currency": "Currency",
+    "salaryMin": "Salary min",
+    "salaryMax": "Salary max",
+    "uploadCV": "Upload a newer resume (optional, .pdf or .docx)",
+    "consent": "By submitting, you agree that this information is shared with the recruiter who holds your profile and processed to keep it accurate.",
+    "submit": "Update my profile",
+    "doneTitle": "Thank you — your profile is up to date!",
+    "doneSubtitle": "You can close this page.",
+    "unsubscribeTitle": "Unsubscribe from update requests?",
+    "unsubscribeSubtitle": "You will no longer receive profile update emails from this recruiter.",
+    "unsubscribeButton": "Unsubscribe",
+    "unsubscribedTitle": "You have been unsubscribed.",
+    "unsubscribedSubtitle": "You will not receive further update requests.",
+    "submitError": "Something went wrong — please try again.",
+    "processingFailed": "We could not process your resume — please try again.",
+    "processingTitle": "Updating your profile",
+    "stageReceived": "Resume received…",
+    "stageParsing": "Reading your resume…",
+    "stageUpdating": "Updating your profile…",
+    "processingHint": "This usually takes less than a minute.",
+    "processingSlow": "This is taking longer than expected — you can close this page; your update will finish automatically."
+  },
+  "emailTemplates": {
+    "pageTitle": "Email Templates",
+    "pageSubtitle": "Craft the messages candidates receive when you request a profile update. Pick a template when launching an update campaign from Library Quality — or leave it unset to use the standard Qorva message.",
+    "title": "Invitation email templates",
+    "new": "New template",
+    "none": "No templates yet — campaigns use the standard Qorva message.",
+    "name": "Template name",
+    "subject": "Subject",
+    "body": "Message",
+    "bodyHint": "Plain text. Blank lines start a new paragraph. The greeting, action button, your signature (name and company), and unsubscribe link are added automatically.",
+    "placeholders": "Insert:",
+    "preview": "Preview",
+    "save": "Save",
+    "saved": "Template saved.",
+    "close": "Close",
+    "sendTest": "Send test to me",
+    "testSent": "Test email sent to your address.",
+    "deleteHint": "Delete this template",
+    "loadError": "Could not load templates.",
+    "saveError": "Could not save the template.",
+    "deleteError": "Could not delete the template.",
+    "previewError": "Could not render the preview.",
+    "testError": "Could not send the test email.",
+    "limitNote": "{{count}} of {{limit}} templates used",
+    "limitReached": "Plan limit reached — delete a template or upgrade to create more."
   }
 }

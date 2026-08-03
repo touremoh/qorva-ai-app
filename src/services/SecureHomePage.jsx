@@ -11,6 +11,7 @@ import {
 	NEEDS_PAYMENT_STATUSES,
 } from "../constants.js";
 import { setAuthResults } from "../../localStorageManager.js";
+import { isDemoUser } from "../utils/demoMode.js";
 
 const SecureHomePage = ({ children }) => {
 	const navigate = useNavigate();
@@ -47,7 +48,11 @@ const SecureHomePage = ({ children }) => {
 				setAuthResults(response.data.data);
 				const subscriptionStatus = localStorage.getItem(SUBSCRIPTION_STATUS);
 
-				if (DASHBOARD_STATUSES.includes(subscriptionStatus)) {
+				// Demo accounts have no active subscription yet but still get full
+				// (restricted) access to the workspace with sample data.
+				if (isDemoUser()) {
+					setIsAuthorized(true);
+				} else if (DASHBOARD_STATUSES.includes(subscriptionStatus)) {
 					setIsAuthorized(true);
 				} else if (NEEDS_PAYMENT_STATUSES.includes(subscriptionStatus)) {
 					navigate('/billing/cancel');
