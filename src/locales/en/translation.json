@@ -303,7 +303,7 @@
     "presentedBy": "Presented by",
     "uploadFiles": "Upload Files",
     "uploadInProgress": "Uploading… please wait",
-    "uploadCVInfo": "Upload up to 100 resumes (.pdf or .docx).",
+    "uploadCVInfo": "Upload up to {{max}} resumes (.pdf or .docx).",
     "uploadProgressTitle": "Processing your resumes…",
     "uploadComplete": "Resumes uploaded successfully!",
     "remaining": "remaining",
@@ -342,7 +342,27 @@
     },
     "archived": "Archived",
     "showArchivedTooltip": "Show archived resumes",
-    "unarchive": "Unarchive"
+    "unarchive": "Unarchive",
+    "bulk": {
+      "staging": "Uploading files… {{staged}} of {{total}}",
+      "stagingHint": "Files are being uploaded — analysis starts when staging completes.",
+      "processing": "Importing resumes… {{processed}} of {{total}}",
+      "processingHint": "Analysis runs on our servers — you can close this window and imported resumes will keep appearing in your library.",
+      "imported": "{{succeeded}} of {{total}} resumes imported",
+      "failedCount": "{{count}} failed",
+      "skippedCount": "{{count}} skipped",
+      "skippedQuota": "{{count}} skipped — your plan's screening limit was reached",
+      "errorSamples": "Files with errors",
+      "duplicatesHint": "Possible duplicates are flagged in Library Quality after import.",
+      "cancelled": "Import cancelled",
+      "cancelImport": "Cancel import",
+      "continueInBackground": "Continue in background",
+      "willRunInBackground": "Large batch — analysis will run in the background while you keep working.",
+      "confirmInfo": "This will analyze {{count}} resumes and use {{count}} screening actions. Click again to confirm.",
+      "confirmButton": "Confirm import of {{count}} files",
+      "overCap": "Only the first {{max}} files were kept — your plan imports up to {{max}} at once.",
+      "rejectedType": "{{count}} unsupported file(s) ignored — only .pdf and .docx are accepted."
+    }
   },
   "appCVMatching": {
     "selectJobPost": "Choose Job Post",

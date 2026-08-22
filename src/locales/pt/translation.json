@@ -307,7 +307,7 @@
     "presentedBy": "Apresentado por",
     "uploadFiles": "Carregar ficheiros",
     "uploadInProgress": "A carregar… aguarde",
-    "uploadCVInfo": "Pode carregar até 100 CV em .pdf ou .docx.",
+    "uploadCVInfo": "Pode carregar até {{max}} CV em .pdf ou .docx.",
     "uploadProgressTitle": "A processar os seus CV…",
     "uploadComplete": "CV carregados com sucesso!",
     "remaining": "restante",
@@ -346,7 +346,27 @@
     },
     "archived": "Arquivados",
     "showArchivedTooltip": "Mostrar currículos arquivados",
-    "unarchive": "Desarquivar"
+    "unarchive": "Desarquivar",
+    "bulk": {
+      "staging": "A enviar ficheiros… {{staged}} de {{total}}",
+      "stagingHint": "Os ficheiros estão a ser enviados — a análise começa quando o envio terminar.",
+      "processing": "A importar CV… {{processed}} de {{total}}",
+      "processingHint": "A análise corre nos nossos servidores — pode fechar esta janela e os CV importados continuarão a aparecer na sua biblioteca.",
+      "imported": "{{succeeded}} de {{total}} CV importados",
+      "failedCount": "{{count}} falharam",
+      "skippedCount": "{{count}} ignorados",
+      "skippedQuota": "{{count}} ignorados — o limite de triagem do seu plano foi atingido",
+      "errorSamples": "Ficheiros com erros",
+      "duplicatesHint": "Possíveis duplicados são assinalados na Qualidade da biblioteca após a importação.",
+      "cancelled": "Importação cancelada",
+      "cancelImport": "Cancelar importação",
+      "continueInBackground": "Continuar em segundo plano",
+      "willRunInBackground": "Lote grande — a análise correrá em segundo plano enquanto continua a trabalhar.",
+      "confirmInfo": "Serão analisados {{count}} CV e usadas {{count}} ações de triagem. Clique novamente para confirmar.",
+      "confirmButton": "Confirmar importação de {{count}} ficheiros",
+      "overCap": "Apenas os primeiros {{max}} ficheiros foram mantidos — o seu plano importa até {{max}} de cada vez.",
+      "rejectedType": "{{count}} ficheiro(s) não suportado(s) ignorado(s) — apenas .pdf e .docx são aceites."
+    }
   },
   "appCVMatching": {
     "selectJobPost": "Selecionar vaga",

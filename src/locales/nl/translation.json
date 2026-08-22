@@ -307,7 +307,7 @@
     "presentedBy": "Gepresenteerd door",
     "uploadFiles": "Bestanden uploaden",
     "uploadInProgress": "Bezig met uploaden…",
-    "uploadCVInfo": "Upload max. 100 CV’s in .pdf of .docx.",
+    "uploadCVInfo": "Upload max. {{max}} CV’s in .pdf of .docx.",
     "uploadProgressTitle": "Je cv's worden verwerkt…",
     "uploadComplete": "Cv's succesvol geüpload!",
     "remaining": "resterend",
@@ -346,7 +346,27 @@
     },
     "archived": "Gearchiveerd",
     "showArchivedTooltip": "Gearchiveerde cv's tonen",
-    "unarchive": "Herstellen"
+    "unarchive": "Herstellen",
+    "bulk": {
+      "staging": "Bestanden uploaden… {{staged}} van {{total}}",
+      "stagingHint": "De bestanden worden geüpload — de analyse start zodra het uploaden klaar is.",
+      "processing": "CV’s importeren… {{processed}} van {{total}}",
+      "processingHint": "De analyse draait op onze servers — u kunt dit venster sluiten; geïmporteerde CV’s blijven in uw bibliotheek verschijnen.",
+      "imported": "{{succeeded}} van {{total}} CV’s geïmporteerd",
+      "failedCount": "{{count}} mislukt",
+      "skippedCount": "{{count}} overgeslagen",
+      "skippedQuota": "{{count}} overgeslagen — de screeninglimiet van uw abonnement is bereikt",
+      "errorSamples": "Bestanden met fouten",
+      "duplicatesHint": "Mogelijke duplicaten worden na de import gemarkeerd in Bibliotheekkwaliteit.",
+      "cancelled": "Import geannuleerd",
+      "cancelImport": "Import annuleren",
+      "continueInBackground": "Doorgaan op de achtergrond",
+      "willRunInBackground": "Grote partij — de analyse draait op de achtergrond terwijl u doorwerkt.",
+      "confirmInfo": "Hiermee worden {{count}} CV’s geanalyseerd en {{count}} screeningacties gebruikt. Klik nogmaals om te bevestigen.",
+      "confirmButton": "Import van {{count}} bestanden bevestigen",
+      "overCap": "Alleen de eerste {{max}} bestanden zijn behouden — uw abonnement importeert er maximaal {{max}} tegelijk.",
+      "rejectedType": "{{count}} niet-ondersteund(e) bestand(en) genegeerd — alleen .pdf en .docx worden geaccepteerd."
+    }
   },
   "appCVMatching": {
     "selectJobPost": "Selecteer vacature",
