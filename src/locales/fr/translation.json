@@ -307,7 +307,7 @@
     "presentedBy": "Présenté par",
     "uploadFiles": "Importer des fichiers",
     "uploadInProgress": "Import en cours…",
-    "uploadCVInfo": "Vous pouvez importer jusqu’à 100 CV en .pdf ou .docx.",
+    "uploadCVInfo": "Vous pouvez importer jusqu’à {{max}} CV en .pdf ou .docx.",
     "uploadProgressTitle": "Traitement de vos CV…",
     "uploadComplete": "CV importés avec succès !",
     "remaining": "restant",
@@ -346,7 +346,27 @@
     },
     "archived": "Archivés",
     "showArchivedTooltip": "Afficher les CV archivés",
-    "unarchive": "Désarchiver"
+    "unarchive": "Désarchiver",
+    "bulk": {
+      "staging": "Envoi des fichiers… {{staged}} sur {{total}}",
+      "stagingHint": "Les fichiers sont en cours d'envoi — l'analyse démarre une fois l'envoi terminé.",
+      "processing": "Import des CV… {{processed}} sur {{total}}",
+      "processingHint": "L'analyse s'exécute sur nos serveurs — vous pouvez fermer cette fenêtre, les CV importés continueront d'apparaître dans votre CVthèque.",
+      "imported": "{{succeeded}} CV importés sur {{total}}",
+      "failedCount": "{{count}} en échec",
+      "skippedCount": "{{count}} ignorés",
+      "skippedQuota": "{{count}} ignorés — la limite d'analyses de votre offre est atteinte",
+      "errorSamples": "Fichiers en erreur",
+      "duplicatesHint": "Les doublons potentiels sont signalés dans Qualité de la CVthèque après l'import.",
+      "cancelled": "Import annulé",
+      "cancelImport": "Annuler l'import",
+      "continueInBackground": "Continuer en arrière-plan",
+      "willRunInBackground": "Lot volumineux — l'analyse s'exécutera en arrière-plan pendant que vous continuez à travailler.",
+      "confirmInfo": "Cette action analysera {{count}} CV et consommera {{count}} actions d'analyse. Cliquez à nouveau pour confirmer.",
+      "confirmButton": "Confirmer l'import de {{count}} fichiers",
+      "overCap": "Seuls les {{max}} premiers fichiers ont été conservés — votre offre permet d'importer {{max}} fichiers à la fois.",
+      "rejectedType": "{{count}} fichier(s) non pris en charge ignoré(s) — seuls les .pdf et .docx sont acceptés."
+    }
   },
   "appCVMatching": {
     "selectJobPost": "Sélectionner une offre",
