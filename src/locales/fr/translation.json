@@ -181,6 +181,17 @@
     "aiPrefill": {
       "drafting": "L'IA prépare vos règles de scoring…",
       "applied": "Règles de scoring suggérées par l'IA — vérifiez et ajustez avant d'enregistrer."
+    },
+    "aiBuilder": {
+      "toggle": "Générer la description avec l'IA",
+      "hint": "Renseignez le titre du poste ci-dessus et les détails ci-dessous — le brouillon arrive dans l'éditeur pour relecture.",
+      "seniority": "Séniorité",
+      "contract": "Type de contrat",
+      "location": "Lieu / télétravail",
+      "mustHave": "Compétences indispensables (séparées par des virgules)",
+      "notes": "Autres éléments à mentionner dans la description",
+      "generate": "Générer le brouillon",
+      "generating": "Rédaction…"
     }
   },
   "appCVContent": {
@@ -368,6 +379,14 @@
       "rejectedType": "{{count}} fichier(s) non pris en charge ignoré(s) — seuls les .pdf et .docx sont acceptés.",
       "chip": "Import {{processed}} / {{total}}",
       "eta": "~{{minutes}} min restantes"
+    },
+    "clearLibrary": {
+      "tooltip": "Vider toute la CVthèque…",
+      "title": "Vider toute la CVthèque ?",
+      "summary": "Cette action supprime définitivement {{cvs}} CV, {{reports}} rapports de matching et {{chats}} conversations IA — y compris les documents stockés. Les offres d'emploi et l'historique d'utilisation sont conservés. Action irréversible.",
+      "typeToConfirm": "Saisissez DELETE pour confirmer.",
+      "confirm": "Vider la CVthèque",
+      "done": "CVthèque vidée — {{cvs}} CV, {{reports}} rapports et {{chats}} conversations supprimés."
     }
   },
   "appCVMatching": {

@@ -181,6 +181,17 @@
     "aiPrefill": {
       "drafting": "AI stelt uw scoringsregels op…",
       "applied": "Door AI voorgestelde scoringsregels — controleer en pas aan vóór het opslaan."
+    },
+    "aiBuilder": {
+      "toggle": "Beschrijving genereren met AI",
+      "hint": "Vul de functietitel hierboven en de details hieronder in — het concept verschijnt in de editor ter controle.",
+      "seniority": "Senioriteit",
+      "contract": "Contracttype",
+      "location": "Locatie / remote",
+      "mustHave": "Vereiste vaardigheden (kommagescheiden)",
+      "notes": "Wat de beschrijving verder moet vermelden",
+      "generate": "Concept genereren",
+      "generating": "Bezig met opstellen…"
     }
   },
   "appCVContent": {
@@ -368,6 +379,14 @@
       "rejectedType": "{{count}} niet-ondersteund(e) bestand(en) genegeerd — alleen .pdf en .docx worden geaccepteerd.",
       "chip": "Importeren {{processed}} / {{total}}",
       "eta": "nog ~{{minutes}} min."
+    },
+    "clearLibrary": {
+      "tooltip": "Hele bibliotheek leegmaken…",
+      "title": "De hele CV-bibliotheek leegmaken?",
+      "summary": "Dit verwijdert permanent {{cvs}} CV's, {{reports}} matchingrapporten en {{chats}} AI-chats — inclusief de opgeslagen documenten. Vacatures en gebruiksgeschiedenis blijven behouden. Kan niet ongedaan worden gemaakt.",
+      "typeToConfirm": "Typ DELETE om te bevestigen.",
+      "confirm": "Bibliotheek leegmaken",
+      "done": "Bibliotheek geleegd — {{cvs}} CV's, {{reports}} rapporten en {{chats}} chats verwijderd."
     }
   },
   "appCVMatching": {

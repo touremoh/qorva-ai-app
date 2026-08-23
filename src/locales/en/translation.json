@@ -181,6 +181,17 @@
     "aiPrefill": {
       "drafting": "AI is drafting your scoring rules…",
       "applied": "AI-suggested scoring rules — review and adjust before saving."
+    },
+    "aiBuilder": {
+      "toggle": "Generate the description with AI",
+      "hint": "Fill in the job title above plus any details below — the draft lands in the editor for you to review.",
+      "seniority": "Seniority",
+      "contract": "Contract type",
+      "location": "Location / remote",
+      "mustHave": "Must-have skills (comma-separated)",
+      "notes": "Anything else the description should mention",
+      "generate": "Generate draft",
+      "generating": "Drafting…"
     }
   },
   "appCVContent": {
@@ -364,6 +375,14 @@
       "rejectedType": "{{count}} unsupported file(s) ignored — only .pdf and .docx are accepted.",
       "chip": "Importing {{processed}} / {{total}}",
       "eta": "~{{minutes}} min left"
+    },
+    "clearLibrary": {
+      "tooltip": "Clear the whole library…",
+      "title": "Clear the whole resume library?",
+      "summary": "This permanently deletes {{cvs}} resumes, {{reports}} matching reports and {{chats}} AI chats — including their stored documents. Job posts and usage history are kept. This cannot be undone.",
+      "typeToConfirm": "Type DELETE to confirm.",
+      "confirm": "Clear library",
+      "done": "Library cleared — {{cvs}} resumes, {{reports}} reports and {{chats}} chats removed."
     }
   },
   "appCVMatching": {
