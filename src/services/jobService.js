@@ -17,3 +17,6 @@ export const deleteJob = (id) =>
 
 export const suggestScoringRules = (title, description) =>
     apiClient.post('/jobs/scoring-rules/suggest', { title, description });
+
+export const generateJobDescription = (payload) =>
+    apiClient.post('/jobs/description/generate', payload);

@@ -181,6 +181,17 @@
     "aiPrefill": {
       "drafting": "Die KI entwirft Ihre Scoring-Regeln…",
       "applied": "KI-Vorschlag für Scoring-Regeln — prüfen und anpassen vor dem Speichern."
+    },
+    "aiBuilder": {
+      "toggle": "Beschreibung mit KI erstellen",
+      "hint": "Jobtitel oben und Details unten ausfüllen — der Entwurf landet zur Prüfung im Editor.",
+      "seniority": "Seniorität",
+      "contract": "Vertragsart",
+      "location": "Standort / Remote",
+      "mustHave": "Muss-Kompetenzen (kommagetrennt)",
+      "notes": "Was die Beschreibung sonst erwähnen soll",
+      "generate": "Entwurf erstellen",
+      "generating": "Wird erstellt…"
     }
   },
   "appCVContent": {
@@ -368,6 +379,14 @@
       "rejectedType": "{{count}} nicht unterstützte Datei(en) ignoriert — nur .pdf und .docx werden akzeptiert.",
       "chip": "Import {{processed}} / {{total}}",
       "eta": "noch ~{{minutes}} Min."
+    },
+    "clearLibrary": {
+      "tooltip": "Gesamte Bibliothek leeren…",
+      "title": "Die gesamte Lebenslauf-Bibliothek leeren?",
+      "summary": "Dies löscht dauerhaft {{cvs}} Lebensläufe, {{reports}} Matching-Berichte und {{chats}} KI-Chats — einschließlich der gespeicherten Dokumente. Stellenanzeigen und Nutzungshistorie bleiben erhalten. Nicht rückgängig zu machen.",
+      "typeToConfirm": "Geben Sie DELETE ein, um zu bestätigen.",
+      "confirm": "Bibliothek leeren",
+      "done": "Bibliothek geleert — {{cvs}} Lebensläufe, {{reports}} Berichte und {{chats}} Chats entfernt."
     }
   },
   "appCVMatching": {

@@ -181,6 +181,17 @@
     "aiPrefill": {
       "drafting": "La IA está redactando sus reglas de puntuación…",
       "applied": "Reglas de puntuación sugeridas por IA — revise y ajuste antes de guardar."
+    },
+    "aiBuilder": {
+      "toggle": "Generar la descripción con IA",
+      "hint": "Complete el título del puesto arriba y los detalles abajo — el borrador llega al editor para su revisión.",
+      "seniority": "Seniority",
+      "contract": "Tipo de contrato",
+      "location": "Ubicación / remoto",
+      "mustHave": "Habilidades imprescindibles (separadas por comas)",
+      "notes": "Cualquier otra cosa que deba mencionar la descripción",
+      "generate": "Generar borrador",
+      "generating": "Redactando…"
     }
   },
   "appCVContent": {
@@ -368,6 +379,14 @@
       "rejectedType": "{{count}} archivo(s) no compatibles ignorados — solo se aceptan .pdf y .docx.",
       "chip": "Importando {{processed}} / {{total}}",
       "eta": "~{{minutes}} min restantes"
+    },
+    "clearLibrary": {
+      "tooltip": "Vaciar toda la biblioteca…",
+      "title": "¿Vaciar toda la biblioteca de CV?",
+      "summary": "Esto elimina permanentemente {{cvs}} CV, {{reports}} informes de coincidencia y {{chats}} chats de IA — incluidos los documentos almacenados. Las ofertas de empleo y el historial de uso se conservan. No se puede deshacer.",
+      "typeToConfirm": "Escriba DELETE para confirmar.",
+      "confirm": "Vaciar biblioteca",
+      "done": "Biblioteca vaciada — {{cvs}} CV, {{reports}} informes y {{chats}} chats eliminados."
     }
   },
   "appCVMatching": {

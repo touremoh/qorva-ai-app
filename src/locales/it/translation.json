@@ -181,6 +181,17 @@
     "aiPrefill": {
       "drafting": "L'IA sta preparando le tue regole di scoring…",
       "applied": "Regole di scoring suggerite dall'IA — rivedi e modifica prima di salvare."
+    },
+    "aiBuilder": {
+      "toggle": "Genera la descrizione con l'IA",
+      "hint": "Compila il titolo sopra e i dettagli sotto — la bozza arriva nell'editor per la revisione.",
+      "seniority": "Seniority",
+      "contract": "Tipo di contratto",
+      "location": "Sede / remoto",
+      "mustHave": "Competenze indispensabili (separate da virgole)",
+      "notes": "Altro da menzionare nella descrizione",
+      "generate": "Genera bozza",
+      "generating": "Redazione…"
     }
   },
   "appCVContent": {
@@ -368,6 +379,14 @@
       "rejectedType": "{{count}} file non supportati ignorati — sono accettati solo .pdf e .docx.",
       "chip": "Importazione {{processed}} / {{total}}",
       "eta": "~{{minutes}} min rimanenti"
+    },
+    "clearLibrary": {
+      "tooltip": "Svuota tutta la libreria…",
+      "title": "Svuotare l'intera libreria di CV?",
+      "summary": "Questa azione elimina definitivamente {{cvs}} CV, {{reports}} report di matching e {{chats}} chat IA — inclusi i documenti archiviati. Le offerte di lavoro e la cronologia di utilizzo vengono conservate. Irreversibile.",
+      "typeToConfirm": "Digita DELETE per confermare.",
+      "confirm": "Svuota libreria",
+      "done": "Libreria svuotata — {{cvs}} CV, {{reports}} report e {{chats}} chat rimossi."
     }
   },
   "appCVMatching": {

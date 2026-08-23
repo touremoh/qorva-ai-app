@@ -25,7 +25,9 @@ import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
 import AppCVDetails from './AppCVDetails.jsx';
 import AppCVEntries from './AppCVEntries.jsx';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
-import { getCVs, uploadCVs, deleteCV, replaceDuplicateCV } from '../../../services/cvService.js';
+import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
+import { toast } from 'sonner';
+import { getCVs, uploadCVs, deleteCV, replaceDuplicateCV, getClearLibraryPreflight, clearLibrary } from '../../../services/cvService.js';
 import { notifyQualityChanged, performQualityAction } from '../../../services/libraryQualityService.js';
 import {
 	createBulkUpload,
@@ -354,6 +356,43 @@ const AppCVContent = () => {
 		}
 	};
 
+	// Clear-library: the most destructive action in the product — preflight counts in
+	// the dialog, and the user must type DELETE before the button arms.
+	const [clearDialogOpen, setClearDialogOpen] = useState(false);
+	const [clearPreflight, setClearPreflight] = useState(null);
+	const [clearConfirmText, setClearConfirmText] = useState('');
+	const [clearing, setClearing] = useState(false);
+
+	const handleOpenClearDialog = async () => {
+		setClearConfirmText('');
+		setClearPreflight(null);
+		setClearDialogOpen(true);
+		try {
+			const resp = await getClearLibraryPreflight();
+			setClearPreflight(resp.data);
+		} catch (error) {
+			console.error('Clear-library preflight failed:', error);
+		}
+	};
+
+	const handleClearLibrary = async () => {
+		try {
+			setClearing(true);
+			const resp = await clearLibrary();
+			const result = resp.data;
+			toast.success(t('appCVContent.clearLibrary.done', 'Library cleared — {{cvs}} resumes, {{reports}} reports and {{chats}} chats removed.', {
+				cvs: result?.cvs ?? 0, reports: result?.reports ?? 0, chats: result?.chats ?? 0 }));
+			setClearDialogOpen(false);
+			setSelectedCV(null);
+			await fetchCVEntries();
+			notifyQualityChanged();
+		} catch (error) {
+			console.error('Clear library failed:', error);
+		} finally {
+			setClearing(false);
+		}
+	};
+
 	const handleDeleteCV = async () => {
 		if (!selectedCV) return;
 		try {
@@ -437,6 +476,22 @@ const AppCVContent = () => {
 						{t('appCVContent.archived', 'Archived')}
 					</Button>
 				</Tooltip>
+
+				{!demo && (
+					<Tooltip title={t('appCVContent.clearLibrary.tooltip', 'Clear the whole library…')}>
+						<IconButton
+							size="small"
+							onClick={handleOpenClearDialog}
+							sx={{
+								borderRadius: 1.5,
+								color: '#94a3b8',
+								'&:hover': { color: '#dc2626', backgroundColor: 'rgba(220,38,38,0.06)' },
+							}}
+						>
+							<DeleteForeverOutlinedIcon sx={{ fontSize: 19 }} />
+						</IconButton>
+					</Tooltip>
+				)}
 
 				<Box sx={{ flexGrow: 1 }} />
 
@@ -915,6 +970,66 @@ const AppCVContent = () => {
 							</Button>
 						</>
 					)}
+				</DialogActions>
+			</Dialog>
+
+			{/* Clear-library confirmation — preflight counts + type-to-confirm */}
+			<Dialog
+				open={clearDialogOpen}
+				onClose={() => !clearing && setClearDialogOpen(false)}
+				maxWidth="xs"
+				fullWidth
+				PaperProps={{ sx: { borderRadius: 2.5 } }}
+			>
+				<DialogTitle sx={{ fontWeight: 700, fontSize: '0.95rem', color: '#dc2626' }}>
+					{t('appCVContent.clearLibrary.title', 'Clear the whole resume library?')}
+				</DialogTitle>
+				<DialogContent>
+					<DialogContentText component="div" sx={{ fontSize: '0.86rem', color: '#334155' }}>
+						{clearPreflight ? (
+							t('appCVContent.clearLibrary.summary',
+								'This permanently deletes {{cvs}} resumes, {{reports}} matching reports and {{chats}} AI chats — including their stored documents. Job posts and usage history are kept. This cannot be undone.',
+								{ cvs: clearPreflight.cvs, reports: clearPreflight.reports, chats: clearPreflight.chats })
+						) : (
+							<Box sx={{ display: 'flex', justifyContent: 'center', py: 1 }}>
+								<CircularProgress size={18} sx={{ color: '#dc2626' }} />
+							</Box>
+						)}
+					</DialogContentText>
+					<Typography sx={{ fontSize: '0.78rem', color: '#64748b', mt: 2, mb: 0.75 }}>
+						{t('appCVContent.clearLibrary.typeToConfirm', 'Type DELETE to confirm.')}
+					</Typography>
+					<input
+						value={clearConfirmText}
+						onChange={(e) => setClearConfirmText(e.target.value)}
+						disabled={clearing}
+						autoFocus
+						style={{
+							width: '100%', boxSizing: 'border-box', padding: '8px 10px',
+							border: '1px solid #e2e8f0', borderRadius: 8, fontSize: '0.9rem',
+							letterSpacing: '0.08em', fontFamily: 'inherit',
+						}}
+					/>
+				</DialogContent>
+				<DialogActions sx={{ px: 2, pb: 2, gap: 1 }}>
+					<Button
+						onClick={() => setClearDialogOpen(false)}
+						disabled={clearing}
+						sx={{ textTransform: 'none', color: '#64748b', borderRadius: 1.5 }}
+					>
+						{t('appCVContent.cancel')}
+					</Button>
+					<Button
+						onClick={handleClearLibrary}
+						disabled={clearing || clearConfirmText !== 'DELETE' || !clearPreflight}
+						variant="contained"
+						color="error"
+						sx={{ textTransform: 'none', borderRadius: 1.5, boxShadow: 'none', fontWeight: 600 }}
+					>
+						{clearing
+							? <CircularProgress size={18} color="inherit" />
+							: t('appCVContent.clearLibrary.confirm', 'Clear library')}
+					</Button>
 				</DialogActions>
 			</Dialog>
 
