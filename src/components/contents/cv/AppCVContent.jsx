@@ -31,11 +31,10 @@ import {
 	createBulkUpload,
 	stageBulkFiles,
 	startBulkUpload,
-	getBulkUpload,
 	cancelBulkUpload,
-	BULK_TERMINAL_STATUSES,
 } from '../../../services/bulkUploadService.js';
 import { getUsageMonitoring } from '../../../services/usageMonitoringService.js';
+import { useBulkImport, CVS_CHANGED_EVENT } from '../../../contexts/BulkImportContext.jsx';
 import { isDemoUser, openUpgradeDialog } from '../../../utils/demoMode.js';
 import UpgradeButton from '../../demo/UpgradeButton.jsx';
 
@@ -44,11 +43,12 @@ import UpgradeButton from '../../demo/UpgradeButton.jsx';
 const SYNC_MAX_FILES = 20;
 // Staging requests stay at or below the backend chunk cap (and Tomcat's part limit).
 const BULK_CHUNK_SIZE = 50;
+// Chunks upload concurrently (the backend appends atomically), shrinking the staging wait.
+const STAGING_PARALLELISM = 3;
 // Plan cap fallback until /usage-monitoring/current answers (Starter tier value).
 const FALLBACK_BULK_LIMIT = 100;
 // Above this, a second click is required — the import bills one screening action per file.
 const BULK_CONFIRM_THRESHOLD = 300;
-const BULK_POLL_MS = 2500;
 const FILE_TYPE_PDF = 'application/pdf';
 const FILE_TYPE_WORD = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
 
@@ -93,12 +93,15 @@ const AppCVContent = () => {
 	const [bulkStage, setBulkStage] = useState(null); // 'staging' | 'processing'
 	const [bulkStaged, setBulkStaged] = useState(0);
 	const [bulkTotal, setBulkTotal] = useState(0);
-	const [bulkView, setBulkView] = useState(null); // latest polled JobView
 	const [bulkSummary, setBulkSummary] = useState(null); // terminal JobView
 	const fileInputRef = useRef(null);
 	const uploadTimerRef = useRef(null);
 	const uploadStartRef = useRef(null);
-	const pollRef = useRef(null);
+
+	// Job progress is owned by the app-level provider, so it survives closing this
+	// dialog, switching tabs, and page refreshes.
+	const bulkImport = useBulkImport();
+	const bulkView = bulkImport?.activeJob ?? null;
 
 	// The plan's bulk-import cap rides on the usage snapshot; fall back to the
 	// Starter value if the call fails so the picker still works.
@@ -109,8 +112,30 @@ const AppCVContent = () => {
 				if (Number.isInteger(cap) && cap > 0) setBulkLimit(cap);
 			})
 			.catch(() => {});
-		return () => clearInterval(pollRef.current);
 	}, []);
+
+	// Refresh the library whenever a bulk import finishes anywhere in the app.
+	useEffect(() => {
+		const onCvsChanged = () => fetchCVEntries();
+		window.addEventListener(CVS_CHANGED_EVENT, onCvsChanged);
+		return () => window.removeEventListener(CVS_CHANGED_EVENT, onCvsChanged);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	// The provider flips its summary when the watched job reaches a terminal state;
+	// if our dialog is showing the processing view, switch it to the summary screen.
+	const providerSummary = bulkImport?.summary;
+	useEffect(() => {
+		if (bulkStage === 'processing' && providerSummary) {
+			setBulkSummary(providerSummary);
+			bulkImport?.clearSummary();
+			setBulkStage(null);
+			setBulkJobId(null);
+			setIsUploading(false);
+			setSelectedFiles([]);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [providerSummary, bulkStage]);
 
 	const handleUnarchive = async (cvId) => {
 		try {
@@ -229,52 +254,44 @@ const AppCVContent = () => {
 			setBulkStage('staging');
 			setBulkStaged(0);
 			setBulkTotal(files.length);
-			setBulkView(null);
 			setIsUploading(true);
 
 			const createResp = await createBulkUpload();
 			const jobId = createResp.data.jobId;
 			setBulkJobId(jobId);
 
+			// Chunks upload through a small worker pool; the backend append is atomic,
+			// so parallel chunks never clobber each other.
+			const chunks = [];
 			for (let i = 0; i < files.length; i += BULK_CHUNK_SIZE) {
-				const chunk = files.slice(i, i + BULK_CHUNK_SIZE);
-				const formData = new FormData();
-				chunk.forEach(f => formData.append('files', f));
-				try {
-					await stageBulkFiles(jobId, formData);
-				} catch (chunkError) {
-					// One retry per chunk — a transient network error must not lose the batch.
-					console.warn('Retrying staging chunk after error:', chunkError);
-					await stageBulkFiles(jobId, formData);
-				}
-				setBulkStaged(Math.min(i + chunk.length, files.length));
+				chunks.push(files.slice(i, i + BULK_CHUNK_SIZE));
 			}
+			let nextChunk = 0;
+			const stageWorker = async () => {
+				for (;;) {
+					const my = nextChunk++;
+					if (my >= chunks.length) return;
+					const formData = new FormData();
+					chunks[my].forEach(f => formData.append('files', f));
+					try {
+						await stageBulkFiles(jobId, formData);
+					} catch (chunkError) {
+						// One retry per chunk — a transient network error must not lose the batch.
+						console.warn('Retrying staging chunk after error:', chunkError);
+						await stageBulkFiles(jobId, formData);
+					}
+					setBulkStaged(prev => Math.min(prev + chunks[my].length, files.length));
+				}
+			};
+			await Promise.all(Array.from(
+				{ length: Math.min(STAGING_PARALLELISM, chunks.length) }, stageWorker));
 
 			await startBulkUpload(jobId);
 			setBulkStage('processing');
-			pollRef.current = setInterval(async () => {
-				try {
-					const resp = await getBulkUpload(jobId);
-					const job = resp.data;
-					setBulkView(job);
-					if (BULK_TERMINAL_STATUSES.includes(job.status)) {
-						clearInterval(pollRef.current);
-						setBulkSummary(job);
-						setBulkStage(null);
-						setBulkJobId(null);
-						setIsUploading(false);
-						setSelectedFiles([]);
-						await fetchCVEntries();
-						notifyQualityChanged();
-					}
-				} catch (pollError) {
-					// Transient poll failures are fine — the job keeps running server-side.
-					console.warn('Bulk import poll failed:', pollError);
-				}
-			}, BULK_POLL_MS);
+			// From here the app-level provider owns polling, toasts and list refreshes.
+			bulkImport?.watchJob(jobId);
 		} catch (error) {
 			console.error('Error running bulk import:', error);
-			clearInterval(pollRef.current);
 			setBulkStage(null);
 			setBulkJobId(null);
 			setIsUploading(false);
@@ -287,25 +304,22 @@ const AppCVContent = () => {
 		} catch (error) {
 			console.error('Error cancelling bulk import:', error);
 		} finally {
-			clearInterval(pollRef.current);
+			// The provider observes CANCELLED on its next poll and toasts it.
 			handleCloseUploadDialog();
 		}
 	};
 
-	// Closing during 'processing' leaves the job running server-side — imported
-	// resumes appear in the library as the worker finishes them.
+	// Closing during 'processing' hands the job fully to the app-level provider:
+	// the header chip keeps showing progress and the library refreshes on completion.
 	const handleContinueInBackground = () => {
-		clearInterval(pollRef.current);
 		setBulkStage(null);
 		setBulkJobId(null);
 		setIsUploading(false);
 		setSelectedFiles([]);
 		setOpenUploadModal(false);
-		fetchCVEntries();
 	};
 
 	const handleCloseUploadDialog = () => {
-		clearInterval(pollRef.current);
 		setOpenUploadModal(false);
 		setSelectedFiles([]);
 		setUploadResults(null);
@@ -313,7 +327,6 @@ const AppCVContent = () => {
 		setConfirmBulk(false);
 		setBulkStage(null);
 		setBulkJobId(null);
-		setBulkView(null);
 		setBulkSummary(null);
 		setIsUploading(false);
 	};
@@ -635,6 +648,9 @@ const AppCVContent = () => {
 								{bulkStage === 'staging'
 									? t('appCVContent.bulk.stagingHint', 'Files are being uploaded — analysis starts when staging completes.')
 									: t('appCVContent.bulk.processingHint', 'Analysis runs on our servers — you can close this window and imported resumes will keep appearing in your library.')}
+								{bulkStage === 'processing' && bulkImport?.etaMinutes != null && (
+									` ${t('appCVContent.bulk.eta', '~{{minutes}} min left', { minutes: bulkImport.etaMinutes })}`
+								)}
 							</Typography>
 						</Box>
 					) : uploadResults ? (

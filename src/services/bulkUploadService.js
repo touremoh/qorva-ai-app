@@ -15,6 +15,9 @@ export const startBulkUpload = (jobId) =>
 export const getBulkUpload = (jobId) =>
     apiClient.get(`/cvs/bulk-uploads/${jobId}`);
 
+export const listBulkUploads = () =>
+    apiClient.get('/cvs/bulk-uploads');
+
 export const cancelBulkUpload = (jobId) =>
     apiClient.post(`/cvs/bulk-uploads/${jobId}/cancel`);
 

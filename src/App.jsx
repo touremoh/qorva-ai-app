@@ -36,6 +36,14 @@ function App() {
                   }
               />
               <Route
+                  path="/app/:tab"
+                  element={
+                      <SecureHomePage>
+                          <AppHome />
+                      </SecureHomePage>
+                  }
+              />
+              <Route
                   path="/login"
                   element={
                       <CheckLoginPage>

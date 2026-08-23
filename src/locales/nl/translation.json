@@ -365,7 +365,9 @@
       "confirmInfo": "Hiermee worden {{count}} CV’s geanalyseerd en {{count}} screeningacties gebruikt. Klik nogmaals om te bevestigen.",
       "confirmButton": "Import van {{count}} bestanden bevestigen",
       "overCap": "Alleen de eerste {{max}} bestanden zijn behouden — uw abonnement importeert er maximaal {{max}} tegelijk.",
-      "rejectedType": "{{count}} niet-ondersteund(e) bestand(en) genegeerd — alleen .pdf en .docx worden geaccepteerd."
+      "rejectedType": "{{count}} niet-ondersteund(e) bestand(en) genegeerd — alleen .pdf en .docx worden geaccepteerd.",
+      "chip": "Importeren {{processed}} / {{total}}",
+      "eta": "nog ~{{minutes}} min."
     }
   },
   "appCVMatching": {
