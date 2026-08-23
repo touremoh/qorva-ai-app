@@ -68,6 +68,7 @@ const AppHome = () => {
 				handleSidebarToggle={handleSidebarToggle}
 				handleSidebarCollapse={handleSidebarCollapse}
 				handleContentChange={handleContentChange}
+				activeContent={content}
 			/>
 
 			{/* Main Content Wrapper */}
