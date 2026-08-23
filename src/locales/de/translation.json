@@ -365,7 +365,9 @@
       "confirmInfo": "Dies analysiert {{count}} Lebensläufe und verbraucht {{count}} Screening-Aktionen. Zum Bestätigen erneut klicken.",
       "confirmButton": "Import von {{count}} Dateien bestätigen",
       "overCap": "Nur die ersten {{max}} Dateien wurden übernommen — Ihr Tarif erlaubt {{max}} Dateien pro Import.",
-      "rejectedType": "{{count}} nicht unterstützte Datei(en) ignoriert — nur .pdf und .docx werden akzeptiert."
+      "rejectedType": "{{count}} nicht unterstützte Datei(en) ignoriert — nur .pdf und .docx werden akzeptiert.",
+      "chip": "Import {{processed}} / {{total}}",
+      "eta": "noch ~{{minutes}} Min."
     }
   },
   "appCVMatching": {

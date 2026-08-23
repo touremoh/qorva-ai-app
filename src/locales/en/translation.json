@@ -361,7 +361,9 @@
       "confirmInfo": "This will analyze {{count}} resumes and use {{count}} screening actions. Click again to confirm.",
       "confirmButton": "Confirm import of {{count}} files",
       "overCap": "Only the first {{max}} files were kept — your plan imports up to {{max}} at once.",
-      "rejectedType": "{{count}} unsupported file(s) ignored — only .pdf and .docx are accepted."
+      "rejectedType": "{{count}} unsupported file(s) ignored — only .pdf and .docx are accepted.",
+      "chip": "Importing {{processed}} / {{total}}",
+      "eta": "~{{minutes}} min left"
     }
   },
   "appCVMatching": {

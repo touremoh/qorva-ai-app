@@ -365,7 +365,9 @@
       "confirmInfo": "Cette action analysera {{count}} CV et consommera {{count}} actions d'analyse. Cliquez à nouveau pour confirmer.",
       "confirmButton": "Confirmer l'import de {{count}} fichiers",
       "overCap": "Seuls les {{max}} premiers fichiers ont été conservés — votre offre permet d'importer {{max}} fichiers à la fois.",
-      "rejectedType": "{{count}} fichier(s) non pris en charge ignoré(s) — seuls les .pdf et .docx sont acceptés."
+      "rejectedType": "{{count}} fichier(s) non pris en charge ignoré(s) — seuls les .pdf et .docx sont acceptés.",
+      "chip": "Import {{processed}} / {{total}}",
+      "eta": "~{{minutes}} min restantes"
     }
   },
   "appCVMatching": {

@@ -365,7 +365,9 @@
       "confirmInfo": "Serão analisados {{count}} CV e usadas {{count}} ações de triagem. Clique novamente para confirmar.",
       "confirmButton": "Confirmar importação de {{count}} ficheiros",
       "overCap": "Apenas os primeiros {{max}} ficheiros foram mantidos — o seu plano importa até {{max}} de cada vez.",
-      "rejectedType": "{{count}} ficheiro(s) não suportado(s) ignorado(s) — apenas .pdf e .docx são aceites."
+      "rejectedType": "{{count}} ficheiro(s) não suportado(s) ignorado(s) — apenas .pdf e .docx são aceites.",
+      "chip": "A importar {{processed}} / {{total}}",
+      "eta": "~{{minutes}} min restantes"
     }
   },
   "appCVMatching": {
