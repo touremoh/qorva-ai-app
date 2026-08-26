@@ -3,13 +3,13 @@ import {AUTH_TOKEN, QORVA_USER_LANGUAGE} from "./src/constants.js";
 import { toastError } from './src/utils/errorHandler.js';
 import { isDemoUser, openUpgradeDialog } from './src/utils/demoMode.js';
 
-const authToken = localStorage.getItem(AUTH_TOKEN);
-
+// Never bake the token into client defaults: a default header snapshots whatever was
+// in localStorage at page load and shadows the fresh token after login/refresh — the
+// request interceptor below reads localStorage on every request instead.
 const apiClient = axios.create({
 	baseURL: import.meta.env.VITE_APP_API_BASE_URL, // Base URL for your backend
 	headers: {
 		'Content-Type': 'application/json',
-		Authorization: authToken ? `Bearer ${authToken}` : '',
 	},
 });
 
@@ -17,7 +17,6 @@ export const apiFormDataClient = axios.create({
 	baseURL: import.meta.env.VITE_APP_API_BASE_URL, // Base URL for your backend
 	headers: {
 		'Content-Type': 'multipart/form-data',
-		Authorization: authToken ? `Bearer ${authToken}` : '',
 	},
 });
 
@@ -40,6 +39,13 @@ const SILENT_ERROR_CODES = new Set([
 
 const handleResponseError = (error) => {
 	const status = error?.response?.status;
+
+	// Session died (expired/invalid token): back to login instead of a toast storm.
+	if (status === 401 && !publicEndpoint(error?.config?.url ?? '')) {
+		localStorage.removeItem(AUTH_TOKEN);
+		window.location.assign('/login');
+		return Promise.reject(error);
+	}
 
 	// A demo user hit a backend-enforced write restriction (or an exhausted
 	// quota). Turn the raw 403 into an "Upgrade to unlock" prompt instead of a
@@ -68,10 +74,12 @@ const publicEndpoint = (url) => url.includes('/registrations')
 	|| url.includes('/stripe/checkout/cancel');
 
 const getConfig = (config) => {
-	const token = localStorage.getItem(AUTH_TOKEN);
-	const auth = config.headers['Authorization'];
-	if (!auth) {
-		if (!publicEndpoint(config.url)) {
+	if (publicEndpoint(config.url)) {
+		// A stale token on a public call (e.g. login with an expired session) helps nobody.
+		delete config.headers['Authorization'];
+	} else {
+		const token = localStorage.getItem(AUTH_TOKEN);
+		if (token) {
 			config.headers['Authorization'] = `Bearer ${token}`;
 		}
 	}
