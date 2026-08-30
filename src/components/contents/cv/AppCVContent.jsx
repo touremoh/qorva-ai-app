@@ -25,12 +25,32 @@ import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
 import AppCVDetails from './AppCVDetails.jsx';
 import AppCVEntries from './AppCVEntries.jsx';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
-import { getCVs, uploadCVs, deleteCV, replaceDuplicateCV } from '../../../services/cvService.js';
+import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
+import { toast } from 'sonner';
+import { getCVs, uploadCVs, deleteCV, replaceDuplicateCV, getClearLibraryPreflight, clearLibrary } from '../../../services/cvService.js';
 import { notifyQualityChanged, performQualityAction } from '../../../services/libraryQualityService.js';
-import { isDemoUser } from '../../../utils/demoMode.js';
+import {
+	createBulkUpload,
+	stageBulkFiles,
+	startBulkUpload,
+	cancelBulkUpload,
+} from '../../../services/bulkUploadService.js';
+import { getUsageMonitoring } from '../../../services/usageMonitoringService.js';
+import { useBulkImport, CVS_CHANGED_EVENT } from '../../../contexts/BulkImportContext.jsx';
+import { isDemoUser, openUpgradeDialog } from '../../../utils/demoMode.js';
 import UpgradeButton from '../../demo/UpgradeButton.jsx';
 
-const MAX_FILES = 100;
+// Batches up to this size use the original synchronous upload (inline per-file
+// results); anything larger goes through the asynchronous bulk-import job.
+const SYNC_MAX_FILES = 20;
+// Staging requests stay at or below the backend chunk cap (and Tomcat's part limit).
+const BULK_CHUNK_SIZE = 50;
+// Chunks upload concurrently (the backend appends atomically), shrinking the staging wait.
+const STAGING_PARALLELISM = 3;
+// Plan cap fallback until /usage-monitoring/current answers (Starter tier value).
+const FALLBACK_BULK_LIMIT = 100;
+// Above this, a second click is required — the import bills one screening action per file.
+const BULK_CONFIRM_THRESHOLD = 300;
 const FILE_TYPE_PDF = 'application/pdf';
 const FILE_TYPE_WORD = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
 
@@ -67,9 +87,57 @@ const AppCVContent = () => {
 	const [uploadProgress, setUploadProgress] = useState(0);
 	const [uploadElapsed, setUploadElapsed] = useState(0);
 	const [isDragging, setIsDragging] = useState(false);
+	// Bulk-import state: plan cap, dropped-file notices, job lifecycle and summary.
+	const [bulkLimit, setBulkLimit] = useState(FALLBACK_BULK_LIMIT);
+	const [droppedInfo, setDroppedInfo] = useState(null); // { rejected, overCap }
+	const [confirmBulk, setConfirmBulk] = useState(false);
+	const [bulkJobId, setBulkJobId] = useState(null);
+	const [bulkStage, setBulkStage] = useState(null); // 'staging' | 'processing'
+	const [bulkStaged, setBulkStaged] = useState(0);
+	const [bulkTotal, setBulkTotal] = useState(0);
+	const [bulkSummary, setBulkSummary] = useState(null); // terminal JobView
 	const fileInputRef = useRef(null);
 	const uploadTimerRef = useRef(null);
 	const uploadStartRef = useRef(null);
+
+	// Job progress is owned by the app-level provider, so it survives closing this
+	// dialog, switching tabs, and page refreshes.
+	const bulkImport = useBulkImport();
+	const bulkView = bulkImport?.activeJob ?? null;
+
+	// The plan's bulk-import cap rides on the usage snapshot; fall back to the
+	// Starter value if the call fails so the picker still works.
+	useEffect(() => {
+		getUsageMonitoring()
+			.then(resp => {
+				const cap = resp?.data?.bulkUploadFilesLimit;
+				if (Number.isInteger(cap) && cap > 0) setBulkLimit(cap);
+			})
+			.catch(() => {});
+	}, []);
+
+	// Refresh the library whenever a bulk import finishes anywhere in the app.
+	useEffect(() => {
+		const onCvsChanged = () => fetchCVEntries();
+		window.addEventListener(CVS_CHANGED_EVENT, onCvsChanged);
+		return () => window.removeEventListener(CVS_CHANGED_EVENT, onCvsChanged);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	// The provider flips its summary when the watched job reaches a terminal state;
+	// if our dialog is showing the processing view, switch it to the summary screen.
+	const providerSummary = bulkImport?.summary;
+	useEffect(() => {
+		if (bulkStage === 'processing' && providerSummary) {
+			setBulkSummary(providerSummary);
+			bulkImport?.clearSummary();
+			setBulkStage(null);
+			setBulkJobId(null);
+			setIsUploading(false);
+			setSelectedFiles([]);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [providerSummary, bulkStage]);
 
 	const handleUnarchive = async (cvId) => {
 		try {
@@ -97,10 +165,11 @@ const AppCVContent = () => {
 		fetchCVEntries().then(r => console.log('Fetch CV request done: ', r));
 	}, []);
 
-	// Drive the upload progress bar / ETA / phase text while an upload is running.
+	// Drive the upload progress bar / ETA / phase text while a *synchronous* upload is
+	// running (bulk imports report real counts instead of an estimate).
 	// Progress is capped at 95% so it never appears finished before the backend responds.
 	useEffect(() => {
-		if (isUploading) {
+		if (isUploading && !bulkStage) {
 			uploadStartRef.current = Date.now();
 			setUploadProgress(0);
 			setUploadElapsed(0);
@@ -113,13 +182,20 @@ const AppCVContent = () => {
 			clearInterval(uploadTimerRef.current);
 		}
 		return () => clearInterval(uploadTimerRef.current);
-	}, [isUploading]);
+	}, [isUploading, bulkStage]);
 
+	// Never drop files silently: unsupported types and over-cap excess are announced,
+	// and blowing past the plan cap doubles as an upgrade moment.
 	const processFiles = (files) => {
-		const valid = Array.from(files)
-			.filter(f => f.type === FILE_TYPE_PDF || f.type === FILE_TYPE_WORD)
-			.slice(0, MAX_FILES);
-		setSelectedFiles(valid);
+		const all = Array.from(files);
+		const valid = all.filter(f => f.type === FILE_TYPE_PDF || f.type === FILE_TYPE_WORD);
+		const rejected = all.length - valid.length;
+		const capped = valid.slice(0, bulkLimit);
+		const overCap = valid.length - capped.length;
+		if (overCap > 0) openUpgradeDialog('bulk-upload-limit');
+		setDroppedInfo(rejected > 0 || overCap > 0 ? { rejected, overCap } : null);
+		setConfirmBulk(false);
+		setSelectedFiles(capped);
 	};
 
 	const handleFileSelect = (e) => processFiles(e.target.files);
@@ -132,6 +208,18 @@ const AppCVContent = () => {
 
 	const handleUploadCV = async () => {
 		if (selectedFiles.length === 0) return;
+		if (selectedFiles.length <= SYNC_MAX_FILES) {
+			return handleSyncUpload();
+		}
+		// Large imports bill one screening action per file — ask for a second click first.
+		if (selectedFiles.length > BULK_CONFIRM_THRESHOLD && !confirmBulk) {
+			setConfirmBulk(true);
+			return;
+		}
+		return handleBulkUpload();
+	};
+
+	const handleSyncUpload = async () => {
 		try {
 			setIsUploading(true);
 			const formData = new FormData();
@@ -158,10 +246,91 @@ const AppCVContent = () => {
 		}
 	};
 
+	// Bulk path: create draft job → stage chunks (fast, S3-only) → start → poll.
+	// Extraction runs server-side in a background worker, so this survives request
+	// timeouts and the user can cancel or close the dialog mid-import.
+	const handleBulkUpload = async () => {
+		const files = selectedFiles;
+		try {
+			setConfirmBulk(false);
+			setBulkStage('staging');
+			setBulkStaged(0);
+			setBulkTotal(files.length);
+			setIsUploading(true);
+
+			const createResp = await createBulkUpload();
+			const jobId = createResp.data.jobId;
+			setBulkJobId(jobId);
+
+			// Chunks upload through a small worker pool; the backend append is atomic,
+			// so parallel chunks never clobber each other.
+			const chunks = [];
+			for (let i = 0; i < files.length; i += BULK_CHUNK_SIZE) {
+				chunks.push(files.slice(i, i + BULK_CHUNK_SIZE));
+			}
+			let nextChunk = 0;
+			const stageWorker = async () => {
+				for (;;) {
+					const my = nextChunk++;
+					if (my >= chunks.length) return;
+					const formData = new FormData();
+					chunks[my].forEach(f => formData.append('files', f));
+					try {
+						await stageBulkFiles(jobId, formData);
+					} catch (chunkError) {
+						// One retry per chunk — a transient network error must not lose the batch.
+						console.warn('Retrying staging chunk after error:', chunkError);
+						await stageBulkFiles(jobId, formData);
+					}
+					setBulkStaged(prev => Math.min(prev + chunks[my].length, files.length));
+				}
+			};
+			await Promise.all(Array.from(
+				{ length: Math.min(STAGING_PARALLELISM, chunks.length) }, stageWorker));
+
+			await startBulkUpload(jobId);
+			setBulkStage('processing');
+			// From here the app-level provider owns polling, toasts and list refreshes.
+			bulkImport?.watchJob(jobId);
+		} catch (error) {
+			console.error('Error running bulk import:', error);
+			setBulkStage(null);
+			setBulkJobId(null);
+			setIsUploading(false);
+		}
+	};
+
+	const handleCancelBulk = async () => {
+		try {
+			if (bulkJobId) await cancelBulkUpload(bulkJobId);
+		} catch (error) {
+			console.error('Error cancelling bulk import:', error);
+		} finally {
+			// The provider observes CANCELLED on its next poll and toasts it.
+			handleCloseUploadDialog();
+		}
+	};
+
+	// Closing during 'processing' hands the job fully to the app-level provider:
+	// the header chip keeps showing progress and the library refreshes on completion.
+	const handleContinueInBackground = () => {
+		setBulkStage(null);
+		setBulkJobId(null);
+		setIsUploading(false);
+		setSelectedFiles([]);
+		setOpenUploadModal(false);
+	};
+
 	const handleCloseUploadDialog = () => {
 		setOpenUploadModal(false);
 		setSelectedFiles([]);
 		setUploadResults(null);
+		setDroppedInfo(null);
+		setConfirmBulk(false);
+		setBulkStage(null);
+		setBulkJobId(null);
+		setBulkSummary(null);
+		setIsUploading(false);
 	};
 
 	const handleReplaceDuplicate = async (result) => {
@@ -184,6 +353,43 @@ const AppCVContent = () => {
 		for (const result of pending) {
 			// Sequential on purpose — each replace deletes a CV; parallel bursts add no value here.
 			await handleReplaceDuplicate(result);
+		}
+	};
+
+	// Clear-library: the most destructive action in the product — preflight counts in
+	// the dialog, and the user must type DELETE before the button arms.
+	const [clearDialogOpen, setClearDialogOpen] = useState(false);
+	const [clearPreflight, setClearPreflight] = useState(null);
+	const [clearConfirmText, setClearConfirmText] = useState('');
+	const [clearing, setClearing] = useState(false);
+
+	const handleOpenClearDialog = async () => {
+		setClearConfirmText('');
+		setClearPreflight(null);
+		setClearDialogOpen(true);
+		try {
+			const resp = await getClearLibraryPreflight();
+			setClearPreflight(resp.data);
+		} catch (error) {
+			console.error('Clear-library preflight failed:', error);
+		}
+	};
+
+	const handleClearLibrary = async () => {
+		try {
+			setClearing(true);
+			const resp = await clearLibrary();
+			const result = resp.data;
+			toast.success(t('appCVContent.clearLibrary.done', 'Library cleared — {{cvs}} resumes, {{reports}} reports and {{chats}} chats removed.', {
+				cvs: result?.cvs ?? 0, reports: result?.reports ?? 0, chats: result?.chats ?? 0 }));
+			setClearDialogOpen(false);
+			setSelectedCV(null);
+			await fetchCVEntries();
+			notifyQualityChanged();
+		} catch (error) {
+			console.error('Clear library failed:', error);
+		} finally {
+			setClearing(false);
 		}
 	};
 
@@ -244,7 +450,7 @@ const AppCVContent = () => {
 							fontWeight: 500,
 							letterSpacing: '0.02em',
 						}}>
-							· up to {MAX_FILES}
+							· up to {bulkLimit}
 						</Box>
 					</Button>
 				)}
@@ -270,6 +476,22 @@ const AppCVContent = () => {
 						{t('appCVContent.archived', 'Archived')}
 					</Button>
 				</Tooltip>
+
+				{!demo && (
+					<Tooltip title={t('appCVContent.clearLibrary.tooltip', 'Clear the whole library…')}>
+						<IconButton
+							size="small"
+							onClick={handleOpenClearDialog}
+							sx={{
+								borderRadius: 1.5,
+								color: '#94a3b8',
+								'&:hover': { color: '#dc2626', backgroundColor: 'rgba(220,38,38,0.06)' },
+							}}
+						>
+							<DeleteForeverOutlinedIcon sx={{ fontSize: 19 }} />
+						</IconButton>
+					</Tooltip>
+				)}
 
 				<Box sx={{ flexGrow: 1 }} />
 
@@ -383,15 +605,110 @@ const AppCVContent = () => {
 				PaperProps={{ sx: { borderRadius: 3 } }}
 			>
 				<DialogTitle sx={{ px: 3, pt: 3, pb: 1, fontWeight: 700, fontSize: '1rem', color: '#0f172a' }}>
-					{uploadResults ? t('appCVContent.uploadResults.title', 'Upload results') : t('appCVContent.uploadCV')}
-					{!uploadResults && (
+					{(uploadResults || bulkSummary) ? t('appCVContent.uploadResults.title', 'Upload results') : t('appCVContent.uploadCV')}
+					{!uploadResults && !bulkSummary && (
 						<Typography sx={{ fontSize: '0.82rem', color: '#64748b', fontWeight: 400, mt: 0.25 }}>
-							{t('appCVContent.uploadCVInfo')}
+							{t('appCVContent.uploadCVInfo', { max: bulkLimit })}
 						</Typography>
 					)}
 				</DialogTitle>
 				<DialogContent sx={{ px: 3 }}>
-					{uploadResults ? (
+					{bulkSummary ? (
+						/* Bulk import finished — aggregate summary (duplicates surface in Library Quality) */
+						<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, py: 0.5 }}>
+							<Box sx={{
+								py: 2, px: 2,
+								backgroundColor: bulkSummary.failed > 0 || bulkSummary.skipped > 0 ? '#fffbeb' : '#f0fdf4',
+								border: `1px solid ${bulkSummary.failed > 0 || bulkSummary.skipped > 0 ? '#fde68a' : '#bbf7d0'}`,
+								borderRadius: 2,
+								display: 'flex', alignItems: 'center', gap: 1.25,
+							}}>
+								{bulkSummary.status === 'CANCELLED'
+									? <ErrorOutlineIcon sx={{ fontSize: 22, color: '#64748b' }} />
+									: bulkSummary.failed > 0 || bulkSummary.skipped > 0
+										? <WarningAmberRoundedIcon sx={{ fontSize: 22, color: '#f59e0b' }} />
+										: <CheckCircleRoundedIcon sx={{ fontSize: 22, color: '#16a34a' }} />}
+								<Box>
+									<Typography sx={{ fontSize: '0.92rem', fontWeight: 700, color: '#0f172a' }}>
+										{bulkSummary.status === 'CANCELLED'
+											? t('appCVContent.bulk.cancelled', 'Import cancelled')
+											: t('appCVContent.bulk.imported', '{{succeeded}} of {{total}} resumes imported', {
+												succeeded: bulkSummary.succeeded, total: bulkSummary.total })}
+									</Typography>
+									<Typography sx={{ fontSize: '0.78rem', color: '#64748b' }}>
+										{bulkSummary.failed > 0 && t('appCVContent.bulk.failedCount', '{{count}} failed', { count: bulkSummary.failed })}
+										{bulkSummary.failed > 0 && bulkSummary.skipped > 0 && ' · '}
+										{bulkSummary.skipped > 0 && (bulkSummary.failureReason === 'quota_exceeded'
+											? t('appCVContent.bulk.skippedQuota', '{{count}} skipped — your plan\'s screening limit was reached', { count: bulkSummary.skipped })
+											: t('appCVContent.bulk.skippedCount', '{{count}} skipped', { count: bulkSummary.skipped }))}
+									</Typography>
+								</Box>
+							</Box>
+							{Array.isArray(bulkSummary.errorSamples) && bulkSummary.errorSamples.length > 0 && (
+								<Box sx={{ border: '1px solid #e2e8f0', borderRadius: 1.5, px: 1.5, py: 1, maxHeight: 180, overflowY: 'auto' }}>
+									<Typography sx={{ fontSize: '0.76rem', fontWeight: 700, color: '#b45309', mb: 0.5 }}>
+										{t('appCVContent.bulk.errorSamples', 'Files with errors')}
+									</Typography>
+									{bulkSummary.errorSamples.map((sample, i) => (
+										<Typography key={i} sx={{ fontSize: '0.72rem', color: '#64748b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+											{sample}
+										</Typography>
+									))}
+								</Box>
+							)}
+							<Typography sx={{ fontSize: '0.76rem', color: '#94a3b8' }}>
+								{t('appCVContent.bulk.duplicatesHint', 'Possible duplicates are flagged in Library Quality after import.')}
+							</Typography>
+						</Box>
+					) : bulkStage ? (
+						/* Bulk import running — real counts, not an estimate */
+						<Box sx={{
+							py: 2.5, px: 2.5, my: 1,
+							backgroundColor: 'rgba(98,156,68,0.05)',
+							border: '1px solid rgba(98,156,68,0.2)',
+							borderRadius: 2,
+						}}>
+							<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
+								<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+									<CircularProgress size={14} thickness={5} sx={{ color: '#629C44' }} />
+									<Typography sx={{ fontSize: '0.9rem', fontWeight: 600, color: '#166534' }}>
+										{bulkStage === 'staging'
+											? t('appCVContent.bulk.staging', 'Uploading files… {{staged}} of {{total}}', { staged: bulkStaged, total: bulkTotal })
+											: t('appCVContent.bulk.processing', 'Importing resumes… {{processed}} of {{total}}', {
+												processed: bulkView?.processed ?? 0, total: bulkTotal })}
+									</Typography>
+								</Box>
+								<Typography sx={{ fontSize: '0.78rem', color: '#629C44', fontWeight: 600 }}>
+									{Math.round(bulkStage === 'staging'
+										? (bulkTotal ? (bulkStaged / bulkTotal) * 30 : 0)
+										: 30 + (bulkTotal ? ((bulkView?.processed ?? 0) / bulkTotal) * 70 : 0))}%
+								</Typography>
+							</Box>
+							<LinearProgress
+								variant="determinate"
+								value={bulkStage === 'staging'
+									? (bulkTotal ? (bulkStaged / bulkTotal) * 30 : 0)
+									: 30 + (bulkTotal ? ((bulkView?.processed ?? 0) / bulkTotal) * 70 : 0)}
+								sx={{
+									height: 8, borderRadius: 4,
+									backgroundColor: 'rgba(98,156,68,0.12)',
+									'& .MuiLinearProgress-bar': {
+										borderRadius: 4,
+										background: 'linear-gradient(90deg, #629C44 0%, #7cb342 60%, #aed581 100%)',
+										transition: 'transform 0.5s linear',
+									},
+								}}
+							/>
+							<Typography sx={{ fontSize: '0.78rem', color: '#629C44', mt: 1, fontStyle: 'italic' }}>
+								{bulkStage === 'staging'
+									? t('appCVContent.bulk.stagingHint', 'Files are being uploaded — analysis starts when staging completes.')
+									: t('appCVContent.bulk.processingHint', 'Analysis runs on our servers — you can close this window and imported resumes will keep appearing in your library.')}
+								{bulkStage === 'processing' && bulkImport?.etaMinutes != null && (
+									` ${t('appCVContent.bulk.eta', '~{{minutes}} min left', { minutes: bulkImport.etaMinutes })}`
+								)}
+							</Typography>
+						</Box>
+					) : uploadResults ? (
 						<Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.75, py: 0.5 }}>
 							{uploadResults.filter(r => r.status === 'DUPLICATE_DETECTED' && !r.resolution).length > 1 && (
 								<Button
@@ -540,7 +857,7 @@ const AppCVContent = () => {
 									Drag & drop files here
 								</Typography>
 								<Typography sx={{ fontSize: '0.78rem', color: '#94a3b8' }}>
-									or click to browse — .pdf or .docx, up to {MAX_FILES} files
+									or click to browse — .pdf or .docx, up to {bulkLimit} files
 								</Typography>
 								<input
 									ref={fileInputRef}
@@ -558,13 +875,37 @@ const AppCVContent = () => {
 									<Typography sx={{ fontSize: '0.82rem', color: '#16a34a', fontWeight: 600 }}>
 										{selectedFiles.length} file{selectedFiles.length > 1 ? 's' : ''} ready to upload
 									</Typography>
+									{selectedFiles.length > SYNC_MAX_FILES && (
+										<Typography sx={{ fontSize: '0.74rem', color: '#64748b', mt: 0.25 }}>
+											{t('appCVContent.bulk.willRunInBackground', 'Large batch — analysis will run in the background while you keep working.')}
+										</Typography>
+									)}
+									{confirmBulk && (
+										<Typography sx={{ fontSize: '0.74rem', color: '#b45309', mt: 0.25, fontWeight: 600 }}>
+											{t('appCVContent.bulk.confirmInfo', 'This will analyze {{count}} resumes and use {{count}} screening actions. Click again to confirm.', { count: selectedFiles.length })}
+										</Typography>
+									)}
+								</Box>
+							)}
+							{droppedInfo && (
+								<Box sx={{ mt: 1, p: 1.25, backgroundColor: '#fffbeb', borderRadius: 1.5, border: '1px solid #fde68a' }}>
+									{droppedInfo.overCap > 0 && (
+										<Typography sx={{ fontSize: '0.76rem', color: '#b45309', fontWeight: 600 }}>
+											{t('appCVContent.bulk.overCap', 'Only the first {{max}} files were kept — your plan imports up to {{max}} at once.', { max: bulkLimit })}
+										</Typography>
+									)}
+									{droppedInfo.rejected > 0 && (
+										<Typography sx={{ fontSize: '0.76rem', color: '#b45309' }}>
+											{t('appCVContent.bulk.rejectedType', '{{count}} unsupported file(s) ignored — only .pdf and .docx are accepted.', { count: droppedInfo.rejected })}
+										</Typography>
+									)}
 								</Box>
 							)}
 						</>
 					)}
 				</DialogContent>
 				<DialogActions sx={{ px: 3, pb: 3, gap: 1 }}>
-					{uploadResults ? (
+					{(uploadResults || bulkSummary) ? (
 						<Button
 							onClick={handleCloseUploadDialog}
 							variant="contained"
@@ -580,6 +921,24 @@ const AppCVContent = () => {
 						>
 							{t('appCVContent.uploadResults.done', 'Done')}
 						</Button>
+					) : bulkStage ? (
+						<>
+							<Button
+								onClick={handleCancelBulk}
+								sx={{ textTransform: 'none', color: '#dc2626', borderRadius: 1.5 }}
+							>
+								{t('appCVContent.bulk.cancelImport', 'Cancel import')}
+							</Button>
+							{bulkStage === 'processing' && (
+								<Button
+									onClick={handleContinueInBackground}
+									variant="outlined"
+									sx={{ textTransform: 'none', color: '#629C44', borderColor: '#629C44', borderRadius: 1.5, fontWeight: 600 }}
+								>
+									{t('appCVContent.bulk.continueInBackground', 'Continue in background')}
+								</Button>
+							)}
+						</>
 					) : (
 						<>
 							<Button
@@ -595,18 +954,82 @@ const AppCVContent = () => {
 								variant="contained"
 								sx={{
 									textTransform: 'none',
-									backgroundColor: '#629C44',
-									'&:hover': { backgroundColor: '#528035' },
+									backgroundColor: confirmBulk ? '#b45309' : '#629C44',
+									'&:hover': { backgroundColor: confirmBulk ? '#92400e' : '#528035' },
 									borderRadius: 1.5,
 									boxShadow: 'none',
 									fontWeight: 600,
 									minWidth: 120,
 								}}
 							>
-								{isUploading ? <CircularProgress size={18} color="inherit" /> : t('appCVContent.uploadFiles')}
+								{isUploading
+									? <CircularProgress size={18} color="inherit" />
+									: confirmBulk
+										? t('appCVContent.bulk.confirmButton', 'Confirm import of {{count}} files', { count: selectedFiles.length })
+										: t('appCVContent.uploadFiles')}
 							</Button>
 						</>
 					)}
+				</DialogActions>
+			</Dialog>
+
+			{/* Clear-library confirmation — preflight counts + type-to-confirm */}
+			<Dialog
+				open={clearDialogOpen}
+				onClose={() => !clearing && setClearDialogOpen(false)}
+				maxWidth="xs"
+				fullWidth
+				PaperProps={{ sx: { borderRadius: 2.5 } }}
+			>
+				<DialogTitle sx={{ fontWeight: 700, fontSize: '0.95rem', color: '#dc2626' }}>
+					{t('appCVContent.clearLibrary.title', 'Clear the whole resume library?')}
+				</DialogTitle>
+				<DialogContent>
+					<DialogContentText component="div" sx={{ fontSize: '0.86rem', color: '#334155' }}>
+						{clearPreflight ? (
+							t('appCVContent.clearLibrary.summary',
+								'This permanently deletes {{cvs}} resumes, {{reports}} matching reports and {{chats}} AI chats — including their stored documents. Job posts and usage history are kept. This cannot be undone.',
+								{ cvs: clearPreflight.cvs, reports: clearPreflight.reports, chats: clearPreflight.chats })
+						) : (
+							<Box sx={{ display: 'flex', justifyContent: 'center', py: 1 }}>
+								<CircularProgress size={18} sx={{ color: '#dc2626' }} />
+							</Box>
+						)}
+					</DialogContentText>
+					<Typography sx={{ fontSize: '0.78rem', color: '#64748b', mt: 2, mb: 0.75 }}>
+						{t('appCVContent.clearLibrary.typeToConfirm', 'Type DELETE to confirm.')}
+					</Typography>
+					<input
+						value={clearConfirmText}
+						onChange={(e) => setClearConfirmText(e.target.value)}
+						disabled={clearing}
+						autoFocus
+						style={{
+							width: '100%', boxSizing: 'border-box', padding: '8px 10px',
+							border: '1px solid #e2e8f0', borderRadius: 8, fontSize: '0.9rem',
+							letterSpacing: '0.08em', fontFamily: 'inherit',
+						}}
+					/>
+				</DialogContent>
+				<DialogActions sx={{ px: 2, pb: 2, gap: 1 }}>
+					<Button
+						onClick={() => setClearDialogOpen(false)}
+						disabled={clearing}
+						sx={{ textTransform: 'none', color: '#64748b', borderRadius: 1.5 }}
+					>
+						{t('appCVContent.cancel')}
+					</Button>
+					<Button
+						onClick={handleClearLibrary}
+						disabled={clearing || clearConfirmText !== 'DELETE' || !clearPreflight}
+						variant="contained"
+						color="error"
+						sx={{ textTransform: 'none', borderRadius: 1.5, boxShadow: 'none', fontWeight: 600 }}
+					>
+						{clearing
+							? <CircularProgress size={18} color="inherit" />
+							: t('appCVContent.clearLibrary.confirm', 'Clear library')}
+					</Button>
 				</DialogActions>
 			</Dialog>
 

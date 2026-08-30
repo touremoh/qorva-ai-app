@@ -48,8 +48,9 @@ import TuneIcon from '@mui/icons-material/Tune';
 import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined';
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
 import CheckIcon from '@mui/icons-material/Check';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import { useTranslation } from 'react-i18next';
-import { getJobs, createJob, updateJob, patchJobStatus, deleteJob, suggestScoringRules } from '../../../services/jobService.js';
+import { getJobs, createJob, updateJob, patchJobStatus, deleteJob, suggestScoringRules, generateJobDescription } from '../../../services/jobService.js';
 import { isDemoUser } from '../../../utils/demoMode.js';
 import UpgradeButton from '../../demo/UpgradeButton.jsx';
 import { default as ReactQuill } from 'react-quill';
@@ -757,6 +758,16 @@ const JobContent = () => {
 	const [jobTitle, setJobTitle] = useState('');
 	const [jobDescription, setJobDescription] = useState('');
 	const [scoringConfig, setScoringConfig] = useState(emptyScoringConfig());
+	// AI job-description builder (create mode only): a few structured inputs draft the
+	// whole post — title, description, and scoring rules for step 2 (unmetered).
+	const [aiBuilderOpen, setAiBuilderOpen] = useState(false);
+	const [aiBuilderBusy, setAiBuilderBusy] = useState(false);
+	const [aiSeniority, setAiSeniority] = useState('');
+	const [aiSkills, setAiSkills] = useState('');
+	const [aiLocation, setAiLocation] = useState('');
+	const [aiContract, setAiContract] = useState('');
+	const [aiNotes, setAiNotes] = useState('');
+
 	// AI pre-fill of scoring rules (create mode only). lastSuggestedFor guards against
 	// re-billing an LLM call when the user bounces Back/Next without changing the description.
 	const [aiPrefillBusy, setAiPrefillBusy] = useState(false);
@@ -872,6 +883,65 @@ const JobContent = () => {
 	 * only when the form is still untouched and the description changed since the last
 	 * suggestion. Failures fall back silently to the empty form (accelerator, not blocker).
 	 */
+	// Plain-text JD from the backend → simple Quill-friendly HTML (paragraphs + bullet lists).
+	const jdTextToHtml = (text) => {
+		const escape = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+		const lines = (text || '').split('\n');
+		const html = [];
+		let bullets = [];
+		const flushBullets = () => {
+			if (bullets.length) {
+				html.push(`<ul>${bullets.map(b => `<li>${escape(b)}</li>`).join('')}</ul>`);
+				bullets = [];
+			}
+		};
+		for (const raw of lines) {
+			const line = raw.trim();
+			if (line.startsWith('- ')) {
+				bullets.push(line.slice(2));
+			} else {
+				flushBullets();
+				if (line) html.push(`<p>${escape(line)}</p>`);
+			}
+		}
+		flushBullets();
+		return html.join('');
+	};
+
+	const handleGenerateJd = async () => {
+		if (!jobTitle.trim() || aiBuilderBusy) return;
+		setAiBuilderBusy(true);
+		try {
+			const res = await generateJobDescription({
+				title: jobTitle.trim(),
+				seniority: aiSeniority.trim(),
+				mustHaveSkills: aiSkills.trim(),
+				location: aiLocation.trim(),
+				contractType: aiContract.trim(),
+				extraNotes: aiNotes.trim(),
+				language: i18n.language,
+			});
+			const draft = res.data;
+			if (draft?.description) {
+				const html = jdTextToHtml(draft.description);
+				if (draft.title) setJobTitle(draft.title);
+				setJobDescription(html);
+				// The backend already suggested scoring rules for this draft (free) — apply
+				// them and mark the draft as suggested so step 2 skips the metered re-suggest.
+				if (draft.scoringRules) {
+					setScoringConfig(loadScoringConfig({ scoringRules: draft.scoringRules }));
+					setAiPrefillApplied(true);
+					setLastSuggestedFor(`${draft.title || jobTitle}::${html}`);
+				}
+				setAiBuilderOpen(false);
+			}
+		} catch (error) {
+			console.error('Job description generation failed:', error);
+		} finally {
+			setAiBuilderBusy(false);
+		}
+	};
+
 	const handleCreateNext = async () => {
 		setCreateStep(1);
 		const descriptionKey = `${jobTitle}::${jobDescription}`;
@@ -1020,6 +1090,68 @@ const JobContent = () => {
 					value={jobTitle} onChange={(e) => setJobTitle(e.target.value)}
 					sx={{ mb: 2, ...inputSx }}
 				/>
+
+				{/* AI job-description builder — create mode only */}
+				{createMode && (
+					<Box sx={{ mb: 2, border: '1px solid rgba(98,156,68,0.35)', borderRadius: 2, overflow: 'hidden' }}>
+						<Box
+							onClick={() => setAiBuilderOpen(prev => !prev)}
+							sx={{
+								display: 'flex', alignItems: 'center', gap: 1, px: 1.5, py: 1,
+								backgroundColor: 'rgba(98,156,68,0.06)', cursor: 'pointer',
+								'&:hover': { backgroundColor: 'rgba(98,156,68,0.10)' },
+							}}
+						>
+							<AutoAwesomeIcon sx={{ fontSize: 17, color: THEME_GREEN }} />
+							<Typography sx={{ fontSize: '0.84rem', fontWeight: 600, color: '#166534' }}>
+								{t('jobContent.aiBuilder.toggle', 'Generate the description with AI')}
+							</Typography>
+							<Box sx={{ flex: 1 }} />
+							<Typography sx={{ fontSize: '0.76rem', color: '#629C44' }}>
+								{aiBuilderOpen ? '−' : '+'}
+							</Typography>
+						</Box>
+						{aiBuilderOpen && (
+							<Box sx={{ px: 1.5, py: 1.5, display: 'flex', flexDirection: 'column', gap: 1.25 }}>
+								<Typography sx={{ fontSize: '0.76rem', color: '#64748b' }}>
+									{t('jobContent.aiBuilder.hint', 'Fill in the job title above plus any details below — the draft lands in the editor for you to review.')}
+								</Typography>
+								<Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+									<TextField size="small" label={t('jobContent.aiBuilder.seniority', 'Seniority')}
+										value={aiSeniority} onChange={(e) => setAiSeniority(e.target.value)}
+										sx={{ flex: '1 1 160px', ...inputSx }} />
+									<TextField size="small" label={t('jobContent.aiBuilder.contract', 'Contract type')}
+										value={aiContract} onChange={(e) => setAiContract(e.target.value)}
+										sx={{ flex: '1 1 160px', ...inputSx }} />
+									<TextField size="small" label={t('jobContent.aiBuilder.location', 'Location / remote')}
+										value={aiLocation} onChange={(e) => setAiLocation(e.target.value)}
+										sx={{ flex: '1 1 160px', ...inputSx }} />
+								</Box>
+								<TextField size="small" label={t('jobContent.aiBuilder.mustHave', 'Must-have skills (comma-separated)')}
+									value={aiSkills} onChange={(e) => setAiSkills(e.target.value)}
+									fullWidth sx={inputSx} />
+								<TextField size="small" label={t('jobContent.aiBuilder.notes', 'Anything else the description should mention')}
+									value={aiNotes} onChange={(e) => setAiNotes(e.target.value)}
+									fullWidth multiline minRows={2} sx={inputSx} />
+								<Button
+									variant="contained"
+									disabled={!jobTitle.trim() || aiBuilderBusy}
+									onClick={handleGenerateJd}
+									startIcon={aiBuilderBusy ? <CircularProgress size={14} color="inherit" /> : <AutoAwesomeIcon sx={{ fontSize: 16 }} />}
+									sx={{
+										alignSelf: 'flex-start', textTransform: 'none', fontWeight: 600, fontSize: '0.8rem',
+										backgroundColor: THEME_GREEN, '&:hover': { backgroundColor: THEME_GREEN_DARK },
+										borderRadius: 1.5, boxShadow: 'none',
+									}}
+								>
+									{aiBuilderBusy
+										? t('jobContent.aiBuilder.generating', 'Drafting…')
+										: t('jobContent.aiBuilder.generate', 'Generate draft')}
+								</Button>
+							</Box>
+						)}
+					</Box>
+				)}
 				<Box sx={{
 					'.ql-container': { borderRadius: '0 0 8px 8px', fontSize: '0.88rem' },
 					'.ql-toolbar': { borderRadius: '8px 8px 0 0', borderColor: '#e2e8f0', transition: 'border-color 0.2s, box-shadow 0.2s' },

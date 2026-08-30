@@ -30,9 +30,11 @@ import {
 } from '../../../constants.js';
 import PropTypes from 'prop-types';
 
-const AppMenuList = ({ handleContentChange, isChatAllowed, collapsed, onToggleCollapse }) => {
+const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, collapsed, onToggleCollapse }) => {
 	const { t } = useTranslation();
-	const [selectedItem, setSelectedItem] = useState(COMP_ID_DASHBOARD);
+	// Selection is derived from the URL-driven content (via AppHome), so the highlight
+	// survives refreshes and deep links instead of resetting to Dashboard.
+	const selectedItem = activeContent ?? COMP_ID_DASHBOARD;
 	const [openGroups, setOpenGroups] = useState({});
 	const [qualityIssueCount, setQualityIssueCount] = useState(0);
 
@@ -68,7 +70,6 @@ const AppMenuList = ({ handleContentChange, isChatAllowed, collapsed, onToggleCo
 	}, []);
 
 	const handleNavigation = (id) => {
-		setSelectedItem(id);
 		handleContentChange(id);
 	};
 
@@ -279,6 +280,7 @@ export default AppMenuList;
 
 AppMenuList.propTypes = {
 	handleContentChange: PropTypes.func.isRequired,
+	activeContent: PropTypes.string,
 	isChatAllowed: PropTypes.bool.isRequired,
 	collapsed: PropTypes.bool,
 	onToggleCollapse: PropTypes.func,

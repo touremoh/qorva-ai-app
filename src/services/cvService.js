@@ -23,3 +23,9 @@ export const getDuplicates = (pageNumber = 0, pageSize = 20) =>
 
 export const replaceDuplicateCV = (newCvId, oldCvId) =>
     apiClient.post(`/cvs/${newCvId}/replace/${oldCvId}`);
+
+export const getClearLibraryPreflight = () =>
+    apiClient.get('/cvs/clear-library/preflight');
+
+export const clearLibrary = () =>
+    apiClient.post('/cvs/clear-library');

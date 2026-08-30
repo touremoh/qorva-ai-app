@@ -181,6 +181,17 @@
     "aiPrefill": {
       "drafting": "La IA está redactando sus reglas de puntuación…",
       "applied": "Reglas de puntuación sugeridas por IA — revise y ajuste antes de guardar."
+    },
+    "aiBuilder": {
+      "toggle": "Generar la descripción con IA",
+      "hint": "Complete el título del puesto arriba y los detalles abajo — el borrador llega al editor para su revisión.",
+      "seniority": "Seniority",
+      "contract": "Tipo de contrato",
+      "location": "Ubicación / remoto",
+      "mustHave": "Habilidades imprescindibles (separadas por comas)",
+      "notes": "Cualquier otra cosa que deba mencionar la descripción",
+      "generate": "Generar borrador",
+      "generating": "Redactando…"
     }
   },
   "appCVContent": {
@@ -307,7 +318,7 @@
     "presentedBy": "Presentado por",
     "uploadFiles": "Subir archivos",
     "uploadInProgress": "Subiendo… espere",
-    "uploadCVInfo": "Puede subir hasta 100 CV en formato .pdf o .docx.",
+    "uploadCVInfo": "Puede subir hasta {{max}} CV en formato .pdf o .docx.",
     "uploadProgressTitle": "Procesando tus CV…",
     "uploadComplete": "¡CV subidos correctamente!",
     "remaining": "restante",
@@ -346,7 +357,37 @@
     },
     "archived": "Archivados",
     "showArchivedTooltip": "Mostrar currículums archivados",
-    "unarchive": "Desarchivar"
+    "unarchive": "Desarchivar",
+    "bulk": {
+      "staging": "Subiendo archivos… {{staged}} de {{total}}",
+      "stagingHint": "Los archivos se están subiendo — el análisis comienza al terminar la subida.",
+      "processing": "Importando CV… {{processed}} de {{total}}",
+      "processingHint": "El análisis se ejecuta en nuestros servidores — puede cerrar esta ventana y los CV importados seguirán apareciendo en su biblioteca.",
+      "imported": "{{succeeded}} de {{total}} CV importados",
+      "failedCount": "{{count}} con errores",
+      "skippedCount": "{{count}} omitidos",
+      "skippedQuota": "{{count}} omitidos — se alcanzó el límite de análisis de su plan",
+      "errorSamples": "Archivos con errores",
+      "duplicatesHint": "Los posibles duplicados se marcan en Calidad de la biblioteca tras la importación.",
+      "cancelled": "Importación cancelada",
+      "cancelImport": "Cancelar importación",
+      "continueInBackground": "Continuar en segundo plano",
+      "willRunInBackground": "Lote grande — el análisis se ejecutará en segundo plano mientras sigue trabajando.",
+      "confirmInfo": "Se analizarán {{count}} CV y se usarán {{count}} acciones de análisis. Haga clic de nuevo para confirmar.",
+      "confirmButton": "Confirmar importación de {{count}} archivos",
+      "overCap": "Solo se conservaron los primeros {{max}} archivos — su plan importa hasta {{max}} a la vez.",
+      "rejectedType": "{{count}} archivo(s) no compatibles ignorados — solo se aceptan .pdf y .docx.",
+      "chip": "Importando {{processed}} / {{total}}",
+      "eta": "~{{minutes}} min restantes"
+    },
+    "clearLibrary": {
+      "tooltip": "Vaciar toda la biblioteca…",
+      "title": "¿Vaciar toda la biblioteca de CV?",
+      "summary": "Esto elimina permanentemente {{cvs}} CV, {{reports}} informes de coincidencia y {{chats}} chats de IA — incluidos los documentos almacenados. Las ofertas de empleo y el historial de uso se conservan. No se puede deshacer.",
+      "typeToConfirm": "Escriba DELETE para confirmar.",
+      "confirm": "Vaciar biblioteca",
+      "done": "Biblioteca vaciada — {{cvs}} CV, {{reports}} informes y {{chats}} chats eliminados."
+    }
   },
   "appCVMatching": {
     "selectJobPost": "Seleccionar oferta",
