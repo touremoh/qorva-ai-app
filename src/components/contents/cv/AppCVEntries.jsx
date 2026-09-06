@@ -30,6 +30,30 @@ import { getCVs, searchCVs } from '../../../services/cvService.js';
 
 const PAGE_SIZES = [10, 25, 50, 100];
 
+const ATS_LABELS = {
+	greenhouse: 'Greenhouse', recruitee: 'Recruitee', workable: 'Workable', manatal: 'Manatal',
+	bamboohr: 'BambooHR', zoho_recruit: 'Zoho Recruit', lever: 'Lever',
+};
+
+/** Tiny "via <ATS>" origin badge for CVs imported through an integration. */
+const AtsSourceChip = ({ cv }) => {
+	const ref = cv.atsRefs?.[0];
+	if (!ref) return null;
+	return (
+		<Chip
+			label={ATS_LABELS[ref.provider] || ref.provider}
+			size="small"
+			sx={{
+				height: 16, fontSize: '0.6rem', fontWeight: 700, ml: 0.5,
+				color: '#0369a1', backgroundColor: 'rgba(3,105,161,0.08)',
+				'& .MuiChip-label': { px: 0.75 },
+			}}
+		/>
+	);
+};
+
+AtsSourceChip.propTypes = { cv: PropTypes.object.isRequired };
+
 const AppCVEntries = ({
 	cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntries,
 	viewMode, selectedCV, totalPages, setTotalPages, totalElements, setTotalElements,
@@ -348,15 +372,18 @@ const AppCVEntries = ({
 									}}>
 										{cv.personalInformation?.name || '—'}
 									</Typography>
-									<Typography sx={{
-										fontSize: '0.74rem',
-										color: '#94a3b8',
-										overflow: 'hidden',
-										textOverflow: 'ellipsis',
-										whiteSpace: 'nowrap',
-									}}>
-										{cv.personalInformation?.role}
-									</Typography>
+									<Box sx={{ display: 'flex', alignItems: 'center', minWidth: 0 }}>
+										<Typography sx={{
+											fontSize: '0.74rem',
+											color: '#94a3b8',
+											overflow: 'hidden',
+											textOverflow: 'ellipsis',
+											whiteSpace: 'nowrap',
+										}}>
+											{cv.personalInformation?.role}
+										</Typography>
+										<AtsSourceChip cv={cv} />
+									</Box>
 								</Box>
 								<IconButton
 									size="small"
@@ -490,6 +517,7 @@ const AppCVEntries = ({
 											<Typography sx={{ fontSize: '0.84rem', fontWeight: 500, color: '#0f172a' }}>
 												{cv.personalInformation?.name || '—'}
 											</Typography>
+											<AtsSourceChip cv={cv} />
 										</Box>
 									</TableCell>
 									<TableCell sx={{ fontSize: '0.82rem', color: '#64748b', py: 1.25 }}>

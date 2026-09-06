@@ -544,7 +544,8 @@
       "profile": "Mijn Profiel",
       "company": "Bedrijf",
       "users": "Gebruikers",
-      "billing": "Facturering"
+      "billing": "Facturering",
+      "integrations": "Integraties"
     },
     "company": {
       "profileSection": "Bedrijfsinformatie",
@@ -601,7 +602,8 @@
       "aiChat": "AI Chat",
       "users": "Gebruikersbeheer",
       "atsExport": "ATS-export",
-      "billing": "Facturering"
+      "billing": "Facturering",
+      "integrations": "ATS-integraties"
     },
     "authorities": {
       "VIEW_DASHBOARD": "Dashboard bekijken",
@@ -627,7 +629,8 @@
       "MANAGE_USERS": "Gebruikers beheren",
       "ATS_REPORT_EXPORT": "ATS-export",
       "UPDATE_SUBSCRIPTION": "Abonnement bijwerken",
-      "CANCEL_SUBSCRIPTION": "Abonnement opzeggen"
+      "CANCEL_SUBSCRIPTION": "Abonnement opzeggen",
+      "MANAGE_INTEGRATIONS": "ATS-integraties beheren"
     }
   },
   "dashboard": {
@@ -1269,5 +1272,66 @@
     "testError": "Kon de test-e-mail niet verzenden.",
     "limitNote": "{{count}} van {{limit}} sjablonen gebruikt",
     "limitReached": "Planlimiet bereikt — verwijder een sjabloon of upgrade uw plan."
+  },
+  "atsIntegrations": {
+    "intro": "Koppel uw ATS om kandidaten en vacatures automatisch te importeren en matchscores terug te sturen.",
+    "planUpsell": "ATS-integraties zijn in elk abonnement inbegrepen. Activeer een abonnement om uw ATS te koppelen.",
+    "connect": "Koppelen",
+    "connectTitle": "{{provider}} koppelen",
+    "connected": "{{provider}} gekoppeld.",
+    "deleted": "Integratie verwijderd. Geïmporteerde cv's zijn behouden.",
+    "deleteConfirm": "{{provider}} ontkoppelen? Geïmporteerde cv's blijven in uw bibliotheek.",
+    "disconnect": "Ontkoppelen",
+    "testConnection": "Testen",
+    "testOk": "De verbinding werkt.",
+    "syncNow": "Nu synchroniseren",
+    "syncStarted": "Synchronisatie gestart. Nieuwe kandidaten verschijnen in uw cv-bibliotheek.",
+    "webhookUrl": "Webhook-URL",
+    "webhookCopied": "Webhook-URL gekopieerd.",
+    "oauthConnected": "ATS succesvol gekoppeld.",
+    "oauthFailed": "De ATS-koppeling kon niet worden voltooid. Probeer het opnieuw.",
+    "initialSyncGuardHint": "De eerste import is gestopt bij de veiligheidslimiet. Bevestig om de rest van uw ATS-kandidaten te importeren — elk nieuw cv verbruikt één screeningactie.",
+    "confirmFullImport": "Rest importeren",
+    "status": {
+      "connected": "Gekoppeld",
+      "authError": "Auth-fout",
+      "disabled": "Gepauzeerd"
+    },
+    "settings": {
+      "autoImport": "Automatisch importeren",
+      "autoImportHint": "Controleert elke 30 minuten op nieuwe kandidaten in het ATS.",
+      "importJobs": "Vacatures importeren",
+      "importJobsHint": "Maakt Qorva-vacatures aan op basis van open ATS-vacatures.",
+      "writeBackScores": "Scores naar het ATS sturen",
+      "writeBackScoresHint": "Plaatst de matchscore als notitie bij de kandidaat."
+    },
+    "fields": {
+      "apiKey": "API-sleutel",
+      "apiKeyHint": "Aangemaakt in de beheerdersinstellingen van uw ATS.",
+      "subdomain": "Subdomein",
+      "subdomainHint": "Het eerste deel van het webadres van uw ATS.",
+      "companyId": "Bedrijfs-ID",
+      "companyIdHint": "Te vinden in de API-instellingen van Recruitee.",
+      "onBehalfOfUserId": "Greenhouse-gebruikers-ID (optioneel)",
+      "onBehalfOfUserIdHint": "Nodig om scorenotities in Greenhouse te plaatsen."
+    },
+    "runs": {
+      "title": "Recente synchronisaties",
+      "summary": "{{imported}} geïmporteerd · {{skipped}} overgeslagen · {{failed}} mislukt",
+      "initialSyncGuard": "wacht op bevestiging",
+      "quotaExceeded": "abonnementslimiet bereikt"
+    },
+    "regionTitle": "Waar wordt uw Zoho-account gehost?",
+    "regionHint": "Zoho houdt elk account in één datacenter, en alleen dat datacenter kan u aanmelden. Kies het domein waarmee u bij Zoho inlogt.",
+    "regions": {
+      "com": "Verenigde Staten",
+      "eu": "Europa",
+      "in": "India",
+      "com_au": "Australië",
+      "jp": "Japan",
+      "ca": "Canada",
+      "sa": "Saoedi-Arabië",
+      "com_cn": "China"
+    }
   }
 }

@@ -44,6 +44,7 @@ const ALL_ACTIONS = [
 	'START_CHAT', 'VIEW_CHAT', 'VIEW_MESSAGE', 'REPLY_MESSAGE', 'MODIFY_CHAT', 'DELETE_CHAT',
 	'VIEW_USERS', 'MANAGE_USERS',
 	'ATS_REPORT_EXPORT',
+	'MANAGE_INTEGRATIONS',
 	'UPDATE_SUBSCRIPTION', 'CANCEL_SUBSCRIPTION',
 ];
 
@@ -55,6 +56,9 @@ const AUTHORITY_GROUPS = [
 	{ key: 'aiChat', actions: ['START_CHAT', 'VIEW_CHAT', 'VIEW_MESSAGE', 'REPLY_MESSAGE', 'MODIFY_CHAT', 'DELETE_CHAT'] },
 	{ key: 'users', actions: ['VIEW_USERS', 'MANAGE_USERS'] },
 	{ key: 'atsExport', actions: ['ATS_REPORT_EXPORT'] },
+	// Saving this editor rewrites the whole authority list, so an action missing from here
+	// is silently revoked on the next edit — every granted action must appear.
+	{ key: 'integrations', actions: ['MANAGE_INTEGRATIONS'] },
 	{ key: 'billing', actions: ['UPDATE_SUBSCRIPTION', 'CANCEL_SUBSCRIPTION'] },
 ];
 

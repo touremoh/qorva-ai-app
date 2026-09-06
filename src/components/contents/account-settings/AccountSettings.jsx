@@ -23,6 +23,7 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
 import ApartmentOutlinedIcon from '@mui/icons-material/ApartmentOutlined';
+import CableOutlinedIcon from '@mui/icons-material/CableOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import LanguageSwitcher from '../../../components/languages/LanguageSwitcher.jsx';
@@ -39,6 +40,7 @@ import {
 } from '../../../constants.js';
 import AccountUsersTab from './AccountUsersTab.jsx';
 import AccountCompanyTab from './AccountCompanyTab.jsx';
+import AccountIntegrationsTab from './AccountIntegrationsTab.jsx';
 import { isDemoUser } from '../../../utils/demoMode.js';
 import UpgradeButton from '../../demo/UpgradeButton.jsx';
 
@@ -86,6 +88,7 @@ const NAV_TABS = [
 	{ id: 'profile', Icon: PersonOutlineOutlinedIcon, labelKey: 'accountSettings.tabs.profile' },
 	{ id: 'company', Icon: ApartmentOutlinedIcon, labelKey: 'accountSettings.tabs.company' },
 	{ id: 'users', Icon: GroupOutlinedIcon, labelKey: 'accountSettings.tabs.users' },
+	{ id: 'integrations', Icon: CableOutlinedIcon, labelKey: 'accountSettings.tabs.integrations' },
 	{ id: 'billing', Icon: CreditCardOutlinedIcon, labelKey: 'accountSettings.tabs.billing' },
 ];
 
@@ -387,6 +390,9 @@ const AccountSettings = () => {
 
 				{/* ══ Users Tab ══ */}
 				{activeTab === 'users' && <AccountUsersTab />}
+
+				{/* ══ Integrations Tab ══ */}
+				{activeTab === 'integrations' && <AccountIntegrationsTab />}
 
 				{/* ══ Billing Tab ══ */}
 				{activeTab === 'billing' && (

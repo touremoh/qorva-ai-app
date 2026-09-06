@@ -547,7 +547,8 @@
       "profile": "Meu Perfil",
       "company": "Empresa",
       "users": "Utilizadores",
-      "billing": "Faturação"
+      "billing": "Faturação",
+      "integrations": "Integrações"
     },
     "company": {
       "profileSection": "Informações da empresa",
@@ -604,7 +605,8 @@
       "aiChat": "IA Chat",
       "users": "Gestão de utilizadores",
       "atsExport": "Exportação ATS",
-      "billing": "Faturação"
+      "billing": "Faturação",
+      "integrations": "Integrações de ATS"
     },
     "authorities": {
       "VIEW_DASHBOARD": "Ver painel",
@@ -630,7 +632,8 @@
       "MANAGE_USERS": "Gerir utilizadores",
       "ATS_REPORT_EXPORT": "Exportar ATS",
       "UPDATE_SUBSCRIPTION": "Atualizar subscrição",
-      "CANCEL_SUBSCRIPTION": "Cancelar subscrição"
+      "CANCEL_SUBSCRIPTION": "Cancelar subscrição",
+      "MANAGE_INTEGRATIONS": "Gerir integrações de ATS"
     }
   },
   "dashboard": {
@@ -1272,5 +1275,66 @@
     "testError": "Não foi possível enviar o e-mail de teste.",
     "limitNote": "{{count}} de {{limit}} modelos utilizados",
     "limitReached": "Limite do plano atingido — elimine um modelo ou faça upgrade."
+  },
+  "atsIntegrations": {
+    "intro": "Ligue o seu ATS para importar candidatos e vagas automaticamente e devolver as pontuações de correspondência.",
+    "planUpsell": "As integrações de ATS estão incluídas em todos os planos. Ative uma subscrição para ligar o seu ATS.",
+    "connect": "Ligar",
+    "connectTitle": "Ligar {{provider}}",
+    "connected": "{{provider}} ligado.",
+    "deleted": "Integração removida. Os CV importados foram mantidos.",
+    "deleteConfirm": "Desligar {{provider}}? Os CV importados permanecem na sua biblioteca.",
+    "disconnect": "Desligar",
+    "testConnection": "Testar",
+    "testOk": "A ligação funciona.",
+    "syncNow": "Sincronizar agora",
+    "syncStarted": "Sincronização iniciada. Os novos candidatos aparecerão na sua biblioteca de CV.",
+    "webhookUrl": "URL do webhook",
+    "webhookCopied": "URL do webhook copiado.",
+    "oauthConnected": "ATS ligado com sucesso.",
+    "oauthFailed": "Não foi possível concluir a ligação ao ATS. Tente novamente.",
+    "initialSyncGuardHint": "A primeira importação parou no limite de segurança. Confirme para importar os restantes candidatos do ATS — cada novo CV consome uma ação de screening.",
+    "confirmFullImport": "Importar o resto",
+    "status": {
+      "connected": "Ligado",
+      "authError": "Erro de aut.",
+      "disabled": "Em pausa"
+    },
+    "settings": {
+      "autoImport": "Importação automática",
+      "autoImportHint": "Verifica novos candidatos no ATS a cada 30 minutos.",
+      "importJobs": "Importar vagas",
+      "importJobsHint": "Cria vagas no Qorva a partir das vagas abertas do ATS.",
+      "writeBackScores": "Enviar pontuações para o ATS",
+      "writeBackScoresHint": "Publica a pontuação de correspondência como nota no candidato."
+    },
+    "fields": {
+      "apiKey": "Chave de API",
+      "apiKeyHint": "Criada nas definições de administrador do seu ATS.",
+      "subdomain": "Subdomínio",
+      "subdomainHint": "A primeira parte do endereço web do seu ATS.",
+      "companyId": "ID da empresa",
+      "companyIdHint": "Disponível nas definições de API do Recruitee.",
+      "onBehalfOfUserId": "ID de utilizador do Greenhouse (opcional)",
+      "onBehalfOfUserIdHint": "Necessário para publicar notas de pontuação no Greenhouse."
+    },
+    "runs": {
+      "title": "Sincronizações recentes",
+      "summary": "{{imported}} importados · {{skipped}} ignorados · {{failed}} falhados",
+      "initialSyncGuard": "a aguardar confirmação",
+      "quotaExceeded": "quota do plano atingida"
+    },
+    "regionTitle": "Onde está alojada a sua conta Zoho?",
+    "regionHint": "A Zoho mantém cada conta num único centro de dados, e só esse o pode autenticar. Escolha o domínio que utiliza para iniciar sessão na Zoho.",
+    "regions": {
+      "com": "Estados Unidos",
+      "eu": "Europa",
+      "in": "Índia",
+      "com_au": "Austrália",
+      "jp": "Japão",
+      "ca": "Canadá",
+      "sa": "Arábia Saudita",
+      "com_cn": "China"
+    }
   }
 }

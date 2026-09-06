@@ -543,7 +543,8 @@
       "profile": "My Profile",
       "company": "Company",
       "users": "Users",
-      "billing": "Billing"
+      "billing": "Billing",
+      "integrations": "Integrations"
     },
     "company": {
       "profileSection": "Company Information",
@@ -600,7 +601,8 @@
       "aiChat": "AI Chat",
       "users": "User Management",
       "atsExport": "ATS Export",
-      "billing": "Billing"
+      "billing": "Billing",
+      "integrations": "ATS Integrations"
     },
     "authorities": {
       "VIEW_DASHBOARD": "View Dashboard",
@@ -626,7 +628,8 @@
       "MANAGE_USERS": "Manage Users",
       "ATS_REPORT_EXPORT": "ATS Export",
       "UPDATE_SUBSCRIPTION": "Update Subscription",
-      "CANCEL_SUBSCRIPTION": "Cancel Subscription"
+      "CANCEL_SUBSCRIPTION": "Cancel Subscription",
+      "MANAGE_INTEGRATIONS": "Manage ATS integrations"
     }
   },
   "dashboard": {
@@ -1281,5 +1284,66 @@
     "testError": "Could not send the test email.",
     "limitNote": "{{count}} of {{limit}} templates used",
     "limitReached": "Plan limit reached — delete a template or upgrade to create more."
+  },
+  "atsIntegrations": {
+    "intro": "Connect your ATS to import candidates and jobs automatically, and push match scores back.",
+    "planUpsell": "ATS integrations are included in every plan. Activate a subscription to connect your ATS.",
+    "connect": "Connect",
+    "connectTitle": "Connect {{provider}}",
+    "connected": "{{provider}} connected.",
+    "deleted": "Integration removed. Imported CVs were kept.",
+    "deleteConfirm": "Disconnect {{provider}}? Imported CVs stay in your library.",
+    "disconnect": "Disconnect",
+    "testConnection": "Test",
+    "testOk": "Connection works.",
+    "syncNow": "Sync now",
+    "syncStarted": "Sync started. New candidates will appear in your CV library.",
+    "webhookUrl": "Webhook URL",
+    "webhookCopied": "Webhook URL copied.",
+    "oauthConnected": "ATS connected successfully.",
+    "oauthFailed": "The ATS connection could not be completed. Try again.",
+    "initialSyncGuardHint": "The first import stopped at the safety limit. Confirm to import the rest of your ATS candidates — each new CV uses one screening action.",
+    "confirmFullImport": "Import the rest",
+    "status": {
+      "connected": "Connected",
+      "authError": "Auth error",
+      "disabled": "Paused"
+    },
+    "settings": {
+      "autoImport": "Automatic import",
+      "autoImportHint": "Check the ATS for new candidates every 30 minutes.",
+      "importJobs": "Import jobs",
+      "importJobsHint": "Create Qorva job posts from open ATS jobs.",
+      "writeBackScores": "Send scores to the ATS",
+      "writeBackScoresHint": "Post the match score as a note on the candidate."
+    },
+    "fields": {
+      "apiKey": "API key",
+      "apiKeyHint": "Created in your ATS admin settings.",
+      "subdomain": "Subdomain",
+      "subdomainHint": "The first part of your ATS web address.",
+      "companyId": "Company ID",
+      "companyIdHint": "Found in your Recruitee API settings.",
+      "onBehalfOfUserId": "Greenhouse user ID (optional)",
+      "onBehalfOfUserIdHint": "Needed to post score notes back to Greenhouse."
+    },
+    "runs": {
+      "title": "Recent syncs",
+      "summary": "{{imported}} imported · {{skipped}} skipped · {{failed}} failed",
+      "initialSyncGuard": "awaiting confirmation",
+      "quotaExceeded": "plan quota reached"
+    },
+    "regionTitle": "Where is your Zoho account hosted?",
+    "regionHint": "Zoho keeps each account in a single datacenter, and only that one can sign you in. Pick the domain you use to log in to Zoho.",
+    "regions": {
+      "com": "United States",
+      "eu": "Europe",
+      "in": "India",
+      "com_au": "Australia",
+      "jp": "Japan",
+      "ca": "Canada",
+      "sa": "Saudi Arabia",
+      "com_cn": "China"
+    }
   }
 }
