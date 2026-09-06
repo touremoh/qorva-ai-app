@@ -547,7 +547,8 @@
       "profile": "Mon Profil",
       "company": "Entreprise",
       "users": "Utilisateurs",
-      "billing": "Facturation"
+      "billing": "Facturation",
+      "integrations": "Intégrations"
     },
     "company": {
       "profileSection": "Informations de l'entreprise",
@@ -604,7 +605,8 @@
       "aiChat": "IA Chat",
       "users": "Gestion des utilisateurs",
       "atsExport": "Export ATS",
-      "billing": "Facturation"
+      "billing": "Facturation",
+      "integrations": "Intégrations ATS"
     },
     "authorities": {
       "VIEW_DASHBOARD": "Voir le tableau de bord",
@@ -630,7 +632,8 @@
       "MANAGE_USERS": "Gérer les utilisateurs",
       "ATS_REPORT_EXPORT": "Export ATS",
       "UPDATE_SUBSCRIPTION": "Mettre à jour l'abonnement",
-      "CANCEL_SUBSCRIPTION": "Annuler l'abonnement"
+      "CANCEL_SUBSCRIPTION": "Annuler l'abonnement",
+      "MANAGE_INTEGRATIONS": "Gérer les intégrations ATS"
     }
   },
   "dashboard": {
@@ -1272,5 +1275,66 @@
     "testError": "Impossible d'envoyer l'e-mail de test.",
     "limitNote": "{{count}} modèles sur {{limit}} utilisés",
     "limitReached": "Limite du plan atteinte — supprimez un modèle ou passez à un plan supérieur."
+  },
+  "atsIntegrations": {
+    "intro": "Connectez votre ATS pour importer automatiquement candidats et offres, et renvoyer les scores de correspondance.",
+    "planUpsell": "Les intégrations ATS sont incluses dans toutes les offres. Activez un abonnement pour connecter votre ATS.",
+    "connect": "Connecter",
+    "connectTitle": "Connecter {{provider}}",
+    "connected": "{{provider}} connecté.",
+    "deleted": "Intégration supprimée. Les CV importés ont été conservés.",
+    "deleteConfirm": "Déconnecter {{provider}} ? Les CV importés restent dans votre CVthèque.",
+    "disconnect": "Déconnecter",
+    "testConnection": "Tester",
+    "testOk": "La connexion fonctionne.",
+    "syncNow": "Synchroniser",
+    "syncStarted": "Synchronisation lancée. Les nouveaux candidats apparaîtront dans votre CVthèque.",
+    "webhookUrl": "URL du webhook",
+    "webhookCopied": "URL du webhook copiée.",
+    "oauthConnected": "ATS connecté avec succès.",
+    "oauthFailed": "La connexion à l'ATS n'a pas pu aboutir. Réessayez.",
+    "initialSyncGuardHint": "Le premier import s'est arrêté à la limite de sécurité. Confirmez pour importer le reste de vos candidats ATS — chaque nouveau CV consomme une action de screening.",
+    "confirmFullImport": "Importer le reste",
+    "status": {
+      "connected": "Connecté",
+      "authError": "Erreur d'auth.",
+      "disabled": "En pause"
+    },
+    "settings": {
+      "autoImport": "Import automatique",
+      "autoImportHint": "Vérifie les nouveaux candidats dans l'ATS toutes les 30 minutes.",
+      "importJobs": "Importer les offres",
+      "importJobsHint": "Crée des offres Qorva à partir des offres ouvertes de l'ATS.",
+      "writeBackScores": "Envoyer les scores à l'ATS",
+      "writeBackScoresHint": "Publie le score de correspondance en note sur le candidat."
+    },
+    "fields": {
+      "apiKey": "Clé API",
+      "apiKeyHint": "Créée dans les paramètres admin de votre ATS.",
+      "subdomain": "Sous-domaine",
+      "subdomainHint": "La première partie de l'adresse web de votre ATS.",
+      "companyId": "ID d'entreprise",
+      "companyIdHint": "Disponible dans les paramètres API de Recruitee.",
+      "onBehalfOfUserId": "ID utilisateur Greenhouse (facultatif)",
+      "onBehalfOfUserIdHint": "Nécessaire pour publier les notes de score dans Greenhouse."
+    },
+    "runs": {
+      "title": "Synchronisations récentes",
+      "summary": "{{imported}} importés · {{skipped}} ignorés · {{failed}} en échec",
+      "initialSyncGuard": "en attente de confirmation",
+      "quotaExceeded": "quota de l'offre atteint"
+    },
+    "regionTitle": "Où votre compte Zoho est-il hébergé ?",
+    "regionHint": "Zoho héberge chaque compte dans un seul centre de données, et lui seul peut vous authentifier. Choisissez le domaine que vous utilisez pour vous connecter à Zoho.",
+    "regions": {
+      "com": "États-Unis",
+      "eu": "Europe",
+      "in": "Inde",
+      "com_au": "Australie",
+      "jp": "Japon",
+      "ca": "Canada",
+      "sa": "Arabie saoudite",
+      "com_cn": "Chine"
+    }
   }
 }

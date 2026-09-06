@@ -65,6 +65,8 @@ const handleResponseError = (error) => {
 apiClient.interceptors.response.use(response => response, handleResponseError);
 apiFormDataClient.interceptors.response.use(response => response, handleResponseError);
 
+// Endpoints whose 401 is not a dead session: the caller deals with it, so the response
+// interceptor must not clear storage and bounce to /login.
 const publicEndpoint = (url) => url.includes('/registrations')
 	|| url.includes('/auth/login')
 	|| url.includes('/auth/token/validate')
@@ -73,9 +75,19 @@ const publicEndpoint = (url) => url.includes('/registrations')
 	|| url.includes('/stripe/checkout/success')
 	|| url.includes('/stripe/checkout/cancel');
 
+// Endpoints that take no bearer token at all. /auth/token/validate is deliberately NOT
+// here even though it is public: the token under test is its only input, and stripping
+// the header makes the backend answer 400 (missing Authorization) on every check.
+const sendsNoCredentials = (url) => url.includes('/registrations')
+	|| url.includes('/auth/login')
+	|| url.includes('/auth/password/set')
+	|| url.includes('/auth/password/resend')
+	|| url.includes('/stripe/checkout/success')
+	|| url.includes('/stripe/checkout/cancel');
+
 const getConfig = (config) => {
-	if (publicEndpoint(config.url)) {
-		// A stale token on a public call (e.g. login with an expired session) helps nobody.
+	if (sendsNoCredentials(config.url)) {
+		// A stale token on a credential-free call (e.g. login with an expired session) helps nobody.
 		delete config.headers['Authorization'];
 	} else {
 		const token = localStorage.getItem(AUTH_TOKEN);

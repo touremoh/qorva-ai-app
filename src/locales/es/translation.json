@@ -547,7 +547,8 @@
       "profile": "Mi Perfil",
       "company": "Empresa",
       "users": "Usuarios",
-      "billing": "Facturación"
+      "billing": "Facturación",
+      "integrations": "Integraciones"
     },
     "company": {
       "profileSection": "Información de la empresa",
@@ -604,7 +605,8 @@
       "aiChat": "IA Chat",
       "users": "Gestión de usuarios",
       "atsExport": "Exportación ATS",
-      "billing": "Facturación"
+      "billing": "Facturación",
+      "integrations": "Integraciones de ATS"
     },
     "authorities": {
       "VIEW_DASHBOARD": "Ver panel",
@@ -630,7 +632,8 @@
       "MANAGE_USERS": "Gestionar usuarios",
       "ATS_REPORT_EXPORT": "Exportar ATS",
       "UPDATE_SUBSCRIPTION": "Actualizar suscripción",
-      "CANCEL_SUBSCRIPTION": "Cancelar suscripción"
+      "CANCEL_SUBSCRIPTION": "Cancelar suscripción",
+      "MANAGE_INTEGRATIONS": "Gestionar integraciones de ATS"
     }
   },
   "dashboard": {
@@ -1272,5 +1275,66 @@
     "testError": "No se pudo enviar el correo de prueba.",
     "limitNote": "{{count}} de {{limit}} plantillas utilizadas",
     "limitReached": "Límite del plan alcanzado — elimine una plantilla o mejore su plan."
+  },
+  "atsIntegrations": {
+    "intro": "Conecte su ATS para importar candidatos y puestos automáticamente y devolver las puntuaciones de coincidencia.",
+    "planUpsell": "Las integraciones de ATS están incluidas en todos los planes. Active una suscripción para conectar su ATS.",
+    "connect": "Conectar",
+    "connectTitle": "Conectar {{provider}}",
+    "connected": "{{provider}} conectado.",
+    "deleted": "Integración eliminada. Los CV importados se conservaron.",
+    "deleteConfirm": "¿Desconectar {{provider}}? Los CV importados permanecen en su biblioteca.",
+    "disconnect": "Desconectar",
+    "testConnection": "Probar",
+    "testOk": "La conexión funciona.",
+    "syncNow": "Sincronizar ahora",
+    "syncStarted": "Sincronización iniciada. Los nuevos candidatos aparecerán en su biblioteca de CV.",
+    "webhookUrl": "URL del webhook",
+    "webhookCopied": "URL del webhook copiada.",
+    "oauthConnected": "ATS conectado correctamente.",
+    "oauthFailed": "No se pudo completar la conexión con el ATS. Inténtelo de nuevo.",
+    "initialSyncGuardHint": "La primera importación se detuvo en el límite de seguridad. Confirme para importar el resto de sus candidatos del ATS — cada nuevo CV consume una acción de screening.",
+    "confirmFullImport": "Importar el resto",
+    "status": {
+      "connected": "Conectado",
+      "authError": "Error de aut.",
+      "disabled": "En pausa"
+    },
+    "settings": {
+      "autoImport": "Importación automática",
+      "autoImportHint": "Comprueba nuevos candidatos en el ATS cada 30 minutos.",
+      "importJobs": "Importar puestos",
+      "importJobsHint": "Crea puestos en Qorva a partir de los puestos abiertos del ATS.",
+      "writeBackScores": "Enviar puntuaciones al ATS",
+      "writeBackScoresHint": "Publica la puntuación de coincidencia como nota en el candidato."
+    },
+    "fields": {
+      "apiKey": "Clave de API",
+      "apiKeyHint": "Se crea en la configuración de administrador de su ATS.",
+      "subdomain": "Subdominio",
+      "subdomainHint": "La primera parte de la dirección web de su ATS.",
+      "companyId": "ID de empresa",
+      "companyIdHint": "Disponible en la configuración de API de Recruitee.",
+      "onBehalfOfUserId": "ID de usuario de Greenhouse (opcional)",
+      "onBehalfOfUserIdHint": "Necesario para publicar notas de puntuación en Greenhouse."
+    },
+    "runs": {
+      "title": "Sincronizaciones recientes",
+      "summary": "{{imported}} importados · {{skipped}} omitidos · {{failed}} fallidos",
+      "initialSyncGuard": "esperando confirmación",
+      "quotaExceeded": "cuota del plan alcanzada"
+    },
+    "regionTitle": "¿Dónde está alojada su cuenta de Zoho?",
+    "regionHint": "Zoho mantiene cada cuenta en un único centro de datos, y solo ese puede autenticarle. Elija el dominio que utiliza para iniciar sesión en Zoho.",
+    "regions": {
+      "com": "Estados Unidos",
+      "eu": "Europa",
+      "in": "India",
+      "com_au": "Australia",
+      "jp": "Japón",
+      "ca": "Canadá",
+      "sa": "Arabia Saudí",
+      "com_cn": "China"
+    }
   }
 }
