@@ -1311,6 +1311,12 @@
     "fields": {
       "apiKey": "Chiave API",
       "apiKeyHint": "Creata nelle impostazioni amministratore del tuo ATS.",
+      "clientId": "Client ID",
+      "clientIdHint": "Dalla tua credenziale Greenhouse Harvest v3.",
+      "clientSecret": "Client secret",
+      "clientSecretHint": "Mostrato una sola volta alla creazione della credenziale.",
+      "webhookSigningSecret": "Token di firma Lever (facoltativo)",
+      "webhookSigningSecretHint": "Da Settings → Integrations and API → Webhooks in Lever. Serve solo se Lever non lo fornisce automaticamente a Qorva.",
       "subdomain": "Sottodominio",
       "subdomainHint": "La prima parte dell'indirizzo web del tuo ATS.",
       "companyId": "ID azienda",
@@ -1335,6 +1341,131 @@
       "ca": "Canada",
       "sa": "Arabia Saudita",
       "com_cn": "Cina"
+    },
+    "guides": {
+      "credentialsTitle": "Prima di collegare",
+      "webhookTitle": "Aggiornamenti in tempo reale",
+      "webhookIntro": "Qorva controlla le modifiche in {{provider}} ogni 30 minuti. Aggiungi un webhook per ricevere gli aggiornamenti nel momento in cui avvengono.",
+      "webhookManagedOk": "Gli aggiornamenti in tempo reale sono attivi. Qorva li ha configurati nel tuo ATS: non devi fare nulla.",
+      "webhookManagedFailed": "Qorva non è riuscita a configurare automaticamente gli aggiornamenti in tempo reale.",
+      "webhookRetry": "Riprova",
+      "webhookRetried": "Aggiornamenti in tempo reale configurati.",
+      "webhookManualFallback": "Oppure configuralo tu",
+      "webhookSecret": "Secret del webhook",
+      "webhookSecretCopied": "Secret del webhook copiato.",
+      "pasteSecret": "Incolla entrambi i valori nel tuo ATS. Firmerà ogni richiesta con il secret e Qorva ignorerà tutto ciò che non corrisponde.",
+      "urlCarriesToken": "Questo indirizzo contiene già un token privato, quindi non c'è alcun secret da inserire. Trattalo come una password.",
+      "docs": "Documentazione {{provider}}",
+      "greenhouse": {
+        "intro": "Creerai una credenziale Harvest v3 in Greenhouse. Ti serve il permesso di gestire le credenziali API della tua organizzazione.",
+        "steps": [
+          "In Greenhouse, apri Configure → Dev Center → API Credential Management e fai clic su Create new API credentials.",
+          "Imposta il tipo di API su Harvest v3 (OAuth) e il partner su Unlisted vendor, poi descrivi la credenziale come Qorva AI.",
+          "Creala accedendo con un utente di integrazione anziché con un account personale, così la connessione continua a funzionare se quella persona lascia l'azienda.",
+          "Concedi l'accesso in lettura a candidati, candidature, posizioni, annunci, utenti, reparti e sedi — e nient'altro.",
+          "Copia il client ID e il client secret e incollali qui. Greenhouse mostra il secret una sola volta.",
+          "L'ID utente Greenhouse è facoltativo e serve solo se vuoi che Qorva riporti i punteggi come note."
+        ],
+        "note": "Harvest v1 e v2 non accettano più richieste dal 31 agosto 2026. Una vecchia chiave API Harvest non permette più di collegarsi: crea una credenziale Harvest v3 anche se possiedi già una chiave.",
+        "webhookSteps": [
+          "In Greenhouse, apri Configure → Dev Center → Web Hooks.",
+          "Crea un webhook chiamato Qorva AI e scegli l'evento candidato che vuoi seguire.",
+          "Incolla l'indirizzo qui sopra in Endpoint URL e il secret in Secret Key.",
+          "Salva. Greenhouse invia subito una chiamata di prova, a cui Qorva risponde al posto tuo.",
+          "Ripeti per ogni evento che vuoi seguire."
+        ]
+      },
+      "recruitee": {
+        "intro": "Ti servono il company ID e un token API personale. Il token eredita i permessi di chi lo crea, quindi usa un account stabile.",
+        "steps": [
+          "In Recruitee, apri Settings → Apps and plugins → Personal API Tokens e fai clic su Add new token.",
+          "Chiama il token Qorva AI e crealo.",
+          "Copia il token e annota il company ID mostrato accanto."
+        ],
+        "webhookSteps": [
+          "Verifica che il tuo ruolo Recruitee disponga della capacità Manage webhooks.",
+          "Apri Settings → Apps and plugins → Webhooks e fai clic su New webhook.",
+          "Chiamalo Qorva AI e incolla l'indirizzo qui sopra in POST URL.",
+          "Seleziona gli eventi candidato desiderati, fai clic su Test e poi su Verify and create."
+        ]
+      },
+      "workable": {
+        "intro": "Ti servono un token di accesso API e il sottodominio usato dal tuo account Workable.",
+        "steps": [
+          "In Workable, apri il menu in alto a destra, scegli Integrations e individua la sezione dei token di accesso API.",
+          "Fai clic su Generate new token e chiamalo Qorva AI.",
+          "Attiva gli ambiti r_jobs e r_candidates. Aggiungi w_candidates solo se vuoi che Qorva riporti i punteggi.",
+          "Scegli una data di scadenza. I token Workable scadono e la sincronizzazione si ferma: annota quando dovrai sostituirlo.",
+          "Copia subito il token: Workable lo mostra per intero una sola volta.",
+          "Il sottodominio è la prima parte del tuo indirizzo Workable: in https://acme.workable.com è acme."
+        ],
+        "webhookUnavailable": "Qorva registra le sottoscrizioni webhook di Workable via API: in Workable non esiste una schermata da compilare a mano."
+      },
+      "manatal": {
+        "intro": "Ti serve un token Open API. Manatal include la Open API nel piano Enterprise Plus; sugli altri piani chiedi a Manatal di attivarla.",
+        "steps": [
+          "In Manatal, apri Administration → Features → Open API. Se non lo vedi, usa Contact our support per richiedere l'accesso.",
+          "Fai clic su Generate new token, chiamalo Qorva AI e generalo.",
+          "Copia il token e incollalo qui. Solo gli amministratori Manatal possono vedere i token API."
+        ],
+        "note": "In caso di passaggio a un piano inferiore o di pagamento non riuscito, Manatal disattiva i token esistenti e dovrai generarne uno nuovo.",
+        "webhookSteps": [
+          "In Manatal, apri Administration → Features → Open API e vai alla sezione dei webhook.",
+          "Aggiungi un webhook per gli eventi candidato e incolla l'indirizzo qui sopra come destinazione.",
+          "Salva. Contatta il supporto Manatal se ti servono eventi che la schermata non propone."
+        ]
+      },
+      "bamboohr": {
+        "intro": "Ti servono il dominio aziendale BambooHR e una chiave API.",
+        "steps": [
+          "Il dominio aziendale è la prima parte del tuo indirizzo BambooHR: in https://acme.bamboohr.com è acme.",
+          "Accedi con un account che vede già i dati di selezione che Qorva deve leggere: una chiave API porta esattamente i permessi di quell'utente.",
+          "Fai clic sul tuo nome in basso a sinistra e scegli API Keys.",
+          "Aggiungi una chiave, chiamala Qorva AI e copiala."
+        ],
+        "webhookUnavailable": "I webhook di BambooHR segnalano modifiche alle schede dei dipendenti e non alle candidature, quindi non possono alimentare gli aggiornamenti di selezione. Qorva sincronizza ogni 30 minuti e puoi avviare una sincronizzazione in qualsiasi momento."
+      },
+      "zoho_recruit": {
+        "intro": "Per Zoho Recruit non c'è nulla da copiare. Scegli il data center che ospita il tuo account, accedi e Qorva fa il resto.",
+        "steps": [
+          "Scegli la regione corrispondente all'indirizzo con cui accedi a Zoho: accounts.zoho.eu significa Europa. Conta dove è ospitato il tuo account, non dove è registrata la tua società.",
+          "Accedi all'account Zoho che contiene la tua organizzazione Recruit e controlla gli accessi richiesti da Qorva.",
+          "Fai clic su Accept. Zoho ti riporta a Qorva e la connessione si completa da sola."
+        ],
+        "webhookSteps": [
+          "In Zoho Recruit, apri Setup → Automation → Actions → Webhooks e fai clic su Configure Webhook.",
+          "Chiamalo Qorva AI, scegli il metodo POST e incolla l'indirizzo qui sopra in URL to Notify.",
+          "Salva, poi apri Setup → Automation → Workflow Rules e crea una regola sul modulo Candidates.",
+          "Scegli gli eventi desiderati, aggiungi il webhook Qorva sotto Workflow Actions e attiva la regola.",
+          "Non saltare la regola: Zoho invia un webhook solo se lo attiva una regola di workflow attiva."
+        ]
+      },
+      "lever": {
+        "intro": "Ti serve una chiave API. Solo un Super Admin di Lever può crearla.",
+        "steps": [
+          "In Lever, apri Settings → Integrations and API e seleziona la scheda API credentials.",
+          "Sotto Lever API credentials — non Postings API credentials — fai clic su Generate new key.",
+          "Chiamala Qorva AI e concedi gli accessi in lettura necessari a Qorva; di solito si selezionano tutti i permessi di lettura.",
+          "Copia la chiave e incollala qui. Lever la mostra una sola volta."
+        ],
+        "webhookUnavailable": "Qorva registra i webhook di Lever via API. Lever li firma con un proprio token di account: incolla qui quel token se gli aggiornamenti in tempo reale restano inattivi."
+      },
+      "ashby": {
+        "intro": "Ti serve una chiave API. Solo un amministratore dell'organizzazione Ashby può crearla.",
+        "steps": [
+          "In Ashby, apri Admin → Integrations → API Keys e fai clic su New.",
+          "Chiama la chiave Qorva AI e prosegui fino alla schermata dei permessi.",
+          "Le chiavi Ashby partono senza alcun accesso. Concedi l'accesso in lettura a candidati, posizioni, candidature, processo di assunzione e dati dell'organizzazione.",
+          "Aggiungi il permesso apiKeysWrite solo se vuoi che in futuro Qorva crei i webhook al posto tuo.",
+          "Salva e copia la chiave. Ashby non la mostrerà più una volta chiusa la procedura guidata."
+        ],
+        "webhookSteps": [
+          "In Ashby, apri Admin → Integrations → Webhooks e fai clic su New.",
+          "Scegli l'evento che vuoi seguire.",
+          "Incolla l'indirizzo qui sopra nel campo request URL e il secret in secret token.",
+          "Salva. Ashby invia subito una chiamata di prova e il webhook si attiva non appena Qorva la accetta."
+        ]
+      }
     }
   }
 }
