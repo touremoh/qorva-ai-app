@@ -134,6 +134,31 @@ const stepList = (t, key) => {
 /** Credential fields that must never be shown in the clear while being typed. */
 const SECRET_FIELDS = new Set(['apiKey', 'clientSecret', 'webhookSigningSecret']);
 
+/** How often the card re-reads sync runs while one is still in flight. */
+const SYNC_POLL_MS = 3000;
+
+/** Gives up polling eventually, so a job stuck RUNNING cannot poll for the life of the tab. */
+const SYNC_POLL_TIMEOUT_MS = 5 * 60 * 1000;
+
+/**
+ * True when an ATS could actually deliver to this address. A webhook URL built from a local
+ * or private base — http://localhost:8080 is the development default — is one an ATS cannot
+ * reach, and providers reject it outright rather than accepting a callback that never fires.
+ */
+const isPubliclyReachable = (url) => {
+	try {
+		const { protocol, hostname } = new URL(url);
+		if (protocol !== 'https:') return false;
+		if (['localhost', '0.0.0.0', '127.0.0.1', '[::1]', '::1'].includes(hostname)) return false;
+		if (hostname.endsWith('.local') || hostname.endsWith('.localhost')) return false;
+		// RFC 1918 private ranges and link-local, which a provider cannot route to either.
+		return !/^(10\.|192\.168\.|169\.254\.|172\.(1[6-9]|2\d|3[01])\.)/.test(hostname);
+	} catch {
+		// Not a URL we can parse — say nothing rather than warn about something we misread.
+		return true;
+	}
+};
+
 /** Zoho's sign-in domain for a datacenter key — Canada is the one that breaks the pattern. */
 const zohoDomain = (key) => (key === 'ca' ? 'zohocloud.ca' : `zoho.${key}`);
 
@@ -308,7 +333,7 @@ const AccountIntegrationsTab = () => {
 	const [form, setForm] = useState({});
 	const [connecting, setConnecting] = useState(false);
 
-	const reload = useCallback(async () => {
+	const reload = useCallback(async ({ silent = false } = {}) => {
 		try {
 			const [catalogRes, connectionsRes] = await Promise.all([getAtsProviders(), getAtsConnections()]);
 			setCatalogFailed(false);
@@ -325,6 +350,8 @@ const AccountIntegrationsTab = () => {
 			}));
 			setRunsByConnection(Object.fromEntries(runsEntries));
 		} catch (e) {
+			// A failed poll must neither blank the card nor stack up toasts — the next tick retries.
+			if (silent) return;
 			// The catalog never loaded, so maxConnections stays 0 — which must not be read
 			// as "this plan has no ATS connections". The error itself is already toasted.
 			setCatalogFailed(true);
@@ -335,6 +362,29 @@ const AccountIntegrationsTab = () => {
 	}, []);
 
 	useEffect(() => { reload(); }, [reload]);
+
+	const syncInFlight = Object.values(runsByConnection)
+		.some((runs) => runs.some((run) => ['PENDING', 'RUNNING'].includes(run.status)));
+
+	/*
+	 * startAtsSync only queues the job; a background worker drains it seconds later. Reloading
+	 * once when the button returns therefore reads the run back as PENDING with 0/0/0, and
+	 * nothing refreshed it after that — the spinner sat there until the tab was switched and
+	 * the component remounted. Poll until no run is in flight. syncInFlight is a boolean, so
+	 * a reload that changes nothing does not restart the interval or the timeout below.
+	 */
+	useEffect(() => {
+		if (!syncInFlight) return undefined;
+		const startedAt = Date.now();
+		const timer = setInterval(() => {
+			if (Date.now() - startedAt > SYNC_POLL_TIMEOUT_MS) {
+				clearInterval(timer);
+				return;
+			}
+			reload({ silent: true });
+		}, SYNC_POLL_MS);
+		return () => clearInterval(timer);
+	}, [syncInFlight, reload]);
 
 	// Surface the OAuth round-trip result once, then clean the URL.
 	useEffect(() => {
@@ -575,6 +625,11 @@ const AccountIntegrationsTab = () => {
 											label={t('atsIntegrations.webhookUrl')}
 											value={connection.webhookUrl}
 											onCopy={() => copyValue(connection.webhookUrl, t('atsIntegrations.webhookCopied'))} />
+									)}
+									{!connection.webhooksManaged && !isPubliclyReachable(connection.webhookUrl) && (
+										<Typography sx={{ fontSize: '0.72rem', color: '#d97706' }}>
+											{t('atsIntegrations.guides.webhookUrlNotPublic')}
+										</Typography>
 									)}
 									{!connection.webhooksManaged && providerSignsWebhooks(provider) && connection.webhookSecret && (
 										<CopyRow

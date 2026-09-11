@@ -1354,6 +1354,7 @@
       "webhookSecret": "Secret du webhook",
       "webhookSecretCopied": "Secret du webhook copié.",
       "pasteSecret": "Collez les deux valeurs dans votre ATS. Il signe chaque requête avec le secret, et Qorva ignore tout ce qui ne correspond pas.",
+      "webhookUrlNotPublic": "Votre ATS ne peut pas rappeler cette adresse : elle n'est pas accessible publiquement en HTTPS. Les mises à jour en temps réel exigent une adresse HTTPS publique ; une adresse locale ou privée est refusée.",
       "urlCarriesToken": "Cette adresse contient déjà un jeton privé : il n'y a aucun secret à saisir. Traitez-la comme un mot de passe.",
       "docs": "Documentation {{provider}}",
       "greenhouse": {
@@ -1378,6 +1379,7 @@
       "recruitee": {
         "intro": "Vous avez besoin de votre company ID et d'un jeton API personnel. Le jeton hérite des permissions de la personne qui le crée : utilisez un compte stable.",
         "steps": [
+          "Dans Recruitee, ouvrez Settings → Apps and plugins → API tokens, allez dans l'onglet Careers site API tokens et activez le bouton pour autoriser l'accès à l'API.",
           "Dans Recruitee, ouvrez Settings → Apps and plugins → Personal API Tokens et cliquez sur Add new token.",
           "Nommez le jeton Qorva AI et créez-le.",
           "Copiez le jeton et notez le company ID affiché à côté."
@@ -1386,7 +1388,8 @@
           "Vérifiez que votre rôle Recruitee dispose de la capacité Manage webhooks.",
           "Ouvrez Settings → Apps and plugins → Webhooks et cliquez sur New webhook.",
           "Nommez-le Qorva AI et collez l'adresse ci-dessus dans POST URL.",
-          "Sélectionnez les événements candidat souhaités, cliquez sur Test, puis sur Verify and create."
+          "Sélectionnez les événements candidat souhaités, cliquez sur Test, puis sur Verify and create.",
+          "Recruitee affiche un secret de signature : ignorez-le. L'adresse ci-dessus s'authentifie d'elle-même, il n'y a donc rien à ressaisir dans Qorva."
         ]
       },
       "workable": {

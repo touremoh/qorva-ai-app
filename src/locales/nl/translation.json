@@ -1351,6 +1351,7 @@
       "webhookSecret": "Webhook-secret",
       "webhookSecretCopied": "Webhook-secret gekopieerd.",
       "pasteSecret": "Plak beide waarden in je ATS. Het ondertekent elke aanvraag met het secret, en Qorva negeert alles wat niet overeenkomt.",
+      "webhookUrlNotPublic": "Je ATS kan dit adres niet terugbellen — het is niet openbaar bereikbaar via HTTPS. Realtime-updates vereisen een openbaar HTTPS-adres; een lokaal of privéadres wordt geweigerd.",
       "urlCarriesToken": "Dit adres bevat al een privétoken, dus er is geen secret in te vullen. Behandel het als een wachtwoord.",
       "docs": "{{provider}}-documentatie",
       "greenhouse": {
@@ -1375,6 +1376,7 @@
       "recruitee": {
         "intro": "Je hebt je company ID en een persoonlijk API-token nodig. Het token neemt de rechten over van wie het aanmaakt, dus gebruik een vast account.",
         "steps": [
+          "Open in Recruitee Settings → Apps and plugins → API tokens, ga naar het tabblad Careers site API tokens en zet de schakelaar aan om API-toegang in te schakelen.",
           "Open in Recruitee Settings → Apps and plugins → Personal API Tokens en klik op Add new token.",
           "Noem het token Qorva AI en maak het aan.",
           "Kopieer het token en noteer de company ID die ernaast staat."
@@ -1383,7 +1385,8 @@
           "Controleer of je Recruitee-rol de mogelijkheid Manage webhooks heeft.",
           "Open Settings → Apps and plugins → Webhooks en klik op New webhook.",
           "Noem hem Qorva AI en plak het adres hierboven in POST URL.",
-          "Selecteer de gewenste kandidaatgebeurtenissen, klik op Test en daarna op Verify and create."
+          "Selecteer de gewenste kandidaatgebeurtenissen, klik op Test en daarna op Verify and create.",
+          "Recruitee toont een secret om te ondertekenen — negeer dit. Het adres hierboven authenticeert zichzelf, dus je hoeft niets terug in Qorva te zetten."
         ]
       },
       "workable": {

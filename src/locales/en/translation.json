@@ -1363,6 +1363,7 @@
       "webhookSecret": "Webhook secret",
       "webhookSecretCopied": "Webhook secret copied.",
       "pasteSecret": "Paste both values into your ATS. It signs every request with the secret, and Qorva ignores anything that does not match.",
+      "webhookUrlNotPublic": "Your ATS cannot call this address back — it is not publicly reachable over HTTPS. Real-time updates need a public HTTPS address; a local or private one is refused.",
       "urlCarriesToken": "This address already contains a private token, so there is no secret to enter. Treat it like a password.",
       "docs": "{{provider}} documentation",
       "greenhouse": {
@@ -1387,6 +1388,7 @@
       "recruitee": {
         "intro": "You need your company ID and a personal API token. The token inherits the permissions of whoever creates it, so use a stable account.",
         "steps": [
+          "In Recruitee, open Settings → Apps and plugins → API tokens, select the Careers site API tokens tab and turn the toggle on to enable API access.",
           "In Recruitee, open Settings → Apps and plugins → Personal API Tokens and click Add new token.",
           "Name the token Qorva AI and create it.",
           "Copy the token, and note the company ID shown alongside it."
@@ -1395,7 +1397,8 @@
           "Check that your Recruitee role has the Manage webhooks ability.",
           "Open Settings → Apps and plugins → Webhooks and click New webhook.",
           "Name it Qorva AI and paste the address above into POST URL.",
-          "Select the candidate events you want, click Test, then Verify and create."
+          "Select the candidate events you want, click Test, then Verify and create.",
+          "Recruitee shows a secret for signing — ignore it. The address above authenticates itself, so there is nothing to paste back into Qorva."
         ]
       },
       "workable": {

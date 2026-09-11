@@ -1354,6 +1354,7 @@
       "webhookSecret": "Webhook-Secret",
       "webhookSecretCopied": "Webhook-Secret kopiert.",
       "pasteSecret": "Fügen Sie beide Werte in Ihr ATS ein. Es signiert jede Anfrage mit dem Secret, und Qorva ignoriert alles, was nicht übereinstimmt.",
+      "webhookUrlNotPublic": "Ihr ATS kann diese Adresse nicht zurückrufen — sie ist nicht öffentlich über HTTPS erreichbar. Echtzeit-Updates benötigen eine öffentliche HTTPS-Adresse; eine lokale oder private wird abgelehnt.",
       "urlCarriesToken": "Diese Adresse enthält bereits ein privates Token, es ist also kein Secret einzugeben. Behandeln Sie sie wie ein Passwort.",
       "docs": "{{provider}}-Dokumentation",
       "greenhouse": {
@@ -1378,6 +1379,7 @@
       "recruitee": {
         "intro": "Sie benötigen Ihre Company-ID und ein persönliches API-Token. Das Token übernimmt die Berechtigungen der Person, die es erstellt — verwenden Sie daher ein dauerhaftes Konto.",
         "steps": [
+          "Öffnen Sie in Recruitee Settings → Apps and plugins → API tokens, wechseln Sie auf den Reiter Careers site API tokens und aktivieren Sie den Schalter, um den API-Zugriff freizuschalten.",
           "Öffnen Sie in Recruitee Settings → Apps and plugins → Personal API Tokens und klicken Sie auf Add new token.",
           "Benennen Sie das Token Qorva AI und erstellen Sie es.",
           "Kopieren Sie das Token und notieren Sie die daneben angezeigte Company-ID."
@@ -1386,7 +1388,8 @@
           "Prüfen Sie, ob Ihre Recruitee-Rolle über die Berechtigung Manage webhooks verfügt.",
           "Öffnen Sie Settings → Apps and plugins → Webhooks und klicken Sie auf New webhook.",
           "Benennen Sie ihn Qorva AI und fügen Sie die Adresse oben in POST URL ein.",
-          "Wählen Sie die gewünschten Kandidatenereignisse, klicken Sie auf Test und dann auf Verify and create."
+          "Wählen Sie die gewünschten Kandidatenereignisse, klicken Sie auf Test und dann auf Verify and create.",
+          "Recruitee zeigt ein Secret zum Signieren an — ignorieren Sie es. Die Adresse oben authentifiziert sich selbst, es ist also nichts in Qorva einzutragen."
         ]
       },
       "workable": {
