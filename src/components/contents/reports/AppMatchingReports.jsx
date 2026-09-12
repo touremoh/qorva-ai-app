@@ -26,6 +26,11 @@ import { QORVA_USER_LANGUAGE } from '../../../constants.js';
 import { isDemoUser } from '../../../utils/demoMode.js';
 import QuotaIndicator from '../../demo/QuotaIndicator.jsx';
 
+// A job counts as pending only while it is open: the backend screens open jobs only, so it
+// never clears the flag on a closed one, and counting it here kept the poll waiting until
+// its timeout and the "jobs need matching" banner showing for good.
+const needsMatching = (job) => job.matchingReportsNeeded === true && job.status === 'open';
+
 const PAGE_SIZES = [10, 25, 50, 100];
 
 const getMatchingPhaseKey = (elapsed) => {
@@ -163,7 +168,7 @@ const AppMatchingReports = () => {
 				const jobsRes = await getJobs({ pageSize: 25, pageNumber: 0 });
 				const updatedJobs = jobsRes?.data?.data?.content ?? [];
 				setJobs(updatedJobs);
-				const pending = updatedJobs.filter(j => j.matchingReportsNeeded === true).length;
+				const pending = updatedJobs.filter(needsMatching).length;
 				if (pending === 0 || attempts >= MAX_ATTEMPTS) {
 					clearInterval(pollingRef.current);
 					pollingRef.current = null;
@@ -254,10 +259,7 @@ const AppMatchingReports = () => {
 		});
 	}, [reports, sortOrder]);
 
-	const pendingMatchingCount = useMemo(
-		() => jobs.filter(j => j.matchingReportsNeeded === true).length,
-		[jobs]
-	);
+	const pendingMatchingCount = useMemo(() => jobs.filter(needsMatching).length, [jobs]);
 
 	const handleStartMatching = async () => {
 		try {
