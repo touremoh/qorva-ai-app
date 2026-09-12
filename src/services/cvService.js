@@ -6,6 +6,9 @@ export const getCVs = (params) =>
 export const searchCVs = (params) =>
     apiClient.get('/cvs/search', { params });
 
+export const getCVFilterOptions = (params) =>
+    apiClient.get('/cvs/filter-options', { params });
+
 export const uploadCVs = (formData) =>
     apiFormDataClient.post('/cvs/upload', formData);
 

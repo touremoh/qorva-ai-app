@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
 	Box,
 	Button,
@@ -13,21 +13,22 @@ import {
 	DialogActions,
 	IconButton,
 	Tooltip,
+	useMediaQuery,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
-import ViewListIcon from '@mui/icons-material/ViewList';
-import TableRowsIcon from '@mui/icons-material/TableRows';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
 import AppCVDetails from './AppCVDetails.jsx';
 import AppCVEntries from './AppCVEntries.jsx';
+import CVFilterRail from './CVFilterRail.jsx';
+import useCVFilters from './useCVFilters.js';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import { toast } from 'sonner';
-import { getCVs, uploadCVs, deleteCV, replaceDuplicateCV, getClearLibraryPreflight, clearLibrary } from '../../../services/cvService.js';
+import { uploadCVs, deleteCV, replaceDuplicateCV, getClearLibraryPreflight, clearLibrary, getCVFilterOptions } from '../../../services/cvService.js';
 import { notifyQualityChanged, performQualityAction } from '../../../services/libraryQualityService.js';
 import {
 	createBulkUpload,
@@ -76,8 +77,18 @@ const AppCVContent = () => {
 	const [totalPages, setTotalPages] = useState(0);
 	const [totalElements, setTotalElements] = useState(0);
 	const [selectedCV, setSelectedCV] = useState(null);
-	const [viewMode, setViewMode] = useState('table');
 	const [showArchived, setShowArchived] = useState(false);
+
+	// Filter state is shared by the rail (edits) and the list (queries); bumping refreshKey
+	// makes the list re-fetch with the current filters and the rail reload its option counts.
+	const cvFilters = useCVFilters();
+	const [refreshKey, setRefreshKey] = useState(0);
+	const refreshList = useCallback(() => setRefreshKey(k => k + 1), []);
+	const [filterOptions, setFilterOptions] = useState(null);
+	const [filterOptionsLoading, setFilterOptionsLoading] = useState(false);
+	const [railEverOpened, setRailEverOpened] = useState(false);
+	// Below this width a persistent third column would starve the details pane, so the rail overlays.
+	const railPersistent = useMediaQuery('(min-width:1200px)');
 	const [openUploadModal, setOpenUploadModal] = useState(false);
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 	const [selectedFiles, setSelectedFiles] = useState([]);
@@ -118,11 +129,25 @@ const AppCVContent = () => {
 
 	// Refresh the library whenever a bulk import finishes anywhere in the app.
 	useEffect(() => {
-		const onCvsChanged = () => fetchCVEntries();
-		window.addEventListener(CVS_CHANGED_EVENT, onCvsChanged);
-		return () => window.removeEventListener(CVS_CHANGED_EVENT, onCvsChanged);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+		window.addEventListener(CVS_CHANGED_EVENT, refreshList);
+		return () => window.removeEventListener(CVS_CHANGED_EVENT, refreshList);
+	}, [refreshList]);
+
+	// Facet options are fetched lazily the first time the rail opens, then kept in step with
+	// the archived toggle and every library change (upload, delete, unarchive, clear).
+	useEffect(() => {
+		if (cvFilters.filtersOpen) setRailEverOpened(true);
+	}, [cvFilters.filtersOpen]);
+	useEffect(() => {
+		if (!railEverOpened) return;
+		let cancelled = false;
+		setFilterOptionsLoading(true);
+		getCVFilterOptions({ archived: showArchived })
+			.then(resp => { if (!cancelled) setFilterOptions(resp.data); })
+			.catch(error => console.error('Error loading CV filter options:', error))
+			.finally(() => { if (!cancelled) setFilterOptionsLoading(false); });
+		return () => { cancelled = true; };
+	}, [railEverOpened, showArchived, refreshKey]);
 
 	// The provider flips its summary when the watched job reaches a terminal state;
 	// if our dialog is showing the processing view, switch it to the summary screen.
@@ -144,26 +169,12 @@ const AppCVContent = () => {
 			await performQualityAction('UNARCHIVE', { cvIds: [cvId] });
 			setCvEntries(prev => prev.filter(cv => cv.id !== cvId));
 			if (selectedCV?.id === cvId) setSelectedCV(null);
+			refreshList();
 			notifyQualityChanged();
 		} catch (error) {
 			console.error('Error unarchiving CV:', error);
 		}
 	};
-
-	const fetchCVEntries = async () => {
-		try {
-			const response = await getCVs({ pageSize: 25 });
-			setCvEntries(response.data.data.content);
-			setTotalPages(response.data.data.totalPages ?? 0);
-			setTotalElements(response.data.data.totalElements ?? 0);
-		} catch (error) {
-			console.error('Error fetching CV entries:', error);
-		}
-	};
-
-	useEffect(() => {
-		fetchCVEntries().then(r => console.log('Fetch CV request done: ', r));
-	}, []);
 
 	// Drive the upload progress bar / ETA / phase text while a *synchronous* upload is
 	// running (bulk imports report real counts instead of an estimate).
@@ -231,7 +242,7 @@ const AppCVContent = () => {
 				clearInterval(uploadTimerRef.current);
 				setUploadProgress(100);
 				setUploadComplete(true);
-				await fetchCVEntries();
+				refreshList();
 				notifyQualityChanged();
 				setSelectedFiles([]);
 				await new Promise(resolve => setTimeout(resolve, 600));
@@ -337,7 +348,7 @@ const AppCVContent = () => {
 		try {
 			await replaceDuplicateCV(result.cv.id, result.match.existingCvId);
 			setUploadResults(prev => prev.map(r => (r === result ? { ...r, resolution: 'REPLACED' } : r)));
-			await fetchCVEntries();
+			refreshList();
 			notifyQualityChanged();
 		} catch (error) {
 			console.error('Error replacing duplicate:', error);
@@ -384,7 +395,7 @@ const AppCVContent = () => {
 				cvs: result?.cvs ?? 0, reports: result?.reports ?? 0, chats: result?.chats ?? 0 }));
 			setClearDialogOpen(false);
 			setSelectedCV(null);
-			await fetchCVEntries();
+			refreshList();
 			notifyQualityChanged();
 		} catch (error) {
 			console.error('Clear library failed:', error);
@@ -400,13 +411,14 @@ const AppCVContent = () => {
 			setCvEntries(cvEntries.filter(cv => cv.id !== selectedCV.id));
 			setSelectedCV(null);
 			setDeleteDialogOpen(false);
+			refreshList();
 		} catch (error) {
 			console.error('Error deleting CV entry:', error);
 		}
 	};
 
 	const showDetails = selectedCV !== null;
-	const leftPanelWidth = viewMode === 'list' ? 300 : (showDetails ? '45%' : '100%');
+	const leftPanelWidth = 300;
 
 	return (
 		<Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', overflow: 'hidden', backgroundColor: '#f8fafc' }}>
@@ -494,40 +506,6 @@ const AppCVContent = () => {
 				)}
 
 				<Box sx={{ flexGrow: 1 }} />
-
-				{/* View toggle */}
-				<Box sx={{ display: 'flex', backgroundColor: '#f1f5f9', borderRadius: 1.5, p: 0.4, gap: 0.25 }}>
-					<Tooltip title="Table view">
-						<IconButton
-							size="small"
-							onClick={() => setViewMode('table')}
-							sx={{
-								borderRadius: 1,
-								color: viewMode === 'table' ? '#629C44' : '#94a3b8',
-								backgroundColor: viewMode === 'table' ? '#ffffff' : 'transparent',
-								boxShadow: viewMode === 'table' ? '0 1px 3px rgba(0,0,0,0.10)' : 'none',
-								'&:hover': { backgroundColor: viewMode === 'table' ? '#ffffff' : 'rgba(0,0,0,0.04)' },
-							}}
-						>
-							<TableRowsIcon sx={{ fontSize: 18 }} />
-						</IconButton>
-					</Tooltip>
-					<Tooltip title="List view">
-						<IconButton
-							size="small"
-							onClick={() => setViewMode('list')}
-							sx={{
-								borderRadius: 1,
-								color: viewMode === 'list' ? '#629C44' : '#94a3b8',
-								backgroundColor: viewMode === 'list' ? '#ffffff' : 'transparent',
-								boxShadow: viewMode === 'list' ? '0 1px 3px rgba(0,0,0,0.10)' : 'none',
-								'&:hover': { backgroundColor: viewMode === 'list' ? '#ffffff' : 'rgba(0,0,0,0.04)' },
-							}}
-						>
-							<ViewListIcon sx={{ fontSize: 18 }} />
-						</IconButton>
-					</Tooltip>
-				</Box>
 			</Box>
 
 			{/* Split pane */}
@@ -539,12 +517,26 @@ const AppCVContent = () => {
 				border: '1px solid #e2e8f0',
 				backgroundColor: '#ffffff',
 			}}>
+				{/* Filter rail — persistent column on wide screens, overlay drawer otherwise */}
+				<CVFilterRail
+					open={cvFilters.filtersOpen}
+					onClose={() => cvFilters.setFiltersOpen(false)}
+					persistent={railPersistent}
+					filters={cvFilters.filters}
+					setFilter={cvFilters.setFilter}
+					onClearAll={cvFilters.clearFilters}
+					activeCount={cvFilters.activeCount}
+					sort={cvFilters.sort}
+					setSort={cvFilters.setSort}
+					options={filterOptions}
+					loading={filterOptionsLoading}
+				/>
+
 				{/* Left panel */}
 				<Box sx={{
 					width: leftPanelWidth,
 					flexShrink: 0,
-					transition: 'width 0.2s ease',
-					borderRight: (showDetails || viewMode === 'list') ? '1px solid #e2e8f0' : 'none',
+					borderRight: '1px solid #e2e8f0',
 					overflow: 'hidden',
 					display: 'flex',
 					flexDirection: 'column',
@@ -554,7 +546,6 @@ const AppCVContent = () => {
 						setSelectedCV={setSelectedCV}
 						setDeleteDialogOpen={setDeleteDialogOpen}
 						setCVEntries={setCvEntries}
-						viewMode={viewMode}
 						selectedCV={selectedCV}
 						totalPages={totalPages}
 						setTotalPages={setTotalPages}
@@ -562,12 +553,18 @@ const AppCVContent = () => {
 						setTotalElements={setTotalElements}
 						showArchived={showArchived}
 						onUnarchive={handleUnarchive}
+						filters={cvFilters.filters}
+						sort={cvFilters.sort}
+						activeCount={cvFilters.activeCount}
+						filtersOpen={cvFilters.filtersOpen}
+						onToggleFilters={() => cvFilters.setFiltersOpen(!cvFilters.filtersOpen)}
+						onClearFilters={cvFilters.clearFilters}
+						refreshKey={refreshKey}
 					/>
 				</Box>
 
 				{/* Right panel */}
-				{(viewMode === 'list' || showDetails) && (
-					<Box sx={{ flex: 1, overflow: 'auto', minWidth: 0, backgroundColor: '#f8fafc' }}>
+				<Box sx={{ flex: 1, overflow: 'auto', minWidth: 0, backgroundColor: '#f8fafc' }}>
 						{showDetails ? (
 							<AppCVDetails
 								cv={selectedCV}
@@ -592,8 +589,7 @@ const AppCVContent = () => {
 								</Typography>
 							</Box>
 						)}
-					</Box>
-				)}
+				</Box>
 			</Box>
 
 			{/* Upload Dialog */}

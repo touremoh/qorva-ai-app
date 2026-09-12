@@ -202,7 +202,6 @@
     "personalInformation": "Personal Information",
     "details": "Details",
     "name": "Full Name",
-    "title": "Role / Position",
     "contactInfo": {
       "title": "Contact Information",
       "phone": "Phone",
@@ -295,7 +294,6 @@
     "selectCVToSeeDetails": "Select a resume to view details",
     "deleteCVTitle": "Delete Resume",
     "updateTags": "Update Tags",
-    "search": "Search",
     "saveAndClose": "Save & Close",
     "skillsAndQualifications": "Skills & Qualifications",
     "tags": "Tags",
@@ -326,10 +324,6 @@
     "uploadPhase5": "Clustering candidates…",
     "uploadPhase6": "Finalizing and checking for duplicates…",
     "skills": "Skills",
-    "filterByName": "Filter by name…",
-    "filterByRole": "Filter by role…",
-    "filterBySkill": "Filter by skill…",
-    "filterMinExp": "Min. years…",
     "resumeCount": "{{count}} resume(s)",
     "pageOf": "page {{page}} of {{total}}",
     "uploadResults": {
@@ -383,6 +377,76 @@
       "typeToConfirm": "Type DELETE to confirm.",
       "confirm": "Clear library",
       "done": "Library cleared — {{cvs}} resumes, {{reports}} reports and {{chats}} chats removed."
+    },
+    "filters": {
+      "button": "Filters",
+      "title": "Filters",
+      "clear": "Clear",
+      "clearAll": "Clear all",
+      "any": "Any",
+      "noMatch": "No resumes match these filters.",
+      "needMore": "Need something fuzzier — all finance-related profiles, a degree level, a past employer?",
+      "askIntelligence": "Ask Talent Intelligence",
+      "notAnalysed": "Not analysed",
+      "industries": "Industry",
+      "locations": "Location",
+      "skillsAllOf": "Skills — has all of",
+      "tags": "Tags",
+      "experience": "Years of experience",
+      "dates": "Dates",
+      "createdAfter": "Added since",
+      "updatedAfter": "Updated since",
+      "name": "Name",
+      "namePlaceholder": "Contains…",
+      "sortBy": "Sort by",
+      "sort": {
+        "lastUpdated": "Last updated",
+        "newest": "Newest first",
+        "name": "Name A–Z",
+        "experience": "Most experience"
+      },
+      "seniority": {
+        "label": "Seniority",
+        "junior": "Junior",
+        "midLevel": "Mid-level",
+        "senior": "Senior",
+        "lead": "Lead",
+        "principal": "Principal",
+        "manager": "Manager",
+        "director": "Director",
+        "executive": "Executive",
+        "unknown": "Unknown"
+      },
+      "leadership": {
+        "label": "Leadership",
+        "none": "None",
+        "individualContributor": "Individual contributor",
+        "teamLead": "Team lead",
+        "crossFunctionalLeader": "Cross-functional leader",
+        "strategicLeader": "Strategic leader",
+        "executiveInfluence": "Executive influence",
+        "unknown": "Unknown"
+      },
+      "availability": {
+        "label": "Availability",
+        "activelyLooking": "Actively looking",
+        "openButNotSearching": "Open, not searching",
+        "notAvailable": "Not available",
+        "freelanceOnly": "Freelance only"
+      },
+      "skillDepth": {
+        "label": "Skill depth",
+        "generalist": "Generalist",
+        "specialist": "Specialist",
+        "tShaped": "T-shaped",
+        "hybrid": "Hybrid",
+        "unknown": "Unknown"
+      },
+      "source": {
+        "label": "Source",
+        "manual": "Uploaded manually"
+      },
+      "pickDate": "Pick a date"
     }
   },
   "appCVMatching": {

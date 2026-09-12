@@ -204,7 +204,6 @@
     "personalInformation": "Persoonlijke gegevens",
     "details": "Details",
     "name": "Volledige naam",
-    "title": "Rol of functie",
     "contactInfo": {
       "title": "Contactgegevens",
       "phone": "Telefoon",
@@ -299,7 +298,6 @@
     "selectCVToSeeDetails": "Selecteer een CV voor details",
     "deleteCVTitle": "CV verwijderen",
     "updateTags": "Tags bijwerken",
-    "search": "Zoeken",
     "saveAndClose": "Opslaan en sluiten",
     "skillsAndQualifications": "Vaardigheden en kwalificaties",
     "tags": "Tags",
@@ -330,10 +328,6 @@
     "uploadPhase5": "Kandidaten groeperen…",
     "uploadPhase6": "Afronden en controleren op duplicaten…",
     "skills": "Vaardigheden",
-    "filterByName": "Filteren op naam…",
-    "filterByRole": "Filteren op rol…",
-    "filterBySkill": "Filteren op vaardigheid…",
-    "filterMinExp": "Min. jaren…",
     "resumeCount": "{{count}} CV('s)",
     "pageOf": "pagina {{page}} van {{total}}",
     "uploadResults": {
@@ -387,6 +381,76 @@
       "typeToConfirm": "Typ DELETE om te bevestigen.",
       "confirm": "Bibliotheek leegmaken",
       "done": "Bibliotheek geleegd — {{cvs}} CV's, {{reports}} rapporten en {{chats}} chats verwijderd."
+    },
+    "filters": {
+      "button": "Filters",
+      "title": "Filters",
+      "clear": "Wissen",
+      "clearAll": "Alles wissen",
+      "any": "Alle",
+      "noMatch": "Geen cv’s komen overeen met deze filters.",
+      "needMore": "Iets ruimer nodig — alle financiële profielen, een opleidingsniveau, een vorige werkgever?",
+      "askIntelligence": "Vraag Talent Intelligence",
+      "notAnalysed": "Niet geanalyseerd",
+      "industries": "Sector",
+      "locations": "Locatie",
+      "skillsAllOf": "Vaardigheden — heeft alle",
+      "tags": "Tags",
+      "experience": "Jaren ervaring",
+      "dates": "Datums",
+      "createdAfter": "Toegevoegd sinds",
+      "updatedAfter": "Bijgewerkt sinds",
+      "name": "Naam",
+      "namePlaceholder": "Bevat…",
+      "sortBy": "Sorteren op",
+      "sort": {
+        "lastUpdated": "Laatst bijgewerkt",
+        "newest": "Nieuwste eerst",
+        "name": "Naam A–Z",
+        "experience": "Meeste ervaring"
+      },
+      "seniority": {
+        "label": "Senioriteit",
+        "junior": "Junior",
+        "midLevel": "Medior",
+        "senior": "Senior",
+        "lead": "Lead",
+        "principal": "Principal",
+        "manager": "Manager",
+        "director": "Directeur",
+        "executive": "Bestuurder",
+        "unknown": "Onbekend"
+      },
+      "leadership": {
+        "label": "Leiderschap",
+        "none": "Geen",
+        "individualContributor": "Individuele bijdrager",
+        "teamLead": "Teamleider",
+        "crossFunctionalLeader": "Cross-functionele leider",
+        "strategicLeader": "Strategisch leider",
+        "executiveInfluence": "Bestuurlijke invloed",
+        "unknown": "Onbekend"
+      },
+      "availability": {
+        "label": "Beschikbaarheid",
+        "activelyLooking": "Actief zoekend",
+        "openButNotSearching": "Open, niet zoekend",
+        "notAvailable": "Niet beschikbaar",
+        "freelanceOnly": "Alleen freelance"
+      },
+      "skillDepth": {
+        "label": "Vaardigheidsprofiel",
+        "generalist": "Generalist",
+        "specialist": "Specialist",
+        "tShaped": "T-vormig",
+        "hybrid": "Hybride",
+        "unknown": "Onbekend"
+      },
+      "source": {
+        "label": "Bron",
+        "manual": "Handmatig geüpload"
+      },
+      "pickDate": "Kies een datum"
     }
   },
   "appCVMatching": {

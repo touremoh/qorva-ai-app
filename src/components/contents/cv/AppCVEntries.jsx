@@ -1,8 +1,9 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import {
 	Box,
+	Button,
 	Chip,
 	Typography,
 	List,
@@ -11,29 +12,19 @@ import {
 	Menu,
 	MenuItem,
 	Select,
-	TextField,
 	Pagination,
 	Avatar,
-	Table,
-	TableBody,
-	TableCell,
-	TableContainer,
-	TableHead,
-	TableRow,
-	TableSortLabel,
-	InputAdornment,
 } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import SearchIcon from '@mui/icons-material/Search';
+import TuneIcon from '@mui/icons-material/Tune';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { useTranslation } from 'react-i18next';
-import { getCVs, searchCVs } from '../../../services/cvService.js';
+import { getCVs } from '../../../services/cvService.js';
+import { ATS_LABELS } from './atsLabels.js';
+import { toQueryParams } from './useCVFilters.js';
 
 const PAGE_SIZES = [10, 25, 50, 100];
-
-const ATS_LABELS = {
-	greenhouse: 'Greenhouse', recruitee: 'Recruitee', workable: 'Workable', manatal: 'Manatal',
-	bamboohr: 'BambooHR', zoho_recruit: 'Zoho Recruit', lever: 'Lever',
-};
+const GREEN = '#629C44';
 
 /** Tiny "via <ATS>" origin badge for CVs imported through an integration. */
 const AtsSourceChip = ({ cv }) => {
@@ -51,138 +42,77 @@ const AtsSourceChip = ({ cv }) => {
 		/>
 	);
 };
-
 AtsSourceChip.propTypes = { cv: PropTypes.object.isRequired };
 
 const AppCVEntries = ({
 	cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntries,
-	viewMode, selectedCV, totalPages, setTotalPages, totalElements, setTotalElements,
+	selectedCV, totalPages, setTotalPages, totalElements, setTotalElements,
 	showArchived = false, onUnarchive,
+	filters, sort, activeCount, filtersOpen, onToggleFilters, onClearFilters, refreshKey = 0,
 }) => {
 	const { t } = useTranslation();
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [menuCVId, setMenuCVId] = useState(null);
-	const [searchTerm, setSearchTerm] = useState('');
 	const [currentPage, setCurrentPage] = useState(1);
 	const [pageSize, setPageSize] = useState(25);
-	const [tableSort, setTableSort] = useState({ column: 'lastUpdatedAt', order: 'desc' });
-	const [filterName, setFilterName] = useState('');
-	const [filterRole, setFilterRole] = useState('');
-	const [filterSkills, setFilterSkills] = useState('');
-	const [filterExperience, setFilterExperience] = useState('');
+	const [loading, setLoading] = useState(false);
 
-	const searchTermRef = useRef(searchTerm);
-	useEffect(() => { searchTermRef.current = searchTerm; }, [searchTerm]);
+	// Only the newest request may write to the list; a slow earlier page must not overwrite it.
+	const requestSeq = useRef(0);
 
-	const buildFilterParams = (page = 0, size = pageSize) => {
-		const params = { pageNumber: page, pageSize: size };
-		if (showArchived) params.archived = 'true';
-		if (filterName.trim()) params.name = filterName.trim();
-		if (filterRole.trim()) params.role = filterRole.trim();
-		if (filterSkills.trim()) params.skills = filterSkills.trim();
-		if (filterExperience !== '') params.minYearsOfExperience = parseInt(filterExperience, 10);
-		return params;
+	const buildParams = (page, size) => ({
+		pageNumber: page,
+		pageSize: size,
+		...(showArchived ? { archived: 'true' } : {}),
+		...toQueryParams(filters, sort),
+	});
+
+	const fetchPage = async (page, size) => {
+		const seq = ++requestSeq.current;
+		setLoading(true);
+		try {
+			const response = await getCVs(buildParams(page - 1, size));
+			if (seq !== requestSeq.current) return null;
+			const data = response.data.data;
+			setCVEntries(data.content);
+			setTotalPages(data.totalPages ?? 0);
+			setTotalElements(data.totalElements ?? 0);
+			return data.content;
+		} catch (error) {
+			console.error('Error fetching CVs:', error);
+			return null;
+		} finally {
+			if (seq === requestSeq.current) setLoading(false);
+		}
 	};
 
-	const applyResponse = (response) => {
-		const data = response.data.data;
-		setCVEntries(data.content);
-		setTotalPages(data.totalPages ?? 0);
-		setTotalElements(data.totalElements ?? 0);
-	};
-
+	// Any change to what we're asking for restarts at page 1. Debounced so typing a name
+	// or stacking chips issues one request, not one per keystroke.
 	useEffect(() => {
 		const timer = setTimeout(async () => {
-			try {
-				const hasFilters = filterName || filterRole || filterSkills || filterExperience !== '';
-				let response;
-				if (hasFilters) {
-					response = await getCVs(buildFilterParams(0));
-				} else {
-					response = searchTermRef.current.trim()
-						? await searchCVs({ pageNumber: 0, pageSize, searchTerms: searchTermRef.current.trim() })
-						: await getCVs(buildFilterParams(0));
-				}
-				setCurrentPage(1);
-				applyResponse(response);
-			} catch (error) {
-				console.error('Error filtering CVs:', error);
+			setCurrentPage(1);
+			const content = await fetchPage(1, pageSize);
+			if (content && selectedCV && !content.some(cv => cv.id === selectedCV.id)) {
+				setSelectedCV(null);
 			}
-		}, 400);
+		}, 300);
 		return () => clearTimeout(timer);
-	}, [filterName, filterRole, filterSkills, filterExperience, showArchived]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [filters, sort, showArchived, refreshKey]);
 
-	const handleSearchChange = async (e) => {
-		const value = e.target.value;
-		setSearchTerm(value);
-		setCurrentPage(1);
-		try {
-			const response = value.length === 0
-				? await getCVs(buildFilterParams(0))
-				: await searchCVs({ pageNumber: 0, pageSize, searchTerms: value.trim() });
-			applyResponse(response);
-		} catch (error) {
-			console.error('Error during search:', error);
-		}
-	};
-
-	const handlePageChange = async (_, page) => {
+	const handlePageChange = (_, page) => {
 		setCurrentPage(page);
-		try {
-			const hasFilters = filterName || filterRole || filterSkills || filterExperience !== '';
-			let response;
-			if (hasFilters) {
-				response = await getCVs(buildFilterParams(page - 1));
-			} else if (searchTerm.trim()) {
-				response = await searchCVs({ pageNumber: page - 1, pageSize, searchTerms: searchTerm.trim() });
-			} else {
-				response = await getCVs(buildFilterParams(page - 1));
-			}
-			applyResponse(response);
-		} catch (error) {
-			console.error('Error fetching paginated data:', error);
-		}
+		fetchPage(page, pageSize);
 	};
 
-	const handlePageSizeChange = async (e) => {
+	const handlePageSizeChange = (e) => {
 		const newSize = e.target.value;
 		setPageSize(newSize);
 		setCurrentPage(1);
-		try {
-			const hasFilters = filterName || filterRole || filterSkills || filterExperience !== '';
-			let response;
-			if (hasFilters) {
-				response = await getCVs(buildFilterParams(0, newSize));
-			} else if (searchTerm.trim()) {
-				response = await searchCVs({ pageNumber: 0, pageSize: newSize, searchTerms: searchTerm.trim() });
-			} else {
-				response = await getCVs({ pageNumber: 0, pageSize: newSize });
-			}
-			applyResponse(response);
-		} catch (error) {
-			console.error('Error changing page size:', error);
-		}
+		fetchPage(1, newSize);
 	};
 
-	const sorted = Array.isArray(cvEntries) && cvEntries.length > 0
-		? [...cvEntries].sort((a, b) => {
-			if (viewMode === 'table') {
-				const { column, order } = tableSort;
-				if (column === 'experience') {
-					const ya = a.nbYearsOfExperience ?? 0;
-					const yb = b.nbYearsOfExperience ?? 0;
-					return order === 'asc' ? ya - yb : yb - ya;
-				}
-				const da = new Date(a.lastUpdatedAt), db = new Date(b.lastUpdatedAt);
-				return order === 'asc' ? da - db : db - da;
-			}
-			const da = new Date(a.lastUpdatedAt), db = new Date(b.lastUpdatedAt);
-			return db - da;
-		})
-		: [];
-
-	const filtered = sorted;
-	const paginated = sorted;
+	const entries = Array.isArray(cvEntries) ? cvEntries : [];
 
 	const getInitials = (name) =>
 		(name || '').split(' ').map(p => p[0]).filter(Boolean).join('').slice(0, 2).toUpperCase() || '?';
@@ -197,15 +127,6 @@ const AppCVEntries = ({
 
 	const handleMenuClose = () => { setAnchorEl(null); setMenuCVId(null); };
 
-	const handleTableSort = (column) => {
-		setTableSort(prev => ({
-			column,
-			order: prev.column === column && prev.order === 'desc' ? 'asc' : 'desc',
-		}));
-	};
-
-	const handleFilterChange = (setter) => (e) => setter(e.target.value);
-
 	const handleDeleteClick = () => {
 		const cv = cvEntries.find(c => c.id === menuCVId);
 		if (cv) setSelectedCV(cv);
@@ -213,23 +134,84 @@ const AppCVEntries = ({
 		handleMenuClose();
 	};
 
-	const searchBar = (
-		<Box sx={{ px: 1.5, pt: 1.5, pb: 1, flexShrink: 0 }}>
-			<TextField
-				size="small"
-				placeholder={t('appCVContent.search')}
-				value={searchTerm}
-				onChange={handleSearchChange}
-				fullWidth
-				InputProps={{
-					startAdornment: (
-						<InputAdornment position="start">
-							<SearchIcon sx={{ fontSize: 16, color: '#94a3b8' }} />
-						</InputAdornment>
-					),
-					sx: { fontSize: '0.82rem', borderRadius: 1.5 },
+	// Same outlined-toggle idiom as the Archived button in the toolbar: quiet at rest, green
+	// when the rail is open, and a solid count pill once filters are actually narrowing the list.
+	const engaged = filtersOpen || activeCount > 0;
+	const filterBar = (
+		<Box sx={{
+			display: 'flex', alignItems: 'center', gap: 0.75,
+			px: 1.5, py: 1.25, flexShrink: 0,
+			borderBottom: '1px solid #f1f5f9',
+		}}>
+			<Button
+				onClick={onToggleFilters}
+				aria-pressed={filtersOpen}
+				disableRipple
+				startIcon={<TuneIcon sx={{ fontSize: 16 }} />}
+				sx={{
+					height: 32,
+					pl: 1.25,
+					pr: activeCount > 0 ? 0.75 : 1.5,
+					borderRadius: 999,
+					textTransform: 'none',
+					fontSize: '0.8rem',
+					fontWeight: 600,
+					lineHeight: 1,
+					letterSpacing: 0,
+					color: engaged ? GREEN : '#334155',
+					backgroundColor: engaged ? 'rgba(98,156,68,0.08)' : '#ffffff',
+					border: `1px solid ${engaged ? GREEN : '#e2e8f0'}`,
+					boxShadow: 'none',
+					transition: 'all 0.15s ease',
+					'& .MuiButton-startIcon': { mr: 0.75, ml: 0, color: engaged ? GREEN : '#64748b' },
+					'&:hover': {
+						borderColor: GREEN,
+						color: GREEN,
+						backgroundColor: engaged ? 'rgba(98,156,68,0.12)' : 'rgba(98,156,68,0.05)',
+						'& .MuiButton-startIcon': { color: GREEN },
+					},
+					'&:focus-visible': { outline: `2px solid rgba(98,156,68,0.35)`, outlineOffset: 2 },
 				}}
-			/>
+			>
+				{t('appCVContent.filters.button')}
+				{activeCount > 0 && (
+					<Box component="span" sx={{
+						ml: 1,
+						minWidth: 20,
+						height: 20,
+						px: 0.75,
+						borderRadius: 999,
+						display: 'inline-flex',
+						alignItems: 'center',
+						justifyContent: 'center',
+						fontSize: '0.68rem',
+						fontWeight: 700,
+						color: '#ffffff',
+						backgroundColor: GREEN,
+					}}>
+						{activeCount}
+					</Box>
+				)}
+			</Button>
+			{activeCount > 0 && (
+				<IconButton
+					size="small"
+					onClick={onClearFilters}
+					aria-label={t('appCVContent.filters.clearAll')}
+					title={t('appCVContent.filters.clearAll')}
+					sx={{
+						width: 28, height: 28,
+						color: '#94a3b8',
+						'&:hover': { color: '#ef4444', backgroundColor: 'rgba(239,68,68,0.06)' },
+					}}
+				>
+					<CloseRoundedIcon sx={{ fontSize: 16 }} />
+				</IconButton>
+			)}
+			<Box sx={{ flexGrow: 1 }} />
+			<Typography sx={{ fontSize: '0.72rem', color: '#94a3b8', whiteSpace: 'nowrap' }}>
+				{t('appCVContent.resumeCount', { count: totalElements })}
+			</Typography>
 		</Box>
 	);
 
@@ -275,18 +257,9 @@ const AppCVEntries = ({
 			backgroundColor: '#fafafa',
 		}}>
 			<Typography sx={{ fontSize: '0.72rem', color: '#94a3b8', flexShrink: 0 }}>
-				{totalElements > 0
-					? t('appCVContent.resumeCount', { count: totalElements })
-					: `${cvEntries.length} ${t('appCVContent.resumeCount', { count: cvEntries.length })}`
-				}
-				{totalPages > 1 && (
-					<Box component="span" sx={{ ml: 1, color: '#cbd5e1' }}>·</Box>
-				)}
-				{totalPages > 1 && (
-					<Box component="span" sx={{ ml: 1 }}>
-						{t('appCVContent.pageOf', { page: currentPage, total: totalPages })}
-					</Box>
-				)}
+				{totalPages > 1
+					? t('appCVContent.pageOf', { page: currentPage, total: totalPages })
+					: t('appCVContent.resumeCount', { count: totalElements })}
 			</Typography>
 			<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
 				<Select
@@ -320,286 +293,94 @@ const AppCVEntries = ({
 	);
 
 	const emptyState = (
-		<Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-			<Typography sx={{ fontSize: '0.84rem', color: '#94a3b8' }}>
-				{t('appCVContent.noCVEntries')}
+		<Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 1, px: 2 }}>
+			<Typography sx={{ fontSize: '0.84rem', color: '#94a3b8', textAlign: 'center' }}>
+				{activeCount > 0 ? t('appCVContent.filters.noMatch') : t('appCVContent.noCVEntries')}
 			</Typography>
+			{activeCount > 0 && (
+				<Button
+					size="small"
+					onClick={onClearFilters}
+					sx={{ textTransform: 'none', fontSize: '0.78rem', fontWeight: 600, color: '#629C44' }}
+				>
+					{t('appCVContent.filters.clearAll')}
+				</Button>
+			)}
 		</Box>
 	);
 
-	if (viewMode === 'list') {
-		return (
-			<Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
-				{searchBar}
-				{sorted.length === 0 ? emptyState : (
-					<List disablePadding sx={{ flex: 1, overflowY: 'auto', px: 1 }}>
-						{paginated.map((cv) => (
-							<ListItemButton
-								key={cv.id}
-								onClick={() => setSelectedCV(cv)}
-								sx={{
-									borderRadius: 1.5,
-									mb: 0.5,
-									px: 1.5,
-									py: 1,
-									borderLeft: isActive(cv) ? '3px solid #629C44' : '3px solid transparent',
-									backgroundColor: isActive(cv) ? 'rgba(98,156,68,0.07)' : 'transparent',
-									'&:hover': {
-										backgroundColor: isActive(cv) ? 'rgba(98,156,68,0.10)' : '#f8fafc',
-									},
-								}}
-							>
-								<Avatar sx={{
-									width: 34,
-									height: 34,
-									fontSize: '0.72rem',
-									fontWeight: 700,
-									backgroundColor: isActive(cv) ? '#629C44' : '#e2e8f0',
-									color: isActive(cv) ? '#ffffff' : '#64748b',
-									mr: 1.5,
-									flexShrink: 0,
+	return (
+		<Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
+			{filterBar}
+			{entries.length === 0 && !loading ? emptyState : (
+				<List disablePadding sx={{ flex: 1, overflowY: 'auto', px: 1, opacity: loading ? 0.6 : 1, transition: 'opacity 0.15s' }}>
+					{entries.map((cv) => (
+						<ListItemButton
+							key={cv.id}
+							onClick={() => setSelectedCV(cv)}
+							sx={{
+								borderRadius: 1.5,
+								mb: 0.5,
+								px: 1.5,
+								py: 1,
+								borderLeft: isActive(cv) ? '3px solid #629C44' : '3px solid transparent',
+								backgroundColor: isActive(cv) ? 'rgba(98,156,68,0.07)' : 'transparent',
+								'&:hover': {
+									backgroundColor: isActive(cv) ? 'rgba(98,156,68,0.10)' : '#f8fafc',
+								},
+							}}
+						>
+							<Avatar sx={{
+								width: 34,
+								height: 34,
+								fontSize: '0.72rem',
+								fontWeight: 700,
+								backgroundColor: isActive(cv) ? '#629C44' : '#e2e8f0',
+								color: isActive(cv) ? '#ffffff' : '#64748b',
+								mr: 1.5,
+								flexShrink: 0,
+							}}>
+								{getInitials(cv.personalInformation?.name)}
+							</Avatar>
+							<Box sx={{ flex: 1, minWidth: 0 }}>
+								<Typography sx={{
+									fontSize: '0.84rem',
+									fontWeight: isActive(cv) ? 600 : 500,
+									color: '#0f172a',
+									overflow: 'hidden',
+									textOverflow: 'ellipsis',
+									whiteSpace: 'nowrap',
 								}}>
-									{getInitials(cv.personalInformation?.name)}
-								</Avatar>
-								<Box sx={{ flex: 1, minWidth: 0 }}>
+									{cv.personalInformation?.name || '—'}
+								</Typography>
+								<Box sx={{ display: 'flex', alignItems: 'center', minWidth: 0 }}>
 									<Typography sx={{
-										fontSize: '0.84rem',
-										fontWeight: isActive(cv) ? 600 : 500,
-										color: '#0f172a',
+										fontSize: '0.74rem',
+										color: '#94a3b8',
 										overflow: 'hidden',
 										textOverflow: 'ellipsis',
 										whiteSpace: 'nowrap',
 									}}>
-										{cv.personalInformation?.name || '—'}
-									</Typography>
-									<Box sx={{ display: 'flex', alignItems: 'center', minWidth: 0 }}>
-										<Typography sx={{
-											fontSize: '0.74rem',
-											color: '#94a3b8',
-											overflow: 'hidden',
-											textOverflow: 'ellipsis',
-											whiteSpace: 'nowrap',
-										}}>
-											{cv.personalInformation?.role}
-										</Typography>
-										<AtsSourceChip cv={cv} />
-									</Box>
-								</Box>
-								<IconButton
-									size="small"
-									onClick={(e) => handleMenuOpen(e, cv.id)}
-									sx={{ ml: 0.5, color: '#94a3b8', '&:hover': { color: '#64748b' } }}
-								>
-									<MoreVertIcon sx={{ fontSize: 16 }} />
-								</IconButton>
-							</ListItemButton>
-						))}
-					</List>
-				)}
-				{paginationFooter}
-				{contextMenu}
-			</Box>
-		);
-	}
-
-	// Table view
-	return (
-		<Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
-			{searchBar}
-			<TableContainer sx={{ flex: 1, overflowY: 'auto' }}>
-					<Table size="small" stickyHeader>
-						<TableHead>
-							<TableRow>
-								<TableCell sx={thSx}>{t('appCVContent.name')}</TableCell>
-								<TableCell sx={thSx}>{t('appCVContent.title')}</TableCell>
-								<TableCell sx={thSx}>{t('appCVContent.skills')}</TableCell>
-								<TableCell sx={{ ...thSx, cursor: 'pointer' }}>
-									<TableSortLabel
-										active={tableSort.column === 'experience'}
-										direction={tableSort.column === 'experience' ? tableSort.order : 'desc'}
-										onClick={() => handleTableSort('experience')}
-										sx={sortLabelSx}
-									>
-										{t('appCVContent.experience')}
-									</TableSortLabel>
-								</TableCell>
-								<TableCell sx={{ ...thSx, cursor: 'pointer' }}>
-									<TableSortLabel
-										active={tableSort.column === 'lastUpdatedAt'}
-										direction={tableSort.column === 'lastUpdatedAt' ? tableSort.order : 'desc'}
-										onClick={() => handleTableSort('lastUpdatedAt')}
-										sx={sortLabelSx}
-									>
-										{t('appCVContent.lastUpdatedAt')}
-									</TableSortLabel>
-								</TableCell>
-								<TableCell sx={{ ...thSx, width: 48 }} />
-							</TableRow>
-							<TableRow>
-								<TableCell sx={filterCellSx}>
-									<TextField
-										size="small"
-										placeholder={t('appCVContent.filterByName')}
-										value={filterName}
-										onChange={handleFilterChange(setFilterName)}
-										fullWidth
-										InputProps={{ sx: filterInputSx }}
-									/>
-								</TableCell>
-								<TableCell sx={filterCellSx}>
-									<TextField
-										size="small"
-										placeholder={t('appCVContent.filterByRole')}
-										value={filterRole}
-										onChange={handleFilterChange(setFilterRole)}
-										fullWidth
-										InputProps={{ sx: filterInputSx }}
-									/>
-								</TableCell>
-								<TableCell sx={filterCellSx}>
-									<TextField
-										size="small"
-										placeholder={t('appCVContent.filterBySkill')}
-										value={filterSkills}
-										onChange={handleFilterChange(setFilterSkills)}
-										fullWidth
-										InputProps={{ sx: filterInputSx }}
-									/>
-								</TableCell>
-								<TableCell sx={filterCellSx}>
-									<TextField
-										size="small"
-										type="number"
-										placeholder={t('appCVContent.filterMinExp')}
-										value={filterExperience}
-										onChange={handleFilterChange(setFilterExperience)}
-										inputProps={{ min: 0 }}
-										sx={{ width: 90 }}
-										InputProps={{ sx: filterInputSx }}
-									/>
-								</TableCell>
-								<TableCell sx={filterCellSx} />
-								<TableCell sx={filterCellSx} />
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{filtered.length === 0 && (
-								<TableRow>
-									<TableCell colSpan={6} sx={{ textAlign: 'center', py: 4, color: '#94a3b8', fontSize: '0.84rem', border: 0 }}>
-										{t('appCVContent.noCVEntries')}
-									</TableCell>
-								</TableRow>
-							)}
-							{paginated.map((cv) => (
-								<TableRow
-									key={cv.id}
-									hover
-									onClick={() => setSelectedCV(cv)}
-									selected={isActive(cv)}
-									sx={{
-										cursor: 'pointer',
-										'&.Mui-selected': { backgroundColor: 'rgba(98,156,68,0.07)' },
-										'&.Mui-selected:hover': { backgroundColor: 'rgba(98,156,68,0.10)' },
-										'&:last-child td': { borderBottom: 0 },
-									}}
-								>
-									<TableCell sx={{ py: 1.25 }}>
-										<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-											<Avatar sx={{
-												width: 28,
-												height: 28,
-												fontSize: '0.65rem',
-												backgroundColor: isActive(cv) ? '#629C44' : '#e2e8f0',
-												color: isActive(cv) ? '#ffffff' : '#64748b',
-											}}>
-												{getInitials(cv.personalInformation?.name)}
-											</Avatar>
-											<Typography sx={{ fontSize: '0.84rem', fontWeight: 500, color: '#0f172a' }}>
-												{cv.personalInformation?.name || '—'}
-											</Typography>
-											<AtsSourceChip cv={cv} />
-										</Box>
-									</TableCell>
-									<TableCell sx={{ fontSize: '0.82rem', color: '#64748b', py: 1.25 }}>
 										{cv.personalInformation?.role}
-									</TableCell>
-									<TableCell sx={{ py: 1.25 }}>
-										<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-											{(cv.skillsAndQualifications?.technicalSkills ?? []).slice(0, 3).map((skill, i) => (
-												<Chip
-													key={i}
-													label={skill}
-													size="small"
-													sx={{
-														fontSize: '0.68rem',
-														height: 20,
-														backgroundColor: 'rgba(98,156,68,0.10)',
-														color: '#166534',
-														fontWeight: 500,
-														'& .MuiChip-label': { px: 0.75 },
-													}}
-												/>
-											))}
-										</Box>
-									</TableCell>
-									<TableCell sx={{ fontSize: '0.82rem', color: '#64748b', py: 1.25, whiteSpace: 'nowrap' }}>
-										{cv.nbYearsOfExperience ? `${cv.nbYearsOfExperience} ${t('appCVContent.yearsAbbr')}` : '—'}
-									</TableCell>
-									<TableCell sx={{ fontSize: '0.82rem', color: '#94a3b8', py: 1.25, whiteSpace: 'nowrap' }}>
-										{new Date(cv.lastUpdatedAt).toLocaleDateString()}
-									</TableCell>
-									<TableCell sx={{ py: 1.25 }}>
-										<IconButton
-											size="small"
-											onClick={(e) => handleMenuOpen(e, cv.id)}
-											sx={{ color: '#94a3b8', '&:hover': { color: '#64748b' } }}
-										>
-											<MoreVertIcon sx={{ fontSize: 16 }} />
-										</IconButton>
-									</TableCell>
-								</TableRow>
-							))}
-						</TableBody>
-					</Table>
-				</TableContainer>
+									</Typography>
+									<AtsSourceChip cv={cv} />
+								</Box>
+							</Box>
+							<IconButton
+								size="small"
+								onClick={(e) => handleMenuOpen(e, cv.id)}
+								sx={{ ml: 0.5, color: '#94a3b8', '&:hover': { color: '#64748b' } }}
+							>
+								<MoreVertIcon sx={{ fontSize: 16 }} />
+							</IconButton>
+						</ListItemButton>
+					))}
+				</List>
+			)}
 			{paginationFooter}
 			{contextMenu}
 		</Box>
 	);
-};
-
-const sortLabelSx = {
-	'& .MuiTableSortLabel-icon': { fontSize: 12 },
-	'&.Mui-active': { color: '#629C44' },
-	'&.Mui-active .MuiTableSortLabel-icon': { color: '#629C44' },
-	color: 'inherit',
-	fontWeight: 'inherit',
-	fontSize: 'inherit',
-	textTransform: 'inherit',
-	letterSpacing: 'inherit',
-};
-
-const filterCellSx = {
-	backgroundColor: '#f8fafc',
-	borderBottom: '1px solid #e2e8f0',
-	py: 0.75,
-	px: 1,
-};
-
-const filterInputSx = {
-	fontSize: '0.78rem',
-	borderRadius: 1,
-	'& input': { py: '4px', px: '8px' },
-};
-
-const thSx = {
-	fontWeight: 700,
-	fontSize: '0.72rem',
-	color: '#64748b',
-	textTransform: 'uppercase',
-	letterSpacing: '0.05em',
-	backgroundColor: '#f8fafc',
-	borderBottom: '2px solid #e2e8f0',
 };
 
 AppCVEntries.propTypes = {
@@ -607,7 +388,6 @@ AppCVEntries.propTypes = {
 	setSelectedCV: PropTypes.func.isRequired,
 	setDeleteDialogOpen: PropTypes.func.isRequired,
 	setCVEntries: PropTypes.func.isRequired,
-	viewMode: PropTypes.oneOf(['list', 'table']).isRequired,
 	selectedCV: PropTypes.object,
 	totalPages: PropTypes.number.isRequired,
 	setTotalPages: PropTypes.func.isRequired,
@@ -615,6 +395,13 @@ AppCVEntries.propTypes = {
 	setTotalElements: PropTypes.func.isRequired,
 	showArchived: PropTypes.bool,
 	onUnarchive: PropTypes.func,
+	filters: PropTypes.object.isRequired,
+	sort: PropTypes.string.isRequired,
+	activeCount: PropTypes.number.isRequired,
+	filtersOpen: PropTypes.bool.isRequired,
+	onToggleFilters: PropTypes.func.isRequired,
+	onClearFilters: PropTypes.func.isRequired,
+	refreshKey: PropTypes.number,
 };
 
 export default AppCVEntries;

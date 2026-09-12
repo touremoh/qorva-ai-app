@@ -204,7 +204,6 @@
     "personalInformation": "Datos personales",
     "details": "Detalles",
     "name": "Nombre completo",
-    "title": "Puesto o función",
     "contactInfo": {
       "title": "Contacto",
       "phone": "Teléfono",
@@ -299,7 +298,6 @@
     "selectCVToSeeDetails": "Seleccione un CV para ver detalles",
     "deleteCVTitle": "Eliminar CV",
     "updateTags": "Actualizar etiquetas",
-    "search": "Buscar",
     "saveAndClose": "Guardar y cerrar",
     "skillsAndQualifications": "Competencias y cualificaciones",
     "tags": "Etiquetas",
@@ -330,10 +328,6 @@
     "uploadPhase5": "Agrupando candidatos…",
     "uploadPhase6": "Finalizando y buscando duplicados…",
     "skills": "Habilidades",
-    "filterByName": "Filtrar por nombre…",
-    "filterByRole": "Filtrar por rol…",
-    "filterBySkill": "Filtrar por habilidad…",
-    "filterMinExp": "Años mín.…",
     "resumeCount": "{{count}} CV",
     "pageOf": "página {{page}} de {{total}}",
     "uploadResults": {
@@ -387,6 +381,76 @@
       "typeToConfirm": "Escriba DELETE para confirmar.",
       "confirm": "Vaciar biblioteca",
       "done": "Biblioteca vaciada — {{cvs}} CV, {{reports}} informes y {{chats}} chats eliminados."
+    },
+    "filters": {
+      "button": "Filtros",
+      "title": "Filtros",
+      "clear": "Borrar",
+      "clearAll": "Borrar todo",
+      "any": "Todos",
+      "noMatch": "Ningún CV coincide con estos filtros.",
+      "needMore": "¿Necesitas algo más amplio — todos los perfiles de finanzas, un nivel de estudios, un antiguo empleador?",
+      "askIntelligence": "Preguntar a Talent Intelligence",
+      "notAnalysed": "Sin analizar",
+      "industries": "Sector",
+      "locations": "Ubicación",
+      "skillsAllOf": "Habilidades — tiene todas",
+      "tags": "Etiquetas",
+      "experience": "Años de experiencia",
+      "dates": "Fechas",
+      "createdAfter": "Añadido desde",
+      "updatedAfter": "Actualizado desde",
+      "name": "Nombre",
+      "namePlaceholder": "Contiene…",
+      "sortBy": "Ordenar por",
+      "sort": {
+        "lastUpdated": "Última actualización",
+        "newest": "Más recientes",
+        "name": "Nombre A–Z",
+        "experience": "Más experiencia"
+      },
+      "seniority": {
+        "label": "Seniority",
+        "junior": "Junior",
+        "midLevel": "Nivel medio",
+        "senior": "Senior",
+        "lead": "Lead",
+        "principal": "Principal",
+        "manager": "Manager",
+        "director": "Director",
+        "executive": "Ejecutivo",
+        "unknown": "Desconocido"
+      },
+      "leadership": {
+        "label": "Liderazgo",
+        "none": "Ninguno",
+        "individualContributor": "Contribuidor individual",
+        "teamLead": "Líder de equipo",
+        "crossFunctionalLeader": "Líder transversal",
+        "strategicLeader": "Líder estratégico",
+        "executiveInfluence": "Influencia ejecutiva",
+        "unknown": "Desconocido"
+      },
+      "availability": {
+        "label": "Disponibilidad",
+        "activelyLooking": "En búsqueda activa",
+        "openButNotSearching": "Abierto, sin buscar",
+        "notAvailable": "No disponible",
+        "freelanceOnly": "Solo freelance"
+      },
+      "skillDepth": {
+        "label": "Perfil de habilidades",
+        "generalist": "Generalista",
+        "specialist": "Especialista",
+        "tShaped": "Perfil en T",
+        "hybrid": "Híbrido",
+        "unknown": "Desconocido"
+      },
+      "source": {
+        "label": "Origen",
+        "manual": "Subido manualmente"
+      },
+      "pickDate": "Elegir una fecha"
     }
   },
   "appCVMatching": {
