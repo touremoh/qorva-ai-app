@@ -775,7 +775,9 @@
       "lastUpdated": "Dernière mise à jour",
       "unlimited": "Illimité",
       "planAllowance": "quota du plan",
-      "templatesTooltip": "Modèles d'invitation enregistrés — un quota du plan, pas un quota mensuel"
+      "templatesTooltip": "Modèles d'invitation enregistrés — un quota du plan, pas un quota mensuel",
+      "noPeriodTitle": "Aucune période d'utilisation n'est active pour ce compte",
+      "noPeriodHint": "L'utilisation est mesurée par période de facturation. Une période s'ouvre automatiquement quelques minutes après le début ou le renouvellement d'un abonnement ; si ce message persiste, contactez le support."
     }
   },
   "appAIResumeChat": {

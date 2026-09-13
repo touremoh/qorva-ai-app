@@ -66,7 +66,8 @@ const UsageMonitoringContent = () => {
                 setLoading(true);
                 setError('');
                 const res = await getUsageMonitoring();
-                setData(res?.data ?? null);
+                // 204 = the tenant has no active usage period (nothing to meter against yet)
+                setData(res?.status === 204 || !res?.data ? null : res.data);
             } catch (e) {
                 console.error('Error loading usage monitoring', e);
                 setError(t('dashboard.errors.loadFailed', 'Failed to load data'));
@@ -114,6 +115,20 @@ const UsageMonitoringContent = () => {
                 {!loading && error && (
                     <Paper elevation={0} sx={{ border: '1px solid #fee2e2', borderRadius: 2.5, p: 2.5 }}>
                         <Typography sx={{ fontSize: '0.85rem', color: '#dc2626' }}>{error}</Typography>
+                    </Paper>
+                )}
+
+                {!loading && !error && !data && (
+                    <Paper elevation={0} sx={{ border: '1px dashed #e2e8f0', borderRadius: 2.5, p: 4 }}>
+                        <Stack alignItems="center" spacing={1.25} sx={{ textAlign: 'center' }}>
+                            <SpeedOutlinedIcon sx={{ fontSize: 36, color: '#cbd5e1' }} />
+                            <Typography sx={{ fontSize: '0.9rem', fontWeight: 600, color: '#0f172a' }}>
+                                {t('dashboard.usage.noPeriodTitle', 'No usage period is active for this account')}
+                            </Typography>
+                            <Typography sx={{ fontSize: '0.82rem', color: '#64748b', maxWidth: 520 }}>
+                                {t('dashboard.usage.noPeriodHint', 'Usage is metered per billing period. A period is opened automatically a few minutes after a subscription starts or renews; if this message persists, contact support.')}
+                            </Typography>
+                        </Stack>
                     </Paper>
                 )}
 

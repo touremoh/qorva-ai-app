@@ -771,7 +771,9 @@
       "lastUpdated": "Last updated",
       "unlimited": "Unlimited",
       "planAllowance": "plan allowance",
-      "templatesTooltip": "Saved invitation templates — a plan allowance, not a monthly quota"
+      "templatesTooltip": "Saved invitation templates — a plan allowance, not a monthly quota",
+      "noPeriodTitle": "No usage period is active for this account",
+      "noPeriodHint": "Usage is metered per billing period. A period is opened automatically a few minutes after a subscription starts or renews; if this message persists, contact support."
     }
   },
   "appAIResumeChat": {

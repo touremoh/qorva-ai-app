@@ -772,7 +772,9 @@
       "lastUpdated": "Laatste update",
       "unlimited": "Onbeperkt",
       "planAllowance": "plantegoed",
-      "templatesTooltip": "Opgeslagen uitnodigingssjablonen — een plantegoed, geen maandelijks quotum"
+      "templatesTooltip": "Opgeslagen uitnodigingssjablonen — een plantegoed, geen maandelijks quotum",
+      "noPeriodTitle": "Er is geen actieve gebruiksperiode voor dit account",
+      "noPeriodHint": "Gebruik wordt per factureringsperiode gemeten. Een periode wordt automatisch geopend enkele minuten na de start of verlenging van een abonnement; blijft dit bericht staan, neem dan contact op met support."
     }
   },
   "appAIResumeChat": {

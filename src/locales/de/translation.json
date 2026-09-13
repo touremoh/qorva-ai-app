@@ -775,7 +775,9 @@
       "lastUpdated": "Zuletzt aktualisiert",
       "unlimited": "Unbegrenzt",
       "planAllowance": "Plankontingent",
-      "templatesTooltip": "Gespeicherte Einladungsvorlagen — ein Plankontingent, kein monatliches Kontingent"
+      "templatesTooltip": "Gespeicherte Einladungsvorlagen — ein Plankontingent, kein monatliches Kontingent",
+      "noPeriodTitle": "Für dieses Konto ist kein Nutzungszeitraum aktiv",
+      "noPeriodHint": "Die Nutzung wird pro Abrechnungszeitraum gemessen. Ein Zeitraum wird wenige Minuten nach Beginn oder Verlängerung eines Abonnements automatisch eröffnet; bleibt diese Meldung bestehen, wenden Sie sich an den Support."
     }
   },
   "appAIResumeChat": {

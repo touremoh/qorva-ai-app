@@ -775,7 +775,9 @@
       "lastUpdated": "Ultimo aggiornamento",
       "unlimited": "Illimitato",
       "planAllowance": "quota del piano",
-      "templatesTooltip": "Modelli di invito salvati — una quota del piano, non mensile"
+      "templatesTooltip": "Modelli di invito salvati — una quota del piano, non mensile",
+      "noPeriodTitle": "Nessun periodo di utilizzo attivo per questo account",
+      "noPeriodHint": "L'utilizzo viene misurato per periodo di fatturazione. Un periodo si apre automaticamente pochi minuti dopo l'inizio o il rinnovo di un abbonamento; se il messaggio persiste, contatta il supporto."
     }
   },
   "appAIResumeChat": {

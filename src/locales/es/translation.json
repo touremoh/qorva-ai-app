@@ -775,7 +775,9 @@
       "lastUpdated": "Última actualización",
       "unlimited": "Ilimitado",
       "planAllowance": "cupo del plan",
-      "templatesTooltip": "Plantillas de invitación guardadas — un cupo del plan, no una cuota mensual"
+      "templatesTooltip": "Plantillas de invitación guardadas — un cupo del plan, no una cuota mensual",
+      "noPeriodTitle": "No hay ningún periodo de uso activo para esta cuenta",
+      "noPeriodHint": "El uso se mide por periodo de facturación. Un periodo se abre automáticamente unos minutos después de iniciar o renovar una suscripción; si este mensaje persiste, contacte con soporte."
     }
   },
   "appAIResumeChat": {

@@ -775,7 +775,9 @@
       "lastUpdated": "Última atualização",
       "unlimited": "Ilimitado",
       "planAllowance": "limite do plano",
-      "templatesTooltip": "Modelos de convite guardados — um limite do plano, não uma quota mensal"
+      "templatesTooltip": "Modelos de convite guardados — um limite do plano, não uma quota mensal",
+      "noPeriodTitle": "Não há um período de utilização ativo para esta conta",
+      "noPeriodHint": "A utilização é medida por período de faturação. Um período abre automaticamente alguns minutos após o início ou a renovação de uma subscrição; se esta mensagem persistir, contacte o suporte."
     }
   },
   "appAIResumeChat": {
