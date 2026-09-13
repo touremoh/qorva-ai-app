@@ -25,6 +25,9 @@ import {
 	TextField,
 	Tooltip,
 	Typography,
+	Drawer,
+	useMediaQuery,
+	useTheme,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -46,8 +49,12 @@ import CheckIcon from '@mui/icons-material/Check';
 import ReplayOutlinedIcon from '@mui/icons-material/ReplayOutlined';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
+import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
+import MenuOpenOutlinedIcon from '@mui/icons-material/MenuOpenOutlined';
+import ViewSidebarOutlinedIcon from '@mui/icons-material/ViewSidebarOutlined';
 import { getChats, getMessages, createChat, sendMessage as sendChatMessage, updateChatStatus, deleteChat, getChat } from '../../../services/chatService.js';
 import ChatMarkdown from './ChatMarkdown.jsx';
+import ChatContextPanel from './ChatContextPanel.jsx';
 import { getCVs, searchCVs } from '../../../services/cvService.js';
 import { getJobs } from '../../../services/jobService.js';
 import { findReportByCriteria } from '../../../services/reportService.js';
@@ -63,6 +70,10 @@ const buildChatTitle = (cv, job) => {
 };
 
 const getCandidateIdFromCV = (cv) => cv?.candidateId || cv?.id || null;
+
+const LIST_PANEL_KEY = 'qorva.chat.listPanel';
+const CONTEXT_PANEL_KEY = 'qorva.chat.contextPanel';
+const persist = (k, v) => { try { localStorage.setItem(k, v); } catch { /* per-viewer convenience only */ } };
 
 const PAGE_SIZE_CHATS = 25;
 const PAGE_SIZE_MESSAGES = 50;
@@ -99,6 +110,17 @@ const AppAIResumeChat = () => {
 	const [selectedChat, setSelectedChat] = useState(null);
 
 	const navigate = useNavigate();
+	const theme = useTheme();
+	const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
+	// Both side columns collapse independently; explicit toggles are remembered, auto-collapses are not.
+	const [chatListOpen, setChatListOpen] = useState(() => ls(LIST_PANEL_KEY, 'open') !== 'closed');
+	const [contextOpen, setContextOpen] = useState(() => {
+		const v = ls(CONTEXT_PANEL_KEY);
+		if (v) return v === 'open';
+		try { return window.matchMedia('(min-width: 900px)').matches; } catch { return true; }
+	});
+	const toggleChatList = () => setChatListOpen(open => { persist(LIST_PANEL_KEY, open ? 'closed' : 'open'); return !open; });
+	const toggleContext = () => setContextOpen(open => { persist(CONTEXT_PANEL_KEY, open ? 'closed' : 'open'); return !open; });
 	const [messages, setMessages] = useState([]);
 	const [linkedReport, setLinkedReport] = useState(null); // screening report of the selected chat, null when none yet
 	const [copiedMessageId, setCopiedMessageId] = useState(null);
@@ -181,6 +203,7 @@ const AppAIResumeChat = () => {
 
 	const handleSelectChat = (chat) => {
 		setSelectedChat(chat);
+		if (!isMdUp) setChatListOpen(false); // no room for three columns on a tablet
 		setMessages([]);
 		setMsgPage(0);
 		setMsgHasMore(true);
@@ -215,6 +238,13 @@ const AppAIResumeChat = () => {
 		} catch (e) {
 			console.error('Error refreshing chat:', e);
 		}
+	};
+
+	// Tags / availability edited from the context panel: keep the dialog's CV picker in sync.
+	// The chat title is stored server-side at creation and is left as it is.
+	const handleCvUpdated = (updated) => {
+		if (!updated?.id) return;
+		setCvList(prev => prev.map(c => (c.id === updated.id ? updated : c)));
 	};
 
 	const handleCopyMessage = (m) => {
@@ -418,6 +448,11 @@ const AppAIResumeChat = () => {
 				backgroundColor: '#ffffff',
 				borderBottom: '1px solid #e2e8f0',
 			}}>
+				<Tooltip title={t(chatListOpen ? 'appAIResumeChat.hideChats' : 'appAIResumeChat.showChats')}>
+					<IconButton size="small" onClick={toggleChatList} sx={{ color: '#64748b', border: '1px solid #e2e8f0', borderRadius: 1.5 }}>
+						{chatListOpen ? <MenuOpenOutlinedIcon sx={{ fontSize: 18 }} /> : <MenuOutlinedIcon sx={{ fontSize: 18 }} />}
+					</IconButton>
+				</Tooltip>
 				<AutoAwesomeOutlinedIcon sx={{ color: '#629C44', fontSize: 20 }} />
 				<Typography sx={{ fontWeight: 600, fontSize: '0.9rem', color: '#0f172a', flex: 1 }}>
 					{t('header.aiResumeChat')}
@@ -454,6 +489,7 @@ const AppAIResumeChat = () => {
 			<Box sx={{ display: 'flex', flex: 1, minHeight: 0 }}>
 
 				{/* Left panel: chat list */}
+				{chatListOpen && (
 				<Box sx={{
 					width: { xs: 200, sm: 240, md: 280 },
 					flexShrink: 0,
@@ -571,6 +607,7 @@ const AppAIResumeChat = () => {
 						)}
 					</Box>
 				</Box>
+				)}
 
 				{/* Chat list item context menu */}
 				<Menu
@@ -692,6 +729,15 @@ const AppAIResumeChat = () => {
 										sx={{ fontSize: '0.72rem', backgroundColor: '#fef3c7', color: '#92400e', height: 22 }}
 									/>
 								)}
+								<Tooltip title={t(contextOpen ? 'appAIResumeChat.hideContext' : 'appAIResumeChat.showContext')}>
+									<IconButton
+										size="small"
+										onClick={toggleContext}
+										sx={{ border: '1px solid #e2e8f0', borderRadius: 1.5, color: contextOpen ? '#629C44' : '#64748b', '&:hover': { backgroundColor: '#f1f5f9' } }}
+									>
+										<ViewSidebarOutlinedIcon sx={{ fontSize: 16 }} />
+									</IconButton>
+								</Tooltip>
 								<Tooltip title={t('appAIResumeChat.chatOptions')}>
 									<IconButton
 										size="small"
@@ -770,6 +816,10 @@ const AppAIResumeChat = () => {
 							</Typography>
 						)}
 					</Box>
+
+					{/* Messages | context panel */}
+					<Box sx={{ display: 'flex', flex: 1, minHeight: 0 }}>
+					<Box sx={{ flex: selectedChat && contextOpen && isMdUp ? '1 1 50%' : '1 1 100%', minWidth: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
 
 					{/* Messages */}
 					<Box sx={{ flex: 1, overflowY: 'auto', px: 2.5, py: 2, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
@@ -913,12 +963,12 @@ const AppAIResumeChat = () => {
 								</Typography>
 							</Box>
 						)}
-						<Box sx={{ px: 2, py: 1.5, display: 'flex', gap: 1, alignItems: 'center' }}>
+						<Box sx={{ px: 2, pt: 1.5, pb: 0.5, display: 'flex', gap: 1, alignItems: 'flex-end' }}>
 							<TextField
 								fullWidth
-								size="small"
 								multiline
-								maxRows={4}
+								minRows={3}
+								maxRows={10}
 								placeholder={t('appAIResumeChat.placeholder')}
 								value={composer}
 								onChange={(e) => setComposer(e.target.value)}
@@ -931,7 +981,8 @@ const AppAIResumeChat = () => {
 								disabled={!selectedChat || selectedChat?.status === 'CLOSED' || selectedChat?.status === 'ARCHIVED'}
 								sx={{
 									'& .MuiOutlinedInput-root': {
-										borderRadius: 3, fontSize: '0.85rem',
+										borderRadius: 3, fontSize: '0.9rem', lineHeight: 1.5,
+										padding: '12px 14px',
 										backgroundColor: '#f8fafc',
 										'&.Mui-focused': { backgroundColor: '#ffffff' },
 									},
@@ -944,7 +995,7 @@ const AppAIResumeChat = () => {
 										disabled={!selectedChat || !composer.trim() || selectedChat?.status === 'CLOSED' || selectedChat?.status === 'ARCHIVED'}
 										sx={{
 											backgroundColor: '#629C44', color: '#ffffff', borderRadius: 2,
-											width: 38, height: 38, flexShrink: 0,
+											width: 42, height: 42, flexShrink: 0, mb: 0.25,
 											'&:hover': { backgroundColor: '#4a7a33' },
 											'&.Mui-disabled': { backgroundColor: '#e2e8f0', color: '#94a3b8' },
 										}}
@@ -954,9 +1005,38 @@ const AppAIResumeChat = () => {
 								</span>
 							</Tooltip>
 						</Box>
+						<Typography sx={{ px: 2.5, pb: 1, fontSize: '0.68rem', color: '#94a3b8' }}>
+							{t('appAIResumeChat.composerHint')}
+						</Typography>
+					</Box>
+					</Box>
+
+					{selectedChat && contextOpen && isMdUp && (
+						<Box sx={{ flex: '0 0 50%', minWidth: 0, borderLeft: '1px solid #e2e8f0', overflow: 'hidden' }}>
+							<ChatContextPanel
+								chat={selectedChat}
+								report={linkedReport}
+								onReportRefresh={() => loadLinkedReport(selectedChat)}
+								onCvUpdated={handleCvUpdated}
+							/>
+						</Box>
+					)}
 					</Box>
 				</Box>
 			</Box>
+
+			{/* Below md the context panel is a drawer instead of a third column */}
+			{selectedChat && !isMdUp && (
+				<Drawer anchor="right" open={contextOpen} onClose={toggleContext} PaperProps={{ sx: { width: 'min(560px, 92vw)' } }}>
+					<ChatContextPanel
+						chat={selectedChat}
+						report={linkedReport}
+						onReportRefresh={() => loadLinkedReport(selectedChat)}
+						onCvUpdated={handleCvUpdated}
+						onClose={toggleContext}
+					/>
+				</Drawer>
+			)}
 
 			{/* Delete Chat Confirmation Dialog */}
 			<Dialog

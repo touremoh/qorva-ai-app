@@ -33,7 +33,6 @@ import {
 	Slider,
 	Tabs,
 	Tab,
-	Paper,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
@@ -41,13 +40,6 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
-import ConstructionIcon from '@mui/icons-material/Construction';
-import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
-import BusinessCenterOutlinedIcon from '@mui/icons-material/BusinessCenterOutlined';
-import TuneIcon from '@mui/icons-material/Tune';
-import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined';
-import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
-import CheckIcon from '@mui/icons-material/Check';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import { useTranslation } from 'react-i18next';
 import { getJobs, createJob, updateJob, patchJobStatus, deleteJob, suggestScoringRules, generateJobDescription } from '../../../services/jobService.js';
@@ -55,7 +47,9 @@ import { isDemoUser } from '../../../utils/demoMode.js';
 import UpgradeButton from '../../demo/UpgradeButton.jsx';
 import { default as ReactQuill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import DOMPurify from 'dompurify';
+import { descriptionToHtml } from '../../../utils/jobDescription.js';
+import JobScoringView from './JobScoringView.jsx';
+import JobPostReadView from './JobPostReadView.jsx';
 
 // ─── Shared style constants ───────────────────────────────────────────────────
 
@@ -470,201 +464,6 @@ const tabsSx = {
 	'& .MuiTab-root.Mui-selected': { color: THEME_GREEN, fontWeight: 600 },
 };
 
-// ─── Read-only scoring rules view (mirrors AppCVDetails widgets) ──────────────
-
-const CVCard = ({ children, sx }) => (
-	<Paper elevation={0} sx={{ p: 2.5, borderRadius: 2, border: '1px solid #e2e8f0', ...sx }}>
-		{children}
-	</Paper>
-);
-
-const CVSectionHeader = ({ Icon, title }) => (
-	<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5, pb: 0.75, borderBottom: '2px solid #629C44' }}>
-		<Icon sx={{ fontSize: 14, color: '#629C44' }} />
-		<Typography sx={{ fontWeight: 700, fontSize: '0.68rem', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-			{title}
-		</Typography>
-	</Box>
-);
-
-const importanceChipSx = (importance) => {
-	if (importance === 'mandatory') return { fontSize: '0.72rem', backgroundColor: 'rgba(98,156,68,0.10)', color: '#3a6827', borderRadius: 0.75, height: 22, fontWeight: 600 };
-	if (importance === 'important') return { fontSize: '0.72rem', backgroundColor: 'rgba(245,158,11,0.12)', color: '#d97706', borderRadius: 0.75, height: 22, fontWeight: 600 };
-	return { fontSize: '0.72rem', backgroundColor: '#f1f5f9', color: '#475569', borderRadius: 0.75, height: 22, fontWeight: 500 };
-};
-
-// Maps stored enum values to existing i18n keys
-const importanceI18nKey = { mandatory: 'mandatory', important: 'important', nice_to_have: 'niceToHave' };
-
-const statLabelSx = { fontSize: '0.70rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' };
-
-const JobScoringView = ({ scoringRules, t }) => {
-	if (!scoringRules) return (
-		<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', p: 4 }}>
-			<Typography sx={{ fontSize: '0.88rem', color: '#94a3b8' }}>{t('jobContent.noMatchingRules')}</Typography>
-		</Box>
-	);
-
-	const sr = scoringRules;
-	const weightPct = (v) => `${Math.round((v || 0) * 100)}%`;
-
-	return (
-		<Box sx={{ p: 2.5, display: 'flex', flexDirection: 'column', gap: 2, textAlign: 'left' }}>
-
-			{/* ── Skills ── */}
-			{sr.skills?.length > 0 && (
-				<CVCard>
-					<CVSectionHeader Icon={ConstructionIcon} title={t('jobContent.skills')} />
-					<Box sx={{ display: 'flex', flexDirection: 'column' }}>
-						{sr.skills.map((s, i) => (
-							<Box key={i} sx={i > 0 ? { pt: 1.5, mt: 1.5, borderTop: '1px solid #f1f5f9' } : {}}>
-								<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 0.5, mb: 0.75 }}>
-									<Typography sx={{ fontWeight: 700, fontSize: '0.88rem', color: '#0f172a' }}>{s.name}</Typography>
-									<Chip label={t(`jobContent.${importanceI18nKey[s.importance] || s.importance}`)} size="small" sx={importanceChipSx(s.importance)} />
-								</Box>
-								<Box sx={{ display: 'flex', gap: 0.75, flexWrap: 'wrap' }}>
-									<Chip label={`${weightPct(s.weight)} ${t('jobContent.weightLabel')}`} size="small"
-										sx={{ fontSize: '0.72rem', height: 22, backgroundColor: 'rgba(98,156,68,0.10)', color: '#3a6827', borderRadius: 0.75 }} />
-									<Chip label={`${s.minYearsOfExperience} ${t('jobContent.yearsAbbr')} min.`} size="small"
-										sx={{ fontSize: '0.72rem', height: 22, backgroundColor: '#f1f5f9', color: '#64748b', borderRadius: 0.75 }} />
-									{s.exactSkillOnly && (
-										<Chip label={t('jobContent.exactSkillOnly')} size="small"
-											sx={{ fontSize: '0.72rem', height: 22, backgroundColor: '#eff6ff', color: '#3b82f6', borderRadius: 0.75 }} />
-									)}
-								</Box>
-							</Box>
-						))}
-					</Box>
-				</CVCard>
-			)}
-
-			{/* ── Experience Requirements ── */}
-			{sr.experienceRequirements && (
-				<CVCard>
-					<CVSectionHeader Icon={WorkOutlineOutlinedIcon} title={t('jobContent.experienceRequirements')} />
-					<Box sx={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
-						{sr.experienceRequirements.minYearsOfExperience != null && (
-							<Box>
-								<Typography sx={statLabelSx}>{t('jobContent.minYearsOfExperience')}</Typography>
-								<Typography sx={{ fontWeight: 700, fontSize: '0.88rem', color: '#0f172a' }}>{sr.experienceRequirements.minYearsOfExperience} {t('jobContent.yearsAbbr')}</Typography>
-							</Box>
-						)}
-						{sr.experienceRequirements.minRelevantYears != null && (
-							<Box>
-								<Typography sx={statLabelSx}>{t('jobContent.minRelevantYears')}</Typography>
-								<Typography sx={{ fontWeight: 700, fontSize: '0.88rem', color: '#0f172a' }}>{sr.experienceRequirements.minRelevantYears} {t('jobContent.yearsAbbr')}</Typography>
-							</Box>
-						)}
-						{sr.experienceRequirements.seniorityLevel && (
-							<Box>
-								<Typography sx={statLabelSx}>{t('jobContent.seniorityLevel')}</Typography>
-								<Typography sx={{ fontWeight: 700, fontSize: '0.88rem', color: THEME_GREEN }}>{t(`jobContent.${sr.experienceRequirements.seniorityLevel}`)}</Typography>
-							</Box>
-						)}
-					</Box>
-				</CVCard>
-			)}
-
-			{/* ── Location Preferences ── */}
-			{sr.locationPreferences && (
-				<CVCard>
-					<CVSectionHeader Icon={LocationOnOutlinedIcon} title={t('jobContent.locationPreferences')} />
-					{sr.locationPreferences.allowedLocations?.length > 0 && (
-						<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.6, mb: 1.5 }}>
-							{sr.locationPreferences.allowedLocations.map(loc => (
-								<Chip key={loc} label={loc} size="small"
-									sx={{ fontSize: '0.75rem', backgroundColor: 'rgba(98,156,68,0.10)', color: '#3a6827', borderRadius: 1, height: 24, fontWeight: 500 }} />
-							))}
-						</Box>
-					)}
-					<Box sx={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
-						<Box>
-							<Typography sx={statLabelSx}>{t('jobContent.remoteAllowed')}</Typography>
-							<Typography sx={{ fontWeight: 700, fontSize: '0.88rem', color: sr.locationPreferences.remoteAllowed ? THEME_GREEN : '#0f172a' }}>
-								{sr.locationPreferences.remoteAllowed ? t('jobContent.yes') : t('jobContent.no')}
-							</Typography>
-						</Box>
-						{sr.locationPreferences.strictness && (
-							<Box>
-								<Typography sx={statLabelSx}>{t('jobContent.strictness')}</Typography>
-								<Typography sx={{ fontWeight: 700, fontSize: '0.88rem', color: '#0f172a' }}>{t(`jobContent.${sr.locationPreferences.strictness}`)}</Typography>
-							</Box>
-						)}
-					</Box>
-				</CVCard>
-			)}
-
-			{/* ── Industry Preferences ── */}
-			{sr.industryPreferences && (
-				<CVCard>
-					<CVSectionHeader Icon={BusinessCenterOutlinedIcon} title={t('jobContent.industryPreferences')} />
-					{sr.industryPreferences.preferredIndustries?.length > 0 && (
-						<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.6, mb: 1.5 }}>
-							{sr.industryPreferences.preferredIndustries.map(ind => (
-								<Chip key={ind} label={ind} size="small"
-									sx={{ fontSize: '0.75rem', backgroundColor: '#f1f5f9', color: '#475569', borderRadius: 1, height: 24 }} />
-							))}
-						</Box>
-					)}
-					{sr.industryPreferences.strictness && (
-						<Box>
-							<Typography sx={statLabelSx}>{t('jobContent.strictness')}</Typography>
-							<Typography sx={{ fontWeight: 700, fontSize: '0.88rem', color: '#0f172a' }}>{t(`jobContent.${sr.industryPreferences.strictness}`)}</Typography>
-						</Box>
-					)}
-				</CVCard>
-			)}
-
-			{/* ── Scoring Weights ── */}
-			{sr.scoringWeight && (
-				<CVCard>
-					<CVSectionHeader Icon={TuneIcon} title={t('jobContent.scoringWeights')} />
-					<Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap' }}>
-						{[
-							{ key: 'skills', label: t('jobContent.weightSkills') },
-							{ key: 'experience', label: t('jobContent.weightExperience') },
-							{ key: 'location', label: t('jobContent.weightLocation') },
-							{ key: 'industry', label: t('jobContent.weightIndustry') },
-						].map(({ key, label }) => (
-							<Box key={key} sx={{ flex: '1 1 80px', p: 1.5, backgroundColor: '#f8fafc', borderRadius: 1.5, border: '1px solid #f1f5f9', textAlign: 'center' }}>
-								<Typography sx={{ fontSize: '1.2rem', fontWeight: 700, color: THEME_GREEN, lineHeight: 1.2 }}>
-									{weightPct(sr.scoringWeight[key])}
-								</Typography>
-								<Typography sx={{ ...statLabelSx, mt: 0.25 }}>{label}</Typography>
-							</Box>
-						))}
-					</Box>
-				</CVCard>
-			)}
-
-			{/* ── Candidate Availability Filters ── */}
-			{(sr.filterOpenToWork || sr.availabilityStatuses?.length > 0) && (
-				<CVCard>
-					<CVSectionHeader Icon={FilterListOutlinedIcon} title={t('jobContent.candidateFilters')} />
-					{sr.filterOpenToWork && (
-						<Chip label={t('jobContent.filterOpenToWork')} size="small" sx={{
-							fontSize: '0.72rem', height: 22, fontWeight: 600, borderRadius: 0.75,
-							backgroundColor: 'rgba(98,156,68,0.10)', color: '#3a6827',
-							mb: sr.availabilityStatuses?.length > 0 ? 1.5 : 0,
-						}} />
-					)}
-					{sr.availabilityStatuses?.length > 0 && (
-						<Box>
-							<Typography sx={{ ...statLabelSx, mb: 0.75 }}>{t('jobContent.availabilityStatuses')}</Typography>
-							<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.6 }}>
-								{sr.availabilityStatuses.map(status => (
-									<Chip key={status} label={t(`jobContent.availabilityStatus.${status}`)} size="small"
-										sx={{ fontSize: '0.72rem', height: 22, backgroundColor: '#fee2e2', color: '#991b1b', borderRadius: 0.75 }} />
-								))}
-							</Box>
-						</Box>
-					)}
-				</CVCard>
-			)}
-
-		</Box>
-	);
-};
 
 // Convert backend scoringRules (decimals 0-1) to slider-compatible form state
 const loadScoringConfig = (job) => {
@@ -748,13 +547,6 @@ const JobContent = () => {
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 	const [jobs, setJobs] = useState([]);
 	const [selectedJob, setSelectedJob] = useState(null);
-	const [copiedJobRef, setCopiedJobRef] = useState(null);
-	const handleCopyJobRef = (ref, e) => {
-		e.stopPropagation();
-		navigator.clipboard.writeText(ref).catch(() => {});
-		setCopiedJobRef(ref);
-		setTimeout(() => setCopiedJobRef(null), 1500);
-	};
 	const [jobTitle, setJobTitle] = useState('');
 	const [jobDescription, setJobDescription] = useState('');
 	const [scoringConfig, setScoringConfig] = useState(emptyScoringConfig());
@@ -813,36 +605,6 @@ const JobContent = () => {
 		setAiPrefillApplied(false); setAiPrefillBusy(false); setLastSuggestedFor(null);
 	};
 
-	// Descriptions authored in the app are Quill HTML, but seeded/imported jobs
-	// may carry plain text with newline paragraph breaks — normalise those to
-	// paragraph-only HTML (Quill's normal form, so edit round-trips are stable).
-	// Everything is sanitised before reaching dangerouslySetInnerHTML or Quill.
-	// dir="auto" lets each paragraph pick its direction for RTL scripts.
-	const escapeHtml = (s) =>
-		s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-	const HTML_DESCRIPTION_REGEX = /<(p|div|br|ul|ol|li|strong|em|b|i|u|s|a|h[1-6]|span|blockquote|pre)[\s/>]/i;
-	const descriptionToHtml = (desc = '') => {
-		if (!desc.trim()) return '';
-		// Quill paste artifact: plain text pasted into the editor lands in a single
-		// <pre class="ql-syntax"> block, often with literal "\n" sequences. A <pre>
-		// doesn't wrap, so the whole description overflows off-screen and looks empty.
-		// Unwrap it back to plain text and let the paragraph path below format it.
-		let source = desc;
-		const quillPre = /^\s*<pre class="ql-syntax"[^>]*>([\s\S]*)<\/pre>\s*$/i.exec(source);
-		if (quillPre) {
-			source = quillPre[1]
-				.replace(/\\n/g, '\n')
-				.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
-		}
-		const html = quillPre == null && HTML_DESCRIPTION_REGEX.test(source)
-			? source
-			: source.split(/\r?\n+/)
-				.map(p => p.trim())
-				.filter(Boolean)
-				.map(p => `<p dir="auto">${escapeHtml(p)}</p>`)
-				.join('');
-		return DOMPurify.sanitize(html);
-	};
 
 	const sanitizeDescription = (html) => {
 		const doc = new DOMParser().parseFromString(html, 'text/html');
@@ -1399,53 +1161,7 @@ const JobContent = () => {
 
 							{/* Tab content */}
 							<Box sx={{ flex: 1, overflowY: 'auto' }}>
-								{detailTab === 0 && (
-									<Box sx={{ p: 3, textAlign: 'left' }}>
-										<Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
-											<Avatar sx={{ width: 44, height: 44, fontSize: '0.9rem', fontWeight: 700, backgroundColor: THEME_GREEN, color: '#fff' }}>
-												{jobInitials(selectedJob.title)}
-											</Avatar>
-											<Box>
-												<Typography sx={{ fontWeight: 700, fontSize: '1.1rem', color: '#0f172a', lineHeight: 1.2 }}>
-													{selectedJob.title}
-												</Typography>
-												<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 0.5, flexWrap: 'wrap' }}>
-													<Chip label={selectedJob.status === 'open' ? 'Open' : 'Closed'} size="small" sx={{
-														height: 20, fontSize: '0.70rem', fontWeight: 600, borderRadius: 0.75,
-														backgroundColor: selectedJob.status === 'open' ? 'rgba(98,156,68,0.12)' : 'rgba(239,68,68,0.10)',
-														color: selectedJob.status === 'open' ? '#3a6827' : '#dc2626',
-													}} />
-													{selectedJob.jobReference && (
-														<Tooltip title={copiedJobRef === selectedJob.jobReference ? t('jobContent.copied') : t('jobContent.copyReference')} placement="right">
-															<Box
-																onClick={(e) => handleCopyJobRef(selectedJob.jobReference, e)}
-																sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5, cursor: 'pointer', '&:hover': { opacity: 0.75 } }}
-															>
-																<Typography sx={{ fontSize: '0.72rem', color: copiedJobRef === selectedJob.jobReference ? THEME_GREEN : '#94a3b8' }}>
-																	{selectedJob.jobReference}
-																</Typography>
-																{copiedJobRef === selectedJob.jobReference
-																	? <CheckIcon sx={{ fontSize: 13, color: THEME_GREEN }} />
-																	: <ContentCopyOutlinedIcon sx={{ fontSize: 12, color: '#94a3b8' }} />
-																}
-															</Box>
-														</Tooltip>
-													)}
-												</Box>
-											</Box>
-										</Box>
-										<Box sx={{
-											textAlign: 'start',
-											'& p': { fontSize: '0.88rem', lineHeight: 1.8, color: '#334155', mb: 1 },
-											'& ul, & ol': { pl: 2.5, mb: 1 },
-											'& li': { fontSize: '0.88rem', lineHeight: 1.8, color: '#334155', mb: 0.25 },
-											'& strong': { fontWeight: 700, color: '#0f172a' },
-											'& h1, & h2, & h3': { color: '#0f172a', mt: 2, mb: 1 },
-											// A non-wrapping <pre> would push the whole text off-screen and read as "empty".
-											'& pre': { whiteSpace: 'pre-wrap', wordBreak: 'break-word', fontFamily: 'inherit', fontSize: '0.88rem', lineHeight: 1.8, color: '#334155', m: 0 },
-										}} dir="auto" dangerouslySetInnerHTML={{ __html: descriptionToHtml(selectedJob.description) }} />
-									</Box>
-								)}
+								{detailTab === 0 && <JobPostReadView job={selectedJob} showScoringRules={false} />}
 								{detailTab === 1 && <JobScoringView scoringRules={selectedJob.scoringRules} t={t} />}
 							</Box>
 						</Box>

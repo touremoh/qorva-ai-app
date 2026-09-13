@@ -827,7 +827,16 @@
     "screeningScoreHint": "Official score from the screening report — the chat quotes this figure.",
     "runScreening": "No screening report — run screening",
     "noReportYetHint": "No screening report exists for this candidate and job yet, so the chat cannot give a fit score. Run a screening to get one.",
-    "copyAnswer": "Copy answer"
+    "copyAnswer": "Copy answer",
+    "composerHint": "Enter to send · Shift+Enter for a new line",
+    "showChats": "Show chat list",
+    "hideChats": "Hide chat list",
+    "showContext": "Show resume, report and job",
+    "hideContext": "Hide resume, report and job",
+    "tabResume": "Resume",
+    "tabReport": "Matching report",
+    "tabJob": "Job description",
+    "refreshReport": "Refresh"
   },
   "pricing": {
     "title": "Simple, Transparent Pricing",

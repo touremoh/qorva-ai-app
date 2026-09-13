@@ -831,7 +831,16 @@
     "screeningScoreHint": "Puntuación oficial del informe de screening — el chat cita esta cifra.",
     "runScreening": "Sin informe de screening — ejecutar screening",
     "noReportYetHint": "Aún no existe un informe de screening para este candidato y puesto, por lo que el chat no puede dar una puntuación. Ejecute un screening para obtenerla.",
-    "copyAnswer": "Copiar respuesta"
+    "copyAnswer": "Copiar respuesta",
+    "composerHint": "Intro para enviar · Mayús+Intro para nueva línea",
+    "showChats": "Mostrar lista de chats",
+    "hideChats": "Ocultar lista de chats",
+    "showContext": "Mostrar CV, informe y puesto",
+    "hideContext": "Ocultar CV, informe y puesto",
+    "tabResume": "CV",
+    "tabReport": "Informe de matching",
+    "tabJob": "Descripción del puesto",
+    "refreshReport": "Actualizar"
   },
   "pricing": {
     "title": "Qorva AI — Elija su plan",

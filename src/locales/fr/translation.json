@@ -831,7 +831,16 @@
     "screeningScoreHint": "Score officiel du rapport de screening — le chat cite ce chiffre.",
     "runScreening": "Aucun rapport de screening — lancer un screening",
     "noReportYetHint": "Aucun rapport de screening n'existe pour ce candidat et ce poste, le chat ne peut donc pas donner de score. Lancez un screening pour l'obtenir.",
-    "copyAnswer": "Copier la réponse"
+    "copyAnswer": "Copier la réponse",
+    "composerHint": "Entrée pour envoyer · Maj+Entrée pour un retour à la ligne",
+    "showChats": "Afficher la liste des chats",
+    "hideChats": "Masquer la liste des chats",
+    "showContext": "Afficher le CV, le rapport et le poste",
+    "hideContext": "Masquer le CV, le rapport et le poste",
+    "tabResume": "CV",
+    "tabReport": "Rapport de matching",
+    "tabJob": "Description du poste",
+    "refreshReport": "Actualiser"
   },
   "pricing": {
     "title": "Qorva AI — Choisissez votre forfait",

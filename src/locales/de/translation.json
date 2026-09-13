@@ -831,7 +831,16 @@
     "screeningScoreHint": "Offizieller Score aus dem Screening-Bericht — der Chat zitiert diesen Wert.",
     "runScreening": "Kein Screening-Bericht — Screening starten",
     "noReportYetHint": "Für diesen Kandidaten und diese Stelle gibt es noch keinen Screening-Bericht, daher kann der Chat keinen Score nennen. Starten Sie ein Screening.",
-    "copyAnswer": "Antwort kopieren"
+    "copyAnswer": "Antwort kopieren",
+    "composerHint": "Enter zum Senden · Shift+Enter für eine neue Zeile",
+    "showChats": "Chatliste anzeigen",
+    "hideChats": "Chatliste ausblenden",
+    "showContext": "Lebenslauf, Bericht und Stelle anzeigen",
+    "hideContext": "Lebenslauf, Bericht und Stelle ausblenden",
+    "tabResume": "Lebenslauf",
+    "tabReport": "Matching-Bericht",
+    "tabJob": "Stellenbeschreibung",
+    "refreshReport": "Aktualisieren"
   },
   "pricing": {
     "title": "Qorva AI — Wählen Sie Ihren Plan",

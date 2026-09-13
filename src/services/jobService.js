@@ -3,6 +3,9 @@ import apiClient from '../../axiosConfig.js';
 export const getJobs = (params) =>
     apiClient.get('/jobs', { params });
 
+export const getJobById = (id) =>
+    apiClient.get(`/jobs/${id}`);
+
 export const createJob = (data) =>
     apiClient.post('/jobs', data);
 
