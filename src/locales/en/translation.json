@@ -396,8 +396,6 @@
       "dates": "Dates",
       "createdAfter": "Added since",
       "updatedAfter": "Updated since",
-      "name": "Name",
-      "namePlaceholder": "Contains…",
       "sortBy": "Sort by",
       "sort": {
         "lastUpdated": "Last updated",
@@ -446,7 +444,8 @@
         "label": "Source",
         "manual": "Uploaded manually"
       },
-      "pickDate": "Pick a date"
+      "pickDate": "Pick a date",
+      "quickSearch": "Quick search — name, role, skill…"
     }
   },
   "appCVMatching": {

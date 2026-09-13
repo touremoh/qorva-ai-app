@@ -400,8 +400,6 @@
       "dates": "Dates",
       "createdAfter": "Ajouté depuis",
       "updatedAfter": "Mis à jour depuis",
-      "name": "Nom",
-      "namePlaceholder": "Contient…",
       "sortBy": "Trier par",
       "sort": {
         "lastUpdated": "Dernière mise à jour",
@@ -450,7 +448,8 @@
         "label": "Source",
         "manual": "Ajouté manuellement"
       },
-      "pickDate": "Choisir une date"
+      "pickDate": "Choisir une date",
+      "quickSearch": "Recherche rapide — nom, poste, compétence…"
     }
   },
   "appCVMatching": {

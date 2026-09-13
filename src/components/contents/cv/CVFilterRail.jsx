@@ -308,22 +308,6 @@ const CVFilterRail = ({
 				</Box>
 
 				<Box>
-					<GroupLabel
-						text={t('appCVContent.filters.name')}
-						count={filters.name.trim() ? 1 : 0}
-						onReset={() => setFilter('name', '')}
-					/>
-					<TextField
-						size="small"
-						fullWidth
-						placeholder={t('appCVContent.filters.namePlaceholder')}
-						value={filters.name}
-						onChange={(e) => setFilter('name', e.target.value)}
-						InputProps={{ sx: inputSx }}
-					/>
-				</Box>
-
-				<Box>
 					<GroupLabel text={t('appCVContent.filters.sortBy')} count={0} />
 					<Select
 						size="small"

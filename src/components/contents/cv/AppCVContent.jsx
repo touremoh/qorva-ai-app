@@ -560,6 +560,8 @@ const AppCVContent = () => {
 						onToggleFilters={() => cvFilters.setFiltersOpen(!cvFilters.filtersOpen)}
 						onClearFilters={cvFilters.clearFilters}
 						refreshKey={refreshKey}
+						quickSearch={cvFilters.quickSearch}
+						onQuickSearchChange={cvFilters.setQuickSearch}
 					/>
 				</Box>
 

@@ -17,7 +17,6 @@ export const EMPTY_FILTERS = {
 	maxYearsOfExperience: '',
 	createdAfter: '',
 	updatedAfter: '',
-	name: '',
 };
 
 export const DEFAULT_SORT = 'lastUpdatedAt,desc';
@@ -29,13 +28,14 @@ const isSet = (v) => Array.isArray(v) ? v.length > 0 : String(v ?? '').trim() !=
 export const countActiveFilters = (filters) =>
 	Object.values(filters).filter(isSet).length;
 
-/** Turns the filter state into GET /cvs query params, dropping anything unset. */
-export const toQueryParams = (filters, sort) => {
+/** Turns the filter state (+ quick search + sort) into GET /cvs query params, dropping anything unset. */
+export const toQueryParams = (filters, sort, quickSearch = '') => {
 	const params = {};
 	Object.entries(filters).forEach(([key, value]) => {
 		if (!isSet(value)) return;
 		params[key] = Array.isArray(value) ? value.join(',') : String(value).trim();
 	});
+	if (isSet(quickSearch)) params.q = quickSearch.trim();
 	if (sort && sort !== DEFAULT_SORT) params.sort = sort;
 	return params;
 };
@@ -45,10 +45,12 @@ const load = () => {
 		const raw = sessionStorage.getItem(storageKey());
 		if (!raw) return null;
 		const parsed = JSON.parse(raw);
+		const { name, ...filters } = parsed.filters || {}; // `name` was a rail filter before the quick search existed
 		return {
-			filters: { ...EMPTY_FILTERS, ...(parsed.filters || {}) },
+			filters: { ...EMPTY_FILTERS, ...filters },
 			sort: parsed.sort || DEFAULT_SORT,
 			open: Boolean(parsed.open),
+			quickSearch: typeof parsed.quickSearch === 'string' ? parsed.quickSearch : (name || ''),
 		};
 	} catch {
 		return null;
@@ -64,14 +66,15 @@ export default function useCVFilters() {
 	const [filters, setFilters] = useState(initial?.filters ?? EMPTY_FILTERS);
 	const [sort, setSort] = useState(initial?.sort ?? DEFAULT_SORT);
 	const [filtersOpen, setFiltersOpen] = useState(initial?.open ?? false);
+	const [quickSearch, setQuickSearch] = useState(initial?.quickSearch ?? '');
 
 	useEffect(() => {
 		try {
-			sessionStorage.setItem(storageKey(), JSON.stringify({ filters, sort, open: filtersOpen }));
+			sessionStorage.setItem(storageKey(), JSON.stringify({ filters, sort, open: filtersOpen, quickSearch }));
 		} catch {
 			// storage unavailable (private mode, quota) — filters simply don't survive navigation
 		}
-	}, [filters, sort, filtersOpen]);
+	}, [filters, sort, filtersOpen, quickSearch]);
 
 	const setFilter = useCallback((key, value) =>
 		setFilters(prev => ({ ...prev, [key]: value })), []);
@@ -84,5 +87,6 @@ export default function useCVFilters() {
 		filters, setFilter, clearFilters, activeCount,
 		sort, setSort,
 		filtersOpen, setFiltersOpen,
+		quickSearch, setQuickSearch,
 	};
 }

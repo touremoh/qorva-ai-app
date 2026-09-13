@@ -400,8 +400,6 @@
       "dates": "Datums",
       "createdAfter": "Toegevoegd sinds",
       "updatedAfter": "Bijgewerkt sinds",
-      "name": "Naam",
-      "namePlaceholder": "Bevat…",
       "sortBy": "Sorteren op",
       "sort": {
         "lastUpdated": "Laatst bijgewerkt",
@@ -450,7 +448,8 @@
         "label": "Bron",
         "manual": "Handmatig geüpload"
       },
-      "pickDate": "Kies een datum"
+      "pickDate": "Kies een datum",
+      "quickSearch": "Snel zoeken — naam, rol, vaardigheid…"
     }
   },
   "appCVMatching": {

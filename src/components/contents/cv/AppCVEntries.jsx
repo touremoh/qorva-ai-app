@@ -14,10 +14,13 @@ import {
 	Select,
 	Pagination,
 	Avatar,
+	TextField,
+	InputAdornment,
 } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import TuneIcon from '@mui/icons-material/Tune';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import SearchIcon from '@mui/icons-material/Search';
 import { useTranslation } from 'react-i18next';
 import { getCVs } from '../../../services/cvService.js';
 import { ATS_LABELS } from './atsLabels.js';
@@ -49,6 +52,7 @@ const AppCVEntries = ({
 	selectedCV, totalPages, setTotalPages, totalElements, setTotalElements,
 	showArchived = false, onUnarchive,
 	filters, sort, activeCount, filtersOpen, onToggleFilters, onClearFilters, refreshKey = 0,
+	quickSearch = '', onQuickSearchChange,
 }) => {
 	const { t } = useTranslation();
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -64,7 +68,7 @@ const AppCVEntries = ({
 		pageNumber: page,
 		pageSize: size,
 		...(showArchived ? { archived: 'true' } : {}),
-		...toQueryParams(filters, sort),
+		...toQueryParams(filters, sort, quickSearch),
 	});
 
 	const fetchPage = async (page, size) => {
@@ -98,7 +102,7 @@ const AppCVEntries = ({
 		}, 300);
 		return () => clearTimeout(timer);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [filters, sort, showArchived, refreshKey]);
+	}, [filters, sort, quickSearch, showArchived, refreshKey]);
 
 	const handlePageChange = (_, page) => {
 		setCurrentPage(page);
@@ -134,13 +138,55 @@ const AppCVEntries = ({
 		handleMenuClose();
 	};
 
+	// Quick search narrows within whatever the rail has selected (AND on the server), so it's
+	// the fast path for "that Java person" without touching the filters.
+	const searchBox = (
+		<Box sx={{ px: 1.5, pt: 1.5, flexShrink: 0 }}>
+			<TextField
+				size="small"
+				fullWidth
+				placeholder={t('appCVContent.filters.quickSearch')}
+				value={quickSearch}
+				onChange={(e) => onQuickSearchChange?.(e.target.value)}
+				onKeyDown={(e) => { if (e.key === 'Escape' && quickSearch) onQuickSearchChange?.(''); }}
+				InputProps={{
+					startAdornment: (
+						<InputAdornment position="start">
+							<SearchIcon sx={{ fontSize: 16, color: quickSearch ? GREEN : '#94a3b8' }} />
+						</InputAdornment>
+					),
+					endAdornment: quickSearch ? (
+						<InputAdornment position="end">
+							<IconButton
+								size="small"
+								onClick={() => onQuickSearchChange?.('')}
+								aria-label={t('appCVContent.filters.clear')}
+								sx={{ p: 0.25, color: '#94a3b8', '&:hover': { color: '#334155' } }}
+							>
+								<CloseRoundedIcon sx={{ fontSize: 14 }} />
+							</IconButton>
+						</InputAdornment>
+					) : null,
+					sx: {
+						fontSize: '0.82rem',
+						borderRadius: 1.5,
+						backgroundColor: '#ffffff',
+						'& fieldset': { borderColor: '#e2e8f0' },
+						'&:hover fieldset': { borderColor: '#cbd5e1' },
+						'&.Mui-focused fieldset': { borderColor: GREEN, borderWidth: 1 },
+					},
+				}}
+			/>
+		</Box>
+	);
+
 	// Same outlined-toggle idiom as the Archived button in the toolbar: quiet at rest, green
 	// when the rail is open, and a solid count pill once filters are actually narrowing the list.
 	const engaged = filtersOpen || activeCount > 0;
 	const filterBar = (
 		<Box sx={{
 			display: 'flex', alignItems: 'center', gap: 0.75,
-			px: 1.5, py: 1.25, flexShrink: 0,
+			px: 1.5, py: 1, flexShrink: 0,
 			borderBottom: '1px solid #f1f5f9',
 		}}>
 			<Button
@@ -295,12 +341,12 @@ const AppCVEntries = ({
 	const emptyState = (
 		<Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 1, px: 2 }}>
 			<Typography sx={{ fontSize: '0.84rem', color: '#94a3b8', textAlign: 'center' }}>
-				{activeCount > 0 ? t('appCVContent.filters.noMatch') : t('appCVContent.noCVEntries')}
+				{activeCount > 0 || quickSearch ? t('appCVContent.filters.noMatch') : t('appCVContent.noCVEntries')}
 			</Typography>
-			{activeCount > 0 && (
+			{(activeCount > 0 || quickSearch) && (
 				<Button
 					size="small"
-					onClick={onClearFilters}
+					onClick={() => { onClearFilters(); onQuickSearchChange?.(''); }}
 					sx={{ textTransform: 'none', fontSize: '0.78rem', fontWeight: 600, color: '#629C44' }}
 				>
 					{t('appCVContent.filters.clearAll')}
@@ -311,6 +357,7 @@ const AppCVEntries = ({
 
 	return (
 		<Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
+			{searchBox}
 			{filterBar}
 			{entries.length === 0 && !loading ? emptyState : (
 				<List disablePadding sx={{ flex: 1, overflowY: 'auto', px: 1, opacity: loading ? 0.6 : 1, transition: 'opacity 0.15s' }}>
@@ -402,6 +449,8 @@ AppCVEntries.propTypes = {
 	onToggleFilters: PropTypes.func.isRequired,
 	onClearFilters: PropTypes.func.isRequired,
 	refreshKey: PropTypes.number,
+	quickSearch: PropTypes.string,
+	onQuickSearchChange: PropTypes.func,
 };
 
 export default AppCVEntries;
