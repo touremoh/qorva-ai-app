@@ -35,6 +35,7 @@ const SILENT_ERROR_CODES = new Set([
 	'error.auth.authentication_failed',
 	'error.user.already_exists',
 	'error.user.password_incorrect',
+	'error.report.resume_match_not_found', // resume-chat dialog shows "no match" inline
 ]);
 
 const handleResponseError = (error) => {

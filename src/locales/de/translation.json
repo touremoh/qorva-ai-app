@@ -824,7 +824,14 @@
     "reopenChat": "Chat wiedereröffnen",
     "chatArchived": "Dieser Chat ist archiviert und kann keine neuen Nachrichten empfangen.",
     "copyReference": "Referenz kopieren",
-    "copied": "Kopiert!"
+    "copied": "Kopiert!",
+    "sendFailed": "Keine Antwort erhalten.",
+    "retry": "Erneut versuchen",
+    "screeningScore": "Screening-Score",
+    "screeningScoreHint": "Offizieller Score aus dem Screening-Bericht — der Chat zitiert diesen Wert.",
+    "runScreening": "Kein Screening-Bericht — Screening starten",
+    "noReportYetHint": "Für diesen Kandidaten und diese Stelle gibt es noch keinen Screening-Bericht, daher kann der Chat keinen Score nennen. Starten Sie ein Screening.",
+    "copyAnswer": "Antwort kopieren"
   },
   "pricing": {
     "title": "Qorva AI — Wählen Sie Ihren Plan",

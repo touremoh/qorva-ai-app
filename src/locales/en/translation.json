@@ -820,7 +820,14 @@
     "reopenChat": "Reopen Chat",
     "chatArchived": "This chat is archived and cannot receive new messages.",
     "copyReference": "Copy reference",
-    "copied": "Copied!"
+    "copied": "Copied!",
+    "sendFailed": "Could not get an answer.",
+    "retry": "Retry",
+    "screeningScore": "Screening score",
+    "screeningScoreHint": "Official score from the screening report — the chat quotes this figure.",
+    "runScreening": "No screening report — run screening",
+    "noReportYetHint": "No screening report exists for this candidate and job yet, so the chat cannot give a fit score. Run a screening to get one.",
+    "copyAnswer": "Copy answer"
   },
   "pricing": {
     "title": "Simple, Transparent Pricing",

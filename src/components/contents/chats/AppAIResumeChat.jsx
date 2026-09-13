@@ -27,6 +27,7 @@ import {
 	Typography,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import RefreshOutlinedIcon from '@mui/icons-material/RefreshOutlined';
@@ -42,11 +43,16 @@ import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
 import CheckIcon from '@mui/icons-material/Check';
-import { getChats, getMessages, createChat, sendMessage as sendChatMessage, updateChatStatus, deleteChat } from '../../../services/chatService.js';
+import ReplayOutlinedIcon from '@mui/icons-material/ReplayOutlined';
+import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
+import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
+import { getChats, getMessages, createChat, sendMessage as sendChatMessage, updateChatStatus, deleteChat, getChat } from '../../../services/chatService.js';
+import ChatMarkdown from './ChatMarkdown.jsx';
 import { getCVs, searchCVs } from '../../../services/cvService.js';
 import { getJobs } from '../../../services/jobService.js';
 import { findReportByCriteria } from '../../../services/reportService.js';
 import { QORVA_USER_LANGUAGE } from '../../../constants.js';
+import { resolveError } from '../../../utils/errorHandler.js';
 
 const ls = (k, d = null) => { try { const v = localStorage.getItem(k); return v ?? d; } catch { return d; } };
 
@@ -92,7 +98,10 @@ const AppAIResumeChat = () => {
 	const [loadingChats, setLoadingChats] = useState(false);
 	const [selectedChat, setSelectedChat] = useState(null);
 
+	const navigate = useNavigate();
 	const [messages, setMessages] = useState([]);
+	const [linkedReport, setLinkedReport] = useState(null); // screening report of the selected chat, null when none yet
+	const [copiedMessageId, setCopiedMessageId] = useState(null);
 	const [msgPage, setMsgPage] = useState(0);
 	const [msgHasMore, setMsgHasMore] = useState(true);
 	const [loadingMessages, setLoadingMessages] = useState(false);
@@ -148,14 +157,17 @@ const AppAIResumeChat = () => {
 		}
 	};
 
+	// The API returns messages newest-first: page 0 is the tail of the chat, higher pages are older
+	// and get prepended above what is already shown.
 	const fetchMessagesPage = async (chatId, pageNumber = 0) => {
 		if (!chatId) return;
 		try {
 			setLoadingMessages(true);
-			const resp = await getMessages(chatId, { pageNumber, pageSize: PAGE_SIZE_MESSAGES });
+			const resp = await getMessages(chatId, { page: pageNumber, size: PAGE_SIZE_MESSAGES });
 			const content = resp?.data?.content ?? resp?.data?.data?.content ?? [];
 			const totalPages = resp?.data?.totalPages ?? resp?.data?.data?.totalPages ?? 1;
-			setMessages(prev => (pageNumber === 0 ? content : [...prev, ...content]));
+			const chronological = [...content].reverse();
+			setMessages(prev => (pageNumber === 0 ? chronological : [...chronological, ...prev]));
 			setMsgHasMore(pageNumber + 1 < totalPages);
 			setMsgPage(pageNumber);
 		} catch (e) {
@@ -173,6 +185,43 @@ const AppAIResumeChat = () => {
 		setMsgPage(0);
 		setMsgHasMore(true);
 		fetchMessagesPage(chat.id, 0);
+		loadLinkedReport(chat);
+	};
+
+	// The header shows the official screening score for the chat's (job, candidate) pair, or a
+	// link to run screening. Looked up by pair rather than by the chat's stored report id: a
+	// report generated after the chat was created is only linked by the backend on the next
+	// turn, and the header should be truthful before that.
+	const loadLinkedReport = async (chat) => {
+		const cvId = chat?.context?.cvId;
+		const jobPostId = chat?.context?.jobPostId;
+		if (!cvId || !jobPostId) { setLinkedReport(null); return; }
+		try {
+			const resp = await findReportByCriteria({ jobPostId, candidateInfo: { candidateId: cvId } });
+			setLinkedReport(resp?.data?.data || null);
+		} catch {
+			setLinkedReport(null); // 404 = no report yet (silenced in axiosConfig)
+		}
+	};
+
+	const refreshChat = async (chatId) => {
+		try {
+			const resp = await getChat(chatId);
+			const fresh = resp?.data;
+			if (!fresh?.id) return;
+			setSelectedChat(prev => (prev?.id === fresh.id ? { ...prev, ...fresh } : prev));
+			setChats(prev => prev.map(c => (c.id === fresh.id ? { ...c, ...fresh } : c)));
+			if (!linkedReport) loadLinkedReport(fresh);
+		} catch (e) {
+			console.error('Error refreshing chat:', e);
+		}
+	};
+
+	const handleCopyMessage = (m) => {
+		navigator.clipboard.writeText(m.content || '').then(() => {
+			setCopiedMessageId(m.id);
+			setTimeout(() => setCopiedMessageId(null), 1500);
+		}).catch(() => {});
 	};
 
 	const getAllCVEntries = async () => getCVs({ pageNumber: 0, pageSize: 10 });
@@ -252,7 +301,7 @@ const AppAIResumeChat = () => {
 			const title = buildChatTitle(selectedCV, selectedJob) || customTitle?.trim();
 			const body = {
 				title, cvId: selectedCV.id, jobPostId: selectedJob.id,
-				...(selectedResumeMatchId ? { resumeMatchId: selectedResumeMatchId } : {}),
+				...(selectedResumeMatchId ? { matchingReportId: selectedResumeMatchId } : {}),
 				participants: [{ role: 'OWNER' }],
 				language: locale,
 			};
@@ -261,6 +310,7 @@ const AppAIResumeChat = () => {
 			setChats(prev => [created, ...prev]);
 			setSelectedChat(created);
 			setMessages([]); setMsgPage(0); setMsgHasMore(true);
+			loadLinkedReport(created);
 			await fetchMessagesPage(created.id, 0);
 			setOpenCreateModal(false);
 		} catch (e) {
@@ -270,22 +320,41 @@ const AppAIResumeChat = () => {
 		}
 	};
 
+	// Posts one message; the response is the assistant reply, appended in place — no refetch.
+	// On failure the user bubble stays with an error and a retry (the backend reuses the stored
+	// unanswered message on retry, so nothing is duplicated).
+	const postMessage = async (chatId, localId, content) => {
+		setAssistantTyping(true);
+		try {
+			const resp = await sendChatMessage(chatId, content);
+			const reply = resp?.data;
+			setMessages(prev => {
+				const next = prev.map(m => (m.id === localId ? { ...m, failed: false, error: null } : m));
+				return reply?.id ? [...next, reply] : next;
+			});
+			refreshChat(chatId);
+		} catch (e) {
+			console.error('Error sending message:', e);
+			const error = resolveError(e);
+			setMessages(prev => prev.map(m => (m.id === localId ? { ...m, failed: true, error } : m)));
+		} finally {
+			setAssistantTyping(false);
+		}
+	};
+
 	const handleSendMessage = async () => {
-		if (!composer.trim() || !selectedChat) return;
+		if (!composer.trim() || !selectedChat || assistantTyping) return;
 		const chatId = selectedChat.id;
 		const content = composer.trim();
 		const optimistic = { id: `local-${Date.now()}`, chatId, role: 'USER', content, createdAt: new Date().toISOString() };
 		setMessages(prev => [...prev, optimistic]);
 		setComposer('');
-		setAssistantTyping(true);
-		try {
-			await sendChatMessage(chatId, content);
-			await fetchMessagesPage(chatId, 0);
-		} catch (e) {
-			console.error('Error sending message:', e);
-		} finally {
-			setAssistantTyping(false);
-		}
+		await postMessage(chatId, optimistic.id, content);
+	};
+
+	const handleRetryMessage = async (message) => {
+		if (!selectedChat || assistantTyping) return;
+		await postMessage(selectedChat.id, message.id, message.content);
 	};
 
 	const handleDeleteChat = async () => {
@@ -585,6 +654,28 @@ const AppAIResumeChat = () => {
 								<Typography sx={{ fontWeight: 600, fontSize: '0.88rem', color: '#0f172a', flex: 1 }}>
 									{selectedChat.title}
 								</Typography>
+								{linkedReport?.matchingReportDetails?.decisionSummary?.finalScore != null ? (
+									<Tooltip title={t('appAIResumeChat.screeningScoreHint')}>
+										<Chip
+											size="small"
+											icon={<AssessmentOutlinedIcon sx={{ fontSize: '13px !important' }} />}
+											label={`${t('appAIResumeChat.screeningScore')}: ${Math.round(linkedReport.matchingReportDetails.decisionSummary.finalScore)}%`}
+											onClick={() => navigate('/app/reports')}
+											sx={{ fontSize: '0.72rem', backgroundColor: '#dcfce7', color: '#166534', fontWeight: 600, height: 22, cursor: 'pointer' }}
+										/>
+									</Tooltip>
+								) : !linkedReport && (
+									<Tooltip title={t('appAIResumeChat.noReportYetHint')}>
+										<Chip
+											size="small"
+											icon={<AssessmentOutlinedIcon sx={{ fontSize: '13px !important' }} />}
+											label={t('appAIResumeChat.runScreening')}
+											onClick={() => navigate('/app/reports')}
+											variant="outlined"
+											sx={{ fontSize: '0.72rem', color: '#92400e', borderColor: '#fcd34d', backgroundColor: '#fffbeb', height: 22, cursor: 'pointer' }}
+										/>
+									</Tooltip>
+								)}
 								{selectedChat.status === 'CLOSED' && (
 									<Chip
 										size="small"
@@ -722,11 +813,12 @@ const AppAIResumeChat = () => {
 												</Box>
 											)}
 											<Box sx={{
-												maxWidth: '72%',
+												maxWidth: isUser ? '72%' : '88%',
+												minWidth: 0,
 												px: 1.75, py: 1.25,
 												borderRadius: isUser ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
 												backgroundColor: isUser ? 'rgba(98,156,68,0.10)' : '#ffffff',
-												border: `1px solid ${isUser ? 'rgba(98,156,68,0.25)' : '#e2e8f0'}`,
+												border: `1px solid ${m.failed ? 'rgba(185,28,28,0.35)' : isUser ? 'rgba(98,156,68,0.25)' : '#e2e8f0'}`,
 												boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
 											}}>
 												<Typography sx={{
@@ -740,12 +832,43 @@ const AppAIResumeChat = () => {
 														: <><SmartToyOutlinedIcon sx={{ fontSize: 12 }} />{t('appAIResumeChat.assistant')}</>
 													}
 												</Typography>
-												<Typography sx={{ fontSize: '0.85rem', color: '#0f172a', lineHeight: 1.55, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
-													{m.content}
-												</Typography>
-												<Typography sx={{ fontSize: '0.65rem', color: '#94a3b8', mt: 0.5, textAlign: isUser ? 'right' : 'left' }}>
-													{new Date(m.createdAt).toLocaleTimeString(userLang || 'en', { hour: '2-digit', minute: '2-digit' })}
-												</Typography>
+												{isUser ? (
+													<Typography sx={{ fontSize: '0.85rem', color: '#0f172a', lineHeight: 1.55, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+														{m.content}
+													</Typography>
+												) : (
+													<ChatMarkdown content={m.content} />
+												)}
+												{m.failed ? (
+													<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, mt: 0.75, flexWrap: 'wrap' }}>
+														<ErrorOutlineOutlinedIcon sx={{ fontSize: 14, color: '#b91c1c' }} />
+														<Typography sx={{ fontSize: '0.7rem', color: '#b91c1c' }}>
+															{m.error || t('appAIResumeChat.sendFailed')}
+														</Typography>
+														<Button
+															size="small"
+															startIcon={<ReplayOutlinedIcon sx={{ fontSize: 14 }} />}
+															onClick={() => handleRetryMessage(m)}
+															disabled={assistantTyping}
+															sx={{ fontSize: '0.7rem', color: '#629C44', textTransform: 'none', minWidth: 0, px: 0.75, py: 0 }}
+														>
+															{t('appAIResumeChat.retry')}
+														</Button>
+													</Box>
+												) : (
+													<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: isUser ? 'flex-end' : 'space-between', mt: 0.5, gap: 1 }}>
+														<Typography sx={{ fontSize: '0.65rem', color: '#94a3b8' }}>
+															{new Date(m.createdAt).toLocaleTimeString(userLang || 'en', { hour: '2-digit', minute: '2-digit' })}
+														</Typography>
+														{!isUser && (
+															<Tooltip title={copiedMessageId === m.id ? t('appAIResumeChat.copied') : t('appAIResumeChat.copyAnswer')}>
+																<IconButton size="small" onClick={() => handleCopyMessage(m)} sx={{ p: 0.25, color: copiedMessageId === m.id ? '#629C44' : '#94a3b8' }}>
+																	{copiedMessageId === m.id ? <CheckIcon sx={{ fontSize: 13 }} /> : <ContentCopyOutlinedIcon sx={{ fontSize: 13 }} />}
+																</IconButton>
+															</Tooltip>
+														)}
+													</Box>
+												)}
 											</Box>
 											{isUser && (
 												<Box sx={{
@@ -1005,10 +1128,10 @@ const AppAIResumeChat = () => {
 									{resumeMatch.jobPostTitle && (
 										<Chip size="small" label={resumeMatch.jobPostTitle} sx={{ fontSize: '0.72rem', backgroundColor: '#f1f5f9', color: '#334155' }} />
 									)}
-									{resumeMatch?.aiAnalysisReportDetails?.overallSummary?.score !== undefined && (
+									{resumeMatch?.matchingReportDetails?.decisionSummary?.finalScore != null && (
 										<Chip
 											size="small"
-											label={`${t('appAIResumeChat.score')}: ${resumeMatch.aiAnalysisReportDetails.overallSummary.score}%`}
+											label={`${t('appAIResumeChat.score')}: ${Math.round(resumeMatch.matchingReportDetails.decisionSummary.finalScore)}%`}
 											sx={{ fontSize: '0.72rem', backgroundColor: '#dcfce7', color: '#166534', fontWeight: 600 }}
 										/>
 									)}

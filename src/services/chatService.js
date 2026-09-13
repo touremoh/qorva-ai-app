@@ -3,6 +3,9 @@ import apiClient from '../../axiosConfig.js';
 export const getChats = (params) =>
     apiClient.get('/chats', { params });
 
+export const getChat = (chatId) =>
+    apiClient.get(`/chats/${chatId}`);
+
 export const getMessages = (chatId, params) =>
     apiClient.get(`/chats/${chatId}/messages`, { params });
 

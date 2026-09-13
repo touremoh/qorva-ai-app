@@ -824,7 +824,14 @@
     "reopenChat": "Riapri conversazione",
     "chatArchived": "Questa conversazione è archiviata e non può ricevere nuovi messaggi.",
     "copyReference": "Copia riferimento",
-    "copied": "Copiato!"
+    "copied": "Copiato!",
+    "sendFailed": "Impossibile ottenere una risposta.",
+    "retry": "Riprova",
+    "screeningScore": "Punteggio di screening",
+    "screeningScoreHint": "Punteggio ufficiale del report di screening — la chat cita questo valore.",
+    "runScreening": "Nessun report di screening — avvia screening",
+    "noReportYetHint": "Non esiste ancora un report di screening per questo candidato e questa posizione, quindi la chat non può fornire un punteggio. Avvia uno screening per ottenerlo.",
+    "copyAnswer": "Copia risposta"
   },
   "pricing": {
     "title": "Qorva AI — Scegli il tuo piano",

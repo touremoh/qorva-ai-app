@@ -821,7 +821,14 @@
     "reopenChat": "Gesprek heropenen",
     "chatArchived": "Dit gesprek is gearchiveerd en kan geen nieuwe berichten ontvangen.",
     "copyReference": "Referentie kopiëren",
-    "copied": "Gekopieerd!"
+    "copied": "Gekopieerd!",
+    "sendFailed": "Kon geen antwoord krijgen.",
+    "retry": "Opnieuw proberen",
+    "screeningScore": "Screeningscore",
+    "screeningScoreHint": "Officiële score uit het screeningrapport — de chat citeert dit cijfer.",
+    "runScreening": "Geen screeningrapport — screening starten",
+    "noReportYetHint": "Er is nog geen screeningrapport voor deze kandidaat en vacature, dus de chat kan geen score geven. Start een screening om er een te krijgen.",
+    "copyAnswer": "Antwoord kopiëren"
   },
   "pricing": {
     "title": "Qorva AI — Kies uw plan",
