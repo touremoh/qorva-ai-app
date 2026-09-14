@@ -1551,5 +1551,20 @@
         ]
       }
     }
+  },
+  "notes": {
+    "title": "Notas",
+    "placeholder": "Añade una nota para tu equipo…",
+    "add": "Añadir nota",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "confirmDeleteTitle": "¿Eliminar esta nota?",
+    "confirmDelete": "Esta nota se eliminará para todo tu equipo.",
+    "empty": "Aún no hay notas.",
+    "you": "Tú",
+    "edited": "editada",
+    "readOnlyHint": "Mejora tu plan para añadir notas para tu equipo."
   }
 }

@@ -1551,5 +1551,20 @@
         ]
       }
     }
+  },
+  "notes": {
+    "title": "Note",
+    "placeholder": "Aggiungi una nota per il tuo team…",
+    "add": "Aggiungi nota",
+    "edit": "Modifica",
+    "delete": "Elimina",
+    "save": "Salva",
+    "cancel": "Annulla",
+    "confirmDeleteTitle": "Eliminare questa nota?",
+    "confirmDelete": "Questa nota verrà rimossa per tutto il tuo team.",
+    "empty": "Nessuna nota per ora.",
+    "you": "Tu",
+    "edited": "modificata",
+    "readOnlyHint": "Passa a un piano superiore per aggiungere note per il tuo team."
   }
 }

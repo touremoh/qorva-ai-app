@@ -1560,5 +1560,20 @@
         ]
       }
     }
+  },
+  "notes": {
+    "title": "Notes",
+    "placeholder": "Add a note for your team…",
+    "add": "Add note",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirmDeleteTitle": "Delete this note?",
+    "confirmDelete": "This note will be removed for everyone on your team.",
+    "empty": "No notes yet.",
+    "you": "You",
+    "edited": "edited",
+    "readOnlyHint": "Upgrade to add notes for your team."
   }
 }

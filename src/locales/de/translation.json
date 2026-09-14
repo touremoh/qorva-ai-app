@@ -1551,5 +1551,20 @@
         ]
       }
     }
+  },
+  "notes": {
+    "title": "Notizen",
+    "placeholder": "Notiz für Ihr Team hinzufügen…",
+    "add": "Notiz hinzufügen",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "confirmDeleteTitle": "Diese Notiz löschen?",
+    "confirmDelete": "Diese Notiz wird für Ihr gesamtes Team entfernt.",
+    "empty": "Noch keine Notizen.",
+    "you": "Sie",
+    "edited": "bearbeitet",
+    "readOnlyHint": "Upgraden Sie, um Notizen für Ihr Team hinzuzufügen."
   }
 }

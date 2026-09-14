@@ -31,6 +31,7 @@ import LanguageIcon from '@mui/icons-material/Language';
 import apiClient from '../../../../axiosConfig.js';
 import { getTenantById } from '../../../services/tenantService.js';
 import { TENANT_ID } from '../../../constants.js';
+import NotesPanel from '../common/NotesPanel.jsx';
 
 const THEME_GREEN = '#629C44';
 
@@ -579,6 +580,9 @@ const AppMatchingReportDetails = ({ reportData }) => {
 								</Box>
 							</Paper>
 						)}
+
+						{/* Team notes — internal, never printed (NotesPanel hides itself under @media print) */}
+						<NotesPanel targetType="MATCHING_REPORT" targetId={reportData.id} sx={{ mb: 0 }} />
 
 					</Box>
 

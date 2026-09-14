@@ -1548,5 +1548,20 @@
         ]
       }
     }
+  },
+  "notes": {
+    "title": "Notities",
+    "placeholder": "Voeg een notitie toe voor je team…",
+    "add": "Notitie toevoegen",
+    "edit": "Bewerken",
+    "delete": "Verwijderen",
+    "save": "Opslaan",
+    "cancel": "Annuleren",
+    "confirmDeleteTitle": "Deze notitie verwijderen?",
+    "confirmDelete": "Deze notitie wordt voor je hele team verwijderd.",
+    "empty": "Nog geen notities.",
+    "you": "Jij",
+    "edited": "bewerkt",
+    "readOnlyHint": "Upgrade om notities voor je team toe te voegen."
   }
 }

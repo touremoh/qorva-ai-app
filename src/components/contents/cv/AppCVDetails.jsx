@@ -61,6 +61,7 @@ import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutli
 import apiClient from '../../../../axiosConfig.js';
 import { getTenantById } from '../../../services/tenantService.js';
 import { updateCV } from '../../../services/cvService.js';
+import NotesPanel from '../common/NotesPanel.jsx';
 import { TENANT_ID } from '../../../constants.js';
 
 // ─── Clustering style helpers ────────────────────────────────────────────────
@@ -1281,6 +1282,9 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 					)}
 				</Card>
 
+				{/* Team notes — internal, never printed (NotesPanel hides itself under @media print) */}
+				<NotesPanel targetType="CV" targetId={cv.id} />
+
 				{/* References — hide contact details when anonymized */}
 				{references.length > 0 && (
 					<Card sx={{ mb: 2 }}>
@@ -1394,6 +1398,7 @@ const langThSx = {
 
 AppCVDetails.propTypes = {
 	cv: PropTypes.shape({
+		id: PropTypes.string,
 		candidateProfileSummary: PropTypes.string,
 		candidateClustering: PropTypes.shape({
 			primaryCluster: PropTypes.string,
