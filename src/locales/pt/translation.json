@@ -24,7 +24,8 @@
     "signingIn": "A iniciar sessão…",
     "signedIn": "Sessão iniciada!",
     "checkoutError": "Não foi possível iniciar o pagamento. Por favor, contacte o suporte.",
-    "subscriptionInactive": "A sua conta não está ativa. Por favor, contacte o suporte."
+    "subscriptionInactive": "A sua conta não está ativa. Por favor, contacte o suporte.",
+    "forgotPassword": "Esqueceu-se da palavra-passe?"
   },
   "registration": {
     "freeTrialTitle": "Período gratuito",
@@ -1163,6 +1164,24 @@
     "sentTitle": "Verifique a sua caixa de entrada",
     "sentMessage": "Se esse e-mail existir, enviámos um link para ativar a sua conta e definir a sua palavra-passe.",
     "backToLogin": "Voltar ao início de sessão"
+  },
+  "forgotPassword": {
+    "title": "Esqueceu-se da palavra-passe?",
+    "subtitle": "Introduza o seu e-mail e enviaremos uma ligação para escolher uma nova palavra-passe.",
+    "emailLabel": "E-mail profissional",
+    "emailRequired": "O e-mail é obrigatório",
+    "emailInvalid": "Introduza um endereço de e-mail válido",
+    "submit": "Enviar ligação",
+    "sentTitle": "Verifique a sua caixa de entrada",
+    "sentMessage": "Se esse e-mail existir, enviámos uma ligação para redefinir a sua palavra-passe. É válida durante 1 hora.",
+    "backToLogin": "Voltar ao início de sessão"
+  },
+  "resetPassword": {
+    "title": "Redefinir a palavra-passe",
+    "subtitle": "Escolha uma nova palavra-passe para a sua conta.",
+    "submit": "Redefinir palavra-passe",
+    "successTitle": "Palavra-passe atualizada",
+    "successMessage": "Já pode iniciar sessão com a nova palavra-passe. A redirecionar para o início de sessão…"
   },
   "checkoutSuccess": {
     "activatingTitle": "A ativar a sua avaliação…",

@@ -10,7 +10,7 @@ import {
 	IconButton,
 	Divider
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import Visibility from "@mui/icons-material/Visibility";
@@ -279,6 +279,16 @@ const Login = () => {
 									},
 								}}
 							/>
+
+							<Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 1.5 }}>
+								<Typography
+									component={RouterLink}
+									to="/forgot-password"
+									sx={{ color: '#629C44', fontSize: '0.82rem', fontWeight: 600, textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+								>
+									{t('login.forgotPassword', 'Forgot password?')}
+								</Typography>
+							</Box>
 
 							<Button
 								type="submit"

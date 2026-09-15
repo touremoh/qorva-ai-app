@@ -24,7 +24,8 @@
       "freeToStart": "Free to start"
     },
     "signingIn": "Signing you in…",
-    "signedIn": "Signed in!"
+    "signedIn": "Signed in!",
+    "forgotPassword": "Forgot password?"
   },
   "registration": {
     "freeTrialTitle": "Free Trial",
@@ -1181,6 +1182,24 @@
     "sentTitle": "Check your inbox",
     "sentMessage": "If that email exists, we've sent a link to activate your account and set your password.",
     "backToLogin": "Back to login"
+  },
+  "forgotPassword": {
+    "title": "Forgot your password?",
+    "subtitle": "Enter your email and we'll send you a link to choose a new password.",
+    "emailLabel": "Work email",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Please enter a valid email address",
+    "submit": "Send reset link",
+    "sentTitle": "Check your inbox",
+    "sentMessage": "If that email exists, we've sent a link to reset your password. It's valid for 1 hour.",
+    "backToLogin": "Back to login"
+  },
+  "resetPassword": {
+    "title": "Reset your password",
+    "subtitle": "Choose a new password for your account.",
+    "submit": "Reset password",
+    "successTitle": "Password updated",
+    "successMessage": "You can now sign in with your new password. Redirecting you to login…"
   },
   "libraryQuality": {
     "overall": "Library Health",

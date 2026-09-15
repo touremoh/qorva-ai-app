@@ -24,7 +24,8 @@
     "signingIn": "U wordt aangemeld…",
     "signedIn": "Aangemeld!",
     "checkoutError": "Kon de betaling niet starten. Neem contact op met support.",
-    "subscriptionInactive": "Uw account is niet actief. Neem contact op met support."
+    "subscriptionInactive": "Uw account is niet actief. Neem contact op met support.",
+    "forgotPassword": "Wachtwoord vergeten?"
   },
   "registration": {
     "freeTrialTitle": "Gratis proefperiode",
@@ -1160,6 +1161,24 @@
     "sentTitle": "Controleer uw inbox",
     "sentMessage": "Als dat e-mailadres bestaat, hebben we een link gestuurd om uw account te activeren en uw wachtwoord in te stellen.",
     "backToLogin": "Terug naar login"
+  },
+  "forgotPassword": {
+    "title": "Wachtwoord vergeten?",
+    "subtitle": "Voer uw e-mailadres in en we sturen u een link om een nieuw wachtwoord te kiezen.",
+    "emailLabel": "Zakelijk e-mailadres",
+    "emailRequired": "E-mailadres is verplicht",
+    "emailInvalid": "Voer een geldig e-mailadres in",
+    "submit": "Link versturen",
+    "sentTitle": "Controleer uw inbox",
+    "sentMessage": "Als dit e-mailadres bestaat, hebben we een link gestuurd om uw wachtwoord opnieuw in te stellen. Hij is 1 uur geldig.",
+    "backToLogin": "Terug naar login"
+  },
+  "resetPassword": {
+    "title": "Wachtwoord opnieuw instellen",
+    "subtitle": "Kies een nieuw wachtwoord voor uw account.",
+    "submit": "Wachtwoord opnieuw instellen",
+    "successTitle": "Wachtwoord bijgewerkt",
+    "successMessage": "U kunt nu inloggen met uw nieuwe wachtwoord. U wordt doorgestuurd naar de inlogpagina…"
   },
   "checkoutSuccess": {
     "activatingTitle": "Uw proefperiode activeren…",

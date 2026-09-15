@@ -24,7 +24,8 @@
     "signingIn": "Connexion en cours…",
     "signedIn": "Connecté !",
     "checkoutError": "Impossible de lancer le paiement. Veuillez contacter le support.",
-    "subscriptionInactive": "Votre compte n'est pas actif. Veuillez contacter le support."
+    "subscriptionInactive": "Votre compte n'est pas actif. Veuillez contacter le support.",
+    "forgotPassword": "Mot de passe oublié ?"
   },
   "registration": {
     "freeTrialTitle": "Essai gratuit",
@@ -1163,6 +1164,24 @@
     "sentTitle": "Consultez votre boîte de réception",
     "sentMessage": "Si cet e-mail existe, nous avons envoyé un lien pour activer votre compte et définir votre mot de passe.",
     "backToLogin": "Retour à la connexion"
+  },
+  "forgotPassword": {
+    "title": "Mot de passe oublié ?",
+    "subtitle": "Saisissez votre e-mail et nous vous enverrons un lien pour choisir un nouveau mot de passe.",
+    "emailLabel": "E-mail professionnel",
+    "emailRequired": "L'e-mail est requis",
+    "emailInvalid": "Veuillez saisir une adresse e-mail valide",
+    "submit": "Envoyer le lien",
+    "sentTitle": "Consultez votre boîte de réception",
+    "sentMessage": "Si cette adresse existe, nous avons envoyé un lien pour réinitialiser votre mot de passe. Il est valable 1 heure.",
+    "backToLogin": "Retour à la connexion"
+  },
+  "resetPassword": {
+    "title": "Réinitialiser votre mot de passe",
+    "subtitle": "Choisissez un nouveau mot de passe pour votre compte.",
+    "submit": "Réinitialiser le mot de passe",
+    "successTitle": "Mot de passe mis à jour",
+    "successMessage": "Vous pouvez maintenant vous connecter avec votre nouveau mot de passe. Redirection vers la connexion…"
   },
   "checkoutSuccess": {
     "activatingTitle": "Activation de votre essai…",

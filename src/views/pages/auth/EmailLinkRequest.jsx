@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 import {
 	Box,
@@ -14,23 +15,49 @@ import {
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import MarkEmailReadRoundedIcon from '@mui/icons-material/MarkEmailReadRounded';
 import { useTranslation } from 'react-i18next';
-import { resendActivation } from '../../../services/authService.js';
+import { resendActivation, forgotPassword } from '../../../services/authService.js';
 import LanguageSwitcher from '../../../components/languages/LanguageSwitcher.jsx';
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/;
 
-const ResendActivation = () => {
+// One "enter your email, we'll send you a link" page for both public flows.
+// The variant picks the endpoint and the i18n namespace; layout and behaviour are identical.
+const VARIANTS = {
+	activation: {
+		request: resendActivation,
+		ns: 'resendActivation',
+		defaults: {
+			title: 'Resend activation link',
+			subtitle: "Enter your email and we'll send you a fresh link to activate your account and set your password.",
+			sentMessage: "If that email exists, we've sent a link to activate your account and set your password.",
+			submit: 'Send link',
+		},
+	},
+	forgot: {
+		request: forgotPassword,
+		ns: 'forgotPassword',
+		defaults: {
+			title: 'Forgot your password?',
+			subtitle: "Enter your email and we'll send you a link to choose a new password.",
+			sentMessage: "If that email exists, we've sent a link to reset your password. It's valid for 1 hour.",
+			submit: 'Send reset link',
+		},
+	},
+};
+
+const EmailLinkRequest = ({ variant = 'activation' }) => {
 	const { t } = useTranslation();
+	const { request, ns, defaults } = VARIANTS[variant] ?? VARIANTS.activation;
 	const [email, setEmail] = useState('');
 	const [touched, setTouched] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [sent, setSent] = useState(false);
 
 	const emailError = useMemo(() => {
-		if (!email) return t('resendActivation.emailRequired', 'Email is required');
-		if (!EMAIL_REGEX.test(email)) return t('resendActivation.emailInvalid', 'Please enter a valid email address');
+		if (!email) return t(`${ns}.emailRequired`, 'Email is required');
+		if (!EMAIL_REGEX.test(email)) return t(`${ns}.emailInvalid`, 'Please enter a valid email address');
 		return '';
-	}, [email, t]);
+	}, [email, t, ns]);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -39,7 +66,7 @@ const ResendActivation = () => {
 		setLoading(true);
 		try {
 			// Always resolves with { data: true } — no account enumeration.
-			await resendActivation(email);
+			await request(email);
 		} catch {
 			// Intentionally ignored: never reveal whether the account exists.
 		} finally {
@@ -89,10 +116,10 @@ const ResendActivation = () => {
 							</Box>
 							<Stack spacing={1}>
 								<Typography variant="h5" sx={{ fontWeight: 800, color: '#0f172a', letterSpacing: '-0.03em' }}>
-									{t('resendActivation.sentTitle', 'Check your inbox')}
+									{t(`${ns}.sentTitle`, 'Check your inbox')}
 								</Typography>
 								<Typography variant="body2" color="text.secondary" sx={{ maxWidth: 420 }}>
-									{t('resendActivation.sentMessage', "If that email exists, we've sent a link to activate your account and set your password.")}
+									{t(`${ns}.sentMessage`, defaults.sentMessage)}
 								</Typography>
 							</Stack>
 							<Button
@@ -107,7 +134,7 @@ const ResendActivation = () => {
 									'&:hover': { backgroundColor: '#518136' },
 								}}
 							>
-								{t('resendActivation.backToLogin', 'Back to login')}
+								{t(`${ns}.backToLogin`, 'Back to login')}
 							</Button>
 						</Stack>
 					) : (
@@ -118,15 +145,15 @@ const ResendActivation = () => {
 							</Box>
 
 							<Typography variant="h5" sx={{ fontWeight: 700, color: '#0f172a', letterSpacing: '-0.03em', mb: 0.75 }}>
-								{t('resendActivation.title', 'Resend activation link')}
+								{t(`${ns}.title`, defaults.title)}
 							</Typography>
 							<Typography variant="body2" sx={{ color: '#64748b', mb: 3 }}>
-								{t('resendActivation.subtitle', "Enter your email and we'll send you a fresh link to activate your account and set your password.")}
+								{t(`${ns}.subtitle`, defaults.subtitle)}
 							</Typography>
 
 							<Box component="form" onSubmit={handleSubmit} noValidate>
 								<TextField
-									label={t('resendActivation.emailLabel', 'Work email')}
+									label={t(`${ns}.emailLabel`, 'Work email')}
 									type="email"
 									variant="outlined"
 									fullWidth
@@ -165,7 +192,7 @@ const ResendActivation = () => {
 								>
 									{loading
 										? <CircularProgress size={20} sx={{ color: 'rgba(255,255,255,0.8)' }} />
-										: t('resendActivation.submit', 'Send link')}
+										: t(`${ns}.submit`, defaults.submit)}
 								</Button>
 							</Box>
 
@@ -175,7 +202,7 @@ const ResendActivation = () => {
 									to="/login"
 									sx={{ color: '#629C44', fontSize: '0.82rem', fontWeight: 600, textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
 								>
-									{t('resendActivation.backToLogin', 'Back to login')}
+									{t(`${ns}.backToLogin`, 'Back to login')}
 								</Typography>
 								<LanguageSwitcher />
 							</Stack>
@@ -200,4 +227,8 @@ const inputSx = {
 	'& .MuiInputLabel-root.Mui-focused': { color: '#629C44' },
 };
 
-export default ResendActivation;
+EmailLinkRequest.propTypes = {
+	variant: PropTypes.oneOf(['activation', 'forgot']),
+};
+
+export default EmailLinkRequest;

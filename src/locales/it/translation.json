@@ -24,7 +24,8 @@
     "signingIn": "Accesso in corso…",
     "signedIn": "Accesso effettuato!",
     "checkoutError": "Impossibile avviare il pagamento. Contatta l'assistenza.",
-    "subscriptionInactive": "Il tuo account non è attivo. Contatta l'assistenza."
+    "subscriptionInactive": "Il tuo account non è attivo. Contatta l'assistenza.",
+    "forgotPassword": "Password dimenticata?"
   },
   "registration": {
     "freeTrialTitle": "Prova gratuita",
@@ -1163,6 +1164,24 @@
     "sentTitle": "Controlla la tua casella di posta",
     "sentMessage": "Se questa email esiste, abbiamo inviato un link per attivare il tuo account e impostare la password.",
     "backToLogin": "Torna al login"
+  },
+  "forgotPassword": {
+    "title": "Password dimenticata?",
+    "subtitle": "Inserisci la tua email e ti invieremo un link per scegliere una nuova password.",
+    "emailLabel": "Email di lavoro",
+    "emailRequired": "L'email è obbligatoria",
+    "emailInvalid": "Inserisci un indirizzo email valido",
+    "submit": "Invia il link",
+    "sentTitle": "Controlla la tua casella di posta",
+    "sentMessage": "Se questa email esiste, abbiamo inviato un link per reimpostare la password. È valido per 1 ora.",
+    "backToLogin": "Torna al login"
+  },
+  "resetPassword": {
+    "title": "Reimposta la password",
+    "subtitle": "Scegli una nuova password per il tuo account.",
+    "submit": "Reimposta la password",
+    "successTitle": "Password aggiornata",
+    "successMessage": "Ora puoi accedere con la nuova password. Reindirizzamento al login…"
   },
   "checkoutSuccess": {
     "activatingTitle": "Attivazione della prova…",

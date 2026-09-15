@@ -24,7 +24,8 @@
     "signingIn": "Sie werden angemeldet…",
     "signedIn": "Angemeldet!",
     "checkoutError": "Der Bezahlvorgang konnte nicht gestartet werden. Bitte kontaktieren Sie den Support.",
-    "subscriptionInactive": "Ihr Konto ist nicht aktiv. Bitte kontaktieren Sie den Support."
+    "subscriptionInactive": "Ihr Konto ist nicht aktiv. Bitte kontaktieren Sie den Support.",
+    "forgotPassword": "Passwort vergessen?"
   },
   "registration": {
     "freeTrialTitle": "Kostenlose Testphase",
@@ -1163,6 +1164,24 @@
     "sentTitle": "Prüfen Sie Ihren Posteingang",
     "sentMessage": "Falls diese E-Mail existiert, haben wir einen Link zum Aktivieren Ihres Kontos und Festlegen Ihres Passworts gesendet.",
     "backToLogin": "Zurück zur Anmeldung"
+  },
+  "forgotPassword": {
+    "title": "Passwort vergessen?",
+    "subtitle": "Geben Sie Ihre E-Mail-Adresse ein und wir senden Ihnen einen Link, um ein neues Passwort zu wählen.",
+    "emailLabel": "Geschäftliche E-Mail",
+    "emailRequired": "E-Mail ist erforderlich",
+    "emailInvalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+    "submit": "Link senden",
+    "sentTitle": "Prüfen Sie Ihren Posteingang",
+    "sentMessage": "Falls diese E-Mail-Adresse existiert, haben wir einen Link zum Zurücksetzen Ihres Passworts gesendet. Er ist 1 Stunde gültig.",
+    "backToLogin": "Zurück zur Anmeldung"
+  },
+  "resetPassword": {
+    "title": "Passwort zurücksetzen",
+    "subtitle": "Wählen Sie ein neues Passwort für Ihr Konto.",
+    "submit": "Passwort zurücksetzen",
+    "successTitle": "Passwort aktualisiert",
+    "successMessage": "Sie können sich jetzt mit Ihrem neuen Passwort anmelden. Weiterleitung zur Anmeldung…"
   },
   "checkoutSuccess": {
     "activatingTitle": "Ihre Testphase wird aktiviert…",

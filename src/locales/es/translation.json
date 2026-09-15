@@ -24,7 +24,8 @@
     "signingIn": "Iniciando sesión…",
     "signedIn": "¡Sesión iniciada!",
     "checkoutError": "No se pudo iniciar el pago. Por favor, contacte con el soporte.",
-    "subscriptionInactive": "Su cuenta no está activa. Por favor, contacte con el soporte."
+    "subscriptionInactive": "Su cuenta no está activa. Por favor, contacte con el soporte.",
+    "forgotPassword": "¿Olvidaste tu contraseña?"
   },
   "registration": {
     "freeTrialTitle": "Prueba gratuita",
@@ -1163,6 +1164,24 @@
     "sentTitle": "Revise su bandeja de entrada",
     "sentMessage": "Si ese correo existe, hemos enviado un enlace para activar su cuenta y establecer su contraseña.",
     "backToLogin": "Volver al inicio de sesión"
+  },
+  "forgotPassword": {
+    "title": "¿Olvidaste tu contraseña?",
+    "subtitle": "Introduce tu correo y te enviaremos un enlace para elegir una nueva contraseña.",
+    "emailLabel": "Correo profesional",
+    "emailRequired": "El correo es obligatorio",
+    "emailInvalid": "Introduzca una dirección de correo válida",
+    "submit": "Enviar enlace",
+    "sentTitle": "Revise su bandeja de entrada",
+    "sentMessage": "Si ese correo existe, hemos enviado un enlace para restablecer tu contraseña. Es válido durante 1 hora.",
+    "backToLogin": "Volver al inicio de sesión"
+  },
+  "resetPassword": {
+    "title": "Restablece tu contraseña",
+    "subtitle": "Elige una nueva contraseña para tu cuenta.",
+    "submit": "Restablecer contraseña",
+    "successTitle": "Contraseña actualizada",
+    "successMessage": "Ya puedes iniciar sesión con tu nueva contraseña. Redirigiendo al inicio de sesión…"
   },
   "checkoutSuccess": {
     "activatingTitle": "Activando su prueba…",

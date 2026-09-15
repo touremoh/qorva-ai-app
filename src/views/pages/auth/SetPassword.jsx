@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useSearchParams, useParams, useNavigate, Link as RouterLink } from 'react-router-dom';
 import {
 	Box,
@@ -25,8 +26,36 @@ const MIN_PASSWORD_LENGTH = 8;
 // Requires lower, upper, digit and any non-alphanumeric character, 8–64 chars.
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,64}$/;
 
-const SetPassword = () => {
+// Copy that differs between "activate your account" (invite/demo link) and "reset your password"
+// (forgot-password link). The token, the endpoint and the form are the same.
+const MODES = {
+	activate: {
+		ns: 'setPassword',
+		requestNewLinkTo: '/resend-activation',
+		defaults: {
+			title: 'Set your password',
+			subtitle: 'Choose a password to activate your account.',
+			submit: 'Set password & activate',
+			successTitle: 'Password set!',
+			successMessage: 'Your account is now active. Redirecting you to login…',
+		},
+	},
+	reset: {
+		ns: 'resetPassword',
+		requestNewLinkTo: '/forgot-password',
+		defaults: {
+			title: 'Reset your password',
+			subtitle: 'Choose a new password for your account.',
+			submit: 'Reset password',
+			successTitle: 'Password updated',
+			successMessage: 'You can now sign in with your new password. Redirecting you to login…',
+		},
+	},
+};
+
+const SetPassword = ({ mode = 'activate' }) => {
 	const { t, i18n } = useTranslation();
+	const { ns, requestNewLinkTo, defaults } = MODES[mode] ?? MODES.activate;
 	const { lang } = useParams();
 	const navigate = useNavigate();
 	const [searchParams] = useSearchParams();
@@ -108,7 +137,7 @@ const SetPassword = () => {
 			invalid: {
 				message: t('setPassword.errorInvalid', 'This link is invalid or has expired.'),
 				action: (
-					<Button color="inherit" size="small" component={RouterLink} to="/resend-activation">
+					<Button color="inherit" size="small" component={RouterLink} to={requestNewLinkTo}>
 						{t('setPassword.requestNewLink', 'Request a new link')}
 					</Button>
 				),
@@ -175,10 +204,10 @@ const SetPassword = () => {
 							</Box>
 							<Stack spacing={1}>
 								<Typography variant="h5" sx={{ fontWeight: 800, color: '#0f172a', letterSpacing: '-0.03em' }}>
-									{t('setPassword.successTitle', 'Password set!')}
+									{t(`${ns}.successTitle`, defaults.successTitle)}
 								</Typography>
 								<Typography variant="body2" color="text.secondary">
-									{t('setPassword.successMessage', 'Your account is now active. Redirecting you to login…')}
+									{t(`${ns}.successMessage`, defaults.successMessage)}
 								</Typography>
 							</Stack>
 							<CircularProgress size={22} sx={{ color: '#629C44' }} />
@@ -191,10 +220,10 @@ const SetPassword = () => {
 							</Box>
 
 							<Typography variant="h5" sx={{ fontWeight: 700, color: '#0f172a', letterSpacing: '-0.03em', mb: 0.75 }}>
-								{t('setPassword.title', 'Set your password')}
+								{t(`${ns}.title`, defaults.title)}
 							</Typography>
 							<Typography variant="body2" sx={{ color: '#64748b', mb: 3 }}>
-								{t('setPassword.subtitle', 'Choose a password to activate your account.')}
+								{t(`${ns}.subtitle`, defaults.subtitle)}
 							</Typography>
 
 							{renderLinkError()}
@@ -277,7 +306,7 @@ const SetPassword = () => {
 								>
 									{loading
 										? <CircularProgress size={20} sx={{ color: 'rgba(255,255,255,0.8)' }} />
-										: t('setPassword.submit', 'Set password & activate')}
+										: t(`${ns}.submit`, defaults.submit)}
 								</Button>
 							</Box>
 						</>
@@ -299,6 +328,10 @@ const inputSx = {
 		'&.Mui-focused fieldset': { borderColor: '#629C44', borderWidth: 1.5 },
 	},
 	'& .MuiInputLabel-root.Mui-focused': { color: '#629C44' },
+};
+
+SetPassword.propTypes = {
+	mode: PropTypes.oneOf(['activate', 'reset']),
 };
 
 export default SetPassword;

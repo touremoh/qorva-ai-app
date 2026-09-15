@@ -19,3 +19,8 @@ export const setPassword = (token, newPassword) =>
 // with { data: true } (no account enumeration).
 export const resendActivation = (email) =>
     apiClient.post('/auth/password/resend', { email });
+
+// Public — request a password-reset link. Always resolves with { data: true }
+// (no account enumeration).
+export const forgotPassword = (email) =>
+    apiClient.post('/auth/password/forgot', { email });
