@@ -32,6 +32,9 @@ import apiClient from '../../../../axiosConfig.js';
 import { getTenantById } from '../../../services/tenantService.js';
 import { TENANT_ID } from '../../../constants.js';
 import NotesPanel from '../common/NotesPanel.jsx';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import { isActionAllowed } from '../../../utils/demoMode.js';
+import { useCandidateOutreach } from '../../../contexts/CandidateOutreachContext.jsx';
 
 const THEME_GREEN = '#629C44';
 
@@ -231,6 +234,9 @@ const AppMatchingReportDetails = ({ reportData }) => {
 	const candidate = reportData?.candidateInfo;
 	const details   = reportData?.matchingReportDetails;
 	const decision  = details?.decisionSummary;
+	const outreach  = useCandidateOutreach();
+	// The report carries no contact data; the composer resolves the email from the CV on open.
+	const canContact = isActionAllowed('CONTACT_CANDIDATE') && Boolean(candidate?.candidateId);
 
 	if (!reportData || !candidate || !details) {
 		return (
@@ -269,6 +275,28 @@ const AppMatchingReportDetails = ({ reportData }) => {
 				backgroundColor: '#ffffff', borderBottom: '1px solid #e2e8f0',
 			}}>
 				<Box sx={{ flexGrow: 1 }} />
+				{canContact && (
+					<Tooltip title={t('candidateOutreach.emailCandidate')}>
+						<IconButton
+							size="small"
+							onClick={() => outreach?.openComposer({
+								cvId: candidate.candidateId,
+								candidateName: candidate.candidateName,
+								jobPostId: reportData.jobPostId,
+								matchingReportId: reportData.id,
+								jobTitle,
+								score: finalScore,
+							})}
+							sx={{
+								color: '#629C44', borderRadius: 1.5,
+								border: '1px solid #e2e8f0', mr: 1,
+								'&:hover': { backgroundColor: '#f1f5f9' },
+							}}
+						>
+							<MailOutlineIcon sx={{ fontSize: 16 }} />
+						</IconButton>
+					</Tooltip>
+				)}
 				<Tooltip title={t('appCVContent.downloadCV')}>
 					<IconButton
 						size="small"

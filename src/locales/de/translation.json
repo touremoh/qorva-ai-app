@@ -670,7 +670,8 @@
       "users": "Benutzerverwaltung",
       "atsExport": "ATS-Export",
       "billing": "Abrechnung",
-      "integrations": "ATS-Integrationen"
+      "integrations": "ATS-Integrationen",
+      "outreach": "Kandidatenkontakt"
     },
     "authorities": {
       "VIEW_DASHBOARD": "Dashboard anzeigen",
@@ -697,7 +698,8 @@
       "ATS_REPORT_EXPORT": "ATS-Export",
       "UPDATE_SUBSCRIPTION": "Abonnement aktualisieren",
       "CANCEL_SUBSCRIPTION": "Abonnement kündigen",
-      "MANAGE_INTEGRATIONS": "ATS-Integrationen verwalten"
+      "MANAGE_INTEGRATIONS": "ATS-Integrationen verwalten",
+      "CONTACT_CANDIDATE": "Kandidaten anschreiben"
     }
   },
   "dashboard": {
@@ -1105,6 +1107,21 @@
       "conflict": "Die Anfrage konnte aufgrund eines Konflikts nicht abgeschlossen werden.",
       "validation": "Ein oder mehrere Felder haben die Validierung nicht bestanden.",
       "unexpected": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es später erneut."
+    },
+    "outreach": {
+      "intent_invalid": "Unbekanntes Ziel der Kontaktaufnahme.",
+      "draft_failed": "Der E-Mail-Entwurf konnte nicht erstellt werden. Bitte erneut versuchen.",
+      "no_email": "Für diesen Kandidaten ist keine E-Mail-Adresse hinterlegt.",
+      "suppressed": "Dieser Kandidat möchte nicht mehr kontaktiert werden.",
+      "via_invalid": "Unbekanntes E-Mail-Programm."
+    },
+    "mailbox": {
+      "provider_unknown": "Unbekannter Postfach-Anbieter.",
+      "not_configured": "Postfach-Verbindungen sind auf dem Server noch nicht aktiviert.",
+      "not_connected": "Mit Ihrem Konto ist kein Postfach verbunden.",
+      "reauth_required": "Ihre Postfach-Verbindung ist abgelaufen. Verbinden Sie sie in den Kontoeinstellungen erneut.",
+      "send_failed": "Ihr Postfach hat den Versand abgelehnt. Bitte erneut versuchen oder Ihr E-Mail-Programm verwenden.",
+      "oauth_state_invalid": "Die Verbindungsanfrage ist ungültig oder abgelaufen. Bitte erneut starten."
     }
   },
   "recruitment": {
@@ -1585,5 +1602,119 @@
     "you": "Sie",
     "edited": "bearbeitet",
     "readOnlyHint": "Upgraden Sie, um Notizen für Ihr Team hinzuzufügen."
+  },
+  "candidateOutreach": {
+    "title": "Kandidat anschreiben",
+    "emailCandidate": "Kandidat anschreiben",
+    "noEmailShort": "Keine E-Mail hinterlegt",
+    "minimize": "Minimieren",
+    "restore": "Vergrößern",
+    "close": "Schließen",
+    "loading": "Kandidatendaten werden geladen…",
+    "contextError": "Die Kandidatendaten konnten nicht geladen werden. Schließen und erneut versuchen.",
+    "suppressed": "Dieser Kandidat möchte nicht mehr kontaktiert werden. Der Versand ist deaktiviert.",
+    "noEmail": "Für diesen Kandidaten ist keine E-Mail-Adresse hinterlegt. Fügen Sie eine im Lebenslauf hinzu oder geben Sie unten eine Adresse ein.",
+    "reauthRequired": "Ihre Postfach-Verbindung ist abgelaufen.",
+    "reconnect": "Erneut verbinden",
+    "lastContacted": "Zuletzt kontaktiert {{when}} von {{who}}",
+    "you": "Ihnen",
+    "to": "An",
+    "subject": "Betreff",
+    "body": "Nachricht",
+    "send": "Senden",
+    "sent": "Gesendet an {{to}}",
+    "sendAs": "Gesendet von {{address}}",
+    "connectHint": "Sie nutzen Microsoft 365? Verbinden Sie Ihr Postfach, um aus Qorva zu senden und eine Kopie in „Gesendete Elemente“ zu behalten.",
+    "connectLink": "Postfach verbinden",
+    "mailtoTooLong": "Diese Nachricht ist zu lang für den Verfassen-Link Ihres E-Mail-Programms. Kopieren Sie sie in eine neue E-Mail oder öffnen Sie Gmail / Outlook.",
+    "copy": "Kopieren",
+    "copied": "Nachricht kopiert.",
+    "copyFailed": "Die Nachricht konnte nicht kopiert werden.",
+    "discardTitle": "Nachricht verwerfen?",
+    "discardBody": "Der geschriebene Text geht verloren.",
+    "keepEditing": "Weiter bearbeiten",
+    "discard": "Verwerfen",
+    "handoff": {
+      "GMAIL": "In Gmail öffnen",
+      "OUTLOOK_WEB": "In Outlook öffnen",
+      "MAILTO": "In meinem E-Mail-Programm öffnen",
+      "choose": "E-Mail-Programm wählen"
+    },
+    "ai": {
+      "title": "Mit KI entwerfen",
+      "generate": "Entwurf erstellen",
+      "regenerate": "Neu erstellen",
+      "shorter": "Kürzen",
+      "instructionsPlaceholder": "Etwas Bestimmtes erwähnen? (optional)",
+      "intent": {
+        "INTRO": "Stelle vorstellen",
+        "INTERVIEW": "Zum Gespräch einladen",
+        "FOLLOW_UP": "Nachfassen",
+        "KEEP_WARM": "In Kontakt bleiben",
+        "CUSTOM": "Eigene Vorgabe"
+      },
+      "tone": {
+        "default": "Professionell",
+        "formal": "Förmlich",
+        "friendly": "Freundlich",
+        "short": "Kurz"
+      },
+      "language": {
+        "en": "English",
+        "fr": "Français",
+        "de": "Deutsch",
+        "es": "Español",
+        "it": "Italiano",
+        "nl": "Nederlands",
+        "pt": "Português"
+      }
+    },
+    "history": {
+      "title": "Verlauf ({{count}})",
+      "openInOutlook": "Gesendete Elemente öffnen",
+      "status": {
+        "SENT": "Aus Qorva gesendet",
+        "EXTERNAL_OPENED": "In {{via}} geöffnet",
+        "FAILED": "Fehlgeschlagen"
+      },
+      "via": {
+        "GMAIL": "Gmail",
+        "OUTLOOK_WEB": "Outlook",
+        "MAILTO": "E-Mail-Programm",
+        "CONNECTED_MICROSOFT": "Microsoft 365"
+      }
+    }
+  },
+  "mailbox": {
+    "title": "Verbundenes Postfach",
+    "loading": "Postfach wird geprüft…",
+    "intro": "Verbinden Sie Ihr Microsoft-365-Postfach, um Kandidaten direkt aus Qorva in Ihrem Namen anzuschreiben. Jede Nachricht wird von Ihrem eigenen Konto gesendet und in „Gesendete Elemente“ gespeichert.",
+    "connectMicrosoft": "Microsoft 365 verbinden",
+    "otherClients": "Sie nutzen Gmail oder ein anderes E-Mail-Programm? Nichts zu verbinden – der Editor öffnet Ihr Programm mit der vorbereiteten Nachricht.",
+    "scopeNote": "Qorva kann die im Editor verfassten E-Mails in Ihrem Namen senden. Qorva kann Ihr Postfach nicht lesen.",
+    "notAvailable": "Postfach-Verbindungen sind in dieser Umgebung noch nicht aktiviert.",
+    "connectedSince": "Verbunden am {{when}}",
+    "lastUsed": "zuletzt genutzt {{when}}",
+    "status": {
+      "ACTIVE": "Verbunden",
+      "REAUTH_REQUIRED": "Erneut verbinden"
+    },
+    "reauthHint": "Ihr E-Mail-Anbieter akzeptiert die gespeicherte Verbindung nicht mehr (Passwortänderung, entzogener Zugriff oder abgelaufene Zustimmung). Verbinden Sie erneut, um weiter aus Qorva zu senden.",
+    "reconnect": "Erneut verbinden",
+    "disconnect": "Trennen",
+    "disconnected": "Postfach getrennt.",
+    "disconnectTitle": "Postfach trennen?",
+    "disconnectBody": "Qorva sendet dann nicht mehr in Ihrem Namen; der Editor öffnet stattdessen Ihr E-Mail-Programm. Sie können Qorvas Zugriff auch auf der Sicherheitsseite Ihres Microsoft-Kontos entziehen.",
+    "cancel": "Abbrechen",
+    "oauthConnected": "Postfach verbunden.",
+    "oauthDenied": "Verbindung abgebrochen.",
+    "oauthFailed": "Das Postfach konnte nicht verbunden werden. Bitte erneut versuchen.",
+    "provider": {
+      "MICROSOFT": "Microsoft 365"
+    },
+    "adminHelp": {
+      "toggle": "Ihre Organisation hat die Zustimmung blockiert?",
+      "body": "Manche Microsoft-365-Tenants erlauben nur Administratoren, neue Apps zu genehmigen. Bitten Sie Ihre IT, „Qorva“ für Ihre Organisation freizugeben (die Anfrage erscheint unter Microsoft Entra › Unternehmensanwendungen › Administratorzustimmungsanforderungen), und verbinden Sie dann erneut."
+    }
   }
 }

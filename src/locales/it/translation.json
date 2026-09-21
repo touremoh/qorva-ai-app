@@ -670,7 +670,8 @@
       "users": "Gestione utenti",
       "atsExport": "Esportazione ATS",
       "billing": "Fatturazione",
-      "integrations": "Integrazioni ATS"
+      "integrations": "Integrazioni ATS",
+      "outreach": "Contatto candidati"
     },
     "authorities": {
       "VIEW_DASHBOARD": "Visualizza dashboard",
@@ -697,7 +698,8 @@
       "ATS_REPORT_EXPORT": "Esporta ATS",
       "UPDATE_SUBSCRIPTION": "Aggiorna abbonamento",
       "CANCEL_SUBSCRIPTION": "Annulla abbonamento",
-      "MANAGE_INTEGRATIONS": "Gestire le integrazioni ATS"
+      "MANAGE_INTEGRATIONS": "Gestire le integrazioni ATS",
+      "CONTACT_CANDIDATE": "Scrivere ai candidati"
     }
   },
   "dashboard": {
@@ -1105,6 +1107,21 @@
       "conflict": "La richiesta non ha potuto essere completata a causa di un conflitto.",
       "validation": "Uno o più campi non hanno superato la validazione.",
       "unexpected": "Si è verificato un errore imprevisto. Riprovi più tardi."
+    },
+    "outreach": {
+      "intent_invalid": "Obiettivo del contatto sconosciuto.",
+      "draft_failed": "Impossibile generare la bozza dell’email. Riprova.",
+      "no_email": "Questo candidato non ha un indirizzo email registrato.",
+      "suppressed": "Questo candidato ha chiesto di non essere più contattato.",
+      "via_invalid": "Client di posta sconosciuto."
+    },
+    "mailbox": {
+      "provider_unknown": "Provider della casella di posta sconosciuto.",
+      "not_configured": "Le connessioni alla casella di posta non sono ancora abilitate sul server.",
+      "not_connected": "Nessuna casella di posta è collegata al tuo account.",
+      "reauth_required": "La connessione alla tua casella di posta è scaduta. Ricollegala nelle impostazioni dell’account.",
+      "send_failed": "La tua casella di posta ha rifiutato l’invio. Riprova o usa la tua app di posta.",
+      "oauth_state_invalid": "La richiesta di connessione non è valida o è scaduta. Ricomincia."
     }
   },
   "recruitment": {
@@ -1585,5 +1602,119 @@
     "you": "Tu",
     "edited": "modificata",
     "readOnlyHint": "Passa a un piano superiore per aggiungere note per il tuo team."
+  },
+  "candidateOutreach": {
+    "title": "Scrivi al candidato",
+    "emailCandidate": "Scrivi al candidato",
+    "noEmailShort": "Nessuna email registrata",
+    "minimize": "Riduci",
+    "restore": "Espandi",
+    "close": "Chiudi",
+    "loading": "Caricamento dei dati del candidato…",
+    "contextError": "Impossibile caricare i dati del candidato. Chiudi e riprova.",
+    "suppressed": "Questo candidato ha chiesto di non essere più contattato. L’invio è disattivato.",
+    "noEmail": "Questo candidato non ha un indirizzo email registrato. Aggiungilo al CV oppure inserisci un indirizzo qui sotto.",
+    "reauthRequired": "La connessione alla tua casella di posta è scaduta.",
+    "reconnect": "Ricollega",
+    "lastContacted": "Ultimo contatto {{when}} da {{who}}",
+    "you": "te",
+    "to": "A",
+    "subject": "Oggetto",
+    "body": "Messaggio",
+    "send": "Invia",
+    "sent": "Inviato a {{to}}",
+    "sendAs": "Inviato da {{address}}",
+    "connectHint": "Usi Microsoft 365? Collega la tua casella per inviare da Qorva e conservare una copia nella Posta inviata.",
+    "connectLink": "Collega la casella di posta",
+    "mailtoTooLong": "Questo messaggio è troppo lungo per il link di composizione della tua app di posta. Copialo in una nuova email oppure apri Gmail / Outlook.",
+    "copy": "Copia",
+    "copied": "Messaggio copiato.",
+    "copyFailed": "Impossibile copiare il messaggio.",
+    "discardTitle": "Eliminare questo messaggio?",
+    "discardBody": "Il testo scritto andrà perso.",
+    "keepEditing": "Continua a scrivere",
+    "discard": "Elimina",
+    "handoff": {
+      "GMAIL": "Apri in Gmail",
+      "OUTLOOK_WEB": "Apri in Outlook",
+      "MAILTO": "Apri nella mia app di posta",
+      "choose": "Scegli l’app di posta"
+    },
+    "ai": {
+      "title": "Scrivi con l’IA",
+      "generate": "Genera",
+      "regenerate": "Rigenera",
+      "shorter": "Accorcia",
+      "instructionsPlaceholder": "Qualcosa di specifico da menzionare? (facoltativo)",
+      "intent": {
+        "INTRO": "Presentare un’opportunità",
+        "INTERVIEW": "Invitare a un colloquio",
+        "FOLLOW_UP": "Sollecitare",
+        "KEEP_WARM": "Restare in contatto",
+        "CUSTOM": "Personalizzato"
+      },
+      "tone": {
+        "default": "Professionale",
+        "formal": "Formale",
+        "friendly": "Cordiale",
+        "short": "Breve"
+      },
+      "language": {
+        "en": "English",
+        "fr": "Français",
+        "de": "Deutsch",
+        "es": "Español",
+        "it": "Italiano",
+        "nl": "Nederlands",
+        "pt": "Português"
+      }
+    },
+    "history": {
+      "title": "Cronologia ({{count}})",
+      "openInOutlook": "Apri Posta inviata",
+      "status": {
+        "SENT": "Inviato da Qorva",
+        "EXTERNAL_OPENED": "Aperto in {{via}}",
+        "FAILED": "Non riuscito"
+      },
+      "via": {
+        "GMAIL": "Gmail",
+        "OUTLOOK_WEB": "Outlook",
+        "MAILTO": "app di posta",
+        "CONNECTED_MICROSOFT": "Microsoft 365"
+      }
+    }
+  },
+  "mailbox": {
+    "title": "Casella di posta collegata",
+    "loading": "Verifica della casella di posta…",
+    "intro": "Collega la tua casella Microsoft 365 per inviare email ai candidati direttamente da Qorva, a tuo nome. Ogni messaggio è inviato dal tuo account e salvato nella Posta inviata.",
+    "connectMicrosoft": "Collega Microsoft 365",
+    "otherClients": "Usi Gmail o un’altra app di posta? Non c’è nulla da collegare: il compositore apre la tua app con il messaggio già pronto.",
+    "scopeNote": "Qorva può inviare a tuo nome le email che scrivi nel compositore. Qorva non può leggere la tua casella di posta.",
+    "notAvailable": "Le connessioni alla casella di posta non sono ancora abilitate in questo ambiente.",
+    "connectedSince": "Collegata il {{when}}",
+    "lastUsed": "ultimo utilizzo {{when}}",
+    "status": {
+      "ACTIVE": "Collegata",
+      "REAUTH_REQUIRED": "Ricollegamento necessario"
+    },
+    "reauthHint": "Il tuo provider di posta non accetta più la connessione salvata (cambio password, accesso revocato o consenso scaduto). Ricollega per continuare a inviare da Qorva.",
+    "reconnect": "Ricollega",
+    "disconnect": "Scollega",
+    "disconnected": "Casella di posta scollegata.",
+    "disconnectTitle": "Scollegare la casella di posta?",
+    "disconnectBody": "Qorva smetterà di inviare a tuo nome; il compositore aprirà la tua app di posta. Puoi anche revocare l’accesso di Qorva dalla pagina di sicurezza del tuo account Microsoft.",
+    "cancel": "Annulla",
+    "oauthConnected": "Casella di posta collegata.",
+    "oauthDenied": "Collegamento annullato.",
+    "oauthFailed": "Impossibile collegare la casella di posta. Riprova.",
+    "provider": {
+      "MICROSOFT": "Microsoft 365"
+    },
+    "adminHelp": {
+      "toggle": "La tua organizzazione ha bloccato il consenso?",
+      "body": "Alcuni tenant Microsoft 365 consentono solo a un amministratore di approvare nuove app. Chiedi al tuo amministratore IT di approvare “Qorva” per la tua organizzazione (la richiesta compare in Microsoft Entra › Applicazioni aziendali › Richieste di consenso amministratore), poi ricollega."
+    }
   }
 }

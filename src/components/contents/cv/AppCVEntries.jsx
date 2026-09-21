@@ -21,8 +21,11 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import TuneIcon from '@mui/icons-material/Tune';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import SearchIcon from '@mui/icons-material/Search';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import { useTranslation } from 'react-i18next';
 import { getCVs } from '../../../services/cvService.js';
+import { isActionAllowed } from '../../../utils/demoMode.js';
+import { useCandidateOutreach } from '../../../contexts/CandidateOutreachContext.jsx';
 import { ATS_LABELS } from './atsLabels.js';
 import { toQueryParams } from './useCVFilters.js';
 
@@ -57,6 +60,9 @@ const AppCVEntries = ({
 	const { t } = useTranslation();
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [menuCVId, setMenuCVId] = useState(null);
+	// Hidden (not disabled) without the authority — demo users and restricted teammates never see it.
+	const canContact = isActionAllowed('CONTACT_CANDIDATE');
+	const outreach = useCandidateOutreach();
 	const [currentPage, setCurrentPage] = useState(1);
 	const [pageSize, setPageSize] = useState(25);
 	const [loading, setLoading] = useState(false);
@@ -137,6 +143,15 @@ const AppCVEntries = ({
 		setDeleteDialogOpen(true);
 		handleMenuClose();
 	};
+
+	const handleEmailClick = () => {
+		const cv = cvEntries.find(c => c.id === menuCVId);
+		handleMenuClose();
+		if (!cv) return;
+		outreach?.openComposer({ cvId: cv.id, candidateName: cv.personalInformation?.name });
+	};
+	const menuCV = cvEntries.find(c => c.id === menuCVId);
+	const menuCVHasEmail = Boolean(menuCV?.personalInformation?.contact?.email);
 
 	// Quick search narrows within whatever the rail has selected (AND on the server), so it's
 	// the fast path for "that Java person" without touching the filters.
@@ -277,6 +292,16 @@ const AppCVEntries = ({
 				},
 			}}
 		>
+			{canContact && (
+				<MenuItem
+					onClick={handleEmailClick}
+					disabled={!menuCVHasEmail}
+					sx={{ fontSize: '0.84rem', color: '#334155', py: 1, gap: 1 }}
+				>
+					<MailOutlineIcon sx={{ fontSize: 16, color: '#64748b' }} />
+					{menuCVHasEmail ? t('candidateOutreach.emailCandidate') : t('candidateOutreach.noEmailShort')}
+				</MenuItem>
+			)}
 			{showArchived && onUnarchive && (
 				<MenuItem
 					onClick={() => { onUnarchive(menuCVId); handleMenuClose(); }}

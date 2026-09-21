@@ -666,7 +666,8 @@
       "users": "User Management",
       "atsExport": "ATS Export",
       "billing": "Billing",
-      "integrations": "ATS Integrations"
+      "integrations": "ATS Integrations",
+      "outreach": "Candidate outreach"
     },
     "authorities": {
       "VIEW_DASHBOARD": "View Dashboard",
@@ -693,7 +694,8 @@
       "ATS_REPORT_EXPORT": "ATS Export",
       "UPDATE_SUBSCRIPTION": "Update Subscription",
       "CANCEL_SUBSCRIPTION": "Cancel Subscription",
-      "MANAGE_INTEGRATIONS": "Manage ATS integrations"
+      "MANAGE_INTEGRATIONS": "Manage ATS integrations",
+      "CONTACT_CANDIDATE": "Email candidates"
     }
   },
   "dashboard": {
@@ -1123,6 +1125,21 @@
       "conflict": "The request could not be completed due to a conflict.",
       "validation": "One or more fields failed validation.",
       "unexpected": "An unexpected error occurred. Please try again later."
+    },
+    "outreach": {
+      "intent_invalid": "Unknown outreach intent.",
+      "draft_failed": "The email draft could not be generated. Please try again.",
+      "no_email": "This candidate has no email address on file.",
+      "suppressed": "This candidate asked not to be contacted again.",
+      "via_invalid": "Unknown mail client."
+    },
+    "mailbox": {
+      "provider_unknown": "Unknown mailbox provider.",
+      "not_configured": "Mailbox connections are not yet enabled on the server.",
+      "not_connected": "No mailbox is connected to your account.",
+      "reauth_required": "Your mailbox connection has expired. Reconnect it in Account settings.",
+      "send_failed": "Your mailbox refused to send the message. Please try again or use your mail app.",
+      "oauth_state_invalid": "The connection request is invalid or has expired. Please start again."
     }
   },
   "recruitment": {
@@ -1594,5 +1611,119 @@
     "you": "You",
     "edited": "edited",
     "readOnlyHint": "Upgrade to add notes for your team."
+  },
+  "candidateOutreach": {
+    "title": "Email candidate",
+    "emailCandidate": "Email candidate",
+    "noEmailShort": "No email on file",
+    "minimize": "Minimize",
+    "restore": "Expand",
+    "close": "Close",
+    "loading": "Loading candidate details…",
+    "contextError": "Could not load the candidate's details. Close and try again.",
+    "suppressed": "This candidate asked not to be contacted again. Sending is disabled.",
+    "noEmail": "This candidate has no email address on file. Add one to the CV, or type an address below.",
+    "reauthRequired": "Your mailbox connection has expired.",
+    "reconnect": "Reconnect",
+    "lastContacted": "Last contacted {{when}} by {{who}}",
+    "you": "you",
+    "to": "To",
+    "subject": "Subject",
+    "body": "Message",
+    "send": "Send",
+    "sent": "Sent to {{to}}",
+    "sendAs": "Sent from {{address}}",
+    "connectHint": "Using Microsoft 365? Connect your mailbox to send from Qorva and keep a copy in your Sent folder.",
+    "connectLink": "Connect your mailbox",
+    "mailtoTooLong": "This message is too long for your mail app's compose link. Copy it and paste it into a new email, or open Gmail / Outlook instead.",
+    "copy": "Copy",
+    "copied": "Message copied.",
+    "copyFailed": "Could not copy the message.",
+    "discardTitle": "Discard this message?",
+    "discardBody": "The text you wrote will be lost.",
+    "keepEditing": "Keep editing",
+    "discard": "Discard",
+    "handoff": {
+      "GMAIL": "Open in Gmail",
+      "OUTLOOK_WEB": "Open in Outlook",
+      "MAILTO": "Open in my mail app",
+      "choose": "Choose a mail app"
+    },
+    "ai": {
+      "title": "Draft with AI",
+      "generate": "Generate",
+      "regenerate": "Regenerate",
+      "shorter": "Make it shorter",
+      "instructionsPlaceholder": "Anything specific to mention? (optional)",
+      "intent": {
+        "INTRO": "Introduce an opportunity",
+        "INTERVIEW": "Invite to interview",
+        "FOLLOW_UP": "Follow up",
+        "KEEP_WARM": "Keep in touch",
+        "CUSTOM": "Custom"
+      },
+      "tone": {
+        "default": "Professional",
+        "formal": "Formal",
+        "friendly": "Friendly",
+        "short": "Short"
+      },
+      "language": {
+        "en": "English",
+        "fr": "Français",
+        "de": "Deutsch",
+        "es": "Español",
+        "it": "Italiano",
+        "nl": "Nederlands",
+        "pt": "Português"
+      }
+    },
+    "history": {
+      "title": "History ({{count}})",
+      "openInOutlook": "Open Sent items",
+      "status": {
+        "SENT": "Sent from Qorva",
+        "EXTERNAL_OPENED": "Opened in {{via}}",
+        "FAILED": "Failed"
+      },
+      "via": {
+        "GMAIL": "Gmail",
+        "OUTLOOK_WEB": "Outlook",
+        "MAILTO": "mail app",
+        "CONNECTED_MICROSOFT": "Microsoft 365"
+      }
+    }
+  },
+  "mailbox": {
+    "title": "Connected mailbox",
+    "loading": "Checking your mailbox…",
+    "intro": "Connect your Microsoft 365 mailbox to send candidate emails directly from Qorva, as you. Every message is sent by your own account and saved in your Sent folder.",
+    "connectMicrosoft": "Connect Microsoft 365",
+    "otherClients": "Using Gmail or another mail app? Nothing to connect — the composer opens your mail app with the message prefilled.",
+    "scopeNote": "Qorva can send emails you write in the composer as you. It cannot read your mailbox.",
+    "notAvailable": "Mailbox connections are not enabled on this environment yet.",
+    "connectedSince": "Connected {{when}}",
+    "lastUsed": "last used {{when}}",
+    "status": {
+      "ACTIVE": "Connected",
+      "REAUTH_REQUIRED": "Reconnect needed"
+    },
+    "reauthHint": "Your mailbox provider no longer accepts the stored connection (password change, revoked access or expired consent). Reconnect to keep sending from Qorva.",
+    "reconnect": "Reconnect",
+    "disconnect": "Disconnect",
+    "disconnected": "Mailbox disconnected.",
+    "disconnectTitle": "Disconnect your mailbox?",
+    "disconnectBody": "Qorva will stop sending as you. The composer will open your mail app instead. You can also revoke Qorva's access from your Microsoft account security page.",
+    "cancel": "Cancel",
+    "oauthConnected": "Mailbox connected.",
+    "oauthDenied": "Connection cancelled.",
+    "oauthFailed": "The mailbox could not be connected. Please try again.",
+    "provider": {
+      "MICROSOFT": "Microsoft 365"
+    },
+    "adminHelp": {
+      "toggle": "Your organisation blocked the consent?",
+      "body": "Some Microsoft 365 tenants only let an administrator approve new apps. Ask your IT admin to approve \"Qorva\" for your organisation (they will see the request in Microsoft Entra › Enterprise applications › Admin consent requests), then connect again."
+    }
   }
 }

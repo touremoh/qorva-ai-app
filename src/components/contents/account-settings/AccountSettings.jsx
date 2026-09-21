@@ -41,6 +41,7 @@ import {
 import AccountUsersTab from './AccountUsersTab.jsx';
 import AccountCompanyTab from './AccountCompanyTab.jsx';
 import AccountIntegrationsTab from './AccountIntegrationsTab.jsx';
+import ConnectedMailboxCard from './ConnectedMailboxCard.jsx';
 import { isDemoUser } from '../../../utils/demoMode.js';
 import UpgradeButton from '../../demo/UpgradeButton.jsx';
 
@@ -382,6 +383,9 @@ const AccountSettings = () => {
 								</Typography>
 							)}
 						</Paper>
+
+						{/* Connected mailbox — personal; lets the candidate composer send as this user */}
+						{!demo && <ConnectedMailboxCard />}
 					</Box>
 				)}
 

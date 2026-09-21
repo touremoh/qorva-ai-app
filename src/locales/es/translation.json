@@ -670,7 +670,8 @@
       "users": "Gestión de usuarios",
       "atsExport": "Exportación ATS",
       "billing": "Facturación",
-      "integrations": "Integraciones de ATS"
+      "integrations": "Integraciones de ATS",
+      "outreach": "Contacto con candidatos"
     },
     "authorities": {
       "VIEW_DASHBOARD": "Ver panel",
@@ -697,7 +698,8 @@
       "ATS_REPORT_EXPORT": "Exportar ATS",
       "UPDATE_SUBSCRIPTION": "Actualizar suscripción",
       "CANCEL_SUBSCRIPTION": "Cancelar suscripción",
-      "MANAGE_INTEGRATIONS": "Gestionar integraciones de ATS"
+      "MANAGE_INTEGRATIONS": "Gestionar integraciones de ATS",
+      "CONTACT_CANDIDATE": "Escribir a candidatos"
     }
   },
   "dashboard": {
@@ -1105,6 +1107,21 @@
       "conflict": "La solicitud no pudo completarse debido a un conflicto.",
       "validation": "Uno o más campos no superaron la validación.",
       "unexpected": "Ocurrió un error inesperado. Por favor, inténtelo de nuevo más tarde."
+    },
+    "outreach": {
+      "intent_invalid": "Objetivo de contacto desconocido.",
+      "draft_failed": "No se pudo generar el borrador del correo. Inténtelo de nuevo.",
+      "no_email": "Este candidato no tiene dirección de correo registrada.",
+      "suppressed": "Este candidato pidió no volver a ser contactado.",
+      "via_invalid": "Cliente de correo desconocido."
+    },
+    "mailbox": {
+      "provider_unknown": "Proveedor de buzón desconocido.",
+      "not_configured": "Las conexiones de buzón aún no están habilitadas en el servidor.",
+      "not_connected": "No hay ningún buzón conectado a su cuenta.",
+      "reauth_required": "La conexión de su buzón ha caducado. Vuelva a conectarla en la configuración de la cuenta.",
+      "send_failed": "Su buzón rechazó el envío. Inténtelo de nuevo o use su aplicación de correo.",
+      "oauth_state_invalid": "La solicitud de conexión no es válida o ha caducado. Vuelva a empezar."
     }
   },
   "recruitment": {
@@ -1585,5 +1602,119 @@
     "you": "Tú",
     "edited": "editada",
     "readOnlyHint": "Mejora tu plan para añadir notas para tu equipo."
+  },
+  "candidateOutreach": {
+    "title": "Escribir al candidato",
+    "emailCandidate": "Escribir al candidato",
+    "noEmailShort": "Sin correo registrado",
+    "minimize": "Minimizar",
+    "restore": "Ampliar",
+    "close": "Cerrar",
+    "loading": "Cargando los datos del candidato…",
+    "contextError": "No se pudieron cargar los datos del candidato. Cierre e inténtelo de nuevo.",
+    "suppressed": "Este candidato pidió no volver a ser contactado. El envío está desactivado.",
+    "noEmail": "Este candidato no tiene dirección de correo registrada. Añada una al CV o escriba una dirección abajo.",
+    "reauthRequired": "La conexión de su buzón ha caducado.",
+    "reconnect": "Volver a conectar",
+    "lastContacted": "Último contacto {{when}} por {{who}}",
+    "you": "usted",
+    "to": "Para",
+    "subject": "Asunto",
+    "body": "Mensaje",
+    "send": "Enviar",
+    "sent": "Enviado a {{to}}",
+    "sendAs": "Enviado desde {{address}}",
+    "connectHint": "¿Usa Microsoft 365? Conecte su buzón para enviar desde Qorva y conservar una copia en Elementos enviados.",
+    "connectLink": "Conectar mi buzón",
+    "mailtoTooLong": "Este mensaje es demasiado largo para el enlace de redacción de su aplicación de correo. Cópielo y péguelo en un nuevo correo, o abra Gmail / Outlook.",
+    "copy": "Copiar",
+    "copied": "Mensaje copiado.",
+    "copyFailed": "No se pudo copiar el mensaje.",
+    "discardTitle": "¿Descartar este mensaje?",
+    "discardBody": "El texto escrito se perderá.",
+    "keepEditing": "Seguir editando",
+    "discard": "Descartar",
+    "handoff": {
+      "GMAIL": "Abrir en Gmail",
+      "OUTLOOK_WEB": "Abrir en Outlook",
+      "MAILTO": "Abrir en mi aplicación de correo",
+      "choose": "Elegir aplicación de correo"
+    },
+    "ai": {
+      "title": "Redactar con IA",
+      "generate": "Generar",
+      "regenerate": "Regenerar",
+      "shorter": "Acortar",
+      "instructionsPlaceholder": "¿Algo concreto que mencionar? (opcional)",
+      "intent": {
+        "INTRO": "Presentar una oportunidad",
+        "INTERVIEW": "Invitar a una entrevista",
+        "FOLLOW_UP": "Hacer seguimiento",
+        "KEEP_WARM": "Mantener el contacto",
+        "CUSTOM": "Personalizado"
+      },
+      "tone": {
+        "default": "Profesional",
+        "formal": "Formal",
+        "friendly": "Cercano",
+        "short": "Breve"
+      },
+      "language": {
+        "en": "English",
+        "fr": "Français",
+        "de": "Deutsch",
+        "es": "Español",
+        "it": "Italiano",
+        "nl": "Nederlands",
+        "pt": "Português"
+      }
+    },
+    "history": {
+      "title": "Historial ({{count}})",
+      "openInOutlook": "Abrir Elementos enviados",
+      "status": {
+        "SENT": "Enviado desde Qorva",
+        "EXTERNAL_OPENED": "Abierto en {{via}}",
+        "FAILED": "Error"
+      },
+      "via": {
+        "GMAIL": "Gmail",
+        "OUTLOOK_WEB": "Outlook",
+        "MAILTO": "la aplicación de correo",
+        "CONNECTED_MICROSOFT": "Microsoft 365"
+      }
+    }
+  },
+  "mailbox": {
+    "title": "Buzón conectado",
+    "loading": "Comprobando su buzón…",
+    "intro": "Conecte su buzón de Microsoft 365 para enviar correos a los candidatos directamente desde Qorva, en su nombre. Cada mensaje se envía desde su propia cuenta y se guarda en Elementos enviados.",
+    "connectMicrosoft": "Conectar Microsoft 365",
+    "otherClients": "¿Usa Gmail u otra aplicación de correo? No hay nada que conectar: el editor abre su aplicación con el mensaje ya redactado.",
+    "scopeNote": "Qorva puede enviar en su nombre los correos que redacte en el editor. Qorva no puede leer su buzón.",
+    "notAvailable": "Las conexiones de buzón aún no están habilitadas en este entorno.",
+    "connectedSince": "Conectado el {{when}}",
+    "lastUsed": "último uso {{when}}",
+    "status": {
+      "ACTIVE": "Conectado",
+      "REAUTH_REQUIRED": "Reconexión necesaria"
+    },
+    "reauthHint": "Su proveedor de correo ya no acepta la conexión guardada (cambio de contraseña, acceso revocado o consentimiento caducado). Vuelva a conectar para seguir enviando desde Qorva.",
+    "reconnect": "Volver a conectar",
+    "disconnect": "Desconectar",
+    "disconnected": "Buzón desconectado.",
+    "disconnectTitle": "¿Desconectar su buzón?",
+    "disconnectBody": "Qorva dejará de enviar en su nombre; el editor abrirá su aplicación de correo. También puede revocar el acceso de Qorva desde la página de seguridad de su cuenta Microsoft.",
+    "cancel": "Cancelar",
+    "oauthConnected": "Buzón conectado.",
+    "oauthDenied": "Conexión cancelada.",
+    "oauthFailed": "No se pudo conectar el buzón. Inténtelo de nuevo.",
+    "provider": {
+      "MICROSOFT": "Microsoft 365"
+    },
+    "adminHelp": {
+      "toggle": "¿Su organización bloqueó el consentimiento?",
+      "body": "Algunos tenants de Microsoft 365 solo permiten que un administrador apruebe nuevas aplicaciones. Pida a su administrador de TI que apruebe «Qorva» para su organización (verá la solicitud en Microsoft Entra › Aplicaciones empresariales › Solicitudes de consentimiento del administrador) y vuelva a conectar."
+    }
   }
 }

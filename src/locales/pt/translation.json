@@ -670,7 +670,8 @@
       "users": "Gestão de utilizadores",
       "atsExport": "Exportação ATS",
       "billing": "Faturação",
-      "integrations": "Integrações de ATS"
+      "integrations": "Integrações de ATS",
+      "outreach": "Contacto com candidatos"
     },
     "authorities": {
       "VIEW_DASHBOARD": "Ver painel",
@@ -697,7 +698,8 @@
       "ATS_REPORT_EXPORT": "Exportar ATS",
       "UPDATE_SUBSCRIPTION": "Atualizar subscrição",
       "CANCEL_SUBSCRIPTION": "Cancelar subscrição",
-      "MANAGE_INTEGRATIONS": "Gerir integrações de ATS"
+      "MANAGE_INTEGRATIONS": "Gerir integrações de ATS",
+      "CONTACT_CANDIDATE": "Escrever aos candidatos"
     }
   },
   "dashboard": {
@@ -1105,6 +1107,21 @@
       "conflict": "O pedido não pôde ser concluído devido a um conflito.",
       "validation": "Um ou mais campos falharam na validação.",
       "unexpected": "Ocorreu um erro inesperado. Por favor, tente novamente mais tarde."
+    },
+    "outreach": {
+      "intent_invalid": "Objetivo de contacto desconhecido.",
+      "draft_failed": "Não foi possível gerar o rascunho do e-mail. Tente novamente.",
+      "no_email": "Este candidato não tem endereço de e-mail registado.",
+      "suppressed": "Este candidato pediu para não voltar a ser contactado.",
+      "via_invalid": "Cliente de e-mail desconhecido."
+    },
+    "mailbox": {
+      "provider_unknown": "Fornecedor de caixa de correio desconhecido.",
+      "not_configured": "As ligações de caixa de correio ainda não estão ativadas no servidor.",
+      "not_connected": "Nenhuma caixa de correio está ligada à sua conta.",
+      "reauth_required": "A ligação à sua caixa de correio expirou. Volte a ligá-la nas definições da conta.",
+      "send_failed": "A sua caixa de correio recusou o envio. Tente novamente ou use a sua aplicação de e-mail.",
+      "oauth_state_invalid": "O pedido de ligação é inválido ou expirou. Comece de novo."
     }
   },
   "recruitment": {
@@ -1585,5 +1602,119 @@
     "you": "Você",
     "edited": "editada",
     "readOnlyHint": "Faça upgrade para adicionar notas para a sua equipa."
+  },
+  "candidateOutreach": {
+    "title": "Escrever ao candidato",
+    "emailCandidate": "Escrever ao candidato",
+    "noEmailShort": "Sem e-mail registado",
+    "minimize": "Minimizar",
+    "restore": "Expandir",
+    "close": "Fechar",
+    "loading": "A carregar os dados do candidato…",
+    "contextError": "Não foi possível carregar os dados do candidato. Feche e tente novamente.",
+    "suppressed": "Este candidato pediu para não voltar a ser contactado. O envio está desativado.",
+    "noEmail": "Este candidato não tem endereço de e-mail registado. Adicione um ao CV ou escreva um endereço abaixo.",
+    "reauthRequired": "A ligação à sua caixa de correio expirou.",
+    "reconnect": "Voltar a ligar",
+    "lastContacted": "Último contacto {{when}} por {{who}}",
+    "you": "si",
+    "to": "Para",
+    "subject": "Assunto",
+    "body": "Mensagem",
+    "send": "Enviar",
+    "sent": "Enviado para {{to}}",
+    "sendAs": "Enviado de {{address}}",
+    "connectHint": "Usa o Microsoft 365? Ligue a sua caixa de correio para enviar a partir do Qorva e guardar uma cópia nos Itens enviados.",
+    "connectLink": "Ligar a minha caixa de correio",
+    "mailtoTooLong": "Esta mensagem é demasiado longa para a ligação de composição da sua aplicação de e-mail. Copie-a para um novo e-mail ou abra o Gmail / Outlook.",
+    "copy": "Copiar",
+    "copied": "Mensagem copiada.",
+    "copyFailed": "Não foi possível copiar a mensagem.",
+    "discardTitle": "Descartar esta mensagem?",
+    "discardBody": "O texto escrito será perdido.",
+    "keepEditing": "Continuar a editar",
+    "discard": "Descartar",
+    "handoff": {
+      "GMAIL": "Abrir no Gmail",
+      "OUTLOOK_WEB": "Abrir no Outlook",
+      "MAILTO": "Abrir na minha aplicação de e-mail",
+      "choose": "Escolher aplicação de e-mail"
+    },
+    "ai": {
+      "title": "Redigir com IA",
+      "generate": "Gerar",
+      "regenerate": "Gerar de novo",
+      "shorter": "Encurtar",
+      "instructionsPlaceholder": "Algo específico a mencionar? (opcional)",
+      "intent": {
+        "INTRO": "Apresentar uma oportunidade",
+        "INTERVIEW": "Convidar para entrevista",
+        "FOLLOW_UP": "Dar seguimento",
+        "KEEP_WARM": "Manter o contacto",
+        "CUSTOM": "Personalizado"
+      },
+      "tone": {
+        "default": "Profissional",
+        "formal": "Formal",
+        "friendly": "Cordial",
+        "short": "Curto"
+      },
+      "language": {
+        "en": "English",
+        "fr": "Français",
+        "de": "Deutsch",
+        "es": "Español",
+        "it": "Italiano",
+        "nl": "Nederlands",
+        "pt": "Português"
+      }
+    },
+    "history": {
+      "title": "Histórico ({{count}})",
+      "openInOutlook": "Abrir Itens enviados",
+      "status": {
+        "SENT": "Enviado a partir do Qorva",
+        "EXTERNAL_OPENED": "Aberto no {{via}}",
+        "FAILED": "Falhou"
+      },
+      "via": {
+        "GMAIL": "Gmail",
+        "OUTLOOK_WEB": "Outlook",
+        "MAILTO": "programa de e-mail",
+        "CONNECTED_MICROSOFT": "Microsoft 365"
+      }
+    }
+  },
+  "mailbox": {
+    "title": "Caixa de correio ligada",
+    "loading": "A verificar a sua caixa de correio…",
+    "intro": "Ligue a sua caixa de correio Microsoft 365 para enviar e-mails aos candidatos diretamente a partir do Qorva, em seu nome. Cada mensagem é enviada pela sua própria conta e guardada nos Itens enviados.",
+    "connectMicrosoft": "Ligar Microsoft 365",
+    "otherClients": "Usa o Gmail ou outra aplicação de e-mail? Nada a ligar: o compositor abre a sua aplicação com a mensagem já preenchida.",
+    "scopeNote": "O Qorva pode enviar em seu nome os e-mails que escreve no compositor. O Qorva não pode ler a sua caixa de correio.",
+    "notAvailable": "As ligações de caixa de correio ainda não estão ativadas neste ambiente.",
+    "connectedSince": "Ligada em {{when}}",
+    "lastUsed": "última utilização {{when}}",
+    "status": {
+      "ACTIVE": "Ligada",
+      "REAUTH_REQUIRED": "Religação necessária"
+    },
+    "reauthHint": "O seu fornecedor de e-mail já não aceita a ligação guardada (alteração de palavra-passe, acesso revogado ou consentimento expirado). Volte a ligar para continuar a enviar a partir do Qorva.",
+    "reconnect": "Voltar a ligar",
+    "disconnect": "Desligar",
+    "disconnected": "Caixa de correio desligada.",
+    "disconnectTitle": "Desligar a sua caixa de correio?",
+    "disconnectBody": "O Qorva deixará de enviar em seu nome; o compositor abrirá a sua aplicação de e-mail. Também pode revogar o acesso do Qorva na página de segurança da sua conta Microsoft.",
+    "cancel": "Cancelar",
+    "oauthConnected": "Caixa de correio ligada.",
+    "oauthDenied": "Ligação cancelada.",
+    "oauthFailed": "Não foi possível ligar a caixa de correio. Tente novamente.",
+    "provider": {
+      "MICROSOFT": "Microsoft 365"
+    },
+    "adminHelp": {
+      "toggle": "A sua organização bloqueou o consentimento?",
+      "body": "Alguns tenants Microsoft 365 só permitem que um administrador aprove novas aplicações. Peça ao seu administrador de TI para aprovar o «Qorva» para a sua organização (o pedido aparece em Microsoft Entra › Aplicações empresariais › Pedidos de consentimento de administrador) e volte a ligar."
+    }
   }
 }

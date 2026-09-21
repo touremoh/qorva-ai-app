@@ -36,6 +36,8 @@ const SILENT_ERROR_CODES = new Set([
 	'error.user.already_exists',
 	'error.user.password_incorrect',
 	'error.report.resume_match_not_found', // resume-chat dialog shows "no match" inline
+	'error.outreach.suppressed',           // outreach composer disables itself inline
+	'error.mailbox.reauth_required',       // outreach composer offers "Reconnect" inline
 ]);
 
 const handleResponseError = (error) => {

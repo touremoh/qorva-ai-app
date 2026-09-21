@@ -29,10 +29,13 @@ import {
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { useReactToPrint } from 'react-to-print';
+import { isActionAllowed } from '../../../utils/demoMode.js';
+import { useCandidateOutreach } from '../../../contexts/CandidateOutreachContext.jsx';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import CloseIcon from '@mui/icons-material/Close';
 import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LanguageIcon from '@mui/icons-material/Language';
@@ -330,6 +333,13 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 	);
 
 	const [anonymized, setAnonymized] = useState(false);
+	const outreach = useCandidateOutreach();
+	const candidateEmail = cv?.personalInformation?.contact?.email;
+	const canContact = isActionAllowed('CONTACT_CANDIDATE') && Boolean(candidateEmail);
+	const openEmailComposer = useCallback(
+		() => outreach?.openComposer({ cvId: cv?.id, candidateName: cv?.personalInformation?.name }),
+		[outreach, cv?.id, cv?.personalInformation?.name],
+	);
 	const [refCopied, setRefCopied] = useState(false);
 	const [editingSection, setEditingSection] = useState(null);
 	const [draft, setDraft] = useState({});
@@ -489,6 +499,25 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 				</Tooltip>
 
 				<Box sx={{ flexGrow: 1 }} />
+
+				{/* Email the candidate — hidden while anonymized (the address is hidden too) */}
+				{canContact && !anonymized && (
+					<Tooltip title={t('candidateOutreach.emailCandidate')}>
+						<IconButton
+							size="small"
+							onClick={openEmailComposer}
+							sx={{
+								color: '#629C44',
+								borderRadius: 1.5,
+								border: '1px solid #e2e8f0',
+								mr: 1,
+								'&:hover': { backgroundColor: '#f1f5f9' },
+							}}
+						>
+							<MailOutlineIcon sx={{ fontSize: 16 }} />
+						</IconButton>
+					</Tooltip>
+				)}
 
 				<Tooltip title={t('appCVContent.downloadCV')}>
 					<IconButton
@@ -692,7 +721,14 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 									<Chip icon={<PhoneIcon />} label={contact.phone} size="small" sx={contactChipSx} />
 								)}
 								{contact.email && (
-									<Chip icon={<EmailIcon />} label={contact.email} size="small" sx={contactChipSx} />
+									canContact ? (
+										<Tooltip title={t('candidateOutreach.emailCandidate')}>
+											<Chip icon={<EmailIcon />} label={contact.email} size="small" sx={contactChipSx}
+												onClick={openEmailComposer} clickable />
+										</Tooltip>
+									) : (
+										<Chip icon={<EmailIcon />} label={contact.email} size="small" sx={contactChipSx} />
+									)
 								)}
 								{contact.socialLinks?.linkedin && (
 									<Chip icon={<LinkedInIcon />} label="LinkedIn" size="small" sx={contactChipSx}

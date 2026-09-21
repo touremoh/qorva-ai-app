@@ -667,7 +667,8 @@
       "users": "Gebruikersbeheer",
       "atsExport": "ATS-export",
       "billing": "Facturering",
-      "integrations": "ATS-integraties"
+      "integrations": "ATS-integraties",
+      "outreach": "Kandidaten benaderen"
     },
     "authorities": {
       "VIEW_DASHBOARD": "Dashboard bekijken",
@@ -694,7 +695,8 @@
       "ATS_REPORT_EXPORT": "ATS-export",
       "UPDATE_SUBSCRIPTION": "Abonnement bijwerken",
       "CANCEL_SUBSCRIPTION": "Abonnement opzeggen",
-      "MANAGE_INTEGRATIONS": "ATS-integraties beheren"
+      "MANAGE_INTEGRATIONS": "ATS-integraties beheren",
+      "CONTACT_CANDIDATE": "Kandidaten mailen"
     }
   },
   "dashboard": {
@@ -1102,6 +1104,21 @@
       "conflict": "Het verzoek kon niet worden voltooid vanwege een conflict.",
       "validation": "Een of meer velden zijn niet geslaagd voor validatie.",
       "unexpected": "Er is een onverwachte fout opgetreden. Probeer het later opnieuw."
+    },
+    "outreach": {
+      "intent_invalid": "Onbekend doel van het contact.",
+      "draft_failed": "Het e-mailconcept kon niet worden gegenereerd. Probeer het opnieuw.",
+      "no_email": "Voor deze kandidaat is geen e-mailadres bekend.",
+      "suppressed": "Deze kandidaat heeft gevraagd niet meer benaderd te worden.",
+      "via_invalid": "Onbekend e-mailprogramma."
+    },
+    "mailbox": {
+      "provider_unknown": "Onbekende mailboxprovider.",
+      "not_configured": "Mailboxkoppelingen zijn nog niet ingeschakeld op de server.",
+      "not_connected": "Er is geen mailbox aan uw account gekoppeld.",
+      "reauth_required": "Uw mailboxkoppeling is verlopen. Koppel deze opnieuw in de accountinstellingen.",
+      "send_failed": "Uw mailbox heeft het verzenden geweigerd. Probeer het opnieuw of gebruik uw e-mailprogramma.",
+      "oauth_state_invalid": "Het koppelingsverzoek is ongeldig of verlopen. Begin opnieuw."
     }
   },
   "recruitment": {
@@ -1582,5 +1599,119 @@
     "you": "Jij",
     "edited": "bewerkt",
     "readOnlyHint": "Upgrade om notities voor je team toe te voegen."
+  },
+  "candidateOutreach": {
+    "title": "Kandidaat mailen",
+    "emailCandidate": "Kandidaat mailen",
+    "noEmailShort": "Geen e-mailadres bekend",
+    "minimize": "Minimaliseren",
+    "restore": "Vergroten",
+    "close": "Sluiten",
+    "loading": "Kandidaatgegevens laden…",
+    "contextError": "De kandidaatgegevens konden niet worden geladen. Sluit en probeer opnieuw.",
+    "suppressed": "Deze kandidaat heeft gevraagd niet meer benaderd te worden. Verzenden is uitgeschakeld.",
+    "noEmail": "Voor deze kandidaat is geen e-mailadres bekend. Voeg er een toe aan het cv of typ hieronder een adres.",
+    "reauthRequired": "Uw mailboxkoppeling is verlopen.",
+    "reconnect": "Opnieuw koppelen",
+    "lastContacted": "Laatst benaderd {{when}} door {{who}}",
+    "you": "u",
+    "to": "Aan",
+    "subject": "Onderwerp",
+    "body": "Bericht",
+    "send": "Verzenden",
+    "sent": "Verzonden naar {{to}}",
+    "sendAs": "Verzonden vanaf {{address}}",
+    "connectHint": "Gebruikt u Microsoft 365? Koppel uw mailbox om vanuit Qorva te verzenden en een kopie in Verzonden items te bewaren.",
+    "connectLink": "Mailbox koppelen",
+    "mailtoTooLong": "Dit bericht is te lang voor de opstel-link van uw e-mailprogramma. Kopieer het naar een nieuwe e-mail of open Gmail / Outlook.",
+    "copy": "Kopiëren",
+    "copied": "Bericht gekopieerd.",
+    "copyFailed": "Het bericht kon niet worden gekopieerd.",
+    "discardTitle": "Dit bericht verwijderen?",
+    "discardBody": "De geschreven tekst gaat verloren.",
+    "keepEditing": "Verder schrijven",
+    "discard": "Verwijderen",
+    "handoff": {
+      "GMAIL": "Openen in Gmail",
+      "OUTLOOK_WEB": "Openen in Outlook",
+      "MAILTO": "Openen in mijn e-mailprogramma",
+      "choose": "E-mailprogramma kiezen"
+    },
+    "ai": {
+      "title": "Opstellen met AI",
+      "generate": "Genereren",
+      "regenerate": "Opnieuw genereren",
+      "shorter": "Korter maken",
+      "instructionsPlaceholder": "Iets specifieks vermelden? (optioneel)",
+      "intent": {
+        "INTRO": "Een vacature voorstellen",
+        "INTERVIEW": "Uitnodigen voor een gesprek",
+        "FOLLOW_UP": "Opvolgen",
+        "KEEP_WARM": "Contact houden",
+        "CUSTOM": "Aangepast"
+      },
+      "tone": {
+        "default": "Professioneel",
+        "formal": "Formeel",
+        "friendly": "Vriendelijk",
+        "short": "Kort"
+      },
+      "language": {
+        "en": "English",
+        "fr": "Français",
+        "de": "Deutsch",
+        "es": "Español",
+        "it": "Italiano",
+        "nl": "Nederlands",
+        "pt": "Português"
+      }
+    },
+    "history": {
+      "title": "Geschiedenis ({{count}})",
+      "openInOutlook": "Verzonden items openen",
+      "status": {
+        "SENT": "Verzonden vanuit Qorva",
+        "EXTERNAL_OPENED": "Geopend in {{via}}",
+        "FAILED": "Mislukt"
+      },
+      "via": {
+        "GMAIL": "Gmail",
+        "OUTLOOK_WEB": "Outlook",
+        "MAILTO": "e-mailprogramma",
+        "CONNECTED_MICROSOFT": "Microsoft 365"
+      }
+    }
+  },
+  "mailbox": {
+    "title": "Gekoppelde mailbox",
+    "loading": "Mailbox controleren…",
+    "intro": "Koppel uw Microsoft 365-mailbox om kandidaten rechtstreeks vanuit Qorva te mailen, uit uw naam. Elk bericht wordt door uw eigen account verzonden en bewaard in Verzonden items.",
+    "connectMicrosoft": "Microsoft 365 koppelen",
+    "otherClients": "Gebruikt u Gmail of een ander e-mailprogramma? Niets te koppelen: de editor opent uw programma met het bericht al ingevuld.",
+    "scopeNote": "Qorva kan e-mails die u in de editor schrijft uit uw naam verzenden. Qorva kan uw mailbox niet lezen.",
+    "notAvailable": "Mailboxkoppelingen zijn in deze omgeving nog niet ingeschakeld.",
+    "connectedSince": "Gekoppeld op {{when}}",
+    "lastUsed": "laatst gebruikt {{when}}",
+    "status": {
+      "ACTIVE": "Gekoppeld",
+      "REAUTH_REQUIRED": "Opnieuw koppelen nodig"
+    },
+    "reauthHint": "Uw e-mailprovider accepteert de opgeslagen koppeling niet meer (wachtwoordwijziging, ingetrokken toegang of verlopen toestemming). Koppel opnieuw om vanuit Qorva te blijven verzenden.",
+    "reconnect": "Opnieuw koppelen",
+    "disconnect": "Ontkoppelen",
+    "disconnected": "Mailbox ontkoppeld.",
+    "disconnectTitle": "Mailbox ontkoppelen?",
+    "disconnectBody": "Qorva verzendt dan niet meer uit uw naam; de editor opent uw e-mailprogramma. U kunt de toegang van Qorva ook intrekken via de beveiligingspagina van uw Microsoft-account.",
+    "cancel": "Annuleren",
+    "oauthConnected": "Mailbox gekoppeld.",
+    "oauthDenied": "Koppeling geannuleerd.",
+    "oauthFailed": "De mailbox kon niet worden gekoppeld. Probeer het opnieuw.",
+    "provider": {
+      "MICROSOFT": "Microsoft 365"
+    },
+    "adminHelp": {
+      "toggle": "Heeft uw organisatie de toestemming geblokkeerd?",
+      "body": "Sommige Microsoft 365-tenants laten alleen een beheerder nieuwe apps goedkeuren. Vraag uw IT-beheerder om “Qorva” voor uw organisatie goed te keuren (het verzoek staat in Microsoft Entra › Bedrijfstoepassingen › Aanvragen voor beheerderstoestemming) en koppel daarna opnieuw."
+    }
   }
 }

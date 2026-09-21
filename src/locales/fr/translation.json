@@ -670,7 +670,8 @@
       "users": "Gestion des utilisateurs",
       "atsExport": "Export ATS",
       "billing": "Facturation",
-      "integrations": "Intégrations ATS"
+      "integrations": "Intégrations ATS",
+      "outreach": "Contact des candidats"
     },
     "authorities": {
       "VIEW_DASHBOARD": "Voir le tableau de bord",
@@ -697,7 +698,8 @@
       "ATS_REPORT_EXPORT": "Export ATS",
       "UPDATE_SUBSCRIPTION": "Mettre à jour l'abonnement",
       "CANCEL_SUBSCRIPTION": "Annuler l'abonnement",
-      "MANAGE_INTEGRATIONS": "Gérer les intégrations ATS"
+      "MANAGE_INTEGRATIONS": "Gérer les intégrations ATS",
+      "CONTACT_CANDIDATE": "Écrire aux candidats"
     }
   },
   "dashboard": {
@@ -1105,6 +1107,21 @@
       "conflict": "La requête n'a pas pu être complétée en raison d'un conflit.",
       "validation": "Un ou plusieurs champs ont échoué à la validation.",
       "unexpected": "Une erreur inattendue s'est produite. Veuillez réessayer plus tard."
+    },
+    "outreach": {
+      "intent_invalid": "Objectif de prise de contact inconnu.",
+      "draft_failed": "Le brouillon n’a pas pu être généré. Veuillez réessayer.",
+      "no_email": "Ce candidat n’a pas d’adresse e-mail enregistrée.",
+      "suppressed": "Ce candidat a demandé à ne plus être contacté.",
+      "via_invalid": "Client de messagerie inconnu."
+    },
+    "mailbox": {
+      "provider_unknown": "Fournisseur de messagerie inconnu.",
+      "not_configured": "La connexion de boîte mail n’est pas encore activée sur le serveur.",
+      "not_connected": "Aucune boîte mail n’est connectée à votre compte.",
+      "reauth_required": "La connexion à votre boîte mail a expiré. Reconnectez-la dans les paramètres du compte.",
+      "send_failed": "Votre boîte mail a refusé l’envoi. Réessayez ou utilisez votre messagerie.",
+      "oauth_state_invalid": "La demande de connexion est invalide ou a expiré. Veuillez recommencer."
     }
   },
   "recruitment": {
@@ -1585,5 +1602,119 @@
     "you": "Vous",
     "edited": "modifiée",
     "readOnlyHint": "Passez à un abonnement pour ajouter des notes pour votre équipe."
+  },
+  "candidateOutreach": {
+    "title": "Écrire au candidat",
+    "emailCandidate": "Écrire au candidat",
+    "noEmailShort": "Aucun e-mail enregistré",
+    "minimize": "Réduire",
+    "restore": "Agrandir",
+    "close": "Fermer",
+    "loading": "Chargement des informations du candidat…",
+    "contextError": "Impossible de charger les informations du candidat. Fermez et réessayez.",
+    "suppressed": "Ce candidat a demandé à ne plus être contacté. L’envoi est désactivé.",
+    "noEmail": "Ce candidat n’a pas d’adresse e-mail enregistrée. Ajoutez-en une au CV ou saisissez une adresse ci-dessous.",
+    "reauthRequired": "La connexion à votre boîte mail a expiré.",
+    "reconnect": "Reconnecter",
+    "lastContacted": "Dernier contact {{when}} par {{who}}",
+    "you": "vous",
+    "to": "À",
+    "subject": "Objet",
+    "body": "Message",
+    "send": "Envoyer",
+    "sent": "Envoyé à {{to}}",
+    "sendAs": "Envoyé depuis {{address}}",
+    "connectHint": "Vous utilisez Microsoft 365 ? Connectez votre boîte mail pour envoyer depuis Qorva et garder une copie dans vos éléments envoyés.",
+    "connectLink": "Connecter ma boîte mail",
+    "mailtoTooLong": "Ce message est trop long pour le lien de rédaction de votre application de messagerie. Copiez-le et collez-le dans un nouvel e-mail, ou ouvrez Gmail / Outlook.",
+    "copy": "Copier",
+    "copied": "Message copié.",
+    "copyFailed": "Impossible de copier le message.",
+    "discardTitle": "Abandonner ce message ?",
+    "discardBody": "Le texte rédigé sera perdu.",
+    "keepEditing": "Continuer",
+    "discard": "Abandonner",
+    "handoff": {
+      "GMAIL": "Ouvrir dans Gmail",
+      "OUTLOOK_WEB": "Ouvrir dans Outlook",
+      "MAILTO": "Ouvrir dans ma messagerie",
+      "choose": "Choisir une messagerie"
+    },
+    "ai": {
+      "title": "Rédiger avec l’IA",
+      "generate": "Générer",
+      "regenerate": "Regénérer",
+      "shorter": "Raccourcir",
+      "instructionsPlaceholder": "Un point précis à mentionner ? (facultatif)",
+      "intent": {
+        "INTRO": "Présenter une opportunité",
+        "INTERVIEW": "Inviter à un entretien",
+        "FOLLOW_UP": "Relancer",
+        "KEEP_WARM": "Garder le contact",
+        "CUSTOM": "Personnalisé"
+      },
+      "tone": {
+        "default": "Professionnel",
+        "formal": "Formel",
+        "friendly": "Chaleureux",
+        "short": "Court"
+      },
+      "language": {
+        "en": "English",
+        "fr": "Français",
+        "de": "Deutsch",
+        "es": "Español",
+        "it": "Italiano",
+        "nl": "Nederlands",
+        "pt": "Português"
+      }
+    },
+    "history": {
+      "title": "Historique ({{count}})",
+      "openInOutlook": "Ouvrir les éléments envoyés",
+      "status": {
+        "SENT": "Envoyé depuis Qorva",
+        "EXTERNAL_OPENED": "Ouvert dans {{via}}",
+        "FAILED": "Échec"
+      },
+      "via": {
+        "GMAIL": "Gmail",
+        "OUTLOOK_WEB": "Outlook",
+        "MAILTO": "la messagerie",
+        "CONNECTED_MICROSOFT": "Microsoft 365"
+      }
+    }
+  },
+  "mailbox": {
+    "title": "Boîte mail connectée",
+    "loading": "Vérification de votre boîte mail…",
+    "intro": "Connectez votre boîte mail Microsoft 365 pour envoyer des e-mails aux candidats directement depuis Qorva, en votre nom. Chaque message est envoyé par votre propre compte et enregistré dans vos éléments envoyés.",
+    "connectMicrosoft": "Connecter Microsoft 365",
+    "otherClients": "Vous utilisez Gmail ou une autre messagerie ? Rien à connecter : le composeur ouvre votre messagerie avec le message prérempli.",
+    "scopeNote": "Qorva peut envoyer en votre nom les e-mails que vous rédigez dans le composeur. Qorva ne peut pas lire votre boîte mail.",
+    "notAvailable": "La connexion de boîte mail n’est pas encore activée sur cet environnement.",
+    "connectedSince": "Connectée le {{when}}",
+    "lastUsed": "dernier envoi {{when}}",
+    "status": {
+      "ACTIVE": "Connectée",
+      "REAUTH_REQUIRED": "Reconnexion requise"
+    },
+    "reauthHint": "Votre fournisseur de messagerie n’accepte plus la connexion enregistrée (changement de mot de passe, accès révoqué ou consentement expiré). Reconnectez-vous pour continuer à envoyer depuis Qorva.",
+    "reconnect": "Reconnecter",
+    "disconnect": "Déconnecter",
+    "disconnected": "Boîte mail déconnectée.",
+    "disconnectTitle": "Déconnecter votre boîte mail ?",
+    "disconnectBody": "Qorva n’enverra plus en votre nom ; le composeur ouvrira votre messagerie. Vous pouvez aussi révoquer l’accès de Qorva depuis la page de sécurité de votre compte Microsoft.",
+    "cancel": "Annuler",
+    "oauthConnected": "Boîte mail connectée.",
+    "oauthDenied": "Connexion annulée.",
+    "oauthFailed": "La boîte mail n’a pas pu être connectée. Veuillez réessayer.",
+    "provider": {
+      "MICROSOFT": "Microsoft 365"
+    },
+    "adminHelp": {
+      "toggle": "Votre organisation a bloqué le consentement ?",
+      "body": "Certains tenants Microsoft 365 n’autorisent que les administrateurs à approuver de nouvelles applications. Demandez à votre administrateur IT d’approuver « Qorva » pour votre organisation (la demande apparaît dans Microsoft Entra › Applications d’entreprise › Demandes de consentement administrateur), puis reconnectez-vous."
+    }
   }
 }

@@ -8,6 +8,8 @@ import AppContent from '../components/contents/AppContent.jsx';
 import AppSidebar from "../components/menu/AppSidebar.jsx";
 import UpgradeDialog from "../components/demo/UpgradeDialog.jsx";
 import { BulkImportProvider } from "../contexts/BulkImportContext.jsx";
+import { CandidateOutreachProvider } from "../contexts/CandidateOutreachContext.jsx";
+import CandidateOutreachDock from "../components/outreach/CandidateOutreachDock.jsx";
 import {logPageView} from "../utils/analytics.js";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {
@@ -59,6 +61,7 @@ const AppHome = () => {
 
 	return (
 		<BulkImportProvider>
+		<CandidateOutreachProvider>
 		<Box sx={{ display: 'flex', height: '100vh', bottom: 0 }}>
 
 			{/* Sidebar */}
@@ -86,7 +89,11 @@ const AppHome = () => {
 
 			{/* Global demo → paid upgrade flow (opened via window event) */}
 			<UpgradeDialog />
+
+			{/* Candidate email composer — docked bottom-right, survives panel switches */}
+			<CandidateOutreachDock />
 		</Box>
+		</CandidateOutreachProvider>
 		</BulkImportProvider>
 	);
 };

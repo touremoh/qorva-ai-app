@@ -45,6 +45,7 @@ const ALL_ACTIONS = [
 	'VIEW_USERS', 'MANAGE_USERS',
 	'ATS_REPORT_EXPORT',
 	'MANAGE_INTEGRATIONS',
+	'CONTACT_CANDIDATE',
 	'UPDATE_SUBSCRIPTION', 'CANCEL_SUBSCRIPTION',
 ];
 
@@ -59,6 +60,7 @@ const AUTHORITY_GROUPS = [
 	// Saving this editor rewrites the whole authority list, so an action missing from here
 	// is silently revoked on the next edit — every granted action must appear.
 	{ key: 'integrations', actions: ['MANAGE_INTEGRATIONS'] },
+	{ key: 'outreach', actions: ['CONTACT_CANDIDATE'] },
 	{ key: 'billing', actions: ['UPDATE_SUBSCRIPTION', 'CANCEL_SUBSCRIPTION'] },
 ];
 
