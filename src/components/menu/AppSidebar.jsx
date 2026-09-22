@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Drawer, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import AppMenuList from './AppMenuList/AppMenuList.jsx';

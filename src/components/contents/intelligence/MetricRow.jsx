@@ -1,7 +1,7 @@
-import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 // Legacy camelCase fallback maps (pre-i18n-key era)
 const LABEL_MAP = {
@@ -180,6 +180,10 @@ const MetricRow = ({ metrics }) => {
             ))}
         </Box>
     );
+};
+
+MetricRow.propTypes = {
+    metrics: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default MetricRow;

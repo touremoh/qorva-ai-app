@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import {
     Box,
     CircularProgress,
@@ -52,6 +53,12 @@ const SectionHeader = ({ icon: Icon, label, right }) => (
         {right}
     </Box>
 );
+
+SectionHeader.propTypes = {
+    icon: PropTypes.elementType.isRequired,
+    label: PropTypes.node,
+    right: PropTypes.node,
+};
 
 const UsageMonitoringContent = () => {
     const { t } = useTranslation();

@@ -1,15 +1,18 @@
-import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
 import PsychologyOutlinedIcon from '@mui/icons-material/PsychologyOutlined';
 import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 import MetricRow from './MetricRow.jsx';
 import ChartSection from './ChartSection.jsx';
 import CandidateSection from './CandidateSection.jsx';
 import CandidateComparisonSection from './CandidateComparisonSection.jsx';
 import FollowUpChips from './FollowUpChips.jsx';
 import DisclaimerBanner from './DisclaimerBanner.jsx';
+
+// Follow-up chips are temporarily hidden; set to true to re-enable.
+const SHOW_FOLLOW_UPS = false;
 
 const INTENT_CONFIG = {
     TALENT_POOL_INTELLIGENCE:        { label: 'Talent Pool Intelligence',  color: '#4f46e5', bg: 'rgba(79,70,229,0.07)'   },
@@ -103,8 +106,8 @@ const InsightResultCard = ({ result, onFollowUp, onCandidateClick }) => {
                 {/* Disclaimer */}
                 <DisclaimerBanner text={disclaimer} />
 
-                {/* Follow-ups — temporarily hidden; remove `false &&` to re-enable */}
-                {false && followUpQuestions?.length > 0 && (
+                {/* Follow-ups — temporarily hidden, see SHOW_FOLLOW_UPS */}
+                {SHOW_FOLLOW_UPS && followUpQuestions?.length > 0 && (
                     <Box sx={{ mt: 1.5, pt: 1.5, borderTop: '1px solid #f1f5f9' }}>
                         <FollowUpChips suggestions={followUpQuestions} onSelect={onFollowUp} />
                     </Box>
@@ -112,6 +115,22 @@ const InsightResultCard = ({ result, onFollowUp, onCandidateClick }) => {
             </Box>
         </Box>
     );
+};
+
+InsightResultCard.propTypes = {
+    result: PropTypes.shape({
+        intent: PropTypes.string,
+        answerText: PropTypes.string,
+        metrics: PropTypes.array,
+        charts: PropTypes.array,
+        candidates: PropTypes.array,
+        followUpQuestions: PropTypes.array,
+        disclaimer: PropTypes.string,
+        showRediscoveredTag: PropTypes.bool,
+        rawData: PropTypes.object,
+    }).isRequired,
+    onFollowUp: PropTypes.func,
+    onCandidateClick: PropTypes.func,
 };
 
 export default InsightResultCard;

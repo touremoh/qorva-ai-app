@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import {
 	Avatar,
 	Box,
@@ -120,6 +121,12 @@ const PermissionsEditor = ({ perms, onChange, t }) => (
 	</Box>
 );
 
+PermissionsEditor.propTypes = {
+	perms: PropTypes.objectOf(PropTypes.bool).isRequired,
+	onChange: PropTypes.func.isRequired,
+	t: PropTypes.func.isRequired,
+};
+
 const DIALOG_PAPER_SX = { elevation: 0, sx: { borderRadius: 3, border: '1px solid #e2e8f0' } };
 const BTN_GREEN_SX = {
 	backgroundColor: '#629C44', borderRadius: 2, textTransform: 'none',
@@ -159,7 +166,7 @@ const AccountUsersTab = () => {
 		}
 	};
 
-	useEffect(() => { fetchUsers(); /* eslint-disable-next-line */ }, []);
+	useEffect(() => { fetchUsers(); }, []);
 
 	const handleAddUser = async () => {
 		try {

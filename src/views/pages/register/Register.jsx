@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useCallback, useEffect, useState, useMemo } from 'react';
 import {
 	Grid2,
 	Typography,
@@ -64,7 +64,7 @@ const UserRegistration = () => {
 		return () => clearInterval(interval);
 	}, [status]);
 
-	const validate = (values) => {
+	const validate = useCallback((values) => {
 		const next = {};
 		if (!values.firstName?.trim()) next.firstName = t('registration.firstNameRequired', 'First name is required');
 		if (!values.lastName?.trim()) next.lastName = t('registration.lastNameRequired', 'Last name is required');
@@ -77,9 +77,9 @@ const UserRegistration = () => {
 			next.email = t('registration.emailInvalid', 'Enter a valid business email');
 		}
 		return next;
-	};
+	}, [t]);
 
-	const liveErrors = useMemo(() => validate(userInfo), [userInfo]);
+	const liveErrors = useMemo(() => validate(userInfo), [validate, userInfo]);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;

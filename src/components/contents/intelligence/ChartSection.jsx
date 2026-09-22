@@ -1,9 +1,9 @@
-import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { PieChart } from '@mui/x-charts/PieChart';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 const COLORS = ['#629C44', '#4f46e5', '#0891b2', '#d97706', '#dc2626', '#7c3aed', '#0f766e'];
 
@@ -77,6 +77,13 @@ const MiniPie = ({ title, labels = [], values = [], t }) => {
     );
 };
 
+MiniPie.propTypes = {
+    title: PropTypes.string,
+    labels: PropTypes.arrayOf(PropTypes.string),
+    values: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.string])),
+    t: PropTypes.func.isRequired,
+};
+
 const BarChartCard = ({ title, labels = [], values = [], t }) => (
     <Box sx={{ width: '100%' }}>
         {title && (
@@ -92,6 +99,13 @@ const BarChartCard = ({ title, labels = [], values = [], t }) => (
         />
     </Box>
 );
+
+BarChartCard.propTypes = {
+    title: PropTypes.string,
+    labels: PropTypes.arrayOf(PropTypes.string),
+    values: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.string])),
+    t: PropTypes.func.isRequired,
+};
 
 const ChartSection = ({ charts }) => {
     const { t } = useTranslation();
@@ -114,6 +128,15 @@ const ChartSection = ({ charts }) => {
             ))}
         </Box>
     );
+};
+
+ChartSection.propTypes = {
+    charts: PropTypes.arrayOf(PropTypes.shape({
+        chartType: PropTypes.string,
+        title: PropTypes.string,
+        labels: PropTypes.arrayOf(PropTypes.string),
+        values: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.string])),
+    })),
 };
 
 export default ChartSection;

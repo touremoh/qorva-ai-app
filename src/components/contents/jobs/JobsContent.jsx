@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import {
 	Box,
 	Button,
@@ -110,6 +111,10 @@ const SectionTitle = ({ label }) => (
 	</Typography>
 );
 
+SectionTitle.propTypes = {
+	label: PropTypes.node,
+};
+
 const SliderRow = ({ label, value, onChange, min, max, step, format }) => (
 	<Box sx={{ mb: 0.5 }}>
 		<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.25 }}>
@@ -119,6 +124,16 @@ const SliderRow = ({ label, value, onChange, min, max, step, format }) => (
 		<Slider value={value} onChange={(_, v) => onChange(v)} min={min} max={max} step={step} size="small" sx={sliderSx} />
 	</Box>
 );
+
+SliderRow.propTypes = {
+	label: PropTypes.node,
+	value: PropTypes.number,
+	onChange: PropTypes.func.isRequired,
+	min: PropTypes.number,
+	max: PropTypes.number,
+	step: PropTypes.number,
+	format: PropTypes.func.isRequired,
+};
 
 // ─── Step 2: Scoring/Matching rules form ──────────────────────────────────────
 
@@ -440,6 +455,47 @@ const JobScoringForm = ({ scoringConfig, setScoringConfig, onBack, onSkip, onSav
 			</Box>
 		</Box>
 	);
+};
+
+JobScoringForm.propTypes = {
+	scoringConfig: PropTypes.shape({
+		skills: PropTypes.arrayOf(PropTypes.shape({
+			name: PropTypes.string,
+			importance: PropTypes.string,
+			weight: PropTypes.number,
+			minYearsOfExperience: PropTypes.number,
+			exactSkillOnly: PropTypes.bool,
+		})).isRequired,
+		experienceRequirements: PropTypes.shape({
+			minYearsOfExperience: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+			minRelevantYears: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+			seniorityLevel: PropTypes.string,
+		}).isRequired,
+		locationPreferences: PropTypes.shape({
+			allowedLocations: PropTypes.arrayOf(PropTypes.string),
+			remoteAllowed: PropTypes.bool,
+			strictness: PropTypes.string,
+		}).isRequired,
+		industryPreferences: PropTypes.shape({
+			preferredIndustries: PropTypes.arrayOf(PropTypes.string),
+			strictness: PropTypes.string,
+		}).isRequired,
+		scoringWeight: PropTypes.shape({
+			skills: PropTypes.number,
+			experience: PropTypes.number,
+			location: PropTypes.number,
+			industry: PropTypes.number,
+		}).isRequired,
+		filterOpenToWork: PropTypes.bool,
+		availabilityStatuses: PropTypes.arrayOf(PropTypes.string),
+	}).isRequired,
+	setScoringConfig: PropTypes.func.isRequired,
+	onBack: PropTypes.func,
+	onSkip: PropTypes.func,
+	onSave: PropTypes.func,
+	loading: PropTypes.bool,
+	saveLabel: PropTypes.node,
+	t: PropTypes.func.isRequired,
 };
 
 // ─── Main component ───────────────────────────────────────────────────────────

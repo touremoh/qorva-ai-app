@@ -1,10 +1,10 @@
-import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import Chip from '@mui/material/Chip';
 import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
 import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 const ACCENT = '#0891b2';
 
@@ -169,6 +169,12 @@ const CandidateComparisonSection = ({ candidates = [], rawData = {}, onCandidate
             )}
         </Box>
     );
+};
+
+CandidateComparisonSection.propTypes = {
+    candidates: PropTypes.arrayOf(PropTypes.object),
+    rawData: PropTypes.object,
+    onCandidateClick: PropTypes.func,
 };
 
 export default CandidateComparisonSection;

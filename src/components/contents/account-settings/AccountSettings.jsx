@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import {
 	Avatar,
 	Box,
@@ -17,7 +18,6 @@ import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
-import FingerprintOutlinedIcon from '@mui/icons-material/FingerprintOutlined';
 import TranslateOutlinedIcon from '@mui/icons-material/TranslateOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -55,6 +55,12 @@ const SectionHeader = ({ icon: Icon, label, action }) => (
 	</Box>
 );
 
+SectionHeader.propTypes = {
+	icon: PropTypes.elementType.isRequired,
+	label: PropTypes.node,
+	action: PropTypes.node,
+};
+
 const FieldCard = ({ icon: Icon, label, value }) => (
 	<Box sx={{
 		p: 1.5, borderRadius: 2,
@@ -78,6 +84,12 @@ const FieldCard = ({ icon: Icon, label, value }) => (
 		</Box>
 	</Box>
 );
+
+FieldCard.propTypes = {
+	icon: PropTypes.elementType.isRequired,
+	label: PropTypes.node,
+	value: PropTypes.node,
+};
 
 const BTN_GREEN_SX = {
 	backgroundColor: '#629C44', borderRadius: 2, textTransform: 'none',

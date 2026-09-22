@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Box } from '@mui/material';
 import { SIDEBAR_WIDTH, SIDEBAR_WIDTH_COLLAPSED } from '../menu/AppSidebar.jsx';
 import JobContent from "./jobs/JobsContent.jsx";
@@ -77,6 +78,11 @@ const AppContent = ({ content, isSidebarCollapsed }) => {
 			</Box>
 		</Box>
 	);
+};
+
+AppContent.propTypes = {
+	content: PropTypes.string,
+	isSidebarCollapsed: PropTypes.bool,
 };
 
 export default AppContent;

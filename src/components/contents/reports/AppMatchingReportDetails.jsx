@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
 	Avatar, Box, Chip, Divider, IconButton,
 	Paper, Stack, Tooltip, Typography,
@@ -126,6 +126,11 @@ const SectionHeader = ({ icon: Icon, label }) => (
 	</Box>
 );
 
+SectionHeader.propTypes = {
+	icon: PropTypes.elementType.isRequired,
+	label: PropTypes.node,
+};
+
 const ScoreGaugeLarge = ({ value }) => {
 	const [animated, setAnimated] = useState(false);
 	const r = 62, sw = 12, size = 160;
@@ -149,6 +154,10 @@ const ScoreGaugeLarge = ({ value }) => {
 			</Box>
 		</Box>
 	);
+};
+
+ScoreGaugeLarge.propTypes = {
+	value: PropTypes.number.isRequired,
 };
 
 const ScoreGaugeSmall = ({ value }) => {
@@ -175,6 +184,10 @@ const ScoreGaugeSmall = ({ value }) => {
 	);
 };
 
+ScoreGaugeSmall.propTypes = {
+	value: PropTypes.number.isRequired,
+};
+
 const DetailScoreCard = ({ icon: Icon, label, score, explanation }) => {
 	const color = getColor(score);
 	return (
@@ -197,6 +210,13 @@ const DetailScoreCard = ({ icon: Icon, label, score, explanation }) => {
 			</Box>
 		</Paper>
 	);
+};
+
+DetailScoreCard.propTypes = {
+	icon: PropTypes.elementType.isRequired,
+	label: PropTypes.node,
+	score: PropTypes.number.isRequired,
+	explanation: PropTypes.node,
 };
 
 // ─── Main component ───────────────────────────────────────────────────────────

@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import {
 	Box,
 	Button,
@@ -214,6 +215,15 @@ const GuideSteps = ({ title, intro, steps, note, docsUrl, docsLabel }) => {
 	);
 };
 
+GuideSteps.propTypes = {
+	title: PropTypes.node,
+	intro: PropTypes.node,
+	steps: PropTypes.arrayOf(PropTypes.node).isRequired,
+	note: PropTypes.node,
+	docsUrl: PropTypes.string,
+	docsLabel: PropTypes.node,
+};
+
 /** One copyable value (webhook URL or secret) with its label. */
 const CopyRow = ({ label, value, onCopy, mask }) => (
 	<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
@@ -231,6 +241,13 @@ const CopyRow = ({ label, value, onCopy, mask }) => (
 		</IconButton>
 	</Box>
 );
+
+CopyRow.propTypes = {
+	label: PropTypes.node,
+	value: PropTypes.string,
+	onCopy: PropTypes.func.isRequired,
+	mask: PropTypes.bool,
+};
 
 /**
  * Status of webhooks Qorva registered itself. Success is one quiet line — there is nothing
@@ -266,6 +283,13 @@ const ManagedWebhooks = ({ registered, error, busy, onRetry }) => {
 	);
 };
 
+ManagedWebhooks.propTypes = {
+	registered: PropTypes.bool,
+	error: PropTypes.string,
+	busy: PropTypes.bool,
+	onRetry: PropTypes.func.isRequired,
+};
+
 const StatusChip = ({ status }) => {
 	const { t } = useTranslation();
 	const byStatus = {
@@ -282,6 +306,10 @@ const StatusChip = ({ status }) => {
 	);
 };
 
+StatusChip.propTypes = {
+	status: PropTypes.string,
+};
+
 const SettingRow = ({ label, hint, checked, onChange, disabled }) => (
 	<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
 		<Box sx={{ flex: 1, minWidth: 0 }}>
@@ -292,6 +320,14 @@ const SettingRow = ({ label, hint, checked, onChange, disabled }) => (
 			sx={{ '& .MuiSwitch-switchBase.Mui-checked': { color: GREEN }, '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: GREEN } }} />
 	</Box>
 );
+
+SettingRow.propTypes = {
+	label: PropTypes.node,
+	hint: PropTypes.node,
+	checked: PropTypes.bool,
+	onChange: PropTypes.func.isRequired,
+	disabled: PropTypes.bool,
+};
 
 const RunLine = ({ run }) => {
 	const { t } = useTranslation();
@@ -314,6 +350,17 @@ const RunLine = ({ run }) => {
 			</Typography>
 		</Box>
 	);
+};
+
+RunLine.propTypes = {
+	run: PropTypes.shape({
+		createdAt: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+		failureReason: PropTypes.string,
+		status: PropTypes.string,
+		succeeded: PropTypes.number,
+		skipped: PropTypes.number,
+		failed: PropTypes.number,
+	}).isRequired,
 };
 
 const AccountIntegrationsTab = () => {

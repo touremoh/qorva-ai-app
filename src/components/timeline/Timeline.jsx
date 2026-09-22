@@ -1,4 +1,3 @@
-import React, { Children } from "react";
 import Timeline from "@mui/lab/Timeline";
 import TimelineItem from "@mui/lab/TimelineItem";
 import TimelineSeparator from "@mui/lab/TimelineSeparator";
@@ -8,6 +7,7 @@ import TimelineDot from "@mui/lab/TimelineDot";
 
 import "./Timeline.css";
 import { Typography } from "@mui/material";
+import PropTypes from "prop-types";
 
 const QorvaCVTimeline = ({ title, icon, children }) => {
   return (
@@ -27,6 +27,12 @@ const QorvaCVTimeline = ({ title, icon, children }) => {
       {children}
     </Timeline>
   );
+};
+
+QorvaCVTimeline.propTypes = {
+  title: PropTypes.node,
+  icon: PropTypes.node,
+  children: PropTypes.node,
 };
 
 export const QorvaTimelineSeparator = () => (

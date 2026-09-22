@@ -21,6 +21,7 @@ const CheckLoginPage = ({ children }) => {
 			await hasToken() ? navigate('/') : navigate('/login');
 		};
 		verifyToken().then(r => console.log("Token verification done! ", r));
+	// eslint-disable-next-line react-hooks/exhaustive-deps -- hasToken is recreated every render; re-check on navigation only
 	}, [navigate]);
 
 	return children;

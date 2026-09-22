@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import { useCallback, useState, useMemo } from "react";
 import {
 	Grid2,
 	Typography,
@@ -39,7 +39,7 @@ const Login = () => {
 	// idle → loading (spinner + progress text) → success (green check, then navigate)
 	const [status, setStatus] = useState('idle');
 
-	const validate = (values) => {
+	const validate = useCallback((values) => {
 		const next = { email: "", password: "" };
 		if (!values.email) {
 			next.email = t('login.emailRequired', 'Email is required');
@@ -50,9 +50,9 @@ const Login = () => {
 			next.password = t('login.passwordRequired', 'Password is required');
 		}
 		return next;
-	};
+	}, [t]);
 
-	const liveErrors = useMemo(() => validate({ email, password }), [email, password]);
+	const liveErrors = useMemo(() => validate({ email, password }), [validate, email, password]);
 
 	const handleBlur = (field) => () => {
 		setTouched((prev) => ({ ...prev, [field]: true }));

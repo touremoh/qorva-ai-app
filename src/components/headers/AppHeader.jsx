@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import {
 	AppBar,
 	Avatar,
@@ -159,6 +160,12 @@ const AppHeader = ({ handleContentChange, contentTitle, isSidebarCollapsed }) =>
 			</Toolbar>
 		</AppBar>
 	);
+};
+
+AppHeader.propTypes = {
+	handleContentChange: PropTypes.func.isRequired,
+	contentTitle: PropTypes.string,
+	isSidebarCollapsed: PropTypes.bool,
 };
 
 const menuItemSx = {

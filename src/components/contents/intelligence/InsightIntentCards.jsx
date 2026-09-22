@@ -1,4 +1,3 @@
-import React from 'react';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
@@ -10,6 +9,7 @@ import ManageSearchOutlinedIcon from '@mui/icons-material/ManageSearchOutlined';
 import DonutLargeOutlinedIcon from '@mui/icons-material/DonutLargeOutlined';
 import CompareArrowsOutlinedIcon from '@mui/icons-material/CompareArrowsOutlined';
 import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 const INTENT_CARDS = [
     { id: 'TALENT_POOL_INTELLIGENCE', icon: GroupsOutlinedIcon,        color: '#4f46e5' },
@@ -127,6 +127,10 @@ const InsightIntentCards = ({ onCardClick }) => {
             })}
         </Box>
     );
+};
+
+InsightIntentCards.propTypes = {
+    onCardClick: PropTypes.func,
 };
 
 export default InsightIntentCards;

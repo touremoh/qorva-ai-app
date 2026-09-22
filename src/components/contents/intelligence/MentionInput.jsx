@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -380,6 +381,21 @@ const MentionInput = ({
             </Popper>
         </Box>
     );
+};
+
+MentionInput.propTypes = {
+    value: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    mentions: PropTypes.arrayOf(PropTypes.shape({
+        type: PropTypes.string,
+        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        name: PropTypes.string,
+    })).isRequired,
+    onMentionsChange: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func,
+    disabled: PropTypes.bool,
+    placeholder: PropTypes.string,
+    focusToken: PropTypes.number,
 };
 
 export default MentionInput;

@@ -1,7 +1,7 @@
-import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import PropTypes from 'prop-types';
 
 const DisclaimerBanner = ({ text }) => {
     if (!text) return null;
@@ -21,6 +21,10 @@ const DisclaimerBanner = ({ text }) => {
             <Typography sx={{ fontSize: '0.75rem', color: '#92400e', lineHeight: 1.5 }}>{text}</Typography>
         </Box>
     );
+};
+
+DisclaimerBanner.propTypes = {
+    text: PropTypes.string,
 };
 
 export default DisclaimerBanner;

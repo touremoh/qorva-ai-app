@@ -1,8 +1,8 @@
-import React from 'react';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
+import PropTypes from 'prop-types';
 
 const FollowUpChips = ({ suggestions, onSelect }) => {
     if (!suggestions?.length) return null;
@@ -34,6 +34,11 @@ const FollowUpChips = ({ suggestions, onSelect }) => {
             </Box>
         </Box>
     );
+};
+
+FollowUpChips.propTypes = {
+    suggestions: PropTypes.arrayOf(PropTypes.string),
+    onSelect: PropTypes.func,
 };
 
 export default FollowUpChips;

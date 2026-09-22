@@ -1,4 +1,3 @@
-import React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -9,6 +8,7 @@ import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 const INTENT_COLOR = {
     TALENT_POOL_INTELLIGENCE:        '#4f46e5',
@@ -151,6 +151,18 @@ const ConversationItem = ({ conv, isActive, onSelect, onDelete }) => {
     );
 };
 
+ConversationItem.propTypes = {
+    conv: PropTypes.shape({
+        conversationId: PropTypes.string,
+        title: PropTypes.string,
+        intent: PropTypes.string,
+        lastActivityAt: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    }).isRequired,
+    isActive: PropTypes.bool,
+    onSelect: PropTypes.func.isRequired,
+    onDelete: PropTypes.func,
+};
+
 const InsightConversationList = ({ conversations, activeConvId, onSelect, onNew, onDelete, loading }) => {
     const groups = groupByDate(conversations);
 
@@ -221,6 +233,15 @@ const InsightConversationList = ({ conversations, activeConvId, onSelect, onNew,
             </Box>
         </Box>
     );
+};
+
+InsightConversationList.propTypes = {
+    conversations: PropTypes.arrayOf(PropTypes.object).isRequired,
+    activeConvId: PropTypes.string,
+    onSelect: PropTypes.func.isRequired,
+    onNew: PropTypes.func,
+    onDelete: PropTypes.func,
+    loading: PropTypes.bool,
 };
 
 export default InsightConversationList;

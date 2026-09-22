@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
 import {
     Box,
     Button,
@@ -40,6 +41,12 @@ const SectionHeader = ({ icon: Icon, label, action }) => (
     </Box>
 );
 
+SectionHeader.propTypes = {
+    icon: PropTypes.elementType.isRequired,
+    label: PropTypes.node,
+    action: PropTypes.node,
+};
+
 const CARD_SX = {
     p: 1.5, borderRadius: 2,
     backgroundColor: '#f8fafc', border: '1px solid #f1f5f9',
@@ -67,6 +74,12 @@ const FieldCard = ({ icon: Icon, label, value }) => (
     </Box>
 );
 
+FieldCard.propTypes = {
+    icon: PropTypes.elementType.isRequired,
+    label: PropTypes.node,
+    value: PropTypes.node,
+};
+
 const ChipFieldCard = ({ icon: Icon, label, statusCode }) => (
     <Box sx={CARD_SX}>
         <Box sx={ICON_BOX_SX}>
@@ -78,6 +91,12 @@ const ChipFieldCard = ({ icon: Icon, label, statusCode }) => (
         </Box>
     </Box>
 );
+
+ChipFieldCard.propTypes = {
+    icon: PropTypes.elementType.isRequired,
+    label: PropTypes.node,
+    statusCode: PropTypes.string,
+};
 
 const BTN_GREEN_SX = {
     backgroundColor: '#629C44', borderRadius: 2, textTransform: 'none',

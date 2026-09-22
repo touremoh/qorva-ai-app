@@ -199,7 +199,8 @@ const AppAIResumeChat = () => {
 		}
 	};
 
-	useEffect(() => { fetchChatsPage(0, statusFilter); /* eslint-disable-next-line */ }, [statusFilter]);
+	// eslint-disable-next-line react-hooks/exhaustive-deps -- refetch only when the filter changes; fetchChatsPage is recreated every render
+	useEffect(() => { fetchChatsPage(0, statusFilter); }, [statusFilter]);
 
 	const handleSelectChat = (chat) => {
 		setSelectedChat(chat);
@@ -278,11 +279,11 @@ const AppAIResumeChat = () => {
 		try {
 			const cvResp = await getAllCVEntries();
 			setCvList(cvResp?.data?.data?.content ?? cvResp?.data?.content ?? []);
-		} catch (e) { setCvList([]); }
+		} catch { setCvList([]); }
 		try {
 			const jobsResp = await getJobs({ pageSize: 10, pageNumber: 0 });
 			setJobs(jobsResp?.data?.data?.content ?? jobsResp?.data?.content ?? []);
-		} catch (e) { setJobs([]); }
+		} catch { setJobs([]); }
 	};
 
 	const openCreateChatModal = async () => {
@@ -309,7 +310,7 @@ const AppAIResumeChat = () => {
 				setResumeMatch(found);
 				setSelectedResumeMatchId(found?.id || '');
 				if (!customTitle && selectedCV && selectedJob) setCustomTitle(buildChatTitle(selectedCV, selectedJob));
-			} catch (e) {
+			} catch {
 				if (!cancelled) { setResumeMatch(null); setSelectedResumeMatchId(''); }
 			} finally {
 				if (!cancelled) setLoadingResumeMatch(false);
@@ -435,7 +436,7 @@ const AppAIResumeChat = () => {
 	}, [cvList]);
 
 	useEffect(() => {
-		try { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }); } catch {}
+		try { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }); } catch { /* auto-scroll is cosmetic; ignore if unsupported */ }
 	}, [messages.length, assistantTyping]);
 
 	return (

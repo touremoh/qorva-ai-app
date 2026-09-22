@@ -69,6 +69,7 @@ const CheckoutSuccessPage = () => {
 
 		poll();
 		return () => clearTimeout(timerRef.current);
+	// eslint-disable-next-line react-hooks/exhaustive-deps -- start the activation poll once on mount; re-running would restart it
 	}, []);
 
 	return (

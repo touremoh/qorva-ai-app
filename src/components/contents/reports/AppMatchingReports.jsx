@@ -136,13 +136,14 @@ const AppMatchingReports = () => {
 			if (term.trim()) { params.title = term.trim(); params.description = term.trim(); }
 			const res = await getJobs(params);
 			setJobOptions(res?.data?.data?.content ?? []);
-		} catch (e) { /* silent */ }
+		} catch { /* silent */ }
 		finally { setJobOptionsLoading(false); }
 	};
 
 	useEffect(() => {
 		fetchData(0, '', '', '', '');
 		fetchJobs();
+	// eslint-disable-next-line react-hooks/exhaustive-deps -- initial load only; filters and polling drive later fetches
 	}, []);
 
 	// Keep latest filter params accessible inside the polling closure without recreating the interval

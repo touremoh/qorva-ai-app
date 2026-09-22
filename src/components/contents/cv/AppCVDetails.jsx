@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
 	Box,
 	Button,
@@ -6,7 +6,6 @@ import {
 	Typography,
 	Avatar,
 	Chip,
-	Divider,
 	FormControlLabel,
 	IconButton,
 	Grid2,
@@ -285,6 +284,24 @@ const ClusteringTabContent = ({ clustering, t }) => {
 	);
 };
 
+ClusteringTabContent.propTypes = {
+	clustering: PropTypes.shape({
+		primaryCluster: PropTypes.string,
+		secondaryClusters: PropTypes.arrayOf(PropTypes.string),
+		functionalExpertise: PropTypes.arrayOf(PropTypes.string),
+		skillDepth: PropTypes.string,
+		seniorityLevel: PropTypes.string,
+		leadershipAndInfluence: PropTypes.string,
+		learningVelocity: PropTypes.string,
+		industryDomains: PropTypes.arrayOf(PropTypes.string),
+		environmentFit: PropTypes.arrayOf(PropTypes.string),
+		businessImpact: PropTypes.arrayOf(PropTypes.string),
+		clusterConfidenceScore: PropTypes.number,
+		clusterReasoning: PropTypes.string,
+	}),
+	t: PropTypes.func.isRequired,
+};
+
 // ─── Local helpers ────────────────────────────────────────────────────────────
 
 const getInitials = (name = '') =>
@@ -311,11 +328,22 @@ const SectionHeader = ({ Icon, title, onEdit }) => (
 	</Box>
 );
 
+SectionHeader.propTypes = {
+	Icon: PropTypes.elementType.isRequired,
+	title: PropTypes.node,
+	onEdit: PropTypes.func,
+};
+
 const Card = ({ children, sx }) => (
 	<Paper elevation={0} sx={{ p: 2.5, borderRadius: 2, border: '1px solid #e2e8f0', ...sx }}>
 		{children}
 	</Paper>
 );
+
+Card.propTypes = {
+	children: PropTypes.node,
+	sx: PropTypes.object,
+};
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
@@ -1435,6 +1463,15 @@ const langThSx = {
 AppCVDetails.propTypes = {
 	cv: PropTypes.shape({
 		id: PropTypes.string,
+		applicantNumber: PropTypes.string,
+		profiles: PropTypes.shape({
+			areasOfExpertise: PropTypes.arrayOf(PropTypes.string),
+			keyResponsibilities: PropTypes.arrayOf(PropTypes.string),
+		}),
+		keySkills: PropTypes.arrayOf(PropTypes.shape({
+			category: PropTypes.string,
+			skills: PropTypes.arrayOf(PropTypes.string),
+		})),
 		candidateProfileSummary: PropTypes.string,
 		candidateClustering: PropTypes.shape({
 			primaryCluster: PropTypes.string,

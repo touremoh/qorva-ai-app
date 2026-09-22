@@ -1,10 +1,10 @@
-import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import Chip from '@mui/material/Chip';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import RecyclingOutlinedIcon from '@mui/icons-material/RecyclingOutlined';
+import PropTypes from 'prop-types';
 
 const getInitials = (name = '') =>
     name.split(' ').slice(0, 2).map(p => p[0]).join('').toUpperCase();
@@ -122,6 +122,12 @@ const CandidateSection = ({ candidates, showRediscoveredTag, onCandidateClick })
             ))}
         </Box>
     );
+};
+
+CandidateSection.propTypes = {
+    candidates: PropTypes.arrayOf(PropTypes.object),
+    showRediscoveredTag: PropTypes.bool,
+    onCandidateClick: PropTypes.func,
 };
 
 export default CandidateSection;

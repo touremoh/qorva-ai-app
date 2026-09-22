@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import {
 	Box,
 	Typography,
@@ -119,6 +120,7 @@ const QorvaPricingTable = ({ selectedPriceId, onSelectPlan }) => {
 			})
 			.catch(() => setError(t('pricing.loadError', 'Failed to load plans. Please try again.')))
 			.finally(() => setLoading(false));
+	// eslint-disable-next-line react-hooks/exhaustive-deps -- fetch plans once; t is only used for the error text
 	}, []);
 
 	if (loading) {
@@ -359,6 +361,11 @@ const QorvaPricingTable = ({ selectedPriceId, onSelectPlan }) => {
 			</Grid>
 		</Box>
 	);
+};
+
+QorvaPricingTable.propTypes = {
+	selectedPriceId: PropTypes.string,
+	onSelectPlan: PropTypes.func.isRequired,
 };
 
 export default QorvaPricingTable;
