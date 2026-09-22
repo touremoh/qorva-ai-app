@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
 	Avatar,
 	Box,
@@ -135,6 +135,14 @@ const KPICard = ({ label, value, icon: Icon, accent, bg }) => (
 	</Paper>
 );
 
+KPICard.propTypes = {
+	label: PropTypes.string.isRequired,
+	value: PropTypes.number,
+	icon: PropTypes.elementType.isRequired,
+	accent: PropTypes.string.isRequired,
+	bg: PropTypes.string.isRequired,
+};
+
 const SectionHeader = ({ icon: Icon, label, right }) => (
 	<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2, pb: 1.5, borderBottom: '2px solid #629C44', flexShrink: 0 }}>
 		<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -147,10 +155,10 @@ const SectionHeader = ({ icon: Icon, label, right }) => (
 	</Box>
 );
 
-const SCROLLBAR_SX = {
-	'&::-webkit-scrollbar': { width: 4, height: 4 },
-	'&::-webkit-scrollbar-track': { backgroundColor: 'transparent' },
-	'&::-webkit-scrollbar-thumb': { backgroundColor: '#e2e8f0', borderRadius: 4 },
+SectionHeader.propTypes = {
+	icon: PropTypes.elementType.isRequired,
+	label: PropTypes.node.isRequired,
+	right: PropTypes.node,
 };
 
 const JobCandidateCard = ({ job }) => {
@@ -215,6 +223,18 @@ const JobCandidateCard = ({ job }) => {
 			</Box>
 		</Box>
 	);
+};
+
+JobCandidateCard.propTypes = {
+	job: PropTypes.shape({
+		jobPostId: PropTypes.string,
+		jobPostTitle: PropTypes.string,
+		topCandidates: PropTypes.arrayOf(PropTypes.shape({
+			candidateId: PropTypes.string,
+			candidateName: PropTypes.string,
+			score: PropTypes.number,
+		})),
+	}).isRequired,
 };
 
 const PagerControls = ({ page, totalPages, hasNext, loading = false, onPrev, onNext }) => {
@@ -285,7 +305,7 @@ const TopCandidatesTable = ({ t }) => {
 		}
 	};
 
-	useEffect(() => { fetchPage(0); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+	useEffect(() => { fetchPage(0); }, []);
 
 	const handlePrev = () => { const p = pageNumber - 1; setPageNumber(p); fetchPage(p); };
 	const handleNext = () => { const p = pageNumber + 1; setPageNumber(p); fetchPage(p); };
@@ -314,11 +334,15 @@ const TopCandidatesTable = ({ t }) => {
 				opacity: pageLoading ? 0.5 : 1, transition: 'opacity 0.15s',
 			}}>
 				{jobs.map((job) => (
-					<JobCandidateCard key={job.jobPostTitle} job={job} />
+					<JobCandidateCard key={job.jobPostId ?? job.jobPostTitle} job={job} />
 				))}
 			</Box>
 		</Paper>
 	);
+};
+
+TopCandidatesTable.propTypes = {
+	t: PropTypes.func.isRequired,
 };
 
 const JOB_POSTS_PAGE_SIZE = 5;
@@ -365,7 +389,7 @@ const JobPostsReportTable = ({ rows, t }) => {
 						</TableHead>
 						<TableBody>
 							{visibleRows.map((row, idx) => (
-								<TableRow key={`${row.jobPostTitle}-${offset + idx}`} sx={{ '&:hover': { backgroundColor: '#f8fafc' } }}>
+								<TableRow key={row.jobPostId ?? `${row.jobPostTitle}-${offset + idx}`} sx={{ '&:hover': { backgroundColor: '#f8fafc' } }}>
 									<TableCell sx={{ fontSize: '0.82rem', color: '#0f172a', py: 1, borderBottom: '1px solid #f1f5f9' }}>
 										{row?.jobPostTitle ?? '—'}
 									</TableCell>
@@ -390,6 +414,7 @@ const JobPostsReportTable = ({ rows, t }) => {
 
 JobPostsReportTable.propTypes = {
 	rows: PropTypes.arrayOf(PropTypes.shape({
+		jobPostId: PropTypes.string,
 		jobPostTitle: PropTypes.string,
 		totalMatch: PropTypes.number,
 	})).isRequired,
@@ -444,6 +469,19 @@ const InsightCard = ({ label, icon: Icon, accent, bg, items, t }) => {
 	);
 };
 
+InsightCard.propTypes = {
+	label: PropTypes.string.isRequired,
+	icon: PropTypes.elementType.isRequired,
+	accent: PropTypes.string.isRequired,
+	bg: PropTypes.string.isRequired,
+	items: PropTypes.arrayOf(PropTypes.shape({
+		name: PropTypes.string,
+		count: PropTypes.number,
+		percentage: PropTypes.number,
+	})).isRequired,
+	t: PropTypes.func.isRequired,
+};
+
 const TalentPoolInsightSection = ({ data, t }) => {
 	const config = useMemo(() => TALENT_POOL_INSIGHT_CONFIG(t), [t]);
 	const hasData = config.some(({ key }) => Array.isArray(data[key]) && data[key].length > 0);
@@ -467,6 +505,11 @@ const TalentPoolInsightSection = ({ data, t }) => {
 			</Box>
 		</Paper>
 	);
+};
+
+TalentPoolInsightSection.propTypes = {
+	data: PropTypes.object.isRequired,
+	t: PropTypes.func.isRequired,
 };
 
 const QorvaDashboard = () => {
