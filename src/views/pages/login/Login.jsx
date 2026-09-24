@@ -34,7 +34,6 @@ const Login = () => {
 	const [password, setPassword] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
 	const [touched, setTouched] = useState({ email: false, password: false });
-	const [errors, setErrors] = useState({ email: "", password: "" });
 	const [formError, setFormError] = useState("");
 	// idle → loading (spinner + progress text) → success (green check, then navigate)
 	const [status, setStatus] = useState('idle');
@@ -56,14 +55,12 @@ const Login = () => {
 
 	const handleBlur = (field) => () => {
 		setTouched((prev) => ({ ...prev, [field]: true }));
-		setErrors((prev) => ({ ...prev, [field]: liveErrors[field] }));
 	};
 
 	const handleLogin = async (e) => {
 		e.preventDefault();
 		setFormError("");
 		const finalErrors = validate({ email, password });
-		setErrors(finalErrors);
 		setTouched({ email: true, password: true });
 		if (Object.values(finalErrors).some(Boolean)) return;
 
@@ -229,8 +226,8 @@ const Login = () => {
 								value={email}
 								onChange={(e) => setEmail(e.target.value)}
 								onBlur={handleBlur('email')}
-								error={Boolean(touched.email && (errors.email || liveErrors.email))}
-								helperText={(touched.email && (errors.email || liveErrors.email)) || ' '}
+								error={Boolean(touched.email && liveErrors.email)}
+								helperText={(touched.email && liveErrors.email) || ' '}
 								sx={inputSx}
 								slotProps={{
 									input: {
@@ -253,8 +250,8 @@ const Login = () => {
 								value={password}
 								onChange={(e) => setPassword(e.target.value)}
 								onBlur={handleBlur('password')}
-								error={Boolean(touched.password && (errors.password || liveErrors.password))}
-								helperText={(touched.password && (errors.password || liveErrors.password)) || ' '}
+								error={Boolean(touched.password && liveErrors.password)}
+								helperText={(touched.password && liveErrors.password) || ' '}
 								sx={inputSx}
 								slotProps={{
 									input: {
