@@ -25,7 +25,20 @@
     "signedIn": "Accesso effettuato!",
     "checkoutError": "Impossibile avviare il pagamento. Contatta l'assistenza.",
     "subscriptionInactive": "Il tuo account non è attivo. Contatta l'assistenza.",
-    "forgotPassword": "Password dimenticata?"
+    "forgotPassword": "Password dimenticata?",
+    "mfa": {
+      "title": "Controlla la tua email",
+      "subtitle": "Abbiamo inviato un codice di 6 cifre a {{email}}.",
+      "codeLabel": "Codice di verifica",
+      "verifyButton": "Verifica",
+      "verifying": "Verifica in corso…",
+      "resend": "Invia di nuovo il codice",
+      "resendIn": "Invia di nuovo tra {{seconds}} s",
+      "resent": "Un nuovo codice è in arrivo.",
+      "back": "Torna all'accesso",
+      "codeRequired": "Inserisci il codice di 6 cifre",
+      "help": "Non lo trovi? Controlla lo spam o invia di nuovo il codice."
+    }
   },
   "registration": {
     "freeTrialTitle": "Prova gratuita",
@@ -700,6 +713,23 @@
       "CANCEL_SUBSCRIPTION": "Annulla abbonamento",
       "MANAGE_INTEGRATIONS": "Gestire le integrazioni ATS",
       "CONTACT_CANDIDATE": "Scrivere ai candidati"
+    },
+    "mfa": {
+      "title": "Verifica in due passaggi",
+      "description": "Richiedi un codice inviato via email a ogni accesso, oltre alla password.",
+      "on": "Attiva",
+      "off": "Disattivata",
+      "enable": "Attiva",
+      "disable": "Disattiva",
+      "dialogTitleEnable": "Attiva la verifica in due passaggi",
+      "dialogTitleDisable": "Disattiva la verifica in due passaggi",
+      "dialogBody": "Inserisci il codice di 6 cifre inviato a {{email}}.",
+      "confirm": "Conferma",
+      "cancel": "Annulla",
+      "enabled": "La verifica in due passaggi è attiva.",
+      "disabled": "La verifica in due passaggi è disattivata.",
+      "loading": "Caricamento…",
+      "sending": "Invio del codice…"
     }
   },
   "dashboard": {

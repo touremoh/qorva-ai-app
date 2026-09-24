@@ -42,6 +42,7 @@ import AccountUsersTab from './AccountUsersTab.jsx';
 import AccountCompanyTab from './AccountCompanyTab.jsx';
 import AccountIntegrationsTab from './AccountIntegrationsTab.jsx';
 import ConnectedMailboxCard from './ConnectedMailboxCard.jsx';
+import MfaCard from './MfaCard.jsx';
 import { isDemoUser } from '../../../utils/demoMode.js';
 import UpgradeButton from '../../demo/UpgradeButton.jsx';
 
@@ -395,6 +396,9 @@ const AccountSettings = () => {
 								</Typography>
 							)}
 						</Paper>
+
+						{/* Two-step verification (email code) — personal; hidden for demo users like the mailbox card */}
+						{!demo && <MfaCard />}
 
 						{/* Connected mailbox — personal; lets the candidate composer send as this user */}
 						{!demo && <ConnectedMailboxCard />}

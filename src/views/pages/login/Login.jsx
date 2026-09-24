@@ -23,6 +23,7 @@ import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../../../components/languages/LanguageSwitcher.jsx';
 import { setAuthResults } from "../../../../localStorageManager.js";
 import { DASHBOARD_STATUSES, NEEDS_PAYMENT_STATUSES, ACCOUNT_STATUS_DEMO } from '../../../constants.js';
+import MfaCodeStep from './MfaCodeStep.jsx';
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/;
 
@@ -37,6 +38,8 @@ const Login = () => {
 	const [formError, setFormError] = useState("");
 	// idle → loading (spinner + progress text) → success (green check, then navigate)
 	const [status, setStatus] = useState('idle');
+	// Set when the password was right but the account has email MFA on: the form becomes the code step.
+	const [mfaChallenge, setMfaChallenge] = useState(null);
 
 	const validate = useCallback((values) => {
 		const next = { email: "", password: "" };
@@ -69,38 +72,13 @@ const Login = () => {
 			const response = await loginUser(email, password);
 
 			if (response.status === 200) {
-				const { user } = response.data.data;
-				const subscriptionStatus = user.tenant?.subscriptionInfo?.subscriptionStatus;
-
-				// Demo accounts enter the workspace directly — no active subscription
-				// is required; the UI runs in restricted demo mode with sample data.
-				if (user.userAccountStatus === ACCOUNT_STATUS_DEMO) {
-					setAuthResults(response.data.data);
-					showSuccessThen(() => navigate('/'));
-				} else if (DASHBOARD_STATUSES.includes(subscriptionStatus)) {
-					setAuthResults(response.data.data);
-					showSuccessThen(() => navigate('/'));
-				} else if (NEEDS_PAYMENT_STATUSES.includes(subscriptionStatus)) {
-					const tenantId = user.tenantId;
-					const userId = user.id;
-					const priceId = user.tenant?.subscriptionInfo?.priceId;
-					try {
-						const checkoutRes = await createCheckoutSession({ tenantId, userId, priceId });
-						const checkoutUrl = checkoutRes.data?.data?.checkoutUrl;
-						if (checkoutUrl) {
-							showSuccessThen(() => { window.location.href = checkoutUrl; });
-						} else {
-							setStatus('idle');
-							setFormError(t('login.checkoutError', 'Could not initiate checkout. Please contact support.'));
-						}
-					} catch {
-						setStatus('idle');
-						setFormError(t('login.checkoutError', 'Could not initiate checkout. Please contact support.'));
-					}
-				} else {
+				const data = response.data.data;
+				if (data.mfa) {
 					setStatus('idle');
-					setFormError(t('login.subscriptionInactive', 'Your account is not active. Please contact support.'));
+					setMfaChallenge(data.mfa);
+					return;
 				}
+				await completeLogin(data);
 			} else {
 				setStatus('idle');
 				setFormError(t('errors.unexpected', 'Something went wrong. Please try again.'));
@@ -114,11 +92,60 @@ const Login = () => {
 			} else if (httpStatus >= 400 && httpStatus < 500) {
 				setFormError(backend?.message || t('errors.client', 'Request error.'));
 			} else if (httpStatus >= 500) {
-				setFormError(t('errors.server', 'Server error. Please try again later.'));
+				// The MFA email could not be sent: say so rather than a generic server error.
+				setFormError(backend?.errorCode === 'error.auth.mfa_delivery_failed'
+					? backend.message
+					: t('errors.server', 'Server error. Please try again later.'));
 			} else {
 				setFormError(t('errors.network', 'Network error. Check your connection.'));
 			}
 		}
+	};
+
+	// Post-login routing, shared by a plain login and a verified MFA code ({ jwt, user } either way).
+	const completeLogin = async (data) => {
+		const { user } = data;
+		const subscriptionStatus = user.tenant?.subscriptionInfo?.subscriptionStatus;
+
+		// Demo accounts enter the workspace directly — no active subscription
+		// is required; the UI runs in restricted demo mode with sample data.
+		if (user.userAccountStatus === ACCOUNT_STATUS_DEMO) {
+			setAuthResults(data);
+			showSuccessThen(() => navigate('/'));
+		} else if (DASHBOARD_STATUSES.includes(subscriptionStatus)) {
+			setAuthResults(data);
+			showSuccessThen(() => navigate('/'));
+		} else if (NEEDS_PAYMENT_STATUSES.includes(subscriptionStatus)) {
+			const tenantId = user.tenantId;
+			const userId = user.id;
+			const priceId = user.tenant?.subscriptionInfo?.priceId;
+			try {
+				const checkoutRes = await createCheckoutSession({ tenantId, userId, priceId });
+				const checkoutUrl = checkoutRes.data?.data?.checkoutUrl;
+				if (checkoutUrl) {
+					showSuccessThen(() => { window.location.href = checkoutUrl; });
+				} else {
+					failLogin(t('login.checkoutError', 'Could not initiate checkout. Please contact support.'));
+				}
+			} catch {
+				failLogin(t('login.checkoutError', 'Could not initiate checkout. Please contact support.'));
+			}
+		} else {
+			failLogin(t('login.subscriptionInactive', 'Your account is not active. Please contact support.'));
+		}
+	};
+
+	// Back on the password form (leaving the MFA step if we were on it) with an optional message.
+	const failLogin = (message) => {
+		setStatus('idle');
+		setMfaChallenge(null);
+		setFormError(message);
+	};
+
+	const restartLogin = (message) => {
+		setPassword('');
+		setTouched((prev) => ({ ...prev, password: false }));
+		failLogin(message || '');
 	};
 
 	// Flash the green success state so the user sees the API responded before we move on.
@@ -184,151 +211,162 @@ const Login = () => {
 							</Typography>
 						</Box>
 
-						<Typography
-							variant="h5"
-							sx={{
-								fontWeight: 700,
-								color: '#0f172a',
-								letterSpacing: '-0.03em',
-								mb: 0.75,
-							}}
-						>
-							{t('login.title')}
-						</Typography>
-						<Typography
-							variant="body2"
-							sx={{ color: '#64748b', mb: 3.5 }}
-						>
-							{t('login.subtitle')}
-						</Typography>
-
-						{formError && (
-							<Alert
-								severity="error"
-								variant="filled"
+						{mfaChallenge ? (
+							<MfaCodeStep
+								challenge={mfaChallenge}
+								onVerified={completeLogin}
+								onRestart={restartLogin}
+								inputSx={inputSx}
+							/>
+						) : (
+							<>
+							<Typography
+								variant="h5"
 								sx={{
-									mb: 2.5,
-									borderRadius: 1.5,
-									fontSize: '0.82rem',
+									fontWeight: 700,
+									color: '#0f172a',
+									letterSpacing: '-0.03em',
+									mb: 0.75,
 								}}
 							>
-								{formError}
-							</Alert>
-						)}
+								{t('login.title')}
+							</Typography>
+							<Typography
+								variant="body2"
+								sx={{ color: '#64748b', mb: 3.5 }}
+							>
+								{t('login.subtitle')}
+							</Typography>
 
-						<Box component="form" onSubmit={handleLogin} noValidate>
-							<TextField
-								label={t('login.emailLabel')}
-								variant="outlined"
-								fullWidth
-								required
-								size="small"
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
-								onBlur={handleBlur('email')}
-								error={Boolean(touched.email && liveErrors.email)}
-								helperText={(touched.email && liveErrors.email) || ' '}
-								sx={inputSx}
-								slotProps={{
-									input: {
-										startAdornment: (
-											<InputAdornment position="start">
-												<EmailOutlinedIcon sx={{ fontSize: 18, color: '#94a3b8' }} />
-											</InputAdornment>
-										),
-									},
-								}}
-							/>
-
-							<TextField
-								label={t('login.passwordLabel')}
-								type={showPassword ? "text" : "password"}
-								variant="outlined"
-								fullWidth
-								required
-								size="small"
-								value={password}
-								onChange={(e) => setPassword(e.target.value)}
-								onBlur={handleBlur('password')}
-								error={Boolean(touched.password && liveErrors.password)}
-								helperText={(touched.password && liveErrors.password) || ' '}
-								sx={inputSx}
-								slotProps={{
-									input: {
-										startAdornment: (
-											<InputAdornment position="start">
-												<LockOutlinedIcon sx={{ fontSize: 18, color: '#94a3b8' }} />
-											</InputAdornment>
-										),
-										endAdornment: (
-											<InputAdornment position="end">
-												<IconButton
-													onClick={() => setShowPassword((prev) => !prev)}
-													edge="end"
-													size="small"
-													aria-label={t('login.togglePasswordVisibility', 'Toggle password visibility')}
-													sx={{ color: '#94a3b8' }}
-												>
-													{showPassword ? <VisibilityOff sx={{ fontSize: 18 }} /> : <Visibility sx={{ fontSize: 18 }} />}
-												</IconButton>
-											</InputAdornment>
-										),
-									},
-								}}
-							/>
-
-							<Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 1.5 }}>
-								<Typography
-									component={RouterLink}
-									to="/forgot-password"
-									sx={{ color: '#629C44', fontSize: '0.82rem', fontWeight: 600, textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+							{formError && (
+								<Alert
+									severity="error"
+									variant="filled"
+									sx={{
+										mb: 2.5,
+										borderRadius: 1.5,
+										fontSize: '0.82rem',
+									}}
 								>
-									{t('login.forgotPassword', 'Forgot password?')}
-								</Typography>
-							</Box>
+									{formError}
+								</Alert>
+							)}
 
-							<Button
-								type="submit"
-								fullWidth
-								variant="contained"
-								disabled={status !== 'idle'}
-								sx={{
-									mt: 0.5,
-									py: 1.3,
-									borderRadius: 1.5,
-									fontWeight: 600,
-									fontSize: '0.9rem',
-									textTransform: 'none',
-									letterSpacing: 0,
-									backgroundColor: '#629C44',
-									boxShadow: '0 2px 8px rgba(98,156,68,0.35)',
-									transition: 'background-color 0.2s, box-shadow 0.2s, transform 0.1s',
-									'&:hover': {
-										backgroundColor: '#518136',
-										boxShadow: '0 4px 14px rgba(98,156,68,0.45)',
-										transform: 'translateY(-1px)',
-									},
-									'&:active': { transform: 'translateY(0)' },
-									'&.Mui-disabled': status === 'success'
-										? { backgroundColor: '#dcfce7', color: '#166534', boxShadow: 'none' }
-										: { backgroundColor: '#b8d4a8', color: 'rgba(255,255,255,0.9)', boxShadow: 'none' },
-								}}
-							>
-								{status === 'loading' && (
-									<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-										<CircularProgress size={16} sx={{ color: 'rgba(255,255,255,0.9)' }} />
-										{t('login.signingIn', 'Signing you in…')}
-									</Box>
-								)}
-								{status === 'success' && (
-									<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
-										<CheckCircleRoundedIcon sx={{ fontSize: 19, color: '#16a34a' }} />
-										{t('login.signedIn', 'Signed in!')}
-									</Box>
-								)}
-								{status === 'idle' && t('login.signInButton')}
-							</Button>
-						</Box>
+							<Box component="form" onSubmit={handleLogin} noValidate>
+								<TextField
+									label={t('login.emailLabel')}
+									variant="outlined"
+									fullWidth
+									required
+									size="small"
+									value={email}
+									onChange={(e) => setEmail(e.target.value)}
+									onBlur={handleBlur('email')}
+									error={Boolean(touched.email && liveErrors.email)}
+									helperText={(touched.email && liveErrors.email) || ' '}
+									sx={inputSx}
+									slotProps={{
+										input: {
+											startAdornment: (
+												<InputAdornment position="start">
+													<EmailOutlinedIcon sx={{ fontSize: 18, color: '#94a3b8' }} />
+												</InputAdornment>
+											),
+										},
+									}}
+								/>
+
+								<TextField
+									label={t('login.passwordLabel')}
+									type={showPassword ? "text" : "password"}
+									variant="outlined"
+									fullWidth
+									required
+									size="small"
+									value={password}
+									onChange={(e) => setPassword(e.target.value)}
+									onBlur={handleBlur('password')}
+									error={Boolean(touched.password && liveErrors.password)}
+									helperText={(touched.password && liveErrors.password) || ' '}
+									sx={inputSx}
+									slotProps={{
+										input: {
+											startAdornment: (
+												<InputAdornment position="start">
+													<LockOutlinedIcon sx={{ fontSize: 18, color: '#94a3b8' }} />
+												</InputAdornment>
+											),
+											endAdornment: (
+												<InputAdornment position="end">
+													<IconButton
+														onClick={() => setShowPassword((prev) => !prev)}
+														edge="end"
+														size="small"
+														aria-label={t('login.togglePasswordVisibility', 'Toggle password visibility')}
+														sx={{ color: '#94a3b8' }}
+													>
+														{showPassword ? <VisibilityOff sx={{ fontSize: 18 }} /> : <Visibility sx={{ fontSize: 18 }} />}
+													</IconButton>
+												</InputAdornment>
+											),
+										},
+									}}
+								/>
+
+								<Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 1.5 }}>
+									<Typography
+										component={RouterLink}
+										to="/forgot-password"
+										sx={{ color: '#629C44', fontSize: '0.82rem', fontWeight: 600, textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+									>
+										{t('login.forgotPassword', 'Forgot password?')}
+									</Typography>
+								</Box>
+
+								<Button
+									type="submit"
+									fullWidth
+									variant="contained"
+									disabled={status !== 'idle'}
+									sx={{
+										mt: 0.5,
+										py: 1.3,
+										borderRadius: 1.5,
+										fontWeight: 600,
+										fontSize: '0.9rem',
+										textTransform: 'none',
+										letterSpacing: 0,
+										backgroundColor: '#629C44',
+										boxShadow: '0 2px 8px rgba(98,156,68,0.35)',
+										transition: 'background-color 0.2s, box-shadow 0.2s, transform 0.1s',
+										'&:hover': {
+											backgroundColor: '#518136',
+											boxShadow: '0 4px 14px rgba(98,156,68,0.45)',
+											transform: 'translateY(-1px)',
+										},
+										'&:active': { transform: 'translateY(0)' },
+										'&.Mui-disabled': status === 'success'
+											? { backgroundColor: '#dcfce7', color: '#166534', boxShadow: 'none' }
+											: { backgroundColor: '#b8d4a8', color: 'rgba(255,255,255,0.9)', boxShadow: 'none' },
+									}}
+								>
+									{status === 'loading' && (
+										<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+											<CircularProgress size={16} sx={{ color: 'rgba(255,255,255,0.9)' }} />
+											{t('login.signingIn', 'Signing you in…')}
+										</Box>
+									)}
+									{status === 'success' && (
+										<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
+											<CheckCircleRoundedIcon sx={{ fontSize: 19, color: '#16a34a' }} />
+											{t('login.signedIn', 'Signed in!')}
+										</Box>
+									)}
+									{status === 'idle' && t('login.signInButton')}
+								</Button>
+							</Box>
+							</>
+						)}
 
 						<Divider sx={{ my: 3, borderColor: '#e2e8f0' }} />
 

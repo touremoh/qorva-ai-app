@@ -25,7 +25,20 @@
     "signedIn": "Aangemeld!",
     "checkoutError": "Kon de betaling niet starten. Neem contact op met support.",
     "subscriptionInactive": "Uw account is niet actief. Neem contact op met support.",
-    "forgotPassword": "Wachtwoord vergeten?"
+    "forgotPassword": "Wachtwoord vergeten?",
+    "mfa": {
+      "title": "Controleer uw e-mail",
+      "subtitle": "We hebben een 6-cijferige code naar {{email}} gestuurd.",
+      "codeLabel": "Verificatiecode",
+      "verifyButton": "Verifiëren",
+      "verifying": "Bezig met verifiëren…",
+      "resend": "Code opnieuw sturen",
+      "resendIn": "Code opnieuw sturen over {{seconds}} s",
+      "resent": "Er is een nieuwe code onderweg.",
+      "back": "Terug naar inloggen",
+      "codeRequired": "Voer de 6-cijferige code in",
+      "help": "Niets ontvangen? Kijk in uw spammap of stuur de code opnieuw."
+    }
   },
   "registration": {
     "freeTrialTitle": "Gratis proefperiode",
@@ -697,6 +710,23 @@
       "CANCEL_SUBSCRIPTION": "Abonnement opzeggen",
       "MANAGE_INTEGRATIONS": "ATS-integraties beheren",
       "CONTACT_CANDIDATE": "Kandidaten mailen"
+    },
+    "mfa": {
+      "title": "Verificatie in twee stappen",
+      "description": "Vraag bij elke aanmelding, naast uw wachtwoord, om een code die naar uw e-mail wordt gestuurd.",
+      "on": "Aan",
+      "off": "Uit",
+      "enable": "Aanzetten",
+      "disable": "Uitzetten",
+      "dialogTitleEnable": "Verificatie in twee stappen aanzetten",
+      "dialogTitleDisable": "Verificatie in twee stappen uitzetten",
+      "dialogBody": "Voer de 6-cijferige code in die we naar {{email}} hebben gestuurd.",
+      "confirm": "Bevestigen",
+      "cancel": "Annuleren",
+      "enabled": "Verificatie in twee stappen staat aan.",
+      "disabled": "Verificatie in twee stappen staat uit.",
+      "loading": "Laden…",
+      "sending": "Code wordt verstuurd…"
     }
   },
   "dashboard": {

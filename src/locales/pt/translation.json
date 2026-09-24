@@ -25,7 +25,20 @@
     "signedIn": "Sessão iniciada!",
     "checkoutError": "Não foi possível iniciar o pagamento. Por favor, contacte o suporte.",
     "subscriptionInactive": "A sua conta não está ativa. Por favor, contacte o suporte.",
-    "forgotPassword": "Esqueceu-se da palavra-passe?"
+    "forgotPassword": "Esqueceu-se da palavra-passe?",
+    "mfa": {
+      "title": "Verifique o seu e-mail",
+      "subtitle": "Enviámos um código de 6 dígitos para {{email}}.",
+      "codeLabel": "Código de verificação",
+      "verifyButton": "Verificar",
+      "verifying": "A verificar…",
+      "resend": "Reenviar código",
+      "resendIn": "Reenviar código dentro de {{seconds}} s",
+      "resent": "Um novo código está a caminho.",
+      "back": "Voltar ao início de sessão",
+      "codeRequired": "Introduza o código de 6 dígitos",
+      "help": "Não recebeu? Verifique a pasta de spam ou reenvie o código."
+    }
   },
   "registration": {
     "freeTrialTitle": "Período gratuito",
@@ -700,6 +713,23 @@
       "CANCEL_SUBSCRIPTION": "Cancelar subscrição",
       "MANAGE_INTEGRATIONS": "Gerir integrações de ATS",
       "CONTACT_CANDIDATE": "Escrever aos candidatos"
+    },
+    "mfa": {
+      "title": "Verificação em dois passos",
+      "description": "Pedir um código enviado para o seu e-mail sempre que iniciar sessão, além da palavra-passe.",
+      "on": "Ativa",
+      "off": "Desativada",
+      "enable": "Ativar",
+      "disable": "Desativar",
+      "dialogTitleEnable": "Ativar a verificação em dois passos",
+      "dialogTitleDisable": "Desativar a verificação em dois passos",
+      "dialogBody": "Introduza o código de 6 dígitos que enviámos para {{email}}.",
+      "confirm": "Confirmar",
+      "cancel": "Cancelar",
+      "enabled": "A verificação em dois passos está ativa.",
+      "disabled": "A verificação em dois passos está desativada.",
+      "loading": "A carregar…",
+      "sending": "A enviar o código…"
     }
   },
   "dashboard": {

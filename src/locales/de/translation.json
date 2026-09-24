@@ -25,7 +25,20 @@
     "signedIn": "Angemeldet!",
     "checkoutError": "Der Bezahlvorgang konnte nicht gestartet werden. Bitte kontaktieren Sie den Support.",
     "subscriptionInactive": "Ihr Konto ist nicht aktiv. Bitte kontaktieren Sie den Support.",
-    "forgotPassword": "Passwort vergessen?"
+    "forgotPassword": "Passwort vergessen?",
+    "mfa": {
+      "title": "Prüfen Sie Ihre E-Mails",
+      "subtitle": "Wir haben einen 6-stelligen Code an {{email}} gesendet.",
+      "codeLabel": "Bestätigungscode",
+      "verifyButton": "Bestätigen",
+      "verifying": "Wird geprüft…",
+      "resend": "Code erneut senden",
+      "resendIn": "Code erneut senden in {{seconds}} s",
+      "resent": "Ein neuer Code ist unterwegs.",
+      "back": "Zurück zur Anmeldung",
+      "codeRequired": "Geben Sie den 6-stelligen Code ein",
+      "help": "Nichts erhalten? Prüfen Sie Ihren Spam-Ordner oder senden Sie den Code erneut."
+    }
   },
   "registration": {
     "freeTrialTitle": "Kostenlose Testphase",
@@ -700,6 +713,23 @@
       "CANCEL_SUBSCRIPTION": "Abonnement kündigen",
       "MANAGE_INTEGRATIONS": "ATS-Integrationen verwalten",
       "CONTACT_CANDIDATE": "Kandidaten anschreiben"
+    },
+    "mfa": {
+      "title": "Zwei-Schritt-Verifizierung",
+      "description": "Bei jeder Anmeldung zusätzlich zum Passwort einen per E-Mail gesendeten Code abfragen.",
+      "on": "An",
+      "off": "Aus",
+      "enable": "Aktivieren",
+      "disable": "Deaktivieren",
+      "dialogTitleEnable": "Zwei-Schritt-Verifizierung aktivieren",
+      "dialogTitleDisable": "Zwei-Schritt-Verifizierung deaktivieren",
+      "dialogBody": "Geben Sie den 6-stelligen Code ein, den wir an {{email}} gesendet haben.",
+      "confirm": "Bestätigen",
+      "cancel": "Abbrechen",
+      "enabled": "Die Zwei-Schritt-Verifizierung ist aktiviert.",
+      "disabled": "Die Zwei-Schritt-Verifizierung ist deaktiviert.",
+      "loading": "Wird geladen…",
+      "sending": "Code wird gesendet…"
     }
   },
   "dashboard": {

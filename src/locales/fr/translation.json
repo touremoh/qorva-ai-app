@@ -25,7 +25,20 @@
     "signedIn": "Connecté !",
     "checkoutError": "Impossible de lancer le paiement. Veuillez contacter le support.",
     "subscriptionInactive": "Votre compte n'est pas actif. Veuillez contacter le support.",
-    "forgotPassword": "Mot de passe oublié ?"
+    "forgotPassword": "Mot de passe oublié ?",
+    "mfa": {
+      "title": "Consultez vos e-mails",
+      "subtitle": "Nous avons envoyé un code à 6 chiffres à {{email}}.",
+      "codeLabel": "Code de vérification",
+      "verifyButton": "Vérifier",
+      "verifying": "Vérification…",
+      "resend": "Renvoyer le code",
+      "resendIn": "Renvoyer le code dans {{seconds}} s",
+      "resent": "Un nouveau code est en route.",
+      "back": "Retour à la connexion",
+      "codeRequired": "Saisissez le code à 6 chiffres",
+      "help": "Rien reçu ? Vérifiez vos spams ou renvoyez le code."
+    }
   },
   "registration": {
     "freeTrialTitle": "Essai gratuit",
@@ -700,6 +713,23 @@
       "CANCEL_SUBSCRIPTION": "Annuler l'abonnement",
       "MANAGE_INTEGRATIONS": "Gérer les intégrations ATS",
       "CONTACT_CANDIDATE": "Écrire aux candidats"
+    },
+    "mfa": {
+      "title": "Vérification en deux étapes",
+      "description": "Demander un code envoyé par e-mail à chaque connexion, en plus de votre mot de passe.",
+      "on": "Activée",
+      "off": "Désactivée",
+      "enable": "Activer",
+      "disable": "Désactiver",
+      "dialogTitleEnable": "Activer la vérification en deux étapes",
+      "dialogTitleDisable": "Désactiver la vérification en deux étapes",
+      "dialogBody": "Saisissez le code à 6 chiffres envoyé à {{email}}.",
+      "confirm": "Confirmer",
+      "cancel": "Annuler",
+      "enabled": "La vérification en deux étapes est activée.",
+      "disabled": "La vérification en deux étapes est désactivée.",
+      "loading": "Chargement…",
+      "sending": "Envoi du code…"
     }
   },
   "dashboard": {

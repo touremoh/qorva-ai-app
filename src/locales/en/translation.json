@@ -25,7 +25,20 @@
     },
     "signingIn": "Signing you in…",
     "signedIn": "Signed in!",
-    "forgotPassword": "Forgot password?"
+    "forgotPassword": "Forgot password?",
+    "mfa": {
+      "title": "Check your email",
+      "subtitle": "We sent a 6-digit code to {{email}}.",
+      "codeLabel": "Verification code",
+      "verifyButton": "Verify",
+      "verifying": "Verifying…",
+      "resend": "Resend code",
+      "resendIn": "Resend code in {{seconds}}s",
+      "resent": "A new code is on its way.",
+      "back": "Back to sign in",
+      "codeRequired": "Enter the 6-digit code",
+      "help": "Didn't get it? Check your spam folder, or resend the code."
+    }
   },
   "registration": {
     "freeTrialTitle": "Free Trial",
@@ -696,6 +709,23 @@
       "CANCEL_SUBSCRIPTION": "Cancel Subscription",
       "MANAGE_INTEGRATIONS": "Manage ATS integrations",
       "CONTACT_CANDIDATE": "Email candidates"
+    },
+    "mfa": {
+      "title": "Two-step verification",
+      "description": "Ask for a code sent to your email each time you sign in, on top of your password.",
+      "on": "On",
+      "off": "Off",
+      "enable": "Turn on",
+      "disable": "Turn off",
+      "dialogTitleEnable": "Turn on two-step verification",
+      "dialogTitleDisable": "Turn off two-step verification",
+      "dialogBody": "Enter the 6-digit code we sent to {{email}}.",
+      "confirm": "Confirm",
+      "cancel": "Cancel",
+      "enabled": "Two-step verification is on.",
+      "disabled": "Two-step verification is off.",
+      "loading": "Loading…",
+      "sending": "Sending code…"
     }
   },
   "dashboard": {

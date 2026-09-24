@@ -38,6 +38,12 @@ const SILENT_ERROR_CODES = new Set([
 	'error.report.resume_match_not_found', // resume-chat dialog shows "no match" inline
 	'error.outreach.suppressed',           // outreach composer disables itself inline
 	'error.mailbox.reauth_required',       // outreach composer offers "Reconnect" inline
+	'error.auth.mfa_code_invalid',         // MFA code step / settings dialog show these inline
+	'error.auth.mfa_challenge_invalid',
+	'error.auth.mfa_too_many_attempts',
+	'error.auth.mfa_resend_too_soon',
+	'error.auth.mfa_too_many_codes',
+	'error.auth.mfa_delivery_failed',
 ]);
 
 const handleResponseError = (error) => {
@@ -75,6 +81,9 @@ const publicEndpoint = (url) => url.includes('/registrations')
 	|| url.includes('/auth/token/validate')
 	|| url.includes('/auth/password/set')
 	|| url.includes('/auth/password/resend')
+	|| url.includes('/auth/mfa/')
+	// A wrong code is a 401 too; the MFA settings dialog handles it inline.
+	|| url.includes('/users/me/mfa/')
 	|| url.includes('/stripe/checkout/success')
 	|| url.includes('/stripe/checkout/cancel');
 
@@ -83,6 +92,7 @@ const publicEndpoint = (url) => url.includes('/registrations')
 // the header makes the backend answer 400 (missing Authorization) on every check.
 const sendsNoCredentials = (url) => url.includes('/registrations')
 	|| url.includes('/auth/login')
+	|| url.includes('/auth/mfa/')
 	|| url.includes('/auth/password/set')
 	|| url.includes('/auth/password/resend')
 	|| url.includes('/stripe/checkout/success')

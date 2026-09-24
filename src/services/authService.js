@@ -24,3 +24,12 @@ export const resendActivation = (email) =>
 // (no account enumeration).
 export const forgotPassword = (email) =>
     apiClient.post('/auth/password/forgot', { email });
+
+// Public — second sign-in step when the account has email MFA on. Resolves with the same
+// { jwt, user } a plain login returns.
+export const verifyMfa = (challengeId, code) =>
+    apiClient.post('/auth/mfa/verify', { challengeId, code });
+
+// Public — emails a fresh code for the same challenge (the previous code stops working).
+export const resendMfa = (challengeId) =>
+    apiClient.post('/auth/mfa/resend', { challengeId });
