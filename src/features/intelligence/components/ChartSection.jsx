@@ -1,0 +1,143 @@
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import { PieChart } from '@mui/x-charts/PieChart';
+import { BarChart } from '@mui/x-charts/BarChart';
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
+import * as tokens from '../../../theme/tokens.js';
+
+const COLORS = [`${tokens.brand.main}`, `${tokens.status.accent.main}`, `${tokens.status.info.bright}`, `${tokens.status.warning.main}`, `${tokens.status.error.main}`, `${tokens.status.accent.violet}`, `${tokens.status.success.teal}`];
+
+// Legacy camelCase fallback maps (pre-i18n-key era)
+const LABEL_MAP = {
+    specialist: 'Specialist', tShaped: 'T-Shaped', generalist: 'Generalist', hybrid: 'Hybrid',
+    senior: 'Senior', midLevel: 'Mid-Level', junior: 'Junior', lead: 'Lead',
+    principal: 'Principal', manager: 'Manager', director: 'Director', executive: 'Executive',
+    individualContributor: 'Individual Contributor', teamLead: 'Team Lead', none: 'None',
+    crossFunctionalLeader: 'Cross-Functional', strategicLeader: 'Strategic Leader',
+    executiveInfluence: 'Executive Influence', high: 'High', medium: 'Medium',
+    veryHigh: 'Very High', low: 'Low', unknown: 'Unknown',
+};
+
+const DIMENSION_MAP = {
+    skillDepth: 'Skill Depth', seniorityLevel: 'Seniority Level',
+    leadership: 'Leadership', leadershipAndInfluence: 'Leadership',
+    learningVelocity: 'Learning Velocity',
+};
+
+const CLUSTER_PREFIXES = ['SENIORITY_', 'SKILL_DEPTH_', 'LEADERSHIP_', 'LEARNING_VELOCITY_', 'CLUSTER_'];
+const isClusterKey = (k) => k && CLUSTER_PREFIXES.some(p => k.startsWith(p));
+
+// Translate a bucket/cluster label — handles UPPERCASE keys and legacy camelCase
+// Skill names (React, Python, etc.) are not in any map and pass through as-is
+const translateBucketKey = (key, t) => {
+    if (isClusterKey(key)) return t(`insight.clusters.${key}`, key);
+    return t(`dashboard.talent.labels.${key}`, LABEL_MAP[key] ?? key);
+};
+
+// Translate a chart title — CHART_TITLE_* keys use the new section; legacy strings are word-tokenised
+const translateTitle = (title, t) => {
+    if (!title) return title;
+    if (title.startsWith('CHART_TITLE_')) return t(`insight.chartTitles.${title}`, title);
+    return title.split(' ').map(w =>
+        DIMENSION_MAP[w] ? t(`dashboard.talent.${w}`, DIMENSION_MAP[w]) : w
+    ).join(' ');
+};
+
+const MiniPie = ({ title, labels = [], values = [], t }) => {
+    const data = labels.map((label, i) => ({
+        id: i,
+        label: translateBucketKey(label, t),
+        value: Number(values[i]) || 0,
+        color: COLORS[i % COLORS.length],
+    }));
+
+    return (
+        <Box sx={{ textAlign: 'center', flex: '1 1 180px', minWidth: 0 }}>
+            {title && (
+                <Typography sx={{ fontSize: tokens.fontSize.caption, fontWeight: 600, color: tokens.ink.muted, textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.5 }}>
+                    {translateTitle(title, t)}
+                </Typography>
+            )}
+            <PieChart
+                series={[{ data, innerRadius: 28, outerRadius: 52, paddingAngle: 2, cornerRadius: 3 }]}
+                width={150}
+                height={120}
+                margin={{ top: 0, bottom: 0, left: 0, right: 0 }}
+                slotProps={{ legend: { hidden: true } }}
+            />
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 0.4, mt: 0.5 }}>
+                {data.map((d, i) => (
+                    <Box key={i} sx={{ display: 'flex', alignItems: 'center', gap: 0.3 }}>
+                        <Box sx={{ width: 7, height: 7, borderRadius: '50%', backgroundColor: d.color, flexShrink: 0 }} />
+                        <Typography sx={{ fontSize: tokens.fontSize.micro, color: tokens.ink.muted }}>{d.label} ({d.value}%)</Typography>
+                    </Box>
+                ))}
+            </Box>
+        </Box>
+    );
+};
+
+MiniPie.propTypes = {
+    title: PropTypes.string,
+    labels: PropTypes.arrayOf(PropTypes.string),
+    values: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.string])),
+    t: PropTypes.func.isRequired,
+};
+
+const BarChartCard = ({ title, labels = [], values = [], t }) => (
+    <Box sx={{ width: '100%' }}>
+        {title && (
+            <Typography sx={{ fontSize: tokens.fontSize.caption, fontWeight: 600, color: tokens.ink.muted, textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.5 }}>
+                {translateTitle(title, t)}
+            </Typography>
+        )}
+        <BarChart
+            xAxis={[{ data: labels.map(l => translateBucketKey(l, t)), scaleType: 'band' }]}
+            series={[{ data: values.map(Number), color: COLORS[0] }]}
+            height={220}
+            margin={{ top: 16, bottom: 32, left: 40, right: 16 }}
+        />
+    </Box>
+);
+
+BarChartCard.propTypes = {
+    title: PropTypes.string,
+    labels: PropTypes.arrayOf(PropTypes.string),
+    values: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.string])),
+    t: PropTypes.func.isRequired,
+};
+
+const ChartSection = ({ charts }) => {
+    const { t } = useTranslation();
+    if (!charts?.length) return null;
+
+    const pies   = charts.filter(c => (c.chartType ?? '').toUpperCase() === 'PIE');
+    const others = charts.filter(c => (c.chartType ?? '').toUpperCase() !== 'PIE');
+
+    return (
+        <Box sx={{ mt: 1.5 }}>
+            {pies.length > 0 && (
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, justifyContent: 'space-around' }}>
+                    {pies.map((c, i) => (
+                        <MiniPie key={i} title={c.title} labels={c.labels} values={c.values} t={t} />
+                    ))}
+                </Box>
+            )}
+            {others.map((c, i) => (
+                <BarChartCard key={i} title={c.title} labels={c.labels} values={c.values} t={t} />
+            ))}
+        </Box>
+    );
+};
+
+ChartSection.propTypes = {
+    charts: PropTypes.arrayOf(PropTypes.shape({
+        chartType: PropTypes.string,
+        title: PropTypes.string,
+        labels: PropTypes.arrayOf(PropTypes.string),
+        values: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.string])),
+    })),
+};
+
+export default ChartSection;

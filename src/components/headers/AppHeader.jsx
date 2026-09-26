@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { getInitials } from '../../shared/lib/text.js';
 import PropTypes from 'prop-types';
 import {
 	AppBar,
@@ -30,6 +31,7 @@ import {
 	USER_LAST_NAME,
 } from '../../constants.js';
 import { SIDEBAR_WIDTH, SIDEBAR_WIDTH_COLLAPSED } from '../menu/AppSidebar.jsx';
+import * as tokens from '../../theme/tokens.js';
 
 export const HEADER_HEIGHT = 64;
 
@@ -43,11 +45,11 @@ const AppHeader = ({ handleContentChange, contentTitle, isSidebarCollapsed }) =>
 		const first = localStorage.getItem(USER_FIRST_NAME) || '';
 		const last = localStorage.getItem(USER_LAST_NAME) || '';
 		setFullName(`${first} ${last}`.trim());
-		setInitials(`${first.charAt(0)}${last.charAt(0)}`.toUpperCase());
+		setInitials(getInitials([first, last]));
 	}, []);
 
 	const pageTitles = {
-		[COMP_ID_DASHBOARD]:        'Dashboard',
+		[COMP_ID_DASHBOARD]:        t('header.dashboard'),
 		[COMP_ID_CVLIB]:            t('header.cvs'),
 		[COMP_ID_LIBRARY_QUALITY]:  t('header.libraryQuality', 'Library Quality'),
 		[COMP_ID_JOBS]:             t('header.jobs'),
@@ -58,7 +60,7 @@ const AppHeader = ({ handleContentChange, contentTitle, isSidebarCollapsed }) =>
 		[COMP_ID_SETTINGS]:         t('header.accountSettings'),
 	};
 
-	const displayTitle = pageTitles[contentTitle] || 'Dashboard';
+	const displayTitle = pageTitles[contentTitle] || t('header.dashboard');
 
 	return (
 		<AppBar
@@ -74,9 +76,9 @@ const AppHeader = ({ handleContentChange, contentTitle, isSidebarCollapsed }) =>
 				},
 				height: HEADER_HEIGHT,
 				justifyContent: 'center',
-				backgroundColor: '#ffffff',
-				borderBottom: '1px solid #e2e8f0',
-				color: '#0f172a',
+				backgroundColor: tokens.surface.paper,
+				borderBottom: `1px solid ${tokens.line.main}`,
+				color: tokens.ink.strong,
 				transition: 'width 0.2s ease, margin-left 0.2s ease',
 			}}
 		>
@@ -84,8 +86,8 @@ const AppHeader = ({ handleContentChange, contentTitle, isSidebarCollapsed }) =>
 				<Typography
 					sx={{
 						fontWeight: 600,
-						fontSize: '1rem',
-						color: '#0f172a',
+						fontSize: tokens.fontSize.body,
+						color: tokens.ink.strong,
 						letterSpacing: '-0.01em',
 					}}
 				>
@@ -101,10 +103,10 @@ const AppHeader = ({ handleContentChange, contentTitle, isSidebarCollapsed }) =>
 						sx={{
 							width: 34,
 							height: 34,
-							fontSize: '0.75rem',
+							fontSize: tokens.fontSize.small,
 							fontWeight: 700,
-							backgroundColor: '#629C44',
-							color: '#ffffff',
+							backgroundColor: tokens.brand.main,
+							color: tokens.ink.inverse,
 							letterSpacing: '0.03em',
 						}}
 					>
@@ -125,7 +127,7 @@ const AppHeader = ({ handleContentChange, contentTitle, isSidebarCollapsed }) =>
 								mt: 1,
 								minWidth: 210,
 								borderRadius: 2,
-								border: '1px solid #e2e8f0',
+								border: `1px solid ${tokens.line.main}`,
 								boxShadow: '0 8px 24px rgba(0,0,0,0.10)',
 								overflow: 'visible',
 							},
@@ -133,26 +135,26 @@ const AppHeader = ({ handleContentChange, contentTitle, isSidebarCollapsed }) =>
 					}}
 				>
 					<Box sx={{ px: 2, py: 1.5 }}>
-						<Typography sx={{ fontSize: '0.85rem', fontWeight: 600, color: '#0f172a' }}>
+						<Typography sx={{ fontSize: tokens.fontSize.body2, fontWeight: 600, color: tokens.ink.strong }}>
 							{fullName}
 						</Typography>
 					</Box>
-					<Divider sx={{ borderColor: '#f1f5f9' }} />
+					<Divider sx={{ borderColor: tokens.surface.muted }} />
 					<MenuItem
 						onClick={() => { handleContentChange(COMP_ID_SETTINGS); setAnchorEl(null); }}
 						sx={menuItemSx}
 					>
 						<ListItemIcon>
-							<SettingsOutlinedIcon sx={{ fontSize: 16, color: '#64748b' }} />
+							<SettingsOutlinedIcon sx={{ fontSize: tokens.iconSize.md, color: tokens.ink.muted }} />
 						</ListItemIcon>
 						{t('header.accountSettings')}
 					</MenuItem>
 					<MenuItem
 						onClick={() => { localStorage.clear(); location.reload(); }}
-						sx={{ ...menuItemSx, color: '#ef4444' }}
+						sx={{ ...menuItemSx, color: tokens.status.error.bright }}
 					>
 						<ListItemIcon>
-							<LogoutOutlinedIcon sx={{ fontSize: 16, color: '#ef4444' }} />
+							<LogoutOutlinedIcon sx={{ fontSize: tokens.iconSize.md, color: tokens.status.error.bright }} />
 						</ListItemIcon>
 						{t('header.logout')}
 					</MenuItem>
@@ -171,10 +173,10 @@ AppHeader.propTypes = {
 const menuItemSx = {
 	px: 2,
 	py: 1,
-	fontSize: '0.85rem',
-	color: '#334155',
+	fontSize: tokens.fontSize.body2,
+	color: tokens.ink.body,
 	gap: 0.5,
-	'&:hover': { backgroundColor: '#f8fafc' },
+	'&:hover': { backgroundColor: tokens.surface.subtle },
 };
 
 export default AppHeader;

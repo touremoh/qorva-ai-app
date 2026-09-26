@@ -9,7 +9,7 @@ import AppSidebar from "../components/menu/AppSidebar.jsx";
 import UpgradeDialog from "../components/demo/UpgradeDialog.jsx";
 import { BulkImportProvider } from "../contexts/BulkImportContext.jsx";
 import { CandidateOutreachProvider } from "../contexts/CandidateOutreachContext.jsx";
-import CandidateOutreachDock from "../components/outreach/CandidateOutreachDock.jsx";
+import CandidateOutreachDock from "../features/outreach/components/CandidateOutreachDock.jsx";
 import {logPageView} from "../utils/analytics.js";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {

@@ -1,0 +1,25 @@
+import PropTypes from 'prop-types';
+import { Chip } from '@mui/material';
+import { ATS_LABELS } from '../../model/atsLabels.js';
+import * as tokens from '../../../../theme/tokens.js';
+
+/** Tiny "via <ATS>" origin badge for CVs imported through an integration. */
+const AtsSourceChip = ({ cv }) => {
+	const ref = cv.atsRefs?.[0];
+	if (!ref) return null;
+	return (
+		<Chip
+			label={ATS_LABELS[ref.provider] || ref.provider}
+			size="small"
+			sx={{
+				height: 16, fontSize: tokens.fontSize.micro, fontWeight: 700, ml: 0.5,
+				color: tokens.status.info.main, backgroundColor: 'rgba(3,105,161,0.08)',
+				'& .MuiChip-label': { px: 0.75 },
+			}}
+		/>
+	);
+};
+
+AtsSourceChip.propTypes = { cv: PropTypes.object.isRequired };
+
+export default AtsSourceChip;

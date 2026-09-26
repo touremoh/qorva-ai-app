@@ -29,6 +29,8 @@ import {
 	COMP_ID_USAGE_MONITORING,
 } from '../../../constants.js';
 import PropTypes from 'prop-types';
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, collapsed, onToggleCollapse }) => {
 	const { t } = useTranslation();
@@ -44,7 +46,7 @@ const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, collap
 		let cancelled = false;
 		const fetchSummary = async () => {
 			try {
-				const { getLibraryQualitySummary } = await import('../../../services/libraryQualityService.js');
+				const { getLibraryQualitySummary } = await import('../../../features/library-quality/api/libraryQualityService.js');
 				const res = await getLibraryQualitySummary();
 				const data = res.data?.data ?? res.data;
 				if (!cancelled && Number.isFinite(data?.openIssueCount)) {
@@ -74,7 +76,7 @@ const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, collap
 	};
 
 	const menuItems = [
-		{ id: COMP_ID_DASHBOARD, Icon: LeaderboardOutlinedIcon, label: 'Dashboard',                              display: true },
+		{ id: COMP_ID_DASHBOARD, Icon: LeaderboardOutlinedIcon, label: t('header.dashboard'),                              display: true },
 		{ groupId: 'RESUME_LIBRARY', Icon: PeopleOutlinedIcon,  label: t('header.cvs'),                         display: true,
 			children: [
 				{ id: COMP_ID_CVLIB,           Icon: DescriptionOutlinedIcon, label: t('header.resumes', 'All Resumes'),           display: true },
@@ -97,7 +99,7 @@ const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, collap
 				display: 'flex',
 				flexDirection: 'column',
 				height: '100%',
-				background: 'linear-gradient(180deg, #1a2940 0%, #232F3E 100%)',
+				background: `linear-gradient(180deg, ${tokens.ink.navyDeep} 0%, ${tokens.ink.navy} 100%)`,
 				overflow: 'hidden',
 			}}
 		>
@@ -118,7 +120,7 @@ const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, collap
 					sx={{ width: 30, height: 30, flexShrink: 0 }}
 				/>
 				{!collapsed && (
-					<Typography sx={{ fontWeight: 700, fontSize: '1.1rem', color: '#ffffff', letterSpacing: '-0.02em' }}>
+					<Typography sx={{ fontWeight: 700, fontSize: tokens.fontSize.lg, color: tokens.ink.inverse, letterSpacing: '-0.02em' }}>
 						Qorva
 					</Typography>
 				)}
@@ -147,28 +149,28 @@ const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, collap
 									pl: collapsed ? 0 : (isChild ? 3.5 : 1.5),
 									py: isChild ? 0.7 : 0.9,
 									justifyContent: collapsed ? 'center' : 'flex-start',
-									color: isActive ? '#ffffff' : 'rgba(255,255,255,0.55)',
-									backgroundColor: isActive ? 'rgba(98,156,68,0.18)' : 'transparent',
-									borderLeft: collapsed ? 'none' : (isActive ? '3px solid #629C44' : '3px solid transparent'),
+									color: isActive ? `${tokens.surface.paper}` : 'rgba(255,255,255,0.55)',
+									backgroundColor: isActive ? alpha(tokens.brand.main, 0.18) : 'transparent',
+									borderLeft: collapsed ? 'none' : (isActive ? `3px solid ${tokens.brand.main}` : '3px solid transparent'),
 									transition: 'all 0.15s ease',
 									'&:hover': {
-										backgroundColor: isActive ? 'rgba(98,156,68,0.24)' : 'rgba(255,255,255,0.06)',
-										color: '#ffffff',
+										backgroundColor: isActive ? alpha(tokens.brand.main, 0.24) : 'rgba(255,255,255,0.06)',
+										color: tokens.ink.inverse,
 									},
 								}}
 							>
 								{collapsed && showBadge ? (
-									<Badge variant="dot" sx={{ '& .MuiBadge-badge': { backgroundColor: '#dc2626' } }}>
-										<Icon sx={{ fontSize: isChild ? 16 : 18, flexShrink: 0 }} />
+									<Badge variant="dot" sx={{ '& .MuiBadge-badge': { backgroundColor: tokens.status.error.main } }}>
+										<Icon sx={{ fontSize: isChild ? tokens.iconSize.sm : tokens.iconSize.md, flexShrink: 0 }} />
 									</Badge>
 								) : (
-									<Icon sx={{ fontSize: isChild ? 16 : 18, mr: collapsed ? 0 : 1.5, flexShrink: 0 }} />
+									<Icon sx={{ fontSize: isChild ? tokens.iconSize.sm : tokens.iconSize.md, mr: collapsed ? 0 : 1.5, flexShrink: 0 }} />
 								)}
 								{!collapsed && (
 									<Typography
 										sx={{
 											flex: 1,
-											fontSize: isChild ? '0.78rem' : '0.84rem',
+											fontSize: isChild ? tokens.fontSize.small : tokens.fontSize.body2,
 											fontWeight: isActive ? 600 : 400,
 											lineHeight: 1.2,
 											letterSpacing: '-0.01em',
@@ -181,8 +183,8 @@ const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, collap
 									<Tooltip title={entry.badgeTooltip ?? ''} placement="right">
 										<Box sx={{
 											px: 0.7, py: 0.1, borderRadius: 2, flexShrink: 0,
-											backgroundColor: '#dc2626', color: '#ffffff',
-											fontSize: '0.62rem', fontWeight: 700, lineHeight: 1.6,
+											backgroundColor: tokens.status.error.main, color: tokens.ink.inverse,
+											fontSize: tokens.fontSize.micro, fontWeight: 700, lineHeight: 1.6,
 										}}>
 											{entry.badge > 99 ? '99+' : entry.badge}
 										</Box>
@@ -217,19 +219,19 @@ const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, collap
 									mb: 0.5,
 									px: 1.5,
 									py: 0.9,
-									color: childActive ? '#ffffff' : 'rgba(255,255,255,0.55)',
-									borderLeft: childActive && !isOpen ? '3px solid #629C44' : '3px solid transparent',
+									color: childActive ? `${tokens.surface.paper}` : 'rgba(255,255,255,0.55)',
+									borderLeft: childActive && !isOpen ? `3px solid ${tokens.brand.main}` : '3px solid transparent',
 									transition: 'all 0.15s ease',
-									'&:hover': { backgroundColor: 'rgba(255,255,255,0.06)', color: '#ffffff' },
+									'&:hover': { backgroundColor: 'rgba(255,255,255,0.06)', color: tokens.ink.inverse },
 								}}
 							>
-								<Icon sx={{ fontSize: 18, mr: 1.5, flexShrink: 0 }} />
-								<Typography sx={{ flex: 1, fontSize: '0.84rem', fontWeight: childActive ? 600 : 400, lineHeight: 1.2, letterSpacing: '-0.01em' }}>
+								<Icon sx={{ fontSize: tokens.iconSize.lg, mr: 1.5, flexShrink: 0 }} />
+								<Typography sx={{ flex: 1, fontSize: tokens.fontSize.body2, fontWeight: childActive ? 600 : 400, lineHeight: 1.2, letterSpacing: '-0.01em' }}>
 									{item.label}
 								</Typography>
 								{isOpen
-									? <ExpandLessRoundedIcon sx={{ fontSize: 17, opacity: 0.7 }} />
-									: <ExpandMoreRoundedIcon sx={{ fontSize: 17, opacity: 0.7 }} />}
+									? <ExpandLessRoundedIcon sx={{ fontSize: tokens.iconSize.md, opacity: 0.7 }} />
+									: <ExpandMoreRoundedIcon sx={{ fontSize: tokens.iconSize.md, opacity: 0.7 }} />}
 							</ListItemButton>
 							<Collapse in={isOpen} timeout="auto" unmountOnExit>
 								{visibleChildren.map((child) => renderLeaf(child, true))}
@@ -249,24 +251,24 @@ const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, collap
 				justifyContent: collapsed ? 'center' : 'space-between',
 			}}>
 				{!collapsed && (
-					<Typography sx={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.2)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+					<Typography sx={{ fontSize: tokens.fontSize.caption, color: 'rgba(255,255,255,0.45)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
 						Qorva AI
 					</Typography>
 				)}
 				{onToggleCollapse && (
-					<Tooltip title={collapsed ? 'Expand' : 'Collapse'} placement="right">
+					<Tooltip title={collapsed ? t('header.expandMenu') : t('header.collapseMenu')} placement="right">
 						<IconButton
 							onClick={onToggleCollapse}
 							size="small"
 							sx={{
 								color: 'rgba(255,255,255,0.35)',
 								borderRadius: 1.5,
-								'&:hover': { backgroundColor: 'rgba(255,255,255,0.08)', color: '#ffffff' },
+								'&:hover': { backgroundColor: 'rgba(255,255,255,0.08)', color: tokens.ink.inverse },
 							}}
 						>
 							{collapsed
-								? <KeyboardDoubleArrowRightIcon sx={{ fontSize: 18 }} />
-								: <KeyboardDoubleArrowLeftIcon sx={{ fontSize: 18 }} />
+								? <KeyboardDoubleArrowRightIcon sx={{ fontSize: tokens.iconSize.lg }} />
+								: <KeyboardDoubleArrowLeftIcon sx={{ fontSize: tokens.iconSize.lg }} />
 							}
 						</IconButton>
 					</Tooltip>

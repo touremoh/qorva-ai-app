@@ -1,0 +1,42 @@
+import PropTypes from 'prop-types';
+import { Box, CircularProgress, Typography } from '@mui/material';
+import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
+import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
+import { useTranslation } from 'react-i18next';
+import { GREEN } from '../../model/integrations.js';
+import * as tokens from '../../../../theme/tokens.js';
+
+const RunLine = ({ run }) => {
+	const { t } = useTranslation();
+	const when = run.createdAt ? new Date(run.createdAt).toLocaleString() : '—';
+	const failureLabel = run.failureReason === 'initial_sync_guard'
+		? t('atsIntegrations.runs.initialSyncGuard')
+		: run.failureReason === 'quota_exceeded'
+			? t('atsIntegrations.runs.quotaExceeded')
+			: run.failureReason;
+	return (
+		<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, py: 0.5, borderBottom: `1px solid ${tokens.surface.subtle}` }}>
+			{['COMPLETED'].includes(run.status)
+				? <CheckCircleOutlineOutlinedIcon sx={{ fontSize: tokens.iconSize.sm, color: GREEN }} />
+				: ['PENDING', 'RUNNING'].includes(run.status)
+					? <CircularProgress size={12} sx={{ color: GREEN }} />
+					: <ErrorOutlineOutlinedIcon sx={{ fontSize: tokens.iconSize.sm, color: run.status === 'FAILED' ? `${tokens.status.error.main}` : `${tokens.status.warning.main}` }} />}
+			<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.soft, flex: 1, minWidth: 0 }} noWrap>
+				{when} · {t('atsIntegrations.runs.summary', { imported: run.succeeded, skipped: run.skipped, failed: run.failed })}
+				{failureLabel ? ` · ${failureLabel}` : ''}
+			</Typography>
+		</Box>
+	);
+};
+RunLine.propTypes = {
+	run: PropTypes.shape({
+		createdAt: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+		failureReason: PropTypes.string,
+		status: PropTypes.string,
+		succeeded: PropTypes.number,
+		skipped: PropTypes.number,
+		failed: PropTypes.number,
+	}).isRequired,
+};
+
+export default RunLine;
