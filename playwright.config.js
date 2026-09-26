@@ -8,6 +8,9 @@ const PORT = 4174;
 export default defineConfig({
 	testDir: './e2e',
 	fullyParallel: true,
+	// Locally the suite shares the machine with IDEs and indexers; more than 4 browsers at once made
+	// timing-sensitive flows (dialog transitions, debounced search) flaky. CI keeps Playwright's default.
+	workers: process.env.CI ? undefined : 4,
 	forbidOnly: !!process.env.CI,
 	retries: process.env.CI ? 1 : 0,
 	reporter: [['list'], ['html', { open: 'never', outputFolder: 'playwright-report' }]],
