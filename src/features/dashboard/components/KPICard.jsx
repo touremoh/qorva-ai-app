@@ -1,0 +1,34 @@
+import { Box, Paper, Typography } from '@mui/material';
+import PropTypes from 'prop-types';
+
+const KPICard = ({ label, value, icon: Icon, accent, bg }) => (
+	<Paper elevation={0} sx={{
+		border: '1px solid #e2e8f0',
+		borderLeft: `3px solid ${accent}`,
+		borderRadius: 2.5, p: 2,
+		display: 'flex', alignItems: 'center', gap: 1.5,
+		transition: 'box-shadow 0.15s ease',
+		'&:hover': { boxShadow: '0 4px 16px rgba(0,0,0,0.07)' },
+	}}>
+		<Box sx={{ width: 42, height: 42, borderRadius: 2, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: bg }}>
+			<Icon sx={{ fontSize: 20, color: accent }} />
+		</Box>
+		<Box sx={{ minWidth: 0 }}>
+			<Typography sx={{ fontSize: '1.6rem', fontWeight: 800, color: '#0f172a', lineHeight: 1 }}>
+				{Number.isFinite(value) ? value.toLocaleString() : 0}
+			</Typography>
+			<Typography sx={{ fontSize: '0.72rem', color: '#64748b', fontWeight: 500, mt: 0.25, lineHeight: 1.3 }}>
+				{label}
+			</Typography>
+		</Box>
+	</Paper>
+);
+KPICard.propTypes = {
+	label: PropTypes.string.isRequired,
+	value: PropTypes.number,
+	icon: PropTypes.elementType.isRequired,
+	accent: PropTypes.string.isRequired,
+	bg: PropTypes.string.isRequired,
+};
+
+export default KPICard;

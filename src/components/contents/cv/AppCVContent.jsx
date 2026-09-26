@@ -30,7 +30,7 @@ import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import { toast } from 'sonner';
 import { uploadCVs, deleteCV, replaceDuplicateCV, getClearLibraryPreflight, clearLibrary, getCVFilterOptions } from '../../../services/cvService.js';
-import { notifyQualityChanged, performQualityAction } from '../../../services/libraryQualityService.js';
+import { notifyQualityChanged, performQualityAction } from '../../../features/library-quality/api/libraryQualityService.js';
 import {
 	createBulkUpload,
 	stageBulkFiles,

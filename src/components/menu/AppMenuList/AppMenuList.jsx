@@ -44,7 +44,7 @@ const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, collap
 		let cancelled = false;
 		const fetchSummary = async () => {
 			try {
-				const { getLibraryQualitySummary } = await import('../../../services/libraryQualityService.js');
+				const { getLibraryQualitySummary } = await import('../../../features/library-quality/api/libraryQualityService.js');
 				const res = await getLibraryQualitySummary();
 				const data = res.data?.data ?? res.data;
 				if (!cancelled && Number.isFinite(data?.openIssueCount)) {

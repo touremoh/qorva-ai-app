@@ -17,10 +17,10 @@ import {
 	COMP_ID_INTELLIGENCE,
 	COMP_ID_USAGE_MONITORING,
 } from "../../constants.js";
-import AppLibraryQuality from "./library-quality/AppLibraryQuality.jsx";
+import AppLibraryQuality from "../../features/library-quality/components/AppLibraryQuality.jsx";
 import AppEmailTemplates from "../../features/email-templates/components/AppEmailTemplates.jsx";
 import AppMatchingReports from "./reports/AppMatchingReports.jsx";
-import QorvaDashboard from "./dashboard/QorvaDashboard.jsx";
+import QorvaDashboard from "../../features/dashboard/components/QorvaDashboard.jsx";
 import AccountSettings from "../../features/settings/components/AccountSettings.jsx";
 import AppAIResumeChat from "./chats/AppAIResumeChat.jsx";
 import AppLibraryInsights from "./intelligence/AppLibraryInsights.jsx";

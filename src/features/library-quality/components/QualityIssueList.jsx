@@ -21,7 +21,7 @@ import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { getQualityIssues, performQualityAction, notifyQualityChanged } from '../../../services/libraryQualityService.js';
+import { getQualityIssues, performQualityAction, notifyQualityChanged } from '../api/libraryQualityService.js';
 import { getCVById, updateCV } from '../../../services/cvService.js';
 
 const PAGE_SIZE = 10;

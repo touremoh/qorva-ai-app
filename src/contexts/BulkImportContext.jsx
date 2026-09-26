@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 import { getBulkUpload, listBulkUploads, BULK_TERMINAL_STATUSES } from '../services/bulkUploadService.js';
-import { notifyQualityChanged } from '../services/libraryQualityService.js';
+import { notifyQualityChanged } from '../features/library-quality/api/libraryQualityService.js';
 
 // App-level watcher for bulk CV imports. The upload dialog starts a job and calls
 // watchJob(); from then on this provider owns the polling, so progress survives
