@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next';
 import StickyNote2OutlinedIcon from '@mui/icons-material/StickyNote2Outlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { addNote, editNote, getNotes, removeNote } from '../../../services/noteService.js';
+import { addNote, editNote, getNotes, removeNote } from '../api/noteService.js';
 import { USER_EMAIL } from '../../../constants.js';
 import { isActionAllowed, openUpgradeDialog } from '../../../utils/demoMode.js';
 import { brandButtonSx, textButtonSx } from '../../../shared/ui/buttonSx.js';

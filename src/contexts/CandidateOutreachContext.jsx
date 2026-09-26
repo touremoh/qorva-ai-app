@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { getOutreachContext } from '../services/candidateOutreachService.js';
+import { getOutreachContext } from '../features/outreach/api/candidateOutreachService.js';
 
 // App-level state of the candidate outreach composer (the Gmail-style dock, bottom-right).
 // One composer at a time; it lives above AppContent so switching panels never closes it.

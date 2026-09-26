@@ -14,7 +14,7 @@ import { useCandidateOutreach } from '../../../contexts/CandidateOutreachContext
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import HubOutlinedIcon from '@mui/icons-material/HubOutlined';
 import { updateCV } from '../api/cvService.js';
-import NotesPanel from '../../../components/contents/common/NotesPanel.jsx';
+import NotesPanel from '../../notes/components/NotesPanel.jsx';
 import useTenantBranding from '../../settings/hooks/useTenantBranding.js';
 import TenantBrandHeader from '../../settings/components/branding/TenantBrandHeader.jsx';
 import ClusteringTabContent from './details/ClusteringTabContent.jsx';

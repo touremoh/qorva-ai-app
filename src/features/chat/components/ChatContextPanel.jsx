@@ -6,11 +6,11 @@ import RefreshOutlinedIcon from '@mui/icons-material/RefreshOutlined';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import AppCVDetails from '../../../features/cv/components/AppCVDetails.jsx';
-import AppMatchingReportDetails from '../../../features/reports/components/AppMatchingReportDetails.jsx';
-import JobPostReadView from '../../../features/jobs/components/JobPostReadView.jsx';
-import { getCVById } from '../../../features/cv/api/cvService.js';
-import { getJobById } from '../../../features/jobs/api/jobService.js';
+import AppCVDetails from '../../cv/components/AppCVDetails.jsx';
+import AppMatchingReportDetails from '../../reports/components/AppMatchingReportDetails.jsx';
+import JobPostReadView from '../../jobs/components/JobPostReadView.jsx';
+import { getCVById } from '../../cv/api/cvService.js';
+import { getJobById } from '../../jobs/api/jobService.js';
 import { resolveError } from '../../../utils/errorHandler.js';
 
 const THEME_GREEN = '#629C44';

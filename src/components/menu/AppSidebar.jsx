@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Drawer, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import AppMenuList from './AppMenuList/AppMenuList.jsx';
-import { getChatAllowedStatus } from '../../services/chatService.js';
+import { getChatAllowedStatus } from '../../features/chat/api/chatService.js';
 import PropTypes from 'prop-types';
 
 export const SIDEBAR_WIDTH = 240;

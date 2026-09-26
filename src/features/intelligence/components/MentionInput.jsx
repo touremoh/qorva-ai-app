@@ -15,7 +15,7 @@ import ClickAwayListener from '@mui/material/ClickAwayListener';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
-import { searchMentions } from '../../../services/mentionSearchService.js';
+import { searchMentions } from '../api/mentionSearchService.js';
 
 const DEBOUNCE_MS = 250;
 const MAX_QUERY_LENGTH = 50;

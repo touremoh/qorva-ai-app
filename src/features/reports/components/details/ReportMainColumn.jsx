@@ -9,7 +9,7 @@ import QuestionAnswerOutlinedIcon from '@mui/icons-material/QuestionAnswerOutlin
 import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined';
-import NotesPanel from '../../../../components/contents/common/NotesPanel.jsx';
+import NotesPanel from '../../../notes/components/NotesPanel.jsx';
 import ScoreGaugeLarge from './ScoreGaugeLarge.jsx';
 import DetailScoreCard from './DetailScoreCard.jsx';
 import { THEME_GREEN, importanceKey, importanceChipSx, severityChipSx } from '../../model/reportDetails.js';

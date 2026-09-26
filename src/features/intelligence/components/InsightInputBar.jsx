@@ -1,0 +1,64 @@
+import PropTypes from 'prop-types';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import MentionInput from './MentionInput.jsx';
+import { useTranslation } from 'react-i18next';
+
+/** Question box with @-mentions and the send button. */
+const InsightInputBar = ({ inputFocusToken, loading, loadingHistory, mentions, question, setMentions, setQuestion, submit }) => {
+    const { t } = useTranslation();
+    return (
+        <>
+        <Box sx={{
+            px: { xs: 2, md: 3 },
+            py: 1.5,
+            backgroundColor: '#ffffff',
+            borderTop: '1px solid #e2e8f0',
+            flexShrink: 0,
+        }}>
+            <Box sx={{ maxWidth: 820, mx: 'auto' }}>
+                <Box sx={{
+                    backgroundColor: '#f8fafc',
+                    border: '1.5px solid #e2e8f0',
+                    borderRadius: 3,
+                    px: 1.5,
+                    py: 0.75,
+                    transition: 'border-color 0.15s ease, box-shadow 0.15s ease',
+                    '&:focus-within': {
+                        borderColor: '#629C44',
+                        boxShadow: '0 0 0 3px rgba(98,156,68,0.1)',
+                        backgroundColor: '#ffffff',
+                    },
+                }}>
+                    <MentionInput
+                        value={question}
+                        onChange={setQuestion}
+                        mentions={mentions}
+                        onMentionsChange={setMentions}
+                        onSubmit={() => submit()}
+                        disabled={loading || loadingHistory}
+                        placeholder={t('insight.input.placeholder')}
+                        focusToken={inputFocusToken}
+                    />
+                </Box>
+                <Typography sx={{ fontSize: '0.62rem', color: '#cbd5e1', textAlign: 'center', mt: 0.6 }}>
+                    {t('insight.input.hint')}
+                </Typography>
+            </Box>
+        </Box>
+        </>
+    );
+};
+
+InsightInputBar.propTypes = {
+    inputFocusToken: PropTypes.any,
+    loading: PropTypes.bool,
+    loadingHistory: PropTypes.any,
+    mentions: PropTypes.any,
+    question: PropTypes.any,
+    setMentions: PropTypes.func,
+    setQuestion: PropTypes.func,
+    submit: PropTypes.any,
+};
+
+export default InsightInputBar;

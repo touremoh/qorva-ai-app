@@ -22,8 +22,8 @@ import AppEmailTemplates from "../../features/email-templates/components/AppEmai
 import AppMatchingReports from "../../features/reports/components/AppMatchingReports.jsx";
 import QorvaDashboard from "../../features/dashboard/components/QorvaDashboard.jsx";
 import AccountSettings from "../../features/settings/components/AccountSettings.jsx";
-import AppAIResumeChat from "./chats/AppAIResumeChat.jsx";
-import AppLibraryInsights from "./intelligence/AppLibraryInsights.jsx";
+import AppAIResumeChat from "../../features/chat/components/AppAIResumeChat.jsx";
+import AppLibraryInsights from "../../features/intelligence/components/AppLibraryInsights.jsx";
 import UsageMonitoringContent from "../../features/usage/components/UsageMonitoringContent.jsx";
 import DemoBanner from "../demo/DemoBanner.jsx";
 import { isDemoUser } from "../../utils/demoMode.js";
