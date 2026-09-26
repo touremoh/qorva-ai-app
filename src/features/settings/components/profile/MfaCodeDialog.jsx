@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Alert, Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
-import MfaCodeField, { MFA_CODE_LENGTH } from '../../../../components/mfa/MfaCodeField.jsx';
+import MfaCodeField, { MFA_CODE_LENGTH } from '../../../auth/components/MfaCodeField.jsx';
 import { useTranslation } from 'react-i18next';
 import { brandButtonSx, outlinedButtonSx } from '../../../../shared/ui/buttonSx.js';
 

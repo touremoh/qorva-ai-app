@@ -18,7 +18,7 @@ import {
 	resendMfaChange,
 	startMfaChange,
 } from '../api/mfaService.js';
-import { MFA_CODE_LENGTH } from '../../../components/mfa/MfaCodeField.jsx';
+import { MFA_CODE_LENGTH } from '../../auth/components/MfaCodeField.jsx';
 import useResendCountdown from '../../../components/mfa/useResendCountdown.js';
 import { brandButtonSx, outlinedButtonSx } from '../../../shared/ui/buttonSx.js';
 import MfaCodeDialog from './profile/MfaCodeDialog.jsx';

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import apiClient from '../shared/api/client.js';
+import apiClient from '../../../shared/api/client.js';
 
 export const registerUser = (data) =>
     apiClient.post('/registrations/user', data);

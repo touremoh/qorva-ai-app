@@ -12,7 +12,7 @@ import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { resendActivation } from "../../../services/authService.js";
+import { resendActivation } from "../api/authService.js";
 
 const RegistrationSuccessful = () => {
 	const { t } = useTranslation();

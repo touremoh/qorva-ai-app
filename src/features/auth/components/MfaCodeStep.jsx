@@ -5,8 +5,8 @@ import MarkEmailReadOutlinedIcon from '@mui/icons-material/MarkEmailReadOutlined
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
-import { verifyMfa, resendMfa } from '../../../services/authService.js';
-import MfaCodeField, { MFA_CODE_LENGTH } from '../../../components/mfa/MfaCodeField.jsx';
+import { verifyMfa, resendMfa } from '../api/authService.js';
+import MfaCodeField, { MFA_CODE_LENGTH } from './MfaCodeField.jsx';
 import useResendCountdown from '../../../components/mfa/useResendCountdown.js';
 
 // Codes after which this challenge is dead: the user has to go back and enter the password again.

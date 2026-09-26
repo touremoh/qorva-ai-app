@@ -19,12 +19,12 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import { useTranslation } from 'react-i18next';
-import { setPassword as setPasswordRequest } from '../../../services/authService.js';
+import { setPassword as setPasswordRequest } from '../api/authService.js';
 import { QORVA_USER_LANGUAGE, SUPPORTED_LANGUAGES } from '../../../constants.js';
+import { PASSWORD_REGEX } from '../../../shared/lib/validators.js';
 
 const MIN_PASSWORD_LENGTH = 8;
 // Requires lower, upper, digit and any non-alphanumeric character, 8–64 chars.
-const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,64}$/;
 
 // Copy that differs between "activate your account" (invite/demo link) and "reset your password"
 // (forgot-password link). The token, the endpoint and the form are the same.

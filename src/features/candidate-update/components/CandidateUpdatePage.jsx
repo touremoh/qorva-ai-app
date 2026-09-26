@@ -14,13 +14,10 @@ import {
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useParams, useSearchParams } from 'react-router-dom';
-import axios from 'axios';
+import { getCandidateUpdate, getCandidateUpdateStatus, submitCandidateUpdate, unsubscribeCandidate } from '../api/candidateUpdateService.js';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../../../components/languages/LanguageSwitcher.jsx';
 
-// Bare client on purpose: the app's apiClient injects auth headers and redirects on 401 —
-// this page is public and must stay free of the authenticated shell's behavior.
-const publicClient = axios.create({ baseURL: import.meta.env.VITE_APP_API_BASE_URL });
 
 const AVAILABILITY_STATUSES = ['activelyLooking', 'openButNotSearching', 'notAvailable', 'freelanceOnly'];
 
@@ -54,7 +51,7 @@ const CandidateUpdatePage = () => {
 	useEffect(() => {
 		const load = async () => {
 			try {
-				const res = await publicClient.get(`/public/candidate-update/${token}`);
+				const res = await getCandidateUpdate(token);
 				const data = res.data?.data ?? res.data;
 				setPrefill(data);
 				if (data?.language) i18n.changeLanguage(data.language);
@@ -92,7 +89,7 @@ const CandidateUpdatePage = () => {
 			const payload = new FormData();
 			payload.append('submission', new Blob([JSON.stringify(submission)], { type: 'application/json' }));
 			if (file) payload.append('file', file);
-			const res = await publicClient.post(`/public/candidate-update/${token}`, payload);
+			const res = await submitCandidateUpdate(token, payload);
 			if (res.status === 202) {
 				// Resume staged — processing continues server-side; poll for progress.
 				setProcessingStage('SUBMITTED');
@@ -126,7 +123,7 @@ const CandidateUpdatePage = () => {
 				return;
 			}
 			try {
-				const res = await publicClient.get(`/public/candidate-update/${token}/status`);
+				const res = await getCandidateUpdateStatus(token);
 				const status = (res.data?.data ?? res.data)?.state;
 				if (cancelled) return;
 				if (status === 'DONE') {
@@ -159,7 +156,7 @@ const CandidateUpdatePage = () => {
 	const handleUnsubscribe = async () => {
 		setSubmitting(true);
 		try {
-			await publicClient.post(`/public/candidate-update/${token}/unsubscribe`);
+			await unsubscribeCandidate(token);
 			setState('unsubscribed');
 		} catch {
 			setState('invalid');

@@ -20,7 +20,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { styled } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
-import { getProducts } from '../../../services/registrationService.js';
+import { getProducts } from '../../auth/api/registrationService.js';
 
 const PLAN_FEATURES = {
 	Starter: [

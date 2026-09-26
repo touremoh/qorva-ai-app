@@ -12,8 +12,8 @@ import {
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import RocketLaunchRoundedIcon from '@mui/icons-material/RocketLaunchRounded';
 import { useTranslation } from 'react-i18next';
-import QorvaPricingTable from '../../views/pages/register/QorvaPricingTable.jsx';
-import { upgradeSubscription } from '../../services/subscriptionService.js';
+import QorvaPricingTable from '../../features/billing/components/QorvaPricingTable.jsx';
+import { upgradeSubscription } from '../../features/billing/api/subscriptionService.js';
 import { OPEN_UPGRADE_EVENT } from '../../utils/demoMode.js';
 
 // Global host for the demo → paid upgrade flow (Screen 7). Mounted once inside

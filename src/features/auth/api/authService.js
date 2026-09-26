@@ -1,4 +1,4 @@
-import apiClient from '../shared/api/client.js';
+import apiClient from '../../../shared/api/client.js';
 
 export const login = (email, password) =>
     apiClient.post('/auth/login', { email, rawPassword: password });

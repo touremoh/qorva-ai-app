@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, CircularProgress } from '@mui/material';
 import PropTypes from 'prop-types';
-import { validateToken, refreshToken } from './authService.js';
+import { validateToken, refreshToken } from '../features/auth/api/authService.js';
 import { t } from "i18next";
 import {
 	AUTH_TOKEN,

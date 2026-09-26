@@ -15,10 +15,10 @@ import {
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import MarkEmailReadRoundedIcon from '@mui/icons-material/MarkEmailReadRounded';
 import { useTranslation } from 'react-i18next';
-import { resendActivation, forgotPassword } from '../../../services/authService.js';
+import { resendActivation, forgotPassword } from '../api/authService.js';
 import LanguageSwitcher from '../../../components/languages/LanguageSwitcher.jsx';
+import { EMAIL_REGEX } from '../../../shared/lib/validators.js';
 
-const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/;
 
 // One "enter your email, we'll send you a link" page for both public flows.
 // The variant picks the endpoint and the i18n namespace; layout and behaviour are identical.
