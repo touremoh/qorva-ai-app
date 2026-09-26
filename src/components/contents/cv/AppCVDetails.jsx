@@ -65,6 +65,7 @@ import { getTenantById } from '../../../services/tenantService.js';
 import { updateCV } from '../../../services/cvService.js';
 import NotesPanel from '../common/NotesPanel.jsx';
 import { TENANT_ID } from '../../../constants.js';
+import { safeExternalUrl } from '../../../utils/safeUrl.js';
 
 // ─── Clustering style helpers ────────────────────────────────────────────────
 
@@ -649,7 +650,7 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 										<LanguageIcon sx={{ fontSize: 11, color: '#94a3b8' }} />
 										<Typography
 											component="a"
-											href={tenant.websiteUrl}
+											href={safeExternalUrl(tenant.websiteUrl) ?? undefined}
 											target="_blank"
 											rel="noopener noreferrer"
 											sx={{ fontSize: '0.72rem', color: '#629C44', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
@@ -758,18 +759,24 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 										<Chip icon={<EmailIcon />} label={contact.email} size="small" sx={contactChipSx} />
 									)
 								)}
-								{contact.socialLinks?.linkedin && (
+								{contact.socialLinks?.linkedin && (safeExternalUrl(contact.socialLinks.linkedin) ? (
 									<Chip icon={<LinkedInIcon />} label="LinkedIn" size="small" sx={contactChipSx}
-										component="a" href={contact.socialLinks.linkedin} target="_blank" clickable />
-								)}
-								{contact.socialLinks?.github && (
+										component="a" href={safeExternalUrl(contact.socialLinks.linkedin)} target="_blank" rel="noopener noreferrer" clickable />
+								) : (
+									<Chip icon={<LinkedInIcon />} label="LinkedIn" size="small" sx={contactChipSx} />
+								))}
+								{contact.socialLinks?.github && (safeExternalUrl(contact.socialLinks.github) ? (
 									<Chip icon={<GitHubIcon />} label="GitHub" size="small" sx={contactChipSx}
-										component="a" href={contact.socialLinks.github} target="_blank" clickable />
-								)}
-								{contact.socialLinks?.website && (
+										component="a" href={safeExternalUrl(contact.socialLinks.github)} target="_blank" rel="noopener noreferrer" clickable />
+								) : (
+									<Chip icon={<GitHubIcon />} label="GitHub" size="small" sx={contactChipSx} />
+								))}
+								{contact.socialLinks?.website && (safeExternalUrl(contact.socialLinks.website) ? (
 									<Chip icon={<LanguageIcon />} label="Portfolio" size="small" sx={contactChipSx}
-										component="a" href={contact.socialLinks.website} target="_blank" clickable />
-								)}
+										component="a" href={safeExternalUrl(contact.socialLinks.website)} target="_blank" rel="noopener noreferrer" clickable />
+								) : (
+									<Chip icon={<LanguageIcon />} label="Portfolio" size="small" sx={contactChipSx} />
+								))}
 							</Box>
 						) : (
 							<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 1 }}>

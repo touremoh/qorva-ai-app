@@ -34,6 +34,7 @@ import { TENANT_ID } from '../../../constants.js';
 import NotesPanel from '../common/NotesPanel.jsx';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import { isActionAllowed } from '../../../utils/demoMode.js';
+import { safeExternalUrl } from '../../../utils/safeUrl.js';
 import { useCandidateOutreach } from '../../../contexts/CandidateOutreachContext.jsx';
 
 const THEME_GREEN = '#629C44';
@@ -384,7 +385,7 @@ const AppMatchingReportDetails = ({ reportData }) => {
 										<LanguageIcon sx={{ fontSize: 11, color: '#94a3b8' }} />
 										<Typography
 											component="a"
-											href={tenant.websiteUrl}
+											href={safeExternalUrl(tenant.websiteUrl) ?? undefined}
 											target="_blank"
 											rel="noopener noreferrer"
 											sx={{ fontSize: '0.72rem', color: THEME_GREEN, textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}

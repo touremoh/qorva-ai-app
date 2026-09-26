@@ -6,7 +6,7 @@ import { Box, Typography } from '@mui/material';
 // Assistant replies are Markdown (headings, bullets, blockquoted questions, small tables).
 // Everything is mapped onto the bubble's typography so a structured answer reads like the
 // rest of the chat instead of like a document. react-markdown never renders raw HTML, so
-// model output cannot inject markup.
+// model output cannot inject markup, and images are never loaded (see `img`).
 
 const text = { fontSize: '0.85rem', color: '#0f172a', lineHeight: 1.55, wordBreak: 'break-word' };
 
@@ -51,6 +51,9 @@ const components = {
 	pre: ({ children }) => <Box component="pre" sx={{ m: 0, my: 0.75, p: 1.25, backgroundColor: '#f1f5f9', borderRadius: 1.5, overflowX: 'auto', '& code': { backgroundColor: 'transparent', px: 0 } }}>{children}</Box>,
 	hr: () => <Box component="hr" sx={{ border: 0, borderTop: '1px solid #e2e8f0', my: 1.25 }} />,
 	a: ({ href, children }) => <a href={href} target="_blank" rel="noopener noreferrer" style={{ color: '#629C44' }}>{children}</a>,
+	// Never fetch images named by model output: a reply steered by text planted in a resume could
+	// otherwise leak chat content to any host through the image URL. The alt text is kept.
+	img: ({ alt }) => (alt ? <span>{alt}</span> : null),
 };
 
 export default function ChatMarkdown({ content }) {
