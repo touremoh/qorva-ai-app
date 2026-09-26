@@ -540,7 +540,10 @@
     "network": "Errore di rete. Controlla la connessione.",
     "client": "Errore nei dati. Verifica le informazioni.",
     "server": "Errore server. Riprova più tardi.",
-    "unexpected": "Errore imprevisto. Riprova."
+    "unexpected": "Errore imprevisto. Riprova.",
+    "boundaryTitle": "Qualcosa è andato storto",
+    "boundaryBody": "Questa schermata ha riscontrato un errore imprevisto. Ricaricare la pagina di solito risolve; i dati salvati sono al sicuro.",
+    "boundaryReload": "Ricarica"
   },
   "accountSettings": {
     "title": "Impostazioni account",

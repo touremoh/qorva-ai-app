@@ -10,6 +10,7 @@ import MfaCodeField, { MFA_CODE_LENGTH } from './MfaCodeField.jsx';
 import useResendCountdown from '../../../components/mfa/useResendCountdown.js';
 import * as tokens from '../../../theme/tokens.js';
 import { alpha } from '@mui/material/styles';
+import { fieldSpacingSx } from '../model/styles.js';
 
 // Codes after which this challenge is dead: the user has to go back and enter the password again.
 const RESTART_CODES = new Set(['error.auth.mfa_challenge_invalid', 'error.auth.mfa_too_many_attempts']);
@@ -19,7 +20,7 @@ const RESTART_CODES = new Set(['error.auth.mfa_challenge_invalid', 'error.auth.m
  * this once /auth/login answers with a challenge instead of a token; a valid code yields the
  * same { jwt, user } payload, which goes back to Login's usual post-login routing.
  */
-const MfaCodeStep = ({ challenge: initialChallenge, onVerified, onRestart, inputSx }) => {
+const MfaCodeStep = ({ challenge: initialChallenge, onVerified, onRestart }) => {
 	const { t } = useTranslation();
 	const [challenge, setChallenge] = useState(initialChallenge);
 	const [code, setCode] = useState('');
@@ -104,7 +105,7 @@ const MfaCodeStep = ({ challenge: initialChallenge, onVerified, onRestart, input
 					onChange={handleChange}
 					disabled={status !== 'idle'}
 					autoFocus
-					sx={inputSx}
+					sx={fieldSpacingSx}
 				/>
 
 				<Button
@@ -184,7 +185,6 @@ MfaCodeStep.propTypes = {
 	onVerified: PropTypes.func.isRequired,
 	/** Back to the password form, optionally with a message to show there. */
 	onRestart: PropTypes.func.isRequired,
-	inputSx: PropTypes.object,
 };
 
 export default MfaCodeStep;

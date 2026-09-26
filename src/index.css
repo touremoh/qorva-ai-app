@@ -19,11 +19,3 @@ body {
   min-height: 100vh;
   background-color: whitesmoke;
 }
-
-/*
- * Legacy default: the screens were built on the Vite template's centred #root and rely on inheriting
- * it (hence the many explicit textAlign: 'left'). Kept until the components state their own alignment.
- */
-#root {
-  text-align: center;
-}

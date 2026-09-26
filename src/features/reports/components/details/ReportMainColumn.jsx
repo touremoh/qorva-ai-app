@@ -31,7 +31,7 @@ const ReportMainColumn = ({ finalColor, confConfig, confKey, decision, detailSco
 				background: `linear-gradient(135deg, ${finalColor}06 0%, ${finalColor}14 100%)`,
 			}}>
 				<Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 3 }}>
-					<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1, flexShrink: 0 }}>
+					<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: 1, flexShrink: 0 }}>
 						<ScoreGaugeLarge value={finalScore} />
 						<Typography sx={{ fontSize: tokens.fontSize.micro, fontWeight: 800, color: tokens.ink.soft, textTransform: 'uppercase', letterSpacing: '0.12em' }}>
 							{t('appCVMatching.finalScore')}

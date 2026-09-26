@@ -208,7 +208,7 @@ const InsightConversationList = ({ conversations, activeConvId, onSelect, onNew,
                 )}
 
                 {!loading && conversations.length === 0 && (
-                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 6, gap: 1 }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', py: 6, gap: 1 }}>
                         <ForumOutlinedIcon sx={{ fontSize: tokens.iconSize.xl, color: tokens.ink.faintest }} />
                         <Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.faint, textAlign: 'center' }}>
                             No conversations yet

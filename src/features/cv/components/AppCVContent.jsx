@@ -1,36 +1,30 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import ConfirmDialog from '../../../shared/ui/ConfirmDialog.jsx';
 import {
 	Box,
-	Button,
 	Typography,
-	CircularProgress,
-	IconButton,
-	Tooltip,
 	useMediaQuery,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import FileUploadIcon from '@mui/icons-material/FileUpload';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import AppCVDetails from './AppCVDetails.jsx';
 import AppCVEntries from './AppCVEntries.jsx';
 import CVFilterRail from './CVFilterRail.jsx';
 import useCvUpload from '../hooks/useCvUpload.js';
 import useCVFilters from '../hooks/useCVFilters.js';
-import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
-import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
-import { toast } from 'sonner';
-import { deleteCV, getClearLibraryPreflight, clearLibrary, getCVFilterOptions } from '../api/cvService.js';
+import useClearLibrary from '../hooks/useClearLibrary.js';
+import useCvFilterOptions from '../hooks/useCvFilterOptions.js';
+import { deleteCV } from '../api/cvService.js';
 import { notifyQualityChanged, performQualityAction } from '../../library-quality/api/libraryQualityService.js';
 import { CVS_CHANGED_EVENT } from '../../../contexts/BulkImportContext.jsx';
 import { isDemoUser } from '../../../utils/demoMode.js';
-import UpgradeButton from '../../../components/demo/UpgradeButton.jsx';
 import ClearLibraryDialog from './list/ClearLibraryDialog.jsx';
+import CvToolbar from './list/CvToolbar.jsx';
 import UploadDialog from './upload/UploadDialog.jsx';
 import * as tokens from '../../../theme/tokens.js';
-import { alpha } from '@mui/material/styles';
 
+/** Resume library: toolbar, filter rail, list and details pane, plus the library dialogs. */
 const AppCVContent = () => {
 	const { t } = useTranslation();
 	const demo = isDemoUser();
@@ -46,38 +40,17 @@ const AppCVContent = () => {
 	const [refreshKey, setRefreshKey] = useState(0);
 	const refreshList = useCallback(() => setRefreshKey(k => k + 1), []);
 	const upload = useCvUpload(refreshList);
-	const [filterOptions, setFilterOptions] = useState(null);
-	const [filterOptionsLoading, setFilterOptionsLoading] = useState(false);
-	const [railEverOpened, setRailEverOpened] = useState(false);
+	const { filterOptions, filterOptionsLoading } = useCvFilterOptions(cvFilters.filtersOpen, showArchived, refreshKey);
 	// Below this width a persistent third column would starve the details pane, so the rail overlays.
 	const railPersistent = useMediaQuery('(min-width:1200px)');
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-	// Bulk-import state: plan cap, dropped-file notices, job lifecycle and summary.
-
-
+	const clear = useClearLibrary(() => { setSelectedCV(null); refreshList(); });
 
 	// Refresh the library whenever a bulk import finishes anywhere in the app.
 	useEffect(() => {
 		window.addEventListener(CVS_CHANGED_EVENT, refreshList);
 		return () => window.removeEventListener(CVS_CHANGED_EVENT, refreshList);
 	}, [refreshList]);
-
-	// Facet options are fetched lazily the first time the rail opens, then kept in step with
-	// the archived toggle and every library change (upload, delete, unarchive, clear).
-	useEffect(() => {
-		if (cvFilters.filtersOpen) setRailEverOpened(true);
-	}, [cvFilters.filtersOpen]);
-	useEffect(() => {
-		if (!railEverOpened) return;
-		let cancelled = false;
-		setFilterOptionsLoading(true);
-		getCVFilterOptions({ archived: showArchived })
-			.then(resp => { if (!cancelled) setFilterOptions(resp.data); })
-			.catch(error => console.error('Error loading CV filter options:', error))
-			.finally(() => { if (!cancelled) setFilterOptionsLoading(false); });
-		return () => { cancelled = true; };
-	}, [railEverOpened, showArchived, refreshKey]);
-
 
 	const handleUnarchive = async (cvId) => {
 		try {
@@ -88,45 +61,6 @@ const AppCVContent = () => {
 			notifyQualityChanged();
 		} catch (error) {
 			console.error('Error unarchiving CV:', error);
-		}
-	};
-
-
-
-	// Clear-library: the most destructive action in the product — preflight counts in
-	// the dialog, and the user must type DELETE before the button arms.
-	const [clearDialogOpen, setClearDialogOpen] = useState(false);
-	const [clearPreflight, setClearPreflight] = useState(null);
-	const [clearConfirmText, setClearConfirmText] = useState('');
-	const [clearing, setClearing] = useState(false);
-
-	const handleOpenClearDialog = async () => {
-		setClearConfirmText('');
-		setClearPreflight(null);
-		setClearDialogOpen(true);
-		try {
-			const resp = await getClearLibraryPreflight();
-			setClearPreflight(resp.data);
-		} catch (error) {
-			console.error('Clear-library preflight failed:', error);
-		}
-	};
-
-	const handleClearLibrary = async () => {
-		try {
-			setClearing(true);
-			const resp = await clearLibrary();
-			const result = resp.data;
-			toast.success(t('appCVContent.clearLibrary.done', 'Library cleared — {{cvs}} resumes, {{reports}} reports and {{chats}} chats removed.', {
-				cvs: result?.cvs ?? 0, reports: result?.reports ?? 0, chats: result?.chats ?? 0 }));
-			setClearDialogOpen(false);
-			setSelectedCV(null);
-			refreshList();
-			notifyQualityChanged();
-		} catch (error) {
-			console.error('Clear library failed:', error);
-		} finally {
-			setClearing(false);
 		}
 	};
 
@@ -149,91 +83,13 @@ const AppCVContent = () => {
 	return (
 		<Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', overflow: 'hidden', backgroundColor: tokens.surface.subtle }}>
 			{/* Toolbar */}
-			<Box sx={{
-				display: 'flex',
-				alignItems: 'center',
-				gap: 1.5,
-				py: 1.5,
-				backgroundColor: tokens.surface.paper,
-				borderBottom: `1px solid ${tokens.line.main}`,
-				borderRadius: 2,
-				mb: 2,
-				px: 2,
-			}}>
-				{demo ? (
-					<UpgradeButton reason="cv-upload" variant="contained" size="medium" />
-				) : (
-					<Button
-						startIcon={upload.isUploading ? <CircularProgress size={16} color="inherit" /> : <FileUploadIcon />}
-						variant="contained"
-						disabled={upload.isUploading}
-						onClick={() => upload.setOpenUploadModal(true)}
-						sx={{
-							backgroundColor: tokens.brand.main,
-							'&:hover': { backgroundColor: tokens.brand.hover },
-							borderRadius: 1.5,
-							textTransform: 'none',
-							fontWeight: 600,
-							fontSize: tokens.fontSize.body2,
-							boxShadow: 'none',
-							px: 2,
-							whiteSpace: 'nowrap',
-						}}
-					>
-						{t('appCVContent.uploadCV')}
-						<Box component="span" sx={{
-							ml: 1, px: 0.75, py: 0.15, display: { xs: 'none', sm: 'inline' },
-							backgroundColor: 'rgba(255,255,255,0.22)',
-							borderRadius: 0.75,
-							fontSize: tokens.fontSize.caption,
-							fontWeight: 500,
-							letterSpacing: '0.02em',
-						}}>
-							· up to {upload.bulkLimit}
-						</Box>
-					</Button>
-				)}
-
-				<Tooltip title={t('appCVContent.showArchivedTooltip', 'Show archived resumes')}>
-					<Button
-						startIcon={<Inventory2OutlinedIcon sx={{ fontSize: tokens.iconSize.md }} />}
-						variant="outlined"
-						onClick={() => { setShowArchived(prev => !prev); setSelectedCV(null); }}
-						sx={{
-							borderColor: showArchived ? `${tokens.brand.main}` : `${tokens.line.main}`,
-							color: showArchived ? `${tokens.brand.main}` : `${tokens.ink.muted}`,
-							backgroundColor: showArchived ? alpha(tokens.brand.main, 0.06) : 'transparent',
-							'&:hover': { borderColor: tokens.brand.main, color: tokens.brand.text, backgroundColor: alpha(tokens.brand.main, 0.04) },
-							borderRadius: 1.5,
-							textTransform: 'none',
-							fontWeight: 600,
-							fontSize: tokens.fontSize.body2,
-							boxShadow: 'none',
-							px: 1.5,
-						}}
-					>
-						{t('appCVContent.archived', 'Archived')}
-					</Button>
-				</Tooltip>
-
-				{!demo && (
-					<Tooltip title={t('appCVContent.clearLibrary.tooltip', 'Clear the whole library…')}>
-						<IconButton
-							size="small"
-							onClick={handleOpenClearDialog}
-							sx={{
-								borderRadius: 1.5,
-								color: tokens.ink.subtle,
-								'&:hover': { color: tokens.status.error.main, backgroundColor: 'rgba(220,38,38,0.06)' },
-							}}
-						>
-							<DeleteForeverOutlinedIcon sx={{ fontSize: tokens.iconSize.lg }} />
-						</IconButton>
-					</Tooltip>
-				)}
-
-				<Box sx={{ flexGrow: 1 }} />
-			</Box>
+			<CvToolbar
+				demo={demo}
+				upload={upload}
+				showArchived={showArchived}
+				onToggleArchived={() => { setShowArchived(prev => !prev); setSelectedCV(null); }}
+				onOpenClearLibrary={clear.handleOpenClearDialog}
+			/>
 
 			{/* Split pane */}
 			<Box sx={{
@@ -310,6 +166,7 @@ const AppCVContent = () => {
 								flexDirection: 'column',
 								alignItems: 'center',
 								justifyContent: 'center',
+								textAlign: 'center',
 								gap: 1.5,
 							}}>
 								<CloudUploadIcon sx={{ fontSize: 40, color: tokens.ink.faint }} />
@@ -328,13 +185,13 @@ const AppCVContent = () => {
 
 			{/* Clear-library confirmation — preflight counts + type-to-confirm */}
 			<ClearLibraryDialog
-				clearConfirmText={clearConfirmText}
-				clearDialogOpen={clearDialogOpen}
-				clearPreflight={clearPreflight}
-				clearing={clearing}
-				handleClearLibrary={handleClearLibrary}
-				setClearConfirmText={setClearConfirmText}
-				setClearDialogOpen={setClearDialogOpen}
+				clearConfirmText={clear.clearConfirmText}
+				clearDialogOpen={clear.clearDialogOpen}
+				clearPreflight={clear.clearPreflight}
+				clearing={clear.clearing}
+				handleClearLibrary={clear.handleClearLibrary}
+				setClearConfirmText={clear.setClearConfirmText}
+				setClearDialogOpen={clear.setClearDialogOpen}
 			/>
 
 			{/* Delete Confirmation Dialog — used for normal CV list mode */}

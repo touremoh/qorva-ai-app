@@ -24,6 +24,7 @@ const UploadFilePicker = ({ upload }) => {
 					display: 'flex',
 					flexDirection: 'column',
 					alignItems: 'center',
+					textAlign: 'center',
 					gap: 1,
 					cursor: 'pointer',
 					backgroundColor: upload.isDragging ? alpha(tokens.brand.main, 0.04) : `${tokens.surface.subtle}`,

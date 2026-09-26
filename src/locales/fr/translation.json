@@ -540,7 +540,10 @@
     "network": "Erreur réseau. Vérifiez la connexion.",
     "client": "Erreur de saisie. Vérifiez vos données.",
     "server": "Erreur serveur. Réessayez plus tard.",
-    "unexpected": "Erreur inattendue. Veuillez réessayer."
+    "unexpected": "Erreur inattendue. Veuillez réessayer.",
+    "boundaryTitle": "Une erreur est survenue",
+    "boundaryBody": "Cet écran a rencontré une erreur inattendue. Recharger la page règle généralement le problème ; vos données enregistrées sont intactes.",
+    "boundaryReload": "Recharger"
   },
   "accountSettings": {
     "title": "Paramètres du compte",

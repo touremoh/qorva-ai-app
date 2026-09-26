@@ -1,33 +1,28 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
-import dayjs from '../../../shared/lib/dayjs.js';
 import PropTypes from 'prop-types';
 import {
-	Autocomplete,
 	Box,
-	Button,
-	Chip,
 	CircularProgress,
 	Drawer,
-	IconButton,
-	Link,
 	MenuItem,
 	Select,
 	TextField,
 	Typography,
 } from '@mui/material';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import PsychologyOutlinedIcon from '@mui/icons-material/PsychologyOutlined';
-import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
+import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import { ATS_LABELS } from '../model/atsLabels.js';
 import { DEFAULT_SORT } from '../hooks/useCVFilters.js';
 import GroupLabel from './filters/GroupLabel.jsx';
-import { UNSET, DRAWER_WIDTH, GREEN, SORT_OPTIONS, ENUM_GROUPS, VALUE_GROUPS, inputSx } from '../model/filterRail.js';
+import FilterChipGroup from './filters/FilterChipGroup.jsx';
+import FilterValueGroup from './filters/FilterValueGroup.jsx';
+import FilterDateField from './filters/FilterDateField.jsx';
+import FilterRailHeader from './filters/FilterRailHeader.jsx';
+import FilterRailFooter from './filters/FilterRailFooter.jsx';
+import { DRAWER_WIDTH, GREEN, SORT_OPTIONS, ENUM_GROUPS, VALUE_GROUPS, inputSx } from '../model/filterRail.js';
 import * as tokens from '../../../theme/tokens.js';
-import { alpha } from '@mui/material/styles';
 
 export const RAIL_WIDTH = 260;
 
@@ -38,7 +33,6 @@ const CVFilterRail = ({
 	options, loading,
 }) => {
 	const { t, i18n } = useTranslation();
-	const navigate = useNavigate();
 	// dayjs ships locales by ISO code; fall back to English for anything we don't bundle above.
 	const dateLocale = ['fr', 'de', 'es', 'it', 'nl', 'pt'].includes((i18n.language || '').slice(0, 2))
 		? i18n.language.slice(0, 2)
@@ -52,94 +46,16 @@ const CVFilterRail = ({
 	const sourceLabel = (value) =>
 		value === 'MANUAL' ? t('appCVContent.filters.source.manual') : (ATS_LABELS[value] || value);
 
-	const toggleIn = (group, value) => {
-		const current = filters[group] || [];
-		const key = value == null ? UNSET : value;
-		setFilter(group, current.includes(key) ? current.filter(v => v !== key) : [...current, key]);
-	};
-
-	const chipGroup = (group, labelOf) => {
-		const list = options?.[group === 'source' ? 'sources' : group] || [];
-		if (list.length === 0) return null;
-		const selected = filters[group] || [];
-		return (
-			<Box key={group}>
-				<GroupLabel
-					text={t(`appCVContent.filters.${group}.label`)}
-					count={selected.length}
-					onReset={() => setFilter(group, [])}
-				/>
-				<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-					{list.map(({ value, count }) => {
-						const key = value == null ? UNSET : value;
-						const active = selected.includes(key);
-						return (
-							<Chip
-								key={key}
-								size="small"
-								clickable
-								onClick={() => toggleIn(group, value)}
-								label={`${labelOf(value)} (${count})`}
-								sx={{
-									height: 22, fontSize: tokens.fontSize.caption, fontWeight: active ? 600 : 500,
-									color: active ? `${tokens.surface.paper}` : `${tokens.ink.body}`,
-									backgroundColor: active ? GREEN : `${tokens.surface.paper}`,
-									border: `1px solid ${active ? GREEN : `${tokens.line.main}`}`,
-									'&:hover': { backgroundColor: active ? `${tokens.brand.hover}` : `${tokens.surface.muted}` },
-									'& .MuiChip-label': { px: 0.9 },
-								}}
-							/>
-						);
-					})}
-				</Box>
-			</Box>
-		);
-	};
-
-	const valueGroup = (group) => {
-		const list = options?.[group] || [];
-		if (list.length === 0) return null;
-		const selected = filters[group] || [];
-		const byValue = Object.fromEntries(list.map(o => [o.value, o]));
-		const labelKey = group === 'skills' ? 'appCVContent.filters.skillsAllOf' : `appCVContent.filters.${group}`;
-		return (
-			<Box key={group}>
-				<GroupLabel text={t(labelKey)} count={selected.length} onReset={() => setFilter(group, [])} />
-				<Autocomplete
-					multiple
-					size="small"
-					limitTags={2}
-					options={list.map(o => o.value)}
-					value={selected}
-					onChange={(_, value) => setFilter(group, value)}
-					getOptionLabel={(v) => v}
-					renderOption={(props, v) => (
-						<li {...props} key={v} style={{ fontSize: tokens.fontSize.small, display: 'flex', justifyContent: 'space-between' }}>
-							<span>{v}</span>
-							<span style={{ color: tokens.ink.subtle, marginLeft: 8 }}>{byValue[v]?.count ?? ''}</span>
-						</li>
-					)}
-					renderTags={(value, getTagProps) => value.map((v, index) => (
-						<Chip
-							{...getTagProps({ index })}
-							key={v}
-							label={v}
-							size="small"
-							sx={{ height: 20, fontSize: tokens.fontSize.caption, backgroundColor: alpha(tokens.brand.main, 0.10), color: tokens.status.success.text }}
-						/>
-					))}
-					renderInput={(params) => (
-						<TextField
-							{...params}
-							placeholder={selected.length ? '' : t('appCVContent.filters.any')}
-							InputProps={{ ...params.InputProps, sx: { ...inputSx, py: '2px' } }}
-						/>
-					)}
-					sx={{ '& .MuiAutocomplete-inputRoot': { fontSize: tokens.fontSize.small } }}
-				/>
-			</Box>
-		);
-	};
+	const chipGroup = (group, labelOf) => (
+		<FilterChipGroup
+			key={group}
+			group={group}
+			list={options?.[group === 'source' ? 'sources' : group] || []}
+			selected={filters[group] || []}
+			labelOf={labelOf}
+			onChange={(values) => setFilter(group, values)}
+		/>
+	);
 
 	const numberField = (key, placeholder) => (
 		<TextField
@@ -154,35 +70,7 @@ const CVFilterRail = ({
 		/>
 	);
 
-	// State keeps the ISO day string the backend reads (CVQueryBuilder.instant); the picker
-	// works in dayjs and converts at the edge. "Since" dates can't be in the future.
-	const dateField = (key) => (
-		<DatePicker
-			value={filters[key] ? dayjs(filters[key]) : null}
-			onChange={(v) => setFilter(key, v && v.isValid() ? v.format('YYYY-MM-DD') : '')}
-			disableFuture
-			slotProps={{
-				textField: {
-					size: 'small',
-					fullWidth: true,
-					placeholder: t('appCVContent.filters.pickDate'),
-					InputProps: { sx: inputSx },
-				},
-				field: { clearable: true },
-				openPickerButton: { size: 'small', sx: { color: tokens.ink.subtle, mr: -0.5 } },
-				openPickerIcon: { sx: { fontSize: tokens.iconSize.md } },
-				popper: { placement: 'bottom-start' },
-				desktopPaper: { sx: { borderRadius: 2, border: `1px solid ${tokens.line.main}`, boxShadow: '0 8px 24px rgba(15,23,42,0.10)' } },
-				day: {
-					sx: {
-						fontSize: tokens.fontSize.small,
-						'&.Mui-selected, &.Mui-selected:hover, &.Mui-selected:focus': { backgroundColor: GREEN },
-						'&.MuiPickersDay-today:not(.Mui-selected)': { borderColor: GREEN },
-					},
-				},
-			}}
-		/>
-	);
+	const dateField = (key) => <FilterDateField value={filters[key]} onChange={(v) => setFilter(key, v)} />;
 
 	const experience = options?.experience;
 	const experienceCount = (filters.minYearsOfExperience !== '' ? 1 : 0) + (filters.maxYearsOfExperience !== '' ? 1 : 0);
@@ -191,24 +79,7 @@ const CVFilterRail = ({
 	const content = (
 		<LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={dateLocale}>
 		<Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
-			<Box sx={{
-				display: 'flex', alignItems: 'center', gap: 0.5,
-				px: 1.5, py: 1, borderBottom: `1px solid ${tokens.line.main}`, flexShrink: 0,
-			}}>
-				<Typography sx={{ fontSize: tokens.fontSize.body2, fontWeight: 700, color: tokens.ink.strong, flex: 1 }}>
-					{t('appCVContent.filters.title')}
-				</Typography>
-				{activeCount > 0 && (
-					<Button size="small" onClick={onClearAll} sx={{
-						textTransform: 'none', fontSize: tokens.fontSize.small, fontWeight: 600, color: GREEN, minWidth: 0, px: 0.75,
-					}}>
-						{t('appCVContent.filters.clearAll')}
-					</Button>
-				)}
-				<IconButton size="small" onClick={onClose} sx={{ color: tokens.ink.subtle }}>
-					<ChevronLeftIcon sx={{ fontSize: tokens.iconSize.lg }} />
-				</IconButton>
-			</Box>
+			<FilterRailHeader activeCount={activeCount} onClearAll={onClearAll} onClose={onClose} />
 
 			<Box sx={{ flex: 1, overflowY: 'auto', px: 1.5, py: 1.25, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
 				{loading && !options && (
@@ -218,7 +89,15 @@ const CVFilterRail = ({
 				)}
 
 				{ENUM_GROUPS.map(group => chipGroup(group, (v) => enumLabel(group, v)))}
-				{VALUE_GROUPS.map(valueGroup)}
+				{VALUE_GROUPS.map(group => (
+					<FilterValueGroup
+						key={group}
+						group={group}
+						list={options?.[group] || []}
+						selected={filters[group] || []}
+						onChange={(values) => setFilter(group, values)}
+					/>
+				))}
 				{chipGroup('source', sourceLabel)}
 
 				{experience && experience.max != null && (
@@ -273,20 +152,7 @@ const CVFilterRail = ({
 				</Box>
 			</Box>
 
-			<Box sx={{ px: 1.5, py: 1.25, borderTop: `1px solid ${tokens.line.main}`, backgroundColor: tokens.surface.paper, flexShrink: 0 }}>
-				<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.muted, lineHeight: 1.4 }}>
-					{t('appCVContent.filters.needMore')}{' '}
-					<Link
-						component="button"
-						type="button"
-						onClick={() => navigate('/app/intelligence')}
-						sx={{ fontSize: tokens.fontSize.caption, fontWeight: 600, color: GREEN, verticalAlign: 'baseline', display: 'inline-flex', alignItems: 'center', gap: 0.25 }}
-					>
-						<PsychologyOutlinedIcon sx={{ fontSize: tokens.iconSize.sm }} />
-						{t('appCVContent.filters.askIntelligence')}
-					</Link>
-				</Typography>
-			</Box>
+			<FilterRailFooter />
 		</Box>
 		</LocalizationProvider>
 	);

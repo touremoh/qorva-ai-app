@@ -10,7 +10,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import LanguageSwitcher from '../../../../components/languages/LanguageSwitcher.jsx';
 import MfaCodeStep from '../MfaCodeStep.jsx';
 import { useTranslation } from 'react-i18next';
-import { inputSx } from '../../model/styles.js';
+import { fieldSpacingSx } from '../../model/styles.js';
 import * as tokens from '../../../../theme/tokens.js';
 import { alpha } from '@mui/material/styles';
 
@@ -54,7 +54,6 @@ const LoginFormPanel = ({ completeLogin, email, formError, handleBlur, handleLog
 					challenge={mfaChallenge}
 					onVerified={completeLogin}
 					onRestart={restartLogin}
-					inputSx={inputSx}
 				/>
 			) : (
 				<>
@@ -102,7 +101,7 @@ const LoginFormPanel = ({ completeLogin, email, formError, handleBlur, handleLog
 						onBlur={handleBlur('email')}
 						error={Boolean(touched.email && liveErrors.email)}
 						helperText={(touched.email && liveErrors.email) || ' '}
-						sx={inputSx}
+						sx={fieldSpacingSx}
 						slotProps={{
 							input: {
 								startAdornment: (
@@ -126,7 +125,7 @@ const LoginFormPanel = ({ completeLogin, email, formError, handleBlur, handleLog
 						onBlur={handleBlur('password')}
 						error={Boolean(touched.password && liveErrors.password)}
 						helperText={(touched.password && liveErrors.password) || ' '}
-						sx={inputSx}
+						sx={fieldSpacingSx}
 						slotProps={{
 							input: {
 								startAdornment: (

@@ -32,7 +32,7 @@ const CandidateSection = ({ candidates, showRediscoveredTag, onCandidateClick })
                     '&:hover': onCandidateClick ? { backgroundColor: tokens.surface.muted, borderColor: tokens.line.strong } : {},
                 }}>
                     {/* Rank + Avatar */}
-                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5, flexShrink: 0 }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: 0.5, flexShrink: 0 }}>
                         <Typography sx={{ fontSize: tokens.fontSize.micro, color: tokens.ink.faint, fontWeight: 600, lineHeight: 1 }}>
                             #{i + 1}
                         </Typography>

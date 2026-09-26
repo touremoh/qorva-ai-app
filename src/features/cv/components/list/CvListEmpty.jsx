@@ -8,7 +8,7 @@ const CvListEmpty = ({ activeCount, onClearFilters, onQuickSearchChange, quickSe
 	const { t } = useTranslation();
 	return (
 		<>
-		<Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 1, px: 2 }}>
+		<Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', justifyContent: 'center', gap: 1, px: 2 }}>
 			<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.subtle, textAlign: 'center' }}>
 				{activeCount > 0 || quickSearch ? t('appCVContent.filters.noMatch') : t('appCVContent.noCVEntries')}
 			</Typography>

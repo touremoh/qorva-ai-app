@@ -170,10 +170,12 @@ const CreateChatDialog = ({ loadingResumeMatch, closeCreateChatModal, copiedJobR
 				>
 					{t('appAIResumeChat.cancel')}
 				</Button>
+				<Tooltip title={!selectedCV || !selectedJob ? t('appAIResumeChat.selectCvAndJob') : ''}>
+				<span>
 				<Button
 					onClick={handleCreateChat}
 					variant="contained"
-					disabled={creatingChat}
+					disabled={creatingChat || !selectedCV || !selectedJob}
 					startIcon={creatingChat ? <CircularProgress size={14} color="inherit" /> : <AddCommentOutlinedIcon sx={{ fontSize: tokens.iconSize.md }} />}
 					sx={{
 						backgroundColor: tokens.brand.main, borderRadius: 2, fontSize: tokens.fontSize.body2,
@@ -183,6 +185,8 @@ const CreateChatDialog = ({ loadingResumeMatch, closeCreateChatModal, copiedJobR
 				>
 					{t('appAIResumeChat.create')}
 				</Button>
+				</span>
+				</Tooltip>
 			</DialogActions>
 		</Dialog>
 		</>

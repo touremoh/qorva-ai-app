@@ -10,7 +10,7 @@ import { alpha } from '@mui/material/styles';
 const ClusteringTabContent = ({ clustering, t }) => {
 	if (!clustering) {
 		return (
-			<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', py: 8, gap: 1.5 }}>
+			<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', justifyContent: 'center', py: 8, gap: 1.5 }}>
 				<HubOutlinedIcon sx={{ fontSize: 40, color: tokens.ink.faint }} />
 				<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.subtle, fontWeight: 500 }}>
 					{t('appCVContent.noClusteringData', 'No talent intelligence data available for this candidate.')}

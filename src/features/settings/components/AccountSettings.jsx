@@ -26,6 +26,7 @@ import ProfileDetailsCard from './profile/ProfileDetailsCard.jsx';
 import ProfileBanner from './profile/ProfileBanner.jsx';
 import SettingsNav from './SettingsNav.jsx';
 import * as tokens from '../../../theme/tokens.js';
+import { storeAccessToken } from '../../../shared/lib/session.js';
 
 
 
@@ -107,10 +108,12 @@ const AccountSettings = () => {
 		}
 		try {
 			setSavingPw(true);
-			await updatePassword(userInfo.id, {
+			const response = await updatePassword(userInfo.id, {
 				currentPassword: pwValues.currentPassword,
 				newPassword: pwValues.newPassword,
 			});
+			// The change ends every other session; this one continues on the token that comes back.
+			storeAccessToken(response?.data?.data);
 			setPwMode(false);
 			setPwValues({ currentPassword: '', newPassword: '', confirmPassword: '' });
 			setPwError('');

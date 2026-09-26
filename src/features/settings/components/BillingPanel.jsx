@@ -33,7 +33,7 @@ const BillingPanel = ({ demo, handleOpenBillingPortal, loadingPortal }) => {
 			>
 				<SectionHeader icon={CreditCardOutlinedIcon} label={t('accountSettings.manageBilling')} />
 				{loadingPortal ? (
-					<Stack alignItems="center" spacing={1} sx={{ py: 2 }}>
+					<Stack alignItems="center" spacing={1} sx={{ py: 2, textAlign: 'center' }}>
 						<CircularProgress size={22} sx={{ color: tokens.brand.text }} />
 						<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.muted }}>
 							{t('accountSettings.openingBillingPortal', 'Opening billing portal…')}

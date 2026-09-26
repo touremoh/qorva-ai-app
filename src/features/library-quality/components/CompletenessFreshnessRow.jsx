@@ -43,7 +43,7 @@ const CompletenessFreshnessRow = ({ completenessMetrics, freshnessMetrics, fresh
 
 			<Paper elevation={0} sx={{ border: `1px solid ${tokens.line.main}`, borderRadius: 2.5, p: 2.5 }}>
 				<SectionHeader sx={{ pb: 1.5 }} icon={UpdateOutlinedIcon} label={t('libraryQuality.sections.freshness', 'Content Freshness')} />
-				<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+				<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
 					<PieChart
 						series={[{ data: freshnessPieData, innerRadius: 38, outerRadius: 68, paddingAngle: 2, cornerRadius: 3 }]}
 						width={200}

@@ -94,7 +94,7 @@ const UsageMonitoringContent = () => {
                 </Box>
 
                 {loading && (
-                    <Stack alignItems="center" justifyContent="center" sx={{ flex: 1, py: 8 }} spacing={1.5}>
+                    <Stack alignItems="center" justifyContent="center" sx={{ flex: 1, py: 8, textAlign: 'center' }} spacing={1.5}>
                         <CircularProgress size={32} sx={{ color: tokens.brand.text }} />
                         <Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.subtle }}>{t('dashboard.loading')}</Typography>
                     </Stack>

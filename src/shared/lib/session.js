@@ -10,7 +10,7 @@ import {
 	USER_FIRST_NAME,
 	USER_ID,
 	USER_LAST_NAME
-} from "./src/constants.js";
+} from "../../constants.js";
 
 const SELECTED_PRICE_ID = 'SELECTED_PRICE_ID';
 
@@ -45,4 +45,21 @@ const setAuthResults = (authResults) => {
 	}
 };
 
-export { setAuthResults };
+/** Replaces only the access token, e.g. with the fresh one a password change returns; the rest of the session stays. */
+const storeAccessToken = (jwt) => {
+	if (!jwt?.access_token) return;
+	localStorage.setItem(AUTH_TOKEN, jwt.access_token);
+	localStorage.setItem(TOKEN_EXPIRY, jwt.expires_in);
+};
+
+/** True when the signed-in user's authorities allow `action` (the API enforces the same rule). */
+const hasPermission = (action) => {
+	try {
+		const authorities = JSON.parse(localStorage.getItem(USER_AUTHORITIES) || '[]');
+		return authorities.some((a) => a?.action === action && a?.permission === 'ALLOWED');
+	} catch {
+		return false;
+	}
+};
+
+export { setAuthResults, storeAccessToken, hasPermission };

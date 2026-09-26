@@ -23,8 +23,6 @@ import { alpha } from '@mui/material/styles';
 
 const AVAILABILITY_STATUSES = ['activelyLooking', 'openButNotSearching', 'notAvailable', 'freelanceOnly'];
 
-const inputSx = { '& .MuiOutlinedInput-root': { borderRadius: 1.5, backgroundColor: tokens.surface.subtle } };
-
 // Server-reported async-processing stages; the bar eases toward each stage's cap so the
 // motion is smooth while the boundaries stay honest.
 const STAGE_PROGRESS_CAPS = { SUBMITTED: 25, PARSING: 80, UPDATING: 95 };
@@ -279,7 +277,7 @@ const CandidateUpdatePage = () => {
 			<TextField select fullWidth size="small" label={t('candidateUpdate.status', 'Availability')}
 				value={form.availabilityStatus}
 				onChange={(e) => setForm(f => ({ ...f, availabilityStatus: e.target.value }))}
-				sx={{ ...inputSx, mb: 2 }}>
+				sx={{ mb: 2 }}>
 				{AVAILABILITY_STATUSES.map(status => (
 					<MenuItem key={status} value={status}>
 						{t(`appCVContent.availability.statusValue.${status}`, status)}
@@ -290,20 +288,20 @@ const CandidateUpdatePage = () => {
 			<Box sx={{ display: 'flex', gap: 1.5, mb: 2 }}>
 				<TextField fullWidth size="small" label={t('candidateUpdate.availableFrom', 'Available from')}
 					placeholder="2026-09-01" value={form.availableFrom}
-					onChange={(e) => setForm(f => ({ ...f, availableFrom: e.target.value }))} sx={inputSx} />
+					onChange={(e) => setForm(f => ({ ...f, availableFrom: e.target.value }))} />
 				<TextField fullWidth size="small" type="number" label={t('candidateUpdate.noticePeriod', 'Notice period (days)')}
 					value={form.noticePeriodDays}
-					onChange={(e) => setForm(f => ({ ...f, noticePeriodDays: e.target.value }))} sx={inputSx} />
+					onChange={(e) => setForm(f => ({ ...f, noticePeriodDays: e.target.value }))} />
 			</Box>
 
 			<Box sx={{ display: 'flex', gap: 1.5, mb: 2 }}>
 				<TextField size="small" label={t('candidateUpdate.currency', 'Currency')} placeholder="EUR"
-					value={form.salaryCurrency} sx={{ ...inputSx, width: 110 }}
+					value={form.salaryCurrency} sx={{ width: 110 }}
 					onChange={(e) => setForm(f => ({ ...f, salaryCurrency: e.target.value.toUpperCase() }))} />
 				<TextField fullWidth size="small" type="number" label={t('candidateUpdate.salaryMin', 'Salary min')}
-					value={form.salaryMin} onChange={(e) => setForm(f => ({ ...f, salaryMin: e.target.value }))} sx={inputSx} />
+					value={form.salaryMin} onChange={(e) => setForm(f => ({ ...f, salaryMin: e.target.value }))} />
 				<TextField fullWidth size="small" type="number" label={t('candidateUpdate.salaryMax', 'Salary max')}
-					value={form.salaryMax} onChange={(e) => setForm(f => ({ ...f, salaryMax: e.target.value }))} sx={inputSx} />
+					value={form.salaryMax} onChange={(e) => setForm(f => ({ ...f, salaryMax: e.target.value }))} />
 			</Box>
 
 			<Button component="label" fullWidth variant="outlined" startIcon={<CloudUploadIcon sx={{ fontSize: tokens.iconSize.lg }} />}

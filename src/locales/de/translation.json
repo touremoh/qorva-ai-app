@@ -540,7 +540,10 @@
     "network": "Netzwerkfehler. Bitte Verbindung prüfen.",
     "client": "Eingabefehler. Bitte prüfen.",
     "server": "Serverfehler. Später erneut versuchen.",
-    "unexpected": "Unerwarteter Fehler. Bitte erneut versuchen."
+    "unexpected": "Unerwarteter Fehler. Bitte erneut versuchen.",
+    "boundaryTitle": "Etwas ist schiefgelaufen",
+    "boundaryBody": "Auf dieser Seite ist ein unerwarteter Fehler aufgetreten. Ein Neuladen behebt das meist; Ihre gespeicherten Daten sind sicher.",
+    "boundaryReload": "Neu laden"
   },
   "accountSettings": {
     "title": "Kontoeinstellungen",

@@ -16,7 +16,7 @@ import LoginRoundedIcon from '@mui/icons-material/LoginRounded';
 import { useTranslation } from 'react-i18next';
 import { getCheckoutSuccess } from '../../settings/api/stripeService.js';
 import { refreshToken } from '../../auth/api/authService.js';
-import { setAuthResults } from '../../../../localStorageManager.js';
+import { setAuthResults } from '../../../shared/lib/session.js';
 import { isDemoUser } from '../../../utils/demoMode.js';
 import { AUTH_TOKEN } from '../../../constants.js';
 import * as tokens from '../../../theme/tokens.js';

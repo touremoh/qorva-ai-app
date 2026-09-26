@@ -540,7 +540,10 @@
     "network": "Network issue. Check your connection.",
     "client": "Request error. Please review your input.",
     "server": "Server error. Please try again later.",
-    "unexpected": "Unexpected error. Please try again."
+    "unexpected": "Unexpected error. Please try again.",
+    "boundaryTitle": "Something went wrong",
+    "boundaryBody": "This screen hit an unexpected error. Reloading the page usually fixes it; your saved work is safe.",
+    "boundaryReload": "Reload"
   },
   "accountSettings": {
     "title": "Account Settings",

@@ -73,7 +73,7 @@ const JobListPanel = ({ createMode, currentPage, editMode, fetchJobs, handleJobC
 
 			{/* Pagination footer */}
 			<Box sx={{
-				display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.25,
+				display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: 0.25,
 				px: 1, py: 0.75, borderTop: `1px solid ${tokens.surface.muted}`, flexShrink: 0, backgroundColor: tokens.surface.dim,
 			}}>
 				<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle }}>

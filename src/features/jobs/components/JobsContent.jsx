@@ -3,26 +3,24 @@ import ConfirmDialog from '../../../shared/ui/ConfirmDialog.jsx';
 import {
 	Box,
 	Typography,
-	CircularProgress,
 } from '@mui/material';
 import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
 import { useTranslation } from 'react-i18next';
-import { createJob, updateJob, patchJobStatus, deleteJob, suggestScoringRules } from '../api/jobService.js';
+import { createJob, updateJob, patchJobStatus, deleteJob } from '../api/jobService.js';
 import { isDemoUser } from '../../../utils/demoMode.js';
 import 'react-quill/dist/quill.snow.css';
-import { descriptionToHtml, jdTextToHtml, sanitizeDescription } from '../../../utils/jobDescription.js';
+import { sanitizeDescription } from '../../../utils/jobDescription.js';
 import { emptyScoringConfig, loadScoringConfig, buildScoringPayload } from '../model/scoringConfig.js';
 import JobScoringForm from './form/JobScoringForm.jsx';
 import JobDetailPanel from './detail/JobDetailPanel.jsx';
 import JobListPanel from './list/JobListPanel.jsx';
 import JobsToolbar from './list/JobsToolbar.jsx';
 import useJobList from '../hooks/useJobList.js';
+import useJobForm from '../hooks/useJobForm.js';
 import JobFormStepper from './form/JobFormStepper.jsx';
 import JobDescriptionStep from './form/JobDescriptionStep.jsx';
+import CreateScoringStep from './form/CreateScoringStep.jsx';
 import * as tokens from '../../../theme/tokens.js';
-import { alpha } from '@mui/material/styles';
-
-// ─── Shared style constants ───────────────────────────────────────────────────
 
 const JobContent = () => {
 	const { t, i18n } = useTranslation();
@@ -37,26 +35,10 @@ const JobContent = () => {
 		jobs, setJobs, jobsLoading, search, setSearch, searchDebounceRef,
 		currentPage, setCurrentPage, totalPages, totalElements, fetchJobs, handlePageChange,
 	} = useJobList();
-	const [jobTitle, setJobTitle] = useState('');
-	const [jobDescription, setJobDescription] = useState('');
-	const [scoringConfig, setScoringConfig] = useState(emptyScoringConfig());
-	// AI job-description builder (create mode only): a few structured inputs draft the
-	// whole post — title, description, and scoring rules for step 2 (unmetered).
-
-	// AI pre-fill of scoring rules (create mode only). lastSuggestedFor guards against
-	// re-billing an LLM call when the user bounces Back/Next without changing the description.
-	const [aiPrefillBusy, setAiPrefillBusy] = useState(false);
-	const [aiPrefillApplied, setAiPrefillApplied] = useState(false);
-	const [lastSuggestedFor, setLastSuggestedFor] = useState(null);
+	const form = useJobForm();
+	const { jobTitle, setJobTitle, jobDescription, setJobDescription, scoringConfig, setScoringConfig, resetForm } = form;
 	const [detailTab, setDetailTab] = useState(0);
 	const [loading, setLoading] = useState(false);
-
-	const resetForm = () => {
-		setJobTitle(''); setJobDescription('');
-		setAiPrefillApplied(false); setAiPrefillBusy(false); setLastSuggestedFor(null);
-	};
-
-
 
 	// ── Create flow ──────────────────────────────────────────────────────────────
 
@@ -76,45 +58,10 @@ const JobContent = () => {
 		setScoringConfig(emptyScoringConfig());
 	};
 
-
-	// Applies an AI draft: title, description, and the scoring rules the backend suggested with it.
-	const handleJdDraft = (draft) => {
-		const html = jdTextToHtml(draft.description);
-		if (draft.title) setJobTitle(draft.title);
-		setJobDescription(html);
-		// The backend already suggested scoring rules for this draft (free) — apply
-		// them and mark the draft as suggested so step 2 skips the metered re-suggest.
-		if (draft.scoringRules) {
-			setScoringConfig(loadScoringConfig({ scoringRules: draft.scoringRules }));
-			setAiPrefillApplied(true);
-			setLastSuggestedFor(`${draft.title || jobTitle}::${html}`);
-		}
-	};
-
-	/**
-	 * Create-mode "Next": advance immediately, then let AI draft the scoring rules —
-	 * only when the form is still untouched and the description changed since the last
-	 * suggestion. Failures fall back silently to the empty form (accelerator, not blocker).
-	 */
+	// Create-mode "Next": advance immediately, then let AI pre-fill the scoring rules.
 	const handleCreateNext = async () => {
 		setCreateStep(1);
-		const descriptionKey = `${jobTitle}::${jobDescription}`;
-		const formUntouched = JSON.stringify(scoringConfig) === JSON.stringify(emptyScoringConfig()) || aiPrefillApplied;
-		if (!jobDescription || !formUntouched || descriptionKey === lastSuggestedFor) return;
-		setAiPrefillBusy(true);
-		try {
-			const res = await suggestScoringRules(jobTitle, sanitizeDescription(jobDescription));
-			const suggestion = res.data?.data ?? res.data;
-			if (suggestion) {
-				setScoringConfig(loadScoringConfig({ scoringRules: suggestion }));
-				setAiPrefillApplied(true);
-				setLastSuggestedFor(descriptionKey);
-			}
-		} catch (error) {
-			console.error('Scoring rules pre-fill failed (falling back to manual setup):', error);
-		} finally {
-			setAiPrefillBusy(false);
-		}
+		await form.prefillScoringRules();
 	};
 
 	const handleCreateJob = async (withScoringConfig) => {
@@ -156,10 +103,7 @@ const JobContent = () => {
 	const handleCancelEdit = () => {
 		setEditMode(false);
 		setEditStep(0);
-		if (selectedJob) {
-			setJobTitle(selectedJob.title);
-			setJobDescription(descriptionToHtml(selectedJob.description));
-		}
+		if (selectedJob) form.loadJob(selectedJob);
 		setScoringConfig(emptyScoringConfig());
 	};
 
@@ -217,19 +161,16 @@ const JobContent = () => {
 
 	const handleJobClick = (job) => {
 		setSelectedJob(job);
-		setJobTitle(job.title);
-		setJobDescription(descriptionToHtml(job.description));
+		form.loadJob(job);
 		setDetailTab(0);
 		setCreateMode(false);
 		setEditMode(false);
 	};
 
-
-
 	const step1Form = (onCancel, onNext) => (
 		<JobDescriptionStep
 			createMode={createMode}
-			handleJdDraft={handleJdDraft}
+			handleJdDraft={form.handleJdDraft}
 			jobDescription={jobDescription}
 			jobTitle={jobTitle}
 			onCancel={onCancel}
@@ -274,41 +215,16 @@ const JobContent = () => {
 
 					{/* ── Create: Step 2 ── */}
 					{createMode && createStep === 1 && (
-						<Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0, backgroundColor: tokens.surface.paper, position: 'relative' }}>
-							<JobFormStepper activeStep={1} />
-							{aiPrefillBusy && (
-								<Box sx={{
-									position: 'absolute', inset: 0, zIndex: 5,
-									backgroundColor: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(1px)',
-									display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 1.5,
-								}}>
-									<CircularProgress size={26} sx={{ color: tokens.brand.text }} />
-									<Typography sx={{ fontSize: tokens.fontSize.body2, fontWeight: 600, color: tokens.ink.body }}>
-										{t('jobContent.aiPrefill.drafting', 'AI is drafting your scoring rules…')}
-									</Typography>
-								</Box>
-							)}
-							{aiPrefillApplied && !aiPrefillBusy && (
-								<Box sx={{
-									mx: 2.5, mt: 1, px: 1.5, py: 0.75, borderRadius: 1.5,
-									backgroundColor: alpha(tokens.brand.main, 0.08), border: `1px solid ${alpha(tokens.brand.main, 0.3)}`,
-								}}>
-									<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.brand.olive, fontWeight: 600 }}>
-										{t('jobContent.aiPrefill.applied', 'AI-suggested scoring rules — review and adjust before saving.')}
-									</Typography>
-								</Box>
-							)}
-							<JobScoringForm
-								scoringConfig={scoringConfig}
-								setScoringConfig={setScoringConfig}
-								onBack={() => setCreateStep(0)}
-								onSkip={() => handleCreateJob(false)}
-								onSave={() => handleCreateJob(true)}
-								loading={loading}
-								saveLabel={t('jobContent.postJob')}
-								t={t}
-							/>
-						</Box>
+						<CreateScoringStep
+							aiPrefillBusy={form.aiPrefillBusy}
+							aiPrefillApplied={form.aiPrefillApplied}
+							scoringConfig={scoringConfig}
+							onScoringChange={setScoringConfig}
+							onBack={() => setCreateStep(0)}
+							onSkip={() => handleCreateJob(false)}
+							onSave={() => handleCreateJob(true)}
+							loading={loading}
+						/>
 					)}
 
 					{/* ── Edit: Step 1 ── */}
@@ -320,7 +236,7 @@ const JobContent = () => {
 							<JobFormStepper activeStep={1} />
 							<JobScoringForm
 								scoringConfig={scoringConfig}
-								setScoringConfig={setScoringConfig}
+								onScoringChange={setScoringConfig}
 								onBack={() => setEditStep(0)}
 								onSkip={() => handleEditJob(false)}
 								onSave={() => handleEditJob(true)}
@@ -346,7 +262,7 @@ const JobContent = () => {
 
 					{/* ── Empty state ── */}
 					{!createMode && !editMode && !selectedJob && (
-						<Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 1.5 }}>
+						<Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', justifyContent: 'center', gap: 1.5 }}>
 							<WorkOutlineOutlinedIcon sx={{ fontSize: 40, color: tokens.ink.faint }} />
 							<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.subtle }}>{t('jobContent.selectJobToSeeDetails')}</Typography>
 						</Box>

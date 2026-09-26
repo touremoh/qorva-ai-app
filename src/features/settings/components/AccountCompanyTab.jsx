@@ -18,6 +18,7 @@ import SubscriptionSummary from './company/SubscriptionSummary.jsx';
 import CompanySystemInfo from './company/CompanySystemInfo.jsx';
 import { formatUsdCents } from '../../../shared/lib/format.js';
 import * as tokens from '../../../theme/tokens.js';
+import { hasPermission } from '../../../shared/lib/session.js';
 
 
 const ACCEPTED_LOGO_TYPES = ['image/png', 'image/jpeg', 'image/svg+xml', 'image/webp'];
@@ -28,6 +29,8 @@ const EMPTY_PROFILE = { tenantName: '', companyAddress: '', phoneNumber: '', con
 const AccountCompanyTab = () => {
     const { t } = useTranslation();
     const demo = isDemoUser();
+    // Company details are an admin decision (the API requires MANAGE_USERS); demo accounts are read-only too.
+    const readOnly = demo || !hasPermission('MANAGE_USERS');
     const logoInputRef = useRef(null);
 
     const [loading, setLoading] = useState(true);
@@ -195,7 +198,7 @@ const AccountCompanyTab = () => {
             {/* Company fields */}
             <CompanyProfileCard
                 PROFILE_FIELDS={PROFILE_FIELDS}
-                demo={demo}
+                readOnly={readOnly}
                 displayProfile={displayProfile}
                 editMode={editMode}
                 handleCancel={handleCancel}

@@ -10,7 +10,7 @@ import * as tokens from '../../../../theme/tokens.js';
 import { alpha } from '@mui/material/styles';
 
 /** The company's contact details, read-only or in edit mode. */
-const CompanyProfileCard = ({ PROFILE_FIELDS, demo, displayProfile, editMode, handleCancel, handleSave, profile, saveError, saving, setEditMode, setProfile }) => {
+const CompanyProfileCard = ({ PROFILE_FIELDS, readOnly, displayProfile, editMode, handleCancel, handleSave, profile, saveError, saving, setEditMode, setProfile }) => {
     const { t } = useTranslation();
     return (
         <>
@@ -18,7 +18,7 @@ const CompanyProfileCard = ({ PROFILE_FIELDS, demo, displayProfile, editMode, ha
             <SectionHeader
                 icon={BusinessOutlinedIcon}
                 label={t('accountSettings.company.profileSection')}
-                action={!demo && !editMode && (
+                action={!readOnly && !editMode && (
                     <Tooltip title={t('accountSettings.editProfile')}>
                         <IconButton
                             size="small"
@@ -76,7 +76,7 @@ const CompanyProfileCard = ({ PROFILE_FIELDS, demo, displayProfile, editMode, ha
 
 CompanyProfileCard.propTypes = {
     PROFILE_FIELDS: PropTypes.any,
-    demo: PropTypes.bool,
+    readOnly: PropTypes.bool,
     displayProfile: PropTypes.any,
     editMode: PropTypes.bool,
     handleCancel: PropTypes.func,

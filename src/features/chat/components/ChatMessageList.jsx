@@ -20,7 +20,7 @@ const ChatMessageList = ({ assistantTyping, copiedMessageId, fetchMessagesPage, 
 		<>
 		<Box sx={{ flex: 1, overflowY: 'auto', px: 2.5, py: 2, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
 			{!selectedChat ? (
-				<Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 1.5 }}>
+				<Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 1.5, textAlign: 'center' }}>
 					<AutoAwesomeOutlinedIcon sx={{ fontSize: 40, color: tokens.ink.faint }} />
 					<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.subtle, fontWeight: 500 }}>
 						{t('appAIResumeChat.noChatSelected')}

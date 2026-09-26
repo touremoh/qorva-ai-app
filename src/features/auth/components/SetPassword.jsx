@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useSearchParams, useParams, useNavigate, Link as RouterLink } from 'react-router-dom';
+import { useSearchParams, useParams, useNavigate } from 'react-router-dom';
 import {
 	Box,
 	Container,
@@ -8,22 +8,21 @@ import {
 	Typography,
 	TextField,
 	Button,
-	Stack,
 	InputAdornment,
 	IconButton,
-	Alert,
 	CircularProgress,
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import { useTranslation } from 'react-i18next';
 import { setPassword as setPasswordRequest } from '../api/authService.js';
 import { QORVA_USER_LANGUAGE, SUPPORTED_LANGUAGES } from '../../../constants.js';
 import { PASSWORD_REGEX } from '../../../shared/lib/validators.js';
 import * as tokens from '../../../theme/tokens.js';
 import { alpha } from '@mui/material/styles';
+import SetPasswordSuccess from './SetPasswordSuccess.jsx';
+import SetPasswordLinkError from './SetPasswordLinkError.jsx';
 
 const MIN_PASSWORD_LENGTH = 8;
 // Requires lower, upper, digit and any non-alphanumeric character, 8–64 chars.
@@ -133,38 +132,6 @@ const SetPassword = ({ mode = 'activate' }) => {
 		}
 	};
 
-	const renderLinkError = () => {
-		if (!linkError) return null;
-		const config = {
-			invalid: {
-				message: t('setPassword.errorInvalid', 'This link is invalid or has expired.'),
-				action: (
-					<Button color="inherit" size="small" component={RouterLink} to={requestNewLinkTo}>
-						{t('setPassword.requestNewLink', 'Request a new link')}
-					</Button>
-				),
-			},
-			used: {
-				message: t('setPassword.errorUsed', 'This link has already been used.'),
-				action: (
-					<Button color="inherit" size="small" component={RouterLink} to="/login">
-						{t('setPassword.goToLogin', 'Log in')}
-					</Button>
-				),
-			},
-			generic: {
-				message: t('setPassword.errorGeneric', 'Something went wrong. Please try again.'),
-				action: null,
-			},
-		}[linkError];
-
-		return (
-			<Alert severity="error" sx={{ mb: 2, borderRadius: 1.5, fontSize: tokens.fontSize.body2 }} action={config.action}>
-				{config.message}
-			</Alert>
-		);
-	};
-
 	return (
 		<Box
 			sx={{
@@ -192,28 +159,10 @@ const SetPassword = ({ mode = 'activate' }) => {
 					}}
 				>
 					{success ? (
-						<Stack spacing={3} alignItems="center" textAlign="center">
-							<Box
-								sx={{
-									width: 80, height: 80, borderRadius: '50%',
-									display: 'grid', placeItems: 'center',
-									backgroundColor: tokens.brand.main,
-									boxShadow: `0 10px 30px ${alpha(tokens.brand.main, 0.35)}`,
-								}}
-								aria-hidden
-							>
-								<CheckCircleRoundedIcon sx={{ fontSize: 48, color: tokens.ink.inverse }} />
-							</Box>
-							<Stack spacing={1}>
-								<Typography variant="h5" sx={{ fontWeight: 800, color: tokens.ink.strong, letterSpacing: '-0.03em' }}>
-									{t(`${ns}.successTitle`, defaults.successTitle)}
-								</Typography>
-								<Typography variant="body2" color="text.secondary">
-									{t(`${ns}.successMessage`, defaults.successMessage)}
-								</Typography>
-							</Stack>
-							<CircularProgress size={22} sx={{ color: tokens.brand.text }} />
-						</Stack>
+						<SetPasswordSuccess
+							title={t(`${ns}.successTitle`, defaults.successTitle)}
+							message={t(`${ns}.successMessage`, defaults.successMessage)}
+						/>
 					) : (
 						<>
 							<Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 3 }}>
@@ -228,7 +177,7 @@ const SetPassword = ({ mode = 'activate' }) => {
 								{t(`${ns}.subtitle`, defaults.subtitle)}
 							</Typography>
 
-							{renderLinkError()}
+							<SetPasswordLinkError kind={linkError} requestNewLinkTo={requestNewLinkTo} />
 
 							<Box component="form" onSubmit={handleSubmit} noValidate>
 								<TextField
@@ -243,7 +192,7 @@ const SetPassword = ({ mode = 'activate' }) => {
 									onBlur={() => setTouched((p) => ({ ...p, password: true }))}
 									error={Boolean(touched.password && errors.password)}
 									helperText={(touched.password && errors.password) || t('setPassword.passwordHint', 'At least 8 characters, with an uppercase, a lowercase, a number and a special character')}
-									sx={inputSx}
+									sx={fieldSpacingSx}
 									slotProps={{
 										input: {
 											startAdornment: (
@@ -280,7 +229,7 @@ const SetPassword = ({ mode = 'activate' }) => {
 									onBlur={() => setTouched((p) => ({ ...p, confirm: true }))}
 									error={Boolean(touched.confirm && errors.confirm)}
 									helperText={(touched.confirm && errors.confirm) || ' '}
-									sx={inputSx}
+									sx={fieldSpacingSx}
 									slotProps={{
 										input: {
 											startAdornment: (
@@ -319,18 +268,8 @@ const SetPassword = ({ mode = 'activate' }) => {
 	);
 };
 
-const inputSx = {
-	mb: 1.5,
-	'& .MuiOutlinedInput-root': {
-		borderRadius: 1.5,
-		backgroundColor: tokens.surface.subtle,
-		'&.Mui-focused': { backgroundColor: tokens.surface.paper },
-		'& fieldset': { borderColor: tokens.line.main },
-		'&:hover fieldset': { borderColor: tokens.line.strong },
-		'&.Mui-focused fieldset': { borderColor: tokens.brand.main, borderWidth: 1.5 },
-	},
-	'& .MuiInputLabel-root.Mui-focused': { color: tokens.brand.text },
-};
+// Field look comes from the theme (MuiOutlinedInput); only the spacing is set here.
+const fieldSpacingSx = { mb: 1.5 };
 
 SetPassword.propTypes = {
 	mode: PropTypes.oneOf(['activate', 'reset']),

@@ -10,7 +10,7 @@ import {
 	DASHBOARD_STATUSES,
 	NEEDS_PAYMENT_STATUSES,
 } from "../constants.js";
-import { setAuthResults } from "../../localStorageManager.js";
+import { setAuthResults } from "../shared/lib/session.js";
 import { isDemoUser } from "../utils/demoMode.js";
 import * as tokens from '../theme/tokens.js';
 

@@ -1,72 +1,17 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
-import Chip from '@mui/material/Chip';
-import CircularProgress from '@mui/material/CircularProgress';
 import IconButton from '@mui/material/IconButton';
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import Paper from '@mui/material/Paper';
-import Popper from '@mui/material/Popper';
 import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import { searchMentions } from '../api/mentionSearchService.js';
 import * as tokens from '../../../theme/tokens.js';
-import { alpha } from '@mui/material/styles';
+import { findActiveMention, mentionKey, mentionPrefix } from '../model/mentions.js';
+import MentionChips from './MentionChips.jsx';
+import MentionSuggestions from './MentionSuggestions.jsx';
 
 const DEBOUNCE_MS = 250;
-const MAX_QUERY_LENGTH = 50;
-
-const TRIGGER_TO_KIND = { '@': 'candidate', '#': 'job' };
-const KIND_TO_TRIGGER = { candidate: '@', job: '#' };
-
-const mentionKey = (m) => `${m.type}:${m.id}`;
-const mentionPrefix = (type) => KIND_TO_TRIGGER[type] ?? '@';
-
-const isCompletedMentionAt = (text, atPos, triggerChar, attachedMentions) => {
-    if (!attachedMentions?.length) return false;
-    const kind = TRIGGER_TO_KIND[triggerChar];
-    if (!kind) return false;
-    const scoped = attachedMentions.filter((m) => m.type === kind);
-    const sorted = [...scoped].sort((a, b) => (b.name?.length ?? 0) - (a.name?.length ?? 0));
-    for (const m of sorted) {
-        if (!m.name) continue;
-        const marker = `${triggerChar}${m.name}`;
-        if (text.startsWith(marker, atPos)) {
-            const nextChar = text[atPos + marker.length];
-            if (nextChar === undefined || /\s/.test(nextChar)) return true;
-        }
-    }
-    return false;
-};
-
-const findActiveMention = (text, caret, attachedMentions = []) => {
-    if (caret == null || caret < 0) return null;
-    let start = caret - 1;
-    while (start >= 0) {
-        const ch = text[start];
-        if (ch === '\n') return null;
-        if (ch === '@' || ch === '#') {
-            const prev = start > 0 ? text[start - 1] : '';
-            const atWordBoundary = prev === '' || /\s/.test(prev);
-            if (!atWordBoundary) return null;
-            if (isCompletedMentionAt(text, start, ch, attachedMentions)) {
-                start -= 1;
-                continue;
-            }
-            const query = text.slice(start + 1, caret);
-            if (query.length > MAX_QUERY_LENGTH) return null;
-            return { start, query, trigger: ch, kind: TRIGGER_TO_KIND[ch] };
-        }
-        start -= 1;
-    }
-    return null;
-};
 
 const MentionInput = ({
     value,
@@ -214,11 +159,6 @@ const MentionInput = ({
 
     const popperOpen = !!activeMention;
 
-    const iconFor = useMemo(() => ({
-        candidate: <PersonOutlineIcon sx={{ fontSize: tokens.iconSize.lg, color: tokens.brand.text }} />,
-        job: <WorkOutlineIcon sx={{ fontSize: tokens.iconSize.lg, color: tokens.brand.text }} />,
-    }), []);
-
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
             <Box
@@ -287,100 +227,18 @@ const MentionInput = ({
                 </Tooltip>
             </Box>
 
-            {mentions.length > 0 && (
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mt: 0.75 }}>
-                    {mentions.map((m) => (
-                        <Chip
-                            key={mentionKey(m)}
-                            size="small"
-                            icon={m.type === 'job' ? <WorkOutlineIcon sx={{ fontSize: tokens.iconSize.sm }} /> : <PersonOutlineIcon sx={{ fontSize: tokens.iconSize.sm }} />}
-                            label={m.name}
-                            onDelete={() => removeMention(m)}
-                            sx={{
-                                backgroundColor: alpha(tokens.brand.main, 0.08),
-                                color: tokens.ink.heading,
-                                border: `1px solid ${alpha(tokens.brand.main, 0.25)}`,
-                                fontSize: tokens.fontSize.caption,
-                                height: 22,
-                                '& .MuiChip-icon': { color: tokens.brand.text, ml: '4px' },
-                                '& .MuiChip-deleteIcon': {
-                                    color: tokens.ink.subtle,
-                                    fontSize: tokens.iconSize.sm,
-                                    '&:hover': { color: tokens.status.error.bright },
-                                },
-                            }}
-                        />
-                    ))}
-                </Box>
-            )}
+            {mentions.length > 0 && <MentionChips mentions={mentions} onRemove={removeMention} />}
 
-            <Popper
+            <MentionSuggestions
                 open={popperOpen}
                 anchorEl={anchorRef.current}
-                placement="top-start"
-                modifiers={[{ name: 'offset', options: { offset: [0, 8] } }]}
-                style={{ zIndex: 1400, width: anchorRef.current?.offsetWidth }}
-            >
-                <ClickAwayListener onClickAway={closePopper}>
-                    <Paper
-                        elevation={4}
-                        sx={{
-                            borderRadius: 2,
-                            border: `1px solid ${tokens.line.main}`,
-                            overflow: 'hidden',
-                            maxHeight: 260,
-                            display: 'flex',
-                            flexDirection: 'column',
-                        }}
-                    >
-                        {loading && options.length === 0 ? (
-                            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', py: 2 }}>
-                                <CircularProgress size={18} sx={{ color: tokens.brand.text }} />
-                            </Box>
-                        ) : options.length === 0 ? (
-                            <Box sx={{ px: 2, py: 1.5 }}>
-                                <Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.subtle }}>
-                                    No matches
-                                </Typography>
-                            </Box>
-                        ) : (
-                            <List dense sx={{ py: 0, overflowY: 'auto' }}>
-                                {options.map((option, idx) => (
-                                    <ListItemButton
-                                        key={mentionKey(option)}
-                                        selected={idx === highlightedIdx}
-                                        onMouseEnter={() => setHighlightedIdx(idx)}
-                                        onClick={() => insertMention(option)}
-                                        sx={{
-                                            gap: 1,
-                                            py: 0.75,
-                                            '&.Mui-selected': { backgroundColor: alpha(tokens.brand.main, 0.08) },
-                                            '&.Mui-selected:hover': { backgroundColor: alpha(tokens.brand.main, 0.12) },
-                                        }}
-                                    >
-                                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 22, flexShrink: 0 }}>
-                                            {iconFor[option.type]}
-                                        </Box>
-                                        <Box sx={{ minWidth: 0, flex: 1 }}>
-                                            <Typography sx={{ fontSize: tokens.fontSize.body2, fontWeight: 600, color: tokens.ink.heading, lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                                {option.name}
-                                            </Typography>
-                                            {option.subtitle && (
-                                                <Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle, lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                                    {option.subtitle}
-                                                </Typography>
-                                            )}
-                                        </Box>
-                                        <Typography sx={{ fontSize: tokens.fontSize.micro, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: 0.5 }}>
-                                            {option.type}
-                                        </Typography>
-                                    </ListItemButton>
-                                ))}
-                            </List>
-                        )}
-                    </Paper>
-                </ClickAwayListener>
-            </Popper>
+                loading={loading}
+                options={options}
+                highlightedIdx={highlightedIdx}
+                onHighlight={setHighlightedIdx}
+                onPick={insertMention}
+                onClose={closePopper}
+            />
         </Box>
     );
 };

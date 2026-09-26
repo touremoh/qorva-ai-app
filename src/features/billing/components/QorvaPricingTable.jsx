@@ -5,71 +5,20 @@ import {
 	Typography,
 	Button,
 	Grid,
-	List,
-	ListItem,
-	ListItemIcon,
-	ListItemText,
 	Chip,
-	Switch,
 	Stack,
 	CircularProgress,
 	Alert,
 } from '@mui/material';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import RemoveIcon from '@mui/icons-material/Remove';
 import { styled } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import { getProducts } from '../../auth/api/registrationService.js';
 import * as tokens from '../../../theme/tokens.js';
 import { alpha } from '@mui/material/styles';
-
-const PLAN_FEATURES = {
-	Starter: [
-		{ labelKey: 'pricing.features.freeTrial', included: true },
-		{ labelKey: 'pricing.starter.users', included: true },
-		{ labelKey: 'pricing.starter.matchingActions', included: true },
-		{ labelKey: 'pricing.starter.aiChat', included: true },
-		{ labelKey: 'pricing.starter.queries', included: true },
-		{ labelKey: 'pricing.starter.emailTemplates', included: true },
-		{ labelKey: 'pricing.features.brandedCvExport', included: false },
-		{ labelKey: 'pricing.features.brandedMatchReport', included: false },
-		{ labelKey: 'pricing.features.accountManager', included: false },
-		{ labelKey: 'pricing.features.sla', included: false },
-	],
-	Pro: [
-		{ labelKey: 'pricing.features.freeTrial', included: true },
-		{ labelKey: 'pricing.pro.users', included: true },
-		{ labelKey: 'pricing.pro.matchingActions', included: true },
-		{ labelKey: 'pricing.pro.aiChat', included: true },
-		{ labelKey: 'pricing.pro.queries', included: true },
-		{ labelKey: 'pricing.pro.emailTemplates', included: true },
-		{ labelKey: 'pricing.features.brandedCvExport', included: false },
-		{ labelKey: 'pricing.features.brandedMatchReport', included: false },
-		{ labelKey: 'pricing.features.accountManager', included: false },
-		{ labelKey: 'pricing.features.sla', included: false },
-	],
-	Scale: [
-		{ labelKey: 'pricing.features.freeTrial', included: true },
-		{ labelKey: 'pricing.scale.users', included: true },
-		{ labelKey: 'pricing.scale.matchingActions', included: true },
-		{ labelKey: 'pricing.scale.aiChat', included: true },
-		{ labelKey: 'pricing.scale.queries', included: true },
-		{ labelKey: 'pricing.scale.emailTemplates', included: true },
-		{ labelKey: 'pricing.features.brandedCvExport', included: true },
-		{ labelKey: 'pricing.features.brandedMatchReport', included: true },
-		{ labelKey: 'pricing.features.accountManager', included: true },
-		{ labelKey: 'pricing.features.sla', included: true },
-	],
-};
-
-const formatPrice = (unitAmount, currency) =>
-	new Intl.NumberFormat('en-US', {
-		style: 'currency',
-		currency: (currency || 'usd').toUpperCase(),
-		minimumFractionDigits: 0,
-		maximumFractionDigits: 0,
-	}).format(unitAmount / 100);
+import BillingIntervalToggle from './pricing/BillingIntervalToggle.jsx';
+import PlanFeatureList from './pricing/PlanFeatureList.jsx';
+import { PLAN_FEATURES, formatPrice } from '../model/plans.js';
 
 const PricingCard = styled(Box)(({ theme, recommended, selected }) => ({
 	height: '100%',
@@ -140,42 +89,7 @@ const QorvaPricingTable = ({ selectedPriceId, onSelectPlan }) => {
 	return (
 		<Box>
 			{/* Billing toggle */}
-			<Stack direction="row" spacing={1} alignItems="center" justifyContent="center" flexWrap="wrap" sx={{ mb: 4, gap: 1 }}>
-				<Typography
-					variant="body2"
-					fontWeight={!yearly ? 600 : 400}
-					color={!yearly ? 'text.primary' : 'text.secondary'}
-				>
-					{t('pricing.monthly', 'Monthly')}
-				</Typography>
-				<Switch
-					checked={yearly}
-					onChange={(e) => setYearly(e.target.checked)}
-					sx={{
-						'& .MuiSwitch-switchBase.Mui-checked': { color: tokens.brand.text },
-						'& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: tokens.brand.main },
-					}}
-				/>
-				<Typography
-					variant="body2"
-					fontWeight={yearly ? 600 : 400}
-					color={yearly ? 'text.primary' : 'text.secondary'}
-				>
-					{t('pricing.yearly', 'Yearly')}
-				</Typography>
-				{yearly && (
-					<Chip
-						label={t('pricing.saveChip', 'Save 20%')}
-						size="small"
-						sx={{
-							background: `linear-gradient(135deg, ${tokens.brand.main}, ${tokens.brand.hoverAlt})`,
-							color: tokens.ink.inverse,
-							fontWeight: 600,
-							fontSize: tokens.fontSize.caption,
-						}}
-					/>
-				)}
-			</Stack>
+			<BillingIntervalToggle yearly={yearly} onChange={setYearly} />
 
 			{/* Plan cards */}
 			<Grid container spacing={3} alignItems="stretch">
@@ -282,42 +196,7 @@ const QorvaPricingTable = ({ selectedPriceId, onSelectPlan }) => {
 									}}
 								/>
 
-								<List disablePadding sx={{ flexGrow: 1, mb: 3 }}>
-									{features.map((feat, idx) => (
-										<ListItem key={idx} sx={{ px: 0, py: 0.6 }}>
-											<ListItemIcon sx={{ minWidth: 28 }}>
-												{feat.included ? (
-													<CheckCircleOutlineIcon
-														sx={{
-															fontSize: tokens.iconSize.md,
-															color: isRecommended ? 'rgba(255,255,255,0.85)' : `${tokens.brand.main}`,
-														}}
-													/>
-												) : (
-													<RemoveIcon
-														sx={{
-															fontSize: tokens.iconSize.md,
-															color: isRecommended ? 'rgba(255,255,255,0.2)' : 'text.disabled',
-														}}
-													/>
-												)}
-											</ListItemIcon>
-											<ListItemText
-												primary={t(feat.labelKey)}
-												primaryTypographyProps={{
-													variant: 'body2',
-													sx: {
-														fontSize: tokens.fontSize.small,
-														color: feat.included
-															? isRecommended ? `${tokens.surface.paper}` : 'text.primary'
-															: isRecommended ? 'rgba(255,255,255,0.28)' : 'text.disabled',
-														fontWeight: feat.included ? 500 : 400,
-													},
-												}}
-											/>
-										</ListItem>
-									))}
-								</List>
+								<PlanFeatureList features={features} inverted={isRecommended} />
 
 								<Button
 									fullWidth

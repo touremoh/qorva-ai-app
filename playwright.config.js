@@ -33,8 +33,7 @@ export default defineConfig({
 		command: `npx vite --port ${PORT} --strictPort`,
 		url: `http://localhost:${PORT}`,
 		reuseExistingServer: !process.env.CI,
-		// A GA id is required at startup (the app crashes without one); its traffic is blocked by mockApi.
-		env: { VITE_APP_API_BASE_URL: API_BASE, VITE_APP_GOOGLE_ANALYTICS_PIXEL: 'G-E2ETEST' },
+		env: { VITE_APP_API_BASE_URL: API_BASE },
 		timeout: 120_000,
 	},
 });

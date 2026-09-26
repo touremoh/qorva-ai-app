@@ -138,7 +138,7 @@ const AppLibraryQuality = () => {
 
 	if (report.totalCVs === 0) {
 		return (
-			<Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 1.5, p: 3 }}>
+			<Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', justifyContent: 'center', gap: 1.5, p: 3 }}>
 				<FactCheckOutlinedIcon sx={{ fontSize: 44, color: tokens.ink.faint }} />
 				<Typography sx={{ fontSize: tokens.fontSize.body, fontWeight: 700, color: tokens.ink.body }}>
 					{t('libraryQuality.empty.title', 'No resumes yet')}

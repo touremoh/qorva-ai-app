@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { login as loginUser } from '../api/authService.js';
 import { createCheckoutSession } from '../api/registrationService.js';
 import { useTranslation } from 'react-i18next';
-import { setAuthResults } from "../../../../localStorageManager.js";
+import { setAuthResults } from "../../../shared/lib/session.js";
 import { DASHBOARD_STATUSES, NEEDS_PAYMENT_STATUSES, ACCOUNT_STATUS_DEMO } from '../../../constants.js';
 import { EMAIL_REGEX } from '../../../shared/lib/validators.js';
 import LoginMobileSignUp from './login/LoginMobileSignUp.jsx';

@@ -166,7 +166,7 @@ const EmailLinkRequest = ({ variant = 'activation' }) => {
 									onBlur={() => setTouched(true)}
 									error={Boolean(touched && emailError)}
 									helperText={(touched && emailError) || ' '}
-									sx={inputSx}
+									sx={fieldSpacingSx}
 									slotProps={{
 										input: {
 											startAdornment: (
@@ -216,18 +216,8 @@ const EmailLinkRequest = ({ variant = 'activation' }) => {
 	);
 };
 
-const inputSx = {
-	mb: 0.5,
-	'& .MuiOutlinedInput-root': {
-		borderRadius: 1.5,
-		backgroundColor: tokens.surface.subtle,
-		'&.Mui-focused': { backgroundColor: tokens.surface.paper },
-		'& fieldset': { borderColor: tokens.line.main },
-		'&:hover fieldset': { borderColor: tokens.line.strong },
-		'&.Mui-focused fieldset': { borderColor: tokens.brand.main, borderWidth: 1.5 },
-	},
-	'& .MuiInputLabel-root.Mui-focused': { color: tokens.brand.text },
-};
+// Field look comes from the theme (MuiOutlinedInput); only the spacing is set here.
+const fieldSpacingSx = { mb: 0.5 };
 
 EmailLinkRequest.propTypes = {
 	variant: PropTypes.oneOf(['activation', 'forgot']),

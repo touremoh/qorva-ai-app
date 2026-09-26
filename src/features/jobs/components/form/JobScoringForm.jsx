@@ -10,12 +10,12 @@ import LocationSection from './LocationSection.jsx';
 import ExperienceSection from './ExperienceSection.jsx';
 import SkillsSection from './SkillsSection.jsx';
 
-const JobScoringForm = ({ scoringConfig, setScoringConfig, onBack, onSkip, onSave, loading, saveLabel }) => {
+const JobScoringForm = ({ scoringConfig, onScoringChange, onBack, onSkip, onSave, loading, saveLabel }) => {
 	const [locationInput, setLocationInput] = useState('');
 	const [industryInput, setIndustryInput] = useState('');
 
 	const sc = scoringConfig;
-	const set = (patch) => setScoringConfig(prev => ({ ...prev, ...patch }));
+	const set = (patch) => onScoringChange(prev => ({ ...prev, ...patch }));
 	const setExp = (patch) => set({ experienceRequirements: { ...sc.experienceRequirements, ...patch } });
 	const setLoc = (patch) => set({ locationPreferences: { ...sc.locationPreferences, ...patch } });
 	const setInd = (patch) => set({ industryPreferences: { ...sc.industryPreferences, ...patch } });
@@ -146,7 +146,7 @@ JobScoringForm.propTypes = {
 		filterOpenToWork: PropTypes.bool,
 		availabilityStatuses: PropTypes.arrayOf(PropTypes.string),
 	}).isRequired,
-	setScoringConfig: PropTypes.func.isRequired,
+	onScoringChange: PropTypes.func.isRequired,
 	onBack: PropTypes.func,
 	onSkip: PropTypes.func,
 	onSave: PropTypes.func,

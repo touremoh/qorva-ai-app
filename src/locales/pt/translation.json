@@ -540,7 +540,10 @@
     "network": "Erro de rede. Verifique a ligação.",
     "client": "Erro de dados. Verifique a informação.",
     "server": "Erro do servidor. Tente mais tarde.",
-    "unexpected": "Ocorreu um erro. Tente novamente."
+    "unexpected": "Ocorreu um erro. Tente novamente.",
+    "boundaryTitle": "Algo deu errado",
+    "boundaryBody": "Esta tela encontrou um erro inesperado. Recarregar a página geralmente resolve; seu trabalho salvo está seguro.",
+    "boundaryReload": "Recarregar"
   },
   "accountSettings": {
     "title": "Definições da conta",

@@ -11,7 +11,7 @@ import { buildChatTitle, getCandidateIdFromCV } from '../model/chat.js';
  * up as soon as both are picked), and creating the chat. `onCreated` receives the new chat.
  */
 export default function useCreateChat({ userLang, onCreated }) {
-	const { t, i18n } = useTranslation();
+	const { i18n } = useTranslation();
 	const onCreatedRef = useRef(onCreated);
 	useEffect(() => { onCreatedRef.current = onCreated; });
 	const [openCreateModal, setOpenCreateModal] = useState(false);
@@ -113,10 +113,8 @@ export default function useCreateChat({ userLang, onCreated }) {
 	}, [openCreateModal, selectedCV, selectedJob]);
 
 	const handleCreateChat = async () => {
-		if (!selectedCV || !selectedJob) {
-			alert(t('appAIResumeChat.selectCvAndJob'));
-			return;
-		}
+		// The dialog only enables Create once both are picked; this guards programmatic calls.
+		if (!selectedCV || !selectedJob) return;
 		try {
 			setCreatingChat(true);
 			const locale = userLang || i18n.language || 'en';

@@ -540,7 +540,10 @@
     "network": "Error de red. Revise la conexión.",
     "client": "Error en los datos. Revise la información.",
     "server": "Error del servidor. Inténtelo más tarde.",
-    "unexpected": "Error inesperado. Inténtelo de nuevo."
+    "unexpected": "Error inesperado. Inténtelo de nuevo.",
+    "boundaryTitle": "Algo ha salido mal",
+    "boundaryBody": "Esta pantalla ha tenido un error inesperado. Recargar la página suele solucionarlo; tu trabajo guardado está a salvo.",
+    "boundaryReload": "Recargar"
   },
   "accountSettings": {
     "title": "Configuración de la cuenta",

@@ -13,7 +13,7 @@ const InsightEmptyState = ({ isEmpty, setInputFocusToken, setQuestion }) => {
     return (
         <>
         {isEmpty && (
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 4, gap: 2 }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', mt: 4, gap: 2 }}>
                 <Box sx={{
                     width: 56,
                     height: 56,

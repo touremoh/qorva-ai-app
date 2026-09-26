@@ -21,7 +21,7 @@ const ScoreGaugeLarge = ({ value }) => {
 					style={{ transition: 'stroke-dashoffset 1.4s cubic-bezier(0.25,1,0.5,1)', filter: `drop-shadow(0 0 10px ${color}99)` }}
 				/>
 			</svg>
-			<Box sx={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+			<Box sx={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', justifyContent: 'center' }}>
 				<Typography sx={{ fontSize: tokens.fontSize.hero, fontWeight: 900, color, lineHeight: 1, letterSpacing: '-0.04em' }}>{value}</Typography>
 				<Typography sx={{ fontSize: tokens.fontSize.micro, fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.12em' }}>/ 100</Typography>
 			</Box>

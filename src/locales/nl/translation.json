@@ -540,7 +540,10 @@
     "network": "Netwerkfout. Controleer je verbinding.",
     "client": "Invoerfout. Controleer je gegevens.",
     "server": "Serverfout. Probeer later opnieuw.",
-    "unexpected": "Er trad een fout op. Probeer opnieuw."
+    "unexpected": "Er trad een fout op. Probeer opnieuw.",
+    "boundaryTitle": "Er ging iets mis",
+    "boundaryBody": "Dit scherm liep tegen een onverwachte fout aan. De pagina herladen lost het meestal op; je opgeslagen werk is veilig.",
+    "boundaryReload": "Herladen"
   },
   "accountSettings": {
     "title": "Accountinstellingen",
