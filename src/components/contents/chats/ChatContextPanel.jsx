@@ -8,9 +8,9 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import AppCVDetails from '../cv/AppCVDetails.jsx';
 import AppMatchingReportDetails from '../../../features/reports/components/AppMatchingReportDetails.jsx';
-import JobPostReadView from '../jobs/JobPostReadView.jsx';
+import JobPostReadView from '../../../features/jobs/components/JobPostReadView.jsx';
 import { getCVById } from '../../../services/cvService.js';
-import { getJobById } from '../../../services/jobService.js';
+import { getJobById } from '../../../features/jobs/api/jobService.js';
 import { resolveError } from '../../../utils/errorHandler.js';
 
 const THEME_GREEN = '#629C44';

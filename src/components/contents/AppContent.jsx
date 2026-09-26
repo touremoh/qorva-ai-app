@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Box } from '@mui/material';
 import { SIDEBAR_WIDTH, SIDEBAR_WIDTH_COLLAPSED } from '../menu/AppSidebar.jsx';
-import JobContent from "./jobs/JobsContent.jsx";
+import JobContent from "../../features/jobs/components/JobsContent.jsx";
 import AppCVContent from "./cv/AppCVContent.jsx";
 import {
 	COMP_ID_CVLIB,

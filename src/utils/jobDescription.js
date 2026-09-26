@@ -30,3 +30,44 @@ export const descriptionToHtml = (desc = '') => {
 			.join('');
 	return DOMPurify.sanitize(html);
 };
+
+/** Drops empty paragraphs at both ends of editor HTML and collapses runs of them to one. */
+export const sanitizeDescription = (html) => {
+	const doc = new DOMParser().parseFromString(html, 'text/html');
+	const isEmptyEl = (el) => el.innerHTML.trim() === '' || el.innerHTML.trim() === '<br>';
+	let prevEmpty = false;
+	Array.from(doc.body.children).forEach(el => {
+		const empty = isEmptyEl(el);
+		if (empty && prevEmpty) el.remove();
+		prevEmpty = empty;
+	});
+	while (doc.body.firstElementChild && isEmptyEl(doc.body.firstElementChild))
+		doc.body.firstElementChild.remove();
+	while (doc.body.lastElementChild && isEmptyEl(doc.body.lastElementChild))
+		doc.body.lastElementChild.remove();
+	return doc.body.innerHTML;
+};
+
+/** Plain-text job description from the AI builder → simple Quill-friendly HTML (paragraphs and "- " bullet lists). */
+export const jdTextToHtml = (text) => {
+	const lines = (text || '').split('\n');
+	const html = [];
+	let bullets = [];
+	const flushBullets = () => {
+		if (bullets.length) {
+			html.push(`<ul>${bullets.map(b => `<li>${escapeHtml(b)}</li>`).join('')}</ul>`);
+			bullets = [];
+		}
+	};
+	for (const raw of lines) {
+		const line = raw.trim();
+		if (line.startsWith('- ')) {
+			bullets.push(line.slice(2));
+		} else {
+			flushBullets();
+			if (line) html.push(`<p>${escapeHtml(line)}</p>`);
+		}
+	}
+	flushBullets();
+	return html.join('');
+};

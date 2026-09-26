@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { startMatching } from '../api/reportService.js';
-import { getJobs } from '../../../services/jobService.js';
+import { getJobs } from '../../jobs/api/jobService.js';
 import { needsMatching } from '../model/reportList.js';
 
 /**

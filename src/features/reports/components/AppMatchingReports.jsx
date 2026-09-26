@@ -8,7 +8,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import AppMatchingReportDetails from './AppMatchingReportDetails.jsx';
 import { getReports, getReportsByFilter, deleteReport, exportCsv } from '../api/reportService.js';
-import { getJobs } from '../../../services/jobService.js';
+import { getJobs } from '../../jobs/api/jobService.js';
 import { QORVA_USER_LANGUAGE } from '../../../constants.js';
 import { isDemoUser } from '../../../utils/demoMode.js';
 import ReportRowMenu from './list/ReportRowMenu.jsx';
