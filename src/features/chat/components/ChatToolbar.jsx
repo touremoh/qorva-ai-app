@@ -6,6 +6,7 @@ import AddCommentOutlinedIcon from '@mui/icons-material/AddCommentOutlined';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import MenuOpenOutlinedIcon from '@mui/icons-material/MenuOpenOutlined';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../theme/tokens.js';
 
 /** Toggle the chat list, refresh, and start a new chat. */
 const ChatToolbar = ({ chatListOpen, fetchChatsPage, loadingChats, openCreateChatModal, statusFilter, toggleChatList }) => {
@@ -15,16 +16,16 @@ const ChatToolbar = ({ chatListOpen, fetchChatsPage, loadingChats, openCreateCha
 		<Box sx={{
 			display: 'flex', alignItems: 'center', gap: 1.5,
 			px: 2, py: 1.5, flexShrink: 0,
-			backgroundColor: '#ffffff',
-			borderBottom: '1px solid #e2e8f0',
+			backgroundColor: tokens.surface.paper,
+			borderBottom: `1px solid ${tokens.line.main}`,
 		}}>
 			<Tooltip title={t(chatListOpen ? 'appAIResumeChat.hideChats' : 'appAIResumeChat.showChats')}>
-				<IconButton size="small" onClick={toggleChatList} sx={{ color: '#64748b', border: '1px solid #e2e8f0', borderRadius: 1.5 }}>
+				<IconButton size="small" onClick={toggleChatList} sx={{ color: tokens.ink.muted, border: `1px solid ${tokens.line.main}`, borderRadius: 1.5 }}>
 					{chatListOpen ? <MenuOpenOutlinedIcon sx={{ fontSize: 18 }} /> : <MenuOutlinedIcon sx={{ fontSize: 18 }} />}
 				</IconButton>
 			</Tooltip>
-			<AutoAwesomeOutlinedIcon sx={{ color: '#629C44', fontSize: 20 }} />
-			<Typography sx={{ fontWeight: 600, fontSize: '0.9rem', color: '#0f172a', flex: 1 }}>
+			<AutoAwesomeOutlinedIcon sx={{ color: tokens.brand.text, fontSize: 20 }} />
+			<Typography sx={{ fontWeight: 600, fontSize: '0.9rem', color: tokens.ink.strong, flex: 1 }}>
 				{t('header.aiResumeChat')}
 			</Typography>
 			<Tooltip title={t('appAIResumeChat.refresh')}>
@@ -33,7 +34,7 @@ const ChatToolbar = ({ chatListOpen, fetchChatsPage, loadingChats, openCreateCha
 						size="small"
 						onClick={() => fetchChatsPage(0, statusFilter)}
 						disabled={loadingChats}
-						sx={{ border: '1px solid #e2e8f0', borderRadius: 1.5, color: '#64748b', '&:hover': { backgroundColor: '#f1f5f9' } }}
+						sx={{ border: `1px solid ${tokens.line.main}`, borderRadius: 1.5, color: tokens.ink.muted, '&:hover': { backgroundColor: tokens.surface.muted } }}
 					>
 						<RefreshOutlinedIcon sx={{ fontSize: 16 }} />
 					</IconButton>
@@ -46,9 +47,9 @@ const ChatToolbar = ({ chatListOpen, fetchChatsPage, loadingChats, openCreateCha
 				onClick={openCreateChatModal}
 				disabled={loadingChats}
 				sx={{
-					backgroundColor: '#629C44', borderRadius: 2, fontSize: '0.78rem', fontWeight: 600,
+					backgroundColor: tokens.brand.main, borderRadius: 2, fontSize: '0.78rem', fontWeight: 600,
 					textTransform: 'none', px: 1.5, py: 0.75, boxShadow: 'none',
-					'&:hover': { backgroundColor: '#4a7a33', boxShadow: 'none' },
+					'&:hover': { backgroundColor: tokens.brand.pressed, boxShadow: 'none' },
 				}}
 			>
 				{t('appAIResumeChat.createChat')}

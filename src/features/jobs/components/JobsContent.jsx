@@ -19,6 +19,8 @@ import JobsToolbar from './list/JobsToolbar.jsx';
 import useJobList from '../hooks/useJobList.js';
 import JobFormStepper from './form/JobFormStepper.jsx';
 import JobDescriptionStep from './form/JobDescriptionStep.jsx';
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 // ─── Shared style constants ───────────────────────────────────────────────────
 
@@ -238,7 +240,7 @@ const JobContent = () => {
 	);
 
 	return (
-		<Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', overflow: 'hidden', backgroundColor: '#f8fafc' }}>
+		<Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', overflow: 'hidden', backgroundColor: tokens.surface.subtle }}>
 			{/* Toolbar */}
 			<JobsToolbar demo={demo} handleStartCreate={handleStartCreate} />
 
@@ -265,14 +267,14 @@ const JobContent = () => {
 				/>
 
 				{/* Right panel */}
-				<Box sx={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden', backgroundColor: '#f8fafc' }}>
+				<Box sx={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden', backgroundColor: tokens.surface.subtle }}>
 
 					{/* ── Create: Step 1 ── */}
 					{createMode && createStep === 0 && step1Form(handleCancelCreate, handleCreateNext)}
 
 					{/* ── Create: Step 2 ── */}
 					{createMode && createStep === 1 && (
-						<Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0, backgroundColor: '#ffffff', position: 'relative' }}>
+						<Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0, backgroundColor: tokens.surface.paper, position: 'relative' }}>
 							<JobFormStepper activeStep={1} />
 							{aiPrefillBusy && (
 								<Box sx={{
@@ -280,8 +282,8 @@ const JobContent = () => {
 									backgroundColor: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(1px)',
 									display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 1.5,
 								}}>
-									<CircularProgress size={26} sx={{ color: '#629C44' }} />
-									<Typography sx={{ fontSize: '0.85rem', fontWeight: 600, color: '#334155' }}>
+									<CircularProgress size={26} sx={{ color: tokens.brand.text }} />
+									<Typography sx={{ fontSize: '0.85rem', fontWeight: 600, color: tokens.ink.body }}>
 										{t('jobContent.aiPrefill.drafting', 'AI is drafting your scoring rules…')}
 									</Typography>
 								</Box>
@@ -289,9 +291,9 @@ const JobContent = () => {
 							{aiPrefillApplied && !aiPrefillBusy && (
 								<Box sx={{
 									mx: 2.5, mt: 1, px: 1.5, py: 0.75, borderRadius: 1.5,
-									backgroundColor: 'rgba(98,156,68,0.08)', border: '1px solid rgba(98,156,68,0.3)',
+									backgroundColor: alpha(tokens.brand.main, 0.08), border: `1px solid ${alpha(tokens.brand.main, 0.3)}`,
 								}}>
-									<Typography sx={{ fontSize: '0.74rem', color: '#3f6212', fontWeight: 600 }}>
+									<Typography sx={{ fontSize: '0.74rem', color: tokens.brand.olive, fontWeight: 600 }}>
 										{t('jobContent.aiPrefill.applied', 'AI-suggested scoring rules — review and adjust before saving.')}
 									</Typography>
 								</Box>
@@ -314,7 +316,7 @@ const JobContent = () => {
 
 					{/* ── Edit: Step 2 ── */}
 					{editMode && editStep === 1 && (
-						<Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0, backgroundColor: '#ffffff' }}>
+						<Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0, backgroundColor: tokens.surface.paper }}>
 							<JobFormStepper activeStep={1} />
 							<JobScoringForm
 								scoringConfig={scoringConfig}
@@ -345,8 +347,8 @@ const JobContent = () => {
 					{/* ── Empty state ── */}
 					{!createMode && !editMode && !selectedJob && (
 						<Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 1.5 }}>
-							<WorkOutlineOutlinedIcon sx={{ fontSize: 40, color: '#cbd5e1' }} />
-							<Typography sx={{ fontSize: '0.88rem', color: '#94a3b8' }}>{t('jobContent.selectJobToSeeDetails')}</Typography>
+							<WorkOutlineOutlinedIcon sx={{ fontSize: 40, color: tokens.ink.faint }} />
+							<Typography sx={{ fontSize: '0.88rem', color: tokens.ink.subtle }}>{t('jobContent.selectJobToSeeDetails')}</Typography>
 						</Box>
 					)}
 				</Box>

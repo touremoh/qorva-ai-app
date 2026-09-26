@@ -7,6 +7,8 @@ import LayersOutlinedIcon from '@mui/icons-material/LayersOutlined';
 import TrendingUpOutlinedIcon from '@mui/icons-material/TrendingUpOutlined';
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
 import BoltOutlinedIcon from '@mui/icons-material/BoltOutlined';
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 export const initialDashboardData = {
 	subscriptionStatus: '',
@@ -49,17 +51,17 @@ export const TALENT_INSIGHT_LABEL_MAP = {
 };
 
 export const TALENT_POOL_INSIGHT_CONFIG = (t) => [
-	{ key: 'skillDepthReport',       label: t('dashboard.talent.skillDepth', 'Skill Depth'),         icon: LayersOutlinedIcon,     accent: '#8b5cf6', bg: 'rgba(139,92,246,0.08)'  },
-	{ key: 'seniorityLevelReport',   label: t('dashboard.talent.seniorityLevel', 'Seniority Level'),  icon: TrendingUpOutlinedIcon, accent: '#3b82f6', bg: 'rgba(59,130,246,0.08)'  },
-	{ key: 'leadershipReport',       label: t('dashboard.talent.leadership', 'Leadership'),            icon: GroupsOutlinedIcon,     accent: '#629C44', bg: 'rgba(98,156,68,0.08)'   },
-	{ key: 'learningVelocityReport', label: t('dashboard.talent.learningVelocity', 'Learning Velocity'), icon: BoltOutlinedIcon,    accent: '#f59e0b', bg: 'rgba(245,158,11,0.08)'  },
+	{ key: 'skillDepthReport',       label: t('dashboard.talent.skillDepth', 'Skill Depth'),         icon: LayersOutlinedIcon,     accent: tokens.status.accent.purple, bg: 'rgba(139,92,246,0.08)'  },
+	{ key: 'seniorityLevelReport',   label: t('dashboard.talent.seniorityLevel', 'Seniority Level'),  icon: TrendingUpOutlinedIcon, accent: tokens.status.info.blue, bg: 'rgba(59,130,246,0.08)'  },
+	{ key: 'leadershipReport',       label: t('dashboard.talent.leadership', 'Leadership'),            icon: GroupsOutlinedIcon,     accent: tokens.brand.text, bg: alpha(tokens.brand.main, 0.08)   },
+	{ key: 'learningVelocityReport', label: t('dashboard.talent.learningVelocity', 'Learning Velocity'), icon: BoltOutlinedIcon,    accent: tokens.status.warning.bright, bg: 'rgba(245,158,11,0.08)'  },
 ];
 
 export const KPI_CONFIG = (t) => [
-	{ key: 'totalCVs',            label: t('dashboard.kpi.totalCVs'),            icon: PeopleOutlinedIcon,        accent: '#629C44', bg: 'rgba(98,156,68,0.08)'  },
-	{ key: 'totalJobsPosted',     label: t('dashboard.kpi.totalJobsPosted'),     icon: WorkOutlineOutlinedIcon,   accent: '#3b82f6', bg: 'rgba(59,130,246,0.08)' },
-	{ key: 'totalUsers',          label: t('dashboard.kpi.totalUsers'),          icon: PersonOutlineOutlinedIcon, accent: '#8b5cf6', bg: 'rgba(139,92,246,0.08)' },
-	{ key: 'totalResumeAnalysis', label: t('dashboard.kpi.totalResumeAnalysis'), icon: AssessmentOutlinedIcon,    accent: '#f59e0b', bg: 'rgba(245,158,11,0.08)' },
+	{ key: 'totalCVs',            label: t('dashboard.kpi.totalCVs'),            icon: PeopleOutlinedIcon,        accent: tokens.brand.text, bg: alpha(tokens.brand.main, 0.08)  },
+	{ key: 'totalJobsPosted',     label: t('dashboard.kpi.totalJobsPosted'),     icon: WorkOutlineOutlinedIcon,   accent: tokens.status.info.blue, bg: 'rgba(59,130,246,0.08)' },
+	{ key: 'totalUsers',          label: t('dashboard.kpi.totalUsers'),          icon: PersonOutlineOutlinedIcon, accent: tokens.status.accent.purple, bg: 'rgba(139,92,246,0.08)' },
+	{ key: 'totalResumeAnalysis', label: t('dashboard.kpi.totalResumeAnalysis'), icon: AssessmentOutlinedIcon,    accent: tokens.status.warning.bright, bg: 'rgba(245,158,11,0.08)' },
 ];
 
 export const scoreColor = (score) => {
@@ -68,10 +70,10 @@ export const scoreColor = (score) => {
 };
 
 export const medalColor = (rank) => {
-	if (rank === 0) return '#f59e0b';
-	if (rank === 1) return '#94a3b8';
-	if (rank === 2) return '#cd7c2f';
-	return '#e2e8f0';
+	if (rank === 0) return `${tokens.status.warning.bright}`;
+	if (rank === 1) return `${tokens.ink.subtle}`;
+	if (rank === 2) return `${tokens.status.warning.bronze}`;
+	return `${tokens.line.main}`;
 };
 
 export const JOB_POSTS_PAGE_SIZE = 5;

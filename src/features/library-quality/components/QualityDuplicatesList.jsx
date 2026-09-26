@@ -25,22 +25,23 @@ import EmailIcon from '@mui/icons-material/Email';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useTranslation } from 'react-i18next';
 import { getDuplicates, deleteCV } from '../../cv/api/cvService.js';
+import * as tokens from '../../../theme/tokens.js';
 
 const PAGE_SIZE = 10;
 
 const matchTypeStyle = {
-	PHONE: { bg: 'rgba(99,102,241,0.08)', color: '#6366f1', Icon: PhoneIcon },
-	EMAIL: { bg: 'rgba(234,88,12,0.08)', color: '#ea580c', Icon: EmailIcon },
+	PHONE: { bg: 'rgba(99,102,241,0.08)', color: tokens.status.accent.bright, Icon: PhoneIcon },
+	EMAIL: { bg: 'rgba(234,88,12,0.08)', color: tokens.status.warning.orange, Icon: EmailIcon },
 };
 
 const thSx = {
 	fontWeight: 700,
 	fontSize: '0.68rem',
-	color: '#64748b',
+	color: tokens.ink.muted,
 	textTransform: 'uppercase',
 	letterSpacing: '0.05em',
-	backgroundColor: '#f8fafc',
-	borderBottom: '1px solid #e2e8f0',
+	backgroundColor: tokens.surface.subtle,
+	borderBottom: `1px solid ${tokens.line.main}`,
 	py: 0.75,
 };
 
@@ -101,14 +102,14 @@ const QualityDuplicatesList = ({ onChanged }) => {
 	if (loading && groups.length === 0) {
 		return (
 			<Box sx={{ display: 'flex', justifyContent: 'center', py: 2 }}>
-				<CircularProgress size={20} sx={{ color: '#629C44' }} />
+				<CircularProgress size={20} sx={{ color: tokens.brand.text }} />
 			</Box>
 		);
 	}
 
 	if (groups.length === 0) {
 		return (
-			<Typography sx={{ fontSize: '0.76rem', color: '#94a3b8', py: 1.5, textAlign: 'center' }}>
+			<Typography sx={{ fontSize: '0.76rem', color: tokens.ink.subtle, py: 1.5, textAlign: 'center' }}>
 				{t('libraryQuality.duplicates.empty', 'No duplicates found.')}
 			</Typography>
 		);
@@ -128,15 +129,15 @@ const QualityDuplicatesList = ({ onChanged }) => {
 						elevation={0}
 						sx={{
 							mb: 0.75,
-							border: '1px solid #e2e8f0',
+							border: `1px solid ${tokens.line.main}`,
 							borderRadius: '8px !important',
 							overflow: 'hidden',
 							'&:before': { display: 'none' },
-							'&.Mui-expanded': { border: '1px solid #629C44' },
+							'&.Mui-expanded': { border: `1px solid ${tokens.brand.main}` },
 						}}
 					>
 						<AccordionSummary
-							expandIcon={<ExpandMoreIcon sx={{ fontSize: 18, color: '#94a3b8' }} />}
+							expandIcon={<ExpandMoreIcon sx={{ fontSize: 18, color: tokens.ink.subtle }} />}
 							sx={{
 								px: 1.5,
 								minHeight: 44,
@@ -155,7 +156,7 @@ const QualityDuplicatesList = ({ onChanged }) => {
 									{group.matchType}
 								</Typography>
 							</Box>
-							<Typography sx={{ fontSize: '0.8rem', fontWeight: 500, color: '#0f172a', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+							<Typography sx={{ fontSize: '0.8rem', fontWeight: 500, color: tokens.ink.strong, flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
 								{group.matchValue}
 							</Typography>
 							<Chip
@@ -164,8 +165,8 @@ const QualityDuplicatesList = ({ onChanged }) => {
 								sx={{
 									fontSize: '0.68rem',
 									height: 18,
-									backgroundColor: '#fef2f2',
-									color: '#dc2626',
+									backgroundColor: tokens.status.error.pale,
+									color: tokens.status.error.main,
 									fontWeight: 700,
 									'& .MuiChip-label': { px: 0.6 },
 									flexShrink: 0,
@@ -186,13 +187,13 @@ const QualityDuplicatesList = ({ onChanged }) => {
 								<TableBody>
 									{group.cvs.map((cv) => (
 										<TableRow key={cv.cvId} hover sx={{ '&:last-child td': { borderBottom: 0 } }}>
-											<TableCell sx={{ fontSize: '0.78rem', fontWeight: 500, color: '#0f172a', py: 0.9 }}>
+											<TableCell sx={{ fontSize: '0.78rem', fontWeight: 500, color: tokens.ink.strong, py: 0.9 }}>
 												{cv.name || '—'}
 											</TableCell>
-											<TableCell sx={{ fontSize: '0.76rem', color: '#64748b', py: 0.9 }}>
+											<TableCell sx={{ fontSize: '0.76rem', color: tokens.ink.muted, py: 0.9 }}>
 												{cv.email || '—'}
 											</TableCell>
-											<TableCell sx={{ fontSize: '0.74rem', color: '#94a3b8', whiteSpace: 'nowrap', py: 0.9 }}>
+											<TableCell sx={{ fontSize: '0.74rem', color: tokens.ink.subtle, whiteSpace: 'nowrap', py: 0.9 }}>
 												{cv.createdAt ? new Date(cv.createdAt).toLocaleDateString() : '—'}
 											</TableCell>
 											<TableCell sx={{ py: 0.9 }}>
@@ -200,7 +201,7 @@ const QualityDuplicatesList = ({ onChanged }) => {
 													<IconButton
 														size="small"
 														onClick={() => setCvToDelete(cv.cvId)}
-														sx={{ color: '#94a3b8', '&:hover': { color: '#ef4444' } }}
+														sx={{ color: tokens.ink.subtle, '&:hover': { color: tokens.status.error.bright } }}
 													>
 														<DeleteOutlineIcon sx={{ fontSize: 16 }} />
 													</IconButton>
@@ -216,7 +217,7 @@ const QualityDuplicatesList = ({ onChanged }) => {
 			})}
 
 			<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1, mt: 0.5, flexWrap: 'wrap' }}>
-				<Typography sx={{ fontSize: '0.7rem', color: '#94a3b8' }}>
+				<Typography sx={{ fontSize: '0.7rem', color: tokens.ink.subtle }}>
 					{t('libraryQuality.duplicates.groupCount', '{{count}} duplicate groups', { count: totalElements })}
 				</Typography>
 				{totalPages > 1 && (

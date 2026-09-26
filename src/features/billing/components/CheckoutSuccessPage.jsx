@@ -19,6 +19,8 @@ import { refreshToken } from '../../auth/api/authService.js';
 import { setAuthResults } from '../../../../localStorageManager.js';
 import { isDemoUser } from '../../../utils/demoMode.js';
 import { AUTH_TOKEN } from '../../../constants.js';
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 // Activation is driven by a Stripe webhook and may lag a few seconds after the
 // browser returns from Checkout, so we poll the token refresh endpoint until
@@ -80,7 +82,7 @@ const CheckoutSuccessPage = () => {
 				display: 'flex',
 				alignItems: 'center',
 				justifyContent: 'center',
-				background: 'linear-gradient(135deg, #f0f4f8 0%, #e8edf2 100%)',
+				background: `linear-gradient(135deg, ${tokens.surface.cool} 0%, ${tokens.surface.coolDeep} 100%)`,
 				px: 2,
 				position: 'fixed',
 				top: 0,
@@ -100,9 +102,9 @@ const CheckoutSuccessPage = () => {
 				>
 					{phase === 'activating' ? (
 						<Stack spacing={3} alignItems="center" textAlign="center">
-							<CircularProgress sx={{ color: '#629C44' }} />
+							<CircularProgress sx={{ color: tokens.brand.text }} />
 							<Stack spacing={1}>
-								<Typography variant="h5" sx={{ fontWeight: 800, color: '#0f172a', letterSpacing: '-0.03em' }}>
+								<Typography variant="h5" sx={{ fontWeight: 800, color: tokens.ink.strong, letterSpacing: '-0.03em' }}>
 									{t('checkoutSuccess.activatingTitle', 'Activating your trial…')}
 								</Typography>
 								<Typography variant="body2" color="text.secondary" sx={{ maxWidth: 420 }}>
@@ -116,15 +118,15 @@ const CheckoutSuccessPage = () => {
 								sx={{
 									width: 80, height: 80, borderRadius: '50%',
 									display: 'grid', placeItems: 'center',
-									backgroundColor: '#629C44',
-									boxShadow: '0 10px 30px rgba(98,156,68,0.35)',
+									backgroundColor: tokens.brand.main,
+									boxShadow: `0 10px 30px ${alpha(tokens.brand.main, 0.35)}`,
 								}}
 								aria-hidden
 							>
-								<RocketLaunchRoundedIcon sx={{ fontSize: 46, color: '#fff' }} />
+								<RocketLaunchRoundedIcon sx={{ fontSize: 46, color: tokens.ink.inverse }} />
 							</Box>
 							<Stack spacing={1}>
-								<Typography variant="h4" sx={{ fontWeight: 800, color: '#0f172a', letterSpacing: '-0.03em' }}>
+								<Typography variant="h4" sx={{ fontWeight: 800, color: tokens.ink.strong, letterSpacing: '-0.03em' }}>
 									{t('checkoutSuccess.trialStartedTitle', 'Trial started!')}
 								</Typography>
 								<Typography variant="body1" color="text.secondary" sx={{ maxWidth: 440 }}>
@@ -140,9 +142,9 @@ const CheckoutSuccessPage = () => {
 								sx={{
 									mt: 1, px: 4, py: 1.25, borderRadius: 1.5,
 									textTransform: 'none', fontWeight: 700,
-									backgroundColor: '#629C44',
-									boxShadow: '0 2px 8px rgba(98,156,68,0.35)',
-									'&:hover': { backgroundColor: '#518136', boxShadow: '0 4px 14px rgba(98,156,68,0.45)' },
+									backgroundColor: tokens.brand.main,
+									boxShadow: `0 2px 8px ${alpha(tokens.brand.main, 0.35)}`,
+									'&:hover': { backgroundColor: tokens.brand.hoverAlt, boxShadow: `0 4px 14px ${alpha(tokens.brand.main, 0.45)}` },
 								}}
 							>
 								{t('checkoutSuccess.goToWorkspace', 'Go to your workspace')}
@@ -154,15 +156,15 @@ const CheckoutSuccessPage = () => {
 								sx={{
 									width: 80, height: 80, borderRadius: '50%',
 									display: 'grid', placeItems: 'center',
-									backgroundColor: '#629C44',
-									boxShadow: '0 10px 30px rgba(98,156,68,0.35)',
+									backgroundColor: tokens.brand.main,
+									boxShadow: `0 10px 30px ${alpha(tokens.brand.main, 0.35)}`,
 								}}
 								aria-hidden
 							>
-								<CheckCircleRoundedIcon sx={{ fontSize: 46, color: '#fff' }} />
+								<CheckCircleRoundedIcon sx={{ fontSize: 46, color: tokens.ink.inverse }} />
 							</Box>
 							<Stack spacing={1}>
-								<Typography variant="h5" sx={{ fontWeight: 800, color: '#0f172a', letterSpacing: '-0.03em' }}>
+								<Typography variant="h5" sx={{ fontWeight: 800, color: tokens.ink.strong, letterSpacing: '-0.03em' }}>
 									{t('checkoutSuccess.pendingTitle', 'Payment received')}
 								</Typography>
 								<Typography variant="body2" color="text.secondary" sx={{ maxWidth: 440 }}>
@@ -176,9 +178,9 @@ const CheckoutSuccessPage = () => {
 								sx={{
 									mt: 1, px: 4, py: 1.25, borderRadius: 1.5,
 									textTransform: 'none', fontWeight: 700,
-									backgroundColor: '#629C44',
-									boxShadow: '0 2px 8px rgba(98,156,68,0.35)',
-									'&:hover': { backgroundColor: '#518136' },
+									backgroundColor: tokens.brand.main,
+									boxShadow: `0 2px 8px ${alpha(tokens.brand.main, 0.35)}`,
+									'&:hover': { backgroundColor: tokens.brand.hoverAlt },
 								}}
 							>
 								{t('checkoutSuccess.goToWorkspace', 'Go to your workspace')}
@@ -190,15 +192,15 @@ const CheckoutSuccessPage = () => {
 								sx={{
 									width: 80, height: 80, borderRadius: '50%',
 									display: 'grid', placeItems: 'center',
-									backgroundColor: '#629C44',
-									boxShadow: '0 10px 30px rgba(98,156,68,0.35)',
+									backgroundColor: tokens.brand.main,
+									boxShadow: `0 10px 30px ${alpha(tokens.brand.main, 0.35)}`,
 								}}
 								aria-hidden
 							>
-								<CheckCircleRoundedIcon sx={{ fontSize: 50, color: '#fff' }} />
+								<CheckCircleRoundedIcon sx={{ fontSize: 50, color: tokens.ink.inverse }} />
 							</Box>
 							<Stack spacing={1}>
-								<Typography variant="h4" sx={{ fontWeight: 800, color: '#0f172a', letterSpacing: '-0.03em' }}>
+								<Typography variant="h4" sx={{ fontWeight: 800, color: tokens.ink.strong, letterSpacing: '-0.03em' }}>
 									{t('checkoutSuccess.title', 'Payment Successful!')}
 								</Typography>
 								<Typography variant="body1" color="text.secondary">
@@ -218,9 +220,9 @@ const CheckoutSuccessPage = () => {
 								sx={{
 									mt: 1, px: 4, py: 1.25, borderRadius: 1.5,
 									textTransform: 'none', fontWeight: 700,
-									backgroundColor: '#629C44',
-									boxShadow: '0 2px 8px rgba(98,156,68,0.35)',
-									'&:hover': { backgroundColor: '#518136', boxShadow: '0 4px 14px rgba(98,156,68,0.45)' },
+									backgroundColor: tokens.brand.main,
+									boxShadow: `0 2px 8px ${alpha(tokens.brand.main, 0.35)}`,
+									'&:hover': { backgroundColor: tokens.brand.hoverAlt, boxShadow: `0 4px 14px ${alpha(tokens.brand.main, 0.45)}` },
 								}}
 							>
 								{t('checkoutSuccess.cta', 'Sign In to Qorva')}

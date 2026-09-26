@@ -17,11 +17,13 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import { getCandidateUpdate, getCandidateUpdateStatus, submitCandidateUpdate, unsubscribeCandidate } from '../api/candidateUpdateService.js';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../../../components/languages/LanguageSwitcher.jsx';
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 
 const AVAILABILITY_STATUSES = ['activelyLooking', 'openButNotSearching', 'notAvailable', 'freelanceOnly'];
 
-const inputSx = { '& .MuiOutlinedInput-root': { borderRadius: 1.5, backgroundColor: '#f8fafc' } };
+const inputSx = { '& .MuiOutlinedInput-root': { borderRadius: 1.5, backgroundColor: tokens.surface.subtle } };
 
 // Server-reported async-processing stages; the bar eases toward each stage's cap so the
 // motion is smooth while the boundaries stay honest.
@@ -168,13 +170,13 @@ const CandidateUpdatePage = () => {
 	const shell = (children) => (
 		<Box sx={{
 			position: 'fixed', inset: 0, overflowY: 'auto',
-			background: 'linear-gradient(135deg, #f0f4f8 0%, #e8edf2 100%)',
+			background: `linear-gradient(135deg, ${tokens.surface.cool} 0%, ${tokens.surface.coolDeep} 100%)`,
 			display: 'flex', flexDirection: 'column', alignItems: 'center', p: 2,
 		}}>
 			<Box sx={{ width: '100%', maxWidth: 520, display: 'flex', alignItems: 'center', justifyContent: 'space-between', py: 2 }}>
 				<Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
 					<Box component="img" src="/logo.svg" alt="Qorva" sx={{ width: 28, height: 28 }} />
-					<Typography sx={{ fontWeight: 700, color: '#0f172a' }}>Qorva</Typography>
+					<Typography sx={{ fontWeight: 700, color: tokens.ink.strong }}>Qorva</Typography>
 				</Box>
 				<LanguageSwitcher />
 			</Box>
@@ -204,21 +206,21 @@ const CandidateUpdatePage = () => {
 				: t('candidateUpdate.stageReceived', 'Resume received…');
 		return shell(
 			<Box sx={{ textAlign: 'center', py: 2 }}>
-				<Typography sx={{ fontWeight: 700, color: '#0f172a', mb: 0.5 }}>
+				<Typography sx={{ fontWeight: 700, color: tokens.ink.strong, mb: 0.5 }}>
 					{t('candidateUpdate.processingTitle', 'Updating your profile')}
 				</Typography>
-				<Typography sx={{ fontSize: '0.85rem', color: '#64748b', mb: 3 }}>
+				<Typography sx={{ fontSize: '0.85rem', color: tokens.ink.muted, mb: 3 }}>
 					{stageLabel}
 				</Typography>
 				<LinearProgress
 					variant="determinate"
 					value={Math.min(progress, 100)}
 					sx={{
-						height: 8, borderRadius: 4, backgroundColor: 'rgba(98,156,68,0.12)',
-						'& .MuiLinearProgress-bar': { borderRadius: 4, backgroundColor: '#629C44' },
+						height: 8, borderRadius: 4, backgroundColor: alpha(tokens.brand.main, 0.12),
+						'& .MuiLinearProgress-bar': { borderRadius: 4, backgroundColor: tokens.brand.main },
 					}}
 				/>
-				<Typography sx={{ fontSize: '0.72rem', color: '#94a3b8', mt: 2 }}>
+				<Typography sx={{ fontSize: '0.72rem', color: tokens.ink.subtle, mt: 2 }}>
 					{slowProcessing
 						? t('candidateUpdate.processingSlow', 'This is taking longer than expected — you can close this page; your update will finish automatically.')
 						: t('candidateUpdate.processingHint', 'This usually takes less than a minute.')}
@@ -230,13 +232,13 @@ const CandidateUpdatePage = () => {
 	if (state === 'done' || state === 'unsubscribed') {
 		return shell(
 			<Box sx={{ textAlign: 'center', py: 2 }}>
-				<CheckCircleRoundedIcon sx={{ fontSize: 44, color: '#16a34a', mb: 1 }} />
-				<Typography sx={{ fontWeight: 700, color: '#0f172a', mb: 0.5 }}>
+				<CheckCircleRoundedIcon sx={{ fontSize: 44, color: tokens.status.success.main, mb: 1 }} />
+				<Typography sx={{ fontWeight: 700, color: tokens.ink.strong, mb: 0.5 }}>
 					{state === 'done'
 						? t('candidateUpdate.doneTitle', 'Thank you — your profile is up to date!')
 						: t('candidateUpdate.unsubscribedTitle', 'You have been unsubscribed.')}
 				</Typography>
-				<Typography sx={{ fontSize: '0.85rem', color: '#64748b' }}>
+				<Typography sx={{ fontSize: '0.85rem', color: tokens.ink.muted }}>
 					{state === 'done'
 						? t('candidateUpdate.doneSubtitle', 'You can close this page.')
 						: t('candidateUpdate.unsubscribedSubtitle', 'You will not receive further update requests.')}
@@ -248,14 +250,14 @@ const CandidateUpdatePage = () => {
 	if (state === 'unsubscribe') {
 		return shell(
 			<Box sx={{ textAlign: 'center', py: 1 }}>
-				<Typography sx={{ fontWeight: 700, color: '#0f172a', mb: 1 }}>
+				<Typography sx={{ fontWeight: 700, color: tokens.ink.strong, mb: 1 }}>
 					{t('candidateUpdate.unsubscribeTitle', 'Unsubscribe from update requests?')}
 				</Typography>
-				<Typography sx={{ fontSize: '0.85rem', color: '#64748b', mb: 2.5 }}>
+				<Typography sx={{ fontSize: '0.85rem', color: tokens.ink.muted, mb: 2.5 }}>
 					{t('candidateUpdate.unsubscribeSubtitle', 'You will no longer receive profile update emails from this recruiter.')}
 				</Typography>
 				<Button variant="contained" disabled={submitting} onClick={handleUnsubscribe}
-					sx={{ textTransform: 'none', borderRadius: 1.5, backgroundColor: '#629C44', '&:hover': { backgroundColor: '#528035' }, boxShadow: 'none' }}>
+					sx={{ textTransform: 'none', borderRadius: 1.5, backgroundColor: tokens.brand.main, '&:hover': { backgroundColor: tokens.brand.hover }, boxShadow: 'none' }}>
 					{submitting ? <CircularProgress size={16} color="inherit" /> : t('candidateUpdate.unsubscribeButton', 'Unsubscribe')}
 				</Button>
 			</Box>
@@ -267,10 +269,10 @@ const CandidateUpdatePage = () => {
 			{submitError && (
 				<Alert severity="error" sx={{ borderRadius: 1.5, mb: 2 }}>{submitError}</Alert>
 			)}
-			<Typography sx={{ fontWeight: 700, fontSize: '1.1rem', color: '#0f172a', mb: 0.5 }}>
+			<Typography sx={{ fontWeight: 700, fontSize: '1.1rem', color: tokens.ink.strong, mb: 0.5 }}>
 				{t('candidateUpdate.title', 'Hi {{name}}, keep your profile up to date', { name: prefill?.firstName || '' })}
 			</Typography>
-			<Typography sx={{ fontSize: '0.84rem', color: '#64748b', mb: 3 }}>
+			<Typography sx={{ fontSize: '0.84rem', color: tokens.ink.muted, mb: 3 }}>
 				{t('candidateUpdate.subtitle', 'Confirm your availability and expectations — it takes a minute.')}
 			</Typography>
 
@@ -305,17 +307,17 @@ const CandidateUpdatePage = () => {
 			</Box>
 
 			<Button component="label" fullWidth variant="outlined" startIcon={<CloudUploadIcon sx={{ fontSize: 18 }} />}
-				sx={{ textTransform: 'none', borderRadius: 1.5, borderColor: '#cbd5e1', color: file ? '#16a34a' : '#64748b', mb: 2, justifyContent: 'flex-start' }}>
+				sx={{ textTransform: 'none', borderRadius: 1.5, borderColor: tokens.line.strong, color: file ? `${tokens.status.success.main}` : `${tokens.ink.muted}`, mb: 2, justifyContent: 'flex-start' }}>
 				{file ? file.name : t('candidateUpdate.uploadCV', 'Upload a newer resume (optional, .pdf or .docx)')}
 				<input type="file" hidden accept=".pdf,.docx" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
 			</Button>
 
-			<Typography sx={{ fontSize: '0.7rem', color: '#94a3b8', mb: 2, lineHeight: 1.5 }}>
+			<Typography sx={{ fontSize: '0.7rem', color: tokens.ink.subtle, mb: 2, lineHeight: 1.5 }}>
 				{t('candidateUpdate.consent', 'By submitting, you agree that this information is shared with the recruiter who holds your profile and processed to keep it accurate.')}
 			</Typography>
 
 			<Button fullWidth variant="contained" disabled={submitting} onClick={handleSubmit}
-				sx={{ textTransform: 'none', fontWeight: 600, borderRadius: 1.5, py: 1.2, backgroundColor: '#629C44', '&:hover': { backgroundColor: '#528035' }, boxShadow: 'none' }}>
+				sx={{ textTransform: 'none', fontWeight: 600, borderRadius: 1.5, py: 1.2, backgroundColor: tokens.brand.main, '&:hover': { backgroundColor: tokens.brand.hover }, boxShadow: 'none' }}>
 				{submitting ? <CircularProgress size={18} color="inherit" /> : t('candidateUpdate.submit', 'Update my profile')}
 			</Button>
 		</Box>

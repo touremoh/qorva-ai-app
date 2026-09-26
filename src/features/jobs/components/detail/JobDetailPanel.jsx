@@ -6,6 +6,7 @@ import JobScoringView from '../JobScoringView.jsx';
 import JobPostReadView from '../JobPostReadView.jsx';
 import { THEME_GREEN, tabsSx } from '../../model/jobForm.js';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../../theme/tokens.js';
 
 /** The selected job: title, actions, description and scoring tabs. */
 const JobDetailPanel = ({ createMode, demo, detailTab, editMode, handleStartEdit, handleToggleStatus, selectedJob, setDeleteDialogOpen, setDetailTab }) => {
@@ -17,10 +18,10 @@ const JobDetailPanel = ({ createMode, demo, detailTab, editMode, handleStartEdit
 				{/* Header: status + actions */}
 				<Box sx={{
 					display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 1,
-					px: 2.5, py: 1.25, backgroundColor: '#ffffff', borderBottom: '1px solid #e2e8f0', flexShrink: 0,
+					px: 2.5, py: 1.25, backgroundColor: tokens.surface.paper, borderBottom: `1px solid ${tokens.line.main}`, flexShrink: 0,
 				}}>
 					<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexShrink: 0 }}>
-						<Typography sx={{ fontSize: '0.78rem', color: '#64748b', fontWeight: 500, display: { xs: 'none', sm: 'block' } }}>
+						<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.muted, fontWeight: 500, display: { xs: 'none', sm: 'block' } }}>
 							{selectedJob.status === 'open' ? 'Open' : 'Closed'}
 						</Typography>
 						<Switch checked={selectedJob.status === 'open'} onChange={handleToggleStatus} size="small"
@@ -32,13 +33,13 @@ const JobDetailPanel = ({ createMode, demo, detailTab, editMode, handleStartEdit
 							<>
 								<Tooltip title={t('jobContent.editJobPost')}>
 									<IconButton size="small" onClick={handleStartEdit}
-										sx={{ border: '1px solid #e2e8f0', borderRadius: 1.5, color: '#64748b', '&:hover': { backgroundColor: '#f1f5f9' } }}>
+										sx={{ border: `1px solid ${tokens.line.main}`, borderRadius: 1.5, color: tokens.ink.muted, '&:hover': { backgroundColor: tokens.surface.muted } }}>
 										<EditOutlinedIcon sx={{ fontSize: 16 }} />
 									</IconButton>
 								</Tooltip>
 								<Tooltip title={t('jobContent.deleteJobTitle')}>
 									<IconButton size="small" onClick={() => setDeleteDialogOpen(true)}
-										sx={{ border: '1px solid #fecaca', borderRadius: 1.5, color: '#ef4444', '&:hover': { backgroundColor: '#fef2f2' } }}>
+										sx={{ border: `1px solid ${tokens.status.error.border}`, borderRadius: 1.5, color: tokens.status.error.bright, '&:hover': { backgroundColor: tokens.status.error.pale } }}>
 										<DeleteOutlineIcon sx={{ fontSize: 16 }} />
 									</IconButton>
 								</Tooltip>

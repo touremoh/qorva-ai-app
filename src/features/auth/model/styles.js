@@ -1,14 +1,15 @@
+import * as tokens from '../../../theme/tokens.js';
 export const inputSx = {
 	mb: 0.5,
 	'& .MuiOutlinedInput-root': {
 		borderRadius: 1.5,
-		backgroundColor: '#f8fafc',
+		backgroundColor: tokens.surface.subtle,
 		transition: 'background-color 0.2s',
-		'&:hover': { backgroundColor: '#f1f5f9' },
-		'&.Mui-focused': { backgroundColor: '#ffffff' },
-		'& fieldset': { borderColor: '#e2e8f0' },
-		'&:hover fieldset': { borderColor: '#cbd5e1' },
-		'&.Mui-focused fieldset': { borderColor: '#629C44', borderWidth: 1.5 },
+		'&:hover': { backgroundColor: tokens.surface.muted },
+		'&.Mui-focused': { backgroundColor: tokens.surface.paper },
+		'& fieldset': { borderColor: tokens.line.main },
+		'&:hover fieldset': { borderColor: tokens.line.strong },
+		'&.Mui-focused fieldset': { borderColor: tokens.brand.main, borderWidth: 1.5 },
 	},
-	'& .MuiInputLabel-root.Mui-focused': { color: '#629C44' },
+	'& .MuiInputLabel-root.Mui-focused': { color: tokens.brand.text },
 };

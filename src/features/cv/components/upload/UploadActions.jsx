@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { Button, CircularProgress } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../../theme/tokens.js';
 
 /** Buttons under the upload dialog: close, continue in background, cancel or upload. */
 const UploadActions = ({ upload }) => {
@@ -13,8 +14,8 @@ const UploadActions = ({ upload }) => {
 				variant="contained"
 				sx={{
 					textTransform: 'none',
-					backgroundColor: '#629C44',
-					'&:hover': { backgroundColor: '#528035' },
+					backgroundColor: tokens.brand.main,
+					'&:hover': { backgroundColor: tokens.brand.hover },
 					borderRadius: 1.5,
 					boxShadow: 'none',
 					fontWeight: 600,
@@ -27,7 +28,7 @@ const UploadActions = ({ upload }) => {
 			<>
 				<Button
 					onClick={upload.handleCancelBulk}
-					sx={{ textTransform: 'none', color: '#dc2626', borderRadius: 1.5 }}
+					sx={{ textTransform: 'none', color: tokens.status.error.main, borderRadius: 1.5 }}
 				>
 					{t('appCVContent.bulk.cancelImport', 'Cancel import')}
 				</Button>
@@ -35,7 +36,7 @@ const UploadActions = ({ upload }) => {
 					<Button
 						onClick={upload.handleContinueInBackground}
 						variant="outlined"
-						sx={{ textTransform: 'none', color: '#629C44', borderColor: '#629C44', borderRadius: 1.5, fontWeight: 600 }}
+						sx={{ textTransform: 'none', color: tokens.brand.text, borderColor: tokens.brand.main, borderRadius: 1.5, fontWeight: 600 }}
 					>
 						{t('appCVContent.bulk.continueInBackground', 'Continue in background')}
 					</Button>
@@ -46,7 +47,7 @@ const UploadActions = ({ upload }) => {
 				<Button
 					onClick={upload.handleCloseUploadDialog}
 					disabled={upload.isUploading}
-					sx={{ textTransform: 'none', color: '#64748b', borderRadius: 1.5 }}
+					sx={{ textTransform: 'none', color: tokens.ink.muted, borderRadius: 1.5 }}
 				>
 					{t('appCVContent.cancel')}
 				</Button>
@@ -56,8 +57,8 @@ const UploadActions = ({ upload }) => {
 					variant="contained"
 					sx={{
 						textTransform: 'none',
-						backgroundColor: upload.confirmBulk ? '#b45309' : '#629C44',
-						'&:hover': { backgroundColor: upload.confirmBulk ? '#92400e' : '#528035' },
+						backgroundColor: upload.confirmBulk ? `${tokens.status.warning.strong}` : `${tokens.brand.main}`,
+						'&:hover': { backgroundColor: upload.confirmBulk ? `${tokens.status.warning.text}` : `${tokens.brand.hover}` },
 						borderRadius: 1.5,
 						boxShadow: 'none',
 						fontWeight: 600,

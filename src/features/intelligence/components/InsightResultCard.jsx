@@ -10,24 +10,26 @@ import CandidateSection from './CandidateSection.jsx';
 import CandidateComparisonSection from './CandidateComparisonSection.jsx';
 import FollowUpChips from './FollowUpChips.jsx';
 import DisclaimerBanner from './DisclaimerBanner.jsx';
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 // Follow-up chips are temporarily hidden; set to true to re-enable.
 const SHOW_FOLLOW_UPS = false;
 
 const INTENT_CONFIG = {
-    TALENT_POOL_INTELLIGENCE:        { label: 'Talent Pool Intelligence',  color: '#4f46e5', bg: 'rgba(79,70,229,0.07)'   },
-    TALENT_CLUSTERING:               { label: 'Talent Clustering',         color: '#4f46e5', bg: 'rgba(79,70,229,0.07)'   },
-    CANDIDATE_RANKING:               { label: 'Candidate Ranking',         color: '#629C44', bg: 'rgba(98,156,68,0.07)'   },
-    CANDIDATE_REDISCOVERY:           { label: 'Candidate Rediscovery',     color: '#0891b2', bg: 'rgba(8,145,178,0.07)'   },
-    SKILL_GAP_ANALYSIS:              { label: 'Skill Gap Analysis',        color: '#d97706', bg: 'rgba(217,119,6,0.07)'   },
-    GENERAL_RECRUITING_QUESTION:     { label: 'Recruiting Question',       color: '#64748b', bg: 'rgba(100,116,139,0.07)' },
-    LOCATION_INTELLIGENCE:           { label: 'Location Intelligence',     color: '#0f766e', bg: 'rgba(15,118,110,0.07)'  },
-    SALARY_EXPECTATION_ANALYSIS:     { label: 'Salary Analysis',           color: '#7c3aed', bg: 'rgba(124,58,237,0.07)'  },
-    CANDIDATE_COMPARISON:            { label: 'Candidate Comparison',      color: '#0891b2', bg: 'rgba(8,145,178,0.07)'   },
-    JOB_DESCRIPTION_ANALYSIS:        { label: 'Job Description Analysis',  color: '#d97706', bg: 'rgba(217,119,6,0.07)'   },
-    RESUME_DATA_QUALITY_ANALYSIS:    { label: 'Resume Quality Analysis',   color: '#64748b', bg: 'rgba(100,116,139,0.07)' },
-    SENIORITY_DISTRIBUTION_ANALYSIS: { label: 'Seniority Distribution',   color: '#629C44', bg: 'rgba(98,156,68,0.07)'   },
-    SKILLS_DISTRIBUTION:             { label: 'Skills Distribution',      color: '#0284c7', bg: 'rgba(2,132,199,0.07)'    },
+    TALENT_POOL_INTELLIGENCE:        { label: 'Talent Pool Intelligence',  color: tokens.status.accent.main, bg: 'rgba(79,70,229,0.07)'   },
+    TALENT_CLUSTERING:               { label: 'Talent Clustering',         color: tokens.status.accent.main, bg: 'rgba(79,70,229,0.07)'   },
+    CANDIDATE_RANKING:               { label: 'Candidate Ranking',         color: tokens.brand.text, bg: alpha(tokens.brand.main, 0.07)   },
+    CANDIDATE_REDISCOVERY:           { label: 'Candidate Rediscovery',     color: tokens.status.info.bright, bg: 'rgba(8,145,178,0.07)'   },
+    SKILL_GAP_ANALYSIS:              { label: 'Skill Gap Analysis',        color: tokens.status.warning.main, bg: 'rgba(217,119,6,0.07)'   },
+    GENERAL_RECRUITING_QUESTION:     { label: 'Recruiting Question',       color: tokens.ink.muted, bg: 'rgba(100,116,139,0.07)' },
+    LOCATION_INTELLIGENCE:           { label: 'Location Intelligence',     color: tokens.status.success.teal, bg: 'rgba(15,118,110,0.07)'  },
+    SALARY_EXPECTATION_ANALYSIS:     { label: 'Salary Analysis',           color: tokens.status.accent.violet, bg: 'rgba(124,58,237,0.07)'  },
+    CANDIDATE_COMPARISON:            { label: 'Candidate Comparison',      color: tokens.status.info.bright, bg: 'rgba(8,145,178,0.07)'   },
+    JOB_DESCRIPTION_ANALYSIS:        { label: 'Job Description Analysis',  color: tokens.status.warning.main, bg: 'rgba(217,119,6,0.07)'   },
+    RESUME_DATA_QUALITY_ANALYSIS:    { label: 'Resume Quality Analysis',   color: tokens.ink.muted, bg: 'rgba(100,116,139,0.07)' },
+    SENIORITY_DISTRIBUTION_ANALYSIS: { label: 'Seniority Distribution',   color: tokens.brand.text, bg: alpha(tokens.brand.main, 0.07)   },
+    SKILLS_DISTRIBUTION:             { label: 'Skills Distribution',      color: tokens.status.info.sky, bg: 'rgba(2,132,199,0.07)'    },
 };
 
 const InsightResultCard = ({ result, onFollowUp, onCandidateClick }) => {
@@ -37,9 +39,9 @@ const InsightResultCard = ({ result, onFollowUp, onCandidateClick }) => {
 
     return (
         <Box sx={{
-            backgroundColor: '#ffffff',
+            backgroundColor: tokens.surface.paper,
             borderRadius: 2.5,
-            border: '1px solid #e8edf3',
+            border: `1px solid ${tokens.surface.coolAlt}`,
             borderLeft: `3px solid ${cfg.color}`,
             boxShadow: '0 1px 4px rgba(0,0,0,0.05), 0 0 0 0 transparent',
             overflow: 'hidden',
@@ -78,7 +80,7 @@ const InsightResultCard = ({ result, onFollowUp, onCandidateClick }) => {
             <Box sx={{ p: 2 }}>
                 {/* Answer text */}
                 {answerText && (
-                    <Typography sx={{ fontSize: '0.85rem', color: '#334155', lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>
+                    <Typography sx={{ fontSize: '0.85rem', color: tokens.ink.body, lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>
                         {answerText}
                     </Typography>
                 )}
@@ -91,12 +93,12 @@ const InsightResultCard = ({ result, onFollowUp, onCandidateClick }) => {
 
                 {/* Candidates */}
                 {intent === 'CANDIDATE_COMPARISON' && candidates?.length > 0 ? (
-                    <Box sx={{ mt: 1.5, pt: 1.5, borderTop: '1px solid #f1f5f9' }}>
+                    <Box sx={{ mt: 1.5, pt: 1.5, borderTop: `1px solid ${tokens.surface.muted}` }}>
                         <CandidateComparisonSection candidates={candidates} rawData={rawData ?? {}} onCandidateClick={onCandidateClick} />
                     </Box>
                 ) : candidates?.length > 0 ? (
-                    <Box sx={{ mt: 1.5, pt: 1.5, borderTop: '1px solid #f1f5f9' }}>
-                        <Typography sx={{ fontSize: '0.65rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.08em', mb: 1 }}>
+                    <Box sx={{ mt: 1.5, pt: 1.5, borderTop: `1px solid ${tokens.surface.muted}` }}>
+                        <Typography sx={{ fontSize: '0.65rem', fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.08em', mb: 1 }}>
                             {t('insight.candidates', 'Candidates')}
                         </Typography>
                         <CandidateSection candidates={candidates} showRediscoveredTag={showRediscoveredTag} onCandidateClick={onCandidateClick} />
@@ -108,7 +110,7 @@ const InsightResultCard = ({ result, onFollowUp, onCandidateClick }) => {
 
                 {/* Follow-ups — temporarily hidden, see SHOW_FOLLOW_UPS */}
                 {SHOW_FOLLOW_UPS && followUpQuestions?.length > 0 && (
-                    <Box sx={{ mt: 1.5, pt: 1.5, borderTop: '1px solid #f1f5f9' }}>
+                    <Box sx={{ mt: 1.5, pt: 1.5, borderTop: `1px solid ${tokens.surface.muted}` }}>
                         <FollowUpChips suggestions={followUpQuestions} onSelect={onFollowUp} />
                     </Box>
                 )}

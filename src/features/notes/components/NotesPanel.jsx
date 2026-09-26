@@ -20,8 +20,9 @@ import { addNote, editNote, getNotes, removeNote } from '../api/noteService.js';
 import { USER_EMAIL } from '../../../constants.js';
 import { isActionAllowed, openUpgradeDialog } from '../../../utils/demoMode.js';
 import { brandButtonSx, textButtonSx } from '../../../shared/ui/buttonSx.js';
+import * as tokens from '../../../theme/tokens.js';
 
-const THEME_GREEN = '#629C44';
+const THEME_GREEN = tokens.brand.main;
 const MAX_LENGTH = 4000;
 
 // Which authority the backend checks for writes on each target type.
@@ -29,7 +30,7 @@ const WRITE_ACTION = { CV: 'MODIFY_CV', MATCHING_REPORT: 'MODIFY_REPORT' };
 
 const primaryButtonSx = brandButtonSx('0.78rem');
 const secondaryButtonSx = textButtonSx('0.78rem');
-const inputSx = { fontSize: '0.82rem', borderRadius: 1.5, backgroundColor: '#fff' };
+const inputSx = { fontSize: '0.82rem', borderRadius: 1.5, backgroundColor: tokens.surface.paper };
 
 const isEdited = (note) =>
 	note?.lastUpdatedAt && note?.createdAt && new Date(note.lastUpdatedAt) - new Date(note.createdAt) > 1000;
@@ -136,7 +137,7 @@ const NotesPanel = ({ targetType, targetId, sx }) => {
 		<Box
 			className="qorva-no-print"
 			sx={{
-				backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5, mb: 2,
+				backgroundColor: tokens.surface.paper, border: `1px solid ${tokens.line.main}`, borderRadius: 2.5, p: 2.5, mb: 2,
 				'@media print': { display: 'none' },
 				...sx,
 			}}
@@ -148,7 +149,7 @@ const NotesPanel = ({ targetType, targetId, sx }) => {
 					{t('notes.title', 'Notes')}
 				</Typography>
 				{notes.length > 0 && (
-					<Typography sx={{ fontSize: '0.68rem', color: '#94a3b8', fontWeight: 600 }}>
+					<Typography sx={{ fontSize: '0.68rem', color: tokens.ink.subtle, fontWeight: 600 }}>
 						({notes.length})
 					</Typography>
 				)}
@@ -180,7 +181,7 @@ const NotesPanel = ({ targetType, targetId, sx }) => {
 						>
 							{t('notes.add', 'Add note')}
 						</Button>
-						<Typography sx={{ fontSize: '0.7rem', color: '#94a3b8', ml: 'auto' }}>
+						<Typography sx={{ fontSize: '0.7rem', color: tokens.ink.subtle, ml: 'auto' }}>
 							{draft.length}/{MAX_LENGTH}
 						</Typography>
 					</Box>
@@ -188,7 +189,7 @@ const NotesPanel = ({ targetType, targetId, sx }) => {
 			) : (
 				<Typography
 					onClick={() => openUpgradeDialog('notes')}
-					sx={{ fontSize: '0.78rem', color: '#64748b', fontStyle: 'italic', cursor: 'pointer', mb: notes.length > 0 ? 2 : 0, '&:hover': { color: THEME_GREEN } }}
+					sx={{ fontSize: '0.78rem', color: tokens.ink.muted, fontStyle: 'italic', cursor: 'pointer', mb: notes.length > 0 ? 2 : 0, '&:hover': { color: THEME_GREEN } }}
 				>
 					{t('notes.readOnlyHint', 'Upgrade to add notes for your team.')}
 				</Typography>
@@ -200,7 +201,7 @@ const NotesPanel = ({ targetType, targetId, sx }) => {
 					<CircularProgress size={18} sx={{ color: THEME_GREEN }} />
 				</Box>
 			) : notes.length === 0 ? (
-				<Typography sx={{ fontSize: '0.78rem', color: '#cbd5e1', fontStyle: 'italic', mt: canWrite ? 1.5 : 0 }}>
+				<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.faint, fontStyle: 'italic', mt: canWrite ? 1.5 : 0 }}>
 					{t('notes.empty', 'No notes yet.')}
 				</Typography>
 			) : (
@@ -211,31 +212,31 @@ const NotesPanel = ({ targetType, targetId, sx }) => {
 						return (
 							<Box
 								key={note.id}
-								sx={{ p: 1.5, borderRadius: 1.5, backgroundColor: '#f8fafc', border: '1px solid #f1f5f9' }}
+								sx={{ p: 1.5, borderRadius: 1.5, backgroundColor: tokens.surface.subtle, border: `1px solid ${tokens.surface.muted}` }}
 							>
 								<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, mb: 0.5 }}>
-									<Typography sx={{ fontSize: '0.78rem', fontWeight: 700, color: '#0f172a' }}>
+									<Typography sx={{ fontSize: '0.78rem', fontWeight: 700, color: tokens.ink.strong }}>
 										{own ? t('notes.you', 'You') : (note.authorName || note.authorEmail)}
 									</Typography>
 									<Tooltip title={absolute(note.createdAt)}>
-										<Typography sx={{ fontSize: '0.7rem', color: '#94a3b8' }}>
+										<Typography sx={{ fontSize: '0.7rem', color: tokens.ink.subtle }}>
 											{relative(note.createdAt)}
 										</Typography>
 									</Tooltip>
 									{isEdited(note) && (
-										<Typography sx={{ fontSize: '0.68rem', color: '#94a3b8', fontStyle: 'italic' }}>
+										<Typography sx={{ fontSize: '0.68rem', color: tokens.ink.subtle, fontStyle: 'italic' }}>
 											· {t('notes.edited', 'edited')}
 										</Typography>
 									)}
 									{own && canWrite && !editing && (
 										<Box sx={{ ml: 'auto', display: 'flex', gap: 0.25 }}>
 											<Tooltip title={t('notes.edit', 'Edit')}>
-												<IconButton size="small" onClick={() => startEdit(note)} sx={{ color: '#94a3b8', '&:hover': { color: THEME_GREEN } }}>
+												<IconButton size="small" onClick={() => startEdit(note)} sx={{ color: tokens.ink.subtle, '&:hover': { color: THEME_GREEN } }}>
 													<EditOutlinedIcon sx={{ fontSize: 14 }} />
 												</IconButton>
 											</Tooltip>
 											<Tooltip title={t('notes.delete', 'Delete')}>
-												<IconButton size="small" onClick={() => setPendingDelete(note)} sx={{ color: '#94a3b8', '&:hover': { color: '#dc2626' } }}>
+												<IconButton size="small" onClick={() => setPendingDelete(note)} sx={{ color: tokens.ink.subtle, '&:hover': { color: tokens.status.error.main } }}>
 													<DeleteOutlineIcon sx={{ fontSize: 14 }} />
 												</IconButton>
 											</Tooltip>
@@ -274,7 +275,7 @@ const NotesPanel = ({ targetType, targetId, sx }) => {
 										</Box>
 									</Box>
 								) : (
-									<Typography sx={{ fontSize: '0.82rem', color: '#334155', lineHeight: 1.6, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+									<Typography sx={{ fontSize: '0.82rem', color: tokens.ink.body, lineHeight: 1.6, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
 										{note.text}
 									</Typography>
 								)}

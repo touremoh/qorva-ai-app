@@ -1,6 +1,7 @@
 import { brandButtonSx, outlinedButtonSx } from '../../../shared/ui/buttonSx.js';
+import * as tokens from '../../../theme/tokens.js';
 
-export const THEME_GREEN = '#629C44';
+export const THEME_GREEN = tokens.brand.main;
 
 export const DOCK_WIDTH = 520;
 
@@ -20,6 +21,6 @@ export const primaryButtonSx = brandButtonSx('0.78rem');
 
 export const neutralButtonSx = outlinedButtonSx('0.78rem');
 
-export const inputSx = { fontSize: '0.82rem', borderRadius: 1.5, backgroundColor: '#fff' };
+export const inputSx = { fontSize: '0.82rem', borderRadius: 1.5, backgroundColor: tokens.surface.paper };
 
 export const errorCodeOf = (err) => err?.response?.data?.errorCode;

@@ -6,19 +6,21 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import { useTranslation } from 'react-i18next';
 import { brandPillButtonSx } from '../../../../shared/ui/buttonSx.js';
+import * as tokens from '../../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 /** Changes the signed-in user's password. */
 const PasswordCard = ({ PW_FIELDS, handleCancelPw, handleSavePassword, pwError, pwMode, pwValues, savingPw, setPwError, setPwMode, setPwValues, setShowPw, showPw }) => {
 	const { t } = useTranslation();
 	return (
 		<>
-		<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5 }}>
+		<Paper elevation={0} sx={{ border: `1px solid ${tokens.line.main}`, borderRadius: 2.5, p: 2.5 }}>
 			<SectionHeader
 				icon={LockOutlinedIcon}
 				label={t('accountSettings.security')}
 				action={!pwMode && (
 					<Button size="small" onClick={() => setPwMode(true)}
-						sx={{ borderRadius: 2, textTransform: 'none', fontSize: '0.72rem', color: '#629C44', border: '1px solid rgba(98,156,68,0.3)', py: 0.25, px: 1 }}>
+						sx={{ borderRadius: 2, textTransform: 'none', fontSize: '0.72rem', color: tokens.brand.text, border: `1px solid ${alpha(tokens.brand.main, 0.3)}`, py: 0.25, px: 1 }}>
 						{t('accountSettings.changePassword')}
 					</Button>
 				)}
@@ -26,7 +28,7 @@ const PasswordCard = ({ PW_FIELDS, handleCancelPw, handleSavePassword, pwError, 
 			{pwMode ? (
 				<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
 					{pwError && (
-						<Typography sx={{ fontSize: '0.78rem', color: '#ef4444' }}>{pwError}</Typography>
+						<Typography sx={{ fontSize: '0.78rem', color: tokens.status.error.bright }}>{pwError}</Typography>
 					)}
 					{PW_FIELDS.map(({ field, labelKey, showKey }) => (
 						<TextField
@@ -51,7 +53,7 @@ const PasswordCard = ({ PW_FIELDS, handleCancelPw, handleSavePassword, pwError, 
 					))}
 					<Box sx={{ display: 'flex', gap: 1, justifyContent: 'flex-end' }}>
 						<Button size="small" onClick={handleCancelPw}
-							sx={{ borderRadius: 2, textTransform: 'none', fontSize: '0.82rem', color: '#64748b' }}>
+							sx={{ borderRadius: 2, textTransform: 'none', fontSize: '0.82rem', color: tokens.ink.muted }}>
 							{t('accountSettings.cancel')}
 						</Button>
 						<Button size="small" variant="contained" onClick={handleSavePassword}
@@ -63,7 +65,7 @@ const PasswordCard = ({ PW_FIELDS, handleCancelPw, handleSavePassword, pwError, 
 					</Box>
 				</Box>
 			) : (
-				<Typography sx={{ fontSize: '0.82rem', color: '#94a3b8' }}>
+				<Typography sx={{ fontSize: '0.82rem', color: tokens.ink.subtle }}>
 					{t('accountSettings.passwordHint')}
 				</Typography>
 			)}

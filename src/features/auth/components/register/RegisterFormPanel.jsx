@@ -10,6 +10,8 @@ import { RECRUITMENT_TYPES, ORGANIZATION_SIZES } from '../../../../constants.js'
 import { inputSx } from '../../model/styles.js';
 import { useTranslation } from 'react-i18next';
 import { PROGRESS_STEPS } from '../../model/registration.js';
+import * as tokens from '../../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 /** Registration form: company, account and plan steps. */
 const RegisterFormPanel = ({ accountExists, formError, handleBlur, handleChange, handleSubmit, liveErrors, navigate, progressStep, status, touched, userInfo }) => {
@@ -19,7 +21,7 @@ const RegisterFormPanel = ({ accountExists, formError, handleBlur, handleChange,
 		<Grid2
 			size={{ xs: 12, md: 7 }}
 			sx={{
-				backgroundColor: '#ffffff',
+				backgroundColor: tokens.surface.paper,
 				padding: { xs: '36px 28px', sm: '44px 52px' },
 				display: 'flex',
 				flexDirection: 'column',
@@ -28,11 +30,11 @@ const RegisterFormPanel = ({ accountExists, formError, handleBlur, handleChange,
 		>
 			<Typography
 				variant="h5"
-				sx={{ fontWeight: 700, color: '#0f172a', letterSpacing: '-0.03em', mb: 0.5 }}
+				sx={{ fontWeight: 700, color: tokens.ink.strong, letterSpacing: '-0.03em', mb: 0.5 }}
 			>
 				{t('registration.title')}
 			</Typography>
-			<Typography variant="body2" sx={{ color: '#64748b', mb: 2.5 }}>
+			<Typography variant="body2" sx={{ color: tokens.ink.muted, mb: 2.5 }}>
 				{t('registration.demoSubtext', 'Create your free demo workspace — no credit card, no payment.')}
 			</Typography>
 
@@ -76,7 +78,7 @@ const RegisterFormPanel = ({ accountExists, formError, handleBlur, handleChange,
 								input: {
 									startAdornment: (
 										<InputAdornment position="start">
-											<PersonOutlinedIcon sx={{ fontSize: 18, color: '#94a3b8' }} />
+											<PersonOutlinedIcon sx={{ fontSize: 18, color: tokens.ink.subtle }} />
 										</InputAdornment>
 									),
 								},
@@ -101,7 +103,7 @@ const RegisterFormPanel = ({ accountExists, formError, handleBlur, handleChange,
 								input: {
 									startAdornment: (
 										<InputAdornment position="start">
-											<PersonOutlinedIcon sx={{ fontSize: 18, color: '#94a3b8' }} />
+											<PersonOutlinedIcon sx={{ fontSize: 18, color: tokens.ink.subtle }} />
 										</InputAdornment>
 									),
 								},
@@ -127,7 +129,7 @@ const RegisterFormPanel = ({ accountExists, formError, handleBlur, handleChange,
 								input: {
 									startAdornment: (
 										<InputAdornment position="start">
-											<EmailOutlinedIcon sx={{ fontSize: 18, color: '#94a3b8' }} />
+											<EmailOutlinedIcon sx={{ fontSize: 18, color: tokens.ink.subtle }} />
 										</InputAdornment>
 									),
 								},
@@ -152,7 +154,7 @@ const RegisterFormPanel = ({ accountExists, formError, handleBlur, handleChange,
 								input: {
 									startAdornment: (
 										<InputAdornment position="start">
-											<BusinessOutlinedIcon sx={{ fontSize: 18, color: '#94a3b8' }} />
+											<BusinessOutlinedIcon sx={{ fontSize: 18, color: tokens.ink.subtle }} />
 										</InputAdornment>
 									),
 								},
@@ -178,7 +180,7 @@ const RegisterFormPanel = ({ accountExists, formError, handleBlur, handleChange,
 								input: {
 									startAdornment: (
 										<InputAdornment position="start">
-											<WorkOutlineOutlinedIcon sx={{ fontSize: 18, color: '#94a3b8' }} />
+											<WorkOutlineOutlinedIcon sx={{ fontSize: 18, color: tokens.ink.subtle }} />
 										</InputAdornment>
 									),
 								},
@@ -210,7 +212,7 @@ const RegisterFormPanel = ({ accountExists, formError, handleBlur, handleChange,
 								input: {
 									startAdornment: (
 										<InputAdornment position="start">
-											<GroupsOutlinedIcon sx={{ fontSize: 18, color: '#94a3b8' }} />
+											<GroupsOutlinedIcon sx={{ fontSize: 18, color: tokens.ink.subtle }} />
 										</InputAdornment>
 									),
 								},
@@ -238,18 +240,18 @@ const RegisterFormPanel = ({ accountExists, formError, handleBlur, handleChange,
 						fontSize: '0.9rem',
 						textTransform: 'none',
 						letterSpacing: 0,
-						backgroundColor: '#629C44',
-						boxShadow: '0 2px 8px rgba(98,156,68,0.35)',
+						backgroundColor: tokens.brand.main,
+						boxShadow: `0 2px 8px ${alpha(tokens.brand.main, 0.35)}`,
 						transition: 'background-color 0.2s, box-shadow 0.2s, transform 0.1s',
 						'&:hover': {
-							backgroundColor: '#518136',
-							boxShadow: '0 4px 14px rgba(98,156,68,0.45)',
+							backgroundColor: tokens.brand.hoverAlt,
+							boxShadow: `0 4px 14px ${alpha(tokens.brand.main, 0.45)}`,
 							transform: 'translateY(-1px)',
 						},
 						'&:active': { transform: 'translateY(0)' },
 						'&.Mui-disabled': status === 'success'
-							? { backgroundColor: '#dcfce7', color: '#166534', boxShadow: 'none' }
-							: { backgroundColor: '#b8d4a8', color: 'rgba(255,255,255,0.9)', boxShadow: 'none' },
+							? { backgroundColor: tokens.status.success.tint, color: tokens.status.success.text, boxShadow: 'none' }
+							: { backgroundColor: tokens.brand.soft, color: 'rgba(255,255,255,0.9)', boxShadow: 'none' },
 					}}
 				>
 					{status === 'loading' && (
@@ -260,7 +262,7 @@ const RegisterFormPanel = ({ accountExists, formError, handleBlur, handleChange,
 					)}
 					{status === 'success' && (
 						<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
-							<CheckCircleRoundedIcon sx={{ fontSize: 19, color: '#16a34a' }} />
+							<CheckCircleRoundedIcon sx={{ fontSize: 19, color: tokens.status.success.main }} />
 							{t('registration.progress.done', 'Account created!')}
 						</Box>
 					)}
@@ -268,17 +270,17 @@ const RegisterFormPanel = ({ accountExists, formError, handleBlur, handleChange,
 				</Button>
 			</Box>
 
-			<Divider sx={{ my: 2.5, borderColor: '#e2e8f0' }} />
+			<Divider sx={{ my: 2.5, borderColor: tokens.line.main }} />
 
 			<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-				<Typography sx={{ color: '#64748b', fontSize: '0.82rem' }}>
+				<Typography sx={{ color: tokens.ink.muted, fontSize: '0.82rem' }}>
 					{t('registration.alreadyHaveAccount')}
 					{' '}
 					<Typography
 						component="span"
 						onClick={() => navigate('/login')}
 						sx={{
-							color: '#629C44',
+							color: tokens.brand.text,
 							fontSize: '0.82rem',
 							fontWeight: 600,
 							cursor: 'pointer',

@@ -3,12 +3,13 @@ import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import PropTypes from 'prop-types';
+import * as tokens from '../../../theme/tokens.js';
 
 const FollowUpChips = ({ suggestions, onSelect }) => {
     if (!suggestions?.length) return null;
     return (
         <Box sx={{ mt: 1.5 }}>
-            <Typography sx={{ fontSize: '0.68rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.75 }}>
+            <Typography sx={{ fontSize: '0.68rem', color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.75 }}>
                 Follow-up suggestions
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75 }}>
@@ -24,10 +25,10 @@ const FollowUpChips = ({ suggestions, onSelect }) => {
                             height: 26,
                             backgroundColor: 'rgba(99,102,241,0.06)',
                             border: '1px solid rgba(99,102,241,0.2)',
-                            color: '#4f46e5',
+                            color: tokens.status.accent.main,
                             cursor: 'pointer',
                             '&:hover': { backgroundColor: 'rgba(99,102,241,0.12)' },
-                            '& .MuiChip-icon': { color: '#4f46e5' },
+                            '& .MuiChip-icon': { color: tokens.status.accent.main },
                         }}
                     />
                 ))}

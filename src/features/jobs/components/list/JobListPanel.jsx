@@ -4,6 +4,8 @@ import { Box, TextField, List, ListItemButton, Typography, Chip, Avatar, Circula
 import SearchIcon from '@mui/icons-material/Search';
 import { THEME_GREEN } from '../../model/jobForm.js';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 /** Searchable, paginated list of job posts. */
 const JobListPanel = ({ createMode, currentPage, editMode, fetchJobs, handleJobClick, handlePageChange, jobs, jobsLoading, search, searchDebounceRef, selectedJob, setCurrentPage, setSearch, totalElements, totalPages }) => {
@@ -12,8 +14,8 @@ const JobListPanel = ({ createMode, currentPage, editMode, fetchJobs, handleJobC
 		<>
 		<Box sx={{
 			width: { xs: 180, sm: 220, md: 300 }, flexShrink: 0,
-			borderRight: '1px solid #e2e8f0',
-			display: 'flex', flexDirection: 'column', overflow: 'hidden', backgroundColor: '#ffffff',
+			borderRight: `1px solid ${tokens.line.main}`,
+			display: 'flex', flexDirection: 'column', overflow: 'hidden', backgroundColor: tokens.surface.paper,
 		}}>
 			<Box sx={{ px: 1.5, pt: 1.5, pb: 1, flexShrink: 0 }}>
 				<TextField size="small" fullWidth placeholder={t('jobContent.jobListTitle')}
@@ -26,15 +28,15 @@ const JobListPanel = ({ createMode, currentPage, editMode, fetchJobs, handleJobC
 						searchDebounceRef.current = setTimeout(() => fetchJobs(val, 0), 300);
 					}}
 					InputProps={{
-						startAdornment: <InputAdornment position="start"><SearchIcon sx={{ fontSize: 16, color: '#94a3b8' }} /></InputAdornment>,
-						endAdornment: jobsLoading ? <InputAdornment position="end"><CircularProgress size={12} sx={{ color: '#94a3b8' }} /></InputAdornment> : null,
+						startAdornment: <InputAdornment position="start"><SearchIcon sx={{ fontSize: 16, color: tokens.ink.subtle }} /></InputAdornment>,
+						endAdornment: jobsLoading ? <InputAdornment position="end"><CircularProgress size={12} sx={{ color: tokens.ink.subtle }} /></InputAdornment> : null,
 						sx: { fontSize: '0.82rem', borderRadius: 1.5 },
 					}}
 				/>
 			</Box>
 			{jobs.length === 0 && !jobsLoading ? (
 				<Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-					<Typography sx={{ fontSize: '0.84rem', color: '#94a3b8' }}>{t('jobContent.noJobPosts')}</Typography>
+					<Typography sx={{ fontSize: '0.84rem', color: tokens.ink.subtle }}>{t('jobContent.noJobPosts')}</Typography>
 				</Box>
 			) : (
 				<List disablePadding sx={{ flex: 1, overflowY: 'auto', px: 1 }}>
@@ -45,21 +47,21 @@ const JobListPanel = ({ createMode, currentPage, editMode, fetchJobs, handleJobC
 							<ListItemButton key={job.id} onClick={() => handleJobClick(job)} sx={{
 								borderRadius: 1.5, mb: 0.5, px: 1.5, py: 1,
 								borderLeft: active ? `3px solid ${THEME_GREEN}` : '3px solid transparent',
-								backgroundColor: active ? 'rgba(98,156,68,0.07)' : 'transparent',
-								'&:hover': { backgroundColor: active ? 'rgba(98,156,68,0.10)' : '#f8fafc' },
+								backgroundColor: active ? alpha(tokens.brand.main, 0.07) : 'transparent',
+								'&:hover': { backgroundColor: active ? alpha(tokens.brand.main, 0.10) : `${tokens.surface.subtle}` },
 							}}>
-								<Avatar sx={{ width: 32, height: 32, fontSize: '0.68rem', fontWeight: 700, backgroundColor: active ? THEME_GREEN : '#e2e8f0', color: active ? '#ffffff' : '#64748b', mr: 1.5, flexShrink: 0 }}>
+								<Avatar sx={{ width: 32, height: 32, fontSize: '0.68rem', fontWeight: 700, backgroundColor: active ? THEME_GREEN : `${tokens.line.main}`, color: active ? `${tokens.surface.paper}` : `${tokens.ink.muted}`, mr: 1.5, flexShrink: 0 }}>
 									{getInitials(job.title)}
 								</Avatar>
 								<Box sx={{ flex: 1, minWidth: 0 }}>
-									<Typography sx={{ fontSize: '0.84rem', fontWeight: active ? 600 : 500, color: '#0f172a', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+									<Typography sx={{ fontSize: '0.84rem', fontWeight: active ? 600 : 500, color: tokens.ink.strong, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
 										{job.title}
 									</Typography>
 									<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 0.25, flexWrap: 'wrap' }}>
 										<Chip label={isOpen ? 'Open' : 'Closed'} size="small" sx={{
 											height: 18, fontSize: '0.68rem', fontWeight: 600, borderRadius: 0.75,
-											backgroundColor: isOpen ? 'rgba(98,156,68,0.12)' : 'rgba(239,68,68,0.10)',
-											color: isOpen ? '#3a6827' : '#dc2626',
+											backgroundColor: isOpen ? alpha(tokens.brand.main, 0.12) : 'rgba(239,68,68,0.10)',
+											color: isOpen ? `${tokens.brand.dark}` : `${tokens.status.error.main}`,
 										}} />
 									</Box>
 								</Box>
@@ -72,9 +74,9 @@ const JobListPanel = ({ createMode, currentPage, editMode, fetchJobs, handleJobC
 			{/* Pagination footer */}
 			<Box sx={{
 				display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.25,
-				px: 1, py: 0.75, borderTop: '1px solid #f1f5f9', flexShrink: 0, backgroundColor: '#fafafa',
+				px: 1, py: 0.75, borderTop: `1px solid ${tokens.surface.muted}`, flexShrink: 0, backgroundColor: tokens.surface.dim,
 			}}>
-				<Typography sx={{ fontSize: '0.68rem', color: '#94a3b8' }}>
+				<Typography sx={{ fontSize: '0.68rem', color: tokens.ink.subtle }}>
 					{totalElements} {t('jobContent.jobs', 'jobs')}
 				</Typography>
 				{totalPages > 1 && (

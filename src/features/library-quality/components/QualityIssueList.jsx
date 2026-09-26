@@ -23,6 +23,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { getQualityIssues, performQualityAction, notifyQualityChanged } from '../api/libraryQualityService.js';
 import { getCVById, updateCV } from '../../cv/api/cvService.js';
+import * as tokens from '../../../theme/tokens.js';
 
 const PAGE_SIZE = 10;
 const CONFIRM_CURRENT_CAP = 50;
@@ -37,8 +38,8 @@ const EDITABLE_FIELDS = {
 // Freshness issues support selection-based verification.
 const SELECTABLE_ISSUES = new Set(['OUTDATED', 'UNKNOWN_FRESHNESS']);
 
-const cellSx = { fontSize: '0.76rem', color: '#334155', py: 0.9 };
-const headSx = { fontSize: '0.68rem', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', py: 1 };
+const cellSx = { fontSize: '0.76rem', color: tokens.ink.body, py: 0.9 };
+const headSx = { fontSize: '0.68rem', fontWeight: 700, color: tokens.ink.muted, textTransform: 'uppercase', letterSpacing: '0.05em', py: 1 };
 
 const formatDate = (value) => (value ? new Date(value).toLocaleDateString() : '—');
 
@@ -132,7 +133,7 @@ const QualityIssueList = ({ issueKey, onChanged }) => {
 	const content = page?.content ?? [];
 	if (content.length === 0) {
 		return (
-			<Typography sx={{ fontSize: '0.76rem', color: '#94a3b8', py: 1.5, textAlign: 'center' }}>
+			<Typography sx={{ fontSize: '0.76rem', color: tokens.ink.subtle, py: 1.5, textAlign: 'center' }}>
 				{t('libraryQuality.drilldown.empty', 'No resumes found for this issue.')}
 			</Typography>
 		);
@@ -154,7 +155,7 @@ const QualityIssueList = ({ issueKey, onChanged }) => {
 						onKeyDown={(e) => { if (e.key === 'Enter') handleSaveEdit(); if (e.key === 'Escape') setEditing(null); }}
 						sx={{ '& .MuiInputBase-input': { fontSize: '0.76rem', py: 0.4, px: 0.75 } }}
 					/>
-					<IconButton size="small" disabled={saving} onClick={handleSaveEdit} sx={{ color: '#629C44' }}>
+					<IconButton size="small" disabled={saving} onClick={handleSaveEdit} sx={{ color: tokens.brand.text }}>
 						{saving ? <CircularProgress size={14} /> : <CheckRoundedIcon sx={{ fontSize: 16 }} />}
 					</IconButton>
 				</Box>
@@ -166,7 +167,7 @@ const QualityIssueList = ({ issueKey, onChanged }) => {
 					size="small"
 					startIcon={<EditOutlinedIcon sx={{ fontSize: 13 }} />}
 					onClick={() => setEditing({ cvId: cv.id, field, value: '' })}
-					sx={{ textTransform: 'none', fontSize: '0.7rem', fontWeight: 600, color: '#629C44', px: 0.75, minWidth: 0 }}
+					sx={{ textTransform: 'none', fontSize: '0.7rem', fontWeight: 600, color: tokens.brand.text, px: 0.75, minWidth: 0 }}
 				>
 					{t('libraryQuality.drilldown.add', 'Add')}
 				</Button>
@@ -179,14 +180,14 @@ const QualityIssueList = ({ issueKey, onChanged }) => {
 		<Box>
 			{selectable && (
 				<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 1, mb: 0.5 }}>
-					<Typography sx={{ fontSize: '0.68rem', color: '#94a3b8' }}>
+					<Typography sx={{ fontSize: '0.68rem', color: tokens.ink.subtle }}>
 						{t('libraryQuality.drilldown.confirmHint', 'Select resumes you verified as still accurate (max {{max}})', { max: CONFIRM_CURRENT_CAP })}
 					</Typography>
 					<Button
 						size="small"
 						disabled={selected.size === 0}
 						onClick={handleConfirmCurrent}
-						sx={{ textTransform: 'none', fontSize: '0.72rem', fontWeight: 600, color: '#629C44' }}
+						sx={{ textTransform: 'none', fontSize: '0.72rem', fontWeight: 600, color: tokens.brand.text }}
 					>
 						{t('libraryQuality.drilldown.confirmCurrent', 'Confirm current ({{count}})', { count: selected.size })}
 					</Button>
@@ -214,7 +215,7 @@ const QualityIssueList = ({ issueKey, onChanged }) => {
 											size="small"
 											checked={selected.has(cv.id)}
 											onChange={() => toggleSelected(cv.id)}
-											sx={{ p: 0.25, '&.Mui-checked': { color: '#629C44' } }}
+											sx={{ p: 0.25, '&.Mui-checked': { color: tokens.brand.text } }}
 										/>
 									</TableCell>
 								)}
@@ -232,7 +233,7 @@ const QualityIssueList = ({ issueKey, onChanged }) => {
 
 			{(page?.totalPages ?? 0) > 1 && (
 				<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 1, mt: 0.5 }}>
-					<Typography sx={{ fontSize: '0.68rem', color: '#94a3b8' }}>
+					<Typography sx={{ fontSize: '0.68rem', color: tokens.ink.subtle }}>
 						{pageNumber + 1} / {page.totalPages}
 					</Typography>
 					<IconButton size="small" disabled={pageNumber === 0} onClick={() => setPageNumber(p => p - 1)}>

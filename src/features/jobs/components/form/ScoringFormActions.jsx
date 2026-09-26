@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { Box, Button, CircularProgress } from '@mui/material';
 import { THEME_GREEN, THEME_GREEN_DARK } from '../../model/jobForm.js';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../../theme/tokens.js';
 
 /** Back, skip and save buttons pinned under the scoring form. */
 const ScoringFormActions = ({ loading, onBack, onSave, onSkip, saveLabel }) => {
@@ -14,16 +15,16 @@ const ScoringFormActions = ({ loading, onBack, onSave, onSkip, saveLabel }) => {
 			gap: 1,
 			px: { xs: 2, sm: 3 },
 			py: 2,
-			borderTop: '1px solid #e2e8f0',
-			backgroundColor: '#ffffff',
+			borderTop: `1px solid ${tokens.line.main}`,
+			backgroundColor: tokens.surface.paper,
 		}}>
 			<Button onClick={onBack} disabled={loading}
-				sx={{ textTransform: 'none', color: '#64748b', borderRadius: 1.5, fontSize: '0.84rem' }}>
+				sx={{ textTransform: 'none', color: tokens.ink.muted, borderRadius: 1.5, fontSize: '0.84rem' }}>
 				{t('jobContent.back')}
 			</Button>
 			<Box sx={{ flex: 1 }} />
 			<Button onClick={onSkip} disabled={loading}
-				sx={{ textTransform: 'none', color: '#94a3b8', borderRadius: 1.5, fontSize: '0.84rem' }}>
+				sx={{ textTransform: 'none', color: tokens.ink.subtle, borderRadius: 1.5, fontSize: '0.84rem' }}>
 				{t('jobContent.skipScoringRules')}
 			</Button>
 			<Button variant="contained" onClick={onSave} disabled={loading}

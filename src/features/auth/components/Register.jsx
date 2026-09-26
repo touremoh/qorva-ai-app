@@ -11,6 +11,7 @@ import RegisterBrandPanel from './register/RegisterBrandPanel.jsx';
 import RegisterFormPanel from './register/RegisterFormPanel.jsx';
 import RegisterTopBar from './register/RegisterTopBar.jsx';
 import { PROGRESS_STEPS } from '../model/registration.js';
+import * as tokens from '../../../theme/tokens.js';
 
 const UserRegistration = () => {
 	const { t } = useTranslation();
@@ -123,7 +124,7 @@ const UserRegistration = () => {
 				height: '100vh',
 				overflowY: 'auto',
 				overflowX: 'hidden',
-				background: 'linear-gradient(135deg, #f0f4f8 0%, #e8edf2 100%)',
+				background: `linear-gradient(135deg, ${tokens.surface.cool} 0%, ${tokens.surface.coolDeep} 100%)`,
 				display: 'flex',
 				flexDirection: 'column',
 				alignItems: 'center',

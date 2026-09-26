@@ -3,6 +3,7 @@ import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogT
 import { useTranslation } from 'react-i18next';
 import GuideSteps from './GuideSteps.jsx';
 import { BTN_GREEN_SX, PROVIDERS, SECRET_FIELDS, stepList } from '../../model/integrations.js';
+import * as tokens from '../../../../theme/tokens.js';
 
 /** Credentials form for providers connected with a customer-generated key rather than OAuth. */
 const ConnectDialog = ({ provider, form, onFieldChange, connecting, onCancel, onConnect }) => {
@@ -40,7 +41,7 @@ const ConnectDialog = ({ provider, form, onFieldChange, connecting, onCancel, on
 			</DialogContent>
 			<DialogActions sx={{ px: 3, pb: 2 }}>
 				<Button size="small" disabled={connecting} onClick={onCancel}
-					sx={{ textTransform: 'none', color: '#64748b' }}>
+					sx={{ textTransform: 'none', color: tokens.ink.muted }}>
 					{t('accountSettings.cancel')}
 				</Button>
 				<Button size="small" variant="contained" onClick={onConnect}

@@ -1,10 +1,11 @@
+import * as tokens from '../../../theme/tokens.js';
 
 // Sent for the "Not analysed" bucket; the backend maps it to a null match (CVSpecifications.fieldIn).
 export const UNSET = '_unset';
 
 export const DRAWER_WIDTH = 280;
 
-export const GREEN = '#629C44';
+export const GREEN = tokens.brand.main;
 
 export const SORT_OPTIONS = [
 	{ value: 'lastUpdatedAt,desc', key: 'lastUpdated' },
@@ -21,7 +22,7 @@ export const VALUE_GROUPS = ['industries', 'locations', 'skills', 'tags'];
 export const labelSx = {
 	fontSize: '0.68rem',
 	fontWeight: 700,
-	color: '#64748b',
+	color: tokens.ink.muted,
 	textTransform: 'uppercase',
 	letterSpacing: '0.05em',
 	display: 'flex',
@@ -33,6 +34,6 @@ export const labelSx = {
 export const inputSx = {
 	fontSize: '0.78rem',
 	borderRadius: 1,
-	backgroundColor: '#ffffff',
+	backgroundColor: tokens.surface.paper,
 	'& input': { py: '5px', px: '8px', fontSize: '0.78rem' },
 };

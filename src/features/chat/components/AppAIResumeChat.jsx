@@ -24,6 +24,7 @@ import ChatListMenu from './ChatListMenu.jsx';
 import ChatListPanel from './ChatListPanel.jsx';
 import useCreateChat from '../hooks/useCreateChat.js';
 import ChatToolbar from './ChatToolbar.jsx';
+import * as tokens from '../../../theme/tokens.js';
 
 const AppAIResumeChat = () => {
 	const { t } = useTranslation();
@@ -260,7 +261,7 @@ const AppAIResumeChat = () => {
 	}, [messages.length, assistantTyping]);
 
 	return (
-		<Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', overflow: 'hidden', backgroundColor: '#f8fafc' }}>
+		<Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', overflow: 'hidden', backgroundColor: tokens.surface.subtle }}>
 
 			{/* Toolbar */}
 			<ChatToolbar
@@ -347,7 +348,7 @@ const AppAIResumeChat = () => {
 					</Box>
 
 					{selectedChat && contextOpen && isMdUp && (
-						<Box sx={{ flex: '0 0 50%', minWidth: 0, borderLeft: '1px solid #e2e8f0', overflow: 'hidden' }}>
+						<Box sx={{ flex: '0 0 50%', minWidth: 0, borderLeft: `1px solid ${tokens.line.main}`, overflow: 'hidden' }}>
 							<ChatContextPanel
 								chat={selectedChat}
 								report={linkedReport}

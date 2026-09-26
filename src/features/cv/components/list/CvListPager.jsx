@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { Box, Typography, MenuItem, Select, Pagination } from '@mui/material';
 import { PAGE_SIZES } from '../../model/entries.js';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../../theme/tokens.js';
 
 /** Result count, page size and page navigation for the resume list. */
 const CvListPager = ({ currentPage, handlePageChange, handlePageSizeChange, pageSize, totalElements, totalPages }) => {
@@ -11,11 +12,11 @@ const CvListPager = ({ currentPage, handlePageChange, handlePageSizeChange, page
 		<Box sx={{
 			display: 'flex', alignItems: 'center', justifyContent: 'space-between',
 			px: 1.5, py: 0.75,
-			borderTop: '1px solid #f1f5f9',
+			borderTop: `1px solid ${tokens.surface.muted}`,
 			flexShrink: 0, gap: 1, flexWrap: 'wrap',
-			backgroundColor: '#fafafa',
+			backgroundColor: tokens.surface.dim,
 		}}>
-			<Typography sx={{ fontSize: '0.72rem', color: '#94a3b8', flexShrink: 0 }}>
+			<Typography sx={{ fontSize: '0.72rem', color: tokens.ink.subtle, flexShrink: 0 }}>
 				{totalPages > 1
 					? t('appCVContent.pageOf', { page: currentPage, total: totalPages })
 					: t('appCVContent.resumeCount', { count: totalElements })}
@@ -29,7 +30,7 @@ const CvListPager = ({ currentPage, handlePageChange, handlePageSizeChange, page
 					sx={{
 						fontSize: '0.72rem', height: 24, minWidth: 52,
 						'& .MuiSelect-select': { py: '2px', px: '8px' },
-						'& .MuiOutlinedInput-notchedOutline': { borderColor: '#e2e8f0' },
+						'& .MuiOutlinedInput-notchedOutline': { borderColor: tokens.line.main },
 					}}
 				>
 					{PAGE_SIZES.map(n => (

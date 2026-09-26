@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { Box, Paper, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../theme/tokens.js';
 
 /** Overall library health score with a one-line verdict. */
 const HealthBanner = ({ overall, overallColors, report, verdict }) => {
@@ -8,7 +9,7 @@ const HealthBanner = ({ overall, overallColors, report, verdict }) => {
 	return (
 		<>
 		<Paper elevation={0} sx={{
-			border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5,
+			border: `1px solid ${tokens.line.main}`, borderRadius: 2.5, p: 2.5,
 			display: 'flex', alignItems: 'center', gap: 2.5, flexWrap: 'wrap',
 		}}>
 			<Box sx={{
@@ -22,13 +23,13 @@ const HealthBanner = ({ overall, overallColors, report, verdict }) => {
 				</Typography>
 			</Box>
 			<Box sx={{ minWidth: 0 }}>
-				<Typography sx={{ fontSize: '0.68rem', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.07em' }}>
+				<Typography sx={{ fontSize: '0.68rem', fontWeight: 700, color: tokens.ink.muted, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
 					{t('libraryQuality.overall', 'Library Health')}
 				</Typography>
-				<Typography sx={{ fontSize: '1.05rem', fontWeight: 700, color: '#0f172a', mt: 0.25 }}>
+				<Typography sx={{ fontSize: '1.05rem', fontWeight: 700, color: tokens.ink.strong, mt: 0.25 }}>
 					{verdict}
 				</Typography>
-				<Typography sx={{ fontSize: '0.72rem', color: '#94a3b8', mt: 0.25 }}>
+				<Typography sx={{ fontSize: '0.72rem', color: tokens.ink.subtle, mt: 0.25 }}>
 					{t('libraryQuality.totalCVs', '{{count}} resumes analyzed', { count: report.totalCVs })}
 				</Typography>
 			</Box>

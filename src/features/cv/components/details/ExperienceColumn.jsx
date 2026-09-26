@@ -5,6 +5,7 @@ import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
 import SchoolIcon from '@mui/icons-material/School';
 import Card from './Card.jsx';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../../theme/tokens.js';
 
 /** Left column: work experience and education. */
 const ExperienceColumn = ({ education, workExperience }) => {
@@ -17,17 +18,17 @@ const ExperienceColumn = ({ education, workExperience }) => {
 					<SectionHeader tone="document" icon={WorkOutlineOutlinedIcon} label={t('appCVContent.workExperience')} />
 					<Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
 						{workExperience.map((work, i) => (
-							<Box key={i} sx={i > 0 ? { pt: 2.5, borderTop: '1px solid #f1f5f9' } : {}}>
+							<Box key={i} sx={i > 0 ? { pt: 2.5, borderTop: `1px solid ${tokens.surface.muted}` } : {}}>
 								<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 0.5 }}>
 									<Box>
-										<Typography sx={{ fontWeight: 700, fontSize: '0.88rem', color: '#0f172a' }}>
+										<Typography sx={{ fontWeight: 700, fontSize: '0.88rem', color: tokens.ink.strong }}>
 											{work.position}
 										</Typography>
-										<Typography sx={{ fontSize: '0.82rem', color: '#629C44', fontWeight: 600 }}>
+										<Typography sx={{ fontSize: '0.82rem', color: tokens.brand.text, fontWeight: 600 }}>
 											{work.company}
 										</Typography>
 										{work.location && (
-											<Typography sx={{ fontSize: '0.78rem', color: '#94a3b8' }}>
+											<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.subtle }}>
 												{work.location}
 											</Typography>
 										)}
@@ -35,21 +36,21 @@ const ExperienceColumn = ({ education, workExperience }) => {
 									<Chip
 										label={`${work.from} – ${work.to}`}
 										size="small"
-										sx={{ fontSize: '0.72rem', backgroundColor: '#f1f5f9', color: '#64748b', height: 22, borderRadius: 0.75 }}
+										sx={{ fontSize: '0.72rem', backgroundColor: tokens.surface.muted, color: tokens.ink.muted, height: 22, borderRadius: 0.75 }}
 									/>
 								</Box>
 								{work.activities?.length > 0 && (
-									<Box sx={{ mt: 1.25, pl: 2, borderLeft: '2px solid #e2e8f0' }}>
+									<Box sx={{ mt: 1.25, pl: 2, borderLeft: `2px solid ${tokens.line.main}` }}>
 										{work.activities.map((act, j) => (
 											<Box key={j} sx={{ mb: 1.25 }}>
 												{act.project && (
-													<Typography sx={{ fontSize: '0.80rem', fontWeight: 600, color: '#334155', mb: 0.5 }}>
+													<Typography sx={{ fontSize: '0.80rem', fontWeight: 600, color: tokens.ink.body, mb: 0.5 }}>
 														{act.project}
 													</Typography>
 												)}
 												<Box component="ul" sx={{ m: 0, pl: 2, listStyleType: 'disc' }}>
 													{act.tasks?.map((task, k) => (
-														<Box component="li" key={k} sx={{ fontSize: '0.78rem', color: '#64748b', lineHeight: 1.7, mb: 0.25 }}>
+														<Box component="li" key={k} sx={{ fontSize: '0.78rem', color: tokens.ink.muted, lineHeight: 1.7, mb: 0.25 }}>
 															{task}
 														</Box>
 													))}
@@ -69,17 +70,17 @@ const ExperienceColumn = ({ education, workExperience }) => {
 					<SectionHeader tone="document" icon={SchoolIcon} label={t('appCVContent.education')} />
 					<Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
 						{education.map((edu, i) => (
-							<Box key={i} sx={i > 0 ? { pt: 2, borderTop: '1px solid #f1f5f9' } : {}}>
+							<Box key={i} sx={i > 0 ? { pt: 2, borderTop: `1px solid ${tokens.surface.muted}` } : {}}>
 								<Box sx={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 0.5, alignItems: 'flex-start' }}>
 									<Box sx={{ textAlign: 'left' }}>
-										<Typography sx={{ fontWeight: 700, fontSize: '0.88rem', color: '#0f172a' }}>
+										<Typography sx={{ fontWeight: 700, fontSize: '0.88rem', color: tokens.ink.strong }}>
 											{edu.degree}
 										</Typography>
-										<Typography sx={{ fontSize: '0.82rem', color: '#629C44', fontWeight: 600 }}>
+										<Typography sx={{ fontSize: '0.82rem', color: tokens.brand.text, fontWeight: 600 }}>
 											{edu.institution}
 										</Typography>
 										{edu.fieldOfStudy && (
-											<Typography sx={{ fontSize: '0.78rem', color: '#64748b' }}>
+											<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.muted }}>
 												{edu.fieldOfStudy}
 											</Typography>
 										)}
@@ -88,14 +89,14 @@ const ExperienceColumn = ({ education, workExperience }) => {
 										<Chip
 											label={edu.year}
 											size="small"
-											sx={{ fontSize: '0.72rem', backgroundColor: '#f1f5f9', color: '#64748b', height: 22, borderRadius: 0.75 }}
+											sx={{ fontSize: '0.72rem', backgroundColor: tokens.surface.muted, color: tokens.ink.muted, height: 22, borderRadius: 0.75 }}
 										/>
 									)}
 								</Box>
 								{edu.achievements?.length > 0 && (
 									<Box component="ul" sx={{ m: 0, mt: 0.75, pl: 2, listStyleType: 'disc' }}>
 										{edu.achievements.map((a, k) => (
-											<Box component="li" key={k} sx={{ fontSize: '0.78rem', color: '#64748b', lineHeight: 1.7, mb: 0.25 }}>
+											<Box component="li" key={k} sx={{ fontSize: '0.78rem', color: tokens.ink.muted, lineHeight: 1.7, mb: 0.25 }}>
 												{a}
 											</Box>
 										))}

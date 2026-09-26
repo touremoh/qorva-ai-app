@@ -12,6 +12,7 @@ import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
 import { HANDOFF } from '../../../utils/mailLinks.js';
 import { THEME_GREEN, LANGUAGES, INTENTS, TONES, SUBJECT_MAX, BODY_MAX, primaryButtonSx, neutralButtonSx, inputSx } from '../model/outreach.js';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../theme/tokens.js';
 
 /** The message form: intent, language, tone, draft, subject and body, and the send options. */
 const OutreachForm = ({ composer }) => {
@@ -23,7 +24,7 @@ const OutreachForm = ({ composer }) => {
 		<>
 		<Box sx={{ px: 2, pt: 1.5, pb: 2, display: 'flex', flexDirection: 'column', gap: 1.25 }}>
 			{contextLoading && (
-				<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: '#94a3b8' }}>
+				<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: tokens.ink.subtle }}>
 					<CircularProgress size={14} sx={{ color: THEME_GREEN }} />
 					<Typography sx={{ fontSize: '0.78rem' }}>{t('candidateOutreach.loading')}</Typography>
 				</Box>
@@ -48,10 +49,10 @@ const OutreachForm = ({ composer }) => {
 			)}
 
 			{/* AI draft bar */}
-			<Box sx={{ border: '1px dashed #cbd5e1', borderRadius: 2, p: 1.25, backgroundColor: '#fbfdf9' }}>
+			<Box sx={{ border: `1px dashed ${tokens.line.strong}`, borderRadius: 2, p: 1.25, backgroundColor: tokens.surface.greenTint }}>
 				<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, mb: 1 }}>
 					<AutoAwesomeIcon sx={{ fontSize: 15, color: THEME_GREEN }} />
-					<Typography sx={{ fontSize: '0.78rem', fontWeight: 600, color: '#334155' }}>{t('candidateOutreach.ai.title')}</Typography>
+					<Typography sx={{ fontSize: '0.78rem', fontWeight: 600, color: tokens.ink.body }}>{t('candidateOutreach.ai.title')}</Typography>
 				</Box>
 				<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mb: 1 }}>
 					{INTENTS.map(key => (
@@ -63,10 +64,10 @@ const OutreachForm = ({ composer }) => {
 							disabled={suppressed}
 							sx={{
 								fontSize: '0.72rem', height: 26, borderRadius: 1.5, cursor: 'pointer',
-								backgroundColor: intent === key ? THEME_GREEN : '#fff',
-								color: intent === key ? '#fff' : '#334155',
-								border: `1px solid ${intent === key ? THEME_GREEN : '#e2e8f0'}`,
-								'&:hover': { backgroundColor: intent === key ? '#528035' : '#f1f5f9' },
+								backgroundColor: intent === key ? THEME_GREEN : `${tokens.surface.paper}`,
+								color: intent === key ? `${tokens.surface.paper}` : `${tokens.ink.body}`,
+								border: `1px solid ${intent === key ? THEME_GREEN : `${tokens.line.main}`}`,
+								'&:hover': { backgroundColor: intent === key ? `${tokens.brand.hover}` : `${tokens.surface.muted}` },
 							}}
 						/>
 					))}
@@ -96,7 +97,7 @@ const OutreachForm = ({ composer }) => {
 					)}
 					<Button
 						size="small" variant="contained" onClick={() => runDraft()} disabled={drafting || suppressed || !context}
-						startIcon={drafting ? <CircularProgress size={12} sx={{ color: '#fff' }} /> : <AutoAwesomeIcon sx={{ fontSize: 14 }} />}
+						startIcon={drafting ? <CircularProgress size={12} sx={{ color: tokens.ink.inverse }} /> : <AutoAwesomeIcon sx={{ fontSize: 14 }} />}
 						sx={primaryButtonSx}
 					>
 						{body.trim() ? t('candidateOutreach.ai.regenerate') : t('candidateOutreach.ai.generate')}
@@ -144,7 +145,7 @@ const OutreachForm = ({ composer }) => {
 						<span>
 							<Button
 								variant="contained" onClick={handleSend} disabled={!readyToSend || sending}
-								startIcon={sending ? <CircularProgress size={12} sx={{ color: '#fff' }} /> : <SendIcon sx={{ fontSize: 14 }} />}
+								startIcon={sending ? <CircularProgress size={12} sx={{ color: tokens.ink.inverse }} /> : <SendIcon sx={{ fontSize: 14 }} />}
 								sx={primaryButtonSx}
 							>
 								{t('candidateOutreach.send')}
@@ -181,14 +182,14 @@ const OutreachForm = ({ composer }) => {
 						size="small" onClick={() => setHistoryOpen(o => !o)}
 						startIcon={<HistoryOutlinedIcon sx={{ fontSize: 15 }} />}
 						endIcon={historyOpen ? <ExpandLessIcon sx={{ fontSize: 15 }} /> : <ExpandMoreIcon sx={{ fontSize: 15 }} />}
-						sx={{ textTransform: 'none', fontSize: '0.75rem', color: '#64748b' }}
+						sx={{ textTransform: 'none', fontSize: '0.75rem', color: tokens.ink.muted }}
 					>
 						{t('candidateOutreach.history.title', { count: context.history.length })}
 					</Button>
 				)}
 			</Box>
 			{!canSendFromQorva && mailbox === 'NONE' && (
-				<Typography sx={{ fontSize: '0.72rem', color: '#94a3b8' }}>
+				<Typography sx={{ fontSize: '0.72rem', color: tokens.ink.subtle }}>
 					{t('candidateOutreach.connectHint')}{' '}
 					<Link component="button" type="button" onClick={goToSettings} sx={{ fontSize: '0.72rem', fontWeight: 600, color: THEME_GREEN }}>
 						{t('candidateOutreach.connectLink')}
@@ -200,18 +201,18 @@ const OutreachForm = ({ composer }) => {
 			<Collapse in={historyOpen}>
 				<Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.75, pt: 0.5 }}>
 					{(context?.history ?? []).map(row => (
-						<Box key={row.id} sx={{ border: '1px solid #e2e8f0', borderRadius: 1.5, px: 1.25, py: 0.75, backgroundColor: '#f8fafc' }}>
+						<Box key={row.id} sx={{ border: `1px solid ${tokens.line.main}`, borderRadius: 1.5, px: 1.25, py: 0.75, backgroundColor: tokens.surface.subtle }}>
 							<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
 								<Chip
 									size="small"
 									label={t(`candidateOutreach.history.status.${row.status}`, { via: t(`candidateOutreach.history.via.${row.via}`) })}
 									sx={{
 										height: 20, fontSize: '0.68rem', fontWeight: 600, borderRadius: 1,
-										backgroundColor: row.status === 'SENT' ? '#ecfdf3' : row.status === 'FAILED' ? '#fef2f2' : '#f1f5f9',
-										color: row.status === 'SENT' ? '#15803d' : row.status === 'FAILED' ? '#b91c1c' : '#475569',
+										backgroundColor: row.status === 'SENT' ? `${tokens.status.success.paleAlt}` : row.status === 'FAILED' ? `${tokens.status.error.pale}` : `${tokens.surface.muted}`,
+										color: row.status === 'SENT' ? `${tokens.status.success.strong}` : row.status === 'FAILED' ? `${tokens.status.error.dark}` : `${tokens.ink.soft}`,
 									}}
 								/>
-								<Typography sx={{ fontSize: '0.72rem', color: '#64748b', flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+								<Typography sx={{ fontSize: '0.72rem', color: tokens.ink.muted, flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
 									{row.senderName || row.senderEmail} · {dayjs(row.createdAt).locale(locale).fromNow()}
 								</Typography>
 								{row.providerWebLink && (
@@ -221,7 +222,7 @@ const OutreachForm = ({ composer }) => {
 								)}
 							</Box>
 							{row.subject && (
-								<Typography sx={{ fontSize: '0.78rem', color: '#0f172a', mt: 0.25, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+								<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.strong, mt: 0.25, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
 									{row.subject}
 								</Typography>
 							)}

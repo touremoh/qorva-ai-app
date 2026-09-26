@@ -18,6 +18,8 @@ import { useTranslation } from 'react-i18next';
 import { resendActivation, forgotPassword } from '../api/authService.js';
 import LanguageSwitcher from '../../../components/languages/LanguageSwitcher.jsx';
 import { EMAIL_REGEX } from '../../../shared/lib/validators.js';
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 
 // One "enter your email, we'll send you a link" page for both public flows.
@@ -83,7 +85,7 @@ const EmailLinkRequest = ({ variant = 'activation' }) => {
 				display: 'flex',
 				alignItems: 'center',
 				justifyContent: 'center',
-				background: 'linear-gradient(135deg, #f0f4f8 0%, #e8edf2 100%)',
+				background: `linear-gradient(135deg, ${tokens.surface.cool} 0%, ${tokens.surface.coolDeep} 100%)`,
 				px: 2,
 				position: 'fixed',
 				top: 0,
@@ -107,15 +109,15 @@ const EmailLinkRequest = ({ variant = 'activation' }) => {
 								sx={{
 									width: 80, height: 80, borderRadius: '50%',
 									display: 'grid', placeItems: 'center',
-									backgroundColor: '#629C44',
-									boxShadow: '0 10px 30px rgba(98,156,68,0.35)',
+									backgroundColor: tokens.brand.main,
+									boxShadow: `0 10px 30px ${alpha(tokens.brand.main, 0.35)}`,
 								}}
 								aria-hidden
 							>
-								<MarkEmailReadRoundedIcon sx={{ fontSize: 46, color: '#fff' }} />
+								<MarkEmailReadRoundedIcon sx={{ fontSize: 46, color: tokens.ink.inverse }} />
 							</Box>
 							<Stack spacing={1}>
-								<Typography variant="h5" sx={{ fontWeight: 800, color: '#0f172a', letterSpacing: '-0.03em' }}>
+								<Typography variant="h5" sx={{ fontWeight: 800, color: tokens.ink.strong, letterSpacing: '-0.03em' }}>
 									{t(`${ns}.sentTitle`, 'Check your inbox')}
 								</Typography>
 								<Typography variant="body2" color="text.secondary" sx={{ maxWidth: 420 }}>
@@ -129,9 +131,9 @@ const EmailLinkRequest = ({ variant = 'activation' }) => {
 								sx={{
 									mt: 1, px: 4, py: 1.2, borderRadius: 1.5,
 									textTransform: 'none', fontWeight: 700,
-									backgroundColor: '#629C44',
-									boxShadow: '0 2px 8px rgba(98,156,68,0.35)',
-									'&:hover': { backgroundColor: '#518136' },
+									backgroundColor: tokens.brand.main,
+									boxShadow: `0 2px 8px ${alpha(tokens.brand.main, 0.35)}`,
+									'&:hover': { backgroundColor: tokens.brand.hoverAlt },
 								}}
 							>
 								{t(`${ns}.backToLogin`, 'Back to login')}
@@ -141,13 +143,13 @@ const EmailLinkRequest = ({ variant = 'activation' }) => {
 						<>
 							<Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 3 }}>
 								<Box component="img" src="/logo.svg" alt="Qorva" sx={{ width: 34, height: 34 }} />
-								<Typography sx={{ fontWeight: 700, fontSize: '1.2rem', color: '#0f172a' }}>Qorva</Typography>
+								<Typography sx={{ fontWeight: 700, fontSize: '1.2rem', color: tokens.ink.strong }}>Qorva</Typography>
 							</Box>
 
-							<Typography variant="h5" sx={{ fontWeight: 700, color: '#0f172a', letterSpacing: '-0.03em', mb: 0.75 }}>
+							<Typography variant="h5" sx={{ fontWeight: 700, color: tokens.ink.strong, letterSpacing: '-0.03em', mb: 0.75 }}>
 								{t(`${ns}.title`, defaults.title)}
 							</Typography>
-							<Typography variant="body2" sx={{ color: '#64748b', mb: 3 }}>
+							<Typography variant="body2" sx={{ color: tokens.ink.muted, mb: 3 }}>
 								{t(`${ns}.subtitle`, defaults.subtitle)}
 							</Typography>
 
@@ -169,7 +171,7 @@ const EmailLinkRequest = ({ variant = 'activation' }) => {
 										input: {
 											startAdornment: (
 												<InputAdornment position="start">
-													<EmailOutlinedIcon sx={{ fontSize: 18, color: '#94a3b8' }} />
+													<EmailOutlinedIcon sx={{ fontSize: 18, color: tokens.ink.subtle }} />
 												</InputAdornment>
 											),
 										},
@@ -184,10 +186,10 @@ const EmailLinkRequest = ({ variant = 'activation' }) => {
 									sx={{
 										mt: 0.5, py: 1.3, borderRadius: 1.5,
 										fontWeight: 600, fontSize: '0.9rem', textTransform: 'none',
-										backgroundColor: '#629C44',
-										boxShadow: '0 2px 8px rgba(98,156,68,0.35)',
-										'&:hover': { backgroundColor: '#518136', boxShadow: '0 4px 14px rgba(98,156,68,0.45)' },
-										'&.Mui-disabled': { backgroundColor: '#b8d4a8', boxShadow: 'none' },
+										backgroundColor: tokens.brand.main,
+										boxShadow: `0 2px 8px ${alpha(tokens.brand.main, 0.35)}`,
+										'&:hover': { backgroundColor: tokens.brand.hoverAlt, boxShadow: `0 4px 14px ${alpha(tokens.brand.main, 0.45)}` },
+										'&.Mui-disabled': { backgroundColor: tokens.brand.soft, boxShadow: 'none' },
 									}}
 								>
 									{loading
@@ -200,7 +202,7 @@ const EmailLinkRequest = ({ variant = 'activation' }) => {
 								<Typography
 									component={RouterLink}
 									to="/login"
-									sx={{ color: '#629C44', fontSize: '0.82rem', fontWeight: 600, textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+									sx={{ color: tokens.brand.text, fontSize: '0.82rem', fontWeight: 600, textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
 								>
 									{t(`${ns}.backToLogin`, 'Back to login')}
 								</Typography>
@@ -218,13 +220,13 @@ const inputSx = {
 	mb: 0.5,
 	'& .MuiOutlinedInput-root': {
 		borderRadius: 1.5,
-		backgroundColor: '#f8fafc',
-		'&.Mui-focused': { backgroundColor: '#ffffff' },
-		'& fieldset': { borderColor: '#e2e8f0' },
-		'&:hover fieldset': { borderColor: '#cbd5e1' },
-		'&.Mui-focused fieldset': { borderColor: '#629C44', borderWidth: 1.5 },
+		backgroundColor: tokens.surface.subtle,
+		'&.Mui-focused': { backgroundColor: tokens.surface.paper },
+		'& fieldset': { borderColor: tokens.line.main },
+		'&:hover fieldset': { borderColor: tokens.line.strong },
+		'&.Mui-focused fieldset': { borderColor: tokens.brand.main, borderWidth: 1.5 },
 	},
-	'& .MuiInputLabel-root.Mui-focused': { color: '#629C44' },
+	'& .MuiInputLabel-root.Mui-focused': { color: tokens.brand.text },
 };
 
 EmailLinkRequest.propTypes = {

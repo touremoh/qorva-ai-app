@@ -27,6 +27,8 @@ import TopCandidatesTable from './TopCandidatesTable.jsx';
 import JobPostsReportTable from './JobPostsReportTable.jsx';
 import TalentPoolInsightSection from './TalentPoolInsightSection.jsx';
 import { initialDashboardData, KPI_CONFIG } from '../model/dashboard.js';
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, ChartTooltip, Legend);
 
@@ -64,8 +66,8 @@ const QorvaDashboard = () => {
 		datasets: [{
 			label: t('dashboard.skillsReport.label'),
 			data: dashboardData.skillsReport.map(s => s?.totalMatch ?? 0),
-			backgroundColor: 'rgba(98,156,68,0.75)',
-			borderColor: '#629C44',
+			backgroundColor: alpha(tokens.brand.main, 0.75),
+			borderColor: tokens.brand.main,
 			borderWidth: 1,
 			borderRadius: 4,
 		}],
@@ -77,9 +79,9 @@ const QorvaDashboard = () => {
 		plugins: {
 			legend: { display: false },
 			tooltip: {
-				backgroundColor: '#0f172a',
-				titleColor: '#94a3b8',
-				bodyColor: '#ffffff',
+				backgroundColor: tokens.ink.strong,
+				titleColor: tokens.ink.subtle,
+				bodyColor: tokens.surface.paper,
 				padding: 10,
 				cornerRadius: 8,
 			},
@@ -87,12 +89,12 @@ const QorvaDashboard = () => {
 		scales: {
 			x: {
 				grid: { display: false },
-				ticks: { color: '#64748b', font: { size: 11 }, autoSkip: true, maxRotation: 0 },
+				ticks: { color: tokens.ink.muted, font: { size: 11 }, autoSkip: true, maxRotation: 0 },
 			},
 			y: {
 				beginAtZero: true,
-				grid: { color: '#f1f5f9' },
-				ticks: { precision: 0, color: '#94a3b8', font: { size: 11 } },
+				grid: { color: tokens.surface.muted },
+				ticks: { precision: 0, color: tokens.ink.subtle, font: { size: 11 } },
 			},
 		},
 	}), []);
@@ -100,14 +102,14 @@ const QorvaDashboard = () => {
 	const kpiConfig = useMemo(() => KPI_CONFIG(t), [t]);
 
 	return (
-		<Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', overflow: 'hidden', backgroundColor: '#f8fafc' }}>
+		<Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', overflow: 'hidden', backgroundColor: tokens.surface.subtle }}>
 			<Box sx={{ flex: 1, overflowY: 'auto', p: { xs: 2, md: 3 }, display: 'flex', flexDirection: 'column', gap: 2.5 }}>
 
 				{/* Toolbar */}
 				<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 1 }}>
 					<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-						<LeaderboardOutlinedIcon sx={{ fontSize: 20, color: '#629C44' }} />
-						<Typography sx={{ fontWeight: 700, fontSize: '1rem', color: '#0f172a' }}>Dashboard</Typography>
+						<LeaderboardOutlinedIcon sx={{ fontSize: 20, color: tokens.brand.text }} />
+						<Typography sx={{ fontWeight: 700, fontSize: '1rem', color: tokens.ink.strong }}>Dashboard</Typography>
 					</Box>
 					<QorvaChip statusCode={dashboardData.subscriptionStatus} />
 				</Box>
@@ -115,15 +117,15 @@ const QorvaDashboard = () => {
 				{/* Loading */}
 				{loading && (
 					<Stack alignItems="center" justifyContent="center" sx={{ flex: 1, py: 8 }} spacing={1.5}>
-						<CircularProgress size={32} sx={{ color: '#629C44' }} />
-						<Typography sx={{ fontSize: '0.82rem', color: '#94a3b8' }}>{t('dashboard.loading')}</Typography>
+						<CircularProgress size={32} sx={{ color: tokens.brand.text }} />
+						<Typography sx={{ fontSize: '0.82rem', color: tokens.ink.subtle }}>{t('dashboard.loading')}</Typography>
 					</Stack>
 				)}
 
 				{/* Error */}
 				{!loading && error && (
-					<Paper elevation={0} sx={{ border: '1px solid #fee2e2', borderRadius: 2.5, p: 2.5 }}>
-						<Typography sx={{ fontSize: '0.85rem', color: '#dc2626' }}>{error}</Typography>
+					<Paper elevation={0} sx={{ border: `1px solid ${tokens.status.error.tint}`, borderRadius: 2.5, p: 2.5 }}>
+						<Typography sx={{ fontSize: '0.85rem', color: tokens.status.error.main }}>{error}</Typography>
 					</Paper>
 				)}
 
@@ -154,14 +156,14 @@ const QorvaDashboard = () => {
 							alignItems: 'stretch',
 						}}>
 							{/* Skills bar chart */}
-							<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
+							<Paper elevation={0} sx={{ border: `1px solid ${tokens.line.main}`, borderRadius: 2.5, p: 2.5, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
 								<SectionHeader sx={{ pb: 1.5 }} icon={AssessmentOutlinedIcon} label={t('dashboard.sections.skillsReport')} />
 								<Box sx={{ flex: 1, minHeight: 220, position: 'relative' }}>
 									{dashboardData.skillsReport.length ? (
 										<Bar data={skillsBarData} options={skillsBarOptions} />
 									) : (
 										<Box sx={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-											<Typography sx={{ fontSize: '0.82rem', color: '#94a3b8' }}>{t('dashboard.empty.skills')}</Typography>
+											<Typography sx={{ fontSize: '0.82rem', color: tokens.ink.subtle }}>{t('dashboard.empty.skills')}</Typography>
 										</Box>
 									)}
 								</Box>

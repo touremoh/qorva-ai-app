@@ -1,6 +1,7 @@
 import { brandPillButtonSx } from '../../../shared/ui/buttonSx.js';
+import * as tokens from '../../../theme/tokens.js';
 
-export const GREEN = '#629C44';
+export const GREEN = tokens.brand.main;
 
 export const BTN_GREEN_SX = { ...brandPillButtonSx, fontSize: '0.8rem' };
 /**

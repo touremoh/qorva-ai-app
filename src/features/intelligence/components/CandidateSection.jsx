@@ -7,6 +7,8 @@ import Chip from '@mui/material/Chip';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import RecyclingOutlinedIcon from '@mui/icons-material/RecyclingOutlined';
 import PropTypes from 'prop-types';
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 // matchScore is on a 0–1 scale from the API
 const scoreColor = (s) => scoreColorsFor(s, 1).main;
@@ -23,18 +25,18 @@ const CandidateSection = ({ candidates, showRediscoveredTag, onCandidateClick })
                     px: 1.5,
                     py: 1.25,
                     borderRadius: 1.5,
-                    backgroundColor: '#f8fafc',
-                    border: '1px solid #f1f5f9',
+                    backgroundColor: tokens.surface.subtle,
+                    border: `1px solid ${tokens.surface.muted}`,
                     cursor: onCandidateClick ? 'pointer' : 'default',
                     transition: 'background-color 0.15s ease, border-color 0.15s ease',
-                    '&:hover': onCandidateClick ? { backgroundColor: '#f1f5f9', borderColor: '#cbd5e1' } : {},
+                    '&:hover': onCandidateClick ? { backgroundColor: tokens.surface.muted, borderColor: tokens.line.strong } : {},
                 }}>
                     {/* Rank + Avatar */}
                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5, flexShrink: 0 }}>
-                        <Typography sx={{ fontSize: '0.65rem', color: '#cbd5e1', fontWeight: 600, lineHeight: 1 }}>
+                        <Typography sx={{ fontSize: '0.65rem', color: tokens.ink.faint, fontWeight: 600, lineHeight: 1 }}>
                             #{i + 1}
                         </Typography>
-                        <Avatar sx={{ width: 32, height: 32, fontSize: '0.7rem', fontWeight: 700, backgroundColor: '#629C44', color: '#fff' }}>
+                        <Avatar sx={{ width: 32, height: 32, fontSize: '0.7rem', fontWeight: 700, backgroundColor: tokens.brand.main, color: tokens.ink.inverse }}>
                             {getInitials(c.name)}
                         </Avatar>
                     </Box>
@@ -43,14 +45,14 @@ const CandidateSection = ({ candidates, showRediscoveredTag, onCandidateClick })
                     <Box sx={{ flex: 1, minWidth: 0 }}>
                         {/* Name row */}
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, flexWrap: 'wrap', mb: 0.25 }}>
-                            <Typography sx={{ fontSize: '0.84rem', fontWeight: 600, color: '#0f172a', lineHeight: 1.2 }}>
+                            <Typography sx={{ fontSize: '0.84rem', fontWeight: 600, color: tokens.ink.strong, lineHeight: 1.2 }}>
                                 {c.name}
                             </Typography>
                             {c.seniorityLevel && (
                                 <Chip
                                     label={toLabel(c.seniorityLevel)}
                                     size="small"
-                                    sx={{ fontSize: '0.6rem', height: 16, fontWeight: 600, backgroundColor: 'rgba(99,102,241,0.08)', color: '#4f46e5', border: '1px solid rgba(99,102,241,0.2)', '& .MuiChip-label': { px: 0.75 } }}
+                                    sx={{ fontSize: '0.6rem', height: 16, fontWeight: 600, backgroundColor: 'rgba(99,102,241,0.08)', color: tokens.status.accent.main, border: '1px solid rgba(99,102,241,0.2)', '& .MuiChip-label': { px: 0.75 } }}
                                 />
                             )}
                             {showRediscoveredTag && c.rediscovered && (
@@ -58,7 +60,7 @@ const CandidateSection = ({ candidates, showRediscoveredTag, onCandidateClick })
                                     icon={<RecyclingOutlinedIcon sx={{ fontSize: 11 }} />}
                                     label="Rediscovered"
                                     size="small"
-                                    sx={{ fontSize: '0.6rem', height: 16, backgroundColor: 'rgba(98,156,68,0.08)', border: '1px solid rgba(98,156,68,0.2)', color: '#629C44', '& .MuiChip-icon': { color: '#629C44' }, '& .MuiChip-label': { px: 0.75 } }}
+                                    sx={{ fontSize: '0.6rem', height: 16, backgroundColor: alpha(tokens.brand.main, 0.08), border: `1px solid ${alpha(tokens.brand.main, 0.2)}`, color: tokens.brand.text, '& .MuiChip-icon': { color: tokens.brand.text }, '& .MuiChip-label': { px: 0.75 } }}
                                 />
                             )}
                         </Box>
@@ -66,14 +68,14 @@ const CandidateSection = ({ candidates, showRediscoveredTag, onCandidateClick })
                         {/* Role + location */}
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap', mb: 0.5 }}>
                             {c.currentRole && (
-                                <Typography sx={{ fontSize: '0.72rem', color: '#64748b', lineHeight: 1.2 }}>
+                                <Typography sx={{ fontSize: '0.72rem', color: tokens.ink.muted, lineHeight: 1.2 }}>
                                     {c.currentRole}
                                 </Typography>
                             )}
                             {c.locationHint && (
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.25 }}>
-                                    <LocationOnOutlinedIcon sx={{ fontSize: 11, color: '#cbd5e1' }} />
-                                    <Typography sx={{ fontSize: '0.68rem', color: '#94a3b8', lineHeight: 1.2 }}>
+                                    <LocationOnOutlinedIcon sx={{ fontSize: 11, color: tokens.ink.faint }} />
+                                    <Typography sx={{ fontSize: '0.68rem', color: tokens.ink.subtle, lineHeight: 1.2 }}>
                                         {c.locationHint}
                                     </Typography>
                                 </Box>
@@ -88,7 +90,7 @@ const CandidateSection = ({ candidates, showRediscoveredTag, onCandidateClick })
                                         key={si}
                                         label={s}
                                         size="small"
-                                        sx={{ fontSize: '0.62rem', height: 17, backgroundColor: '#f1f5f9', color: '#475569', border: '1px solid #e2e8f0', '& .MuiChip-label': { px: 0.75 } }}
+                                        sx={{ fontSize: '0.62rem', height: 17, backgroundColor: tokens.surface.muted, color: tokens.ink.soft, border: `1px solid ${tokens.line.main}`, '& .MuiChip-label': { px: 0.75 } }}
                                     />
                                 ))}
                             </Box>

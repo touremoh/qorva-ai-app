@@ -10,6 +10,8 @@ import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import ChatMarkdown from './ChatMarkdown.jsx';
 import TypingDots from './TypingDots.jsx';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 /** The conversation: messages, typing indicator, empty states. */
 const ChatMessageList = ({ assistantTyping, copiedMessageId, fetchMessagesPage, handleCopyMessage, handleRetryMessage, loadingMessages, messages, messagesEndRef, msgHasMore, msgPage, selectedChat, userLang }) => {
@@ -19,8 +21,8 @@ const ChatMessageList = ({ assistantTyping, copiedMessageId, fetchMessagesPage, 
 		<Box sx={{ flex: 1, overflowY: 'auto', px: 2.5, py: 2, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
 			{!selectedChat ? (
 				<Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 1.5 }}>
-					<AutoAwesomeOutlinedIcon sx={{ fontSize: 40, color: '#cbd5e1' }} />
-					<Typography sx={{ fontSize: '0.85rem', color: '#94a3b8', fontWeight: 500 }}>
+					<AutoAwesomeOutlinedIcon sx={{ fontSize: 40, color: tokens.ink.faint }} />
+					<Typography sx={{ fontSize: '0.85rem', color: tokens.ink.subtle, fontWeight: 500 }}>
 						{t('appAIResumeChat.noChatSelected')}
 					</Typography>
 				</Box>
@@ -31,7 +33,7 @@ const ChatMessageList = ({ assistantTyping, copiedMessageId, fetchMessagesPage, 
 							<Button
 								size="small"
 								onClick={() => fetchMessagesPage(selectedChat.id, msgPage + 1)}
-								sx={{ fontSize: '0.72rem', color: '#629C44', textTransform: 'none', borderRadius: 2 }}
+								sx={{ fontSize: '0.72rem', color: tokens.brand.text, textTransform: 'none', borderRadius: 2 }}
 							>
 								{t('appAIResumeChat.loadOlder')}
 							</Button>
@@ -39,7 +41,7 @@ const ChatMessageList = ({ assistantTyping, copiedMessageId, fetchMessagesPage, 
 					)}
 					{loadingMessages && (
 						<Box sx={{ display: 'flex', justifyContent: 'center' }}>
-							<CircularProgress size={18} sx={{ color: '#629C44' }} />
+							<CircularProgress size={18} sx={{ color: tokens.brand.text }} />
 						</Box>
 					)}
 
@@ -51,9 +53,9 @@ const ChatMessageList = ({ assistantTyping, copiedMessageId, fetchMessagesPage, 
 									<Box sx={{
 										width: 26, height: 26, borderRadius: '50%', flexShrink: 0,
 										display: 'flex', alignItems: 'center', justifyContent: 'center',
-										backgroundColor: 'rgba(98,156,68,0.12)',
+										backgroundColor: alpha(tokens.brand.main, 0.12),
 									}}>
-										<SmartToyOutlinedIcon sx={{ fontSize: 14, color: '#629C44' }} />
+										<SmartToyOutlinedIcon sx={{ fontSize: 14, color: tokens.brand.text }} />
 									</Box>
 								)}
 								<Box sx={{
@@ -61,13 +63,13 @@ const ChatMessageList = ({ assistantTyping, copiedMessageId, fetchMessagesPage, 
 									minWidth: 0,
 									px: 1.75, py: 1.25,
 									borderRadius: isUser ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
-									backgroundColor: isUser ? 'rgba(98,156,68,0.10)' : '#ffffff',
-									border: `1px solid ${m.failed ? 'rgba(185,28,28,0.35)' : isUser ? 'rgba(98,156,68,0.25)' : '#e2e8f0'}`,
+									backgroundColor: isUser ? alpha(tokens.brand.main, 0.10) : `${tokens.surface.paper}`,
+									border: `1px solid ${m.failed ? 'rgba(185,28,28,0.35)' : isUser ? alpha(tokens.brand.main, 0.25) : `${tokens.line.main}`}`,
 									boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
 								}}>
 									<Typography sx={{
 										fontSize: '0.72rem', fontWeight: 600,
-										color: isUser ? '#629C44' : '#94a3b8',
+										color: isUser ? `${tokens.brand.main}` : `${tokens.ink.subtle}`,
 										mb: 0.5,
 										display: 'flex', alignItems: 'center', gap: 0.5,
 									}}>
@@ -77,7 +79,7 @@ const ChatMessageList = ({ assistantTyping, copiedMessageId, fetchMessagesPage, 
 										}
 									</Typography>
 									{isUser ? (
-										<Typography sx={{ fontSize: '0.85rem', color: '#0f172a', lineHeight: 1.55, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+										<Typography sx={{ fontSize: '0.85rem', color: tokens.ink.strong, lineHeight: 1.55, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
 											{m.content}
 										</Typography>
 									) : (
@@ -85,8 +87,8 @@ const ChatMessageList = ({ assistantTyping, copiedMessageId, fetchMessagesPage, 
 									)}
 									{m.failed ? (
 										<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, mt: 0.75, flexWrap: 'wrap' }}>
-											<ErrorOutlineOutlinedIcon sx={{ fontSize: 14, color: '#b91c1c' }} />
-											<Typography sx={{ fontSize: '0.7rem', color: '#b91c1c' }}>
+											<ErrorOutlineOutlinedIcon sx={{ fontSize: 14, color: tokens.status.error.dark }} />
+											<Typography sx={{ fontSize: '0.7rem', color: tokens.status.error.dark }}>
 												{m.error || t('appAIResumeChat.sendFailed')}
 											</Typography>
 											<Button
@@ -94,19 +96,19 @@ const ChatMessageList = ({ assistantTyping, copiedMessageId, fetchMessagesPage, 
 												startIcon={<ReplayOutlinedIcon sx={{ fontSize: 14 }} />}
 												onClick={() => handleRetryMessage(m)}
 												disabled={assistantTyping}
-												sx={{ fontSize: '0.7rem', color: '#629C44', textTransform: 'none', minWidth: 0, px: 0.75, py: 0 }}
+												sx={{ fontSize: '0.7rem', color: tokens.brand.text, textTransform: 'none', minWidth: 0, px: 0.75, py: 0 }}
 											>
 												{t('appAIResumeChat.retry')}
 											</Button>
 										</Box>
 									) : (
 										<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: isUser ? 'flex-end' : 'space-between', mt: 0.5, gap: 1 }}>
-											<Typography sx={{ fontSize: '0.65rem', color: '#94a3b8' }}>
+											<Typography sx={{ fontSize: '0.65rem', color: tokens.ink.subtle }}>
 												{new Date(m.createdAt).toLocaleTimeString(userLang || 'en', { hour: '2-digit', minute: '2-digit' })}
 											</Typography>
 											{!isUser && (
 												<Tooltip title={copiedMessageId === m.id ? t('appAIResumeChat.copied') : t('appAIResumeChat.copyAnswer')}>
-													<IconButton size="small" onClick={() => handleCopyMessage(m)} sx={{ p: 0.25, color: copiedMessageId === m.id ? '#629C44' : '#94a3b8' }}>
+													<IconButton size="small" onClick={() => handleCopyMessage(m)} sx={{ p: 0.25, color: copiedMessageId === m.id ? `${tokens.brand.main}` : `${tokens.ink.subtle}` }}>
 														{copiedMessageId === m.id ? <CheckIcon sx={{ fontSize: 13 }} /> : <ContentCopyOutlinedIcon sx={{ fontSize: 13 }} />}
 													</IconButton>
 												</Tooltip>
@@ -118,9 +120,9 @@ const ChatMessageList = ({ assistantTyping, copiedMessageId, fetchMessagesPage, 
 									<Box sx={{
 										width: 26, height: 26, borderRadius: '50%', flexShrink: 0,
 										display: 'flex', alignItems: 'center', justifyContent: 'center',
-										backgroundColor: 'rgba(98,156,68,0.15)',
+										backgroundColor: alpha(tokens.brand.main, 0.15),
 									}}>
-										<PersonOutlineOutlinedIcon sx={{ fontSize: 14, color: '#629C44' }} />
+										<PersonOutlineOutlinedIcon sx={{ fontSize: 14, color: tokens.brand.text }} />
 									</Box>
 								)}
 							</Box>
@@ -132,9 +134,9 @@ const ChatMessageList = ({ assistantTyping, copiedMessageId, fetchMessagesPage, 
 							<Box sx={{
 								width: 26, height: 26, borderRadius: '50%',
 								display: 'flex', alignItems: 'center', justifyContent: 'center',
-								backgroundColor: 'rgba(98,156,68,0.12)',
+								backgroundColor: alpha(tokens.brand.main, 0.12),
 							}}>
-								<SmartToyOutlinedIcon sx={{ fontSize: 14, color: '#629C44' }} />
+								<SmartToyOutlinedIcon sx={{ fontSize: 14, color: tokens.brand.text }} />
 							</Box>
 							<TypingDots />
 						</Box>

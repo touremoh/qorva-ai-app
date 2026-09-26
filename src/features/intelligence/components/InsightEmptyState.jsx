@@ -4,6 +4,8 @@ import Typography from '@mui/material/Typography';
 import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
 import InsightIntentCards from './InsightIntentCards.jsx';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 /** First screen of a conversation: intent cards to start from. */
 const InsightEmptyState = ({ isEmpty, setInputFocusToken, setQuestion }) => {
@@ -16,17 +18,17 @@ const InsightEmptyState = ({ isEmpty, setInputFocusToken, setQuestion }) => {
                     width: 56,
                     height: 56,
                     borderRadius: '50%',
-                    backgroundColor: 'rgba(98,156,68,0.1)',
+                    backgroundColor: alpha(tokens.brand.main, 0.1),
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                 }}>
-                    <ForumOutlinedIcon sx={{ fontSize: 26, color: '#629C44' }} />
+                    <ForumOutlinedIcon sx={{ fontSize: 26, color: tokens.brand.text }} />
                 </Box>
-                <Typography sx={{ fontWeight: 600, fontSize: '0.95rem', color: '#1e293b', textAlign: 'center' }}>
+                <Typography sx={{ fontWeight: 600, fontSize: '0.95rem', color: tokens.ink.heading, textAlign: 'center' }}>
                     {t('insight.intro.title')}
                 </Typography>
-                <Typography sx={{ fontSize: '0.8rem', color: '#94a3b8', textAlign: 'center', maxWidth: 480 }}>
+                <Typography sx={{ fontSize: '0.8rem', color: tokens.ink.subtle, textAlign: 'center', maxWidth: 480 }}>
                     {t('insight.intro.subtitle')}
                 </Typography>
                 <InsightIntentCards

@@ -4,6 +4,7 @@ import { Box, Typography, Grid2 } from '@mui/material';
 import ContactsIcon from '@mui/icons-material/Contacts';
 import Card from './Card.jsx';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../../theme/tokens.js';
 
 /** Referees, with contact details hidden while the resume is anonymized. */
 const ReferencesSection = ({ anonymized, references }) => {
@@ -16,20 +17,20 @@ const ReferencesSection = ({ anonymized, references }) => {
 				<Grid2 container spacing={1.5}>
 					{references.map((ref, i) => (
 						<Grid2 key={i} size={{ xs: 12, sm: 6 }}>
-							<Box sx={{ p: 1.5, backgroundColor: '#f8fafc', borderRadius: 1.5, border: '1px solid #f1f5f9' }}>
-								<Typography sx={{ fontWeight: 700, fontSize: '0.84rem', color: '#0f172a' }}>
+							<Box sx={{ p: 1.5, backgroundColor: tokens.surface.subtle, borderRadius: 1.5, border: `1px solid ${tokens.surface.muted}` }}>
+								<Typography sx={{ fontWeight: 700, fontSize: '0.84rem', color: tokens.ink.strong }}>
 									{ref.name}
 								</Typography>
 								{(ref.position || ref.company) && (
-									<Typography sx={{ fontSize: '0.78rem', color: '#629C44', fontWeight: 600 }}>
+									<Typography sx={{ fontSize: '0.78rem', color: tokens.brand.text, fontWeight: 600 }}>
 										{[ref.position, ref.company].filter(Boolean).join(' — ')}
 									</Typography>
 								)}
 								{!anonymized && ref.contact?.phone && (
-									<Typography sx={{ fontSize: '0.75rem', color: '#64748b' }}>{ref.contact.phone}</Typography>
+									<Typography sx={{ fontSize: '0.75rem', color: tokens.ink.muted }}>{ref.contact.phone}</Typography>
 								)}
 								{!anonymized && ref.contact?.email && (
-									<Typography sx={{ fontSize: '0.75rem', color: '#64748b' }}>{ref.contact.email}</Typography>
+									<Typography sx={{ fontSize: '0.75rem', color: tokens.ink.muted }}>{ref.contact.email}</Typography>
 								)}
 							</Box>
 						</Grid2>

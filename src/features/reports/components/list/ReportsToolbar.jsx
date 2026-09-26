@@ -7,6 +7,8 @@ import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import QuotaIndicator from '../../../../components/demo/QuotaIndicator.jsx';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 /** Search, job filter, sort and CSV export above the report list. */
 const ReportsToolbar = ({ demo, exportLoading, fetchJobOptions, filterConfidence, filterRecommendation, handleConfidenceChange, handleExportCsv, handleJobAutocompleteChange, handleRecommendationChange, handleSearchChange, jobInputValue, jobOptions, jobOptionsLoading, jobSearchRef, searchTerm, selectedJobFilter, selectedJobId, setJobInputValue, setSortOrder, sortOrder }) => {
@@ -16,13 +18,13 @@ const ReportsToolbar = ({ demo, exportLoading, fetchJobOptions, filterConfidence
 		<Box sx={{
 			display: 'flex', alignItems: 'center', gap: 1.5,
 			px: 2, py: 1.5,
-			backgroundColor: '#ffffff',
-			borderBottom: '1px solid #e2e8f0',
+			backgroundColor: tokens.surface.paper,
+			borderBottom: `1px solid ${tokens.line.main}`,
 			flexShrink: 0,
 			flexWrap: 'wrap',
 		}}>
-			<AssessmentOutlinedIcon sx={{ color: '#629C44', fontSize: 20 }} />
-			<Typography sx={{ fontWeight: 600, fontSize: '0.9rem', color: '#0f172a', mr: 1 }}>
+			<AssessmentOutlinedIcon sx={{ color: tokens.brand.text, fontSize: 20 }} />
+			<Typography sx={{ fontWeight: 600, fontSize: '0.9rem', color: tokens.ink.strong, mr: 1 }}>
 				{t('appReportContent.reportListTitle')}
 			</Typography>
 
@@ -37,7 +39,7 @@ const ReportsToolbar = ({ demo, exportLoading, fetchJobOptions, filterConfidence
 					InputProps={{
 						startAdornment: (
 							<InputAdornment position="start">
-								<SearchOutlinedIcon sx={{ fontSize: 16, color: '#94a3b8' }} />
+								<SearchOutlinedIcon sx={{ fontSize: 16, color: tokens.ink.subtle }} />
 							</InputAdornment>
 						),
 					}}
@@ -126,9 +128,9 @@ const ReportsToolbar = ({ demo, exportLoading, fetchJobOptions, filterConfidence
 					size="small"
 					onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
 					sx={{
-						border: '1px solid #e2e8f0', borderRadius: 1.5,
-						color: '#64748b',
-						'&:hover': { backgroundColor: '#f1f5f9' },
+						border: `1px solid ${tokens.line.main}`, borderRadius: 1.5,
+						color: tokens.ink.muted,
+						'&:hover': { backgroundColor: tokens.surface.muted },
 					}}
 				>
 					{sortOrder === 'asc'
@@ -154,9 +156,9 @@ const ReportsToolbar = ({ demo, exportLoading, fetchJobOptions, filterConfidence
 							}
 							sx={{
 								borderRadius: 1.5, textTransform: 'none', fontSize: '0.82rem',
-								borderColor: '#e2e8f0', color: '#475569',
-								'&:hover': { borderColor: '#629C44', color: '#629C44', backgroundColor: 'rgba(98,156,68,0.05)' },
-								'&.Mui-disabled': { borderColor: '#e2e8f0', color: '#cbd5e1' },
+								borderColor: tokens.line.main, color: tokens.ink.soft,
+								'&:hover': { borderColor: tokens.brand.main, color: tokens.brand.text, backgroundColor: alpha(tokens.brand.main, 0.05) },
+								'&.Mui-disabled': { borderColor: tokens.line.main, color: tokens.ink.faint },
 							}}
 						>
 							{t('appReportContent.exportCsv')}

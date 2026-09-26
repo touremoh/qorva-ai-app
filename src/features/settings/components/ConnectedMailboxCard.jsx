@@ -28,8 +28,9 @@ import {
 	startMailboxOauth,
 } from '../api/mailboxService.js';
 import { brandButtonSx, outlinedButtonSx } from '../../../shared/ui/buttonSx.js';
+import * as tokens from '../../../theme/tokens.js';
 
-const THEME_GREEN = '#629C44';
+const THEME_GREEN = tokens.brand.main;
 
 const primaryButtonSx = brandButtonSx('0.8rem');
 const neutralButtonSx = outlinedButtonSx('0.8rem');
@@ -105,11 +106,11 @@ const ConnectedMailboxCard = () => {
 	const reauth = connection?.status === 'REAUTH_REQUIRED';
 
 	return (
-		<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5 }}>
+		<Paper elevation={0} sx={{ border: `1px solid ${tokens.line.main}`, borderRadius: 2.5, p: 2.5 }}>
 			<SectionHeader icon={ForwardToInboxOutlinedIcon} label={t('mailbox.title')} />
 
 			{loading ? (
-				<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: '#94a3b8' }}>
+				<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: tokens.ink.subtle }}>
 					<CircularProgress size={14} sx={{ color: THEME_GREEN }} />
 					<Typography sx={{ fontSize: '0.8rem' }}>{t('mailbox.loading')}</Typography>
 				</Box>
@@ -117,10 +118,10 @@ const ConnectedMailboxCard = () => {
 				<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
 					<Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flexWrap: 'wrap' }}>
 						<Box sx={{ flex: 1, minWidth: 200 }}>
-							<Typography sx={{ fontSize: '0.9rem', fontWeight: 600, color: '#0f172a' }}>
+							<Typography sx={{ fontSize: '0.9rem', fontWeight: 600, color: tokens.ink.strong }}>
 								{t(`mailbox.provider.${connection.provider}`)} · {connection.emailAddress}
 							</Typography>
-							<Typography sx={{ fontSize: '0.75rem', color: '#64748b', mt: 0.25 }}>
+							<Typography sx={{ fontSize: '0.75rem', color: tokens.ink.muted, mt: 0.25 }}>
 								{t('mailbox.connectedSince', { when: dayjs(connection.connectedAt).locale(locale).format('LL') })}
 								{connection.lastUsedAt && ` · ${t('mailbox.lastUsed', { when: dayjs(connection.lastUsedAt).locale(locale).fromNow() })}`}
 							</Typography>
@@ -130,7 +131,7 @@ const ConnectedMailboxCard = () => {
 							label={reauth ? t('mailbox.status.REAUTH_REQUIRED') : t('mailbox.status.ACTIVE')}
 							sx={{
 								height: 22, fontSize: '0.7rem', fontWeight: 600, borderRadius: 1,
-								backgroundColor: reauth ? '#fffbeb' : '#ecfdf3', color: reauth ? '#b45309' : '#15803d',
+								backgroundColor: reauth ? `${tokens.status.warning.pale}` : `${tokens.status.success.paleAlt}`, color: reauth ? `${tokens.status.warning.strong}` : `${tokens.status.success.strong}`,
 							}}
 						/>
 					</Box>
@@ -148,17 +149,17 @@ const ConnectedMailboxCard = () => {
 							{t('mailbox.disconnect')}
 						</Button>
 					</Box>
-					<Typography sx={{ fontSize: '0.75rem', color: '#94a3b8' }}>{t('mailbox.scopeNote')}</Typography>
+					<Typography sx={{ fontSize: '0.75rem', color: tokens.ink.subtle }}>{t('mailbox.scopeNote')}</Typography>
 				</Box>
 			) : (
 				<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-					<Typography sx={{ fontSize: '0.85rem', color: '#475569', lineHeight: 1.6 }}>
+					<Typography sx={{ fontSize: '0.85rem', color: tokens.ink.soft, lineHeight: 1.6 }}>
 						{t('mailbox.intro')}
 					</Typography>
 					{availability?.microsoft ? (
 						<Box>
 							<Button variant="contained" onClick={connect} disabled={busy}
-								startIcon={busy ? <CircularProgress size={12} sx={{ color: '#fff' }} /> : <ForwardToInboxOutlinedIcon sx={{ fontSize: 15 }} />}
+								startIcon={busy ? <CircularProgress size={12} sx={{ color: tokens.ink.inverse }} /> : <ForwardToInboxOutlinedIcon sx={{ fontSize: 15 }} />}
 								sx={primaryButtonSx}>
 								{t('mailbox.connectMicrosoft')}
 							</Button>
@@ -166,17 +167,17 @@ const ConnectedMailboxCard = () => {
 					) : (
 						<Alert severity="info" sx={{ fontSize: '0.8rem', borderRadius: 1.5 }}>{t('mailbox.notAvailable')}</Alert>
 					)}
-					<Typography sx={{ fontSize: '0.78rem', color: '#64748b' }}>{t('mailbox.otherClients')}</Typography>
-					<Typography sx={{ fontSize: '0.75rem', color: '#94a3b8' }}>{t('mailbox.scopeNote')}</Typography>
+					<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.muted }}>{t('mailbox.otherClients')}</Typography>
+					<Typography sx={{ fontSize: '0.75rem', color: tokens.ink.subtle }}>{t('mailbox.scopeNote')}</Typography>
 					{availability?.microsoft && (
 						<Box>
 							<Link component="button" type="button" onClick={() => setAdminHelpOpen(o => !o)}
-								sx={{ fontSize: '0.75rem', color: '#64748b', display: 'inline-flex', alignItems: 'center', gap: 0.25 }}>
+								sx={{ fontSize: '0.75rem', color: tokens.ink.muted, display: 'inline-flex', alignItems: 'center', gap: 0.25 }}>
 								{t('mailbox.adminHelp.toggle')}
 								{adminHelpOpen ? <ExpandLessIcon sx={{ fontSize: 14 }} /> : <ExpandMoreIcon sx={{ fontSize: 14 }} />}
 							</Link>
 							<Collapse in={adminHelpOpen}>
-								<Typography sx={{ fontSize: '0.75rem', color: '#64748b', mt: 0.75, lineHeight: 1.6 }}>
+								<Typography sx={{ fontSize: '0.75rem', color: tokens.ink.muted, mt: 0.75, lineHeight: 1.6 }}>
 									{t('mailbox.adminHelp.body')}
 								</Typography>
 							</Collapse>

@@ -1,8 +1,10 @@
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 export const contactChipSx = {
 	fontSize: '0.75rem',
-	backgroundColor: '#f1f5f9',
-	color: '#334155',
+	backgroundColor: tokens.surface.muted,
+	color: tokens.ink.body,
 	height: 24,
 	borderRadius: 1,
 	'& .MuiChip-icon': { fontSize: 13 },
@@ -10,8 +12,8 @@ export const contactChipSx = {
 
 export const techSkillChipSx = {
 	fontSize: '0.75rem',
-	backgroundColor: 'rgba(98,156,68,0.10)',
-	color: '#3a6827',
+	backgroundColor: alpha(tokens.brand.main, 0.10),
+	color: tokens.brand.dark,
 	borderRadius: 1,
 	height: 24,
 	fontWeight: 500,
@@ -19,15 +21,15 @@ export const techSkillChipSx = {
 
 export const softSkillChipSx = {
 	fontSize: '0.75rem',
-	backgroundColor: '#f1f5f9',
-	color: '#475569',
+	backgroundColor: tokens.surface.muted,
+	color: tokens.ink.soft,
 	borderRadius: 1,
 	height: 24,
 };
 
 export const availLabelSx = {
 	fontSize: '0.70rem',
-	color: '#94a3b8',
+	color: tokens.ink.subtle,
 	textTransform: 'uppercase',
 	letterSpacing: '0.05em',
 	mb: 0.25,
@@ -36,29 +38,29 @@ export const availLabelSx = {
 export const availValueSx = {
 	fontWeight: 700,
 	fontSize: '0.88rem',
-	color: '#0f172a',
+	color: tokens.ink.strong,
 };
 
 export const availabilityStatusChipSx = (status) => {
 	const map = {
-		activelyLooking:     { backgroundColor: 'rgba(98,156,68,0.12)',  color: '#3a6827' },
-		openButNotSearching: { backgroundColor: 'rgba(59,130,246,0.10)', color: '#1e40af' },
-		notAvailable:        { backgroundColor: '#f1f5f9',               color: '#64748b' },
-		freelanceOnly:       { backgroundColor: 'rgba(139,92,246,0.10)', color: '#5b21b6' },
+		activelyLooking:     { backgroundColor: alpha(tokens.brand.main, 0.12),  color: tokens.brand.dark },
+		openButNotSearching: { backgroundColor: 'rgba(59,130,246,0.10)', color: tokens.status.info.navy },
+		notAvailable:        { backgroundColor: tokens.surface.muted,               color: tokens.ink.muted },
+		freelanceOnly:       { backgroundColor: 'rgba(139,92,246,0.10)', color: tokens.status.accent.deep },
 	};
 	return {
 		fontSize: '0.72rem', height: 22, fontWeight: 700, borderRadius: 0.75,
-		...(map[status] ?? { backgroundColor: '#f1f5f9', color: '#64748b' }),
+		...(map[status] ?? { backgroundColor: tokens.surface.muted, color: tokens.ink.muted }),
 	};
 };
 
 export const langThSx = {
 	fontWeight: 700,
 	fontSize: '0.70rem',
-	color: '#64748b',
+	color: tokens.ink.muted,
 	textTransform: 'uppercase',
 	letterSpacing: '0.04em',
-	backgroundColor: '#f8fafc',
+	backgroundColor: tokens.surface.subtle,
 	py: 0.75,
 };
 

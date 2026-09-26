@@ -11,6 +11,7 @@ import OutreachForm from './OutreachForm.jsx';
 import OutreachContextStrip from './OutreachContextStrip.jsx';
 import DockTitleBar from './DockTitleBar.jsx';
 import useOutreachComposer from '../hooks/useOutreachComposer.js';
+import * as tokens from '../../../theme/tokens.js';
 
 /**
  * Gmail-style composer docked bottom-right. Mounted once in AppHome; opened by the entry points on
@@ -38,9 +39,9 @@ const CandidateOutreachDock = () => {
 					maxHeight: composer.minimized ? 48 : 'calc(100vh - 88px)',
 					display: 'flex', flexDirection: 'column',
 					borderRadius: '12px 12px 0 0',
-					border: '1px solid #e2e8f0', borderBottom: 'none',
+					border: `1px solid ${tokens.line.main}`, borderBottom: 'none',
 					boxShadow: '0 -4px 24px rgba(15, 23, 42, 0.12)',
-					backgroundColor: '#fff', overflow: 'hidden',
+					backgroundColor: tokens.surface.paper, overflow: 'hidden',
 					zIndex: (theme) => theme.zIndex.modal - 1,
 					transition: 'max-height 0.2s ease',
 					'@media print': { display: 'none' },

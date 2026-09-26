@@ -4,26 +4,28 @@ import { Box, Button, Paper, Typography } from '@mui/material';
 import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined';
 import AddPhotoAlternateOutlinedIcon from '@mui/icons-material/AddPhotoAlternateOutlined';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 /** Uploads, previews and removes the company logo used on shared documents. */
 const CompanyLogoCard = ({ displayLogo, editMode, handleDrop, handleLogoInputChange, isDragging, logoFile, logoInputRef, setIsDragging }) => {
     const { t } = useTranslation();
     return (
         <>
-        <Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5 }}>
+        <Paper elevation={0} sx={{ border: `1px solid ${tokens.line.main}`, borderRadius: 2.5, p: 2.5 }}>
             <SectionHeader icon={AddPhotoAlternateOutlinedIcon} label={t('accountSettings.company.logo')} />
 
             <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2.5, flexWrap: 'wrap' }}>
                 <Box
                     sx={{
                         width: 100, height: 100, borderRadius: 2.5, flexShrink: 0,
-                        border: `2px dashed ${isDragging ? '#629C44' : '#e2e8f0'}`,
-                        backgroundColor: isDragging ? 'rgba(98,156,68,0.04)' : '#f8fafc',
+                        border: `2px dashed ${isDragging ? `${tokens.brand.main}` : `${tokens.line.main}`}`,
+                        backgroundColor: isDragging ? alpha(tokens.brand.main, 0.04) : `${tokens.surface.subtle}`,
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                         overflow: 'hidden', transition: 'all 0.15s ease',
                         cursor: editMode ? 'pointer' : 'default',
                         ...(editMode && {
-                            '&:hover': { borderColor: '#629C44', backgroundColor: 'rgba(98,156,68,0.04)' },
+                            '&:hover': { borderColor: tokens.brand.main, backgroundColor: alpha(tokens.brand.main, 0.04) },
                         }),
                     }}
                     onClick={() => editMode && logoInputRef.current?.click()}
@@ -39,15 +41,15 @@ const CompanyLogoCard = ({ displayLogo, editMode, handleDrop, handleLogoInputCha
                             sx={{ width: '100%', height: '100%', objectFit: 'contain', p: 1 }}
                         />
                     ) : (
-                        <BusinessOutlinedIcon sx={{ fontSize: 36, color: '#cbd5e1' }} />
+                        <BusinessOutlinedIcon sx={{ fontSize: 36, color: tokens.ink.faint }} />
                     )}
                 </Box>
 
                 <Box sx={{ flex: 1, minWidth: 180 }}>
-                    <Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: '#334155', mb: 0.5 }}>
+                    <Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: tokens.ink.body, mb: 0.5 }}>
                         {t('accountSettings.company.logoTitle')}
                     </Typography>
-                    <Typography sx={{ fontSize: '0.75rem', color: '#94a3b8', mb: 1.5, lineHeight: 1.5 }}>
+                    <Typography sx={{ fontSize: '0.75rem', color: tokens.ink.subtle, mb: 1.5, lineHeight: 1.5 }}>
                         {t('accountSettings.company.logoHint')}
                     </Typography>
                     {editMode && (
@@ -58,15 +60,15 @@ const CompanyLogoCard = ({ displayLogo, editMode, handleDrop, handleLogoInputCha
                             onClick={() => logoInputRef.current?.click()}
                             sx={{
                                 borderRadius: 2, textTransform: 'none', fontSize: '0.78rem',
-                                borderColor: '#629C44', color: '#629C44',
-                                '&:hover': { borderColor: '#4a7a33', backgroundColor: 'rgba(98,156,68,0.04)' },
+                                borderColor: tokens.brand.main, color: tokens.brand.text,
+                                '&:hover': { borderColor: tokens.brand.pressed, backgroundColor: alpha(tokens.brand.main, 0.04) },
                             }}
                         >
                             {logoFile ? t('accountSettings.company.changeLogo') : t('accountSettings.company.uploadLogo')}
                         </Button>
                     )}
                     {logoFile && (
-                        <Typography sx={{ fontSize: '0.72rem', color: '#629C44', mt: 0.75 }}>
+                        <Typography sx={{ fontSize: '0.72rem', color: tokens.brand.text, mt: 0.75 }}>
                             {logoFile.name}
                         </Typography>
                     )}

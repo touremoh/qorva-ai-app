@@ -3,13 +3,15 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Box, Typography } from '@mui/material';
 import { fontFamilyMono } from '../../../theme/tokens.js';
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 // Assistant replies are Markdown (headings, bullets, blockquoted questions, small tables).
 // Everything is mapped onto the bubble's typography so a structured answer reads like the
 // rest of the chat instead of like a document. react-markdown never renders raw HTML, so
 // model output cannot inject markup, and images are never loaded (see `img`).
 
-const text = { fontSize: '0.85rem', color: '#0f172a', lineHeight: 1.55, wordBreak: 'break-word' };
+const text = { fontSize: '0.85rem', color: tokens.ink.strong, lineHeight: 1.55, wordBreak: 'break-word' };
 
 const Heading = ({ children }) => (
 	<Typography component="div" sx={{ ...text, fontWeight: 700, fontSize: '0.86rem', mt: 1.25, mb: 0.5, '&:first-of-type': { mt: 0 } }}>
@@ -28,8 +30,8 @@ const components = {
 	blockquote: ({ children }) => (
 		<Box component="blockquote" sx={{
 			m: 0, my: 0.75, pl: 1.5, py: 0.25,
-			borderLeft: '3px solid #629C44', backgroundColor: 'rgba(98,156,68,0.06)', borderRadius: '0 6px 6px 0',
-			fontStyle: 'italic', color: '#334155',
+			borderLeft: `3px solid ${tokens.brand.main}`, backgroundColor: alpha(tokens.brand.main, 0.06), borderRadius: '0 6px 6px 0',
+			fontStyle: 'italic', color: tokens.ink.body,
 			'& p': { mb: 0 },
 		}}>
 			{children}
@@ -39,8 +41,8 @@ const components = {
 		<Box sx={{ overflowX: 'auto', my: 0.75 }}>
 			<Box component="table" sx={{
 				borderCollapse: 'collapse', width: '100%', fontSize: '0.8rem',
-				'& th, & td': { border: '1px solid #e2e8f0', px: 1, py: 0.5, textAlign: 'left', verticalAlign: 'top' },
-				'& th': { backgroundColor: '#f8fafc', fontWeight: 700 },
+				'& th, & td': { border: `1px solid ${tokens.line.main}`, px: 1, py: 0.5, textAlign: 'left', verticalAlign: 'top' },
+				'& th': { backgroundColor: tokens.surface.subtle, fontWeight: 700 },
 			}}>
 				{children}
 			</Box>
@@ -48,10 +50,10 @@ const components = {
 	),
 	// react-markdown v9 has no `inline` flag: every code node gets the chip style and the pre
 	// wrapper below strips it again for fenced blocks.
-	code: ({ children }) => <Box component="code" sx={{ fontFamily: fontFamilyMono, fontSize: '0.78rem', backgroundColor: '#f1f5f9', px: 0.5, borderRadius: 0.5 }}>{children}</Box>,
-	pre: ({ children }) => <Box component="pre" sx={{ m: 0, my: 0.75, p: 1.25, backgroundColor: '#f1f5f9', borderRadius: 1.5, overflowX: 'auto', '& code': { backgroundColor: 'transparent', px: 0 } }}>{children}</Box>,
-	hr: () => <Box component="hr" sx={{ border: 0, borderTop: '1px solid #e2e8f0', my: 1.25 }} />,
-	a: ({ href, children }) => <a href={href} target="_blank" rel="noopener noreferrer" style={{ color: '#629C44' }}>{children}</a>,
+	code: ({ children }) => <Box component="code" sx={{ fontFamily: fontFamilyMono, fontSize: '0.78rem', backgroundColor: tokens.surface.muted, px: 0.5, borderRadius: 0.5 }}>{children}</Box>,
+	pre: ({ children }) => <Box component="pre" sx={{ m: 0, my: 0.75, p: 1.25, backgroundColor: tokens.surface.muted, borderRadius: 1.5, overflowX: 'auto', '& code': { backgroundColor: 'transparent', px: 0 } }}>{children}</Box>,
+	hr: () => <Box component="hr" sx={{ border: 0, borderTop: `1px solid ${tokens.line.main}`, my: 1.25 }} />,
+	a: ({ href, children }) => <a href={href} target="_blank" rel="noopener noreferrer" style={{ color: tokens.brand.text }}>{children}</a>,
 	// Never fetch images named by model output: a reply steered by text planted in a resume could
 	// otherwise leak chat content to any host through the image URL. The alt text is kept.
 	img: ({ alt }) => (alt ? <span>{alt}</span> : null),

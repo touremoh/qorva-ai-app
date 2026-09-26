@@ -25,6 +25,7 @@ import PasswordCard from './profile/PasswordCard.jsx';
 import ProfileDetailsCard from './profile/ProfileDetailsCard.jsx';
 import ProfileBanner from './profile/ProfileBanner.jsx';
 import SettingsNav from './SettingsNav.jsx';
+import * as tokens from '../../../theme/tokens.js';
 
 
 
@@ -137,7 +138,7 @@ const AccountSettings = () => {
 	];
 
 	return (
-		<Box sx={{ display: 'flex', width: '100%', height: '100%', overflow: 'hidden', backgroundColor: '#f8fafc' }}>
+		<Box sx={{ display: 'flex', width: '100%', height: '100%', overflow: 'hidden', backgroundColor: tokens.surface.subtle }}>
 
 			{/* ── Left navigation ── */}
 			<SettingsNav activeTab={activeTab} setActiveTab={setActiveTab} />

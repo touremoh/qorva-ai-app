@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
 import PagerControls from './PagerControls.jsx';
 import { JOB_POSTS_PAGE_SIZE } from '../model/dashboard.js';
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 const JobPostsReportTable = ({ rows, t }) => {
 	const [page, setPage] = useState(0);
@@ -19,7 +21,7 @@ const JobPostsReportTable = ({ rows, t }) => {
 	);
 
 	return (
-		<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
+		<Paper elevation={0} sx={{ border: `1px solid ${tokens.line.main}`, borderRadius: 2.5, p: 2.5, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
 			<SectionHeader sx={{ pb: 1.5 }}
 				icon={WorkOutlineOutlinedIcon}
 				label={t('dashboard.sections.jobPostsReport')}
@@ -38,22 +40,22 @@ const JobPostsReportTable = ({ rows, t }) => {
 					<Table size="small" stickyHeader>
 						<TableHead>
 							<TableRow>
-								<TableCell sx={{ fontWeight: 700, fontSize: '0.7rem', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', backgroundColor: '#f8fafc', borderBottom: '1px solid #e2e8f0', py: 1 }}>
+								<TableCell sx={{ fontWeight: 700, fontSize: '0.7rem', color: tokens.ink.muted, textTransform: 'uppercase', letterSpacing: '0.05em', backgroundColor: tokens.surface.subtle, borderBottom: `1px solid ${tokens.line.main}`, py: 1 }}>
 									{t('dashboard.table.jobPostTitle')}
 								</TableCell>
-								<TableCell align="right" sx={{ fontWeight: 700, fontSize: '0.7rem', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', backgroundColor: '#f8fafc', borderBottom: '1px solid #e2e8f0', py: 1 }}>
+								<TableCell align="right" sx={{ fontWeight: 700, fontSize: '0.7rem', color: tokens.ink.muted, textTransform: 'uppercase', letterSpacing: '0.05em', backgroundColor: tokens.surface.subtle, borderBottom: `1px solid ${tokens.line.main}`, py: 1 }}>
 									{t('dashboard.table.totalMatch')}
 								</TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
 							{visibleRows.map((row, idx) => (
-								<TableRow key={row.jobPostId ?? `${row.jobPostTitle}-${offset + idx}`} sx={{ '&:hover': { backgroundColor: '#f8fafc' } }}>
-									<TableCell sx={{ fontSize: '0.82rem', color: '#0f172a', py: 1, borderBottom: '1px solid #f1f5f9' }}>
+								<TableRow key={row.jobPostId ?? `${row.jobPostTitle}-${offset + idx}`} sx={{ '&:hover': { backgroundColor: tokens.surface.subtle } }}>
+									<TableCell sx={{ fontSize: '0.82rem', color: tokens.ink.strong, py: 1, borderBottom: `1px solid ${tokens.surface.muted}` }}>
 										{row?.jobPostTitle ?? '—'}
 									</TableCell>
-									<TableCell align="right" sx={{ py: 1, borderBottom: '1px solid #f1f5f9' }}>
-										<Box sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: 32, height: 22, px: 1, borderRadius: 1.5, backgroundColor: 'rgba(98,156,68,0.10)', color: '#166534', fontSize: '0.75rem', fontWeight: 700 }}>
+									<TableCell align="right" sx={{ py: 1, borderBottom: `1px solid ${tokens.surface.muted}` }}>
+										<Box sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: 32, height: 22, px: 1, borderRadius: 1.5, backgroundColor: alpha(tokens.brand.main, 0.10), color: tokens.status.success.text, fontSize: '0.75rem', fontWeight: 700 }}>
 											{row?.totalMatch ?? 0}
 										</Box>
 									</TableCell>
@@ -64,7 +66,7 @@ const JobPostsReportTable = ({ rows, t }) => {
 				</TableContainer>
 			) : (
 				<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
-					<Typography sx={{ fontSize: '0.82rem', color: '#94a3b8' }}>{t('dashboard.empty.jobPosts')}</Typography>
+					<Typography sx={{ fontSize: '0.82rem', color: tokens.ink.subtle }}>{t('dashboard.empty.jobPosts')}</Typography>
 				</Box>
 			)}
 		</Paper>

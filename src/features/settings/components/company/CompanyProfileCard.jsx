@@ -6,13 +6,15 @@ import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { brandPillButtonSx } from '../../../../shared/ui/buttonSx.js';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 /** The company's contact details, read-only or in edit mode. */
 const CompanyProfileCard = ({ PROFILE_FIELDS, demo, displayProfile, editMode, handleCancel, handleSave, profile, saveError, saving, setEditMode, setProfile }) => {
     const { t } = useTranslation();
     return (
         <>
-        <Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5 }}>
+        <Paper elevation={0} sx={{ border: `1px solid ${tokens.line.main}`, borderRadius: 2.5, p: 2.5 }}>
             <SectionHeader
                 icon={BusinessOutlinedIcon}
                 label={t('accountSettings.company.profileSection')}
@@ -21,7 +23,7 @@ const CompanyProfileCard = ({ PROFILE_FIELDS, demo, displayProfile, editMode, ha
                         <IconButton
                             size="small"
                             onClick={() => setEditMode(true)}
-                            sx={{ color: '#629C44', border: '1px solid rgba(98,156,68,0.3)', borderRadius: 1.5, p: 0.5 }}
+                            sx={{ color: tokens.brand.text, border: `1px solid ${alpha(tokens.brand.main, 0.3)}`, borderRadius: 1.5, p: 0.5 }}
                         >
                             <EditOutlinedIcon sx={{ fontSize: 14 }} />
                         </IconButton>
@@ -32,7 +34,7 @@ const CompanyProfileCard = ({ PROFILE_FIELDS, demo, displayProfile, editMode, ha
             {editMode ? (
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
                     {saveError && (
-                        <Typography sx={{ fontSize: '0.78rem', color: '#ef4444' }}>{saveError}</Typography>
+                        <Typography sx={{ fontSize: '0.78rem', color: tokens.status.error.bright }}>{saveError}</Typography>
                     )}
                     <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 1.5 }}>
                         {PROFILE_FIELDS.map(({ key, labelKey, type }) => (
@@ -49,7 +51,7 @@ const CompanyProfileCard = ({ PROFILE_FIELDS, demo, displayProfile, editMode, ha
                     </Box>
                     <Box sx={{ display: 'flex', gap: 1, justifyContent: 'flex-end' }}>
                         <Button size="small" onClick={handleCancel} disabled={saving}
-                            sx={{ borderRadius: 2, textTransform: 'none', fontSize: '0.82rem', color: '#64748b' }}>
+                            sx={{ borderRadius: 2, textTransform: 'none', fontSize: '0.82rem', color: tokens.ink.muted }}>
                             {t('accountSettings.cancel')}
                         </Button>
                         <Button size="small" variant="contained" onClick={handleSave}

@@ -5,6 +5,8 @@ import { Box, Button, TextField, Typography, CircularProgress } from '@mui/mater
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import { THEME_GREEN, THEME_GREEN_DARK, inputSx } from '../../model/jobForm.js';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 /** Collapsible AI builder that drafts the job description from a few inputs. */
 const JdAiBuilder = ({ createMode, jobTitle, onDraft }) => {
@@ -45,27 +47,27 @@ const JdAiBuilder = ({ createMode, jobTitle, onDraft }) => {
 	return (
 		<>
 		{createMode && (
-			<Box sx={{ mb: 2, border: '1px solid rgba(98,156,68,0.35)', borderRadius: 2, overflow: 'hidden' }}>
+			<Box sx={{ mb: 2, border: `1px solid ${alpha(tokens.brand.main, 0.35)}`, borderRadius: 2, overflow: 'hidden' }}>
 				<Box
 					onClick={() => setAiBuilderOpen(prev => !prev)}
 					sx={{
 						display: 'flex', alignItems: 'center', gap: 1, px: 1.5, py: 1,
-						backgroundColor: 'rgba(98,156,68,0.06)', cursor: 'pointer',
-						'&:hover': { backgroundColor: 'rgba(98,156,68,0.10)' },
+						backgroundColor: alpha(tokens.brand.main, 0.06), cursor: 'pointer',
+						'&:hover': { backgroundColor: alpha(tokens.brand.main, 0.10) },
 					}}
 				>
 					<AutoAwesomeIcon sx={{ fontSize: 17, color: THEME_GREEN }} />
-					<Typography sx={{ fontSize: '0.84rem', fontWeight: 600, color: '#166534' }}>
+					<Typography sx={{ fontSize: '0.84rem', fontWeight: 600, color: tokens.status.success.text }}>
 						{t('jobContent.aiBuilder.toggle', 'Generate the description with AI')}
 					</Typography>
 					<Box sx={{ flex: 1 }} />
-					<Typography sx={{ fontSize: '0.76rem', color: '#629C44' }}>
+					<Typography sx={{ fontSize: '0.76rem', color: tokens.brand.text }}>
 						{aiBuilderOpen ? '−' : '+'}
 					</Typography>
 				</Box>
 				{aiBuilderOpen && (
 					<Box sx={{ px: 1.5, py: 1.5, display: 'flex', flexDirection: 'column', gap: 1.25 }}>
-						<Typography sx={{ fontSize: '0.76rem', color: '#64748b' }}>
+						<Typography sx={{ fontSize: '0.76rem', color: tokens.ink.muted }}>
 							{t('jobContent.aiBuilder.hint', 'Fill in the job title above plus any details below — the draft lands in the editor for you to review.')}
 						</Typography>
 						<Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>

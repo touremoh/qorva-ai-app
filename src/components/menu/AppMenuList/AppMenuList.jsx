@@ -29,6 +29,8 @@ import {
 	COMP_ID_USAGE_MONITORING,
 } from '../../../constants.js';
 import PropTypes from 'prop-types';
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, collapsed, onToggleCollapse }) => {
 	const { t } = useTranslation();
@@ -97,7 +99,7 @@ const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, collap
 				display: 'flex',
 				flexDirection: 'column',
 				height: '100%',
-				background: 'linear-gradient(180deg, #1a2940 0%, #232F3E 100%)',
+				background: `linear-gradient(180deg, ${tokens.ink.navyDeep} 0%, ${tokens.ink.navy} 100%)`,
 				overflow: 'hidden',
 			}}
 		>
@@ -118,7 +120,7 @@ const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, collap
 					sx={{ width: 30, height: 30, flexShrink: 0 }}
 				/>
 				{!collapsed && (
-					<Typography sx={{ fontWeight: 700, fontSize: '1.1rem', color: '#ffffff', letterSpacing: '-0.02em' }}>
+					<Typography sx={{ fontWeight: 700, fontSize: '1.1rem', color: tokens.ink.inverse, letterSpacing: '-0.02em' }}>
 						Qorva
 					</Typography>
 				)}
@@ -147,18 +149,18 @@ const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, collap
 									pl: collapsed ? 0 : (isChild ? 3.5 : 1.5),
 									py: isChild ? 0.7 : 0.9,
 									justifyContent: collapsed ? 'center' : 'flex-start',
-									color: isActive ? '#ffffff' : 'rgba(255,255,255,0.55)',
-									backgroundColor: isActive ? 'rgba(98,156,68,0.18)' : 'transparent',
-									borderLeft: collapsed ? 'none' : (isActive ? '3px solid #629C44' : '3px solid transparent'),
+									color: isActive ? `${tokens.surface.paper}` : 'rgba(255,255,255,0.55)',
+									backgroundColor: isActive ? alpha(tokens.brand.main, 0.18) : 'transparent',
+									borderLeft: collapsed ? 'none' : (isActive ? `3px solid ${tokens.brand.main}` : '3px solid transparent'),
 									transition: 'all 0.15s ease',
 									'&:hover': {
-										backgroundColor: isActive ? 'rgba(98,156,68,0.24)' : 'rgba(255,255,255,0.06)',
-										color: '#ffffff',
+										backgroundColor: isActive ? alpha(tokens.brand.main, 0.24) : 'rgba(255,255,255,0.06)',
+										color: tokens.ink.inverse,
 									},
 								}}
 							>
 								{collapsed && showBadge ? (
-									<Badge variant="dot" sx={{ '& .MuiBadge-badge': { backgroundColor: '#dc2626' } }}>
+									<Badge variant="dot" sx={{ '& .MuiBadge-badge': { backgroundColor: tokens.status.error.main } }}>
 										<Icon sx={{ fontSize: isChild ? 16 : 18, flexShrink: 0 }} />
 									</Badge>
 								) : (
@@ -181,7 +183,7 @@ const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, collap
 									<Tooltip title={entry.badgeTooltip ?? ''} placement="right">
 										<Box sx={{
 											px: 0.7, py: 0.1, borderRadius: 2, flexShrink: 0,
-											backgroundColor: '#dc2626', color: '#ffffff',
+											backgroundColor: tokens.status.error.main, color: tokens.ink.inverse,
 											fontSize: '0.62rem', fontWeight: 700, lineHeight: 1.6,
 										}}>
 											{entry.badge > 99 ? '99+' : entry.badge}
@@ -217,10 +219,10 @@ const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, collap
 									mb: 0.5,
 									px: 1.5,
 									py: 0.9,
-									color: childActive ? '#ffffff' : 'rgba(255,255,255,0.55)',
-									borderLeft: childActive && !isOpen ? '3px solid #629C44' : '3px solid transparent',
+									color: childActive ? `${tokens.surface.paper}` : 'rgba(255,255,255,0.55)',
+									borderLeft: childActive && !isOpen ? `3px solid ${tokens.brand.main}` : '3px solid transparent',
 									transition: 'all 0.15s ease',
-									'&:hover': { backgroundColor: 'rgba(255,255,255,0.06)', color: '#ffffff' },
+									'&:hover': { backgroundColor: 'rgba(255,255,255,0.06)', color: tokens.ink.inverse },
 								}}
 							>
 								<Icon sx={{ fontSize: 18, mr: 1.5, flexShrink: 0 }} />
@@ -261,7 +263,7 @@ const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, collap
 							sx={{
 								color: 'rgba(255,255,255,0.35)',
 								borderRadius: 1.5,
-								'&:hover': { backgroundColor: 'rgba(255,255,255,0.08)', color: '#ffffff' },
+								'&:hover': { backgroundColor: 'rgba(255,255,255,0.08)', color: tokens.ink.inverse },
 							}}
 						>
 							{collapsed

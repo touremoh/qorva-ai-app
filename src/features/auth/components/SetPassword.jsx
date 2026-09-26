@@ -22,6 +22,8 @@ import { useTranslation } from 'react-i18next';
 import { setPassword as setPasswordRequest } from '../api/authService.js';
 import { QORVA_USER_LANGUAGE, SUPPORTED_LANGUAGES } from '../../../constants.js';
 import { PASSWORD_REGEX } from '../../../shared/lib/validators.js';
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 const MIN_PASSWORD_LENGTH = 8;
 // Requires lower, upper, digit and any non-alphanumeric character, 8–64 chars.
@@ -171,7 +173,7 @@ const SetPassword = ({ mode = 'activate' }) => {
 				display: 'flex',
 				alignItems: 'center',
 				justifyContent: 'center',
-				background: 'linear-gradient(135deg, #f0f4f8 0%, #e8edf2 100%)',
+				background: `linear-gradient(135deg, ${tokens.surface.cool} 0%, ${tokens.surface.coolDeep} 100%)`,
 				px: 2,
 				position: 'fixed',
 				top: 0,
@@ -195,34 +197,34 @@ const SetPassword = ({ mode = 'activate' }) => {
 								sx={{
 									width: 80, height: 80, borderRadius: '50%',
 									display: 'grid', placeItems: 'center',
-									backgroundColor: '#629C44',
-									boxShadow: '0 10px 30px rgba(98,156,68,0.35)',
+									backgroundColor: tokens.brand.main,
+									boxShadow: `0 10px 30px ${alpha(tokens.brand.main, 0.35)}`,
 								}}
 								aria-hidden
 							>
-								<CheckCircleRoundedIcon sx={{ fontSize: 48, color: '#fff' }} />
+								<CheckCircleRoundedIcon sx={{ fontSize: 48, color: tokens.ink.inverse }} />
 							</Box>
 							<Stack spacing={1}>
-								<Typography variant="h5" sx={{ fontWeight: 800, color: '#0f172a', letterSpacing: '-0.03em' }}>
+								<Typography variant="h5" sx={{ fontWeight: 800, color: tokens.ink.strong, letterSpacing: '-0.03em' }}>
 									{t(`${ns}.successTitle`, defaults.successTitle)}
 								</Typography>
 								<Typography variant="body2" color="text.secondary">
 									{t(`${ns}.successMessage`, defaults.successMessage)}
 								</Typography>
 							</Stack>
-							<CircularProgress size={22} sx={{ color: '#629C44' }} />
+							<CircularProgress size={22} sx={{ color: tokens.brand.text }} />
 						</Stack>
 					) : (
 						<>
 							<Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 3 }}>
 								<Box component="img" src="/logo.svg" alt="Qorva" sx={{ width: 34, height: 34 }} />
-								<Typography sx={{ fontWeight: 700, fontSize: '1.2rem', color: '#0f172a' }}>Qorva</Typography>
+								<Typography sx={{ fontWeight: 700, fontSize: '1.2rem', color: tokens.ink.strong }}>Qorva</Typography>
 							</Box>
 
-							<Typography variant="h5" sx={{ fontWeight: 700, color: '#0f172a', letterSpacing: '-0.03em', mb: 0.75 }}>
+							<Typography variant="h5" sx={{ fontWeight: 700, color: tokens.ink.strong, letterSpacing: '-0.03em', mb: 0.75 }}>
 								{t(`${ns}.title`, defaults.title)}
 							</Typography>
-							<Typography variant="body2" sx={{ color: '#64748b', mb: 3 }}>
+							<Typography variant="body2" sx={{ color: tokens.ink.muted, mb: 3 }}>
 								{t(`${ns}.subtitle`, defaults.subtitle)}
 							</Typography>
 
@@ -246,7 +248,7 @@ const SetPassword = ({ mode = 'activate' }) => {
 										input: {
 											startAdornment: (
 												<InputAdornment position="start">
-													<LockOutlinedIcon sx={{ fontSize: 18, color: '#94a3b8' }} />
+													<LockOutlinedIcon sx={{ fontSize: 18, color: tokens.ink.subtle }} />
 												</InputAdornment>
 											),
 											endAdornment: (
@@ -256,7 +258,7 @@ const SetPassword = ({ mode = 'activate' }) => {
 														edge="end"
 														size="small"
 														aria-label={t('setPassword.togglePasswordVisibility', 'Toggle password visibility')}
-														sx={{ color: '#94a3b8' }}
+														sx={{ color: tokens.ink.subtle }}
 													>
 														{showPassword ? <VisibilityOff sx={{ fontSize: 18 }} /> : <Visibility sx={{ fontSize: 18 }} />}
 													</IconButton>
@@ -283,7 +285,7 @@ const SetPassword = ({ mode = 'activate' }) => {
 										input: {
 											startAdornment: (
 												<InputAdornment position="start">
-													<LockOutlinedIcon sx={{ fontSize: 18, color: '#94a3b8' }} />
+													<LockOutlinedIcon sx={{ fontSize: 18, color: tokens.ink.subtle }} />
 												</InputAdornment>
 											),
 										},
@@ -298,10 +300,10 @@ const SetPassword = ({ mode = 'activate' }) => {
 									sx={{
 										mt: 0.5, py: 1.3, borderRadius: 1.5,
 										fontWeight: 600, fontSize: '0.9rem', textTransform: 'none',
-										backgroundColor: '#629C44',
-										boxShadow: '0 2px 8px rgba(98,156,68,0.35)',
-										'&:hover': { backgroundColor: '#518136', boxShadow: '0 4px 14px rgba(98,156,68,0.45)' },
-										'&.Mui-disabled': { backgroundColor: '#b8d4a8', boxShadow: 'none' },
+										backgroundColor: tokens.brand.main,
+										boxShadow: `0 2px 8px ${alpha(tokens.brand.main, 0.35)}`,
+										'&:hover': { backgroundColor: tokens.brand.hoverAlt, boxShadow: `0 4px 14px ${alpha(tokens.brand.main, 0.45)}` },
+										'&.Mui-disabled': { backgroundColor: tokens.brand.soft, boxShadow: 'none' },
 									}}
 								>
 									{loading
@@ -321,13 +323,13 @@ const inputSx = {
 	mb: 1.5,
 	'& .MuiOutlinedInput-root': {
 		borderRadius: 1.5,
-		backgroundColor: '#f8fafc',
-		'&.Mui-focused': { backgroundColor: '#ffffff' },
-		'& fieldset': { borderColor: '#e2e8f0' },
-		'&:hover fieldset': { borderColor: '#cbd5e1' },
-		'&.Mui-focused fieldset': { borderColor: '#629C44', borderWidth: 1.5 },
+		backgroundColor: tokens.surface.subtle,
+		'&.Mui-focused': { backgroundColor: tokens.surface.paper },
+		'& fieldset': { borderColor: tokens.line.main },
+		'&:hover fieldset': { borderColor: tokens.line.strong },
+		'&.Mui-focused fieldset': { borderColor: tokens.brand.main, borderWidth: 1.5 },
 	},
-	'& .MuiInputLabel-root.Mui-focused': { color: '#629C44' },
+	'& .MuiInputLabel-root.Mui-focused': { color: tokens.brand.text },
 };
 
 SetPassword.propTypes = {

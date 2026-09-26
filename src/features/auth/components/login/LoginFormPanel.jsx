@@ -11,6 +11,8 @@ import LanguageSwitcher from '../../../../components/languages/LanguageSwitcher.
 import MfaCodeStep from '../MfaCodeStep.jsx';
 import { useTranslation } from 'react-i18next';
 import { inputSx } from '../../model/styles.js';
+import * as tokens from '../../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 /** Sign-in form: email, password, errors, and the MFA code step when required. */
 const LoginFormPanel = ({ completeLogin, email, formError, handleBlur, handleLogin, liveErrors, mfaChallenge, password, restartLogin, setEmail, setPassword, setShowPassword, showPassword, status, touched }) => {
@@ -20,7 +22,7 @@ const LoginFormPanel = ({ completeLogin, email, formError, handleBlur, handleLog
 		<Grid2
 			size={{ xs: 12, md: 7 }}
 			sx={{
-				backgroundColor: '#ffffff',
+				backgroundColor: tokens.surface.paper,
 				padding: { xs: '40px 28px', sm: '52px 56px' },
 				display: 'flex',
 				flexDirection: 'column',
@@ -39,7 +41,7 @@ const LoginFormPanel = ({ completeLogin, email, formError, handleBlur, handleLog
 					sx={{
 						fontWeight: 700,
 						fontSize: '1.25rem',
-						color: '#0f172a',
+						color: tokens.ink.strong,
 						letterSpacing: '-0.02em',
 					}}
 				>
@@ -60,7 +62,7 @@ const LoginFormPanel = ({ completeLogin, email, formError, handleBlur, handleLog
 					variant="h5"
 					sx={{
 						fontWeight: 700,
-						color: '#0f172a',
+						color: tokens.ink.strong,
 						letterSpacing: '-0.03em',
 						mb: 0.75,
 					}}
@@ -69,7 +71,7 @@ const LoginFormPanel = ({ completeLogin, email, formError, handleBlur, handleLog
 				</Typography>
 				<Typography
 					variant="body2"
-					sx={{ color: '#64748b', mb: 3.5 }}
+					sx={{ color: tokens.ink.muted, mb: 3.5 }}
 				>
 					{t('login.subtitle')}
 				</Typography>
@@ -105,7 +107,7 @@ const LoginFormPanel = ({ completeLogin, email, formError, handleBlur, handleLog
 							input: {
 								startAdornment: (
 									<InputAdornment position="start">
-										<EmailOutlinedIcon sx={{ fontSize: 18, color: '#94a3b8' }} />
+										<EmailOutlinedIcon sx={{ fontSize: 18, color: tokens.ink.subtle }} />
 									</InputAdornment>
 								),
 							},
@@ -129,7 +131,7 @@ const LoginFormPanel = ({ completeLogin, email, formError, handleBlur, handleLog
 							input: {
 								startAdornment: (
 									<InputAdornment position="start">
-										<LockOutlinedIcon sx={{ fontSize: 18, color: '#94a3b8' }} />
+										<LockOutlinedIcon sx={{ fontSize: 18, color: tokens.ink.subtle }} />
 									</InputAdornment>
 								),
 								endAdornment: (
@@ -139,7 +141,7 @@ const LoginFormPanel = ({ completeLogin, email, formError, handleBlur, handleLog
 											edge="end"
 											size="small"
 											aria-label={t('login.togglePasswordVisibility', 'Toggle password visibility')}
-											sx={{ color: '#94a3b8' }}
+											sx={{ color: tokens.ink.subtle }}
 										>
 											{showPassword ? <VisibilityOff sx={{ fontSize: 18 }} /> : <Visibility sx={{ fontSize: 18 }} />}
 										</IconButton>
@@ -153,7 +155,7 @@ const LoginFormPanel = ({ completeLogin, email, formError, handleBlur, handleLog
 						<Typography
 							component={RouterLink}
 							to="/forgot-password"
-							sx={{ color: '#629C44', fontSize: '0.82rem', fontWeight: 600, textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+							sx={{ color: tokens.brand.text, fontSize: '0.82rem', fontWeight: 600, textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
 						>
 							{t('login.forgotPassword', 'Forgot password?')}
 						</Typography>
@@ -172,18 +174,18 @@ const LoginFormPanel = ({ completeLogin, email, formError, handleBlur, handleLog
 							fontSize: '0.9rem',
 							textTransform: 'none',
 							letterSpacing: 0,
-							backgroundColor: '#629C44',
-							boxShadow: '0 2px 8px rgba(98,156,68,0.35)',
+							backgroundColor: tokens.brand.main,
+							boxShadow: `0 2px 8px ${alpha(tokens.brand.main, 0.35)}`,
 							transition: 'background-color 0.2s, box-shadow 0.2s, transform 0.1s',
 							'&:hover': {
-								backgroundColor: '#518136',
-								boxShadow: '0 4px 14px rgba(98,156,68,0.45)',
+								backgroundColor: tokens.brand.hoverAlt,
+								boxShadow: `0 4px 14px ${alpha(tokens.brand.main, 0.45)}`,
 								transform: 'translateY(-1px)',
 							},
 							'&:active': { transform: 'translateY(0)' },
 							'&.Mui-disabled': status === 'success'
-								? { backgroundColor: '#dcfce7', color: '#166534', boxShadow: 'none' }
-								: { backgroundColor: '#b8d4a8', color: 'rgba(255,255,255,0.9)', boxShadow: 'none' },
+								? { backgroundColor: tokens.status.success.tint, color: tokens.status.success.text, boxShadow: 'none' }
+								: { backgroundColor: tokens.brand.soft, color: 'rgba(255,255,255,0.9)', boxShadow: 'none' },
 						}}
 					>
 						{status === 'loading' && (
@@ -194,7 +196,7 @@ const LoginFormPanel = ({ completeLogin, email, formError, handleBlur, handleLog
 						)}
 						{status === 'success' && (
 							<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
-								<CheckCircleRoundedIcon sx={{ fontSize: 19, color: '#16a34a' }} />
+								<CheckCircleRoundedIcon sx={{ fontSize: 19, color: tokens.status.success.main }} />
 								{t('login.signedIn', 'Signed in!')}
 							</Box>
 						)}
@@ -204,7 +206,7 @@ const LoginFormPanel = ({ completeLogin, email, formError, handleBlur, handleLog
 				</>
 			)}
 
-			<Divider sx={{ my: 3, borderColor: '#e2e8f0' }} />
+			<Divider sx={{ my: 3, borderColor: tokens.line.main }} />
 
 			<Box sx={{ display: 'flex', justifyContent: 'center' }}>
 				<LanguageSwitcher />

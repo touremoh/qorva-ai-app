@@ -1,4 +1,5 @@
 import { scoreColorsFor } from '../../../shared/lib/score.js';
+import * as tokens from '../../../theme/tokens.js';
 
 // Freshness issues offer criteria-level "archive all" — the only bulk that scales to thousands of hits.
 export const ARCHIVABLE_ISSUES = new Set(['OUTDATED', 'UNKNOWN_FRESHNESS']);
@@ -28,16 +29,16 @@ export const scoreColor = (score) => {
 };
 
 export const SEVERITY_CHIP = {
-	CRITICAL: { color: '#991b1b', bg: '#fee2e2' },
-	HIGH: { color: '#854d0e', bg: '#fef9c3' },
-	MEDIUM: { color: '#475569', bg: '#f1f5f9' },
+	CRITICAL: { color: tokens.status.error.text, bg: tokens.status.error.tint },
+	HIGH: { color: tokens.score.fair.text, bg: tokens.status.warning.tint },
+	MEDIUM: { color: tokens.ink.soft, bg: tokens.surface.muted },
 };
 
 export const FRESHNESS_COLORS = {
-	UP_TO_DATE: '#629C44',
-	REVIEW_SUGGESTED: '#f59e0b',
-	OUTDATED: '#dc2626',
-	UNKNOWN: '#94a3b8',
+	UP_TO_DATE: tokens.brand.main,
+	REVIEW_SUGGESTED: tokens.status.warning.bright,
+	OUTDATED: tokens.status.error.main,
+	UNKNOWN: tokens.ink.subtle,
 };
 
 export const COMPLETENESS_GROUPS = [

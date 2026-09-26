@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { Box, Link, Typography } from '@mui/material';
 import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
 import { GREEN } from '../../model/integrations.js';
+import * as tokens from '../../../../theme/tokens.js';
 
 /**
  * Numbered setup steps for one provider, optionally preceded by an intro line and followed
@@ -11,27 +12,27 @@ import { GREEN } from '../../model/integrations.js';
 const GuideSteps = ({ title, intro, steps, note, docsUrl, docsLabel }) => {
 	if (!steps.length && !note) return null;
 	return (
-		<Box sx={{ borderRadius: 2, backgroundColor: '#f8fafc', border: '1px solid #eef2f7', p: 1.5 }}>
+		<Box sx={{ borderRadius: 2, backgroundColor: tokens.surface.subtle, border: `1px solid ${tokens.surface.coolPale}`, p: 1.5 }}>
 			<Typography sx={{
-				fontSize: '0.7rem', color: '#64748b', fontWeight: 700,
+				fontSize: '0.7rem', color: tokens.ink.muted, fontWeight: 700,
 				textTransform: 'uppercase', letterSpacing: '0.05em', mb: 0.75,
 			}}>
 				{title}
 			</Typography>
 			{intro && (
-				<Typography sx={{ fontSize: '0.76rem', color: '#475569', mb: 1 }}>{intro}</Typography>
+				<Typography sx={{ fontSize: '0.76rem', color: tokens.ink.soft, mb: 1 }}>{intro}</Typography>
 			)}
 			{steps.length > 0 && (
 				<Box component="ol" sx={{ m: 0, pl: 2.25, display: 'flex', flexDirection: 'column', gap: 0.6 }}>
 					{steps.map((step, index) => (
-						<Typography key={index} component="li" sx={{ fontSize: '0.76rem', color: '#475569', lineHeight: 1.5 }}>
+						<Typography key={index} component="li" sx={{ fontSize: '0.76rem', color: tokens.ink.soft, lineHeight: 1.5 }}>
 							{step}
 						</Typography>
 					))}
 				</Box>
 			)}
 			{note && (
-				<Typography sx={{ fontSize: '0.74rem', color: '#92400e', mt: 1 }}>{note}</Typography>
+				<Typography sx={{ fontSize: '0.74rem', color: tokens.status.warning.text, mt: 1 }}>{note}</Typography>
 			)}
 			{docsUrl && (
 				<Link href={docsUrl} target="_blank" rel="noopener noreferrer"

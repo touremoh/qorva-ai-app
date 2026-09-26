@@ -8,20 +8,22 @@ import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { useTranslation } from 'react-i18next';
 import { brandPillButtonSx } from '../../../../shared/ui/buttonSx.js';
+import * as tokens from '../../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 /** The signed-in user's profile fields, read-only or in edit mode. */
 const ProfileDetailsCard = ({ demo, editMode, editValues, handleCancelEdit, handleSaveProfile, savingProfile, setEditMode, setEditValues, userInfo }) => {
 	const { t } = useTranslation();
 	return (
 		<>
-		<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5 }}>
+		<Paper elevation={0} sx={{ border: `1px solid ${tokens.line.main}`, borderRadius: 2.5, p: 2.5 }}>
 			<SectionHeader
 				icon={PersonOutlineOutlinedIcon}
 				label={t('accountSettings.profileInformation')}
 				action={!demo && !editMode && (
 					<Tooltip title={t('accountSettings.editProfile')}>
 						<IconButton size="small" onClick={() => setEditMode(true)}
-							sx={{ color: '#629C44', border: '1px solid rgba(98,156,68,0.3)', borderRadius: 1.5, p: 0.5 }}>
+							sx={{ color: tokens.brand.text, border: `1px solid ${alpha(tokens.brand.main, 0.3)}`, borderRadius: 1.5, p: 0.5 }}>
 							<EditOutlinedIcon sx={{ fontSize: 14 }} />
 						</IconButton>
 					</Tooltip>
@@ -42,7 +44,7 @@ const ProfileDetailsCard = ({ demo, editMode, editValues, handleCancelEdit, hand
 					<FieldTile icon={EmailOutlinedIcon} label={t('accountSettings.email')} value={userInfo.email} />
 					<Box sx={{ display: 'flex', gap: 1, justifyContent: 'flex-end' }}>
 						<Button size="small" onClick={handleCancelEdit}
-							sx={{ borderRadius: 2, textTransform: 'none', fontSize: '0.82rem', color: '#64748b' }}>
+							sx={{ borderRadius: 2, textTransform: 'none', fontSize: '0.82rem', color: tokens.ink.muted }}>
 							{t('accountSettings.cancel')}
 						</Button>
 						<Button size="small" variant="contained" onClick={handleSaveProfile}

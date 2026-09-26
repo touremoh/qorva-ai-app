@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import AppCVDetails from '../../cv/components/AppCVDetails.jsx';
+import * as tokens from '../../../theme/tokens.js';
 
 /** Side panel with the resume opened from an insight. */
 const InsightCvPanel = ({ cvLoading, selectedCV, setSelectedCV }) => {
@@ -11,15 +12,15 @@ const InsightCvPanel = ({ cvLoading, selectedCV, setSelectedCV }) => {
             <Box sx={{
                 width: '42%',
                 flexShrink: 0,
-                borderLeft: '1px solid #e2e8f0',
-                backgroundColor: '#f8fafc',
+                borderLeft: `1px solid ${tokens.line.main}`,
+                backgroundColor: tokens.surface.subtle,
                 overflow: 'hidden',
                 display: 'flex',
                 flexDirection: 'column',
             }}>
                 {cvLoading ? (
                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
-                        <CircularProgress size={24} sx={{ color: '#629C44' }} />
+                        <CircularProgress size={24} sx={{ color: tokens.brand.text }} />
                     </Box>
                 ) : (
                     <AppCVDetails

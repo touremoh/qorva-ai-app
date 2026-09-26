@@ -6,6 +6,8 @@ import EditSectionButton from './EditSectionButton.jsx';
 import Card from './Card.jsx';
 import { techSkillChipSx } from '../../model/cvDetailsStyles.js';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 /** The resume's tags, editable inline. */
 const TagsSection = ({ draft, editingSection, handleAddTag, handleCancelEdit, handleEdit, handleRemoveTag, handleSave, isSaving, setTagInput, tagInput, tags }) => {
@@ -29,7 +31,7 @@ const TagsSection = ({ draft, editingSection, handleAddTag, handleCancelEdit, ha
 									label={tag}
 									size="small"
 									onDelete={() => handleRemoveTag(tag)}
-									sx={{ ...techSkillChipSx, '& .MuiChip-deleteIcon': { fontSize: 13, color: '#629C44' } }}
+									sx={{ ...techSkillChipSx, '& .MuiChip-deleteIcon': { fontSize: 13, color: tokens.brand.text } }}
 								/>
 							))}
 						</Box>
@@ -50,7 +52,7 @@ const TagsSection = ({ draft, editingSection, handleAddTag, handleCancelEdit, ha
 							variant="outlined"
 							onClick={handleAddTag}
 							disabled={!tagInput.trim()}
-							sx={{ textTransform: 'none', fontSize: '0.78rem', borderRadius: 1.5, borderColor: '#629C44', color: '#629C44', '&:hover': { borderColor: '#528035', backgroundColor: 'rgba(98,156,68,0.05)' } }}
+							sx={{ textTransform: 'none', fontSize: '0.78rem', borderRadius: 1.5, borderColor: tokens.brand.main, color: tokens.brand.text, '&:hover': { borderColor: tokens.brand.hover, backgroundColor: alpha(tokens.brand.main, 0.05) } }}
 						>
 							+
 						</Button>
@@ -63,14 +65,14 @@ const TagsSection = ({ draft, editingSection, handleAddTag, handleCancelEdit, ha
 							disabled={isSaving}
 							onClick={handleSave}
 							startIcon={isSaving ? <CircularProgress size={12} color="inherit" /> : null}
-							sx={{ textTransform: 'none', fontSize: '0.78rem', backgroundColor: '#629C44', '&:hover': { backgroundColor: '#528035' }, borderRadius: 1.5, boxShadow: 'none', fontWeight: 600 }}
+							sx={{ textTransform: 'none', fontSize: '0.78rem', backgroundColor: tokens.brand.main, '&:hover': { backgroundColor: tokens.brand.hover }, borderRadius: 1.5, boxShadow: 'none', fontWeight: 600 }}
 						>
 							{t('appCVContent.save', 'Save')}
 						</Button>
 						<Button
 							size="small"
 							onClick={handleCancelEdit}
-							sx={{ textTransform: 'none', fontSize: '0.78rem', color: '#64748b', borderRadius: 1.5 }}
+							sx={{ textTransform: 'none', fontSize: '0.78rem', color: tokens.ink.muted, borderRadius: 1.5 }}
 						>
 							{t('appCVContent.cancel')}
 						</Button>
@@ -79,7 +81,7 @@ const TagsSection = ({ draft, editingSection, handleAddTag, handleCancelEdit, ha
 			) : (
 				<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.6 }}>
 					{tags.length === 0 ? (
-						<Typography sx={{ fontSize: '0.78rem', color: '#cbd5e1', fontStyle: 'italic' }}>
+						<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.faint, fontStyle: 'italic' }}>
 							{t('appCVContent.noTags', 'No tags yet — click edit to add some.')}
 						</Typography>
 					) : tags.map((tag, i) => (

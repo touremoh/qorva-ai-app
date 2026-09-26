@@ -4,6 +4,7 @@ import SectionTitle from './SectionTitle.jsx';
 import SliderRow from './SliderRow.jsx';
 import { THEME_GREEN } from '../../model/jobForm.js';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../../theme/tokens.js';
 
 /** Sliders weighting skills, experience, location and industry; they must add up to 100. */
 const ScoringWeightsSection = ({ sc, setWeights, weightOk, weightTotal }) => {
@@ -28,14 +29,14 @@ const ScoringWeightsSection = ({ sc, setWeights, weightOk, weightTotal }) => {
 			))}
 		</Box>
 		<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-			<Typography sx={{ fontSize: '0.76rem', color: '#94a3b8' }}>
+			<Typography sx={{ fontSize: '0.76rem', color: tokens.ink.subtle }}>
 				{t('jobContent.totalWeight')}:
 			</Typography>
-			<Typography sx={{ fontSize: '0.78rem', fontWeight: 700, color: weightOk ? THEME_GREEN : '#f59e0b' }}>
+			<Typography sx={{ fontSize: '0.78rem', fontWeight: 700, color: weightOk ? THEME_GREEN : `${tokens.status.warning.bright}` }}>
 				{weightTotal}%
 			</Typography>
 			{!weightOk && (
-				<Typography sx={{ fontSize: '0.72rem', color: '#f59e0b' }}>
+				<Typography sx={{ fontSize: '0.72rem', color: tokens.status.warning.bright }}>
 					(should be 100%)
 				</Typography>
 			)}

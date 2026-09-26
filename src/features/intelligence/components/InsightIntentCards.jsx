@@ -10,15 +10,16 @@ import DonutLargeOutlinedIcon from '@mui/icons-material/DonutLargeOutlined';
 import CompareArrowsOutlinedIcon from '@mui/icons-material/CompareArrowsOutlined';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
+import * as tokens from '../../../theme/tokens.js';
 
 const INTENT_CARDS = [
-    { id: 'TALENT_POOL_INTELLIGENCE', icon: GroupsOutlinedIcon,        color: '#4f46e5' },
-    { id: 'TALENT_CLUSTERING',        icon: HubOutlinedIcon,           color: '#4f46e5' },
-    { id: 'CANDIDATE_RANKING',        icon: LeaderboardOutlinedIcon,   color: '#629C44' },
-    { id: 'CANDIDATE_REDISCOVERY',    icon: RestartAltOutlinedIcon,    color: '#0891b2' },
-    { id: 'SKILL_GAP_ANALYSIS',       icon: ManageSearchOutlinedIcon,  color: '#d97706' },
-    { id: 'SKILLS_DISTRIBUTION',      icon: DonutLargeOutlinedIcon,    color: '#0284c7' },
-    { id: 'CANDIDATE_COMPARISON',     icon: CompareArrowsOutlinedIcon, color: '#0891b2' },
+    { id: 'TALENT_POOL_INTELLIGENCE', icon: GroupsOutlinedIcon,        color: tokens.status.accent.main },
+    { id: 'TALENT_CLUSTERING',        icon: HubOutlinedIcon,           color: tokens.status.accent.main },
+    { id: 'CANDIDATE_RANKING',        icon: LeaderboardOutlinedIcon,   color: tokens.brand.text },
+    { id: 'CANDIDATE_REDISCOVERY',    icon: RestartAltOutlinedIcon,    color: tokens.status.info.bright },
+    { id: 'SKILL_GAP_ANALYSIS',       icon: ManageSearchOutlinedIcon,  color: tokens.status.warning.main },
+    { id: 'SKILLS_DISTRIBUTION',      icon: DonutLargeOutlinedIcon,    color: tokens.status.info.sky },
+    { id: 'CANDIDATE_COMPARISON',     icon: CompareArrowsOutlinedIcon, color: tokens.status.info.bright },
 ];
 
 const withAlpha = (hex, alpha) => {
@@ -55,8 +56,8 @@ const InsightIntentCards = ({ onCardClick }) => {
                         sx={{
                             p: 1.5,
                             borderRadius: 2.5,
-                            border: '1px solid #e2e8f0',
-                            backgroundColor: '#ffffff',
+                            border: `1px solid ${tokens.line.main}`,
+                            backgroundColor: tokens.surface.paper,
                             cursor: 'pointer',
                             display: 'flex',
                             flexDirection: 'column',
@@ -88,7 +89,7 @@ const InsightIntentCards = ({ onCardClick }) => {
                                 sx={{
                                     fontWeight: 700,
                                     fontSize: '0.82rem',
-                                    color: '#0f172a',
+                                    color: tokens.ink.strong,
                                     lineHeight: 1.2,
                                 }}
                             >
@@ -98,7 +99,7 @@ const InsightIntentCards = ({ onCardClick }) => {
                         <Typography
                             sx={{
                                 fontSize: '0.72rem',
-                                color: '#64748b',
+                                color: tokens.ink.muted,
                                 lineHeight: 1.4,
                             }}
                         >
@@ -108,13 +109,13 @@ const InsightIntentCards = ({ onCardClick }) => {
                             sx={{
                                 mt: 'auto',
                                 pt: 0.75,
-                                borderTop: '1px dashed #e2e8f0',
+                                borderTop: `1px dashed ${tokens.line.main}`,
                             }}
                         >
                             <Typography
                                 sx={{
                                     fontSize: '0.7rem',
-                                    color: '#94a3b8',
+                                    color: tokens.ink.subtle,
                                     fontStyle: 'italic',
                                     lineHeight: 1.35,
                                 }}

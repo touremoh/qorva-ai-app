@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import { getColor } from '../../model/reportDetails.js';
+import * as tokens from '../../../../theme/tokens.js';
 
 const ScoreGaugeLarge = ({ value }) => {
 	const [animated, setAnimated] = useState(false);
@@ -13,7 +14,7 @@ const ScoreGaugeLarge = ({ value }) => {
 	return (
 		<Box sx={{ position: 'relative', width: size, height: size, flexShrink: 0 }}>
 			<svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ overflow: 'visible' }}>
-				<circle cx={size/2} cy={size/2} r={r} fill="none" stroke="#e2e8f0" strokeWidth={sw} />
+				<circle cx={size/2} cy={size/2} r={r} fill="none" stroke={tokens.line.main} strokeWidth={sw} />
 				<circle cx={size/2} cy={size/2} r={r} fill="none" stroke={color} strokeWidth={sw}
 					strokeLinecap="round" strokeDasharray={circ} strokeDashoffset={offset}
 					transform={`rotate(-90 ${size/2} ${size/2})`}
@@ -22,7 +23,7 @@ const ScoreGaugeLarge = ({ value }) => {
 			</svg>
 			<Box sx={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
 				<Typography sx={{ fontSize: '3.4rem', fontWeight: 900, color, lineHeight: 1, letterSpacing: '-0.04em' }}>{value}</Typography>
-				<Typography sx={{ fontSize: '0.65rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.12em' }}>/ 100</Typography>
+				<Typography sx={{ fontSize: '0.65rem', fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.12em' }}>/ 100</Typography>
 			</Box>
 		</Box>
 	);

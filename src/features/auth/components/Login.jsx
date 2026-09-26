@@ -13,6 +13,7 @@ import { EMAIL_REGEX } from '../../../shared/lib/validators.js';
 import LoginMobileSignUp from './login/LoginMobileSignUp.jsx';
 import LoginBrandPanel from './login/LoginBrandPanel.jsx';
 import LoginFormPanel from './login/LoginFormPanel.jsx';
+import * as tokens from '../../../theme/tokens.js';
 
 const Login = () => {
 	const { t } = useTranslation();
@@ -149,7 +150,7 @@ const Login = () => {
 				display: 'flex',
 				alignItems: 'center',
 				justifyContent: 'center',
-				background: 'linear-gradient(135deg, #f0f4f8 0%, #e8edf2 100%)',
+				background: `linear-gradient(135deg, ${tokens.surface.cool} 0%, ${tokens.surface.coolDeep} 100%)`,
 				position: 'fixed',
 				top: 0,
 				left: 0,

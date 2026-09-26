@@ -4,6 +4,7 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import SearchIcon from '@mui/icons-material/Search';
 import { GREEN } from '../../model/entries.js';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../../theme/tokens.js';
 
 /** Quick search over name, role and skills. */
 const CvSearchBox = ({ onQuickSearchChange, quickSearch }) => {
@@ -21,7 +22,7 @@ const CvSearchBox = ({ onQuickSearchChange, quickSearch }) => {
 				InputProps={{
 					startAdornment: (
 						<InputAdornment position="start">
-							<SearchIcon sx={{ fontSize: 16, color: quickSearch ? GREEN : '#94a3b8' }} />
+							<SearchIcon sx={{ fontSize: 16, color: quickSearch ? GREEN : `${tokens.ink.subtle}` }} />
 						</InputAdornment>
 					),
 					endAdornment: quickSearch ? (
@@ -30,7 +31,7 @@ const CvSearchBox = ({ onQuickSearchChange, quickSearch }) => {
 								size="small"
 								onClick={() => onQuickSearchChange?.('')}
 								aria-label={t('appCVContent.filters.clear')}
-								sx={{ p: 0.25, color: '#94a3b8', '&:hover': { color: '#334155' } }}
+								sx={{ p: 0.25, color: tokens.ink.subtle, '&:hover': { color: tokens.ink.body } }}
 							>
 								<CloseRoundedIcon sx={{ fontSize: 14 }} />
 							</IconButton>
@@ -39,9 +40,9 @@ const CvSearchBox = ({ onQuickSearchChange, quickSearch }) => {
 					sx: {
 						fontSize: '0.82rem',
 						borderRadius: 1.5,
-						backgroundColor: '#ffffff',
-						'& fieldset': { borderColor: '#e2e8f0' },
-						'&:hover fieldset': { borderColor: '#cbd5e1' },
+						backgroundColor: tokens.surface.paper,
+						'& fieldset': { borderColor: tokens.line.main },
+						'&:hover fieldset': { borderColor: tokens.line.strong },
 						'&.Mui-focused fieldset': { borderColor: GREEN, borderWidth: 1 },
 					},
 				}}

@@ -7,6 +7,7 @@ import UpdateOutlinedIcon from '@mui/icons-material/UpdateOutlined';
 import Meter from './Meter.jsx';
 import { FRESHNESS_COLORS, COMPLETENESS_GROUPS, FIELD_LABELS } from '../model/libraryQuality.js';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../theme/tokens.js';
 
 /** Field completeness bars next to the resume-age breakdown. */
 const CompletenessFreshnessRow = ({ completenessMetrics, freshnessMetrics, freshnessPieData }) => {
@@ -14,12 +15,12 @@ const CompletenessFreshnessRow = ({ completenessMetrics, freshnessMetrics, fresh
 	return (
 		<>
 		<Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', lg: '2fr 1fr' }, gap: 2 }}>
-			<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5 }}>
+			<Paper elevation={0} sx={{ border: `1px solid ${tokens.line.main}`, borderRadius: 2.5, p: 2.5 }}>
 				<SectionHeader sx={{ pb: 1.5 }} icon={ChecklistOutlinedIcon} label={t('libraryQuality.sections.completeness', 'Field Completeness')} />
 				<Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, 1fr)' }, gap: 3 }}>
 					{COMPLETENESS_GROUPS.map(({ key, fields }) => (
 						<Box key={key} sx={{ display: 'flex', flexDirection: 'column', gap: 0.9 }}>
-							<Typography sx={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+							<Typography sx={{ fontSize: '0.68rem', fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
 								{t(`libraryQuality.groups.${key}`, key)}
 							</Typography>
 							{fields.map((field) => {
@@ -31,7 +32,7 @@ const CompletenessFreshnessRow = ({ completenessMetrics, freshnessMetrics, fresh
 										label={t(`libraryQuality.fields.${field}`, FIELD_LABELS[field] ?? field)}
 										count={metric.count}
 										percentage={metric.percentage}
-										accent={metric.percentage >= 70 ? '#629C44' : metric.percentage >= 40 ? '#f59e0b' : '#dc2626'}
+										accent={metric.percentage >= 70 ? `${tokens.brand.main}` : metric.percentage >= 40 ? `${tokens.status.warning.bright}` : `${tokens.status.error.main}`}
 									/>
 								);
 							})}
@@ -40,7 +41,7 @@ const CompletenessFreshnessRow = ({ completenessMetrics, freshnessMetrics, fresh
 				</Box>
 			</Paper>
 
-			<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5 }}>
+			<Paper elevation={0} sx={{ border: `1px solid ${tokens.line.main}`, borderRadius: 2.5, p: 2.5 }}>
 				<SectionHeader sx={{ pb: 1.5 }} icon={UpdateOutlinedIcon} label={t('libraryQuality.sections.freshness', 'Content Freshness')} />
 				<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 					<PieChart
@@ -57,10 +58,10 @@ const CompletenessFreshnessRow = ({ completenessMetrics, freshnessMetrics, fresh
 							return (
 								<Box key={bucket} sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
 									<Box sx={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: color, flexShrink: 0 }} />
-									<Typography sx={{ flex: 1, fontSize: '0.72rem', color: '#475569' }}>
+									<Typography sx={{ flex: 1, fontSize: '0.72rem', color: tokens.ink.soft }}>
 										{t(`libraryQuality.buckets.${bucket}`, bucket)}
 									</Typography>
-									<Typography sx={{ fontSize: '0.72rem', color: '#64748b', fontWeight: 600 }}>
+									<Typography sx={{ fontSize: '0.72rem', color: tokens.ink.muted, fontWeight: 600 }}>
 										{metric.count} · {Number(metric.percentage).toFixed(1)}%
 									</Typography>
 								</Box>

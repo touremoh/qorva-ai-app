@@ -7,6 +7,7 @@ import UploadProgress from './UploadProgress.jsx';
 import UploadResults from './UploadResults.jsx';
 import BulkImportProgress from './BulkImportProgress.jsx';
 import BulkImportSummary from './BulkImportSummary.jsx';
+import * as tokens from '../../../../theme/tokens.js';
 
 /** Resume upload: pick files, then progress, per-file results or the bulk import summary. */
 const UploadDialog = ({ upload }) => {
@@ -20,10 +21,10 @@ const UploadDialog = ({ upload }) => {
 			fullWidth
 			PaperProps={{ sx: { borderRadius: 3 } }}
 		>
-			<DialogTitle sx={{ px: 3, pt: 3, pb: 1, fontWeight: 700, fontSize: '1rem', color: '#0f172a' }}>
+			<DialogTitle sx={{ px: 3, pt: 3, pb: 1, fontWeight: 700, fontSize: '1rem', color: tokens.ink.strong }}>
 				{(upload.uploadResults || upload.bulkSummary) ? t('appCVContent.uploadResults.title', 'Upload results') : t('appCVContent.uploadCV')}
 				{!upload.uploadResults && !upload.bulkSummary && (
-					<Typography sx={{ fontSize: '0.82rem', color: '#64748b', fontWeight: 400, mt: 0.25 }}>
+					<Typography sx={{ fontSize: '0.82rem', color: tokens.ink.muted, fontWeight: 400, mt: 0.25 }}>
 						{t('appCVContent.uploadCVInfo', { max: upload.bulkLimit })}
 					</Typography>
 				)}

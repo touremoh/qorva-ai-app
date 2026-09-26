@@ -1,8 +1,10 @@
-export const THEME_GREEN = '#629C44';
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
+export const THEME_GREEN = tokens.brand.main;
 
-export const THEME_GREEN_DARK = '#528035';
+export const THEME_GREEN_DARK = tokens.brand.hover;
 
-export const THEME_GREEN_ALPHA = 'rgba(98, 156, 68, 0.18)';
+export const THEME_GREEN_ALPHA = alpha(tokens.brand.main, 0.18);
 
 export const inputSx = {
 	'& .MuiOutlinedInput-root': {
@@ -34,13 +36,13 @@ export const sliderSx = {
 
 export const stepperSx = {
 	width: '100%',
-	'& .MuiStepIcon-root': { color: '#e2e8f0' },
+	'& .MuiStepIcon-root': { color: tokens.ink.faintest },
 	'& .MuiStepIcon-root.Mui-active': { color: THEME_GREEN },
 	'& .MuiStepIcon-root.Mui-completed': { color: THEME_GREEN },
 	'& .MuiStepLabel-label': { fontSize: '0.82rem' },
 	'& .MuiStepLabel-label.Mui-active': { fontWeight: 600, color: THEME_GREEN },
 	'& .MuiStepLabel-label.Mui-completed': { color: THEME_GREEN },
-	'& .MuiStepConnector-line': { borderColor: '#e2e8f0' },
+	'& .MuiStepConnector-line': { borderColor: tokens.line.main },
 	'& .MuiStepConnector-root.Mui-active .MuiStepConnector-line': { borderColor: THEME_GREEN },
 	'& .MuiStepConnector-root.Mui-completed .MuiStepConnector-line': { borderColor: THEME_GREEN },
 };
@@ -52,11 +54,11 @@ export const emptySkill = () => ({ name: '', importance: 'mandatory', weight: 50
 export const AVAILABILITY_STATUSES = ['activelyLooking', 'openButNotSearching', 'notAvailable', 'freelanceOnly'];
 
 export const tabsSx = {
-	borderBottom: '1px solid #e2e8f0',
+	borderBottom: `1px solid ${tokens.line.main}`,
 	minHeight: 40,
 	px: 2,
-	backgroundColor: '#ffffff',
+	backgroundColor: tokens.surface.paper,
 	'& .MuiTabs-indicator': { backgroundColor: THEME_GREEN },
-	'& .MuiTab-root': { textTransform: 'none', fontSize: '0.82rem', minHeight: 40, py: 1, color: '#64748b' },
+	'& .MuiTab-root': { textTransform: 'none', fontSize: '0.82rem', minHeight: 40, py: 1, color: tokens.ink.muted },
 	'& .MuiTab-root.Mui-selected': { color: THEME_GREEN, fontWeight: 600 },
 };

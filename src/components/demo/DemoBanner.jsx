@@ -3,6 +3,8 @@ import ScienceOutlinedIcon from '@mui/icons-material/ScienceOutlined';
 import RocketLaunchRoundedIcon from '@mui/icons-material/RocketLaunchRounded';
 import { useTranslation } from 'react-i18next';
 import { openUpgradeDialog } from '../../utils/demoMode.js';
+import * as tokens from '../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 // Persistent strip shown at the top of the workspace while the account is in
 // demo mode. Primary CTA opens the 14-day free-trial upgrade flow (Screen 7).
@@ -18,14 +20,14 @@ const DemoBanner = () => {
 				gap: 1.5,
 				px: { xs: 2, md: 3 },
 				py: 1,
-				background: 'linear-gradient(90deg, #1a2940 0%, #232F3E 60%, #2d3f54 100%)',
-				borderBottom: '1px solid rgba(98,156,68,0.35)',
+				background: `linear-gradient(90deg, ${tokens.ink.navyDeep} 0%, ${tokens.ink.navy} 60%, ${tokens.ink.slateDeep} 100%)`,
+				borderBottom: `1px solid ${alpha(tokens.brand.main, 0.35)}`,
 			}}
 		>
-			<ScienceOutlinedIcon sx={{ fontSize: 20, color: '#a3c988', flexShrink: 0 }} />
+			<ScienceOutlinedIcon sx={{ fontSize: 20, color: tokens.brand.pale, flexShrink: 0 }} />
 			<Typography
 				sx={{
-					color: '#e2e8f0',
+					color: tokens.ink.faintest,
 					fontSize: { xs: '0.78rem', sm: '0.85rem' },
 					fontWeight: 500,
 					lineHeight: 1.3,
@@ -33,7 +35,7 @@ const DemoBanner = () => {
 					minWidth: 0,
 				}}
 			>
-				<Box component="span" sx={{ fontWeight: 700, color: '#ffffff' }}>
+				<Box component="span" sx={{ fontWeight: 700, color: tokens.ink.inverse }}>
 					{t('demo.bannerTitle', "You're in demo mode")}
 				</Box>
 				{' — '}
@@ -51,9 +53,9 @@ const DemoBanner = () => {
 					fontSize: '0.78rem',
 					borderRadius: 1.5,
 					px: 1.75,
-					backgroundColor: '#629C44',
-					boxShadow: '0 2px 8px rgba(98,156,68,0.35)',
-					'&:hover': { backgroundColor: '#518136', boxShadow: '0 4px 14px rgba(98,156,68,0.45)' },
+					backgroundColor: tokens.brand.main,
+					boxShadow: `0 2px 8px ${alpha(tokens.brand.main, 0.35)}`,
+					'&:hover': { backgroundColor: tokens.brand.hoverAlt, boxShadow: `0 4px 14px ${alpha(tokens.brand.main, 0.45)}` },
 				}}
 			>
 				{t('demo.startTrial', 'Start 14-day free trial')}

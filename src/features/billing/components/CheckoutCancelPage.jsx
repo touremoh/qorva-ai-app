@@ -16,6 +16,8 @@ import { useTranslation } from 'react-i18next';
 import { getCheckoutCancel } from '../../settings/api/stripeService.js';
 import { createCheckoutSession } from '../../auth/api/registrationService.js';
 import { TENANT_ID, USER_ID } from '../../../constants.js';
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 const CheckoutCancelPage = () => {
 	const { t } = useTranslation();
@@ -61,7 +63,7 @@ const CheckoutCancelPage = () => {
 				display: 'flex',
 				alignItems: 'center',
 				justifyContent: 'center',
-				background: 'linear-gradient(135deg, #f0f4f8 0%, #e8edf2 100%)',
+				background: `linear-gradient(135deg, ${tokens.surface.cool} 0%, ${tokens.surface.coolDeep} 100%)`,
 				px: 2,
 				position: 'fixed',
 				top: 0,
@@ -81,7 +83,7 @@ const CheckoutCancelPage = () => {
 				>
 					{confirming ? (
 						<Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
-							<CircularProgress sx={{ color: '#629C44' }} />
+							<CircularProgress sx={{ color: tokens.brand.text }} />
 						</Box>
 					) : (
 						<Stack spacing={3} alignItems="center" textAlign="center">
@@ -92,18 +94,18 @@ const CheckoutCancelPage = () => {
 									borderRadius: '50%',
 									display: 'grid',
 									placeItems: 'center',
-									backgroundColor: '#f1f5f9',
+									backgroundColor: tokens.surface.muted,
 									boxShadow: '0 4px 16px rgba(0,0,0,0.08)',
 								}}
 								aria-hidden
 							>
-								<CancelRoundedIcon sx={{ fontSize: 50, color: '#94a3b8' }} />
+								<CancelRoundedIcon sx={{ fontSize: 50, color: tokens.ink.subtle }} />
 							</Box>
 
 							<Stack spacing={1}>
 								<Typography
 									variant="h4"
-									sx={{ fontWeight: 800, color: '#0f172a', letterSpacing: '-0.03em' }}
+									sx={{ fontWeight: 800, color: tokens.ink.strong, letterSpacing: '-0.03em' }}
 								>
 									{t('checkoutCancel.title', 'Payment Cancelled')}
 								</Typography>
@@ -133,11 +135,11 @@ const CheckoutCancelPage = () => {
 											borderRadius: 1.5,
 											textTransform: 'none',
 											fontWeight: 700,
-											backgroundColor: '#629C44',
-											boxShadow: '0 2px 8px rgba(98,156,68,0.35)',
+											backgroundColor: tokens.brand.main,
+											boxShadow: `0 2px 8px ${alpha(tokens.brand.main, 0.35)}`,
 											'&:hover': {
-												backgroundColor: '#518136',
-												boxShadow: '0 4px 14px rgba(98,156,68,0.45)',
+												backgroundColor: tokens.brand.hoverAlt,
+												boxShadow: `0 4px 14px ${alpha(tokens.brand.main, 0.45)}`,
 											},
 										}}
 									>
@@ -157,9 +159,9 @@ const CheckoutCancelPage = () => {
 										borderRadius: 1.5,
 										textTransform: 'none',
 										fontWeight: 600,
-										borderColor: '#e2e8f0',
-										color: '#64748b',
-										'&:hover': { borderColor: '#cbd5e1', backgroundColor: '#f8fafc' },
+										borderColor: tokens.line.main,
+										color: tokens.ink.muted,
+										'&:hover': { borderColor: tokens.line.strong, backgroundColor: tokens.surface.subtle },
 									}}
 								>
 									{t('checkoutCancel.startOver', 'Start Over')}

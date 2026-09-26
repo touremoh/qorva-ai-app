@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import * as tokens from '../../../theme/tokens.js';
 
 /** Shown while the insight answer is being prepared. */
 const InsightTyping = ({ loading }) => {
@@ -14,8 +15,8 @@ const InsightTyping = ({ loading }) => {
                     gap: 0.4,
                     px: 1.5,
                     py: 0.75,
-                    backgroundColor: '#ffffff',
-                    border: '1px solid #e8edf3',
+                    backgroundColor: tokens.surface.paper,
+                    border: `1px solid ${tokens.surface.coolAlt}`,
                     borderRadius: '18px 18px 18px 4px',
                     boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
                 }}>
@@ -24,7 +25,7 @@ const InsightTyping = ({ loading }) => {
                             width: 6,
                             height: 6,
                             borderRadius: '50%',
-                            backgroundColor: '#629C44',
+                            backgroundColor: tokens.brand.main,
                             animation: 'pulse 1.4s ease-in-out infinite',
                             animationDelay: `${dot * 0.2}s`,
                             '@keyframes pulse': {
@@ -34,7 +35,7 @@ const InsightTyping = ({ loading }) => {
                         }} />
                     ))}
                 </Box>
-                <Typography sx={{ fontSize: '0.72rem', color: '#94a3b8' }}>
+                <Typography sx={{ fontSize: '0.72rem', color: tokens.ink.subtle }}>
                     Analyzing…
                 </Typography>
             </Box>

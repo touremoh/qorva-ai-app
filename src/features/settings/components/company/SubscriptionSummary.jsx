@@ -10,6 +10,7 @@ import PriceChangeOutlinedIcon from '@mui/icons-material/PriceChangeOutlined';
 import QorvaChip from '../../../../components/commons/QorvaChip.jsx';
 import { useTranslation } from 'react-i18next';
 import { formatLongDate } from '../../../../shared/lib/format.js';
+import * as tokens from '../../../../theme/tokens.js';
 
 /** Read-only subscription details: plan, status, price and renewal. */
 const SubscriptionSummary = ({ billingCycleLabel, priceLabel, sub }) => {
@@ -17,7 +18,7 @@ const SubscriptionSummary = ({ billingCycleLabel, priceLabel, sub }) => {
     return (
         <>
         {sub && (
-            <Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5 }}>
+            <Paper elevation={0} sx={{ border: `1px solid ${tokens.line.main}`, borderRadius: 2.5, p: 2.5 }}>
                 <SectionHeader icon={CreditCardOutlinedIcon} label={t('accountSettings.company.subscriptionSection')} />
                 <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 1.5 }}>
                     <FieldTile

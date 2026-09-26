@@ -8,6 +8,8 @@ import { toast } from 'sonner';
 import { verifyMfa, resendMfa } from '../api/authService.js';
 import MfaCodeField, { MFA_CODE_LENGTH } from './MfaCodeField.jsx';
 import useResendCountdown from '../../../components/mfa/useResendCountdown.js';
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 // Codes after which this challenge is dead: the user has to go back and enter the password again.
 const RESTART_CODES = new Set(['error.auth.mfa_challenge_invalid', 'error.auth.mfa_too_many_attempts']);
@@ -80,12 +82,12 @@ const MfaCodeStep = ({ challenge: initialChallenge, onVerified, onRestart, input
 	return (
 		<Box>
 			<Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, mb: 0.75 }}>
-				<MarkEmailReadOutlinedIcon sx={{ color: '#629C44', fontSize: 26 }} />
-				<Typography variant="h5" sx={{ fontWeight: 700, color: '#0f172a', letterSpacing: '-0.03em' }}>
+				<MarkEmailReadOutlinedIcon sx={{ color: tokens.brand.text, fontSize: 26 }} />
+				<Typography variant="h5" sx={{ fontWeight: 700, color: tokens.ink.strong, letterSpacing: '-0.03em' }}>
 					{t('login.mfa.title', 'Check your email')}
 				</Typography>
 			</Box>
-			<Typography variant="body2" sx={{ color: '#64748b', mb: 3 }}>
+			<Typography variant="body2" sx={{ color: tokens.ink.muted, mb: 3 }}>
 				{t('login.mfa.subtitle', { email: challenge.maskedEmail, defaultValue: 'We sent a 6-digit code to {{email}}.' })}
 			</Typography>
 
@@ -117,12 +119,12 @@ const MfaCodeStep = ({ challenge: initialChallenge, onVerified, onRestart, input
 						fontWeight: 600,
 						fontSize: '0.9rem',
 						textTransform: 'none',
-						backgroundColor: '#629C44',
-						boxShadow: '0 2px 8px rgba(98,156,68,0.35)',
-						'&:hover': { backgroundColor: '#518136' },
+						backgroundColor: tokens.brand.main,
+						boxShadow: `0 2px 8px ${alpha(tokens.brand.main, 0.35)}`,
+						'&:hover': { backgroundColor: tokens.brand.hoverAlt },
 						'&.Mui-disabled': status === 'success'
-							? { backgroundColor: '#dcfce7', color: '#166534', boxShadow: 'none' }
-							: { backgroundColor: '#b8d4a8', color: 'rgba(255,255,255,0.9)', boxShadow: 'none' },
+							? { backgroundColor: tokens.status.success.tint, color: tokens.status.success.text, boxShadow: 'none' }
+							: { backgroundColor: tokens.brand.soft, color: 'rgba(255,255,255,0.9)', boxShadow: 'none' },
 					}}
 				>
 					{status === 'loading' && (
@@ -133,7 +135,7 @@ const MfaCodeStep = ({ challenge: initialChallenge, onVerified, onRestart, input
 					)}
 					{status === 'success' && (
 						<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
-							<CheckCircleRoundedIcon sx={{ fontSize: 19, color: '#16a34a' }} />
+							<CheckCircleRoundedIcon sx={{ fontSize: 19, color: tokens.status.success.main }} />
 							{t('login.signedIn', 'Signed in!')}
 						</Box>
 					)}
@@ -141,7 +143,7 @@ const MfaCodeStep = ({ challenge: initialChallenge, onVerified, onRestart, input
 				</Button>
 			</Box>
 
-			<Typography sx={{ color: '#64748b', fontSize: '0.78rem', mt: 2 }}>
+			<Typography sx={{ color: tokens.ink.muted, fontSize: '0.78rem', mt: 2 }}>
 				{t('login.mfa.help', "Didn't get it? Check your spam folder, or resend the code.")}
 			</Typography>
 
@@ -151,7 +153,7 @@ const MfaCodeStep = ({ challenge: initialChallenge, onVerified, onRestart, input
 					size="small"
 					onClick={() => onRestart('')}
 					disabled={status !== 'idle'}
-					sx={{ textTransform: 'none', color: '#64748b', px: 0, minWidth: 0 }}
+					sx={{ textTransform: 'none', color: tokens.ink.muted, px: 0, minWidth: 0 }}
 				>
 					{t('login.mfa.back', 'Back to sign in')}
 				</Button>
@@ -160,7 +162,7 @@ const MfaCodeStep = ({ challenge: initialChallenge, onVerified, onRestart, input
 					size="small"
 					onClick={resend}
 					disabled={secondsLeft > 0 || resending || status !== 'idle'}
-					sx={{ textTransform: 'none', color: '#629C44', fontWeight: 600, px: 0, minWidth: 0 }}
+					sx={{ textTransform: 'none', color: tokens.brand.text, fontWeight: 600, px: 0, minWidth: 0 }}
 				>
 					{secondsLeft > 0
 						? t('login.mfa.resendIn', { seconds: secondsLeft, defaultValue: 'Resend code in {{seconds}}s' })

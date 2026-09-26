@@ -29,6 +29,7 @@ import ProfileSection from './details/ProfileSection.jsx';
 import SummarySection from './details/SummarySection.jsx';
 import CandidateHeaderCard from './details/CandidateHeaderCard.jsx';
 import CvActionBar from './details/CvActionBar.jsx';
+import * as tokens from '../../../theme/tokens.js';
 
 // ─── Clustering style helpers ────────────────────────────────────────────────
 
@@ -124,7 +125,7 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 	if (!cv) {
 		return (
 			<Box sx={{ p: 3 }}>
-				<Typography sx={{ fontSize: '0.88rem', color: '#94a3b8' }}>
+				<Typography sx={{ fontSize: '0.88rem', color: tokens.ink.subtle }}>
 					{t('appCVContent.selectCVToSeeDetails')}
 				</Typography>
 			</Box>
@@ -154,7 +155,7 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 	const skills = cv.skillsAndQualifications || {};
 
 	return (
-		<Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', backgroundColor: '#f8fafc' }}>
+		<Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', backgroundColor: tokens.surface.subtle }}>
 
 			{/* Sticky action bar — not printed */}
 			<CvActionBar
@@ -172,9 +173,9 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 				onChange={(_, v) => setActiveTab(v)}
 				sx={{
 					px: 2.5,
-					borderBottom: '1px solid #e2e8f0',
+					borderBottom: `1px solid ${tokens.line.main}`,
 					minHeight: 40,
-					backgroundColor: '#ffffff',
+					backgroundColor: tokens.surface.paper,
 					flexShrink: 0,
 					'& .MuiTab-root': { minHeight: 40, fontSize: '0.78rem', textTransform: 'none', fontWeight: 600 },
 				}}
@@ -256,7 +257,7 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 				<ReferencesSection anonymized={anonymized} references={references} />
 
 				{lastUpdatedAt && (
-					<Typography sx={{ fontSize: '0.72rem', color: '#94a3b8', textAlign: 'right', fontStyle: 'italic', pb: 1 }}>
+					<Typography sx={{ fontSize: '0.72rem', color: tokens.ink.subtle, textAlign: 'right', fontStyle: 'italic', pb: 1 }}>
 						{t('appCVContent.lastUpdatedAt')}: {new Date(lastUpdatedAt).toLocaleString()}
 					</Typography>
 				)}

@@ -9,21 +9,23 @@ import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 const INTENT_COLOR = {
-    TALENT_POOL_INTELLIGENCE:        '#4f46e5',
-    TALENT_CLUSTERING:               '#4f46e5',
-    CANDIDATE_RANKING:               '#629C44',
-    CANDIDATE_REDISCOVERY:           '#0891b2',
-    SKILL_GAP_ANALYSIS:              '#d97706',
-    GENERAL_RECRUITING_QUESTION:     '#64748b',
-    LOCATION_INTELLIGENCE:           '#0f766e',
-    SALARY_EXPECTATION_ANALYSIS:     '#7c3aed',
-    CANDIDATE_COMPARISON:            '#0891b2',
-    JOB_DESCRIPTION_ANALYSIS:        '#d97706',
-    RESUME_DATA_QUALITY_ANALYSIS:    '#64748b',
-    SENIORITY_DISTRIBUTION_ANALYSIS: '#629C44',
-    SKILLS_DISTRIBUTION:             '#0284c7',
+    TALENT_POOL_INTELLIGENCE: tokens.status.accent.main,
+    TALENT_CLUSTERING: tokens.status.accent.main,
+    CANDIDATE_RANKING: tokens.brand.main,
+    CANDIDATE_REDISCOVERY: tokens.status.info.bright,
+    SKILL_GAP_ANALYSIS: tokens.status.warning.main,
+    GENERAL_RECRUITING_QUESTION: tokens.ink.muted,
+    LOCATION_INTELLIGENCE: tokens.status.success.teal,
+    SALARY_EXPECTATION_ANALYSIS: tokens.status.accent.violet,
+    CANDIDATE_COMPARISON: tokens.status.info.bright,
+    JOB_DESCRIPTION_ANALYSIS: tokens.status.warning.main,
+    RESUME_DATA_QUALITY_ANALYSIS: tokens.ink.muted,
+    SENIORITY_DISTRIBUTION_ANALYSIS: tokens.brand.main,
+    SKILLS_DISTRIBUTION: tokens.status.info.sky,
 };
 
 const INTENT_LABEL = {
@@ -74,7 +76,7 @@ const groupByDate = (conversations) => {
 
 const ConversationItem = ({ conv, isActive, onSelect, onDelete }) => {
     const { t } = useTranslation();
-    const intentColor = INTENT_COLOR[conv.intent] ?? '#64748b';
+    const intentColor = INTENT_COLOR[conv.intent] ?? `${tokens.ink.muted}`;
     const intentLabel = t(`insight.intentsShort.${conv.intent}`, INTENT_LABEL[conv.intent]);
 
     return (
@@ -86,19 +88,19 @@ const ConversationItem = ({ conv, isActive, onSelect, onDelete }) => {
                 mb: 0.25,
                 borderRadius: 1.5,
                 cursor: 'pointer',
-                borderLeft: `3px solid ${isActive ? '#629C44' : 'transparent'}`,
-                backgroundColor: isActive ? 'rgba(98,156,68,0.07)' : 'transparent',
+                borderLeft: `3px solid ${isActive ? `${tokens.brand.main}` : 'transparent'}`,
+                backgroundColor: isActive ? alpha(tokens.brand.main, 0.07) : 'transparent',
                 transition: 'all 0.13s ease',
                 position: 'relative',
                 '&:hover': {
-                    backgroundColor: isActive ? 'rgba(98,156,68,0.09)' : '#f8fafc',
+                    backgroundColor: isActive ? alpha(tokens.brand.main, 0.09) : `${tokens.surface.subtle}`,
                     '& .conv-delete-btn': { opacity: 1 },
                 },
             }}
         >
             <Typography sx={{
                 fontSize: '0.78rem',
-                color: isActive ? '#0f172a' : '#334155',
+                color: isActive ? `${tokens.ink.strong}` : `${tokens.ink.body}`,
                 fontWeight: isActive ? 600 : 400,
                 lineHeight: 1.4,
                 display: '-webkit-box',
@@ -126,7 +128,7 @@ const ConversationItem = ({ conv, isActive, onSelect, onDelete }) => {
                         }}
                     />
                 )}
-                <Typography sx={{ fontSize: '0.6rem', color: '#cbd5e1', ml: 'auto', flexShrink: 0 }}>
+                <Typography sx={{ fontSize: '0.6rem', color: tokens.ink.faint, ml: 'auto', flexShrink: 0 }}>
                     {formatTime(conv.lastActivityAt)}
                 </Typography>
             </Box>
@@ -141,8 +143,8 @@ const ConversationItem = ({ conv, isActive, onSelect, onDelete }) => {
                     opacity: 0,
                     transition: 'opacity 0.15s ease',
                     p: 0.3,
-                    color: '#94a3b8',
-                    '&:hover': { color: '#ef4444', backgroundColor: 'rgba(239,68,68,0.08)' },
+                    color: tokens.ink.subtle,
+                    '&:hover': { color: tokens.status.error.bright, backgroundColor: 'rgba(239,68,68,0.08)' },
                 }}
             >
                 <DeleteOutlineIcon sx={{ fontSize: 14 }} />
@@ -176,8 +178,8 @@ const InsightConversationList = ({ conversations, activeConvId, onSelect, onNew,
                     variant="contained"
                     onClick={onNew}
                     sx={{
-                        backgroundColor: '#629C44',
-                        '&:hover': { backgroundColor: '#528035' },
+                        backgroundColor: tokens.brand.main,
+                        '&:hover': { backgroundColor: tokens.brand.hover },
                         borderRadius: 1.5,
                         textTransform: 'none',
                         fontWeight: 600,
@@ -192,7 +194,7 @@ const InsightConversationList = ({ conversations, activeConvId, onSelect, onNew,
 
             {/* Section label */}
             <Box sx={{ px: 2, mb: 0.5 }}>
-                <Typography sx={{ fontSize: '0.62rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                <Typography sx={{ fontSize: '0.62rem', fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                     History
                 </Typography>
             </Box>
@@ -201,14 +203,14 @@ const InsightConversationList = ({ conversations, activeConvId, onSelect, onNew,
             <Box sx={{ flex: 1, overflowY: 'auto', px: 0.75 }}>
                 {loading && (
                     <Box sx={{ display: 'flex', justifyContent: 'center', py: 3 }}>
-                        <CircularProgress size={18} sx={{ color: '#629C44' }} />
+                        <CircularProgress size={18} sx={{ color: tokens.brand.text }} />
                     </Box>
                 )}
 
                 {!loading && conversations.length === 0 && (
                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 6, gap: 1 }}>
-                        <ForumOutlinedIcon sx={{ fontSize: 26, color: '#e2e8f0' }} />
-                        <Typography sx={{ fontSize: '0.73rem', color: '#cbd5e1', textAlign: 'center' }}>
+                        <ForumOutlinedIcon sx={{ fontSize: 26, color: tokens.ink.faintest }} />
+                        <Typography sx={{ fontSize: '0.73rem', color: tokens.ink.faint, textAlign: 'center' }}>
                             No conversations yet
                         </Typography>
                     </Box>
@@ -216,7 +218,7 @@ const InsightConversationList = ({ conversations, activeConvId, onSelect, onNew,
 
                 {groups.map(({ key, items }) => (
                     <Box key={key} sx={{ mb: 1.5 }}>
-                        <Typography sx={{ fontSize: '0.6rem', fontWeight: 700, color: '#cbd5e1', textTransform: 'uppercase', letterSpacing: '0.08em', px: 1.25, mb: 0.4 }}>
+                        <Typography sx={{ fontSize: '0.6rem', fontWeight: 700, color: tokens.ink.faint, textTransform: 'uppercase', letterSpacing: '0.08em', px: 1.25, mb: 0.4 }}>
                             {key}
                         </Typography>
                         {items.map(conv => (

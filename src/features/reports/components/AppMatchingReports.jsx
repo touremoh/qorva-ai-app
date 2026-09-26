@@ -20,6 +20,7 @@ import MatchingProgressBanner from './list/MatchingProgressBanner.jsx';
 import ReportsToolbar from './list/ReportsToolbar.jsx';
 import useMatchingRun from '../hooks/useMatchingRun.js';
 import { saveBlob } from '../../../shared/lib/download.js';
+import * as tokens from '../../../theme/tokens.js';
 
 const AppMatchingReports = () => {
 	const { t } = useTranslation();
@@ -211,7 +212,7 @@ const AppMatchingReports = () => {
 	};
 
 	return (
-		<Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', overflow: 'hidden', backgroundColor: '#f8fafc' }}>
+		<Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', overflow: 'hidden', backgroundColor: tokens.surface.subtle }}>
 
 			{/* Toolbar */}
 			<ReportsToolbar
@@ -258,8 +259,8 @@ const AppMatchingReports = () => {
 					flexShrink: 0,
 					display: 'flex',
 					flexDirection: 'column',
-					borderRight: '1px solid #e2e8f0',
-					backgroundColor: '#ffffff',
+					borderRight: `1px solid ${tokens.line.main}`,
+					backgroundColor: tokens.surface.paper,
 					overflow: 'hidden',
 				}}>
 					{/* List */}

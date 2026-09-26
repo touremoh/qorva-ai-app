@@ -16,6 +16,8 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import { searchMentions } from '../api/mentionSearchService.js';
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 const DEBOUNCE_MS = 250;
 const MAX_QUERY_LENGTH = 50;
@@ -213,8 +215,8 @@ const MentionInput = ({
     const popperOpen = !!activeMention;
 
     const iconFor = useMemo(() => ({
-        candidate: <PersonOutlineIcon sx={{ fontSize: 18, color: '#629C44' }} />,
-        job: <WorkOutlineIcon sx={{ fontSize: 18, color: '#629C44' }} />,
+        candidate: <PersonOutlineIcon sx={{ fontSize: 18, color: tokens.brand.text }} />,
+        job: <WorkOutlineIcon sx={{ fontSize: 18, color: tokens.brand.text }} />,
     }), []);
 
     return (
@@ -257,7 +259,7 @@ const MentionInput = ({
                     sx={{
                         '& .MuiInput-root': {
                             fontSize: '0.85rem',
-                            color: '#1e293b',
+                            color: tokens.ink.heading,
                             '&::before, &::after': { display: 'none' },
                         },
                         '& .MuiInput-input': { py: 0.5 },
@@ -271,11 +273,11 @@ const MentionInput = ({
                             sx={{
                                 width: 34,
                                 height: 34,
-                                backgroundColor: value.trim() && !disabled ? '#629C44' : 'transparent',
-                                color: value.trim() && !disabled ? '#ffffff' : '#cbd5e1',
+                                backgroundColor: value.trim() && !disabled ? `${tokens.brand.main}` : 'transparent',
+                                color: value.trim() && !disabled ? `${tokens.surface.paper}` : `${tokens.line.strong}`,
                                 borderRadius: 2,
                                 flexShrink: 0,
-                                '&:hover': { backgroundColor: value.trim() && !disabled ? '#4d7a35' : 'rgba(0,0,0,0.04)' },
+                                '&:hover': { backgroundColor: value.trim() && !disabled ? `${tokens.brand.deep}` : 'rgba(0,0,0,0.04)' },
                                 transition: 'all 0.15s ease',
                             }}
                         >
@@ -295,16 +297,16 @@ const MentionInput = ({
                             label={m.name}
                             onDelete={() => removeMention(m)}
                             sx={{
-                                backgroundColor: 'rgba(98,156,68,0.08)',
-                                color: '#1e293b',
-                                border: '1px solid rgba(98,156,68,0.25)',
+                                backgroundColor: alpha(tokens.brand.main, 0.08),
+                                color: tokens.ink.heading,
+                                border: `1px solid ${alpha(tokens.brand.main, 0.25)}`,
                                 fontSize: '0.72rem',
                                 height: 22,
-                                '& .MuiChip-icon': { color: '#629C44', ml: '4px' },
+                                '& .MuiChip-icon': { color: tokens.brand.text, ml: '4px' },
                                 '& .MuiChip-deleteIcon': {
-                                    color: '#94a3b8',
+                                    color: tokens.ink.subtle,
                                     fontSize: 14,
-                                    '&:hover': { color: '#ef4444' },
+                                    '&:hover': { color: tokens.status.error.bright },
                                 },
                             }}
                         />
@@ -324,7 +326,7 @@ const MentionInput = ({
                         elevation={4}
                         sx={{
                             borderRadius: 2,
-                            border: '1px solid #e2e8f0',
+                            border: `1px solid ${tokens.line.main}`,
                             overflow: 'hidden',
                             maxHeight: 260,
                             display: 'flex',
@@ -333,11 +335,11 @@ const MentionInput = ({
                     >
                         {loading && options.length === 0 ? (
                             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', py: 2 }}>
-                                <CircularProgress size={18} sx={{ color: '#629C44' }} />
+                                <CircularProgress size={18} sx={{ color: tokens.brand.text }} />
                             </Box>
                         ) : options.length === 0 ? (
                             <Box sx={{ px: 2, py: 1.5 }}>
-                                <Typography sx={{ fontSize: '0.78rem', color: '#94a3b8' }}>
+                                <Typography sx={{ fontSize: '0.78rem', color: tokens.ink.subtle }}>
                                     No matches
                                 </Typography>
                             </Box>
@@ -352,24 +354,24 @@ const MentionInput = ({
                                         sx={{
                                             gap: 1,
                                             py: 0.75,
-                                            '&.Mui-selected': { backgroundColor: 'rgba(98,156,68,0.08)' },
-                                            '&.Mui-selected:hover': { backgroundColor: 'rgba(98,156,68,0.12)' },
+                                            '&.Mui-selected': { backgroundColor: alpha(tokens.brand.main, 0.08) },
+                                            '&.Mui-selected:hover': { backgroundColor: alpha(tokens.brand.main, 0.12) },
                                         }}
                                     >
                                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 22, flexShrink: 0 }}>
                                             {iconFor[option.type]}
                                         </Box>
                                         <Box sx={{ minWidth: 0, flex: 1 }}>
-                                            <Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: '#1e293b', lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                            <Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: tokens.ink.heading, lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                                                 {option.name}
                                             </Typography>
                                             {option.subtitle && (
-                                                <Typography sx={{ fontSize: '0.7rem', color: '#94a3b8', lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                                <Typography sx={{ fontSize: '0.7rem', color: tokens.ink.subtle, lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                                                     {option.subtitle}
                                                 </Typography>
                                             )}
                                         </Box>
-                                        <Typography sx={{ fontSize: '0.62rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                                        <Typography sx={{ fontSize: '0.62rem', color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: 0.5 }}>
                                             {option.type}
                                         </Typography>
                                     </ListItemButton>

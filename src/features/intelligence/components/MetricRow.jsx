@@ -2,6 +2,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 // Legacy camelCase fallback maps (pre-i18n-key era)
 const LABEL_MAP = {
@@ -83,7 +85,7 @@ const parsePct = (m) => {
     return isNaN(n) ? 0 : Math.min(100, Math.max(0, n));
 };
 
-const BAR_COLORS = ['#629C44', '#4f46e5', '#0891b2', '#d97706', '#7c3aed', '#0f766e', '#db2777'];
+const BAR_COLORS = [`${tokens.brand.main}`, `${tokens.status.accent.main}`, `${tokens.status.info.bright}`, `${tokens.status.warning.main}`, `${tokens.status.accent.violet}`, `${tokens.status.success.teal}`, `${tokens.status.accent.pink}`];
 
 const MetricRow = ({ metrics }) => {
     const { t } = useTranslation();
@@ -98,13 +100,13 @@ const MetricRow = ({ metrics }) => {
                     const totalRow = buckets.find(m => m.key === 'TOTAL_CANDIDATES');
                     const rows = buckets.filter(m => m.key !== 'TOTAL_CANDIDATES');
                     return (
-                        <Box key={label} sx={{ p: 1.75, borderRadius: 2, border: '1px solid #e2e8f0', backgroundColor: '#f8fafc' }}>
+                        <Box key={label} sx={{ p: 1.75, borderRadius: 2, border: `1px solid ${tokens.line.main}`, backgroundColor: tokens.surface.subtle }}>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', mb: 1.25 }}>
-                                <Typography sx={{ fontSize: '0.60rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.07em' }}>
+                                <Typography sx={{ fontSize: '0.60rem', fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
                                     {translateDimensionKey(label, t)}
                                 </Typography>
                                 {totalRow && (
-                                    <Typography sx={{ fontSize: '0.60rem', color: '#94a3b8' }}>
+                                    <Typography sx={{ fontSize: '0.60rem', color: tokens.ink.subtle }}>
                                         {totalRow.value} {translateUnit(totalRow.unit, t)}
                                     </Typography>
                                 )}
@@ -116,11 +118,11 @@ const MetricRow = ({ metrics }) => {
                                     return (
                                         <Box key={m.key ?? i}>
                                             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', mb: 0.4 }}>
-                                                <Typography sx={{ fontSize: '0.75rem', fontWeight: 600, color: '#334155' }}>
+                                                <Typography sx={{ fontSize: '0.75rem', fontWeight: 600, color: tokens.ink.body }}>
                                                     {translateBucketKey(m.key, t)}
                                                 </Typography>
                                                 <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 0.75 }}>
-                                                    <Typography sx={{ fontSize: '0.68rem', color: '#94a3b8', fontVariantNumeric: 'tabular-nums' }}>
+                                                    <Typography sx={{ fontSize: '0.68rem', color: tokens.ink.subtle, fontVariantNumeric: 'tabular-nums' }}>
                                                         {m.value}{m.percentage != null ? ` ${translateUnit(m.unit, t)}` : ''}
                                                     </Typography>
                                                     <Typography sx={{ fontSize: '0.72rem', fontWeight: 700, color, fontVariantNumeric: 'tabular-nums', minWidth: 36, textAlign: 'right' }}>
@@ -128,7 +130,7 @@ const MetricRow = ({ metrics }) => {
                                                     </Typography>
                                                 </Box>
                                             </Box>
-                                            <Box sx={{ height: 5, backgroundColor: '#e2e8f0', borderRadius: 99, overflow: 'hidden' }}>
+                                            <Box sx={{ height: 5, backgroundColor: tokens.line.main, borderRadius: 99, overflow: 'hidden' }}>
                                                 <Box sx={{ height: '100%', width: `${pct}%`, backgroundColor: color, borderRadius: 99, transition: 'width 0.5s ease' }} />
                                             </Box>
                                         </Box>
@@ -151,8 +153,8 @@ const MetricRow = ({ metrics }) => {
                     px: 1.75,
                     py: 1.25,
                     borderRadius: 2,
-                    background: 'linear-gradient(135deg, rgba(98,156,68,0.06) 0%, rgba(98,156,68,0.02) 100%)',
-                    border: '1px solid rgba(98,156,68,0.15)',
+                    background: `linear-gradient(135deg, ${alpha(tokens.brand.main, 0.06)} 0%, ${alpha(tokens.brand.main, 0.02)} 100%)`,
+                    border: `1px solid ${alpha(tokens.brand.main, 0.15)}`,
                     textAlign: 'center',
                     position: 'relative',
                     overflow: 'hidden',
@@ -161,18 +163,18 @@ const MetricRow = ({ metrics }) => {
                         position: 'absolute',
                         top: 0, left: 0, right: 0,
                         height: '2px',
-                        background: 'linear-gradient(90deg, #629C44, transparent)',
+                        background: `linear-gradient(90deg, ${tokens.brand.main}, transparent)`,
                         opacity: 0.6,
                     },
                 }}>
-                    <Typography sx={{ fontWeight: 800, fontSize: '1.1rem', color: '#1e293b', lineHeight: 1.2, letterSpacing: '-0.01em' }}>
+                    <Typography sx={{ fontWeight: 800, fontSize: '1.1rem', color: tokens.ink.heading, lineHeight: 1.2, letterSpacing: '-0.01em' }}>
                         {translateValue(m.value, t)}
                     </Typography>
-                    <Typography sx={{ fontSize: '0.68rem', color: '#64748b', mt: 0.5, textTransform: 'uppercase', letterSpacing: '0.07em', fontWeight: 500 }}>
+                    <Typography sx={{ fontSize: '0.68rem', color: tokens.ink.muted, mt: 0.5, textTransform: 'uppercase', letterSpacing: '0.07em', fontWeight: 500 }}>
                         {translateLabel(m.label, t)}
                     </Typography>
                     {m.unit && (
-                        <Typography sx={{ fontSize: '0.63rem', color: '#94a3b8', mt: 0.15 }}>
+                        <Typography sx={{ fontSize: '0.63rem', color: tokens.ink.subtle, mt: 0.15 }}>
                             {translateUnit(m.unit, t)}
                         </Typography>
                     )}

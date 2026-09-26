@@ -21,6 +21,7 @@ import ReportSidebar from './details/ReportSidebar.jsx';
 import ReportMainColumn from './details/ReportMainColumn.jsx';
 import ReportCandidateHeader from './details/ReportCandidateHeader.jsx';
 import ReportActionBar from './details/ReportActionBar.jsx';
+import * as tokens from '../../../theme/tokens.js';
 
 const AppMatchingReportDetails = ({ reportData }) => {
 	const { t } = useTranslation();
@@ -40,9 +41,9 @@ const AppMatchingReportDetails = ({ reportData }) => {
 
 	if (!reportData || !candidate || !details) {
 		return (
-			<Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', backgroundColor: '#f8fafc', gap: 1.5 }}>
-				<AssessmentOutlinedIcon sx={{ fontSize: 40, color: '#cbd5e1' }} />
-				<Typography sx={{ fontSize: '0.85rem', color: '#94a3b8', fontWeight: 500 }}>
+			<Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', backgroundColor: tokens.surface.subtle, gap: 1.5 }}>
+				<AssessmentOutlinedIcon sx={{ fontSize: 40, color: tokens.ink.faint }} />
+				<Typography sx={{ fontSize: '0.85rem', color: tokens.ink.subtle, fontWeight: 500 }}>
 					{t('appCVMatching.noAnalysisResult')}
 				</Typography>
 			</Box>

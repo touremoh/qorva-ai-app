@@ -16,6 +16,8 @@ import { fontFamilyMono } from '../../../../theme/tokens.js';
 import Card from './Card.jsx';
 import { contactChipSx } from '../../model/cvDetailsStyles.js';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 /** Name, role, reference number and contact links (hidden while anonymized). */
 const CandidateHeaderCard = ({ anonymized, applicantNumber, canContact, contact, handleCopyRef, openEmailComposer, pi, refCopied }) => {
@@ -26,8 +28,8 @@ const CandidateHeaderCard = ({ anonymized, applicantNumber, canContact, contact,
 			{anonymized ? (
 				<Avatar sx={{
 					width: 52, height: 52, flexShrink: 0,
-					backgroundColor: '#f1f5f9', color: '#94a3b8',
-					border: '2px dashed #cbd5e1',
+					backgroundColor: tokens.surface.muted, color: tokens.ink.subtle,
+					border: `2px dashed ${tokens.line.strong}`,
 				}}>
 					<PersonOutlinedIcon sx={{ fontSize: 28 }} />
 				</Avatar>
@@ -35,7 +37,7 @@ const CandidateHeaderCard = ({ anonymized, applicantNumber, canContact, contact,
 				<Avatar sx={{
 					width: 52, height: 52,
 					fontSize: '1.1rem', fontWeight: 700,
-					backgroundColor: '#629C44', color: '#ffffff',
+					backgroundColor: tokens.brand.main, color: tokens.ink.inverse,
 					flexShrink: 0,
 				}}>
 					{getInitials(pi.name)}
@@ -50,29 +52,29 @@ const CandidateHeaderCard = ({ anonymized, applicantNumber, canContact, contact,
 								display: 'inline-flex', alignItems: 'center', gap: 0.75,
 								cursor: applicantNumber ? 'pointer' : 'default',
 								px: 1, py: 0.4, borderRadius: 1.5,
-								border: `1px solid ${refCopied ? 'rgba(98,156,68,0.3)' : '#e2e8f0'}`,
-								backgroundColor: refCopied ? 'rgba(98,156,68,0.06)' : '#f8fafc',
+								border: `1px solid ${refCopied ? alpha(tokens.brand.main, 0.3) : `${tokens.line.main}`}`,
+								backgroundColor: refCopied ? alpha(tokens.brand.main, 0.06) : `${tokens.surface.subtle}`,
 								transition: 'all 0.15s ease',
-								'&:hover': applicantNumber ? { backgroundColor: '#f1f5f9', borderColor: '#cbd5e1' } : {},
+								'&:hover': applicantNumber ? { backgroundColor: tokens.surface.muted, borderColor: tokens.line.strong } : {},
 							}}
 						>
-							<Typography sx={{ fontWeight: 700, fontSize: '1rem', lineHeight: 1.2, fontFamily: fontFamilyMono, letterSpacing: '0.04em', color: refCopied ? '#629C44' : '#64748b' }}>
+							<Typography sx={{ fontWeight: 700, fontSize: '1rem', lineHeight: 1.2, fontFamily: fontFamilyMono, letterSpacing: '0.04em', color: refCopied ? `${tokens.brand.main}` : `${tokens.ink.muted}` }}>
 								{applicantNumber ? `#${applicantNumber}` : t('appCVContent.identityHidden', 'Identity hidden')}
 							</Typography>
 							{applicantNumber && (
 								refCopied
-									? <CheckIcon sx={{ fontSize: 14, color: '#629C44' }} />
-									: <ContentCopyOutlinedIcon sx={{ fontSize: 13, color: '#94a3b8' }} />
+									? <CheckIcon sx={{ fontSize: 14, color: tokens.brand.text }} />
+									: <ContentCopyOutlinedIcon sx={{ fontSize: 13, color: tokens.ink.subtle }} />
 							)}
 						</Box>
 					</Tooltip>
 				) : (
-					<Typography sx={{ fontWeight: 700, fontSize: '1.1rem', color: '#0f172a', lineHeight: 1.2 }}>
+					<Typography sx={{ fontWeight: 700, fontSize: '1.1rem', color: tokens.ink.strong, lineHeight: 1.2 }}>
 						{pi.name}
 					</Typography>
 				)}
 				{pi.role && (
-					<Typography sx={{ fontSize: '0.85rem', color: '#64748b', mt: 0.25 }}>
+					<Typography sx={{ fontSize: '0.85rem', color: tokens.ink.muted, mt: 0.25 }}>
 						{pi.role}
 					</Typography>
 				)}
@@ -83,13 +85,13 @@ const CandidateHeaderCard = ({ anonymized, applicantNumber, canContact, contact,
 							onClick={handleCopyRef}
 							sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5, mt: 0.5, cursor: 'pointer', '&:hover': { opacity: 0.75 } }}
 						>
-							<FingerprintOutlinedIcon sx={{ fontSize: 11, color: refCopied ? '#629C44' : '#94a3b8' }} />
-							<Typography sx={{ fontSize: '0.70rem', color: refCopied ? '#629C44' : '#94a3b8', fontFamily: fontFamilyMono, letterSpacing: '0.03em' }}>
+							<FingerprintOutlinedIcon sx={{ fontSize: 11, color: refCopied ? `${tokens.brand.main}` : `${tokens.ink.subtle}` }} />
+							<Typography sx={{ fontSize: '0.70rem', color: refCopied ? `${tokens.brand.main}` : `${tokens.ink.subtle}`, fontFamily: fontFamilyMono, letterSpacing: '0.03em' }}>
 								{t('appCVContent.referenceNumber')}: {applicantNumber}
 							</Typography>
 							{refCopied
-								? <CheckIcon sx={{ fontSize: 12, color: '#629C44' }} />
-								: <ContentCopyOutlinedIcon sx={{ fontSize: 11, color: '#94a3b8' }} />
+								? <CheckIcon sx={{ fontSize: 12, color: tokens.brand.text }} />
+								: <ContentCopyOutlinedIcon sx={{ fontSize: 11, color: tokens.ink.subtle }} />
 							}
 						</Box>
 					</Tooltip>
@@ -131,8 +133,8 @@ const CandidateHeaderCard = ({ anonymized, applicantNumber, canContact, contact,
 					</Box>
 				) : (
 					<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 1 }}>
-						<VisibilityOffOutlinedIcon sx={{ fontSize: 12, color: '#cbd5e1' }} />
-						<Typography sx={{ fontSize: '0.72rem', color: '#cbd5e1', fontStyle: 'italic' }}>
+						<VisibilityOffOutlinedIcon sx={{ fontSize: 12, color: tokens.ink.faint }} />
+						<Typography sx={{ fontSize: '0.72rem', color: tokens.ink.faint, fontStyle: 'italic' }}>
 							{t('appCVContent.contactHidden')}
 						</Typography>
 					</Box>

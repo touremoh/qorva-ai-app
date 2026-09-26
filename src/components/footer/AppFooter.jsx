@@ -1,5 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../theme/tokens.js';
 
 const AppFooter = () => {
 	const { t } = useTranslation();
@@ -12,12 +13,12 @@ const AppFooter = () => {
 				display: 'flex',
 				alignItems: 'center',
 				justifyContent: 'center',
-				backgroundColor: '#f8fafc',
-				borderTop: '1px solid #e2e8f0',
+				backgroundColor: tokens.surface.subtle,
+				borderTop: `1px solid ${tokens.line.main}`,
 				flexShrink: 0,
 			}}
 		>
-			<Typography sx={{ fontSize: '0.72rem', color: '#94a3b8' }}>
+			<Typography sx={{ fontSize: '0.72rem', color: tokens.ink.subtle }}>
 				© {new Date().getFullYear()} {t('footer.rightsReserved')}
 			</Typography>
 		</Box>

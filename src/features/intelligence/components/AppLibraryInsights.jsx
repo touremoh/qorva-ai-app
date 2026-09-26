@@ -11,20 +11,22 @@ import InsightInputBar from './InsightInputBar.jsx';
 import InsightTyping from './InsightTyping.jsx';
 import InsightEmptyState from './InsightEmptyState.jsx';
 import useInsightConversation from '../hooks/useInsightConversation.js';
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 const AppLibraryInsights = () => {
     const { t } = useTranslation();
     const insight = useInsightConversation();
     return (
         <>
-        <Box sx={{ display: 'flex', height: '100%', overflow: 'hidden', backgroundColor: '#f8fafc' }}>
+        <Box sx={{ display: 'flex', height: '100%', overflow: 'hidden', backgroundColor: tokens.surface.subtle }}>
 
             {/* ── Left panel: conversation list ─────────────────────────────── */}
             <Box sx={{
                 width: 260,
                 flexShrink: 0,
-                borderRight: '1px solid #e2e8f0',
-                backgroundColor: '#ffffff',
+                borderRight: `1px solid ${tokens.line.main}`,
+                backgroundColor: tokens.surface.paper,
                 display: 'flex',
                 flexDirection: 'column',
                 overflow: 'hidden',
@@ -46,8 +48,8 @@ const AppLibraryInsights = () => {
                 <Box sx={{
                     px: 2.5,
                     py: 1.25,
-                    backgroundColor: '#ffffff',
-                    borderBottom: '1px solid #e2e8f0',
+                    backgroundColor: tokens.surface.paper,
+                    borderBottom: `1px solid ${tokens.line.main}`,
                     display: 'flex',
                     alignItems: 'center',
                     gap: 1.5,
@@ -58,19 +60,19 @@ const AppLibraryInsights = () => {
                         width: 32,
                         height: 32,
                         borderRadius: '50%',
-                        backgroundColor: 'rgba(98,156,68,0.1)',
+                        backgroundColor: alpha(tokens.brand.main, 0.1),
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         flexShrink: 0,
                     }}>
-                        <PsychologyOutlinedIcon sx={{ fontSize: 18, color: '#629C44' }} />
+                        <PsychologyOutlinedIcon sx={{ fontSize: 18, color: tokens.brand.text }} />
                     </Box>
                     <Box sx={{ minWidth: 0 }}>
                         <Typography sx={{
                             fontWeight: 700,
                             fontSize: '0.88rem',
-                            color: '#0f172a',
+                            color: tokens.ink.strong,
                             lineHeight: 1.2,
                             whiteSpace: 'nowrap',
                             overflow: 'hidden',
@@ -78,7 +80,7 @@ const AppLibraryInsights = () => {
                         }}>
                             {insight.activeTitle || t('header.intelligence', 'Talent Intelligence')}
                         </Typography>
-                        <Typography sx={{ fontSize: '0.68rem', color: '#94a3b8', lineHeight: 1.2 }}>
+                        <Typography sx={{ fontSize: '0.68rem', color: tokens.ink.subtle, lineHeight: 1.2 }}>
                             {insight.activeTitle ? t('header.intelligence', 'Talent Intelligence') : 'Ask questions about your talent pool'}
                         </Typography>
                     </Box>
@@ -94,7 +96,7 @@ const AppLibraryInsights = () => {
                     {/* History insight.loading spinner */}
                     {insight.loadingHistory && (
                         <Box sx={{ display: 'flex', justifyContent: 'center', py: 5 }}>
-                            <CircularProgress size={22} sx={{ color: '#629C44' }} />
+                            <CircularProgress size={22} sx={{ color: tokens.brand.text }} />
                         </Box>
                     )}
 
@@ -108,9 +110,9 @@ const AppLibraryInsights = () => {
                                         px: 1.75,
                                         py: 1,
                                         borderRadius: '18px 18px 4px 18px',
-                                        background: 'linear-gradient(135deg, #629C44 0%, #4d7a35 100%)',
-                                        color: '#ffffff',
-                                        boxShadow: '0 2px 8px rgba(98,156,68,0.25)',
+                                        background: `linear-gradient(135deg, ${tokens.brand.main} 0%, ${tokens.brand.deep} 100%)`,
+                                        color: tokens.ink.inverse,
+                                        boxShadow: `0 2px 8px ${alpha(tokens.brand.main, 0.25)}`,
                                     }}>
                                         <Typography sx={{ fontSize: '0.84rem', lineHeight: 1.6 }}>{entry.text}</Typography>
                                     </Box>
@@ -126,8 +128,8 @@ const AppLibraryInsights = () => {
                         }
                         if (entry.type === 'error') {
                             return (
-                                <Box key={i} sx={{ mb: 1.5, px: 1.5, py: 1, borderRadius: 1.5, backgroundColor: '#fee2e2', border: '1px solid #fecaca' }}>
-                                    <Typography sx={{ fontSize: '0.8rem', color: '#dc2626' }}>{entry.text}</Typography>
+                                <Box key={i} sx={{ mb: 1.5, px: 1.5, py: 1, borderRadius: 1.5, backgroundColor: tokens.status.error.tint, border: `1px solid ${tokens.status.error.border}` }}>
+                                    <Typography sx={{ fontSize: '0.8rem', color: tokens.status.error.main }}>{entry.text}</Typography>
                                 </Box>
                             );
                         }

@@ -23,6 +23,7 @@ import {
 } from '../api/emailTemplateService.js';
 import TemplateEditor from './TemplateEditor.jsx';
 import TemplateList from './TemplateList.jsx';
+import * as tokens from '../../../theme/tokens.js';
 
 const EMPTY_FORM = { name: '', subject: '', bodyText: '' };
 
@@ -185,7 +186,7 @@ const EmailTemplatesManager = ({ language, onChanged }) => {
 					<>
 						<Tooltip title={t('emailTemplates.deleteHint', 'Delete this template')}>
 							<span>
-								<IconButton size="small" onClick={handleDelete} disabled={busy} sx={{ color: '#94a3b8' }}>
+								<IconButton size="small" onClick={handleDelete} disabled={busy} sx={{ color: tokens.ink.subtle }}>
 									<DeleteOutlineRoundedIcon sx={{ fontSize: 18 }} />
 								</IconButton>
 							</span>
@@ -193,7 +194,7 @@ const EmailTemplatesManager = ({ language, onChanged }) => {
 						<Button
 							size="small" onClick={handleSendTest} disabled={busy}
 							startIcon={<ForwardToInboxOutlinedIcon sx={{ fontSize: 15 }} />}
-							sx={{ textTransform: 'none', fontSize: '0.75rem', fontWeight: 600, color: '#64748b' }}>
+							sx={{ textTransform: 'none', fontSize: '0.75rem', fontWeight: 600, color: tokens.ink.muted }}>
 							{t('emailTemplates.sendTest', 'Send test to me')}
 						</Button>
 					</>
@@ -202,11 +203,11 @@ const EmailTemplatesManager = ({ language, onChanged }) => {
 				<Button
 					size="small" onClick={handlePreview} disabled={busy || !form.subject.trim() || !form.bodyText.trim()}
 					startIcon={<VisibilityOutlinedIcon sx={{ fontSize: 15 }} />}
-					sx={{ textTransform: 'none', fontSize: '0.75rem', fontWeight: 600, color: '#64748b' }}>
+					sx={{ textTransform: 'none', fontSize: '0.75rem', fontWeight: 600, color: tokens.ink.muted }}>
 					{t('emailTemplates.preview', 'Preview')}
 				</Button>
 				<Button onClick={handleSave} disabled={busy || !formValid} variant="contained"
-					sx={{ textTransform: 'none', borderRadius: 1.5, boxShadow: 'none', backgroundColor: '#629C44', '&:hover': { backgroundColor: '#528035' } }}>
+					sx={{ textTransform: 'none', borderRadius: 1.5, boxShadow: 'none', backgroundColor: tokens.brand.main, '&:hover': { backgroundColor: tokens.brand.hover } }}>
 					{busy ? <CircularProgress size={16} color="inherit" /> : t('emailTemplates.save', 'Save')}
 				</Button>
 			</Box>

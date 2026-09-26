@@ -6,6 +6,8 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import LanguageIcon from '@mui/icons-material/Language';
 import { useTranslation } from 'react-i18next';
 import { safeExternalUrl } from '../../../../utils/safeUrl.js';
+import * as tokens from '../../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 const ContactLine = ({ icon: Icon, children }) => (
 	<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.4 }}>
@@ -35,7 +37,7 @@ const TenantBrandHeader = ({ tenant, logoUrl, sx }) => {
 				<Box sx={{
 					width: 36, height: 36, borderRadius: 1.5, flexShrink: 0,
 					display: 'flex', alignItems: 'center', justifyContent: 'center',
-					backgroundColor: 'rgba(98,156,68,0.08)', border: '1px solid rgba(98,156,68,0.2)',
+					backgroundColor: alpha(tokens.brand.main, 0.08), border: `1px solid ${alpha(tokens.brand.main, 0.2)}`,
 				}}>
 					<BusinessOutlinedIcon sx={{ fontSize: 18, color: 'brand.main' }} />
 				</Box>

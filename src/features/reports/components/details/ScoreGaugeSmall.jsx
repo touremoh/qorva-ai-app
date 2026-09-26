@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import { getColor } from '../../model/reportDetails.js';
+import * as tokens from '../../../../theme/tokens.js';
 
 const ScoreGaugeSmall = ({ value }) => {
 	const [animated, setAnimated] = useState(false);
@@ -13,7 +14,7 @@ const ScoreGaugeSmall = ({ value }) => {
 	return (
 		<Box sx={{ position: 'relative', width: size, height: size, flexShrink: 0 }}>
 			<svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ overflow: 'visible' }}>
-				<circle cx={size/2} cy={size/2} r={r} fill="none" stroke="#e2e8f0" strokeWidth={sw} />
+				<circle cx={size/2} cy={size/2} r={r} fill="none" stroke={tokens.line.main} strokeWidth={sw} />
 				<circle cx={size/2} cy={size/2} r={r} fill="none" stroke={color} strokeWidth={sw}
 					strokeLinecap="round" strokeDasharray={circ} strokeDashoffset={offset}
 					transform={`rotate(-90 ${size/2} ${size/2})`}

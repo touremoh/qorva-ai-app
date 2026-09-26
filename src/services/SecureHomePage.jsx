@@ -12,6 +12,7 @@ import {
 } from "../constants.js";
 import { setAuthResults } from "../../localStorageManager.js";
 import { isDemoUser } from "../utils/demoMode.js";
+import * as tokens from '../theme/tokens.js';
 
 const SecureHomePage = ({ children }) => {
 	const navigate = useNavigate();
@@ -78,7 +79,7 @@ const SecureHomePage = ({ children }) => {
 					justifyContent: 'center',
 				}}
 			>
-				<CircularProgress sx={{ color: '#629C44' }} />
+				<CircularProgress sx={{ color: tokens.brand.text }} />
 			</Box>
 		);
 	}

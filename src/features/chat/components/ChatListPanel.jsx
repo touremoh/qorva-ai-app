@@ -3,6 +3,8 @@ import { Box, Button, Chip, CircularProgress, IconButton, ListItemButton, Typogr
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 /** Searchable, paginated list of chats. */
 const ChatListPanel = ({ chatHasMore, chatListOpen, chatPage, chats, fetchChatsPage, handleSelectChat, loadingChats, selectedChat, setListMenuAnchor, setStatusFilter, statusFilter, userLang }) => {
@@ -14,20 +16,20 @@ const ChatListPanel = ({ chatHasMore, chatListOpen, chatPage, chats, fetchChatsP
 			width: { xs: 200, sm: 240, md: 280 },
 			flexShrink: 0,
 			display: 'flex', flexDirection: 'column',
-			borderRight: '1px solid #e2e8f0',
-			backgroundColor: '#ffffff',
+			borderRight: `1px solid ${tokens.line.main}`,
+			backgroundColor: tokens.surface.paper,
 			overflow: 'hidden',
 		}}>
-			<Box sx={{ px: 1.5, pt: 1, pb: 0.75, borderBottom: '1px solid #f1f5f9', flexShrink: 0 }}>
-				<Typography sx={{ fontSize: '0.72rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.75 }}>
+			<Box sx={{ px: 1.5, pt: 1, pb: 0.75, borderBottom: `1px solid ${tokens.surface.muted}`, flexShrink: 0 }}>
+				<Typography sx={{ fontSize: '0.72rem', fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.75 }}>
 					{t('appAIResumeChat.chats')}
 				</Typography>
 				<Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
 					{[
-						{ value: null, labelKey: 'filterAll', activeBg: '#f1f5f9', activeColor: '#475569', activeBorder: '#cbd5e1' },
-						{ value: 'OPEN', labelKey: 'open', activeBg: 'rgba(98,156,68,0.12)', activeColor: '#629C44', activeBorder: '#629C44' },
-						{ value: 'CLOSED', labelKey: 'closed', activeBg: '#f1f5f9', activeColor: '#64748b', activeBorder: '#94a3b8' },
-						{ value: 'ARCHIVED', labelKey: 'archived', activeBg: '#fef3c7', activeColor: '#92400e', activeBorder: '#d97706' },
+						{ value: null, labelKey: 'filterAll', activeBg: tokens.surface.muted, activeColor: tokens.ink.soft, activeBorder: tokens.line.strong },
+						{ value: 'OPEN', labelKey: 'open', activeBg: alpha(tokens.brand.main, 0.12), activeColor: tokens.brand.text, activeBorder: tokens.brand.main },
+						{ value: 'CLOSED', labelKey: 'closed', activeBg: tokens.surface.muted, activeColor: tokens.ink.muted, activeBorder: tokens.ink.subtle },
+						{ value: 'ARCHIVED', labelKey: 'archived', activeBg: tokens.status.warning.tintAlt, activeColor: tokens.status.warning.text, activeBorder: tokens.status.warning.main },
 					].map(({ value, labelKey, activeBg, activeColor, activeBorder }) => {
 						const isSelected = statusFilter === value;
 						return (
@@ -39,8 +41,8 @@ const ChatListPanel = ({ chatHasMore, chatListOpen, chatPage, chats, fetchChatsP
 								sx={{
 									fontSize: '0.68rem', height: 20, cursor: 'pointer',
 									backgroundColor: isSelected ? activeBg : 'transparent',
-									color: isSelected ? activeColor : '#94a3b8',
-									border: `1px solid ${isSelected ? activeBorder : '#e2e8f0'}`,
+									color: isSelected ? activeColor : `${tokens.ink.subtle}`,
+									border: `1px solid ${isSelected ? activeBorder : `${tokens.line.main}`}`,
 									'& .MuiChip-label': { px: 0.75 },
 									'&:hover': { backgroundColor: activeBg, color: activeColor },
 								}}
@@ -53,11 +55,11 @@ const ChatListPanel = ({ chatHasMore, chatListOpen, chatPage, chats, fetchChatsP
 			<Box sx={{ flex: 1, overflowY: 'auto', py: 0.5 }}>
 				{loadingChats && chats.length === 0 ? (
 					<Box sx={{ display: 'flex', justifyContent: 'center', pt: 3 }}>
-						<CircularProgress size={20} sx={{ color: '#629C44' }} />
+						<CircularProgress size={20} sx={{ color: tokens.brand.text }} />
 					</Box>
 				) : chats.length === 0 ? (
 					<Box sx={{ px: 2, pt: 2 }}>
-						<Typography sx={{ fontSize: '0.78rem', color: '#94a3b8' }}>
+						<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.subtle }}>
 							{t('appAIResumeChat.noChatSelected')}
 						</Typography>
 					</Box>
@@ -70,43 +72,43 @@ const ChatListPanel = ({ chatHasMore, chatListOpen, chatPage, chats, fetchChatsP
 								onClick={() => handleSelectChat(c)}
 								sx={{
 									px: 1.5, py: 1,
-									borderLeft: isActive ? '3px solid #629C44' : '3px solid transparent',
-									backgroundColor: isActive ? 'rgba(98,156,68,0.06)' : 'transparent',
-									'&:hover': { backgroundColor: isActive ? 'rgba(98,156,68,0.10)' : '#f8fafc' },
+									borderLeft: isActive ? `3px solid ${tokens.brand.main}` : '3px solid transparent',
+									backgroundColor: isActive ? alpha(tokens.brand.main, 0.06) : 'transparent',
+									'&:hover': { backgroundColor: isActive ? alpha(tokens.brand.main, 0.10) : `${tokens.surface.subtle}` },
 									gap: 1.5, alignItems: 'center',
 								}}
 							>
 								<Box sx={{
 									width: 30, height: 30, borderRadius: 1.5, flexShrink: 0,
 									display: 'flex', alignItems: 'center', justifyContent: 'center',
-									backgroundColor: isActive ? 'rgba(98,156,68,0.15)' : '#f1f5f9',
+									backgroundColor: isActive ? alpha(tokens.brand.main, 0.15) : `${tokens.surface.muted}`,
 								}}>
-									<ChatBubbleOutlineOutlinedIcon sx={{ fontSize: 14, color: isActive ? '#629C44' : '#94a3b8' }} />
+									<ChatBubbleOutlineOutlinedIcon sx={{ fontSize: 14, color: isActive ? `${tokens.brand.main}` : `${tokens.ink.subtle}` }} />
 								</Box>
 								<Box sx={{ flex: 1, minWidth: 0 }}>
 									<Typography sx={{
 										fontSize: '0.8rem', fontWeight: isActive ? 600 : 400,
-										color: (c.status === 'CLOSED' || c.status === 'ARCHIVED') ? '#94a3b8' : '#0f172a', lineHeight: 1.3,
+										color: (c.status === 'CLOSED' || c.status === 'ARCHIVED') ? `${tokens.ink.subtle}` : `${tokens.ink.strong}`, lineHeight: 1.3,
 										overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
 									}}>
 										{c.title}
 									</Typography>
 									<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 0.25 }}>
-										<Typography sx={{ fontSize: '0.68rem', color: '#94a3b8' }}>
+										<Typography sx={{ fontSize: '0.68rem', color: tokens.ink.subtle }}>
 											{new Date(c.lastUpdatedAt || c.createdAt).toLocaleDateString(userLang || 'en')}
 										</Typography>
 										{c.status === 'CLOSED' && (
-											<Chip size="small" label={t('appAIResumeChat.closed')} sx={{ fontSize: '0.6rem', height: 14, backgroundColor: '#f1f5f9', color: '#94a3b8', '& .MuiChip-label': { px: 0.75 } }} />
+											<Chip size="small" label={t('appAIResumeChat.closed')} sx={{ fontSize: '0.6rem', height: 14, backgroundColor: tokens.surface.muted, color: tokens.ink.subtle, '& .MuiChip-label': { px: 0.75 } }} />
 										)}
 										{c.status === 'ARCHIVED' && (
-											<Chip size="small" label={t('appAIResumeChat.archived')} sx={{ fontSize: '0.6rem', height: 14, backgroundColor: '#fef3c7', color: '#92400e', '& .MuiChip-label': { px: 0.75 } }} />
+											<Chip size="small" label={t('appAIResumeChat.archived')} sx={{ fontSize: '0.6rem', height: 14, backgroundColor: tokens.status.warning.tintAlt, color: tokens.status.warning.text, '& .MuiChip-label': { px: 0.75 } }} />
 										)}
 									</Box>
 								</Box>
 								<IconButton
 									size="small"
 									onClick={(e) => { e.stopPropagation(); setListMenuAnchor({ el: e.currentTarget, chat: c }); }}
-									sx={{ flexShrink: 0, p: 0.4, color: '#94a3b8', '&:hover': { color: '#475569', backgroundColor: 'rgba(0,0,0,0.04)' } }}
+									sx={{ flexShrink: 0, p: 0.4, color: tokens.ink.subtle, '&:hover': { color: tokens.ink.soft, backgroundColor: 'rgba(0,0,0,0.04)' } }}
 								>
 									<MoreVertIcon sx={{ fontSize: 16 }} />
 								</IconButton>
@@ -119,7 +121,7 @@ const ChatListPanel = ({ chatHasMore, chatListOpen, chatPage, chats, fetchChatsP
 						<Button
 							size="small" fullWidth
 							onClick={() => fetchChatsPage(chatPage + 1, statusFilter)}
-							sx={{ fontSize: '0.72rem', color: '#629C44', textTransform: 'none', borderRadius: 1.5 }}
+							sx={{ fontSize: '0.72rem', color: tokens.brand.text, textTransform: 'none', borderRadius: 1.5 }}
 						>
 							{t('appAIResumeChat.loadMore')}
 						</Button>

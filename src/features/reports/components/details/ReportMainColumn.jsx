@@ -14,6 +14,8 @@ import ScoreGaugeLarge from './ScoreGaugeLarge.jsx';
 import DetailScoreCard from './DetailScoreCard.jsx';
 import { THEME_GREEN, importanceKey, importanceChipSx, severityChipSx } from '../../model/reportDetails.js';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 /** Left column of the report: decision, score breakdown, skills, strengths and risks. */
 const ReportMainColumn = ({ finalColor, confConfig, confKey, decision, detailScores, details, finalScore, recConfig, recKey, reportData }) => {
@@ -31,7 +33,7 @@ const ReportMainColumn = ({ finalColor, confConfig, confKey, decision, detailSco
 				<Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 3 }}>
 					<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1, flexShrink: 0 }}>
 						<ScoreGaugeLarge value={finalScore} />
-						<Typography sx={{ fontSize: '0.62rem', fontWeight: 800, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.12em' }}>
+						<Typography sx={{ fontSize: '0.62rem', fontWeight: 800, color: tokens.ink.soft, textTransform: 'uppercase', letterSpacing: '0.12em' }}>
 							{t('appCVMatching.finalScore')}
 						</Typography>
 					</Box>
@@ -51,16 +53,16 @@ const ReportMainColumn = ({ finalColor, confConfig, confKey, decision, detailSco
 							)}
 						</Box>
 						{decision?.reportHeadline && (
-							<Typography sx={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a', lineHeight: 1.4, mb: 1 }}>
+							<Typography sx={{ fontSize: '0.9rem', fontWeight: 700, color: tokens.ink.strong, lineHeight: 1.4, mb: 1 }}>
 								{decision.reportHeadline}
 							</Typography>
 						)}
-						<Typography sx={{ fontSize: '0.82rem', color: '#334155', lineHeight: 1.65 }}>
+						<Typography sx={{ fontSize: '0.82rem', color: tokens.ink.body, lineHeight: 1.65 }}>
 							{decision?.detailedSummary}
 						</Typography>
 						{decision?.shortVerdict && (
-							<Box sx={{ mt: 1.5, px: 1.5, py: 1, borderRadius: 1.5, backgroundColor: 'rgba(98,156,68,0.06)', borderLeft: `3px solid ${THEME_GREEN}` }}>
-								<Typography sx={{ fontSize: '0.78rem', color: '#334155', lineHeight: 1.6, fontStyle: 'italic' }}>
+							<Box sx={{ mt: 1.5, px: 1.5, py: 1, borderRadius: 1.5, backgroundColor: alpha(tokens.brand.main, 0.06), borderLeft: `3px solid ${THEME_GREEN}` }}>
+								<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.body, lineHeight: 1.6, fontStyle: 'italic' }}>
 									{decision.shortVerdict}
 								</Typography>
 							</Box>
@@ -78,12 +80,12 @@ const ReportMainColumn = ({ finalColor, confConfig, confKey, decision, detailSco
 
 			{/* Matching Skills */}
 			{Array.isArray(details.skillsMatch?.matchingSkills) && details.skillsMatch.matchingSkills.length > 0 && (
-				<Paper elevation={0} sx={{ border: '1px solid #bbf7d0', borderRadius: 2.5, p: 2.5, backgroundColor: '#f0fdf4' }}>
+				<Paper elevation={0} sx={{ border: `1px solid ${tokens.status.success.border}`, borderRadius: 2.5, p: 2.5, backgroundColor: tokens.status.success.pale }}>
 					<SectionHeader sx={{ mb: 1.5 }} icon={StarOutlineOutlinedIcon} label={t('appCVMatching.matchingSkills')} />
 					<Stack direction="row" spacing={0.75} flexWrap="wrap" useFlexGap>
 						{details.skillsMatch.matchingSkills.map((sk, i) => (
 							<Chip key={`msk-${i}`} label={sk} size="small"
-								sx={{ height: 24, fontSize: '0.75rem', fontWeight: 600, backgroundColor: '#dcfce7', color: '#15803d', border: '1px solid #86efac' }} />
+								sx={{ height: 24, fontSize: '0.75rem', fontWeight: 600, backgroundColor: tokens.status.success.tint, color: tokens.status.success.strong, border: `1px solid ${tokens.status.success.mint}` }} />
 						))}
 					</Stack>
 				</Paper>
@@ -91,10 +93,10 @@ const ReportMainColumn = ({ finalColor, confConfig, confKey, decision, detailSco
 
 			{/* Missing Skills */}
 			{details.missingSkills && (
-				<Paper elevation={0} sx={{ border: '1px solid #fecaca', borderRadius: 2.5, p: 2.5, backgroundColor: '#fffafa' }}>
+				<Paper elevation={0} sx={{ border: `1px solid ${tokens.status.error.border}`, borderRadius: 2.5, p: 2.5, backgroundColor: tokens.status.error.whisper }}>
 					<SectionHeader sx={{ mb: 1.5 }} icon={ErrorOutlineOutlinedIcon} label={t('appCVMatching.lackingSkills')} />
 					{details.missingSkills.summary && (
-						<Typography sx={{ fontSize: '0.82rem', color: '#334155', lineHeight: 1.6, mb: 1.5 }}>
+						<Typography sx={{ fontSize: '0.82rem', color: tokens.ink.body, lineHeight: 1.6, mb: 1.5 }}>
 							{details.missingSkills.summary}
 						</Typography>
 					)}
@@ -106,9 +108,9 @@ const ReportMainColumn = ({ finalColor, confConfig, confKey, decision, detailSco
 									<Box key={`ms-${i}`} sx={{
 										display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1.5,
 										py: 0.75, px: 0.5,
-										borderBottom: i < details.missingSkills.skills.length - 1 ? '1px solid #fee2e2' : 'none',
+										borderBottom: i < details.missingSkills.skills.length - 1 ? `1px solid ${tokens.status.error.tint}` : 'none',
 									}}>
-										<Typography sx={{ fontSize: '0.80rem', color: '#334155', flex: 1 }}>{item.skill}</Typography>
+										<Typography sx={{ fontSize: '0.80rem', color: tokens.ink.body, flex: 1 }}>{item.skill}</Typography>
 										<Chip label={t(`jobContent.${ik}`)} size="small"
 											sx={{ height: 20, fontSize: '0.68rem', fontWeight: 700, flexShrink: 0, ...importanceChipSx[ik] }} />
 									</Box>
@@ -121,22 +123,22 @@ const ReportMainColumn = ({ finalColor, confConfig, confKey, decision, detailSco
 
 			{/* Strengths */}
 			{Array.isArray(details.strengths) && details.strengths.length > 0 && (
-				<Paper elevation={0} sx={{ border: '1px solid #bbf7d0', borderRadius: 2.5, p: 2.5 }}>
+				<Paper elevation={0} sx={{ border: `1px solid ${tokens.status.success.border}`, borderRadius: 2.5, p: 2.5 }}>
 					<SectionHeader sx={{ mb: 1.5 }} icon={EmojiEventsOutlinedIcon} label={t('appCVMatching.strengths', 'Strengths')} />
 					<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.25 }}>
 						{details.strengths.map((s, i) => (
 							<Box key={`str-${i}`} sx={{
-								borderLeft: '3px solid #629C44', pl: 1.5, py: 0.5,
-								borderRadius: '0 8px 8px 0', backgroundColor: 'rgba(98,156,68,0.04)',
+								borderLeft: `3px solid ${tokens.brand.main}`, pl: 1.5, py: 0.5,
+								borderRadius: '0 8px 8px 0', backgroundColor: alpha(tokens.brand.main, 0.04),
 							}}>
 								<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1, mb: 0.5 }}>
-									<Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: '#0f172a' }}>{s.title}</Typography>
+									<Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: tokens.ink.strong }}>{s.title}</Typography>
 									{s.importance && (
 										<Chip label={s.importance} size="small"
-											sx={{ height: 18, fontSize: '0.62rem', fontWeight: 700, flexShrink: 0, backgroundColor: 'rgba(98,156,68,0.12)', color: THEME_GREEN, border: `1px solid rgba(98,156,68,0.25)` }} />
+											sx={{ height: 18, fontSize: '0.62rem', fontWeight: 700, flexShrink: 0, backgroundColor: alpha(tokens.brand.main, 0.12), color: THEME_GREEN, border: `1px solid ${alpha(tokens.brand.main, 0.25)}` }} />
 									)}
 								</Box>
-								<Typography sx={{ fontSize: '0.78rem', color: '#475569', lineHeight: 1.55 }}>{s.evidence}</Typography>
+								<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.soft, lineHeight: 1.55 }}>{s.evidence}</Typography>
 							</Box>
 						))}
 					</Box>
@@ -145,7 +147,7 @@ const ReportMainColumn = ({ finalColor, confConfig, confKey, decision, detailSco
 
 			{/* Weaknesses */}
 			{Array.isArray(details.weaknesses) && details.weaknesses.length > 0 && (
-				<Paper elevation={0} sx={{ border: '1px solid #fde68a', borderRadius: 2.5, p: 2.5 }}>
+				<Paper elevation={0} sx={{ border: `1px solid ${tokens.status.warning.border}`, borderRadius: 2.5, p: 2.5 }}>
 					<SectionHeader sx={{ mb: 1.5 }} icon={WarningAmberOutlinedIcon} label={t('appCVMatching.weaknesses', 'Weaknesses')} />
 					<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.25 }}>
 						{details.weaknesses.map((w, i) => {
@@ -153,17 +155,17 @@ const ReportMainColumn = ({ finalColor, confConfig, confKey, decision, detailSco
 							const sevSx  = severityChipSx[sevKey] ?? severityChipSx.medium;
 							return (
 								<Box key={`wk-${i}`} sx={{
-									borderLeft: '3px solid #d97706', pl: 1.5, py: 0.5,
+									borderLeft: `3px solid ${tokens.status.warning.main}`, pl: 1.5, py: 0.5,
 									borderRadius: '0 8px 8px 0', backgroundColor: 'rgba(245,158,11,0.04)',
 								}}>
 									<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1, mb: 0.5 }}>
-										<Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: '#0f172a' }}>{w.title}</Typography>
+										<Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: tokens.ink.strong }}>{w.title}</Typography>
 										{w.severity && (
 											<Chip label={w.severity} size="small"
 												sx={{ height: 18, fontSize: '0.62rem', fontWeight: 700, flexShrink: 0, ...sevSx }} />
 										)}
 									</Box>
-									<Typography sx={{ fontSize: '0.78rem', color: '#475569', lineHeight: 1.55 }}>{w.evidence}</Typography>
+									<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.soft, lineHeight: 1.55 }}>{w.evidence}</Typography>
 								</Box>
 							);
 						})}
@@ -173,7 +175,7 @@ const ReportMainColumn = ({ finalColor, confConfig, confKey, decision, detailSco
 
 			{/* Red Flags */}
 			{Array.isArray(details.redFlags) && details.redFlags.length > 0 && (
-				<Paper elevation={0} sx={{ border: '1px solid #fecaca', borderRadius: 2.5, p: 2.5 }}>
+				<Paper elevation={0} sx={{ border: `1px solid ${tokens.status.error.border}`, borderRadius: 2.5, p: 2.5 }}>
 					<SectionHeader sx={{ mb: 1.5 }} icon={ReportProblemOutlinedIcon} label={t('appCVMatching.redFlags', 'Red Flags')} />
 					<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.75 }}>
 						{details.redFlags.map((rf, i) => {
@@ -182,30 +184,30 @@ const ReportMainColumn = ({ finalColor, confConfig, confKey, decision, detailSco
 							return (
 								<Box key={`rf-${i}`}>
 									<Box sx={{
-										borderLeft: '3px solid #dc2626', pl: 1.5, py: 0.5,
+										borderLeft: `3px solid ${tokens.status.error.main}`, pl: 1.5, py: 0.5,
 										borderRadius: '0 8px 8px 0', backgroundColor: 'rgba(220,38,38,0.04)',
 									}}>
 										<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1, mb: 0.5 }}>
-											<Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: '#0f172a' }}>{rf.title}</Typography>
+											<Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: tokens.ink.strong }}>{rf.title}</Typography>
 											{rf.severity && (
 												<Chip label={rf.severity} size="small"
 													sx={{ height: 18, fontSize: '0.62rem', fontWeight: 700, flexShrink: 0, ...sevSx }} />
 											)}
 										</Box>
-										<Typography sx={{ fontSize: '0.78rem', color: '#475569', lineHeight: 1.55 }}>{rf.evidence}</Typography>
+										<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.soft, lineHeight: 1.55 }}>{rf.evidence}</Typography>
 									</Box>
 									{rf.suggestedInterviewQuestion && (
 										<Box sx={{
 											mt: 1, mx: 0.5, px: 1.5, py: 1, borderRadius: 1.5,
-											backgroundColor: '#f0f9ff', border: '1px solid #bae6fd',
+											backgroundColor: tokens.status.info.pale, border: `1px solid ${tokens.status.info.border}`,
 											display: 'flex', alignItems: 'flex-start', gap: 1,
 										}}>
-											<QuestionAnswerOutlinedIcon sx={{ fontSize: 14, color: '#0369a1', mt: 0.2, flexShrink: 0 }} />
+											<QuestionAnswerOutlinedIcon sx={{ fontSize: 14, color: tokens.status.info.main, mt: 0.2, flexShrink: 0 }} />
 											<Box>
-												<Typography sx={{ fontSize: '0.62rem', fontWeight: 700, color: '#0369a1', textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.25 }}>
+												<Typography sx={{ fontSize: '0.62rem', fontWeight: 700, color: tokens.status.info.main, textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.25 }}>
 													{t('appCVMatching.suggestedQuestion', 'Suggested interview question')}
 												</Typography>
-												<Typography sx={{ fontSize: '0.78rem', color: '#0c4a6e', lineHeight: 1.55, fontStyle: 'italic' }}>
+												<Typography sx={{ fontSize: '0.78rem', color: tokens.status.info.ink, lineHeight: 1.55, fontStyle: 'italic' }}>
 													{rf.suggestedInterviewQuestion}
 												</Typography>
 											</Box>

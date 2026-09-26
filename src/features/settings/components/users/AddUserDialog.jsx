@@ -5,6 +5,7 @@ import PermissionsEditor from './PermissionsEditor.jsx';
 import { DIALOG_PAPER_SX } from '../../model/users.js';
 import { useTranslation } from 'react-i18next';
 import { brandPillButtonSx } from '../../../../shared/ui/buttonSx.js';
+import * as tokens from '../../../../theme/tokens.js';
 
 /** Invites a team member with a role and permissions. */
 const AddUserDialog = ({ addForm, addPerms, addRole, handleAddUser, openAdd, saving, setAddForm, setAddPerms, setAddRole, setOpenAdd }) => {
@@ -14,11 +15,11 @@ const AddUserDialog = ({ addForm, addPerms, addRole, handleAddUser, openAdd, sav
 		<Dialog open={openAdd} onClose={() => { if (!saving) { setOpenAdd(false); setAddRole('ACCOUNT_MANAGER'); } }} maxWidth="md" fullWidth slotProps={{ paper: DIALOG_PAPER_SX }}>
 			<DialogTitle sx={{ pb: 1 }}>
 				<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-					<PersonAddOutlinedIcon sx={{ fontSize: 18, color: '#629C44' }} />
-					<Typography sx={{ fontWeight: 700, fontSize: '1rem', color: '#0f172a' }}>{t('accountSettings.addUserTitle')}</Typography>
+					<PersonAddOutlinedIcon sx={{ fontSize: 18, color: tokens.brand.text }} />
+					<Typography sx={{ fontWeight: 700, fontSize: '1rem', color: tokens.ink.strong }}>{t('accountSettings.addUserTitle')}</Typography>
 				</Box>
 			</DialogTitle>
-			<Divider sx={{ borderColor: '#f1f5f9' }} />
+			<Divider sx={{ borderColor: tokens.surface.muted }} />
 			<DialogContent sx={{ pt: 2.5 }}>
 				<Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
 					<Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 1.5 }}>
@@ -41,15 +42,15 @@ const AddUserDialog = ({ addForm, addPerms, addRole, handleAddUser, openAdd, sav
 							</MenuItem>
 						</Select>
 					</Box>
-					<Typography sx={{ fontSize: '0.72rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.07em' }}>
+					<Typography sx={{ fontSize: '0.72rem', fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
 						{t('accountSettings.permissions')}
 					</Typography>
 					<PermissionsEditor perms={addPerms} onChange={(action, val) => setAddPerms(p => ({ ...p, [action]: val }))} t={t} />
 				</Box>
 			</DialogContent>
-			<Divider sx={{ borderColor: '#f1f5f9' }} />
+			<Divider sx={{ borderColor: tokens.surface.muted }} />
 			<DialogActions sx={{ px: 3, py: 2, gap: 1 }}>
-				<Button onClick={() => { setOpenAdd(false); setAddRole('ACCOUNT_MANAGER'); }} disabled={saving} sx={{ borderRadius: 2, textTransform: 'none', fontSize: '0.82rem', color: '#64748b' }}>
+				<Button onClick={() => { setOpenAdd(false); setAddRole('ACCOUNT_MANAGER'); }} disabled={saving} sx={{ borderRadius: 2, textTransform: 'none', fontSize: '0.82rem', color: tokens.ink.muted }}>
 					{t('accountSettings.cancel')}
 				</Button>
 				<Button variant="contained" onClick={handleAddUser} disabled={saving || !addForm.email.trim()}

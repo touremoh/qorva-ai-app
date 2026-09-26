@@ -22,8 +22,9 @@ import { MFA_CODE_LENGTH } from '../../auth/components/MfaCodeField.jsx';
 import useResendCountdown from '../../../components/mfa/useResendCountdown.js';
 import { brandButtonSx, outlinedButtonSx } from '../../../shared/ui/buttonSx.js';
 import MfaCodeDialog from './profile/MfaCodeDialog.jsx';
+import * as tokens from '../../../theme/tokens.js';
 
-const THEME_GREEN = '#629C44';
+const THEME_GREEN = tokens.brand.main;
 
 // The challenge is dead: close the dialog, the user starts over from the card.
 const RESTART_CODES = new Set(['error.auth.mfa_challenge_invalid', 'error.auth.mfa_too_many_attempts']);
@@ -145,11 +146,11 @@ const MfaCard = () => {
 	const action = enabled ? 'disable' : 'enable';
 
 	return (
-		<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5 }}>
+		<Paper elevation={0} sx={{ border: `1px solid ${tokens.line.main}`, borderRadius: 2.5, p: 2.5 }}>
 			<SectionHeader icon={VerifiedUserOutlinedIcon} label={t('accountSettings.mfa.title', 'Two-step verification')} />
 
 			{loading ? (
-				<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: '#94a3b8' }}>
+				<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: tokens.ink.subtle }}>
 					<CircularProgress size={14} sx={{ color: THEME_GREEN }} />
 					<Typography sx={{ fontSize: '0.8rem' }}>{t('accountSettings.mfa.loading', 'Loading…')}</Typography>
 				</Box>
@@ -161,11 +162,11 @@ const MfaCard = () => {
 								size="small"
 								label={enabled ? t('accountSettings.mfa.on', 'On') : t('accountSettings.mfa.off', 'Off')}
 								sx={enabled
-									? { backgroundColor: '#dcfce7', color: '#166534', fontWeight: 600, fontSize: '0.7rem', height: 22 }
-									: { backgroundColor: '#f1f5f9', color: '#475569', fontWeight: 600, fontSize: '0.7rem', height: 22 }}
+									? { backgroundColor: tokens.status.success.tint, color: tokens.status.success.text, fontWeight: 600, fontSize: '0.7rem', height: 22 }
+									: { backgroundColor: tokens.surface.muted, color: tokens.ink.soft, fontWeight: 600, fontSize: '0.7rem', height: 22 }}
 							/>
 						</Box>
-						<Typography sx={{ fontSize: '0.8rem', color: '#64748b' }}>
+						<Typography sx={{ fontSize: '0.8rem', color: tokens.ink.muted }}>
 							{t('accountSettings.mfa.description', 'Ask for a code sent to your email each time you sign in, on top of your password.')}
 						</Typography>
 					</Box>

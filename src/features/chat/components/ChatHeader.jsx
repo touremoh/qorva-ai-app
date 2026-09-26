@@ -8,6 +8,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import ViewSidebarOutlinedIcon from '@mui/icons-material/ViewSidebarOutlined';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../theme/tokens.js';
 
 /** Selected chat: candidate, job, linked report and chat actions. */
 const ChatHeader = ({ contextOpen, handleUpdateStatus, headerMenuAnchor, linkedReport, navigate, selectedChat, setChatToDelete, setHeaderMenuAnchor, toggleContext, updatingStatusChatId }) => {
@@ -16,16 +17,16 @@ const ChatHeader = ({ contextOpen, handleUpdateStatus, headerMenuAnchor, linkedR
 		<>
 		<Box sx={{
 			px: 2.5, py: 1.5, flexShrink: 0,
-			backgroundColor: '#ffffff',
-			borderBottom: '1px solid #e2e8f0',
+			backgroundColor: tokens.surface.paper,
+			borderBottom: `1px solid ${tokens.line.main}`,
 			display: 'flex', alignItems: 'center', gap: 1.5,
 		}}>
 			{selectedChat ? (
 				<>
-					<Avatar sx={{ width: 28, height: 28, fontSize: '0.65rem', fontWeight: 700, backgroundColor: '#629C44' }}>
+					<Avatar sx={{ width: 28, height: 28, fontSize: '0.65rem', fontWeight: 700, backgroundColor: tokens.brand.main }}>
 						{(selectedChat.title || '?')[0].toUpperCase()}
 					</Avatar>
-					<Typography sx={{ fontWeight: 600, fontSize: '0.88rem', color: '#0f172a', flex: 1 }}>
+					<Typography sx={{ fontWeight: 600, fontSize: '0.88rem', color: tokens.ink.strong, flex: 1 }}>
 						{selectedChat.title}
 					</Typography>
 					{linkedReport?.matchingReportDetails?.decisionSummary?.finalScore != null ? (
@@ -35,7 +36,7 @@ const ChatHeader = ({ contextOpen, handleUpdateStatus, headerMenuAnchor, linkedR
 								icon={<AssessmentOutlinedIcon sx={{ fontSize: '13px !important' }} />}
 								label={`${t('appAIResumeChat.screeningScore')}: ${Math.round(linkedReport.matchingReportDetails.decisionSummary.finalScore)}%`}
 								onClick={() => navigate('/app/reports')}
-								sx={{ fontSize: '0.72rem', backgroundColor: '#dcfce7', color: '#166534', fontWeight: 600, height: 22, cursor: 'pointer' }}
+								sx={{ fontSize: '0.72rem', backgroundColor: tokens.status.success.tint, color: tokens.status.success.text, fontWeight: 600, height: 22, cursor: 'pointer' }}
 							/>
 						</Tooltip>
 					) : !linkedReport && (
@@ -46,7 +47,7 @@ const ChatHeader = ({ contextOpen, handleUpdateStatus, headerMenuAnchor, linkedR
 								label={t('appAIResumeChat.runScreening')}
 								onClick={() => navigate('/app/reports')}
 								variant="outlined"
-								sx={{ fontSize: '0.72rem', color: '#92400e', borderColor: '#fcd34d', backgroundColor: '#fffbeb', height: 22, cursor: 'pointer' }}
+								sx={{ fontSize: '0.72rem', color: tokens.status.warning.text, borderColor: tokens.status.warning.border2, backgroundColor: tokens.status.warning.pale, height: 22, cursor: 'pointer' }}
 							/>
 						</Tooltip>
 					)}
@@ -55,7 +56,7 @@ const ChatHeader = ({ contextOpen, handleUpdateStatus, headerMenuAnchor, linkedR
 							size="small"
 							icon={<LockOutlinedIcon sx={{ fontSize: '12px !important' }} />}
 							label={t('appAIResumeChat.closed')}
-							sx={{ fontSize: '0.72rem', backgroundColor: '#f1f5f9', color: '#64748b', height: 22 }}
+							sx={{ fontSize: '0.72rem', backgroundColor: tokens.surface.muted, color: tokens.ink.muted, height: 22 }}
 						/>
 					)}
 					{selectedChat.status === 'ARCHIVED' && (
@@ -63,14 +64,14 @@ const ChatHeader = ({ contextOpen, handleUpdateStatus, headerMenuAnchor, linkedR
 							size="small"
 							icon={<ArchiveOutlinedIcon sx={{ fontSize: '12px !important' }} />}
 							label={t('appAIResumeChat.archived')}
-							sx={{ fontSize: '0.72rem', backgroundColor: '#fef3c7', color: '#92400e', height: 22 }}
+							sx={{ fontSize: '0.72rem', backgroundColor: tokens.status.warning.tintAlt, color: tokens.status.warning.text, height: 22 }}
 						/>
 					)}
 					<Tooltip title={t(contextOpen ? 'appAIResumeChat.hideContext' : 'appAIResumeChat.showContext')}>
 						<IconButton
 							size="small"
 							onClick={toggleContext}
-							sx={{ border: '1px solid #e2e8f0', borderRadius: 1.5, color: contextOpen ? '#629C44' : '#64748b', '&:hover': { backgroundColor: '#f1f5f9' } }}
+							sx={{ border: `1px solid ${tokens.line.main}`, borderRadius: 1.5, color: contextOpen ? `${tokens.brand.main}` : `${tokens.ink.muted}`, '&:hover': { backgroundColor: tokens.surface.muted } }}
 						>
 							<ViewSidebarOutlinedIcon sx={{ fontSize: 16 }} />
 						</IconButton>
@@ -79,7 +80,7 @@ const ChatHeader = ({ contextOpen, handleUpdateStatus, headerMenuAnchor, linkedR
 						<IconButton
 							size="small"
 							onClick={(e) => setHeaderMenuAnchor(e.currentTarget)}
-							sx={{ border: '1px solid #e2e8f0', borderRadius: 1.5, color: '#64748b', '&:hover': { backgroundColor: '#f1f5f9' } }}
+							sx={{ border: `1px solid ${tokens.line.main}`, borderRadius: 1.5, color: tokens.ink.muted, '&:hover': { backgroundColor: tokens.surface.muted } }}
 						>
 							<MoreVertIcon sx={{ fontSize: 16 }} />
 						</IconButton>
@@ -88,7 +89,7 @@ const ChatHeader = ({ contextOpen, handleUpdateStatus, headerMenuAnchor, linkedR
 						anchorEl={headerMenuAnchor}
 						open={!!headerMenuAnchor}
 						onClose={() => setHeaderMenuAnchor(null)}
-						slotProps={{ paper: { elevation: 0, sx: { borderRadius: 2, border: '1px solid #e2e8f0', minWidth: 170 } } }}
+						slotProps={{ paper: { elevation: 0, sx: { borderRadius: 2, border: `1px solid ${tokens.line.main}`, minWidth: 170 } } }}
 					>
 						{selectedChat.status === 'CLOSED' && (
 							<MenuItem
@@ -98,8 +99,8 @@ const ChatHeader = ({ contextOpen, handleUpdateStatus, headerMenuAnchor, linkedR
 							>
 								<ListItemIcon sx={{ minWidth: 0 }}>
 									{updatingStatusChatId === selectedChat.id
-										? <CircularProgress size={14} sx={{ color: '#629C44' }} />
-										: <LockOpenOutlinedIcon fontSize="small" sx={{ color: '#629C44' }} />
+										? <CircularProgress size={14} sx={{ color: tokens.brand.text }} />
+										: <LockOpenOutlinedIcon fontSize="small" sx={{ color: tokens.brand.text }} />
 									}
 								</ListItemIcon>
 								{t('appAIResumeChat.reopenChat')}
@@ -113,8 +114,8 @@ const ChatHeader = ({ contextOpen, handleUpdateStatus, headerMenuAnchor, linkedR
 							>
 								<ListItemIcon sx={{ minWidth: 0 }}>
 									{updatingStatusChatId === selectedChat.id
-										? <CircularProgress size={14} sx={{ color: '#629C44' }} />
-										: <LockOutlinedIcon fontSize="small" sx={{ color: '#64748b' }} />
+										? <CircularProgress size={14} sx={{ color: tokens.brand.text }} />
+										: <LockOutlinedIcon fontSize="small" sx={{ color: tokens.ink.muted }} />
 									}
 								</ListItemIcon>
 								{t('appAIResumeChat.closeChat')}
@@ -128,27 +129,27 @@ const ChatHeader = ({ contextOpen, handleUpdateStatus, headerMenuAnchor, linkedR
 							>
 								<ListItemIcon sx={{ minWidth: 0 }}>
 									{updatingStatusChatId === selectedChat.id
-										? <CircularProgress size={14} sx={{ color: '#629C44' }} />
-										: <ArchiveOutlinedIcon fontSize="small" sx={{ color: '#64748b' }} />
+										? <CircularProgress size={14} sx={{ color: tokens.brand.text }} />
+										: <ArchiveOutlinedIcon fontSize="small" sx={{ color: tokens.ink.muted }} />
 									}
 								</ListItemIcon>
 								{t('appAIResumeChat.archiveChat')}
 							</MenuItem>
 						)}
-						<Divider sx={{ my: 0.5, borderColor: '#f1f5f9' }} />
+						<Divider sx={{ my: 0.5, borderColor: tokens.surface.muted }} />
 						<MenuItem
 							onClick={() => { setChatToDelete(selectedChat); setHeaderMenuAnchor(null); }}
-							sx={{ fontSize: '0.82rem', color: '#ef4444', gap: 1 }}
+							sx={{ fontSize: '0.82rem', color: tokens.status.error.bright, gap: 1 }}
 						>
 							<ListItemIcon sx={{ minWidth: 0 }}>
-								<DeleteOutlineIcon fontSize="small" sx={{ color: '#ef4444' }} />
+								<DeleteOutlineIcon fontSize="small" sx={{ color: tokens.status.error.bright }} />
 							</ListItemIcon>
 							{t('appAIResumeChat.deleteChat')}
 						</MenuItem>
 					</Menu>
 				</>
 			) : (
-				<Typography sx={{ fontSize: '0.85rem', color: '#94a3b8' }}>
+				<Typography sx={{ fontSize: '0.85rem', color: tokens.ink.subtle }}>
 					{t('appAIResumeChat.selectChat')}
 				</Typography>
 			)}

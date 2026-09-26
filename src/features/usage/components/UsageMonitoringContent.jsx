@@ -14,27 +14,29 @@ import { useTranslation } from 'react-i18next';
 import { getUsageMonitoring } from '../api/usageMonitoringService.js';
 import { getEmailTemplates } from '../../email-templates/api/emailTemplateService.js';
 import UsageSummary from './UsageSummary.jsx';
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 const USAGE_FEATURE_CONFIG = (t) => [
     {
         key: 'screeningActions',
         label: t('dashboard.usage.matchingActions', 'Matching Actions'),
         icon: ManageSearchOutlinedIcon,
-        accent: '#629C44',
-        bg: 'rgba(98,156,68,0.08)',
+        accent: tokens.brand.text,
+        bg: alpha(tokens.brand.main, 0.08),
     },
     {
         key: 'aiResumeChats',
         label: t('dashboard.usage.aiResumeChats', 'AI Resume Chats'),
         icon: QuestionAnswerOutlinedIcon,
-        accent: '#3b82f6',
+        accent: tokens.status.info.blue,
         bg: 'rgba(59,130,246,0.08)',
     },
     {
         key: 'talentIntelligenceQueries',
         label: t('dashboard.usage.talentIntelligenceQueries', 'Talent Intelligence'),
         icon: InsightsOutlinedIcon,
-        accent: '#8b5cf6',
+        accent: tokens.status.accent.purple,
         bg: 'rgba(139,92,246,0.08)',
     },
 ];
@@ -81,37 +83,37 @@ const UsageMonitoringContent = () => {
     const featureConfig = USAGE_FEATURE_CONFIG(t);
 
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', overflow: 'hidden', backgroundColor: '#f8fafc' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', overflow: 'hidden', backgroundColor: tokens.surface.subtle }}>
             <Box sx={{ flex: 1, overflowY: 'auto', p: { xs: 2, md: 3 }, display: 'flex', flexDirection: 'column', gap: 2.5 }}>
 
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <SpeedOutlinedIcon sx={{ fontSize: 20, color: '#629C44' }} />
-                    <Typography sx={{ fontWeight: 700, fontSize: '1rem', color: '#0f172a' }}>
+                    <SpeedOutlinedIcon sx={{ fontSize: 20, color: tokens.brand.text }} />
+                    <Typography sx={{ fontWeight: 700, fontSize: '1rem', color: tokens.ink.strong }}>
                         {t('header.usageMonitoring', 'Usage Monitoring')}
                     </Typography>
                 </Box>
 
                 {loading && (
                     <Stack alignItems="center" justifyContent="center" sx={{ flex: 1, py: 8 }} spacing={1.5}>
-                        <CircularProgress size={32} sx={{ color: '#629C44' }} />
-                        <Typography sx={{ fontSize: '0.82rem', color: '#94a3b8' }}>{t('dashboard.loading')}</Typography>
+                        <CircularProgress size={32} sx={{ color: tokens.brand.text }} />
+                        <Typography sx={{ fontSize: '0.82rem', color: tokens.ink.subtle }}>{t('dashboard.loading')}</Typography>
                     </Stack>
                 )}
 
                 {!loading && error && (
-                    <Paper elevation={0} sx={{ border: '1px solid #fee2e2', borderRadius: 2.5, p: 2.5 }}>
-                        <Typography sx={{ fontSize: '0.85rem', color: '#dc2626' }}>{error}</Typography>
+                    <Paper elevation={0} sx={{ border: `1px solid ${tokens.status.error.tint}`, borderRadius: 2.5, p: 2.5 }}>
+                        <Typography sx={{ fontSize: '0.85rem', color: tokens.status.error.main }}>{error}</Typography>
                     </Paper>
                 )}
 
                 {!loading && !error && !data && (
-                    <Paper elevation={0} sx={{ border: '1px dashed #e2e8f0', borderRadius: 2.5, p: 4 }}>
+                    <Paper elevation={0} sx={{ border: `1px dashed ${tokens.line.main}`, borderRadius: 2.5, p: 4 }}>
                         <Stack alignItems="center" spacing={1.25} sx={{ textAlign: 'center' }}>
-                            <SpeedOutlinedIcon sx={{ fontSize: 36, color: '#cbd5e1' }} />
-                            <Typography sx={{ fontSize: '0.9rem', fontWeight: 600, color: '#0f172a' }}>
+                            <SpeedOutlinedIcon sx={{ fontSize: 36, color: tokens.ink.faint }} />
+                            <Typography sx={{ fontSize: '0.9rem', fontWeight: 600, color: tokens.ink.strong }}>
                                 {t('dashboard.usage.noPeriodTitle', 'No usage period is active for this account')}
                             </Typography>
-                            <Typography sx={{ fontSize: '0.82rem', color: '#64748b', maxWidth: 520 }}>
+                            <Typography sx={{ fontSize: '0.82rem', color: tokens.ink.muted, maxWidth: 520 }}>
                                 {t('dashboard.usage.noPeriodHint', 'Usage is metered per billing period. A period is opened automatically a few minutes after a subscription starts or renews; if this message persists, contact support.')}
                             </Typography>
                         </Stack>

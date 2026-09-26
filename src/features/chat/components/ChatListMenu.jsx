@@ -5,6 +5,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../theme/tokens.js';
 
 /** Per-chat menu: rename, close or reopen, delete. */
 const ChatListMenu = ({ handleUpdateStatus, listMenuAnchor, setChatToDelete, setListMenuAnchor, updatingStatusChatId }) => {
@@ -15,7 +16,7 @@ const ChatListMenu = ({ handleUpdateStatus, listMenuAnchor, setChatToDelete, set
 			anchorEl={listMenuAnchor?.el}
 			open={!!listMenuAnchor}
 			onClose={() => setListMenuAnchor(null)}
-			slotProps={{ paper: { elevation: 0, sx: { borderRadius: 2, border: '1px solid #e2e8f0', minWidth: 170 } } }}
+			slotProps={{ paper: { elevation: 0, sx: { borderRadius: 2, border: `1px solid ${tokens.line.main}`, minWidth: 170 } } }}
 		>
 			{listMenuAnchor?.chat?.status === 'CLOSED' && (
 				<MenuItem
@@ -25,8 +26,8 @@ const ChatListMenu = ({ handleUpdateStatus, listMenuAnchor, setChatToDelete, set
 				>
 					<ListItemIcon sx={{ minWidth: 0 }}>
 						{updatingStatusChatId === listMenuAnchor?.chat?.id
-							? <CircularProgress size={14} sx={{ color: '#629C44' }} />
-							: <LockOpenOutlinedIcon fontSize="small" sx={{ color: '#629C44' }} />
+							? <CircularProgress size={14} sx={{ color: tokens.brand.text }} />
+							: <LockOpenOutlinedIcon fontSize="small" sx={{ color: tokens.brand.text }} />
 						}
 					</ListItemIcon>
 					{t('appAIResumeChat.reopenChat')}
@@ -40,8 +41,8 @@ const ChatListMenu = ({ handleUpdateStatus, listMenuAnchor, setChatToDelete, set
 				>
 					<ListItemIcon sx={{ minWidth: 0 }}>
 						{updatingStatusChatId === listMenuAnchor?.chat?.id
-							? <CircularProgress size={14} sx={{ color: '#629C44' }} />
-							: <LockOutlinedIcon fontSize="small" sx={{ color: '#64748b' }} />
+							? <CircularProgress size={14} sx={{ color: tokens.brand.text }} />
+							: <LockOutlinedIcon fontSize="small" sx={{ color: tokens.ink.muted }} />
 						}
 					</ListItemIcon>
 					{t('appAIResumeChat.closeChat')}
@@ -55,20 +56,20 @@ const ChatListMenu = ({ handleUpdateStatus, listMenuAnchor, setChatToDelete, set
 				>
 					<ListItemIcon sx={{ minWidth: 0 }}>
 						{updatingStatusChatId === listMenuAnchor?.chat?.id
-							? <CircularProgress size={14} sx={{ color: '#629C44' }} />
-							: <ArchiveOutlinedIcon fontSize="small" sx={{ color: '#64748b' }} />
+							? <CircularProgress size={14} sx={{ color: tokens.brand.text }} />
+							: <ArchiveOutlinedIcon fontSize="small" sx={{ color: tokens.ink.muted }} />
 						}
 					</ListItemIcon>
 					{t('appAIResumeChat.archiveChat')}
 				</MenuItem>
 			)}
-			<Divider sx={{ my: 0.5, borderColor: '#f1f5f9' }} />
+			<Divider sx={{ my: 0.5, borderColor: tokens.surface.muted }} />
 			<MenuItem
 				onClick={() => { setChatToDelete(listMenuAnchor?.chat); setListMenuAnchor(null); }}
-				sx={{ fontSize: '0.82rem', color: '#ef4444', gap: 1 }}
+				sx={{ fontSize: '0.82rem', color: tokens.status.error.bright, gap: 1 }}
 			>
 				<ListItemIcon sx={{ minWidth: 0 }}>
-					<DeleteOutlineIcon fontSize="small" sx={{ color: '#ef4444' }} />
+					<DeleteOutlineIcon fontSize="small" sx={{ color: tokens.status.error.bright }} />
 				</ListItemIcon>
 				{t('appAIResumeChat.deleteChat')}
 			</MenuItem>

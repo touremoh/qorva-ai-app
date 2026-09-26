@@ -1,21 +1,23 @@
+import * as tokens from '../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 // Colours for the talent-clustering traits (skill depth, seniority, leadership, learning velocity),
 // shared by the resume view and the match report.
 
 // skillDepth: generalist | specialist | tShaped | hybrid | unknown
 export const SKILL_DEPTH_STYLE = {
-	specialist: { color: '#7c3aed', bg: 'rgba(124,58,237,0.08)', bdr: 'rgba(124,58,237,0.2)' },
-	generalist: { color: '#2563eb', bg: 'rgba(37,99,235,0.08)',  bdr: 'rgba(37,99,235,0.2)'  },
-	tShaped:    { color: '#0891b2', bg: 'rgba(8,145,178,0.08)',  bdr: 'rgba(8,145,178,0.2)'  },
-	hybrid:     { color: '#6366f1', bg: 'rgba(99,102,241,0.08)', bdr: 'rgba(99,102,241,0.2)' },
+	specialist: { color: tokens.status.accent.violet, bg: 'rgba(124,58,237,0.08)', bdr: 'rgba(124,58,237,0.2)' },
+	generalist: { color: tokens.status.info.royal, bg: 'rgba(37,99,235,0.08)',  bdr: 'rgba(37,99,235,0.2)'  },
+	tShaped:    { color: tokens.status.info.bright, bg: 'rgba(8,145,178,0.08)',  bdr: 'rgba(8,145,178,0.2)'  },
+	hybrid:     { color: tokens.status.accent.bright, bg: 'rgba(99,102,241,0.08)', bdr: 'rgba(99,102,241,0.2)' },
 };
 
-export const STYLE_UNKNOWN    = { color: '#94a3b8', bg: 'rgba(148,163,184,0.08)', bdr: 'rgba(148,163,184,0.2)' };
+export const STYLE_UNKNOWN    = { color: tokens.ink.subtle, bg: 'rgba(148,163,184,0.08)', bdr: 'rgba(148,163,184,0.2)' };
 
-export const STYLE_GREEN      = { color: '#629C44', bg: 'rgba(98,156,68,0.08)',   bdr: 'rgba(98,156,68,0.2)'   };
+export const STYLE_GREEN      = { color: tokens.brand.text, bg: alpha(tokens.brand.main, 0.08),   bdr: alpha(tokens.brand.main, 0.2)   };
 
-export const STYLE_AMBER      = { color: '#d97706', bg: 'rgba(245,158,11,0.08)',  bdr: 'rgba(245,158,11,0.2)'  };
+export const STYLE_AMBER      = { color: tokens.status.warning.main, bg: 'rgba(245,158,11,0.08)',  bdr: 'rgba(245,158,11,0.2)'  };
 
-export const STYLE_SLATE      = { color: '#64748b', bg: 'rgba(100,116,139,0.08)', bdr: 'rgba(100,116,139,0.2)' };
+export const STYLE_SLATE      = { color: tokens.ink.muted, bg: 'rgba(100,116,139,0.08)', bdr: 'rgba(100,116,139,0.2)' };
 
 // seniorityLevel: junior | midLevel | senior | lead | principal | manager | director | executive | unknown
 export const SENIORITY_HIGH = new Set(['senior', 'lead', 'principal', 'manager', 'director', 'executive']);
@@ -40,9 +42,9 @@ export const getLeadershipStyle = (v) => {
 // learningVelocity: low | medium | high | veryHigh | unknown
 export const getVelocityStyle = (v) => {
 	const lower = (v || '').toLowerCase();
-	if (lower === 'veryhigh') return { color: '#16a34a', bg: 'rgba(22,163,74,0.10)', bdr: 'rgba(22,163,74,0.3)' };
-	if (lower === 'high')     return { color: '#629C44', bg: 'rgba(98,156,68,0.10)', bdr: 'rgba(98,156,68,0.3)' };
+	if (lower === 'veryhigh') return { color: tokens.status.success.main, bg: 'rgba(22,163,74,0.10)', bdr: 'rgba(22,163,74,0.3)' };
+	if (lower === 'high')     return { color: tokens.brand.text, bg: alpha(tokens.brand.main, 0.10), bdr: alpha(tokens.brand.main, 0.3) };
 	if (lower === 'medium')   return STYLE_AMBER;
-	if (lower === 'low')      return { color: '#dc2626', bg: 'rgba(220,38,38,0.10)', bdr: 'rgba(220,38,38,0.3)' };
+	if (lower === 'low')      return { color: tokens.status.error.main, bg: 'rgba(220,38,38,0.10)', bdr: 'rgba(220,38,38,0.3)' };
 	return STYLE_UNKNOWN;
 };

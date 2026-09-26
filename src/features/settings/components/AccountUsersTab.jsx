@@ -18,6 +18,7 @@ import EditPermissionsDialog from './users/EditPermissionsDialog.jsx';
 import AddUserDialog from './users/AddUserDialog.jsx';
 import UsersTable from './users/UsersTable.jsx';
 import { brandPillButtonSx } from '../../../shared/ui/buttonSx.js';
+import * as tokens from '../../../theme/tokens.js';
 
 const AccountUsersTab = () => {
 	const { t } = useTranslation();
@@ -116,8 +117,8 @@ const AccountUsersTab = () => {
 		<Box sx={{ maxWidth: 900 }}>
 			{/* Header */}
 			<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2.5 }}>
-				<GroupOutlinedIcon sx={{ fontSize: 20, color: '#629C44' }} />
-				<Typography sx={{ fontWeight: 600, fontSize: '0.95rem', color: '#0f172a', flex: 1 }}>
+				<GroupOutlinedIcon sx={{ fontSize: 20, color: tokens.brand.text }} />
+				<Typography sx={{ fontWeight: 600, fontSize: '0.95rem', color: tokens.ink.strong, flex: 1 }}>
 					{t('accountSettings.tabs.users')}
 				</Typography>
 				{demo ? (

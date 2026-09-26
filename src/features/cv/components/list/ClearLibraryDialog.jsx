@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import ConfirmDialog from '../../../../shared/ui/ConfirmDialog.jsx';
 import { Box, Typography, CircularProgress, DialogContentText } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../../theme/tokens.js';
 
 /** Clears the whole library: preflight counts, and DELETE must be typed first. */
 const ClearLibraryDialog = ({ clearConfirmText, clearDialogOpen, clearPreflight, clearing, handleClearLibrary, setClearConfirmText, setClearDialogOpen }) => {
@@ -21,18 +22,18 @@ const ClearLibraryDialog = ({ clearConfirmText, clearDialogOpen, clearPreflight,
 			maxWidth="xs"
 			fullWidth
 		>
-			<DialogContentText component="div" sx={{ fontSize: '0.86rem', color: '#334155' }}>
+			<DialogContentText component="div" sx={{ fontSize: '0.86rem', color: tokens.ink.body }}>
 				{clearPreflight ? (
 					t('appCVContent.clearLibrary.summary',
 						'This permanently deletes {{cvs}} resumes, {{reports}} matching reports and {{chats}} AI chats — including their stored documents. Job posts and usage history are kept. This cannot be undone.',
 						{ cvs: clearPreflight.cvs, reports: clearPreflight.reports, chats: clearPreflight.chats })
 				) : (
 					<Box sx={{ display: 'flex', justifyContent: 'center', py: 1 }}>
-						<CircularProgress size={18} sx={{ color: '#dc2626' }} />
+						<CircularProgress size={18} sx={{ color: tokens.status.error.main }} />
 					</Box>
 				)}
 			</DialogContentText>
-			<Typography sx={{ fontSize: '0.78rem', color: '#64748b', mt: 2, mb: 0.75 }}>
+			<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.muted, mt: 2, mb: 0.75 }}>
 				{t('appCVContent.clearLibrary.typeToConfirm', 'Type DELETE to confirm.')}
 			</Typography>
 			<input
@@ -42,7 +43,7 @@ const ClearLibraryDialog = ({ clearConfirmText, clearDialogOpen, clearPreflight,
 				autoFocus
 				style={{
 					width: '100%', boxSizing: 'border-box', padding: '8px 10px',
-					border: '1px solid #e2e8f0', borderRadius: 8, fontSize: '0.9rem',
+					border: `1px solid ${tokens.line.main}`, borderRadius: 8, fontSize: '0.9rem',
 					letterSpacing: '0.08em', fontFamily: 'inherit',
 				}}
 			/>

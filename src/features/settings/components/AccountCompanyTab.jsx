@@ -17,6 +17,7 @@ import CompanyLogoCard from './company/CompanyLogoCard.jsx';
 import SubscriptionSummary from './company/SubscriptionSummary.jsx';
 import CompanySystemInfo from './company/CompanySystemInfo.jsx';
 import { formatUsdCents } from '../../../shared/lib/format.js';
+import * as tokens from '../../../theme/tokens.js';
 
 
 const ACCEPTED_LOGO_TYPES = ['image/png', 'image/jpeg', 'image/svg+xml', 'image/webp'];
@@ -165,7 +166,7 @@ const AccountCompanyTab = () => {
     if (loading) {
         return (
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', py: 6 }}>
-                <CircularProgress size={24} sx={{ color: '#629C44' }} />
+                <CircularProgress size={24} sx={{ color: tokens.brand.text }} />
             </Box>
         );
     }

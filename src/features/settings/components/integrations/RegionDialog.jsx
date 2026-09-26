@@ -3,6 +3,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Te
 import { useTranslation } from 'react-i18next';
 import GuideSteps from './GuideSteps.jsx';
 import { BTN_GREEN_SX, PROVIDERS, regionLabel, stepList } from '../../model/integrations.js';
+import * as tokens from '../../../../theme/tokens.js';
 
 /** Datacenter picker (Zoho): the account is only reachable on its own region's host. */
 const RegionDialog = ({ provider, regions, region, onRegionChange, busy, onCancel, onConnect }) => {
@@ -13,7 +14,7 @@ const RegionDialog = ({ provider, regions, region, onRegionChange, busy, onCance
 				{t('atsIntegrations.regionTitle')}
 			</DialogTitle>
 			<DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, pt: '8px !important' }}>
-				<Typography sx={{ fontSize: '0.78rem', color: '#64748b' }}>
+				<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.muted }}>
 					{t('atsIntegrations.regionHint')}
 				</Typography>
 				{provider && (
@@ -40,7 +41,7 @@ const RegionDialog = ({ provider, regions, region, onRegionChange, busy, onCance
 			</DialogContent>
 			<DialogActions sx={{ px: 3, pb: 2 }}>
 				<Button onClick={onCancel}
-					sx={{ textTransform: 'none', fontSize: '0.82rem', color: '#64748b' }}>
+					sx={{ textTransform: 'none', fontSize: '0.82rem', color: tokens.ink.muted }}>
 					{t('accountSettings.cancel')}
 				</Button>
 				<Button variant="contained" sx={BTN_GREEN_SX} disabled={busy} onClick={onConnect}>

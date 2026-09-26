@@ -6,6 +6,7 @@ import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
 import { getTopCandidatesPerJobPost } from '../api/dashboardService.js';
 import JobCandidateCard from './JobCandidateCard.jsx';
 import PagerControls from './PagerControls.jsx';
+import * as tokens from '../../../theme/tokens.js';
 
 const TopCandidatesTable = ({ t }) => {
 	const [pageNumber, setPageNumber] = useState(0);
@@ -46,7 +47,7 @@ const TopCandidatesTable = ({ t }) => {
 	if (!hasData) return null;
 
 	return (
-		<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5, minWidth: 0 }}>
+		<Paper elevation={0} sx={{ border: `1px solid ${tokens.line.main}`, borderRadius: 2.5, p: 2.5, minWidth: 0 }}>
 			<SectionHeader sx={{ pb: 1.5 }}
 				icon={EmojiEventsOutlinedIcon}
 				label={t('dashboard.sections.topCandidates')}

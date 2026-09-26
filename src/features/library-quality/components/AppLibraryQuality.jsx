@@ -29,6 +29,7 @@ import HealthBanner from './HealthBanner.jsx';
 import useQualityReport from '../hooks/useQualityReport.js';
 import useQualityJob from '../hooks/useQualityJob.js';
 import useUpdateCampaign from '../hooks/useUpdateCampaign.js';
+import * as tokens from '../../../theme/tokens.js';
 
 const AppLibraryQuality = () => {
 	const { t, i18n } = useTranslation();
@@ -138,11 +139,11 @@ const AppLibraryQuality = () => {
 	if (report.totalCVs === 0) {
 		return (
 			<Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 1.5, p: 3 }}>
-				<FactCheckOutlinedIcon sx={{ fontSize: 44, color: '#cbd5e1' }} />
-				<Typography sx={{ fontSize: '0.95rem', fontWeight: 700, color: '#334155' }}>
+				<FactCheckOutlinedIcon sx={{ fontSize: 44, color: tokens.ink.faint }} />
+				<Typography sx={{ fontSize: '0.95rem', fontWeight: 700, color: tokens.ink.body }}>
 					{t('libraryQuality.empty.title', 'No resumes yet')}
 				</Typography>
-				<Typography sx={{ fontSize: '0.8rem', color: '#64748b', textAlign: 'center', maxWidth: 380 }}>
+				<Typography sx={{ fontSize: '0.8rem', color: tokens.ink.muted, textAlign: 'center', maxWidth: 380 }}>
 					{t('libraryQuality.empty.subtitle', 'Upload resumes to your library to see its health score and get improvement suggestions.')}
 				</Typography>
 			</Box>

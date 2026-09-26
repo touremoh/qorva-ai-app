@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import ConfirmDialog from '../../../shared/ui/ConfirmDialog.jsx';
 import { DialogContentText } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../theme/tokens.js';
 
 /** Shows the AI re-analysis estimate (resumes, actions, quota) before starting it. */
 const ReanalyzeConfirmDialog = ({ actionBusy, handleReanalyzeConfirm, reanalyzeEstimate, setReanalyzeEstimate }) => {
@@ -18,7 +19,7 @@ const ReanalyzeConfirmDialog = ({ actionBusy, handleReanalyzeConfirm, reanalyzeE
 			busy={actionBusy}
 			confirmDisabled={(reanalyzeEstimate?.estimate?.estimatedActions ?? 0) === 0}
 		>
-			<DialogContentText sx={{ fontSize: '0.88rem', color: '#64748b' }}>
+			<DialogContentText sx={{ fontSize: '0.88rem', color: tokens.ink.muted }}>
 				{t('libraryQuality.jobs.confirmBody',
 					'This will re-run AI extraction on {{count}} resumes and use {{actions}} screening actions{{quota}}.',
 					{

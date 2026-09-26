@@ -6,6 +6,8 @@ import EditSectionButton from './EditSectionButton.jsx';
 import Card from './Card.jsx';
 import { softSkillChipSx, availLabelSx, availValueSx, availabilityStatusChipSx } from '../../model/cvDetailsStyles.js';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 /** Availability, notice period and salary expectation, editable inline. */
 const AvailabilitySection = ({ draft, editingSection, handleCancelEdit, handleEdit, handleSave, isSaving, pi, setDraft }) => {
@@ -48,7 +50,7 @@ const AvailabilitySection = ({ draft, editingSection, handleCancelEdit, handleEd
 							].map(({ key, label }) => (
 								<FormControlLabel
 									key={key}
-									label={<Typography sx={{ fontSize: '0.78rem', color: '#334155' }}>{label}</Typography>}
+									label={<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.body }}>{label}</Typography>}
 									control={
 										<Switch
 											size="small"
@@ -95,14 +97,14 @@ const AvailabilitySection = ({ draft, editingSection, handleCancelEdit, handleEd
 								disabled={isSaving}
 								onClick={handleSave}
 								startIcon={isSaving ? <CircularProgress size={12} color="inherit" /> : null}
-								sx={{ textTransform: 'none', fontSize: '0.78rem', backgroundColor: '#629C44', '&:hover': { backgroundColor: '#528035' }, borderRadius: 1.5, boxShadow: 'none', fontWeight: 600 }}
+								sx={{ textTransform: 'none', fontSize: '0.78rem', backgroundColor: tokens.brand.main, '&:hover': { backgroundColor: tokens.brand.hover }, borderRadius: 1.5, boxShadow: 'none', fontWeight: 600 }}
 							>
 								{t('appCVContent.save', 'Save')}
 							</Button>
 							<Button
 								size="small"
 								onClick={handleCancelEdit}
-								sx={{ textTransform: 'none', fontSize: '0.78rem', color: '#64748b', borderRadius: 1.5 }}
+								sx={{ textTransform: 'none', fontSize: '0.78rem', color: tokens.ink.muted, borderRadius: 1.5 }}
 							>
 								{t('appCVContent.cancel')}
 							</Button>
@@ -128,14 +130,14 @@ const AvailabilitySection = ({ draft, editingSection, handleCancelEdit, handleEd
 									sx={{
 										fontSize: '0.72rem', height: 22, fontWeight: 600, borderRadius: 0.75,
 										...(pi.availability.openToWork
-											? { backgroundColor: 'rgba(98,156,68,0.10)', color: '#3a6827' }
-											: { backgroundColor: '#fee2e2', color: '#991b1b' }),
+											? { backgroundColor: alpha(tokens.brand.main, 0.10), color: tokens.brand.dark }
+											: { backgroundColor: tokens.status.error.tint, color: tokens.status.error.text }),
 									}}
 								/>
 							)}
 							{pi.availability.remoteOnly && (
 								<Chip label={t('appCVContent.availability.remoteOnly')} size="small"
-									sx={{ fontSize: '0.72rem', height: 22, borderRadius: 0.75, fontWeight: 600, backgroundColor: 'rgba(139,92,246,0.08)', color: '#5b21b6' }} />
+									sx={{ fontSize: '0.72rem', height: 22, borderRadius: 0.75, fontWeight: 600, backgroundColor: 'rgba(139,92,246,0.08)', color: tokens.status.accent.deep }} />
 							)}
 							{pi.availability.willingToRelocate != null && (
 								<Chip
@@ -146,8 +148,8 @@ const AvailabilitySection = ({ draft, editingSection, handleCancelEdit, handleEd
 									sx={{
 										fontSize: '0.72rem', height: 22, borderRadius: 0.75, fontWeight: 500,
 										...(pi.availability.willingToRelocate
-											? { backgroundColor: 'rgba(59,130,246,0.08)', color: '#1e40af' }
-											: { backgroundColor: '#f1f5f9', color: '#64748b' }),
+											? { backgroundColor: 'rgba(59,130,246,0.08)', color: tokens.status.info.navy }
+											: { backgroundColor: tokens.surface.muted, color: tokens.ink.muted }),
 									}}
 								/>
 							)}
@@ -203,7 +205,7 @@ const AvailabilitySection = ({ draft, editingSection, handleCancelEdit, handleEd
 							<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mt: 0.5 }}>
 								{pi.availability.interviewAvailability.map((slot, i) => (
 									<Chip key={i} label={slot} size="small"
-										sx={{ fontSize: '0.72rem', height: 22, backgroundColor: '#f1f5f9', color: '#475569', borderRadius: 0.75 }} />
+										sx={{ fontSize: '0.72rem', height: 22, backgroundColor: tokens.surface.muted, color: tokens.ink.soft, borderRadius: 0.75 }} />
 								))}
 							</Box>
 						</Grid2>

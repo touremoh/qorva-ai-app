@@ -3,6 +3,7 @@ import { Box, Button, TextField, Typography, Chip, Switch, FormControlLabel, Sel
 import SectionTitle from './SectionTitle.jsx';
 import { THEME_GREEN, inputSx, selectSx } from '../../model/jobForm.js';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../../theme/tokens.js';
 
 /** Allowed locations, remote acceptance and strictness. */
 const LocationSection = ({ addLocation, locationInput, removeLocation, sc, setLoc, setLocationInput }) => {
@@ -16,14 +17,14 @@ const LocationSection = ({ addLocation, locationInput, removeLocation, sc, setLo
 				onKeyDown={(e) => e.key === 'Enter' && addLocation()}
 				sx={{ ...inputSx, flex: 1 }} />
 			<Button size="small" onClick={addLocation} variant="outlined"
-				sx={{ textTransform: 'none', fontSize: '0.82rem', borderRadius: 1.5, borderColor: '#e2e8f0', color: '#64748b', flexShrink: 0, '&:hover': { borderColor: THEME_GREEN, color: THEME_GREEN } }}>
+				sx={{ textTransform: 'none', fontSize: '0.82rem', borderRadius: 1.5, borderColor: tokens.line.main, color: tokens.ink.muted, flexShrink: 0, '&:hover': { borderColor: THEME_GREEN, color: THEME_GREEN } }}>
 				{t('jobContent.addLocation')}
 			</Button>
 		</Box>
 		<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mb: 1.5 }}>
 			{sc.locationPreferences.allowedLocations.map((loc) => (
 				<Chip key={loc} label={loc} size="small" onDelete={() => removeLocation(loc)}
-					sx={{ fontSize: '0.76rem', height: 24, backgroundColor: '#f1f5f9' }} />
+					sx={{ fontSize: '0.76rem', height: 24, backgroundColor: tokens.surface.muted }} />
 			))}
 		</Box>
 		<Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap', mb: 2, alignItems: 'center' }}>
@@ -31,7 +32,7 @@ const LocationSection = ({ addLocation, locationInput, removeLocation, sc, setLo
 				control={<Switch size="small" checked={sc.locationPreferences.remoteAllowed}
 					onChange={(e) => setLoc({ remoteAllowed: e.target.checked })}
 					sx={{ '& .MuiSwitch-switchBase.Mui-checked': { color: THEME_GREEN }, '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: THEME_GREEN } }} />}
-				label={<Typography sx={{ fontSize: '0.84rem', color: '#334155' }}>{t('jobContent.remoteAllowed')}</Typography>}
+				label={<Typography sx={{ fontSize: '0.84rem', color: tokens.ink.body }}>{t('jobContent.remoteAllowed')}</Typography>}
 			/>
 			<FormControl size="small" sx={{ minWidth: 130 }}>
 				<InputLabel sx={{ fontSize: '0.84rem' }}>{t('jobContent.strictness')}</InputLabel>

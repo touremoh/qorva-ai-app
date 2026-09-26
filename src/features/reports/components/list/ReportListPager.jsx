@@ -2,14 +2,15 @@ import PropTypes from 'prop-types';
 import { Box, MenuItem, Pagination, Select, Typography } from '@mui/material';
 import { PAGE_SIZES } from '../../model/reportList.js';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../../theme/tokens.js';
 
 /** Result count, page size and previous/next for the report list. */
 const ReportListPager = ({ currentPage, handlePageChange, handlePageSizeChange, pageSize, totalElements, totalPages }) => {
 	const { t } = useTranslation();
 	return (
 		<>
-		<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 1.5, py: 0.75, borderTop: '1px solid #f1f5f9', flexShrink: 0, gap: 1, flexWrap: 'wrap', backgroundColor: '#fafafa' }}>
-			<Typography sx={{ fontSize: '0.72rem', color: '#94a3b8' }}>
+		<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 1.5, py: 0.75, borderTop: `1px solid ${tokens.surface.muted}`, flexShrink: 0, gap: 1, flexWrap: 'wrap', backgroundColor: tokens.surface.dim }}>
+			<Typography sx={{ fontSize: '0.72rem', color: tokens.ink.subtle }}>
 				{t('appReportContent.reportCount', { count: totalElements })}
 				{totalPages > 1 && <span> · {t('appCVContent.pageOf', { page: currentPage, total: totalPages })}</span>}
 			</Typography>

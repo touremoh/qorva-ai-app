@@ -1,3 +1,4 @@
+import * as tokens from '../../../theme/tokens.js';
 export const ALL_ACTIONS = [
 	'VIEW_DASHBOARD',
 	'ADD_CV', 'VIEW_CV', 'MODIFY_CV', 'DELETE_CV',
@@ -54,8 +55,8 @@ export const permsToAuthorities = (perms, role) =>
 		.map(([action]) => ({ role: role ?? null, action, permission: 'ALLOWED' }));
 
 export const SWITCH_SX = {
-	'& .MuiSwitch-switchBase.Mui-checked': { color: '#629C44' },
-	'& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#629C44' },
+	'& .MuiSwitch-switchBase.Mui-checked': { color: tokens.brand.text },
+	'& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: tokens.brand.main },
 };
 
-export const DIALOG_PAPER_SX = { elevation: 0, sx: { borderRadius: 3, border: '1px solid #e2e8f0' } };
+export const DIALOG_PAPER_SX = { elevation: 0, sx: { borderRadius: 3, border: `1px solid ${tokens.line.main}` } };

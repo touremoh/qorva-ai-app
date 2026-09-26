@@ -4,8 +4,9 @@ import { PieChart } from '@mui/x-charts/PieChart';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
+import * as tokens from '../../../theme/tokens.js';
 
-const COLORS = ['#629C44', '#4f46e5', '#0891b2', '#d97706', '#dc2626', '#7c3aed', '#0f766e'];
+const COLORS = [`${tokens.brand.main}`, `${tokens.status.accent.main}`, `${tokens.status.info.bright}`, `${tokens.status.warning.main}`, `${tokens.status.error.main}`, `${tokens.status.accent.violet}`, `${tokens.status.success.teal}`];
 
 // Legacy camelCase fallback maps (pre-i18n-key era)
 const LABEL_MAP = {
@@ -54,7 +55,7 @@ const MiniPie = ({ title, labels = [], values = [], t }) => {
     return (
         <Box sx={{ textAlign: 'center', flex: '1 1 180px', minWidth: 0 }}>
             {title && (
-                <Typography sx={{ fontSize: '0.7rem', fontWeight: 600, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.5 }}>
+                <Typography sx={{ fontSize: '0.7rem', fontWeight: 600, color: tokens.ink.muted, textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.5 }}>
                     {translateTitle(title, t)}
                 </Typography>
             )}
@@ -69,7 +70,7 @@ const MiniPie = ({ title, labels = [], values = [], t }) => {
                 {data.map((d, i) => (
                     <Box key={i} sx={{ display: 'flex', alignItems: 'center', gap: 0.3 }}>
                         <Box sx={{ width: 7, height: 7, borderRadius: '50%', backgroundColor: d.color, flexShrink: 0 }} />
-                        <Typography sx={{ fontSize: '0.62rem', color: '#64748b' }}>{d.label} ({d.value}%)</Typography>
+                        <Typography sx={{ fontSize: '0.62rem', color: tokens.ink.muted }}>{d.label} ({d.value}%)</Typography>
                     </Box>
                 ))}
             </Box>
@@ -87,7 +88,7 @@ MiniPie.propTypes = {
 const BarChartCard = ({ title, labels = [], values = [], t }) => (
     <Box sx={{ width: '100%' }}>
         {title && (
-            <Typography sx={{ fontSize: '0.7rem', fontWeight: 600, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.5 }}>
+            <Typography sx={{ fontSize: '0.7rem', fontWeight: 600, color: tokens.ink.muted, textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.5 }}>
                 {translateTitle(title, t)}
             </Typography>
         )}

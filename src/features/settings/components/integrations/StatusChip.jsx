@@ -2,13 +2,15 @@ import PropTypes from 'prop-types';
 import { Chip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { GREEN } from '../../model/integrations.js';
+import * as tokens from '../../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 const StatusChip = ({ status }) => {
 	const { t } = useTranslation();
 	const byStatus = {
-		CONNECTED: { color: GREEN, bg: 'rgba(98,156,68,0.1)', label: t('atsIntegrations.status.connected') },
-		AUTH_ERROR: { color: '#dc2626', bg: 'rgba(220,38,38,0.08)', label: t('atsIntegrations.status.authError') },
-		DISABLED: { color: '#64748b', bg: '#f1f5f9', label: t('atsIntegrations.status.disabled') },
+		CONNECTED: { color: GREEN, bg: alpha(tokens.brand.main, 0.1), label: t('atsIntegrations.status.connected') },
+		AUTH_ERROR: { color: tokens.status.error.main, bg: 'rgba(220,38,38,0.08)', label: t('atsIntegrations.status.authError') },
+		DISABLED: { color: tokens.ink.muted, bg: tokens.surface.muted, label: t('atsIntegrations.status.disabled') },
 	};
 	const s = byStatus[status];
 	if (!s) return null;

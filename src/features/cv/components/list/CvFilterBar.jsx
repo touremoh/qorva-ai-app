@@ -4,6 +4,8 @@ import TuneIcon from '@mui/icons-material/Tune';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { GREEN } from '../../model/entries.js';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 /** Filters button with the active count, reset, and the resume count. */
 const CvFilterBar = ({ activeCount, engaged, filtersOpen, onClearFilters, onToggleFilters, totalElements }) => {
@@ -13,7 +15,7 @@ const CvFilterBar = ({ activeCount, engaged, filtersOpen, onClearFilters, onTogg
 		<Box sx={{
 			display: 'flex', alignItems: 'center', gap: 0.75,
 			px: 1.5, py: 1, flexShrink: 0,
-			borderBottom: '1px solid #f1f5f9',
+			borderBottom: `1px solid ${tokens.surface.muted}`,
 		}}>
 			<Button
 				onClick={onToggleFilters}
@@ -30,19 +32,19 @@ const CvFilterBar = ({ activeCount, engaged, filtersOpen, onClearFilters, onTogg
 					fontWeight: 600,
 					lineHeight: 1,
 					letterSpacing: 0,
-					color: engaged ? GREEN : '#334155',
-					backgroundColor: engaged ? 'rgba(98,156,68,0.08)' : '#ffffff',
-					border: `1px solid ${engaged ? GREEN : '#e2e8f0'}`,
+					color: engaged ? GREEN : `${tokens.ink.body}`,
+					backgroundColor: engaged ? alpha(tokens.brand.main, 0.08) : `${tokens.surface.paper}`,
+					border: `1px solid ${engaged ? GREEN : `${tokens.line.main}`}`,
 					boxShadow: 'none',
 					transition: 'all 0.15s ease',
-					'& .MuiButton-startIcon': { mr: 0.75, ml: 0, color: engaged ? GREEN : '#64748b' },
+					'& .MuiButton-startIcon': { mr: 0.75, ml: 0, color: engaged ? GREEN : `${tokens.ink.muted}` },
 					'&:hover': {
 						borderColor: GREEN,
 						color: GREEN,
-						backgroundColor: engaged ? 'rgba(98,156,68,0.12)' : 'rgba(98,156,68,0.05)',
+						backgroundColor: engaged ? alpha(tokens.brand.main, 0.12) : alpha(tokens.brand.main, 0.05),
 						'& .MuiButton-startIcon': { color: GREEN },
 					},
-					'&:focus-visible': { outline: `2px solid rgba(98,156,68,0.35)`, outlineOffset: 2 },
+					'&:focus-visible': { outline: `2px solid ${alpha(tokens.brand.main, 0.35)}`, outlineOffset: 2 },
 				}}
 			>
 				{t('appCVContent.filters.button')}
@@ -58,7 +60,7 @@ const CvFilterBar = ({ activeCount, engaged, filtersOpen, onClearFilters, onTogg
 						justifyContent: 'center',
 						fontSize: '0.68rem',
 						fontWeight: 700,
-						color: '#ffffff',
+						color: tokens.ink.inverse,
 						backgroundColor: GREEN,
 					}}>
 						{activeCount}
@@ -73,15 +75,15 @@ const CvFilterBar = ({ activeCount, engaged, filtersOpen, onClearFilters, onTogg
 					title={t('appCVContent.filters.clearAll')}
 					sx={{
 						width: 28, height: 28,
-						color: '#94a3b8',
-						'&:hover': { color: '#ef4444', backgroundColor: 'rgba(239,68,68,0.06)' },
+						color: tokens.ink.subtle,
+						'&:hover': { color: tokens.status.error.bright, backgroundColor: 'rgba(239,68,68,0.06)' },
 					}}
 				>
 					<CloseRoundedIcon sx={{ fontSize: 16 }} />
 				</IconButton>
 			)}
 			<Box sx={{ flexGrow: 1 }} />
-			<Typography sx={{ fontSize: '0.72rem', color: '#94a3b8', whiteSpace: 'nowrap' }}>
+			<Typography sx={{ fontSize: '0.72rem', color: tokens.ink.subtle, whiteSpace: 'nowrap' }}>
 				{t('appCVContent.resumeCount', { count: totalElements })}
 			</Typography>
 		</Box>

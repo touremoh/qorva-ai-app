@@ -28,6 +28,8 @@ import { isDemoUser } from '../../../utils/demoMode.js';
 import UpgradeButton from '../../../components/demo/UpgradeButton.jsx';
 import ClearLibraryDialog from './list/ClearLibraryDialog.jsx';
 import UploadDialog from './upload/UploadDialog.jsx';
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 const AppCVContent = () => {
 	const { t } = useTranslation();
@@ -145,15 +147,15 @@ const AppCVContent = () => {
 	const leftPanelWidth = 300;
 
 	return (
-		<Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', overflow: 'hidden', backgroundColor: '#f8fafc' }}>
+		<Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', overflow: 'hidden', backgroundColor: tokens.surface.subtle }}>
 			{/* Toolbar */}
 			<Box sx={{
 				display: 'flex',
 				alignItems: 'center',
 				gap: 1.5,
 				py: 1.5,
-				backgroundColor: '#ffffff',
-				borderBottom: '1px solid #e2e8f0',
+				backgroundColor: tokens.surface.paper,
+				borderBottom: `1px solid ${tokens.line.main}`,
 				borderRadius: 2,
 				mb: 2,
 				px: 2,
@@ -167,8 +169,8 @@ const AppCVContent = () => {
 						disabled={upload.isUploading}
 						onClick={() => upload.setOpenUploadModal(true)}
 						sx={{
-							backgroundColor: '#629C44',
-							'&:hover': { backgroundColor: '#528035' },
+							backgroundColor: tokens.brand.main,
+							'&:hover': { backgroundColor: tokens.brand.hover },
 							borderRadius: 1.5,
 							textTransform: 'none',
 							fontWeight: 600,
@@ -197,10 +199,10 @@ const AppCVContent = () => {
 						variant="outlined"
 						onClick={() => { setShowArchived(prev => !prev); setSelectedCV(null); }}
 						sx={{
-							borderColor: showArchived ? '#629C44' : '#e2e8f0',
-							color: showArchived ? '#629C44' : '#64748b',
-							backgroundColor: showArchived ? 'rgba(98,156,68,0.06)' : 'transparent',
-							'&:hover': { borderColor: '#629C44', color: '#629C44', backgroundColor: 'rgba(98,156,68,0.04)' },
+							borderColor: showArchived ? `${tokens.brand.main}` : `${tokens.line.main}`,
+							color: showArchived ? `${tokens.brand.main}` : `${tokens.ink.muted}`,
+							backgroundColor: showArchived ? alpha(tokens.brand.main, 0.06) : 'transparent',
+							'&:hover': { borderColor: tokens.brand.main, color: tokens.brand.text, backgroundColor: alpha(tokens.brand.main, 0.04) },
 							borderRadius: 1.5,
 							textTransform: 'none',
 							fontWeight: 600,
@@ -220,8 +222,8 @@ const AppCVContent = () => {
 							onClick={handleOpenClearDialog}
 							sx={{
 								borderRadius: 1.5,
-								color: '#94a3b8',
-								'&:hover': { color: '#dc2626', backgroundColor: 'rgba(220,38,38,0.06)' },
+								color: tokens.ink.subtle,
+								'&:hover': { color: tokens.status.error.main, backgroundColor: 'rgba(220,38,38,0.06)' },
 							}}
 						>
 							<DeleteForeverOutlinedIcon sx={{ fontSize: 19 }} />
@@ -238,8 +240,8 @@ const AppCVContent = () => {
 				flex: 1,
 				overflow: 'hidden',
 				borderRadius: 2,
-				border: '1px solid #e2e8f0',
-				backgroundColor: '#ffffff',
+				border: `1px solid ${tokens.line.main}`,
+				backgroundColor: tokens.surface.paper,
 			}}>
 				{/* Filter rail — persistent column on wide screens, overlay drawer otherwise */}
 				<CVFilterRail
@@ -260,7 +262,7 @@ const AppCVContent = () => {
 				<Box sx={{
 					width: leftPanelWidth,
 					flexShrink: 0,
-					borderRight: '1px solid #e2e8f0',
+					borderRight: `1px solid ${tokens.line.main}`,
 					overflow: 'hidden',
 					display: 'flex',
 					flexDirection: 'column',
@@ -290,7 +292,7 @@ const AppCVContent = () => {
 				</Box>
 
 				{/* Right panel */}
-				<Box sx={{ flex: 1, overflow: 'auto', minWidth: 0, backgroundColor: '#f8fafc' }}>
+				<Box sx={{ flex: 1, overflow: 'auto', minWidth: 0, backgroundColor: tokens.surface.subtle }}>
 						{showDetails ? (
 							<AppCVDetails
 								cv={selectedCV}
@@ -309,8 +311,8 @@ const AppCVContent = () => {
 								justifyContent: 'center',
 								gap: 1.5,
 							}}>
-								<CloudUploadIcon sx={{ fontSize: 40, color: '#cbd5e1' }} />
-								<Typography sx={{ fontSize: '0.88rem', color: '#94a3b8' }}>
+								<CloudUploadIcon sx={{ fontSize: 40, color: tokens.ink.faint }} />
+								<Typography sx={{ fontSize: '0.88rem', color: tokens.ink.subtle }}>
 									{t('appCVContent.selectCVToSeeDetails')}
 								</Typography>
 							</Box>

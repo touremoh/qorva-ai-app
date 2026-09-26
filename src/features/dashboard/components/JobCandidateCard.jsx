@@ -2,18 +2,20 @@ import { getInitials } from '../../../shared/lib/text.js';
 import { Avatar, Box, Tooltip, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import { medalColor, scoreColor } from '../model/dashboard.js';
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 const JobCandidateCard = ({ job }) => {
 	const candidates = job.topCandidates?.slice(0, 5) ?? [];
 	return (
 		<Box sx={{
 			flex: '1 1 180px', minWidth: 180,
-			border: '1px solid #e2e8f0', borderRadius: 2, overflow: 'hidden',
+			border: `1px solid ${tokens.line.main}`, borderRadius: 2, overflow: 'hidden',
 		}}>
 			<Tooltip title={job.jobPostTitle} placement="top">
-				<Box sx={{ px: 1.5, py: 1, backgroundColor: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
+				<Box sx={{ px: 1.5, py: 1, backgroundColor: tokens.surface.subtle, borderBottom: `1px solid ${tokens.line.main}` }}>
 					<Typography sx={{
-						fontSize: '0.76rem', fontWeight: 700, color: '#0f172a',
+						fontSize: '0.76rem', fontWeight: 700, color: tokens.ink.strong,
 						overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
 					}}>
 						{job.jobPostTitle}
@@ -28,15 +30,15 @@ const JobCandidateCard = ({ job }) => {
 						<Box key={i} sx={{
 							display: 'flex', alignItems: 'center', gap: 0.75,
 							px: 1.25, py: 0.65,
-							borderBottom: i < candidates.length - 1 ? '1px solid #f1f5f9' : 'none',
-							'&:hover': { backgroundColor: 'rgba(98,156,68,0.04)' },
+							borderBottom: i < candidates.length - 1 ? `1px solid ${tokens.surface.muted}` : 'none',
+							'&:hover': { backgroundColor: alpha(tokens.brand.main, 0.04) },
 						}}>
 							<Box sx={{
 								width: 16, height: 16, borderRadius: '50%', flexShrink: 0,
 								backgroundColor: medalColor(i),
 								display: 'flex', alignItems: 'center', justifyContent: 'center',
 							}}>
-								<Typography sx={{ fontSize: '0.52rem', fontWeight: 800, color: i < 3 ? '#fff' : '#94a3b8', lineHeight: 1 }}>
+								<Typography sx={{ fontSize: '0.52rem', fontWeight: 800, color: i < 3 ? `${tokens.surface.paper}` : `${tokens.ink.subtle}`, lineHeight: 1 }}>
 									{i + 1}
 								</Typography>
 							</Box>
@@ -47,7 +49,7 @@ const JobCandidateCard = ({ job }) => {
 								{initials}
 							</Avatar>
 							<Typography sx={{
-								flex: 1, fontSize: '0.76rem', fontWeight: i === 0 ? 600 : 400, color: '#0f172a',
+								flex: 1, fontSize: '0.76rem', fontWeight: i === 0 ? 600 : 400, color: tokens.ink.strong,
 								overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', minWidth: 0,
 							}}>
 								{c.candidateName}

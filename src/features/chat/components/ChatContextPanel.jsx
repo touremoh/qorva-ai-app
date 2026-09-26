@@ -12,15 +12,16 @@ import JobPostReadView from '../../jobs/components/JobPostReadView.jsx';
 import { getCVById } from '../../cv/api/cvService.js';
 import { getJobById } from '../../jobs/api/jobService.js';
 import { resolveError } from '../../../utils/errorHandler.js';
+import * as tokens from '../../../theme/tokens.js';
 
-const THEME_GREEN = '#629C44';
+const THEME_GREEN = tokens.brand.main;
 const TAB_KEY = 'qorva.chat.contextTab';
 const TAB_RESUME = 0, TAB_JOB = 2; // 1 = report
 
 const tabsSx = {
-	borderBottom: '1px solid #e2e8f0', minHeight: 40, px: 1, backgroundColor: '#ffffff', flex: 1,
+	borderBottom: `1px solid ${tokens.line.main}`, minHeight: 40, px: 1, backgroundColor: tokens.surface.paper, flex: 1,
 	'& .MuiTabs-indicator': { backgroundColor: THEME_GREEN },
-	'& .MuiTab-root': { textTransform: 'none', fontSize: '0.8rem', minHeight: 40, py: 1, color: '#64748b' },
+	'& .MuiTab-root': { textTransform: 'none', fontSize: '0.8rem', minHeight: 40, py: 1, color: tokens.ink.muted },
 	'& .MuiTab-root.Mui-selected': { color: THEME_GREEN, fontWeight: 600 },
 };
 
@@ -84,23 +85,23 @@ const ChatContextPanel = ({ chat, report, onReportRefresh, onCvUpdated, onClose 
 	};
 
 	const body = () => {
-		if (error) return <Centered><Typography sx={{ fontSize: '0.82rem', color: '#b91c1c' }}>{error}</Typography></Centered>;
+		if (error) return <Centered><Typography sx={{ fontSize: '0.82rem', color: tokens.status.error.dark }}>{error}</Typography></Centered>;
 		if (loading) return <Centered><CircularProgress size={22} sx={{ color: THEME_GREEN }} /></Centered>;
 		if (tab === TAB_RESUME) return cv ? <AppCVDetails cv={cv} onUpdate={handleCvUpdate} /> : null;
 		if (tab === TAB_JOB) return job ? <JobPostReadView job={job} /> : null;
 		if (report) return <AppMatchingReportDetails reportData={report} />;
 		return (
 			<Centered>
-				<AssessmentOutlinedIcon sx={{ fontSize: 36, color: '#cbd5e1' }} />
+				<AssessmentOutlinedIcon sx={{ fontSize: 36, color: tokens.ink.faint }} />
 				<Chip
 					size="small"
 					icon={<AssessmentOutlinedIcon sx={{ fontSize: '13px !important' }} />}
 					label={t('appAIResumeChat.runScreening')}
 					onClick={() => navigate('/app/reports')}
 					variant="outlined"
-					sx={{ fontSize: '0.72rem', color: '#92400e', borderColor: '#fcd34d', backgroundColor: '#fffbeb', cursor: 'pointer' }}
+					sx={{ fontSize: '0.72rem', color: tokens.status.warning.text, borderColor: tokens.status.warning.border2, backgroundColor: tokens.status.warning.pale, cursor: 'pointer' }}
 				/>
-				<Typography sx={{ fontSize: '0.8rem', color: '#94a3b8', maxWidth: 360 }}>
+				<Typography sx={{ fontSize: '0.8rem', color: tokens.ink.subtle, maxWidth: 360 }}>
 					{t('appAIResumeChat.noReportYetHint')}
 				</Typography>
 				<Button size="small" startIcon={<RefreshOutlinedIcon sx={{ fontSize: 14 }} />} onClick={onReportRefresh}
@@ -112,8 +113,8 @@ const ChatContextPanel = ({ chat, report, onReportRefresh, onCvUpdated, onClose 
 	};
 
 	return (
-		<Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', minWidth: 0, backgroundColor: '#f8fafc', textAlign: 'left' }}>
-			<Box sx={{ display: 'flex', alignItems: 'center', flexShrink: 0, backgroundColor: '#ffffff' }}>
+		<Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', minWidth: 0, backgroundColor: tokens.surface.subtle, textAlign: 'left' }}>
+			<Box sx={{ display: 'flex', alignItems: 'center', flexShrink: 0, backgroundColor: tokens.surface.paper }}>
 				<Tabs value={tab} onChange={changeTab} sx={tabsSx} variant="fullWidth">
 					<Tab label={t('appAIResumeChat.tabResume')} />
 					<Tab label={t('appAIResumeChat.tabReport')} />
@@ -121,7 +122,7 @@ const ChatContextPanel = ({ chat, report, onReportRefresh, onCvUpdated, onClose 
 				</Tabs>
 				{onClose && (
 					<Tooltip title={t('appAIResumeChat.hideContext')}>
-						<IconButton size="small" onClick={onClose} sx={{ mx: 0.5, color: '#64748b' }}>
+						<IconButton size="small" onClick={onClose} sx={{ mx: 0.5, color: tokens.ink.muted }}>
 							<CloseIcon sx={{ fontSize: 16 }} />
 						</IconButton>
 					</Tooltip>

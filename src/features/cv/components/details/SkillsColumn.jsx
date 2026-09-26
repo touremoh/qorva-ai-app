@@ -8,6 +8,7 @@ import TranslateIcon from '@mui/icons-material/Translate';
 import Card from './Card.jsx';
 import { techSkillChipSx, softSkillChipSx, langThSx } from '../../model/cvDetailsStyles.js';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../../theme/tokens.js';
 
 /** Right column: key, technical and soft skills, languages, certifications. */
 const SkillsColumn = ({ certifications, keySkills, skills }) => {
@@ -21,7 +22,7 @@ const SkillsColumn = ({ certifications, keySkills, skills }) => {
 					<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.25 }}>
 						{keySkills.map((group, i) => (
 							<Box key={i}>
-								<Typography sx={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748b', mb: 0.5 }}>
+								<Typography sx={{ fontSize: '0.72rem', fontWeight: 600, color: tokens.ink.muted, mb: 0.5 }}>
 									{group.category}
 								</Typography>
 								<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
@@ -90,18 +91,18 @@ const SkillsColumn = ({ certifications, keySkills, skills }) => {
 					<SectionHeader tone="document" icon={WorkspacePremiumIcon} label={t('appCVContent.certifications')} />
 					<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
 						{certifications.map((cert, i) => (
-							<Box key={i} sx={{ textAlign: 'left', ...(i > 0 ? { pt: 1.5, borderTop: '1px solid #f1f5f9' } : {}) }}>
-								<Typography sx={{ fontWeight: 700, fontSize: '0.84rem', color: '#0f172a' }}>
+							<Box key={i} sx={{ textAlign: 'left', ...(i > 0 ? { pt: 1.5, borderTop: `1px solid ${tokens.surface.muted}` } : {}) }}>
+								<Typography sx={{ fontWeight: 700, fontSize: '0.84rem', color: tokens.ink.strong }}>
 									{cert.title}
 								</Typography>
-								<Typography sx={{ fontSize: '0.78rem', color: '#629C44', fontWeight: 600 }}>
+								<Typography sx={{ fontSize: '0.78rem', color: tokens.brand.text, fontWeight: 600 }}>
 									{cert.institution}
 								</Typography>
 								{cert.year && (
-									<Typography sx={{ fontSize: '0.75rem', color: '#94a3b8' }}>{cert.year}</Typography>
+									<Typography sx={{ fontSize: '0.75rem', color: tokens.ink.subtle }}>{cert.year}</Typography>
 								)}
 								{cert.description && (
-									<Typography sx={{ fontSize: '0.78rem', color: '#64748b', mt: 0.25 }}>
+									<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.muted, mt: 0.25 }}>
 										{cert.description}
 									</Typography>
 								)}

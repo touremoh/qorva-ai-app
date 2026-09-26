@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import { TALENT_INSIGHT_LABEL_MAP } from '../model/dashboard.js';
+import * as tokens from '../../../theme/tokens.js';
 
 const InsightCard = ({ label, icon: Icon, accent, bg, items, t }) => {
 	const sorted = useMemo(() => {
@@ -16,7 +17,7 @@ const InsightCard = ({ label, icon: Icon, accent, bg, items, t }) => {
 				<Box sx={{ width: 28, height: 28, borderRadius: 1.5, backgroundColor: bg, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
 					<Icon sx={{ fontSize: 14, color: accent }} />
 				</Box>
-				<Typography sx={{ fontSize: '0.75rem', fontWeight: 700, color: '#334155' }}>
+				<Typography sx={{ fontSize: '0.75rem', fontWeight: 700, color: tokens.ink.body }}>
 					{label}
 				</Typography>
 			</Box>
@@ -26,18 +27,18 @@ const InsightCard = ({ label, icon: Icon, accent, bg, items, t }) => {
 					return (
 						<Box key={name}>
 							<Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.35 }}>
-								<Typography sx={{ fontSize: '0.69rem', color: isUnknown ? '#94a3b8' : '#475569', fontWeight: isUnknown ? 400 : 500 }}>
+								<Typography sx={{ fontSize: '0.69rem', color: isUnknown ? `${tokens.ink.subtle}` : `${tokens.ink.soft}`, fontWeight: isUnknown ? 400 : 500 }}>
 									{t(`dashboard.talent.labels.${name}`, TALENT_INSIGHT_LABEL_MAP[name] ?? name)}
 								</Typography>
-								<Typography sx={{ fontSize: '0.69rem', color: isUnknown ? '#94a3b8' : '#64748b', fontWeight: 600 }}>
+								<Typography sx={{ fontSize: '0.69rem', color: isUnknown ? `${tokens.ink.subtle}` : `${tokens.ink.muted}`, fontWeight: 600 }}>
 									{count} · {percentage.toFixed(1)}%
 								</Typography>
 							</Box>
-							<Box sx={{ height: 5, backgroundColor: '#f1f5f9', borderRadius: 4, overflow: 'hidden' }}>
+							<Box sx={{ height: 5, backgroundColor: tokens.surface.muted, borderRadius: 4, overflow: 'hidden' }}>
 								<Box sx={{
 									height: '100%',
 									width: `${percentage}%`,
-									backgroundColor: isUnknown ? '#e2e8f0' : accent,
+									backgroundColor: isUnknown ? `${tokens.line.main}` : accent,
 									borderRadius: 4,
 									transition: 'width 0.6s ease',
 									opacity: isUnknown ? 0.6 : 1,

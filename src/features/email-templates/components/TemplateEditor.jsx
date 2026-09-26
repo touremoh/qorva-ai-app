@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { Alert, Box, Chip, TextField, Typography } from '@mui/material';
 import { fontFamilyMono } from '../../../theme/tokens.js';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../theme/tokens.js';
 
 // Tokens the backend replaces when the email is sent.
 const PLACEHOLDERS = ['candidate_name', 'company_name'];
@@ -35,7 +36,7 @@ const TemplateEditor = ({ bodyRef, error, form, insertPlaceholder, notice, previ
 				helperText={t('emailTemplates.bodyHint', 'Plain text. Blank lines start a new paragraph. The greeting, action button, your signature (name and company), and unsubscribe link are added automatically.')}
 			/>
 			<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, flexWrap: 'wrap' }}>
-				<Typography sx={{ fontSize: '0.7rem', color: '#64748b', fontWeight: 600 }}>
+				<Typography sx={{ fontSize: '0.7rem', color: tokens.ink.muted, fontWeight: 600 }}>
 					{t('emailTemplates.placeholders', 'Insert:')}
 				</Typography>
 				{PLACEHOLDERS.map((token) => (
@@ -47,9 +48,9 @@ const TemplateEditor = ({ bodyRef, error, form, insertPlaceholder, notice, previ
 			</Box>
 
 			{preview && (
-				<Box sx={{ border: '1px solid #e2e8f0', borderRadius: 2, overflow: 'hidden', flexShrink: 0 }}>
-					<Box sx={{ px: 1.5, py: 0.75, backgroundColor: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
-						<Typography sx={{ fontSize: '0.72rem', color: '#334155', fontWeight: 700 }}>
+				<Box sx={{ border: `1px solid ${tokens.line.main}`, borderRadius: 2, overflow: 'hidden', flexShrink: 0 }}>
+					<Box sx={{ px: 1.5, py: 0.75, backgroundColor: tokens.surface.subtle, borderBottom: `1px solid ${tokens.line.main}` }}>
+						<Typography sx={{ fontSize: '0.72rem', color: tokens.ink.body, fontWeight: 700 }}>
 							{preview.subject}
 						</Typography>
 					</Box>

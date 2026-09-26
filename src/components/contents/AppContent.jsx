@@ -27,6 +27,7 @@ import AppLibraryInsights from "../../features/intelligence/components/AppLibrar
 import UsageMonitoringContent from "../../features/usage/components/UsageMonitoringContent.jsx";
 import DemoBanner from "../demo/DemoBanner.jsx";
 import { isDemoUser } from "../../utils/demoMode.js";
+import * as tokens from '../../theme/tokens.js';
 
 const AppContent = ({ content, isSidebarCollapsed }) => {
 	const demo = isDemoUser();
@@ -65,7 +66,7 @@ const AppContent = ({ content, isSidebarCollapsed }) => {
 			top: '64px',
 			bottom: 0,
 			margin: 0,
-			backgroundColor: '#f8fafc',
+			backgroundColor: tokens.surface.subtle,
 			p: 0,
 			display: 'flex',
 			flexDirection: 'column',

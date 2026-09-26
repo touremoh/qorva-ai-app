@@ -3,6 +3,7 @@ import { Alert, Box, Button, CircularProgress, Dialog, DialogActions, DialogCont
 import MfaCodeField, { MFA_CODE_LENGTH } from '../../../auth/components/MfaCodeField.jsx';
 import { useTranslation } from 'react-i18next';
 import { brandButtonSx, outlinedButtonSx } from '../../../../shared/ui/buttonSx.js';
+import * as tokens from '../../../../theme/tokens.js';
 
 const primaryButtonSx = brandButtonSx('0.8rem');
 const neutralButtonSx = outlinedButtonSx('0.8rem');
@@ -19,7 +20,7 @@ const MfaCodeDialog = ({ closeDialog, code, confirming, error, handleCodeChange,
 					: t('accountSettings.mfa.dialogTitleDisable', 'Turn off two-step verification')}
 			</DialogTitle>
 			<DialogContent>
-				<Typography sx={{ fontSize: '0.85rem', color: '#475569', mb: 2 }}>
+				<Typography sx={{ fontSize: '0.85rem', color: tokens.ink.soft, mb: 2 }}>
 					{t('accountSettings.mfa.dialogBody', {
 						email: pending?.challenge?.maskedEmail ?? '',
 						defaultValue: 'Enter the 6-digit code we sent to {{email}}.',

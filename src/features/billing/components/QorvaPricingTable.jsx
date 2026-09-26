@@ -21,6 +21,8 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import { styled } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import { getProducts } from '../../auth/api/registrationService.js';
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 const PLAN_FEATURES = {
 	Starter: [
@@ -76,19 +78,19 @@ const PricingCard = styled(Box)(({ theme, recommended, selected }) => ({
 	borderRadius: '20px',
 	padding: theme.spacing(3.5),
 	background: recommended
-		? 'linear-gradient(145deg, #1a2940 0%, #232F3E 55%, #2d3f54 100%)'
-		: '#ffffff',
+		? `linear-gradient(145deg, ${tokens.ink.navyDeep} 0%, ${tokens.ink.navy} 55%, ${tokens.ink.slateDeep} 100%)`
+		: `${tokens.surface.paper}`,
 	border: recommended
 		? 'none'
 		: selected
-			? '2px solid #629C44'
+			? `2px solid ${tokens.brand.main}`
 			: '1px solid rgba(0,0,0,0.07)',
 	boxShadow: recommended
 		? selected
-			? '0 0 0 2px #629C44, 0 24px 48px -12px rgba(35,47,62,0.4)'
+			? `0 0 0 2px ${tokens.brand.main}, 0 24px 48px -12px rgba(35,47,62,0.4)`
 			: '0 24px 48px -12px rgba(35,47,62,0.35)'
 		: selected
-			? '0 8px 24px rgba(98,156,68,0.2)'
+			? `0 8px 24px ${alpha(tokens.brand.main, 0.2)}`
 			: '0 4px 16px rgba(0,0,0,0.06)',
 	transition: 'transform 0.25s ease, box-shadow 0.25s ease',
 	position: 'relative',
@@ -126,7 +128,7 @@ const QorvaPricingTable = ({ selectedPriceId, onSelectPlan }) => {
 	if (loading) {
 		return (
 			<Box sx={{ display: 'flex', justifyContent: 'center', py: 6 }}>
-				<CircularProgress sx={{ color: '#629C44' }} />
+				<CircularProgress sx={{ color: tokens.brand.text }} />
 			</Box>
 		);
 	}
@@ -150,8 +152,8 @@ const QorvaPricingTable = ({ selectedPriceId, onSelectPlan }) => {
 					checked={yearly}
 					onChange={(e) => setYearly(e.target.checked)}
 					sx={{
-						'& .MuiSwitch-switchBase.Mui-checked': { color: '#629C44' },
-						'& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#629C44' },
+						'& .MuiSwitch-switchBase.Mui-checked': { color: tokens.brand.text },
+						'& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: tokens.brand.main },
 					}}
 				/>
 				<Typography
@@ -166,8 +168,8 @@ const QorvaPricingTable = ({ selectedPriceId, onSelectPlan }) => {
 						label={t('pricing.saveChip', 'Save 20%')}
 						size="small"
 						sx={{
-							background: 'linear-gradient(135deg, #629C44, #518136)',
-							color: '#fff',
+							background: `linear-gradient(135deg, ${tokens.brand.main}, ${tokens.brand.hoverAlt})`,
+							color: tokens.ink.inverse,
 							fontWeight: 600,
 							fontSize: '0.72rem',
 						}}
@@ -205,18 +207,18 @@ const QorvaPricingTable = ({ selectedPriceId, onSelectPlan }) => {
 											position: 'absolute',
 											top: 16,
 											right: 16,
-											background: 'rgba(98,156,68,0.22)',
-											color: '#a3c988',
+											background: alpha(tokens.brand.main, 0.22),
+											color: tokens.brand.pale,
 											fontWeight: 700,
 											fontSize: '0.68rem',
-											border: '1px solid rgba(98,156,68,0.4)',
+											border: `1px solid ${alpha(tokens.brand.main, 0.4)}`,
 										}}
 									/>
 								)}
 
 								{isSelected && (
 									<CheckCircleIcon
-										sx={{ position: 'absolute', top: 16, left: 16, fontSize: 20, color: '#629C44' }}
+										sx={{ position: 'absolute', top: 16, left: 16, fontSize: 20, color: tokens.brand.text }}
 									/>
 								)}
 
@@ -240,7 +242,7 @@ const QorvaPricingTable = ({ selectedPriceId, onSelectPlan }) => {
 										sx={{
 											fontWeight: 800,
 											fontSize: { xs: '1.65rem', md: '2rem' },
-											color: isRecommended ? '#fff' : 'text.primary',
+											color: isRecommended ? `${tokens.surface.paper}` : 'text.primary',
 											lineHeight: 1,
 										}}
 									>
@@ -288,7 +290,7 @@ const QorvaPricingTable = ({ selectedPriceId, onSelectPlan }) => {
 													<CheckCircleOutlineIcon
 														sx={{
 															fontSize: 16,
-															color: isRecommended ? 'rgba(255,255,255,0.85)' : '#629C44',
+															color: isRecommended ? 'rgba(255,255,255,0.85)' : `${tokens.brand.main}`,
 														}}
 													/>
 												) : (
@@ -307,7 +309,7 @@ const QorvaPricingTable = ({ selectedPriceId, onSelectPlan }) => {
 													sx: {
 														fontSize: '0.78rem',
 														color: feat.included
-															? isRecommended ? '#fff' : 'text.primary'
+															? isRecommended ? `${tokens.surface.paper}` : 'text.primary'
 															: isRecommended ? 'rgba(255,255,255,0.28)' : 'text.disabled',
 														fontWeight: feat.included ? 500 : 400,
 													},
@@ -329,22 +331,22 @@ const QorvaPricingTable = ({ selectedPriceId, onSelectPlan }) => {
 										textTransform: 'none',
 										fontSize: '0.88rem',
 										...(isSelected && {
-											backgroundColor: '#629C44',
-											'&:hover': { backgroundColor: '#518136' },
+											backgroundColor: tokens.brand.main,
+											'&:hover': { backgroundColor: tokens.brand.hoverAlt },
 										}),
 										...(isRecommended && !isSelected && {
-											backgroundColor: '#fff',
-											color: '#232F3E',
+											backgroundColor: tokens.surface.paper,
+											color: tokens.ink.navy,
 											'&:hover': { backgroundColor: 'rgba(255,255,255,0.9)' },
 										}),
 										...(!isRecommended && !isSelected && {
 											backgroundColor: 'transparent',
-											border: '1.5px solid rgba(98,156,68,0.6)',
-											color: '#629C44',
+											border: `1.5px solid ${alpha(tokens.brand.main, 0.6)}`,
+											color: tokens.brand.text,
 											boxShadow: 'none',
 											'&:hover': {
-												backgroundColor: 'rgba(98,156,68,0.06)',
-												borderColor: '#629C44',
+												backgroundColor: alpha(tokens.brand.main, 0.06),
+												borderColor: tokens.brand.main,
 												boxShadow: 'none',
 											},
 										}),

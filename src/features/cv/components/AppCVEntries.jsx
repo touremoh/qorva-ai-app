@@ -21,6 +21,8 @@ import CvFilterBar from './list/CvFilterBar.jsx';
 import CvSearchBox from './list/CvSearchBox.jsx';
 import CvListPager from './list/CvListPager.jsx';
 import CvRowMenu from './list/CvRowMenu.jsx';
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 const AppCVEntries = ({
 	cvEntries, setSelectedCV, setDeleteDialogOpen, setCVEntries,
@@ -193,10 +195,10 @@ const AppCVEntries = ({
 								mb: 0.5,
 								px: 1.5,
 								py: 1,
-								borderLeft: isActive(cv) ? '3px solid #629C44' : '3px solid transparent',
-								backgroundColor: isActive(cv) ? 'rgba(98,156,68,0.07)' : 'transparent',
+								borderLeft: isActive(cv) ? `3px solid ${tokens.brand.main}` : '3px solid transparent',
+								backgroundColor: isActive(cv) ? alpha(tokens.brand.main, 0.07) : 'transparent',
 								'&:hover': {
-									backgroundColor: isActive(cv) ? 'rgba(98,156,68,0.10)' : '#f8fafc',
+									backgroundColor: isActive(cv) ? alpha(tokens.brand.main, 0.10) : `${tokens.surface.subtle}`,
 								},
 							}}
 						>
@@ -205,8 +207,8 @@ const AppCVEntries = ({
 								height: 34,
 								fontSize: '0.72rem',
 								fontWeight: 700,
-								backgroundColor: isActive(cv) ? '#629C44' : '#e2e8f0',
-								color: isActive(cv) ? '#ffffff' : '#64748b',
+								backgroundColor: isActive(cv) ? `${tokens.brand.main}` : `${tokens.line.main}`,
+								color: isActive(cv) ? `${tokens.surface.paper}` : `${tokens.ink.muted}`,
 								mr: 1.5,
 								flexShrink: 0,
 							}}>
@@ -216,7 +218,7 @@ const AppCVEntries = ({
 								<Typography sx={{
 									fontSize: '0.84rem',
 									fontWeight: isActive(cv) ? 600 : 500,
-									color: '#0f172a',
+									color: tokens.ink.strong,
 									overflow: 'hidden',
 									textOverflow: 'ellipsis',
 									whiteSpace: 'nowrap',
@@ -226,7 +228,7 @@ const AppCVEntries = ({
 								<Box sx={{ display: 'flex', alignItems: 'center', minWidth: 0 }}>
 									<Typography sx={{
 										fontSize: '0.74rem',
-										color: '#94a3b8',
+										color: tokens.ink.subtle,
 										overflow: 'hidden',
 										textOverflow: 'ellipsis',
 										whiteSpace: 'nowrap',
@@ -239,7 +241,7 @@ const AppCVEntries = ({
 							<IconButton
 								size="small"
 								onClick={(e) => handleMenuOpen(e, cv.id)}
-								sx={{ ml: 0.5, color: '#94a3b8', '&:hover': { color: '#64748b' } }}
+								sx={{ ml: 0.5, color: tokens.ink.subtle, '&:hover': { color: tokens.ink.muted } }}
 							>
 								<MoreVertIcon sx={{ fontSize: 16 }} />
 							</IconButton>

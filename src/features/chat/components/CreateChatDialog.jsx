@@ -6,6 +6,7 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
 import CheckIcon from '@mui/icons-material/Check';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../theme/tokens.js';
 
 /** Starts a chat about a resume, optionally against a job post. */
 const CreateChatDialog = ({ loadingResumeMatch, closeCreateChatModal, copiedJobRef, creatingChat, customTitle, cvOptionKey, cvOptions, cvSearch, handleCopyJobRef, handleCreateChat, handleSearchChange, jobs, openCreateModal, resumeMatch, selectedCV, selectedJob, setCustomTitle, setSelectedCV, setSelectedJob, userLang }) => {
@@ -20,23 +21,23 @@ const CreateChatDialog = ({ loadingResumeMatch, closeCreateChatModal, copiedJobR
 			slotProps={{
 				paper: {
 					elevation: 0,
-					sx: { borderRadius: 3, border: '1px solid #e2e8f0' },
+					sx: { borderRadius: 3, border: `1px solid ${tokens.line.main}` },
 				},
 			}}
 		>
 			<DialogTitle sx={{ pb: 1 }}>
 				<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-					<AutoAwesomeOutlinedIcon sx={{ fontSize: 18, color: '#629C44' }} />
-					<Typography sx={{ fontWeight: 700, fontSize: '1rem', color: '#0f172a' }}>
+					<AutoAwesomeOutlinedIcon sx={{ fontSize: 18, color: tokens.brand.text }} />
+					<Typography sx={{ fontWeight: 700, fontSize: '1rem', color: tokens.ink.strong }}>
 						{t('appAIResumeChat.createChatTitle')}
 					</Typography>
 				</Box>
-				<Typography sx={{ fontSize: '0.78rem', color: '#64748b', mt: 0.5, fontWeight: 400 }}>
+				<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.muted, mt: 0.5, fontWeight: 400 }}>
 					{t('appAIResumeChat.createChatHelp')}
 				</Typography>
 			</DialogTitle>
 
-			<Divider sx={{ borderColor: '#f1f5f9' }} />
+			<Divider sx={{ borderColor: tokens.surface.muted }} />
 
 			<DialogContent sx={{ pt: 2.5 }}>
 				<Stack spacing={2}>
@@ -66,7 +67,7 @@ const CreateChatDialog = ({ loadingResumeMatch, closeCreateChatModal, copiedJobR
 									startAdornment: (
 										<>
 											<InputAdornment position="start">
-												<SearchOutlinedIcon sx={{ fontSize: 16, color: '#94a3b8' }} />
+												<SearchOutlinedIcon sx={{ fontSize: 16, color: tokens.ink.subtle }} />
 											</InputAdornment>
 											{params.InputProps.startAdornment}
 										</>
@@ -86,19 +87,19 @@ const CreateChatDialog = ({ loadingResumeMatch, closeCreateChatModal, copiedJobR
 						>
 							{jobs.map(j => (
 								<MenuItem key={j.id} value={j.id} sx={{ fontSize: '0.85rem', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-									<Typography sx={{ fontSize: '0.85rem', color: '#0f172a' }}>{j.title || j.jobPostTitle || j.id}</Typography>
+									<Typography sx={{ fontSize: '0.85rem', color: tokens.ink.strong }}>{j.title || j.jobPostTitle || j.id}</Typography>
 									{j.jobReference && (
 										<Tooltip title={copiedJobRef === j.jobReference ? t('appAIResumeChat.copied') : t('appAIResumeChat.copyReference')} placement="right">
 											<Box
 												onClick={(e) => handleCopyJobRef(j.jobReference, e)}
 												sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.4, cursor: 'pointer', '&:hover': { opacity: 0.75 } }}
 											>
-												<Typography sx={{ fontSize: '0.72rem', color: copiedJobRef === j.jobReference ? '#629C44' : '#94a3b8' }}>
+												<Typography sx={{ fontSize: '0.72rem', color: copiedJobRef === j.jobReference ? `${tokens.brand.main}` : `${tokens.ink.subtle}` }}>
 													{j.jobReference}
 												</Typography>
 												{copiedJobRef === j.jobReference
-													? <CheckIcon sx={{ fontSize: 12, color: '#629C44' }} />
-													: <ContentCopyOutlinedIcon sx={{ fontSize: 11, color: '#94a3b8' }} />
+													? <CheckIcon sx={{ fontSize: 12, color: tokens.brand.text }} />
+													: <ContentCopyOutlinedIcon sx={{ fontSize: 11, color: tokens.ink.subtle }} />
 												}
 											</Box>
 										</Tooltip>
@@ -109,34 +110,34 @@ const CreateChatDialog = ({ loadingResumeMatch, closeCreateChatModal, copiedJobR
 					</FormControl>
 
 					{/* Matching report */}
-					<Box sx={{ p: 1.5, borderRadius: 2, backgroundColor: '#f8fafc', border: '1px solid #e2e8f0' }}>
-						<Typography sx={{ fontSize: '0.72rem', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.06em', mb: 1 }}>
+					<Box sx={{ p: 1.5, borderRadius: 2, backgroundColor: tokens.surface.subtle, border: `1px solid ${tokens.line.main}` }}>
+						<Typography sx={{ fontSize: '0.72rem', fontWeight: 700, color: tokens.ink.muted, textTransform: 'uppercase', letterSpacing: '0.06em', mb: 1 }}>
 							{t('appAIResumeChat.relatedMatchingReport')}
 						</Typography>
 						{!selectedCV || !selectedJob ? (
-							<Typography sx={{ fontSize: '0.78rem', color: '#94a3b8' }}>
+							<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.subtle }}>
 								{t('appAIResumeChat.resumeMatchHint')}
 							</Typography>
 						) : loadingResumeMatch ? (
 							<Stack direction="row" spacing={1} alignItems="center">
-								<CircularProgress size={14} sx={{ color: '#629C44' }} />
-								<Typography sx={{ fontSize: '0.78rem', color: '#64748b' }}>{t('appAIResumeChat.searching')}</Typography>
+								<CircularProgress size={14} sx={{ color: tokens.brand.text }} />
+								<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.muted }}>{t('appAIResumeChat.searching')}</Typography>
 							</Stack>
 						) : resumeMatch ? (
 							<Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
 								{resumeMatch.jobPostTitle && (
-									<Chip size="small" label={resumeMatch.jobPostTitle} sx={{ fontSize: '0.72rem', backgroundColor: '#f1f5f9', color: '#334155' }} />
+									<Chip size="small" label={resumeMatch.jobPostTitle} sx={{ fontSize: '0.72rem', backgroundColor: tokens.surface.muted, color: tokens.ink.body }} />
 								)}
 								{resumeMatch?.matchingReportDetails?.decisionSummary?.finalScore != null && (
 									<Chip
 										size="small"
 										label={`${t('appAIResumeChat.score')}: ${Math.round(resumeMatch.matchingReportDetails.decisionSummary.finalScore)}%`}
-										sx={{ fontSize: '0.72rem', backgroundColor: '#dcfce7', color: '#166534', fontWeight: 600 }}
+										sx={{ fontSize: '0.72rem', backgroundColor: tokens.status.success.tint, color: tokens.status.success.text, fontWeight: 600 }}
 									/>
 								)}
 							</Stack>
 						) : (
-							<Typography sx={{ fontSize: '0.78rem', color: '#94a3b8' }}>
+							<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.subtle }}>
 								{t('appAIResumeChat.noResumeMatch')}
 							</Typography>
 						)}
@@ -154,18 +155,18 @@ const CreateChatDialog = ({ loadingResumeMatch, closeCreateChatModal, copiedJobR
 					<Chip
 						size="small"
 						label={`${t('appAIResumeChat.language')}: ${userLang || 'en'}`}
-						sx={{ width: 'fit-content', fontSize: '0.72rem', backgroundColor: '#f1f5f9', color: '#334155' }}
+						sx={{ width: 'fit-content', fontSize: '0.72rem', backgroundColor: tokens.surface.muted, color: tokens.ink.body }}
 					/>
 				</Stack>
 			</DialogContent>
 
-			<Divider sx={{ borderColor: '#f1f5f9' }} />
+			<Divider sx={{ borderColor: tokens.surface.muted }} />
 
 			<DialogActions sx={{ px: 3, py: 2, gap: 1 }}>
 				<Button
 					onClick={closeCreateChatModal}
 					disabled={creatingChat}
-					sx={{ borderRadius: 2, fontSize: '0.82rem', textTransform: 'none', color: '#64748b' }}
+					sx={{ borderRadius: 2, fontSize: '0.82rem', textTransform: 'none', color: tokens.ink.muted }}
 				>
 					{t('appAIResumeChat.cancel')}
 				</Button>
@@ -175,9 +176,9 @@ const CreateChatDialog = ({ loadingResumeMatch, closeCreateChatModal, copiedJobR
 					disabled={creatingChat}
 					startIcon={creatingChat ? <CircularProgress size={14} color="inherit" /> : <AddCommentOutlinedIcon sx={{ fontSize: 16 }} />}
 					sx={{
-						backgroundColor: '#629C44', borderRadius: 2, fontSize: '0.82rem',
+						backgroundColor: tokens.brand.main, borderRadius: 2, fontSize: '0.82rem',
 						textTransform: 'none', fontWeight: 600, boxShadow: 'none',
-						'&:hover': { backgroundColor: '#4a7a33', boxShadow: 'none' },
+						'&:hover': { backgroundColor: tokens.brand.pressed, boxShadow: 'none' },
 					}}
 				>
 					{t('appAIResumeChat.create')}

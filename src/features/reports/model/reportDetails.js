@@ -1,6 +1,8 @@
 import { scoreColorsFor } from '../../../shared/lib/score.js';
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
-export const THEME_GREEN = '#629C44';
+export const THEME_GREEN = tokens.brand.main;
 
 export const importanceKey = {
 	MANDATORY: 'mandatory', mandatory: 'mandatory',
@@ -9,28 +11,28 @@ export const importanceKey = {
 };
 
 export const importanceChipSx = {
-	mandatory:  { backgroundColor: '#fee2e2', color: '#dc2626', border: '1px solid #fecaca' },
-	important:  { backgroundColor: '#fef9c3', color: '#854d0e', border: '1px solid #fde68a' },
-	niceToHave: { backgroundColor: '#dbeafe', color: '#1d4ed8', border: '1px solid #bfdbfe' },
+	mandatory:  { backgroundColor: tokens.status.error.tint, color: tokens.status.error.main, border: `1px solid ${tokens.status.error.border}` },
+	important:  { backgroundColor: tokens.status.warning.tint, color: tokens.score.fair.text, border: `1px solid ${tokens.status.warning.border}` },
+	niceToHave: { backgroundColor: tokens.status.info.paleBlue, color: tokens.status.info.deep, border: `1px solid ${tokens.status.info.borderBlue}` },
 };
 
 export const severityChipSx = {
-	high:   { backgroundColor: '#fee2e2', color: '#dc2626', border: '1px solid #fecaca' },
-	medium: { backgroundColor: '#fef9c3', color: '#854d0e', border: '1px solid #fde68a' },
-	low:    { backgroundColor: '#dbeafe', color: '#1d4ed8', border: '1px solid #bfdbfe' },
+	high:   { backgroundColor: tokens.status.error.tint, color: tokens.status.error.main, border: `1px solid ${tokens.status.error.border}` },
+	medium: { backgroundColor: tokens.status.warning.tint, color: tokens.score.fair.text, border: `1px solid ${tokens.status.warning.border}` },
+	low:    { backgroundColor: tokens.status.info.paleBlue, color: tokens.status.info.deep, border: `1px solid ${tokens.status.info.borderBlue}` },
 };
 
 export const RECOMMENDATION_CONFIG = {
-	strong_interview: { bg: '#dcfce7', color: '#15803d', border: '#86efac' },
-	interview:        { bg: '#d1fae5', color: '#059669', border: '#6ee7b7' },
-	may_be:           { bg: '#fef9c3', color: '#854d0e', border: '#fde68a' },
-	reject:           { bg: '#fee2e2', color: '#dc2626', border: '#fecaca' },
+	strong_interview: { bg: tokens.status.success.tint, color: tokens.status.success.strong, border: tokens.status.success.mint },
+	interview:        { bg: tokens.status.success.mintPale, color: tokens.status.success.emerald, border: tokens.status.success.mintBright },
+	may_be:           { bg: tokens.status.warning.tint, color: tokens.score.fair.text, border: tokens.status.warning.border },
+	reject:           { bg: tokens.status.error.tint, color: tokens.status.error.main, border: tokens.status.error.border },
 };
 
 export const CONFIDENCE_CONFIG = {
-	high:   { bg: 'rgba(98,156,68,0.10)',  color: THEME_GREEN },
-	medium: { bg: 'rgba(245,158,11,0.10)', color: '#d97706'  },
-	low:    { bg: 'rgba(220,38,38,0.10)',  color: '#dc2626'  },
+	high:   { bg: alpha(tokens.brand.main, 0.10),  color: THEME_GREEN },
+	medium: { bg: 'rgba(245,158,11,0.10)', color: tokens.status.warning.main  },
+	low:    { bg: 'rgba(220,38,38,0.10)',  color: tokens.status.error.main  },
 };
 
 export const getColor = (v) => scoreColorsFor(v).main;

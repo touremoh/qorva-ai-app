@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { Chip } from '@mui/material';
 import { ATS_LABELS } from '../../model/atsLabels.js';
+import * as tokens from '../../../../theme/tokens.js';
 
 /** Tiny "via <ATS>" origin badge for CVs imported through an integration. */
 const AtsSourceChip = ({ cv }) => {
@@ -12,7 +13,7 @@ const AtsSourceChip = ({ cv }) => {
 			size="small"
 			sx={{
 				height: 16, fontSize: '0.6rem', fontWeight: 700, ml: 0.5,
-				color: '#0369a1', backgroundColor: 'rgba(3,105,161,0.08)',
+				color: tokens.status.info.main, backgroundColor: 'rgba(3,105,161,0.08)',
 				'& .MuiChip-label': { px: 0.75 },
 			}}
 		/>

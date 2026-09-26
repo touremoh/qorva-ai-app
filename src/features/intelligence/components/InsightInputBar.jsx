@@ -3,6 +3,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import MentionInput from './MentionInput.jsx';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 /** Question box with @-mentions and the send button. */
 const InsightInputBar = ({ inputFocusToken, loading, loadingHistory, mentions, question, setMentions, setQuestion, submit }) => {
@@ -12,22 +14,22 @@ const InsightInputBar = ({ inputFocusToken, loading, loadingHistory, mentions, q
         <Box sx={{
             px: { xs: 2, md: 3 },
             py: 1.5,
-            backgroundColor: '#ffffff',
-            borderTop: '1px solid #e2e8f0',
+            backgroundColor: tokens.surface.paper,
+            borderTop: `1px solid ${tokens.line.main}`,
             flexShrink: 0,
         }}>
             <Box sx={{ maxWidth: 820, mx: 'auto' }}>
                 <Box sx={{
-                    backgroundColor: '#f8fafc',
-                    border: '1.5px solid #e2e8f0',
+                    backgroundColor: tokens.surface.subtle,
+                    border: `1.5px solid ${tokens.line.main}`,
                     borderRadius: 3,
                     px: 1.5,
                     py: 0.75,
                     transition: 'border-color 0.15s ease, box-shadow 0.15s ease',
                     '&:focus-within': {
-                        borderColor: '#629C44',
-                        boxShadow: '0 0 0 3px rgba(98,156,68,0.1)',
-                        backgroundColor: '#ffffff',
+                        borderColor: tokens.brand.main,
+                        boxShadow: `0 0 0 3px ${alpha(tokens.brand.main, 0.1)}`,
+                        backgroundColor: tokens.surface.paper,
                     },
                 }}>
                     <MentionInput
@@ -41,7 +43,7 @@ const InsightInputBar = ({ inputFocusToken, loading, loadingHistory, mentions, q
                         focusToken={inputFocusToken}
                     />
                 </Box>
-                <Typography sx={{ fontSize: '0.62rem', color: '#cbd5e1', textAlign: 'center', mt: 0.6 }}>
+                <Typography sx={{ fontSize: '0.62rem', color: tokens.ink.faint, textAlign: 'center', mt: 0.6 }}>
                     {t('insight.input.hint')}
                 </Typography>
             </Box>

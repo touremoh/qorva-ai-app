@@ -4,6 +4,8 @@ import { Box, CircularProgress, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useBulkImport } from '../../contexts/BulkImportContext.jsx';
+import * as tokens from '../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 // Always-visible progress for a running bulk import — the user sees it from any tab,
 // and clicking it deep-links to the CV library.
@@ -29,20 +31,20 @@ const BulkImportChip = () => {
 				py: 0.5,
 				mr: 1.5,
 				borderRadius: 999,
-				border: '1px solid rgba(98,156,68,0.35)',
-				backgroundColor: 'rgba(98,156,68,0.08)',
+				border: `1px solid ${alpha(tokens.brand.main, 0.35)}`,
+				backgroundColor: alpha(tokens.brand.main, 0.08),
 				cursor: 'pointer',
-				'&:hover': { backgroundColor: 'rgba(98,156,68,0.14)' },
-				'&:focus-visible': { outline: '2px solid #629C44', outlineOffset: 2 },
+				'&:hover': { backgroundColor: alpha(tokens.brand.main, 0.14) },
+				'&:focus-visible': { outline: `2px solid ${tokens.brand.main}`, outlineOffset: 2 },
 			}}
 		>
-			<CircularProgress size={13} thickness={5} sx={{ color: '#629C44' }} />
-			<Typography sx={{ fontSize: '0.78rem', fontWeight: 600, color: '#166534', whiteSpace: 'nowrap' }}>
+			<CircularProgress size={13} thickness={5} sx={{ color: tokens.brand.text }} />
+			<Typography sx={{ fontSize: '0.78rem', fontWeight: 600, color: tokens.status.success.text, whiteSpace: 'nowrap' }}>
 				{t('appCVContent.bulk.chip', 'Importing {{processed}} / {{total}}', {
 					processed: job.processed, total: job.total })}
 			</Typography>
 			{bulk.etaMinutes != null && (
-				<Typography sx={{ fontSize: '0.72rem', color: '#629C44', whiteSpace: 'nowrap' }}>
+				<Typography sx={{ fontSize: '0.72rem', color: tokens.brand.text, whiteSpace: 'nowrap' }}>
 					{t('appCVContent.bulk.eta', '~{{minutes}} min left', { minutes: bulk.etaMinutes })}
 				</Typography>
 			)}
