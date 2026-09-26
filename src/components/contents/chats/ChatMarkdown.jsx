@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Box, Typography } from '@mui/material';
+import { fontFamilyMono } from '../../../theme/tokens.js';
 
 // Assistant replies are Markdown (headings, bullets, blockquoted questions, small tables).
 // Everything is mapped onto the bubble's typography so a structured answer reads like the
@@ -47,7 +48,7 @@ const components = {
 	),
 	// react-markdown v9 has no `inline` flag: every code node gets the chip style and the pre
 	// wrapper below strips it again for fenced blocks.
-	code: ({ children }) => <Box component="code" sx={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace', fontSize: '0.78rem', backgroundColor: '#f1f5f9', px: 0.5, borderRadius: 0.5 }}>{children}</Box>,
+	code: ({ children }) => <Box component="code" sx={{ fontFamily: fontFamilyMono, fontSize: '0.78rem', backgroundColor: '#f1f5f9', px: 0.5, borderRadius: 0.5 }}>{children}</Box>,
 	pre: ({ children }) => <Box component="pre" sx={{ m: 0, my: 0.75, p: 1.25, backgroundColor: '#f1f5f9', borderRadius: 1.5, overflowX: 'auto', '& code': { backgroundColor: 'transparent', px: 0 } }}>{children}</Box>,
 	hr: () => <Box component="hr" sx={{ border: 0, borderTop: '1px solid #e2e8f0', my: 1.25 }} />,
 	a: ({ href, children }) => <a href={href} target="_blank" rel="noopener noreferrer" style={{ color: '#629C44' }}>{children}</a>,

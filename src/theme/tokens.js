@@ -67,4 +67,7 @@ export const fontSize = {
 
 export const fontFamily = '"Roboto", "Helvetica", "Arial", sans-serif';
 
+/** Monospace: named faces first, so the generic `monospace` never falls back to Courier. */
+export const fontFamilyMono = 'ui-monospace, SFMono-Regular, Menlo, monospace';
+
 export const radius = { sm: 6, md: 8, lg: 12, pill: 999 };

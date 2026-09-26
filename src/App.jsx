@@ -1,6 +1,5 @@
 // eslint-disable-next-line no-unused-vars
 import React, {useEffect} from 'react'
-import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import Login from "./views/pages/login/Login.jsx";

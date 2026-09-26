@@ -21,6 +21,7 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
 import ForwardToInboxOutlinedIcon from '@mui/icons-material/ForwardToInboxOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import { fontFamilyMono } from '../../../theme/tokens.js';
 import {
 	getEmailTemplates,
 	createEmailTemplate,
@@ -237,7 +238,7 @@ const EmailTemplatesManager = ({ language, onChanged }) => {
 						{PLACEHOLDERS.map((token) => (
 							<Chip
 								key={token} label={`{{${token}}}`} size="small" onClick={() => insertPlaceholder(token)}
-								sx={{ fontSize: '0.66rem', fontFamily: 'monospace', height: 22, cursor: 'pointer' }}
+								sx={{ fontSize: '0.66rem', fontFamily: fontFamilyMono, height: 22, cursor: 'pointer' }}
 							/>
 						))}
 					</Box>

@@ -66,6 +66,7 @@ import { updateCV } from '../../../services/cvService.js';
 import NotesPanel from '../common/NotesPanel.jsx';
 import { TENANT_ID } from '../../../constants.js';
 import { safeExternalUrl } from '../../../utils/safeUrl.js';
+import { fontFamilyMono } from '../../../theme/tokens.js';
 
 // ─── Clustering style helpers ────────────────────────────────────────────────
 
@@ -705,7 +706,7 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 										'&:hover': applicantNumber ? { backgroundColor: '#f1f5f9', borderColor: '#cbd5e1' } : {},
 									}}
 								>
-									<Typography sx={{ fontWeight: 700, fontSize: '1rem', lineHeight: 1.2, fontFamily: 'monospace', letterSpacing: '0.04em', color: refCopied ? '#629C44' : '#64748b' }}>
+									<Typography sx={{ fontWeight: 700, fontSize: '1rem', lineHeight: 1.2, fontFamily: fontFamilyMono, letterSpacing: '0.04em', color: refCopied ? '#629C44' : '#64748b' }}>
 										{applicantNumber ? `#${applicantNumber}` : t('appCVContent.identityHidden', 'Identity hidden')}
 									</Typography>
 									{applicantNumber && (
@@ -733,7 +734,7 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 									sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5, mt: 0.5, cursor: 'pointer', '&:hover': { opacity: 0.75 } }}
 								>
 									<FingerprintOutlinedIcon sx={{ fontSize: 11, color: refCopied ? '#629C44' : '#94a3b8' }} />
-									<Typography sx={{ fontSize: '0.70rem', color: refCopied ? '#629C44' : '#94a3b8', fontFamily: 'monospace', letterSpacing: '0.03em' }}>
+									<Typography sx={{ fontSize: '0.70rem', color: refCopied ? '#629C44' : '#94a3b8', fontFamily: fontFamilyMono, letterSpacing: '0.03em' }}>
 										{t('appCVContent.referenceNumber')}: {applicantNumber}
 									</Typography>
 									{refCopied
