@@ -1,19 +1,14 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useCallback, useEffect, useState } from 'react';
+import ConfirmDialog from '../../../shared/ui/ConfirmDialog.jsx';
 import PropTypes from 'prop-types';
 import {
 	Accordion,
 	AccordionDetails,
 	AccordionSummary,
 	Box,
-	Button,
 	Chip,
 	CircularProgress,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogContentText,
-	DialogTitle,
 	IconButton,
 	Pagination,
 	Table,
@@ -238,36 +233,17 @@ const QualityDuplicatesList = ({ onChanged }) => {
 			</Box>
 
 			{/* Delete confirmation */}
-			<Dialog
+			<ConfirmDialog
 				open={Boolean(cvToDelete)}
-				onClose={() => setCvToDelete(null)}
-				PaperProps={{ sx: { borderRadius: 2.5 } }}
+				title={t('appCVContent.deleteCVTitle')}
+				cancelLabel={t('appCVContent.cancel')}
+				confirmLabel={t('appCVContent.confirm')}
+				onCancel={() => setCvToDelete(null)}
+				onConfirm={handleDeleteConfirm}
+				tone="danger"
 			>
-				<DialogTitle sx={{ fontWeight: 700, fontSize: '0.95rem', color: '#0f172a' }}>
-					{t('appCVContent.deleteCVTitle')}
-				</DialogTitle>
-				<DialogContent>
-					<DialogContentText sx={{ fontSize: '0.88rem', color: '#64748b' }}>
-						{t('appCVContent.deleteConfirmation')}
-					</DialogContentText>
-				</DialogContent>
-				<DialogActions sx={{ px: 2, pb: 2, gap: 1 }}>
-					<Button
-						onClick={() => setCvToDelete(null)}
-						sx={{ textTransform: 'none', color: '#64748b', borderRadius: 1.5 }}
-					>
-						{t('appCVContent.cancel')}
-					</Button>
-					<Button
-						onClick={handleDeleteConfirm}
-						variant="contained"
-						color="error"
-						sx={{ textTransform: 'none', borderRadius: 1.5, boxShadow: 'none' }}
-					>
-						{t('appCVContent.confirm')}
-					</Button>
-				</DialogActions>
-			</Dialog>
+				{t('appCVContent.deleteConfirmation')}
+			</ConfirmDialog>
 		</Box>
 	);
 };

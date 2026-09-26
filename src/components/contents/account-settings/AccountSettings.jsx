@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import SectionHeader from '../../../shared/ui/SectionHeader.jsx';
 import { getInitials } from '../../../shared/lib/text.js';
 import PropTypes from 'prop-types';
 import {
@@ -46,22 +47,6 @@ import ConnectedMailboxCard from './ConnectedMailboxCard.jsx';
 import MfaCard from './MfaCard.jsx';
 import { isDemoUser } from '../../../utils/demoMode.js';
 import UpgradeButton from '../../demo/UpgradeButton.jsx';
-
-const SectionHeader = ({ icon: Icon, label, action }) => (
-	<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2, pb: 1, borderBottom: '2px solid #629C44' }}>
-		<Icon sx={{ fontSize: 15, color: '#629C44' }} />
-		<Typography sx={{ fontSize: '0.7rem', fontWeight: 700, color: '#629C44', textTransform: 'uppercase', letterSpacing: '0.07em', flex: 1 }}>
-			{label}
-		</Typography>
-		{action}
-	</Box>
-);
-
-SectionHeader.propTypes = {
-	icon: PropTypes.elementType.isRequired,
-	label: PropTypes.node,
-	action: PropTypes.node,
-};
 
 const FieldCard = ({ icon: Icon, label, value }) => (
 	<Box sx={{

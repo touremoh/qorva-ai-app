@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import ConfirmDialog from '../../../shared/ui/ConfirmDialog.jsx';
 import { getInitials } from '../../../shared/lib/text.js';
 import PropTypes from 'prop-types';
 import {
@@ -16,11 +17,6 @@ import {
 	FormControlLabel,
 	Checkbox,
 	FormGroup,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogContentText,
-	DialogTitle,
 	CircularProgress,
 	InputAdornment,
 	Pagination,
@@ -1153,20 +1149,17 @@ const JobContent = () => {
 			</Box>
 
 			{/* Delete confirmation */}
-			<Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)} PaperProps={{ sx: { borderRadius: 2.5 } }}>
-				<DialogTitle sx={{ fontWeight: 700, fontSize: '0.95rem', color: '#0f172a' }}>{t('jobContent.deleteJobTitle')}</DialogTitle>
-				<DialogContent>
-					<DialogContentText sx={{ fontSize: '0.88rem', color: '#64748b' }}>{t('jobContent.deleteJobConfirmation')}</DialogContentText>
-				</DialogContent>
-				<DialogActions sx={{ px: 2, pb: 2, gap: 1 }}>
-					<Button onClick={() => setDeleteDialogOpen(false)} sx={{ textTransform: 'none', color: '#64748b', borderRadius: 1.5 }}>
-						{t('jobContent.cancel')}
-					</Button>
-					<Button onClick={handleDeleteJob} variant="contained" color="error" sx={{ textTransform: 'none', borderRadius: 1.5, boxShadow: 'none' }}>
-						{t('jobContent.confirm')}
-					</Button>
-				</DialogActions>
-			</Dialog>
+			<ConfirmDialog
+				open={deleteDialogOpen}
+				title={t('jobContent.deleteJobTitle')}
+				cancelLabel={t('jobContent.cancel')}
+				confirmLabel={t('jobContent.confirm')}
+				onCancel={() => setDeleteDialogOpen(false)}
+				onConfirm={handleDeleteJob}
+				tone="danger"
+			>
+				{t('jobContent.deleteJobConfirmation')}
+			</ConfirmDialog>
 		</Box>
 	);
 };

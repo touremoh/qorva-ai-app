@@ -1,5 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from 'react';
+import ConfirmDialog from '../../../shared/ui/ConfirmDialog.jsx';
+import SectionHeader from '../../../shared/ui/SectionHeader.jsx';
 import { scoreColorsFor } from '../../../shared/lib/score.js';
 import PropTypes from 'prop-types';
 import {
@@ -9,11 +11,7 @@ import {
 	Chip,
 	CircularProgress,
 	Collapse,
-	Dialog,
-	DialogActions,
-	DialogContent,
 	DialogContentText,
-	DialogTitle,
 	IconButton,
 	MenuItem,
 	Paper,
@@ -103,24 +101,6 @@ const FIELD_LABELS = {
 	workExperience: 'Work Experience', keySkills: 'Key Skills', careerStartYear: 'Career Start Year',
 	education: 'Education', languages: 'Languages', certifications: 'Certifications',
 	salaryExpectation: 'Salary Expectation', linkedin: 'LinkedIn', summary: 'Summary',
-};
-
-const SectionHeader = ({ icon: Icon, label, right }) => (
-	<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2, pb: 1.5, borderBottom: '2px solid #629C44', flexShrink: 0 }}>
-		<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-			<Icon sx={{ fontSize: 15, color: '#629C44' }} />
-			<Typography sx={{ fontSize: '0.7rem', fontWeight: 700, color: '#629C44', textTransform: 'uppercase', letterSpacing: '0.07em' }}>
-				{label}
-			</Typography>
-		</Box>
-		{right}
-	</Box>
-);
-
-SectionHeader.propTypes = {
-	icon: PropTypes.elementType.isRequired,
-	label: PropTypes.string.isRequired,
-	right: PropTypes.node,
 };
 
 const ScoreBadge = ({ score }) => {
@@ -510,7 +490,7 @@ const AppLibraryQuality = () => {
 			{/* Completeness + freshness detail */}
 			<Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', lg: '2fr 1fr' }, gap: 2 }}>
 				<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5 }}>
-					<SectionHeader icon={ChecklistOutlinedIcon} label={t('libraryQuality.sections.completeness', 'Field Completeness')} />
+					<SectionHeader sx={{ pb: 1.5 }} icon={ChecklistOutlinedIcon} label={t('libraryQuality.sections.completeness', 'Field Completeness')} />
 					<Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, 1fr)' }, gap: 3 }}>
 						{COMPLETENESS_GROUPS.map(({ key, fields }) => (
 							<Box key={key} sx={{ display: 'flex', flexDirection: 'column', gap: 0.9 }}>
@@ -536,7 +516,7 @@ const AppLibraryQuality = () => {
 				</Paper>
 
 				<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5 }}>
-					<SectionHeader icon={UpdateOutlinedIcon} label={t('libraryQuality.sections.freshness', 'Content Freshness')} />
+					<SectionHeader sx={{ pb: 1.5 }} icon={UpdateOutlinedIcon} label={t('libraryQuality.sections.freshness', 'Content Freshness')} />
 					<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 						<PieChart
 							series={[{ data: freshnessPieData, innerRadius: 38, outerRadius: 68, paddingAngle: 2, cornerRadius: 3 }]}
@@ -608,7 +588,7 @@ const AppLibraryQuality = () => {
 
 			{/* Issues */}
 			<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5 }}>
-				<SectionHeader icon={ReportProblemOutlinedIcon} label={t('libraryQuality.sections.issues', 'Issues To Fix')} />
+				<SectionHeader sx={{ pb: 1.5 }} icon={ReportProblemOutlinedIcon} label={t('libraryQuality.sections.issues', 'Issues To Fix')} />
 				{report.issues.length === 0 ? (
 					<Typography sx={{ fontSize: '0.8rem', color: '#629C44', fontWeight: 600 }}>
 						{t('libraryQuality.noIssues', 'No issues found — your library is in great shape!')}
@@ -712,89 +692,75 @@ const AppLibraryQuality = () => {
 		</Box>
 
 		{/* Candidate-update campaign confirmation */}
-		<Dialog open={Boolean(campaignEstimate)} onClose={() => !actionBusy && setCampaignEstimate(null)} PaperProps={{ sx: { borderRadius: 2.5 } }}>
-			<DialogTitle sx={{ fontWeight: 700, fontSize: '0.95rem', color: '#0f172a' }}>
-				{t('libraryQuality.campaign.confirmTitle', 'Request updates from candidates')}
-			</DialogTitle>
-			<DialogContent>
-				<DialogContentText sx={{ fontSize: '0.88rem', color: '#64748b' }}>
-					{t('libraryQuality.campaign.confirmBody',
-						'This will email up to {{count}} candidates a secure link to refresh their availability, salary expectations, and resume. Candidates without an email address, unsubscribed candidates, and those with a pending request are skipped automatically.',
-						{ count: campaignEstimate?.estimate?.affectedCount ?? 0 })}
-				</DialogContentText>
-				<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 2 }}>
-					<TextField
-						select fullWidth size="small"
-						label={t('libraryQuality.campaign.template', 'Email template')}
-						value={selectedTemplateId}
-						onChange={(e) => setSelectedTemplateId(e.target.value)}
-					>
-						<MenuItem value="">
-							{t('libraryQuality.campaign.defaultTemplate', 'Standard Qorva message')}
-						</MenuItem>
-						{emailTemplates.map((template) => (
-							<MenuItem key={template.id} value={template.id}>{template.name}</MenuItem>
-						))}
-					</TextField>
-					<Button
-						size="small"
-						onClick={() => setManageTemplatesOpen(true)}
-						sx={{ textTransform: 'none', fontSize: '0.72rem', fontWeight: 600, color: '#629C44', flexShrink: 0 }}>
-						{t('libraryQuality.campaign.manageTemplates', 'Manage…')}
-					</Button>
-				</Box>
-			</DialogContent>
-			<DialogActions sx={{ px: 2, pb: 2, gap: 1 }}>
-				<Button onClick={() => setCampaignEstimate(null)} disabled={actionBusy}
-					sx={{ textTransform: 'none', color: '#64748b', borderRadius: 1.5 }}>
-					{t('appCVContent.cancel')}
+		<ConfirmDialog
+			open={Boolean(campaignEstimate)}
+			title={t('libraryQuality.campaign.confirmTitle', 'Request updates from candidates')}
+			cancelLabel={t('appCVContent.cancel')}
+			confirmLabel={t('libraryQuality.campaign.confirmSend', 'Send requests')}
+			onCancel={() => setCampaignEstimate(null)}
+			onConfirm={handleCampaignConfirm}
+			busy={actionBusy}
+			confirmDisabled={(campaignEstimate?.estimate?.affectedCount ?? 0) === 0}
+		>
+			<DialogContentText sx={{ fontSize: '0.88rem', color: '#64748b' }}>
+				{t('libraryQuality.campaign.confirmBody',
+					'This will email up to {{count}} candidates a secure link to refresh their availability, salary expectations, and resume. Candidates without an email address, unsubscribed candidates, and those with a pending request are skipped automatically.',
+					{ count: campaignEstimate?.estimate?.affectedCount ?? 0 })}
+			</DialogContentText>
+			<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 2 }}>
+				<TextField
+					select fullWidth size="small"
+					label={t('libraryQuality.campaign.template', 'Email template')}
+					value={selectedTemplateId}
+					onChange={(e) => setSelectedTemplateId(e.target.value)}
+				>
+					<MenuItem value="">
+						{t('libraryQuality.campaign.defaultTemplate', 'Standard Qorva message')}
+					</MenuItem>
+					{emailTemplates.map((template) => (
+						<MenuItem key={template.id} value={template.id}>{template.name}</MenuItem>
+					))}
+				</TextField>
+				<Button
+					size="small"
+					onClick={() => setManageTemplatesOpen(true)}
+					sx={{ textTransform: 'none', fontSize: '0.72rem', fontWeight: 600, color: '#629C44', flexShrink: 0 }}>
+					{t('libraryQuality.campaign.manageTemplates', 'Manage…')}
 				</Button>
-				<Button onClick={handleCampaignConfirm} disabled={actionBusy || (campaignEstimate?.estimate?.affectedCount ?? 0) === 0}
-					variant="contained"
-					sx={{ textTransform: 'none', borderRadius: 1.5, boxShadow: 'none', backgroundColor: '#629C44', '&:hover': { backgroundColor: '#528035' } }}>
-					{actionBusy ? <CircularProgress size={16} color="inherit" /> : t('libraryQuality.campaign.confirmSend', 'Send requests')}
-				</Button>
-			</DialogActions>
-		</Dialog>
+			</Box>
+		</ConfirmDialog>
 
 		{/* Re-analyze pre-flight confirmation */}
-		<Dialog open={Boolean(reanalyzeEstimate)} onClose={() => !actionBusy && setReanalyzeEstimate(null)} PaperProps={{ sx: { borderRadius: 2.5 } }}>
-			<DialogTitle sx={{ fontWeight: 700, fontSize: '0.95rem', color: '#0f172a' }}>
-				{t('libraryQuality.jobs.confirmTitle', 'Re-analyze resumes with AI')}
-			</DialogTitle>
-			<DialogContent>
-				<DialogContentText sx={{ fontSize: '0.88rem', color: '#64748b' }}>
-					{t('libraryQuality.jobs.confirmBody',
-						'This will re-run AI extraction on {{count}} resumes and use {{actions}} screening actions{{quota}}.',
-						{
-							count: reanalyzeEstimate?.estimate?.estimatedActions ?? 0,
-							actions: reanalyzeEstimate?.estimate?.estimatedActions ?? 0,
-							quota: Number.isFinite(reanalyzeEstimate?.estimate?.remainingQuota)
-								? t('libraryQuality.jobs.confirmQuota', ' ({{remaining}} remaining this period)', { remaining: reanalyzeEstimate.estimate.remainingQuota })
-								: '',
-						})}
-					{reanalyzeEstimate?.estimate?.skippedNoRawText > 0 && (
-						<>
-							{' '}
-							{t('libraryQuality.jobs.confirmSkipped',
-								'{{count}} older resumes have no stored source text and will be skipped — re-upload them to refresh.',
-								{ count: reanalyzeEstimate.estimate.skippedNoRawText })}
-						</>
-					)}
-				</DialogContentText>
-			</DialogContent>
-			<DialogActions sx={{ px: 2, pb: 2, gap: 1 }}>
-				<Button onClick={() => setReanalyzeEstimate(null)} disabled={actionBusy}
-					sx={{ textTransform: 'none', color: '#64748b', borderRadius: 1.5 }}>
-					{t('appCVContent.cancel')}
-				</Button>
-				<Button onClick={handleReanalyzeConfirm} disabled={actionBusy || (reanalyzeEstimate?.estimate?.estimatedActions ?? 0) === 0}
-					variant="contained"
-					sx={{ textTransform: 'none', borderRadius: 1.5, boxShadow: 'none', backgroundColor: '#629C44', '&:hover': { backgroundColor: '#528035' } }}>
-					{actionBusy ? <CircularProgress size={16} color="inherit" /> : t('libraryQuality.jobs.confirmStart', 'Start re-analysis')}
-				</Button>
-			</DialogActions>
-		</Dialog>
+		<ConfirmDialog
+			open={Boolean(reanalyzeEstimate)}
+			title={t('libraryQuality.jobs.confirmTitle', 'Re-analyze resumes with AI')}
+			cancelLabel={t('appCVContent.cancel')}
+			confirmLabel={t('libraryQuality.jobs.confirmStart', 'Start re-analysis')}
+			onCancel={() => setReanalyzeEstimate(null)}
+			onConfirm={handleReanalyzeConfirm}
+			busy={actionBusy}
+			confirmDisabled={(reanalyzeEstimate?.estimate?.estimatedActions ?? 0) === 0}
+		>
+			<DialogContentText sx={{ fontSize: '0.88rem', color: '#64748b' }}>
+				{t('libraryQuality.jobs.confirmBody',
+					'This will re-run AI extraction on {{count}} resumes and use {{actions}} screening actions{{quota}}.',
+					{
+						count: reanalyzeEstimate?.estimate?.estimatedActions ?? 0,
+						actions: reanalyzeEstimate?.estimate?.estimatedActions ?? 0,
+						quota: Number.isFinite(reanalyzeEstimate?.estimate?.remainingQuota)
+							? t('libraryQuality.jobs.confirmQuota', ' ({{remaining}} remaining this period)', { remaining: reanalyzeEstimate.estimate.remainingQuota })
+							: '',
+					})}
+				{reanalyzeEstimate?.estimate?.skippedNoRawText > 0 && (
+					<>
+						{' '}
+						{t('libraryQuality.jobs.confirmSkipped',
+							'{{count}} older resumes have no stored source text and will be skipped — re-upload them to refresh.',
+							{ count: reanalyzeEstimate.estimate.skippedNoRawText })}
+					</>
+				)}
+			</DialogContentText>
+		</ConfirmDialog>
 
 		{/* Invitation email template management */}
 		<EmailTemplatesDialog
@@ -804,28 +770,19 @@ const AppLibraryQuality = () => {
 		/>
 
 		{/* Archive-all confirmation */}
-		<Dialog open={Boolean(archiveConfirm)} onClose={() => !actionBusy && setArchiveConfirm(null)} PaperProps={{ sx: { borderRadius: 2.5 } }}>
-			<DialogTitle sx={{ fontWeight: 700, fontSize: '0.95rem', color: '#0f172a' }}>
-				{t('libraryQuality.archiveAllTitle', 'Archive resumes')}
-			</DialogTitle>
-			<DialogContent>
-				<DialogContentText sx={{ fontSize: '0.88rem', color: '#64748b' }}>
-					{t('libraryQuality.archiveAllConfirmation',
+		<ConfirmDialog
+			open={Boolean(archiveConfirm)}
+			title={t('libraryQuality.archiveAllTitle', 'Archive resumes')}
+			cancelLabel={t('appCVContent.cancel')}
+			confirmLabel={t('libraryQuality.archiveAll', 'Archive all')}
+			onCancel={() => setArchiveConfirm(null)}
+			onConfirm={handleArchiveAll}
+			busy={actionBusy}
+		>
+			{t('libraryQuality.archiveAllConfirmation',
 						'This will archive {{count}} resumes. Archived resumes are excluded from matching and quality reporting; you can unarchive them from the Resume Library at any time.',
 						{ count: archiveConfirm?.count ?? 0 })}
-				</DialogContentText>
-			</DialogContent>
-			<DialogActions sx={{ px: 2, pb: 2, gap: 1 }}>
-				<Button onClick={() => setArchiveConfirm(null)} disabled={actionBusy}
-					sx={{ textTransform: 'none', color: '#64748b', borderRadius: 1.5 }}>
-					{t('appCVContent.cancel')}
-				</Button>
-				<Button onClick={handleArchiveAll} disabled={actionBusy} variant="contained"
-					sx={{ textTransform: 'none', borderRadius: 1.5, boxShadow: 'none', backgroundColor: '#629C44', '&:hover': { backgroundColor: '#528035' } }}>
-					{actionBusy ? <CircularProgress size={16} color="inherit" /> : t('libraryQuality.archiveAll', 'Archive all')}
-				</Button>
-			</DialogActions>
-		</Dialog>
+		</ConfirmDialog>
 		</Box>
 	);
 };

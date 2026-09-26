@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import ConfirmDialog from '../../shared/ui/ConfirmDialog.jsx';
 import dayjs from '../../shared/lib/dayjs.js';
 import {
 	Alert,
@@ -9,10 +10,6 @@ import {
 	Chip,
 	CircularProgress,
 	Collapse,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogTitle,
 	IconButton,
 	Link,
 	Menu,
@@ -525,23 +522,17 @@ const CandidateOutreachDock = () => {
 				)}
 			</Paper>
 
-			<Dialog open={discardOpen} onClose={() => setDiscardOpen(false)} PaperProps={{ sx: { borderRadius: 2, minWidth: 360 } }}>
-				<DialogTitle sx={{ fontSize: '1rem', fontWeight: 700 }}>{t('candidateOutreach.discardTitle')}</DialogTitle>
-				<DialogContent>
-					<Typography sx={{ fontSize: '0.85rem', color: '#475569' }}>{t('candidateOutreach.discardBody')}</Typography>
-				</DialogContent>
-				<DialogActions sx={{ px: 3, pb: 2 }}>
-					<Button onClick={() => setDiscardOpen(false)} sx={{ textTransform: 'none', fontSize: '0.78rem', color: '#64748b' }}>
-						{t('candidateOutreach.keepEditing')}
-					</Button>
-					<Button
-						variant="contained" onClick={() => { setDiscardOpen(false); close(); }}
-						sx={{ ...primaryButtonSx, backgroundColor: '#ef4444', '&:hover': { backgroundColor: '#dc2626' } }}
-					>
-						{t('candidateOutreach.discard')}
-					</Button>
-				</DialogActions>
-			</Dialog>
+			<ConfirmDialog
+				open={discardOpen}
+				title={t('candidateOutreach.discardTitle')}
+				cancelLabel={t('candidateOutreach.keepEditing')}
+				confirmLabel={t('candidateOutreach.discard')}
+				onCancel={() => setDiscardOpen(false)}
+				onConfirm={() => { setDiscardOpen(false); close(); }}
+				tone="danger"
+			>
+				{t('candidateOutreach.discardBody')}
+			</ConfirmDialog>
 		</>
 	);
 };

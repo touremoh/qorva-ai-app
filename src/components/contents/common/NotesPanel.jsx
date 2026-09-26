@@ -1,14 +1,11 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useCallback, useEffect, useState } from 'react';
+import ConfirmDialog from '../../../shared/ui/ConfirmDialog.jsx';
 import dayjs from '../../../shared/lib/dayjs.js';
 import {
 	Box,
 	Button,
 	CircularProgress,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogTitle,
 	IconButton,
 	TextField,
 	Tooltip,
@@ -290,31 +287,20 @@ const NotesPanel = ({ targetType, targetId, sx }) => {
 			)}
 
 			{/* Delete confirmation */}
-			<Dialog open={Boolean(pendingDelete)} onClose={() => !deleting && setPendingDelete(null)} maxWidth="xs" fullWidth>
-				<DialogTitle sx={{ fontSize: '1rem', fontWeight: 700 }}>
-					{t('notes.confirmDeleteTitle', 'Delete this note?')}
-				</DialogTitle>
-				<DialogContent>
-					<Typography sx={{ fontSize: '0.85rem', color: '#475569' }}>
-						{t('notes.confirmDelete', 'This note will be removed for everyone on your team.')}
-					</Typography>
-				</DialogContent>
-				<DialogActions sx={{ px: 3, pb: 2 }}>
-					<Button size="small" onClick={() => setPendingDelete(null)} disabled={deleting} sx={secondaryButtonSx}>
-						{t('notes.cancel', 'Cancel')}
-					</Button>
-					<Button
-						size="small"
-						variant="contained"
-						onClick={handleConfirmDelete}
-						disabled={deleting}
-						startIcon={deleting ? <CircularProgress size={12} color="inherit" /> : null}
-						sx={{ ...primaryButtonSx, backgroundColor: '#dc2626', '&:hover': { backgroundColor: '#b91c1c' } }}
-					>
-						{t('notes.delete', 'Delete')}
-					</Button>
-				</DialogActions>
-			</Dialog>
+			<ConfirmDialog
+				open={Boolean(pendingDelete)}
+				title={t('notes.confirmDeleteTitle', 'Delete this note?')}
+				cancelLabel={t('notes.cancel', 'Cancel')}
+				confirmLabel={t('notes.delete', 'Delete')}
+				onCancel={() => setPendingDelete(null)}
+				onConfirm={handleConfirmDelete}
+				busy={deleting}
+				tone="danger"
+				maxWidth="xs"
+				fullWidth
+			>
+				{t('notes.confirmDelete', 'This note will be removed for everyone on your team.')}
+			</ConfirmDialog>
 		</Box>
 	);
 };

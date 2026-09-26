@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import SectionHeader from '../../../shared/ui/SectionHeader.jsx';
 import { scoreColorsFor } from '../../../shared/lib/score.js';
 import { getInitials, toLabel } from '../../../shared/lib/text.js';
 import {
@@ -116,20 +117,6 @@ const getVelocityStyle = (v) => {
 };
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
-
-const SectionHeader = ({ icon: Icon, label }) => (
-	<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5, pb: 1, borderBottom: `2px solid ${THEME_GREEN}` }}>
-		<Icon sx={{ fontSize: 15, color: THEME_GREEN }} />
-		<Typography sx={{ fontSize: '0.7rem', fontWeight: 700, color: THEME_GREEN, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
-			{label}
-		</Typography>
-	</Box>
-);
-
-SectionHeader.propTypes = {
-	icon: PropTypes.elementType.isRequired,
-	label: PropTypes.node,
-};
 
 const ScoreGaugeLarge = ({ value }) => {
 	const [animated, setAnimated] = useState(false);
@@ -490,7 +477,7 @@ const AppMatchingReportDetails = ({ reportData }) => {
 						{/* Matching Skills */}
 						{Array.isArray(details.skillsMatch?.matchingSkills) && details.skillsMatch.matchingSkills.length > 0 && (
 							<Paper elevation={0} sx={{ border: '1px solid #bbf7d0', borderRadius: 2.5, p: 2.5, backgroundColor: '#f0fdf4' }}>
-								<SectionHeader icon={StarOutlineOutlinedIcon} label={t('appCVMatching.matchingSkills')} />
+								<SectionHeader sx={{ mb: 1.5 }} icon={StarOutlineOutlinedIcon} label={t('appCVMatching.matchingSkills')} />
 								<Stack direction="row" spacing={0.75} flexWrap="wrap" useFlexGap>
 									{details.skillsMatch.matchingSkills.map((sk, i) => (
 										<Chip key={`msk-${i}`} label={sk} size="small"
@@ -503,7 +490,7 @@ const AppMatchingReportDetails = ({ reportData }) => {
 						{/* Missing Skills */}
 						{details.missingSkills && (
 							<Paper elevation={0} sx={{ border: '1px solid #fecaca', borderRadius: 2.5, p: 2.5, backgroundColor: '#fffafa' }}>
-								<SectionHeader icon={ErrorOutlineOutlinedIcon} label={t('appCVMatching.lackingSkills')} />
+								<SectionHeader sx={{ mb: 1.5 }} icon={ErrorOutlineOutlinedIcon} label={t('appCVMatching.lackingSkills')} />
 								{details.missingSkills.summary && (
 									<Typography sx={{ fontSize: '0.82rem', color: '#334155', lineHeight: 1.6, mb: 1.5 }}>
 										{details.missingSkills.summary}
@@ -533,7 +520,7 @@ const AppMatchingReportDetails = ({ reportData }) => {
 						{/* Strengths */}
 						{Array.isArray(details.strengths) && details.strengths.length > 0 && (
 							<Paper elevation={0} sx={{ border: '1px solid #bbf7d0', borderRadius: 2.5, p: 2.5 }}>
-								<SectionHeader icon={EmojiEventsOutlinedIcon} label={t('appCVMatching.strengths', 'Strengths')} />
+								<SectionHeader sx={{ mb: 1.5 }} icon={EmojiEventsOutlinedIcon} label={t('appCVMatching.strengths', 'Strengths')} />
 								<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.25 }}>
 									{details.strengths.map((s, i) => (
 										<Box key={`str-${i}`} sx={{
@@ -557,7 +544,7 @@ const AppMatchingReportDetails = ({ reportData }) => {
 						{/* Weaknesses */}
 						{Array.isArray(details.weaknesses) && details.weaknesses.length > 0 && (
 							<Paper elevation={0} sx={{ border: '1px solid #fde68a', borderRadius: 2.5, p: 2.5 }}>
-								<SectionHeader icon={WarningAmberOutlinedIcon} label={t('appCVMatching.weaknesses', 'Weaknesses')} />
+								<SectionHeader sx={{ mb: 1.5 }} icon={WarningAmberOutlinedIcon} label={t('appCVMatching.weaknesses', 'Weaknesses')} />
 								<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.25 }}>
 									{details.weaknesses.map((w, i) => {
 										const sevKey = (w.severity || 'medium').toLowerCase();
@@ -585,7 +572,7 @@ const AppMatchingReportDetails = ({ reportData }) => {
 						{/* Red Flags */}
 						{Array.isArray(details.redFlags) && details.redFlags.length > 0 && (
 							<Paper elevation={0} sx={{ border: '1px solid #fecaca', borderRadius: 2.5, p: 2.5 }}>
-								<SectionHeader icon={ReportProblemOutlinedIcon} label={t('appCVMatching.redFlags', 'Red Flags')} />
+								<SectionHeader sx={{ mb: 1.5 }} icon={ReportProblemOutlinedIcon} label={t('appCVMatching.redFlags', 'Red Flags')} />
 								<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.75 }}>
 									{details.redFlags.map((rf, i) => {
 										const sevKey = (rf.severity || 'medium').toLowerCase();
@@ -639,7 +626,7 @@ const AppMatchingReportDetails = ({ reportData }) => {
 
 						{/* Candidate Profile */}
 						<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5 }}>
-							<SectionHeader icon={PersonOutlineOutlinedIcon} label={t('appCVMatching.candidateProfile')} />
+							<SectionHeader sx={{ mb: 1.5 }} icon={PersonOutlineOutlinedIcon} label={t('appCVMatching.candidateProfile')} />
 							{candidate.candidateProfileSummary && (
 								<Typography sx={{ fontSize: '0.80rem', color: '#334155', lineHeight: 1.6, mb: 1.5 }}>
 									{candidate.candidateProfileSummary}
@@ -674,7 +661,7 @@ const AppMatchingReportDetails = ({ reportData }) => {
 								? Math.round(cl.clusterConfidenceScore * 100) : null;
 							return (
 								<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5 }}>
-									<SectionHeader icon={HubOutlinedIcon} label={t('appCVMatching.clustering.sectionTitle')} />
+									<SectionHeader sx={{ mb: 1.5 }} icon={HubOutlinedIcon} label={t('appCVMatching.clustering.sectionTitle')} />
 
 									{/* Primary cluster */}
 									{cl.primaryCluster && (

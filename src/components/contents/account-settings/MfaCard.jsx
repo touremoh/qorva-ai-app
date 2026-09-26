@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import SectionHeader from '../../../shared/ui/SectionHeader.jsx';
 import {
 	Alert,
 	Box,
@@ -12,7 +13,6 @@ import {
 	Paper,
 	Typography,
 } from '@mui/material';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined';
@@ -30,17 +30,6 @@ const THEME_GREEN = '#629C44';
 
 // The challenge is dead: close the dialog, the user starts over from the card.
 const RESTART_CODES = new Set(['error.auth.mfa_challenge_invalid', 'error.auth.mfa_too_many_attempts']);
-
-const SectionHeader = ({ label }) => (
-	<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2, pb: 1, borderBottom: `2px solid ${THEME_GREEN}` }}>
-		<VerifiedUserOutlinedIcon sx={{ fontSize: 15, color: THEME_GREEN }} />
-		<Typography sx={{ fontSize: '0.7rem', fontWeight: 700, color: THEME_GREEN, textTransform: 'uppercase', letterSpacing: '0.07em', flex: 1 }}>
-			{label}
-		</Typography>
-	</Box>
-);
-
-SectionHeader.propTypes = { label: PropTypes.string.isRequired };
 
 const primaryButtonSx = {
 	textTransform: 'none', fontSize: '0.8rem', fontWeight: 600, borderRadius: 1.5, boxShadow: 'none',
@@ -166,7 +155,7 @@ const MfaCard = () => {
 
 	return (
 		<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5 }}>
-			<SectionHeader label={t('accountSettings.mfa.title', 'Two-step verification')} />
+			<SectionHeader icon={VerifiedUserOutlinedIcon} label={t('accountSettings.mfa.title', 'Two-step verification')} />
 
 			{loading ? (
 				<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: '#94a3b8' }}>

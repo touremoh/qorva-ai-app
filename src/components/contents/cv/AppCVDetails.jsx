@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import SectionHeader from '../../../shared/ui/SectionHeader.jsx';
 import { getInitials, toLabel } from '../../../shared/lib/text.js';
 import {
 	Box,
@@ -304,32 +305,15 @@ ClusteringTabContent.propTypes = {
 
 // ─── Local helpers ────────────────────────────────────────────────────────────
 
-const SectionHeader = ({ Icon, title, onEdit }) => (
-	<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5, pb: 0.75, borderBottom: '2px solid #629C44' }}>
-		<Icon sx={{ fontSize: 14, color: '#629C44' }} />
-		<Typography sx={{
-			fontWeight: 700,
-			fontSize: '0.68rem',
-			color: '#64748b',
-			textTransform: 'uppercase',
-			letterSpacing: '0.08em',
-			flex: 1,
-		}}>
-			{title}
-		</Typography>
-		{onEdit && (
-			<IconButton size="small" onClick={onEdit} sx={{ p: 0.25, color: '#94a3b8', '&:hover': { color: '#629C44' } }}>
-				<EditOutlinedIcon sx={{ fontSize: 14 }} />
-			</IconButton>
-		)}
-	</Box>
-);
+// The edit pencil on a resume section header.
+const EditSectionButton = ({ onClick }) => (onClick ? (
+	<IconButton size="small" onClick={onClick} sx={{ p: 0.25, color: 'ink.subtle', '&:hover': { color: 'brand.main' } }}>
+		<EditOutlinedIcon sx={{ fontSize: 14 }} />
+	</IconButton>
+) : null);
 
-SectionHeader.propTypes = {
-	Icon: PropTypes.elementType.isRequired,
-	title: PropTypes.node,
-	onEdit: PropTypes.func,
-};
+EditSectionButton.propTypes = { onClick: PropTypes.func };
+
 
 const Card = ({ children, sx }) => (
 	<Paper elevation={0} sx={{ p: 2.5, borderRadius: 2, border: '1px solid #e2e8f0', ...sx }}>
@@ -788,7 +772,7 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 				{/* Summary */}
 				{candidateProfileSummary && (
 					<Card sx={{ mb: 2 }}>
-						<SectionHeader Icon={InfoOutlinedIcon} title={t('appCVContent.summary')} />
+						<SectionHeader tone="document" icon={InfoOutlinedIcon} label={t('appCVContent.summary')} />
 						<Typography sx={{ fontSize: '0.84rem', color: '#334155', lineHeight: 1.7 }}>
 							{candidateProfileSummary}
 						</Typography>
@@ -798,7 +782,7 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 				{/* Profile — areas of expertise & key responsibilities */}
 				{(profiles?.areasOfExpertise?.length > 0 || profiles?.keyResponsibilities?.length > 0) && (
 					<Card sx={{ mb: 2 }}>
-						<SectionHeader Icon={PersonOutlinedIcon} title={t('appCVContent.profiles', 'Profile')} />
+						<SectionHeader tone="document" icon={PersonOutlinedIcon} label={t('appCVContent.profiles', 'Profile')} />
 						{profiles.areasOfExpertise?.length > 0 && (
 							<Box sx={{ mb: profiles.keyResponsibilities?.length > 0 ? 1.5 : 0 }}>
 								<Typography sx={availLabelSx}>{t('appCVContent.areasOfExpertise', 'Areas of Expertise')}</Typography>
@@ -827,10 +811,10 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 				{/* Availability */}
 				{(pi.availability || editingSection === 'availability') && (
 					<Card sx={{ mb: 2 }}>
-						<SectionHeader
-							Icon={AccessTimeOutlinedIcon}
-							title={t('appCVContent.availability.title')}
-							onEdit={editingSection !== 'availability' ? () => handleEdit('availability') : undefined}
+						<SectionHeader tone="document"
+							icon={AccessTimeOutlinedIcon}
+							label={t('appCVContent.availability.title')}
+						 action={<EditSectionButton onClick={editingSection !== 'availability' ? () => handleEdit('availability') : undefined} />}
 						/>
 						{editingSection === 'availability' ? (
 							<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
@@ -1032,7 +1016,7 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 					<Grid2 size={{ xs: 12, md: 7 }}>
 						{workExperience.length > 0 && (
 							<Card sx={{ mb: 2 }}>
-								<SectionHeader Icon={WorkOutlineOutlinedIcon} title={t('appCVContent.workExperience')} />
+								<SectionHeader tone="document" icon={WorkOutlineOutlinedIcon} label={t('appCVContent.workExperience')} />
 								<Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
 									{workExperience.map((work, i) => (
 										<Box key={i} sx={i > 0 ? { pt: 2.5, borderTop: '1px solid #f1f5f9' } : {}}>
@@ -1084,7 +1068,7 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 
 						{education.length > 0 && (
 							<Card>
-								<SectionHeader Icon={SchoolIcon} title={t('appCVContent.education')} />
+								<SectionHeader tone="document" icon={SchoolIcon} label={t('appCVContent.education')} />
 								<Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
 									{education.map((edu, i) => (
 										<Box key={i} sx={i > 0 ? { pt: 2, borderTop: '1px solid #f1f5f9' } : {}}>
@@ -1130,7 +1114,7 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 					<Grid2 size={{ xs: 12, md: 5 }}>
 						{keySkills.length > 0 && (
 							<Card sx={{ mb: 2 }}>
-								<SectionHeader Icon={ConstructionIcon} title={t('appCVContent.keySkills', 'Key Skills')} />
+								<SectionHeader tone="document" icon={ConstructionIcon} label={t('appCVContent.keySkills', 'Key Skills')} />
 								<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.25 }}>
 									{keySkills.map((group, i) => (
 										<Box key={i}>
@@ -1150,7 +1134,7 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 
 						{skills.technicalSkills?.length > 0 && (
 							<Card sx={{ mb: 2 }}>
-								<SectionHeader Icon={ConstructionIcon} title={t('appCVContent.technicalSkills')} />
+								<SectionHeader tone="document" icon={ConstructionIcon} label={t('appCVContent.technicalSkills')} />
 								<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.6 }}>
 									{skills.technicalSkills.map((s, i) => (
 										<Chip key={i} label={s} size="small" sx={techSkillChipSx} />
@@ -1161,7 +1145,7 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 
 						{skills.softSkills?.length > 0 && (
 							<Card sx={{ mb: 2 }}>
-								<SectionHeader Icon={PeopleOutlinedIcon} title={t('appCVContent.softSkills')} />
+								<SectionHeader tone="document" icon={PeopleOutlinedIcon} label={t('appCVContent.softSkills')} />
 								<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.6 }}>
 									{skills.softSkills.map((s, i) => (
 										<Chip key={i} label={s} size="small" sx={softSkillChipSx} />
@@ -1172,7 +1156,7 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 
 						{skills.languages?.length > 0 && (
 							<Card sx={{ mb: 2 }}>
-								<SectionHeader Icon={TranslateIcon} title={t('appCVContent.languages')} />
+								<SectionHeader tone="document" icon={TranslateIcon} label={t('appCVContent.languages')} />
 								<TableContainer>
 									<Table size="small">
 										<TableHead>
@@ -1200,7 +1184,7 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 
 						{certifications.length > 0 && (
 							<Card>
-								<SectionHeader Icon={WorkspacePremiumIcon} title={t('appCVContent.certifications')} />
+								<SectionHeader tone="document" icon={WorkspacePremiumIcon} label={t('appCVContent.certifications')} />
 								<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
 									{certifications.map((cert, i) => (
 										<Box key={i} sx={{ textAlign: 'left', ...(i > 0 ? { pt: 1.5, borderTop: '1px solid #f1f5f9' } : {}) }}>
@@ -1229,7 +1213,7 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 				{/* Projects */}
 				{projectsAndAchievements.length > 0 && (
 					<Card sx={{ mb: 2 }}>
-						<SectionHeader Icon={EmojiEventsIcon} title={t('appCVContent.projectsAndAchievements')} />
+						<SectionHeader tone="document" icon={EmojiEventsIcon} label={t('appCVContent.projectsAndAchievements')} />
 						<Grid2 container spacing={1.5}>
 							{projectsAndAchievements.map((project, i) => (
 								<Grid2 key={i} size={{ xs: 12, sm: 6 }}>
@@ -1262,7 +1246,7 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 				{/* Interests */}
 				{interestsAndHobbies.length > 0 && (
 					<Card sx={{ mb: 2 }}>
-						<SectionHeader Icon={DownhillSkiingIcon} title={t('appCVContent.interestsAndHobbies')} />
+						<SectionHeader tone="document" icon={DownhillSkiingIcon} label={t('appCVContent.interestsAndHobbies')} />
 						<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.6 }}>
 							{interestsAndHobbies.map((h, i) => (
 								<Chip key={i} label={h} size="small" sx={softSkillChipSx} />
@@ -1273,10 +1257,10 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 
 				{/* Tags */}
 				<Card sx={{ mb: 2 }}>
-					<SectionHeader
-						Icon={LabelIcon}
-						title={t('appCVContent.tags')}
-						onEdit={editingSection !== 'tags' ? () => handleEdit('tags') : undefined}
+					<SectionHeader tone="document"
+						icon={LabelIcon}
+						label={t('appCVContent.tags')}
+					 action={<EditSectionButton onClick={editingSection !== 'tags' ? () => handleEdit('tags') : undefined} />}
 					/>
 					{editingSection === 'tags' ? (
 						<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
@@ -1355,7 +1339,7 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 				{/* References — hide contact details when anonymized */}
 				{references.length > 0 && (
 					<Card sx={{ mb: 2 }}>
-						<SectionHeader Icon={ContactsIcon} title={t('appCVContent.references')} />
+						<SectionHeader tone="document" icon={ContactsIcon} label={t('appCVContent.references')} />
 						<Grid2 container spacing={1.5}>
 							{references.map((ref, i) => (
 								<Grid2 key={i} size={{ xs: 12, sm: 6 }}>

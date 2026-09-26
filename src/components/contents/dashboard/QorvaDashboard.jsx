@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import SectionHeader from '../../../shared/ui/SectionHeader.jsx';
 import { scoreColorsFor } from '../../../shared/lib/score.js';
 import { getInitials } from '../../../shared/lib/text.js';
 import {
@@ -142,24 +143,6 @@ KPICard.propTypes = {
 	icon: PropTypes.elementType.isRequired,
 	accent: PropTypes.string.isRequired,
 	bg: PropTypes.string.isRequired,
-};
-
-const SectionHeader = ({ icon: Icon, label, right }) => (
-	<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2, pb: 1.5, borderBottom: '2px solid #629C44', flexShrink: 0 }}>
-		<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-			<Icon sx={{ fontSize: 15, color: '#629C44' }} />
-			<Typography sx={{ fontSize: '0.7rem', fontWeight: 700, color: '#629C44', textTransform: 'uppercase', letterSpacing: '0.07em' }}>
-				{label}
-			</Typography>
-		</Box>
-		{right}
-	</Box>
-);
-
-SectionHeader.propTypes = {
-	icon: PropTypes.elementType.isRequired,
-	label: PropTypes.node.isRequired,
-	right: PropTypes.node,
 };
 
 const JobCandidateCard = ({ job }) => {
@@ -316,10 +299,10 @@ const TopCandidatesTable = ({ t }) => {
 
 	return (
 		<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5, minWidth: 0 }}>
-			<SectionHeader
+			<SectionHeader sx={{ pb: 1.5 }}
 				icon={EmojiEventsOutlinedIcon}
 				label={t('dashboard.sections.topCandidates')}
-				right={
+				action={
 					<PagerControls
 						page={pageNumber}
 						totalPages={totalPages}
@@ -362,10 +345,10 @@ const JobPostsReportTable = ({ rows, t }) => {
 
 	return (
 		<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
-			<SectionHeader
+			<SectionHeader sx={{ pb: 1.5 }}
 				icon={WorkOutlineOutlinedIcon}
 				label={t('dashboard.sections.jobPostsReport')}
-				right={
+				action={
 					<PagerControls
 						page={currentPage}
 						totalPages={totalPages}
@@ -490,7 +473,7 @@ const TalentPoolInsightSection = ({ data, t }) => {
 
 	return (
 		<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5 }}>
-			<SectionHeader icon={InsightsOutlinedIcon} label={t('dashboard.sections.talentPoolInsight', 'Talent Pool Insight')} />
+			<SectionHeader sx={{ pb: 1.5 }} icon={InsightsOutlinedIcon} label={t('dashboard.sections.talentPoolInsight', 'Talent Pool Insight')} />
 			<Box sx={{
 				display: 'grid',
 				gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
@@ -638,7 +621,7 @@ const QorvaDashboard = () => {
 						}}>
 							{/* Skills bar chart */}
 							<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
-								<SectionHeader icon={AssessmentOutlinedIcon} label={t('dashboard.sections.skillsReport')} />
+								<SectionHeader sx={{ pb: 1.5 }} icon={AssessmentOutlinedIcon} label={t('dashboard.sections.skillsReport')} />
 								<Box sx={{ flex: 1, minHeight: 220, position: 'relative' }}>
 									{dashboardData.skillsReport.length ? (
 										<Bar data={skillsBarData} options={skillsBarOptions} />

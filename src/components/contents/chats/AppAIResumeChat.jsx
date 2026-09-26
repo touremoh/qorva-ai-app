@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import ConfirmDialog from '../../../shared/ui/ConfirmDialog.jsx';
 import {
 	Autocomplete,
 	Avatar,
@@ -1040,58 +1041,23 @@ const AppAIResumeChat = () => {
 			)}
 
 			{/* Delete Chat Confirmation Dialog */}
-			<Dialog
+			<ConfirmDialog
 				open={!!chatToDelete}
-				onClose={() => { if (!deletingChat) setChatToDelete(null); }}
+				title={t('appAIResumeChat.confirmDeleteChat')}
+				subject={chatToDelete && (
+					<Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: 'ink.strong' }}>{chatToDelete.title}</Typography>
+				)}
+				cancelLabel={t('appAIResumeChat.cancel')}
+				confirmLabel={t('appAIResumeChat.delete')}
+				onCancel={() => setChatToDelete(null)}
+				onConfirm={handleDeleteChat}
+				busy={deletingChat}
+				tone="danger"
 				maxWidth="xs"
 				fullWidth
-				slotProps={{ paper: { elevation: 0, sx: { borderRadius: 3, border: '1px solid #e2e8f0' } } }}
 			>
-				<DialogTitle sx={{ pb: 1 }}>
-					<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-						<DeleteOutlineIcon sx={{ fontSize: 18, color: '#ef4444' }} />
-						<Typography sx={{ fontWeight: 700, fontSize: '1rem', color: '#0f172a' }}>
-							{t('appAIResumeChat.confirmDeleteChat')}
-						</Typography>
-					</Box>
-				</DialogTitle>
-				<Divider sx={{ borderColor: '#f1f5f9' }} />
-				<DialogContent sx={{ pt: 2 }}>
-					<Typography sx={{ fontSize: '0.85rem', color: '#475569' }}>
-						{t('appAIResumeChat.confirmDeleteChatMessage')}
-					</Typography>
-					{chatToDelete && (
-						<Box sx={{ mt: 1.5, px: 1.5, py: 1, borderRadius: 2, backgroundColor: '#f8fafc', border: '1px solid #e2e8f0' }}>
-							<Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: '#0f172a' }}>
-								{chatToDelete.title}
-							</Typography>
-						</Box>
-					)}
-				</DialogContent>
-				<Divider sx={{ borderColor: '#f1f5f9' }} />
-				<DialogActions sx={{ px: 3, py: 2, gap: 1 }}>
-					<Button
-						onClick={() => setChatToDelete(null)}
-						disabled={deletingChat}
-						sx={{ borderRadius: 2, fontSize: '0.82rem', textTransform: 'none', color: '#64748b' }}
-					>
-						{t('appAIResumeChat.cancel')}
-					</Button>
-					<Button
-						onClick={handleDeleteChat}
-						variant="contained"
-						disabled={deletingChat}
-						startIcon={deletingChat ? <CircularProgress size={14} color="inherit" /> : <DeleteOutlineIcon sx={{ fontSize: 16 }} />}
-						sx={{
-							backgroundColor: '#ef4444', borderRadius: 2, fontSize: '0.82rem',
-							textTransform: 'none', fontWeight: 600, boxShadow: 'none',
-							'&:hover': { backgroundColor: '#dc2626', boxShadow: 'none' },
-						}}
-					>
-						{t('appAIResumeChat.delete')}
-					</Button>
-				</DialogActions>
-			</Dialog>
+				{t('appAIResumeChat.confirmDeleteChatMessage')}
+			</ConfirmDialog>
 
 			{/* Create Chat Dialog */}
 			<Dialog

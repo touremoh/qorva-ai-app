@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import SectionHeader from '../../../shared/ui/SectionHeader.jsx';
 import {
     Box,
     CircularProgress,
@@ -41,24 +41,6 @@ const USAGE_FEATURE_CONFIG = (t) => [
         bg: 'rgba(139,92,246,0.08)',
     },
 ];
-
-const SectionHeader = ({ icon: Icon, label, right }) => (
-    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2, pb: 1.5, borderBottom: '2px solid #629C44', flexShrink: 0 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Icon sx={{ fontSize: 15, color: '#629C44' }} />
-            <Typography sx={{ fontSize: '0.7rem', fontWeight: 700, color: '#629C44', textTransform: 'uppercase', letterSpacing: '0.07em' }}>
-                {label}
-            </Typography>
-        </Box>
-        {right}
-    </Box>
-);
-
-SectionHeader.propTypes = {
-    icon: PropTypes.elementType.isRequired,
-    label: PropTypes.node,
-    right: PropTypes.node,
-};
 
 const UsageMonitoringContent = () => {
     const { t } = useTranslation();
@@ -141,10 +123,10 @@ const UsageMonitoringContent = () => {
 
                 {!loading && !error && data && (
                     <Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5 }}>
-                        <SectionHeader
+                        <SectionHeader sx={{ pb: 1.5 }}
                             icon={SpeedOutlinedIcon}
                             label={t('header.usageMonitoring', 'Usage Monitoring')}
-                            right={
+                            action={
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
                                     <CalendarTodayOutlinedIcon sx={{ fontSize: 13, color: '#94a3b8' }} />
                                     <Typography sx={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 500 }}>

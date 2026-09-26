@@ -1,5 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useCallback, useEffect, useState } from 'react';
+import ConfirmDialog from '../../../shared/ui/ConfirmDialog.jsx';
+import SectionHeader from '../../../shared/ui/SectionHeader.jsx';
 import dayjs from '../../../shared/lib/dayjs.js';
 import {
 	Alert,
@@ -8,15 +10,10 @@ import {
 	Chip,
 	CircularProgress,
 	Collapse,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogTitle,
 	Link,
 	Paper,
 	Typography,
 } from '@mui/material';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import ForwardToInboxOutlinedIcon from '@mui/icons-material/ForwardToInboxOutlined';
@@ -32,17 +29,6 @@ import {
 } from '../../../services/mailboxService.js';
 
 const THEME_GREEN = '#629C44';
-
-const SectionHeader = ({ label }) => (
-	<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2, pb: 1, borderBottom: `2px solid ${THEME_GREEN}` }}>
-		<ForwardToInboxOutlinedIcon sx={{ fontSize: 15, color: THEME_GREEN }} />
-		<Typography sx={{ fontSize: '0.7rem', fontWeight: 700, color: THEME_GREEN, textTransform: 'uppercase', letterSpacing: '0.07em', flex: 1 }}>
-			{label}
-		</Typography>
-	</Box>
-);
-
-SectionHeader.propTypes = { label: PropTypes.string.isRequired };
 
 const primaryButtonSx = {
 	textTransform: 'none', fontSize: '0.8rem', fontWeight: 600, borderRadius: 1.5, boxShadow: 'none',
@@ -125,7 +111,7 @@ const ConnectedMailboxCard = () => {
 
 	return (
 		<Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5 }}>
-			<SectionHeader label={t('mailbox.title')} />
+			<SectionHeader icon={ForwardToInboxOutlinedIcon} label={t('mailbox.title')} />
 
 			{loading ? (
 				<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: '#94a3b8' }}>
@@ -204,21 +190,17 @@ const ConnectedMailboxCard = () => {
 				</Box>
 			)}
 
-			<Dialog open={confirmOpen} onClose={() => setConfirmOpen(false)} PaperProps={{ sx: { borderRadius: 2, minWidth: 360 } }}>
-				<DialogTitle sx={{ fontSize: '1rem', fontWeight: 700 }}>{t('mailbox.disconnectTitle')}</DialogTitle>
-				<DialogContent>
-					<Typography sx={{ fontSize: '0.85rem', color: '#475569' }}>{t('mailbox.disconnectBody')}</Typography>
-				</DialogContent>
-				<DialogActions sx={{ px: 3, pb: 2 }}>
-					<Button onClick={() => setConfirmOpen(false)} sx={{ textTransform: 'none', fontSize: '0.8rem', color: '#64748b' }}>
-						{t('mailbox.cancel')}
-					</Button>
-					<Button variant="contained" onClick={disconnect}
-						sx={{ ...primaryButtonSx, backgroundColor: '#ef4444', '&:hover': { backgroundColor: '#dc2626' } }}>
-						{t('mailbox.disconnect')}
-					</Button>
-				</DialogActions>
-			</Dialog>
+			<ConfirmDialog
+				open={confirmOpen}
+				title={t('mailbox.disconnectTitle')}
+				cancelLabel={t('mailbox.cancel')}
+				confirmLabel={t('mailbox.disconnect')}
+				onCancel={() => setConfirmOpen(false)}
+				onConfirm={disconnect}
+				tone="danger"
+			>
+				{t('mailbox.disconnectBody')}
+			</ConfirmDialog>
 		</Paper>
 	);
 };

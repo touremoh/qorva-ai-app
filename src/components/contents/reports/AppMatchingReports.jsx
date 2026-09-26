@@ -1,13 +1,28 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect, useMemo, useRef } from 'react';
+import ConfirmDialog from '../../../shared/ui/ConfirmDialog.jsx';
 import { scoreColorsFor } from '../../../shared/lib/score.js';
 import { getInitials } from '../../../shared/lib/text.js';
 import {
 	Autocomplete,
-	Avatar, Box, Button, Chip, CircularProgress, Dialog, DialogActions, DialogContent,
-	DialogTitle, FormControl, IconButton, InputAdornment,
-	InputLabel, LinearProgress, ListItemButton, Menu, MenuItem, Pagination,
-	Select, TextField, Tooltip, Typography,
+	Avatar,
+	Box,
+	Button,
+	Chip,
+	CircularProgress,
+	FormControl,
+	IconButton,
+	InputAdornment,
+	InputLabel,
+	LinearProgress,
+	ListItemButton,
+	Menu,
+	MenuItem,
+	Pagination,
+	Select,
+	TextField,
+	Tooltip,
+	Typography,
 } from '@mui/material';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import ArrowUpwardOutlinedIcon from '@mui/icons-material/ArrowUpwardOutlined';
@@ -739,51 +754,21 @@ const AppMatchingReports = () => {
 			</Menu>
 
 			{/* Delete confirmation dialog */}
-			<Dialog
+			<ConfirmDialog
 				open={deleteDialogOpen}
-				onClose={handleDeleteCancel}
-				slotProps={{
-					paper: {
-						elevation: 0,
-						sx: { borderRadius: 3, border: '1px solid #e2e8f0', minWidth: 340 },
-					},
-				}}
+				title={t('appReportContent.deleteConfirm')}
+				subject={menuReport?.candidateInfo?.candidateName && (
+					<Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: 'ink.strong' }}>{menuReport.candidateInfo.candidateName}</Typography>
+				)}
+				cancelLabel={t('appReportContent.cancel')}
+				confirmLabel={t('appReportContent.delete')}
+				onCancel={handleDeleteCancel}
+				onConfirm={handleDeleteConfirm}
+				busy={deletingReport}
+				tone="danger"
 			>
-				<DialogTitle sx={{ pb: 1 }}>
-					<Typography sx={{ fontWeight: 700, fontSize: '0.95rem', color: '#0f172a' }}>
-						{t('appReportContent.deleteConfirm')}
-					</Typography>
-				</DialogTitle>
-				<DialogContent>
-					<Typography sx={{ fontSize: '0.85rem', color: '#64748b' }}>
-						{menuReport?.candidateInfo?.candidateName && (
-							<><strong style={{ color: '#0f172a' }}>{menuReport.candidateInfo.candidateName}</strong> — </>
-						)}
-						{t('appReportContent.deleteReport')}?
-					</Typography>
-				</DialogContent>
-				<DialogActions sx={{ px: 3, pb: 2.5, gap: 1 }}>
-					<Button
-						onClick={handleDeleteCancel}
-						disabled={deletingReport}
-						sx={{ borderRadius: 2, fontSize: '0.82rem', textTransform: 'none', color: '#64748b' }}
-					>
-						{t('appReportContent.cancel')}
-					</Button>
-					<Button
-						onClick={handleDeleteConfirm}
-						disabled={deletingReport}
-						variant="contained"
-						sx={{
-							borderRadius: 2, fontSize: '0.82rem', textTransform: 'none', fontWeight: 600,
-							backgroundColor: '#ef4444', boxShadow: 'none',
-							'&:hover': { backgroundColor: '#dc2626', boxShadow: 'none' },
-						}}
-					>
-						{deletingReport ? t('appReportContent.delete') + '…' : t('appReportContent.delete')}
-					</Button>
-				</DialogActions>
-			</Dialog>
+				{`${t('appReportContent.deleteReport')}?`}
+			</ConfirmDialog>
 		</Box>
 	);
 };

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import ConfirmDialog from '../../../shared/ui/ConfirmDialog.jsx';
 import { getInitials } from '../../../shared/lib/text.js';
 import PropTypes from 'prop-types';
 import {
@@ -429,39 +430,26 @@ const AccountUsersTab = () => {
 			</Dialog>
 
 			{/* ── Delete Confirmation Dialog ── */}
-			<Dialog open={!!userToDelete} onClose={() => { if (!deleting) setUserToDelete(null); }} maxWidth="xs" fullWidth slotProps={{ paper: DIALOG_PAPER_SX }}>
-				<DialogTitle sx={{ pb: 1 }}>
-					<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-						<DeleteOutlineIcon sx={{ fontSize: 18, color: '#ef4444' }} />
-						<Typography sx={{ fontWeight: 700, fontSize: '1rem', color: '#0f172a' }}>{t('accountSettings.deleteUserTitle')}</Typography>
-					</Box>
-				</DialogTitle>
-				<Divider sx={{ borderColor: '#f1f5f9' }} />
-				<DialogContent sx={{ pt: 2 }}>
-					<Typography sx={{ fontSize: '0.85rem', color: '#475569' }}>
-						{t('accountSettings.deleteUserMessage')}
-					</Typography>
-					{userToDelete && (
-						<Box sx={{ mt: 1.5, px: 1.5, py: 1, borderRadius: 2, backgroundColor: '#f8fafc', border: '1px solid #e2e8f0' }}>
-							<Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: '#0f172a' }}>
-								{userDisplayName(userToDelete)}
-							</Typography>
-							<Typography sx={{ fontSize: '0.72rem', color: '#64748b' }}>{userToDelete.email}</Typography>
-						</Box>
-					)}
-				</DialogContent>
-				<Divider sx={{ borderColor: '#f1f5f9' }} />
-				<DialogActions sx={{ px: 3, py: 2, gap: 1 }}>
-					<Button onClick={() => setUserToDelete(null)} disabled={deleting} sx={{ borderRadius: 2, textTransform: 'none', fontSize: '0.82rem', color: '#64748b' }}>
-						{t('accountSettings.cancel')}
-					</Button>
-					<Button variant="contained" onClick={handleDeleteUser} disabled={deleting}
-						startIcon={deleting ? <CircularProgress size={14} color="inherit" /> : <DeleteOutlineIcon sx={{ fontSize: 15 }} />}
-						sx={{ backgroundColor: '#ef4444', borderRadius: 2, textTransform: 'none', fontSize: '0.82rem', fontWeight: 600, boxShadow: 'none', '&:hover': { backgroundColor: '#dc2626', boxShadow: 'none' } }}>
-						{t('accountSettings.deleteUser')}
-					</Button>
-				</DialogActions>
-			</Dialog>
+			<ConfirmDialog
+				open={!!userToDelete}
+				title={t('accountSettings.deleteUserTitle')}
+				subject={userToDelete && (
+					<>
+						<Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: 'ink.strong' }}>{userDisplayName(userToDelete)}</Typography>
+						<Typography sx={{ fontSize: '0.72rem', color: 'ink.muted' }}>{userToDelete.email}</Typography>
+					</>
+				)}
+				cancelLabel={t('accountSettings.cancel')}
+				confirmLabel={t('accountSettings.deleteUser')}
+				onCancel={() => setUserToDelete(null)}
+				onConfirm={handleDeleteUser}
+				busy={deleting}
+				tone="danger"
+				maxWidth="xs"
+				fullWidth
+			>
+				{t('accountSettings.deleteUserMessage')}
+			</ConfirmDialog>
 		</Box>
 	);
 };

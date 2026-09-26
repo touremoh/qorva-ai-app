@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import ConfirmDialog from '../../../shared/ui/ConfirmDialog.jsx';
 import {
 	Box,
 	Button,
@@ -972,96 +973,59 @@ const AppCVContent = () => {
 			</Dialog>
 
 			{/* Clear-library confirmation — preflight counts + type-to-confirm */}
-			<Dialog
+			<ConfirmDialog
 				open={clearDialogOpen}
-				onClose={() => !clearing && setClearDialogOpen(false)}
+				title={t('appCVContent.clearLibrary.title', 'Clear the whole resume library?')}
+				cancelLabel={t('appCVContent.cancel')}
+				confirmLabel={t('appCVContent.clearLibrary.confirm', 'Clear library')}
+				onCancel={() => setClearDialogOpen(false)}
+				onConfirm={handleClearLibrary}
+				busy={clearing}
+				confirmDisabled={clearConfirmText !== 'DELETE' || !clearPreflight}
+				tone="danger"
 				maxWidth="xs"
 				fullWidth
-				PaperProps={{ sx: { borderRadius: 2.5 } }}
 			>
-				<DialogTitle sx={{ fontWeight: 700, fontSize: '0.95rem', color: '#dc2626' }}>
-					{t('appCVContent.clearLibrary.title', 'Clear the whole resume library?')}
-				</DialogTitle>
-				<DialogContent>
-					<DialogContentText component="div" sx={{ fontSize: '0.86rem', color: '#334155' }}>
-						{clearPreflight ? (
-							t('appCVContent.clearLibrary.summary',
-								'This permanently deletes {{cvs}} resumes, {{reports}} matching reports and {{chats}} AI chats — including their stored documents. Job posts and usage history are kept. This cannot be undone.',
-								{ cvs: clearPreflight.cvs, reports: clearPreflight.reports, chats: clearPreflight.chats })
-						) : (
-							<Box sx={{ display: 'flex', justifyContent: 'center', py: 1 }}>
-								<CircularProgress size={18} sx={{ color: '#dc2626' }} />
-							</Box>
-						)}
-					</DialogContentText>
-					<Typography sx={{ fontSize: '0.78rem', color: '#64748b', mt: 2, mb: 0.75 }}>
-						{t('appCVContent.clearLibrary.typeToConfirm', 'Type DELETE to confirm.')}
-					</Typography>
-					<input
-						value={clearConfirmText}
-						onChange={(e) => setClearConfirmText(e.target.value)}
-						disabled={clearing}
-						autoFocus
-						style={{
-							width: '100%', boxSizing: 'border-box', padding: '8px 10px',
-							border: '1px solid #e2e8f0', borderRadius: 8, fontSize: '0.9rem',
-							letterSpacing: '0.08em', fontFamily: 'inherit',
-						}}
-					/>
-				</DialogContent>
-				<DialogActions sx={{ px: 2, pb: 2, gap: 1 }}>
-					<Button
-						onClick={() => setClearDialogOpen(false)}
-						disabled={clearing}
-						sx={{ textTransform: 'none', color: '#64748b', borderRadius: 1.5 }}
-					>
-						{t('appCVContent.cancel')}
-					</Button>
-					<Button
-						onClick={handleClearLibrary}
-						disabled={clearing || clearConfirmText !== 'DELETE' || !clearPreflight}
-						variant="contained"
-						color="error"
-						sx={{ textTransform: 'none', borderRadius: 1.5, boxShadow: 'none', fontWeight: 600 }}
-					>
-						{clearing
-							? <CircularProgress size={18} color="inherit" />
-							: t('appCVContent.clearLibrary.confirm', 'Clear library')}
-					</Button>
-				</DialogActions>
-			</Dialog>
+				<DialogContentText component="div" sx={{ fontSize: '0.86rem', color: '#334155' }}>
+					{clearPreflight ? (
+						t('appCVContent.clearLibrary.summary',
+							'This permanently deletes {{cvs}} resumes, {{reports}} matching reports and {{chats}} AI chats — including their stored documents. Job posts and usage history are kept. This cannot be undone.',
+							{ cvs: clearPreflight.cvs, reports: clearPreflight.reports, chats: clearPreflight.chats })
+					) : (
+						<Box sx={{ display: 'flex', justifyContent: 'center', py: 1 }}>
+							<CircularProgress size={18} sx={{ color: '#dc2626' }} />
+						</Box>
+					)}
+				</DialogContentText>
+				<Typography sx={{ fontSize: '0.78rem', color: '#64748b', mt: 2, mb: 0.75 }}>
+					{t('appCVContent.clearLibrary.typeToConfirm', 'Type DELETE to confirm.')}
+				</Typography>
+				<input
+					value={clearConfirmText}
+					onChange={(e) => setClearConfirmText(e.target.value)}
+					disabled={clearing}
+					autoFocus
+					style={{
+						width: '100%', boxSizing: 'border-box', padding: '8px 10px',
+						border: '1px solid #e2e8f0', borderRadius: 8, fontSize: '0.9rem',
+						letterSpacing: '0.08em', fontFamily: 'inherit',
+					}}
+				/>
+			
+			</ConfirmDialog>
 
 			{/* Delete Confirmation Dialog — used for normal CV list mode */}
-			<Dialog
+			<ConfirmDialog
 				open={deleteDialogOpen}
-				onClose={() => setDeleteDialogOpen(false)}
-				PaperProps={{ sx: { borderRadius: 2.5 } }}
+				title={t('appCVContent.deleteCVTitle')}
+				cancelLabel={t('appCVContent.cancel')}
+				confirmLabel={t('appCVContent.confirm')}
+				onCancel={() => setDeleteDialogOpen(false)}
+				onConfirm={handleDeleteCV}
+				tone="danger"
 			>
-				<DialogTitle sx={{ fontWeight: 700, fontSize: '0.95rem', color: '#0f172a' }}>
-					{t('appCVContent.deleteCVTitle')}
-				</DialogTitle>
-				<DialogContent>
-					<DialogContentText sx={{ fontSize: '0.88rem', color: '#64748b' }}>
-						{t('appCVContent.deleteConfirmation')}
-					</DialogContentText>
-				</DialogContent>
-				<DialogActions sx={{ px: 2, pb: 2, gap: 1 }}>
-					<Button
-						onClick={() => setDeleteDialogOpen(false)}
-						sx={{ textTransform: 'none', color: '#64748b', borderRadius: 1.5 }}
-					>
-						{t('appCVContent.cancel')}
-					</Button>
-					<Button
-						onClick={handleDeleteCV}
-						variant="contained"
-						color="error"
-						sx={{ textTransform: 'none', borderRadius: 1.5, boxShadow: 'none' }}
-					>
-						{t('appCVContent.confirm')}
-					</Button>
-				</DialogActions>
-			</Dialog>
+				{t('appCVContent.deleteConfirmation')}
+			</ConfirmDialog>
 		</Box>
 	);
 };

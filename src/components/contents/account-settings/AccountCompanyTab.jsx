@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import SectionHeader from '../../../shared/ui/SectionHeader.jsx';
 import PropTypes from 'prop-types';
 import {
     Box,
@@ -29,22 +30,6 @@ import { getTenantById, getTenantLogo, updateTenantProfile } from '../../../serv
 import { TENANT_ID } from '../../../constants.js';
 import QorvaChip from '../../commons/QorvaChip.jsx';
 import { isDemoUser } from '../../../utils/demoMode.js';
-
-const SectionHeader = ({ icon: Icon, label, action }) => (
-    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2, pb: 1, borderBottom: '2px solid #629C44' }}>
-        <Icon sx={{ fontSize: 15, color: '#629C44' }} />
-        <Typography sx={{ fontSize: '0.7rem', fontWeight: 700, color: '#629C44', textTransform: 'uppercase', letterSpacing: '0.07em', flex: 1 }}>
-            {label}
-        </Typography>
-        {action}
-    </Box>
-);
-
-SectionHeader.propTypes = {
-    icon: PropTypes.elementType.isRequired,
-    label: PropTypes.node,
-    action: PropTypes.node,
-};
 
 const CARD_SX = {
     p: 1.5, borderRadius: 2,

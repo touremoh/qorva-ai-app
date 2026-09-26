@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import SectionHeader from '../../../shared/ui/SectionHeader.jsx';
 import { Box, Chip, Paper, Typography } from '@mui/material';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
@@ -19,16 +20,6 @@ const CVCard = ({ children, sx }) => (
 
 CVCard.propTypes = { children: PropTypes.node, sx: PropTypes.object };
 
-const CVSectionHeader = ({ Icon, title }) => (
-	<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5, pb: 0.75, borderBottom: '2px solid #629C44' }}>
-		<Icon sx={{ fontSize: 14, color: '#629C44' }} />
-		<Typography sx={{ fontWeight: 700, fontSize: '0.68rem', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-			{title}
-		</Typography>
-	</Box>
-);
-
-CVSectionHeader.propTypes = { Icon: PropTypes.elementType.isRequired, title: PropTypes.string };
 
 const importanceChipSx = (importance) => {
 	if (importance === 'mandatory') return { fontSize: '0.72rem', backgroundColor: 'rgba(98,156,68,0.10)', color: '#3a6827', borderRadius: 0.75, height: 22, fontWeight: 600 };
@@ -57,7 +48,7 @@ const JobScoringView = ({ scoringRules, t }) => {
 			{/* ── Skills ── */}
 			{sr.skills?.length > 0 && (
 				<CVCard>
-					<CVSectionHeader Icon={ConstructionIcon} title={t('jobContent.skills')} />
+					<SectionHeader tone="document" icon={ConstructionIcon} label={t('jobContent.skills')} />
 					<Box sx={{ display: 'flex', flexDirection: 'column' }}>
 						{sr.skills.map((s, i) => (
 							<Box key={i} sx={i > 0 ? { pt: 1.5, mt: 1.5, borderTop: '1px solid #f1f5f9' } : {}}>
@@ -84,7 +75,7 @@ const JobScoringView = ({ scoringRules, t }) => {
 			{/* ── Experience Requirements ── */}
 			{sr.experienceRequirements && (
 				<CVCard>
-					<CVSectionHeader Icon={WorkOutlineOutlinedIcon} title={t('jobContent.experienceRequirements')} />
+					<SectionHeader tone="document" icon={WorkOutlineOutlinedIcon} label={t('jobContent.experienceRequirements')} />
 					<Box sx={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
 						{sr.experienceRequirements.minYearsOfExperience != null && (
 							<Box>
@@ -111,7 +102,7 @@ const JobScoringView = ({ scoringRules, t }) => {
 			{/* ── Location Preferences ── */}
 			{sr.locationPreferences && (
 				<CVCard>
-					<CVSectionHeader Icon={LocationOnOutlinedIcon} title={t('jobContent.locationPreferences')} />
+					<SectionHeader tone="document" icon={LocationOnOutlinedIcon} label={t('jobContent.locationPreferences')} />
 					{sr.locationPreferences.allowedLocations?.length > 0 && (
 						<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.6, mb: 1.5 }}>
 							{sr.locationPreferences.allowedLocations.map(loc => (
@@ -140,7 +131,7 @@ const JobScoringView = ({ scoringRules, t }) => {
 			{/* ── Industry Preferences ── */}
 			{sr.industryPreferences && (
 				<CVCard>
-					<CVSectionHeader Icon={BusinessCenterOutlinedIcon} title={t('jobContent.industryPreferences')} />
+					<SectionHeader tone="document" icon={BusinessCenterOutlinedIcon} label={t('jobContent.industryPreferences')} />
 					{sr.industryPreferences.preferredIndustries?.length > 0 && (
 						<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.6, mb: 1.5 }}>
 							{sr.industryPreferences.preferredIndustries.map(ind => (
@@ -161,7 +152,7 @@ const JobScoringView = ({ scoringRules, t }) => {
 			{/* ── Scoring Weights ── */}
 			{sr.scoringWeight && (
 				<CVCard>
-					<CVSectionHeader Icon={TuneIcon} title={t('jobContent.scoringWeights')} />
+					<SectionHeader tone="document" icon={TuneIcon} label={t('jobContent.scoringWeights')} />
 					<Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap' }}>
 						{[
 							{ key: 'skills', label: t('jobContent.weightSkills') },
@@ -183,7 +174,7 @@ const JobScoringView = ({ scoringRules, t }) => {
 			{/* ── Candidate Availability Filters ── */}
 			{(sr.filterOpenToWork || sr.availabilityStatuses?.length > 0) && (
 				<CVCard>
-					<CVSectionHeader Icon={FilterListOutlinedIcon} title={t('jobContent.candidateFilters')} />
+					<SectionHeader tone="document" icon={FilterListOutlinedIcon} label={t('jobContent.candidateFilters')} />
 					{sr.filterOpenToWork && (
 						<Chip label={t('jobContent.filterOpenToWork')} size="small" sx={{
 							fontSize: '0.72rem', height: 22, fontWeight: 600, borderRadius: 0.75,
