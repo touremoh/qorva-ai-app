@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { scoreColorsFor } from '../../../shared/lib/score.js';
+import { getInitials, toLabel } from '../../../shared/lib/text.js';
 import {
 	Avatar, Box, Chip, Divider, IconButton,
 	Paper, Stack, Tooltip, Typography,
@@ -28,7 +30,7 @@ import HubOutlinedIcon from '@mui/icons-material/HubOutlined';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
 import LanguageIcon from '@mui/icons-material/Language';
-import apiClient from '../../../../axiosConfig.js';
+import { getTenantLogo } from '../../../services/tenantService.js';
 import { getTenantById } from '../../../services/tenantService.js';
 import { TENANT_ID } from '../../../constants.js';
 import NotesPanel from '../common/NotesPanel.jsx';
@@ -70,11 +72,8 @@ const CONFIDENCE_CONFIG = {
 	low:    { bg: 'rgba(220,38,38,0.10)',  color: '#dc2626'  },
 };
 
-const getColor = (v) => v >= 70 ? '#16a34a' : v >= 40 ? '#d97706' : '#dc2626';
-const getBg    = (v) => v >= 70 ? '#dcfce7' : v >= 40 ? '#fef9c3' : '#fee2e2';
-
-const toLabel = (str = '') =>
-	str.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ').trim().replace(/^\w/, c => c.toUpperCase());
+const getColor = (v) => scoreColorsFor(v).main;
+const getBg    = (v) => scoreColorsFor(v).tint;
 
 // skillDepth: generalist | specialist | tShaped | hybrid | unknown
 const SKILL_DEPTH_STYLE = {
@@ -243,7 +242,7 @@ const AppMatchingReportDetails = ({ reportData }) => {
 	useEffect(() => {
 		if (!tenant?.companyLogoUrl) { setTenantLogoUrl(''); return; }
 		let objectUrl = '';
-		apiClient.get('/tenants/logo', { responseType: 'blob' })
+		getTenantLogo()
 			.then(res => {
 				objectUrl = URL.createObjectURL(res.data);
 				setTenantLogoUrl(objectUrl);
@@ -273,7 +272,7 @@ const AppMatchingReportDetails = ({ reportData }) => {
 	const finalScore   = Math.ceil(Number(decision?.finalScore ?? 0));
 	const finalColor   = getColor(finalScore);
 	const jobTitle     = reportData?.jobPostTitle || '—';
-	const nameInitials = candidate.candidateName.split(' ').slice(0, 2).map(p => p[0] ?? '').join('').toUpperCase();
+	const nameInitials = getInitials(candidate.candidateName);
 	const recKey       = (decision?.recommendation || '').toLowerCase();
 	const recConfig    = RECOMMENDATION_CONFIG[recKey] ?? RECOMMENDATION_CONFIG.hold;
 	const confKey      = (decision?.confidenceLevel || '').toLowerCase();

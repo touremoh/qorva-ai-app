@@ -1,4 +1,4 @@
-import apiClient from '../../axiosConfig.js';
+import apiClient from '../shared/api/client.js';
 
 // The signed-in user's own email MFA. `action` is 'enable' or 'disable'; both need an emailed code.
 

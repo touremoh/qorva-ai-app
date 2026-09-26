@@ -1,7 +1,7 @@
 import axios from 'axios';
-import {AUTH_TOKEN, QORVA_USER_LANGUAGE} from "./src/constants.js";
-import { toastError } from './src/utils/errorHandler.js';
-import { isDemoUser, openUpgradeDialog } from './src/utils/demoMode.js';
+import {AUTH_TOKEN, QORVA_USER_LANGUAGE} from "../../constants.js";
+import { toastError } from '../../utils/errorHandler.js';
+import { isDemoUser, openUpgradeDialog } from '../../utils/demoMode.js';
 
 // Never bake the token into client defaults: a default header snapshots whatever was
 // in localStorage at page load and shadows the fresh token after login/refresh — the

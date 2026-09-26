@@ -224,7 +224,7 @@ const AppAIResumeChat = () => {
 			const resp = await findReportByCriteria({ jobPostId, candidateInfo: { candidateId: cvId } });
 			setLinkedReport(resp?.data?.data || null);
 		} catch {
-			setLinkedReport(null); // 404 = no report yet (silenced in axiosConfig)
+			setLinkedReport(null); // 404 = no report yet (silenced in the API client)
 		}
 	};
 

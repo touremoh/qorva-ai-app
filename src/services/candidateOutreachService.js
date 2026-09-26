@@ -1,4 +1,4 @@
-import apiClient from '../../axiosConfig.js';
+import apiClient from '../shared/api/client.js';
 
 // Everything the composer needs on open: candidate name/email, suppression, the caller's mailbox state, history.
 export const getOutreachContext = (cvId) =>

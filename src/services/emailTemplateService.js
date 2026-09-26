@@ -1,4 +1,4 @@
-import apiClient from '../../axiosConfig.js';
+import apiClient from '../shared/api/client.js';
 
 // Recruiter-authored invitation templates for candidate-update campaigns.
 

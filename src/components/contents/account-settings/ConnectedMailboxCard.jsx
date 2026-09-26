@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useCallback, useEffect, useState } from 'react';
+import dayjs from '../../../shared/lib/dayjs.js';
 import {
 	Alert,
 	Box,
@@ -22,15 +23,6 @@ import ForwardToInboxOutlinedIcon from '@mui/icons-material/ForwardToInboxOutlin
 import LinkOffOutlinedIcon from '@mui/icons-material/LinkOffOutlined';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import localizedFormat from 'dayjs/plugin/localizedFormat';
-import 'dayjs/locale/fr';
-import 'dayjs/locale/de';
-import 'dayjs/locale/es';
-import 'dayjs/locale/it';
-import 'dayjs/locale/nl';
-import 'dayjs/locale/pt';
 import { toastError } from '../../../utils/errorHandler.js';
 import {
 	disconnectMailbox,
@@ -38,9 +30,6 @@ import {
 	getMyMailbox,
 	startMailboxOauth,
 } from '../../../services/mailboxService.js';
-
-dayjs.extend(relativeTime);
-dayjs.extend(localizedFormat);
 
 const THEME_GREEN = '#629C44';
 

@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect, useRef } from 'react';
+import { getInitials } from '../../../shared/lib/text.js';
 import PropTypes from 'prop-types';
 import {
 	Box,
@@ -123,9 +124,6 @@ const AppCVEntries = ({
 	};
 
 	const entries = Array.isArray(cvEntries) ? cvEntries : [];
-
-	const getInitials = (name) =>
-		(name || '').split(' ').map(p => p[0]).filter(Boolean).join('').slice(0, 2).toUpperCase() || '?';
 
 	const isActive = (cv) => selectedCV?.id === cv.id;
 
@@ -412,7 +410,7 @@ const AppCVEntries = ({
 								mr: 1.5,
 								flexShrink: 0,
 							}}>
-								{getInitials(cv.personalInformation?.name)}
+								{getInitials(cv.personalInformation?.name, '?')}
 							</Avatar>
 							<Box sx={{ flex: 1, minWidth: 0 }}>
 								<Typography sx={{

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { getInitials } from '../../../shared/lib/text.js';
 import PropTypes from 'prop-types';
 import {
 	Box,
@@ -807,7 +808,6 @@ const JobContent = () => {
 		setEditMode(false);
 	};
 
-	const jobInitials = (title = '') => title.split(' ').map(w => w[0]).filter(Boolean).join('').slice(0, 2).toUpperCase();
 
 	const stepperHeader = (activeStep) => (
 		<Box sx={{ px: { xs: 2, sm: 3 }, pt: 2, pb: 1.5, backgroundColor: '#ffffff', borderBottom: '1px solid #e2e8f0', flexShrink: 0 }}>
@@ -985,7 +985,7 @@ const JobContent = () => {
 										'&:hover': { backgroundColor: active ? 'rgba(98,156,68,0.10)' : '#f8fafc' },
 									}}>
 										<Avatar sx={{ width: 32, height: 32, fontSize: '0.68rem', fontWeight: 700, backgroundColor: active ? THEME_GREEN : '#e2e8f0', color: active ? '#ffffff' : '#64748b', mr: 1.5, flexShrink: 0 }}>
-											{jobInitials(job.title)}
+											{getInitials(job.title)}
 										</Avatar>
 										<Box sx={{ flex: 1, minWidth: 0 }}>
 											<Typography sx={{ fontSize: '0.84rem', fontWeight: active ? 600 : 500, color: '#0f172a', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>

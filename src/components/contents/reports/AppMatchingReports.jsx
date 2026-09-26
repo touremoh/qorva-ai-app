@@ -1,5 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { scoreColorsFor } from '../../../shared/lib/score.js';
+import { getInitials } from '../../../shared/lib/text.js';
 import {
 	Autocomplete,
 	Avatar, Box, Button, Chip, CircularProgress, Dialog, DialogActions, DialogContent,
@@ -42,13 +44,9 @@ const getMatchingPhaseKey = (elapsed) => {
 };
 
 const scoreChipSx = (score) => {
-	if (score >= 70) return { backgroundColor: '#dcfce7', color: '#166534' };
-	if (score >= 40) return { backgroundColor: '#fef9c3', color: '#854d0e' };
-	return { backgroundColor: '#fee2e2', color: '#991b1b' };
+	const tone = scoreColorsFor(score);
+	return { backgroundColor: tone.tint, color: tone.text };
 };
-
-const getInitials = (name = '') =>
-	name.split(' ').slice(0, 2).map((p) => p[0] ?? '').join('').toUpperCase();
 
 const AppMatchingReports = () => {
 	const { t } = useTranslation();

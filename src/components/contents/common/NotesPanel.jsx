@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useCallback, useEffect, useState } from 'react';
+import dayjs from '../../../shared/lib/dayjs.js';
 import {
 	Box,
 	Button,
@@ -18,19 +19,9 @@ import { useTranslation } from 'react-i18next';
 import StickyNote2OutlinedIcon from '@mui/icons-material/StickyNote2Outlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import 'dayjs/locale/fr';
-import 'dayjs/locale/de';
-import 'dayjs/locale/es';
-import 'dayjs/locale/it';
-import 'dayjs/locale/nl';
-import 'dayjs/locale/pt';
 import { addNote, editNote, getNotes, removeNote } from '../../../services/noteService.js';
 import { USER_EMAIL } from '../../../constants.js';
 import { isActionAllowed, openUpgradeDialog } from '../../../utils/demoMode.js';
-
-dayjs.extend(relativeTime);
 
 const THEME_GREEN = '#629C44';
 const MAX_LENGTH = 4000;

@@ -25,8 +25,7 @@ import RepeatOutlinedIcon from '@mui/icons-material/RepeatOutlined';
 import WorkspacePremiumOutlinedIcon from '@mui/icons-material/WorkspacePremiumOutlined';
 import PriceChangeOutlinedIcon from '@mui/icons-material/PriceChangeOutlined';
 import { useTranslation } from 'react-i18next';
-import apiClient from '../../../../axiosConfig.js';
-import { getTenantById, updateTenantProfile } from '../../../services/tenantService.js';
+import { getTenantById, getTenantLogo, updateTenantProfile } from '../../../services/tenantService.js';
 import { TENANT_ID } from '../../../constants.js';
 import QorvaChip from '../../commons/QorvaChip.jsx';
 import { isDemoUser } from '../../../utils/demoMode.js';
@@ -141,7 +140,7 @@ const AccountCompanyTab = () => {
     useEffect(() => {
         let objectUrl = '';
         if (!savedLogoUrl) { setResolvedLogoUrl(''); return; }
-        apiClient.get('/tenants/logo', { responseType: 'blob' })
+        getTenantLogo()
             .then(res => {
                 objectUrl = URL.createObjectURL(res.data);
                 setResolvedLogoUrl(objectUrl);

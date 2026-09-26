@@ -1,4 +1,4 @@
-import apiClient, { apiFormDataClient } from '../../axiosConfig.js';
+import apiClient, { apiFormDataClient } from '../shared/api/client.js';
 
 export const updateTenantProfile = (profileData, logoFile) => {
     const formData = new FormData();
@@ -10,3 +10,6 @@ export const updateTenantProfile = (profileData, logoFile) => {
 };
 
 export const getTenantById = (tenantId) => apiClient.get(`/tenants/${tenantId}`);
+
+/** The tenant's logo as a blob (for branding the CV and report views), or a rejected promise when none is set. */
+export const getTenantLogo = () => apiClient.get('/tenants/logo', { responseType: 'blob' });

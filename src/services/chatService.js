@@ -1,4 +1,4 @@
-import apiClient from '../../axiosConfig.js';
+import apiClient from '../shared/api/client.js';
 
 export const getChats = (params) =>
     apiClient.get('/chats', { params });

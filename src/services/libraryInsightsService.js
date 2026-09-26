@@ -1,4 +1,4 @@
-import apiClient from '../../axiosConfig.js';
+import apiClient from '../shared/api/client.js';
 
 export const askInsight = (request) =>
     apiClient.post('/library-insights/ask', request);

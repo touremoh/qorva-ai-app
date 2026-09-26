@@ -51,6 +51,13 @@ export const status = {
 	accent: { main: '#4f46e5', bright: '#6366f1', violet: '#7c3aed' },
 };
 
+/** Match-score tones (see shared/lib/score.js): chip text on tint, `main` for strokes, `soft` backgrounds. */
+export const score = {
+	good: { text: '#166534', tint: '#dcfce7', main: '#16a34a', soft: 'rgba(22,163,74,0.08)', accent: '#629C44' },
+	fair: { text: '#854d0e', tint: '#fef9c3', main: '#d97706', soft: 'rgba(217,119,6,0.08)', accent: '#f59e0b' },
+	poor: { text: '#991b1b', tint: '#fee2e2', main: '#dc2626', soft: 'rgba(220,38,38,0.08)', accent: '#dc2626' },
+};
+
 /**
  * Type scale. Named steps replace the ~30 ad-hoc sizes (0.6rem to 1.1rem) in F12; until then
  * components keep their literal sizes so screenshots stay identical.

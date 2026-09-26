@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
+import dayjs from '../../../shared/lib/dayjs.js';
 import PropTypes from 'prop-types';
 import {
 	Autocomplete,
@@ -19,13 +20,6 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import PsychologyOutlinedIcon from '@mui/icons-material/PsychologyOutlined';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs from 'dayjs';
-import 'dayjs/locale/fr';
-import 'dayjs/locale/de';
-import 'dayjs/locale/es';
-import 'dayjs/locale/it';
-import 'dayjs/locale/nl';
-import 'dayjs/locale/pt';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { ATS_LABELS } from './atsLabels.js';

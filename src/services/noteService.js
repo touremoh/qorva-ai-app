@@ -1,4 +1,4 @@
-import apiClient from '../../axiosConfig.js';
+import apiClient from '../shared/api/client.js';
 
 // targetType is 'CV' | 'MATCHING_REPORT'; the backend gates each with the target's own authorities.
 export const getNotes = (targetType, targetId) =>

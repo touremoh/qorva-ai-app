@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { getInitials } from '../../../shared/lib/text.js';
 import PropTypes from 'prop-types';
 import {
 	Avatar,
@@ -278,7 +279,7 @@ const AccountUsersTab = () => {
 								{users.map((user) => {
 									const isSelf = user.email === currentEmail;
 									const role = getRoleFromAuthorities(user.authorities);
-									const initials = `${(user.firstName || '')[0] || ''}${(user.lastName || '')[0] || ''}`.toUpperCase() || '?';
+									const initials = getInitials([user.firstName, user.lastName], '?');
 									return (
 										<TableRow key={user.id} sx={{
 											'&:last-child td': { borderBottom: 0 },

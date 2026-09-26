@@ -1,4 +1,4 @@
-import apiClient from '../../axiosConfig.js';
+import apiClient from '../shared/api/client.js';
 
 // ATS integrations: connection management, manual syncs, and the OAuth handoff.
 

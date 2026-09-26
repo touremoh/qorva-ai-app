@@ -1,4 +1,6 @@
 import Box from '@mui/material/Box';
+import { scoreColorsFor } from '../../../shared/lib/score.js';
+import { getInitials, toLabel } from '../../../shared/lib/text.js';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import Chip from '@mui/material/Chip';
@@ -6,15 +8,9 @@ import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import RecyclingOutlinedIcon from '@mui/icons-material/RecyclingOutlined';
 import PropTypes from 'prop-types';
 
-const getInitials = (name = '') =>
-    name.split(' ').slice(0, 2).map(p => p[0]).join('').toUpperCase();
-
-const toLabel = (str = '') =>
-    str.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ').trim().replace(/^\w/, c => c.toUpperCase());
-
 // matchScore is on a 0–1 scale from the API
-const scoreColor = (s) => s >= 0.70 ? '#16a34a' : s >= 0.40 ? '#d97706' : '#dc2626';
-const scoreBg    = (s) => s >= 0.70 ? 'rgba(22,163,74,0.08)' : s >= 0.40 ? 'rgba(217,119,6,0.08)' : 'rgba(220,38,38,0.08)';
+const scoreColor = (s) => scoreColorsFor(s, 1).main;
+const scoreBg    = (s) => scoreColorsFor(s, 1).soft;
 
 const CandidateSection = ({ candidates, showRediscoveredTag, onCandidateClick }) => {
     if (!candidates?.length) return null;

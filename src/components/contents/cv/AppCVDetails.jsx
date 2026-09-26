@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { getInitials, toLabel } from '../../../shared/lib/text.js';
 import {
 	Box,
 	Button,
@@ -60,7 +61,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import HubOutlinedIcon from '@mui/icons-material/HubOutlined';
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
-import apiClient from '../../../../axiosConfig.js';
+import { getTenantLogo } from '../../../services/tenantService.js';
 import { getTenantById } from '../../../services/tenantService.js';
 import { updateCV } from '../../../services/cvService.js';
 import NotesPanel from '../common/NotesPanel.jsx';
@@ -69,9 +70,6 @@ import { safeExternalUrl } from '../../../utils/safeUrl.js';
 import { fontFamilyMono } from '../../../theme/tokens.js';
 
 // ─── Clustering style helpers ────────────────────────────────────────────────
-
-const toLabel = (str = '') =>
-	str.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ').trim().replace(/^\w/, c => c.toUpperCase());
 
 const SKILL_DEPTH_STYLE = {
 	specialist: { color: '#7c3aed', bg: 'rgba(124,58,237,0.08)', bdr: 'rgba(124,58,237,0.2)' },
@@ -306,9 +304,6 @@ ClusteringTabContent.propTypes = {
 
 // ─── Local helpers ────────────────────────────────────────────────────────────
 
-const getInitials = (name = '') =>
-	name.split(' ').map(p => p[0]).filter(Boolean).join('').slice(0, 2).toUpperCase();
-
 const SectionHeader = ({ Icon, title, onEdit }) => (
 	<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5, pb: 0.75, borderBottom: '2px solid #629C44' }}>
 		<Icon sx={{ fontSize: 14, color: '#629C44' }} />
@@ -448,7 +443,7 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 	useEffect(() => {
 		if (!tenant?.companyLogoUrl) { setTenantLogoUrl(''); return; }
 		let objectUrl = '';
-		apiClient.get('/tenants/logo', { responseType: 'blob' })
+		getTenantLogo()
 			.then(res => {
 				objectUrl = URL.createObjectURL(res.data);
 				setTenantLogoUrl(objectUrl);

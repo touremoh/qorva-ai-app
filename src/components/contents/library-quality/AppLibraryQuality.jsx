@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from 'react';
+import { scoreColorsFor } from '../../../shared/lib/score.js';
 import PropTypes from 'prop-types';
 import {
 	Alert,
@@ -74,9 +75,8 @@ const initialReport = {
 };
 
 const scoreColor = (score) => {
-	if (score >= 70) return { color: '#166534', bg: '#dcfce7', accent: '#629C44' };
-	if (score >= 40) return { color: '#854d0e', bg: '#fef9c3', accent: '#f59e0b' };
-	return { color: '#991b1b', bg: '#fee2e2', accent: '#dc2626' };
+	const tone = scoreColorsFor(score);
+	return { color: tone.text, bg: tone.tint, accent: tone.accent };
 };
 
 const SEVERITY_CHIP = {

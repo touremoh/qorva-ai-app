@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { getInitials } from '../../../shared/lib/text.js';
 import PropTypes from 'prop-types';
 import { Avatar, Box, Chip, Tooltip, Typography } from '@mui/material';
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
@@ -9,7 +10,6 @@ import JobScoringView from './JobScoringView.jsx';
 
 const THEME_GREEN = '#629C44';
 
-const jobInitials = (title = '') => title.split(' ').map(w => w[0]).filter(Boolean).join('').slice(0, 2).toUpperCase();
 
 // Read-only view of a job post: title / status / reference, the sanitised description and
 // (optionally) the scoring rules. Shared by the Jobs screen and the resume-chat context panel.
@@ -31,7 +31,7 @@ const JobPostReadView = ({ job, showScoringRules = true }) => {
 			<Box sx={{ p: 3, pb: showScoringRules ? 1.5 : 3 }}>
 				<Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
 					<Avatar sx={{ width: 44, height: 44, fontSize: '0.9rem', fontWeight: 700, backgroundColor: THEME_GREEN, color: '#fff' }}>
-						{jobInitials(job.title)}
+						{getInitials(job.title)}
 					</Avatar>
 					<Box>
 						<Typography sx={{ fontWeight: 700, fontSize: '1.1rem', color: '#0f172a', lineHeight: 1.2 }}>

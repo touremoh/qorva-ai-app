@@ -1,4 +1,4 @@
-import apiClient from '../../axiosConfig.js';
+import apiClient from '../shared/api/client.js';
 
 export const getCheckoutSuccess = (sessionId) =>
     apiClient.get('/stripe/checkout/success', sessionId ? { params: { session_id: sessionId } } : undefined);

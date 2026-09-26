@@ -1,4 +1,4 @@
-import apiClient, { apiFormDataClient } from '../../axiosConfig.js';
+import apiClient, { apiFormDataClient } from '../shared/api/client.js';
 
 export const getCVs = (params) =>
     apiClient.get('/cvs', { params });

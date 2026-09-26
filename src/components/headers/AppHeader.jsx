@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { getInitials } from '../../shared/lib/text.js';
 import PropTypes from 'prop-types';
 import {
 	AppBar,
@@ -43,7 +44,7 @@ const AppHeader = ({ handleContentChange, contentTitle, isSidebarCollapsed }) =>
 		const first = localStorage.getItem(USER_FIRST_NAME) || '';
 		const last = localStorage.getItem(USER_LAST_NAME) || '';
 		setFullName(`${first} ${last}`.trim());
-		setInitials(`${first.charAt(0)}${last.charAt(0)}`.toUpperCase());
+		setInitials(getInitials([first, last]));
 	}, []);
 
 	const pageTitles = {

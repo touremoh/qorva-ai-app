@@ -1,4 +1,4 @@
-import apiClient, { apiFormDataClient } from '../../axiosConfig.js';
+import apiClient, { apiFormDataClient } from '../shared/api/client.js';
 
 // Asynchronous bulk CV import: create a draft job, stage files in chunks
 // (S3-only, fast), start it, then poll until a terminal status.

@@ -1,4 +1,5 @@
 import Box from '@mui/material/Box';
+import { getInitials } from '../../../shared/lib/text.js';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import Chip from '@mui/material/Chip';
@@ -7,9 +8,6 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
 const ACCENT = '#0891b2';
-
-const getInitials = (name = '') =>
-    name.split(' ').slice(0, 2).map(p => p[0]).join('').toUpperCase();
 
 const CandidateComparisonSection = ({ candidates = [], rawData = {}, onCandidateClick }) => {
     const { t } = useTranslation();

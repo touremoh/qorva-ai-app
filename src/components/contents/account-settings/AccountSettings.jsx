@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { getInitials } from '../../../shared/lib/text.js';
 import PropTypes from 'prop-types';
 import {
 	Avatar,
@@ -205,7 +206,7 @@ const AccountSettings = () => {
 		setPwError('');
 	};
 
-	const initials = `${userInfo.firstName.charAt(0)}${userInfo.lastName.charAt(0)}`.toUpperCase() || '?';
+	const initials = getInitials([userInfo.firstName, userInfo.lastName], '?');
 	const fullName = `${userInfo.firstName} ${userInfo.lastName}`.trim() || '—';
 
 	const PW_FIELDS = [

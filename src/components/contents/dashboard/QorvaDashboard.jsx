@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
+import { scoreColorsFor } from '../../../shared/lib/score.js';
+import { getInitials } from '../../../shared/lib/text.js';
 import {
 	Avatar,
 	Box,
@@ -100,9 +102,8 @@ const KPI_CONFIG = (t) => [
 ];
 
 const scoreColor = (score) => {
-	if (score >= 70) return { color: '#166534', bg: '#dcfce7' };
-	if (score >= 40) return { color: '#854d0e', bg: '#fef9c3' };
-	return { color: '#991b1b', bg: '#fee2e2' };
+	const tone = scoreColorsFor(score);
+	return { color: tone.text, bg: tone.tint };
 };
 
 const medalColor = (rank) => {
@@ -181,7 +182,7 @@ const JobCandidateCard = ({ job }) => {
 			<Box>
 				{candidates.map((c, i) => {
 					const { color, bg: scoreBg } = scoreColor(c.score);
-					const initials = c.candidateName.split(' ').slice(0, 2).map(p => p[0] ?? '').join('').toUpperCase();
+					const initials = getInitials(c.candidateName);
 					return (
 						<Box key={i} sx={{
 							display: 'flex', alignItems: 'center', gap: 0.75,

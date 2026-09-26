@@ -1,4 +1,4 @@
-import apiClient from '../../axiosConfig.js';
+import apiClient from '../shared/api/client.js';
 
 // Which providers this environment can connect ({ microsoft: boolean }).
 export const getMailboxAvailability = () =>

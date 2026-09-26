@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import dayjs from '../../shared/lib/dayjs.js';
 import {
 	Alert,
 	Box,
@@ -38,14 +39,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import 'dayjs/locale/fr';
-import 'dayjs/locale/de';
-import 'dayjs/locale/es';
-import 'dayjs/locale/it';
-import 'dayjs/locale/nl';
-import 'dayjs/locale/pt';
 import { useCandidateOutreach } from '../../contexts/CandidateOutreachContext.jsx';
 import { draftOutreach, recordExternalOutreach, sendOutreach } from '../../services/candidateOutreachService.js';
 import {
@@ -57,8 +50,6 @@ import {
 	rememberHandoffChoice,
 } from '../../utils/mailLinks.js';
 import { USER_EMAIL } from '../../constants.js';
-
-dayjs.extend(relativeTime);
 
 const THEME_GREEN = '#629C44';
 const DOCK_WIDTH = 520;
