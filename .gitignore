@@ -27,3 +27,6 @@ dist-ssr
 coverage
 playwright-report
 test-results
+
+# Playwright visual baselines are machine-specific; kept locally, not committed
+e2e/*-snapshots/
