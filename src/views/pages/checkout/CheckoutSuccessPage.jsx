@@ -14,7 +14,7 @@ import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import RocketLaunchRoundedIcon from '@mui/icons-material/RocketLaunchRounded';
 import LoginRoundedIcon from '@mui/icons-material/LoginRounded';
 import { useTranslation } from 'react-i18next';
-import { getCheckoutSuccess } from '../../../services/stripeService.js';
+import { getCheckoutSuccess } from '../../../features/settings/api/stripeService.js';
 import { refreshToken } from '../../../services/authService.js';
 import { setAuthResults } from '../../../../localStorageManager.js';
 import { isDemoUser } from '../../../utils/demoMode.js';

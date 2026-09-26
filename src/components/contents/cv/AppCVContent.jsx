@@ -37,7 +37,7 @@ import {
 	startBulkUpload,
 	cancelBulkUpload,
 } from '../../../services/bulkUploadService.js';
-import { getUsageMonitoring } from '../../../services/usageMonitoringService.js';
+import { getUsageMonitoring } from '../../../features/usage/api/usageMonitoringService.js';
 import { useBulkImport, CVS_CHANGED_EVENT } from '../../../contexts/BulkImportContext.jsx';
 import { isDemoUser, openUpgradeDialog } from '../../../utils/demoMode.js';
 import UpgradeButton from '../../demo/UpgradeButton.jsx';

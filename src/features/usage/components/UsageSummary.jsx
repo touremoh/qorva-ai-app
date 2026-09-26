@@ -1,0 +1,168 @@
+import PropTypes from 'prop-types';
+import SectionHeader from '../../../shared/ui/SectionHeader.jsx';
+import { Box, Paper, Tooltip, Typography } from '@mui/material';
+import SpeedOutlinedIcon from '@mui/icons-material/SpeedOutlined';
+import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
+import MarkEmailReadOutlinedIcon from '@mui/icons-material/MarkEmailReadOutlined';
+import { useTranslation } from 'react-i18next';
+
+/** Usage per feature for the current billing period, against the plan's limits. */
+const UsageSummary = ({ data, featureConfig, formatPeriodDate, templateUsage }) => {
+    const { t } = useTranslation();
+    return (
+        <>
+        <Paper elevation={0} sx={{ border: '1px solid #e2e8f0', borderRadius: 2.5, p: 2.5 }}>
+            <SectionHeader sx={{ pb: 1.5 }}
+                icon={SpeedOutlinedIcon}
+                label={t('header.usageMonitoring', 'Usage Monitoring')}
+                action={
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
+                        <CalendarTodayOutlinedIcon sx={{ fontSize: 13, color: '#94a3b8' }} />
+                        <Typography sx={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 500 }}>
+                            {formatPeriodDate(data.currentPeriodStart)} – {formatPeriodDate(data.currentPeriodEnd)}
+                        </Typography>
+                    </Box>
+                }
+            />
+
+            <Box sx={{
+                display: 'grid',
+                gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
+                gap: 2,
+            }}>
+                {featureConfig.map(({ key, label, icon: Icon, accent, bg }) => {
+                    const feature = data.features?.[key];
+                    if (!feature) return null;
+                    const pct = feature.limit > 0 ? Math.min(100, (feature.consumed / feature.limit) * 100) : 0;
+                    const isWarning = pct >= 80;
+                    const barColor = isWarning ? '#f59e0b' : accent;
+
+                    return (
+                        <Box key={key} sx={{
+                            border: `1px solid ${isWarning ? 'rgba(245,158,11,0.25)' : '#f1f5f9'}`,
+                            borderRadius: 2,
+                            p: 2,
+                            backgroundColor: isWarning ? 'rgba(245,158,11,0.03)' : '#fafcfd',
+                        }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.75 }}>
+                                <Box sx={{ width: 32, height: 32, borderRadius: 1.5, backgroundColor: bg, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                                    <Icon sx={{ fontSize: 16, color: accent }} />
+                                </Box>
+                                <Typography sx={{ fontSize: '0.78rem', fontWeight: 600, color: '#334155', lineHeight: 1.3 }}>
+                                    {label}
+                                </Typography>
+                            </Box>
+
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', mb: 1 }}>
+                                <Typography sx={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a', lineHeight: 1 }}>
+                                    {feature.consumed.toLocaleString()}
+                                </Typography>
+                                <Typography sx={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 500 }}>
+                                    / {feature.limit.toLocaleString()}
+                                </Typography>
+                            </Box>
+
+                            <Box sx={{ height: 7, backgroundColor: '#e2e8f0', borderRadius: 4, overflow: 'hidden', mb: 0.75 }}>
+                                <Box sx={{
+                                    height: '100%',
+                                    width: `${pct}%`,
+                                    backgroundColor: barColor,
+                                    borderRadius: 4,
+                                    transition: 'width 0.6s ease',
+                                }} />
+                            </Box>
+
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <Typography sx={{ fontSize: '0.7rem', fontWeight: 600, color: isWarning ? '#b45309' : '#64748b' }}>
+                                    {pct.toFixed(1)}% {t('dashboard.usage.used', 'used')}
+                                </Typography>
+                                <Tooltip title={t('dashboard.usage.cumulativeTooltip', 'All-time total across all periods')} arrow placement="top">
+                                    <Typography sx={{ fontSize: '0.7rem', color: '#94a3b8', cursor: 'default' }}>
+                                        {feature.cumulative.toLocaleString()} {t('dashboard.usage.allTime', 'all-time')}
+                                    </Typography>
+                                </Tooltip>
+                            </Box>
+                        </Box>
+                    );
+                })}
+
+                {/* Email templates: static plan cap (saved count), not a monthly consumption metric */}
+                {templateUsage && (() => {
+                    const { count, limit } = templateUsage;
+                    const pct = limit > 0 ? Math.min(100, (count / limit) * 100) : 0;
+                    const isWarning = limit !== null && pct >= 80;
+                    const accent = '#f59e0b';
+                    return (
+                        <Box sx={{
+                            border: `1px solid ${isWarning ? 'rgba(245,158,11,0.25)' : '#f1f5f9'}`,
+                            borderRadius: 2,
+                            p: 2,
+                            backgroundColor: isWarning ? 'rgba(245,158,11,0.03)' : '#fafcfd',
+                        }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.75 }}>
+                                <Box sx={{ width: 32, height: 32, borderRadius: 1.5, backgroundColor: 'rgba(245,158,11,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                                    <MarkEmailReadOutlinedIcon sx={{ fontSize: 16, color: accent }} />
+                                </Box>
+                                <Typography sx={{ fontSize: '0.78rem', fontWeight: 600, color: '#334155', lineHeight: 1.3 }}>
+                                    {t('header.emailTemplates', 'Email Templates')}
+                                </Typography>
+                            </Box>
+
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', mb: 1 }}>
+                                <Typography sx={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a', lineHeight: 1 }}>
+                                    {count.toLocaleString()}
+                                </Typography>
+                                <Typography sx={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 500 }}>
+                                    {limit !== null
+                                        ? `/ ${limit.toLocaleString()}`
+                                        : t('dashboard.usage.unlimited', 'Unlimited')}
+                                </Typography>
+                            </Box>
+
+                            {limit !== null && (
+                                <Box sx={{ height: 7, backgroundColor: '#e2e8f0', borderRadius: 4, overflow: 'hidden', mb: 0.75 }}>
+                                    <Box sx={{
+                                        height: '100%',
+                                        width: `${pct}%`,
+                                        backgroundColor: isWarning ? '#f59e0b' : '#629C44',
+                                        borderRadius: 4,
+                                        transition: 'width 0.6s ease',
+                                    }} />
+                                </Box>
+                            )}
+
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                {limit !== null && (
+                                    <Typography sx={{ fontSize: '0.7rem', fontWeight: 600, color: isWarning ? '#b45309' : '#64748b' }}>
+                                        {pct.toFixed(1)}% {t('dashboard.usage.used', 'used')}
+                                    </Typography>
+                                )}
+                                <Tooltip title={t('dashboard.usage.templatesTooltip', 'Saved invitation templates — a plan allowance, not a monthly quota')} arrow placement="top">
+                                    <Typography sx={{ fontSize: '0.7rem', color: '#94a3b8', cursor: 'default', ml: 'auto' }}>
+                                        {t('dashboard.usage.planAllowance', 'plan allowance')}
+                                    </Typography>
+                                </Tooltip>
+                            </Box>
+                        </Box>
+                    );
+                })()}
+            </Box>
+
+            {data.lastUpdatedAt && (
+                <Typography sx={{ mt: 1.75, fontSize: '0.68rem', color: '#cbd5e1', textAlign: 'right' }}>
+                    {t('dashboard.usage.lastUpdated', 'Last updated')}: {new Date(data.lastUpdatedAt).toLocaleString()}
+                </Typography>
+            )}
+        </Paper>
+        </>
+    );
+};
+
+UsageSummary.propTypes = {
+    data: PropTypes.any,
+    featureConfig: PropTypes.any,
+    formatPeriodDate: PropTypes.func,
+    templateUsage: PropTypes.any,
+};
+
+export default UsageSummary;

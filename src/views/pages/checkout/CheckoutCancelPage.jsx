@@ -13,7 +13,7 @@ import {
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import ReplayRoundedIcon from '@mui/icons-material/ReplayRounded';
 import { useTranslation } from 'react-i18next';
-import { getCheckoutCancel } from '../../../services/stripeService.js';
+import { getCheckoutCancel } from '../../../features/settings/api/stripeService.js';
 import { createCheckoutSession } from '../../../services/registrationService.js';
 import { TENANT_ID, USER_ID } from '../../../constants.js';
 

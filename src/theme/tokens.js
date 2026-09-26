@@ -9,6 +9,7 @@ export const brand = {
 	main: '#629C44',
 	hover: '#528035',
 	hoverAlt: '#518136',
+	pressed: '#4a7a33',
 	dark: '#3a6827',
 	text: '#629C44',
 	soft: '#b8d4a8',

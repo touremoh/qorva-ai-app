@@ -47,6 +47,7 @@ import {
 	rememberHandoffChoice,
 } from '../../utils/mailLinks.js';
 import { USER_EMAIL } from '../../constants.js';
+import { brandButtonSx, outlinedButtonSx } from '../../shared/ui/buttonSx.js';
 
 const THEME_GREEN = '#629C44';
 const DOCK_WIDTH = 520;
@@ -57,14 +58,8 @@ const SUBJECT_MAX = 200;
 const BODY_MAX = 8000;
 const SHORTER_CONTEXT_CHARS = 700;
 
-const primaryButtonSx = {
-	textTransform: 'none', fontSize: '0.78rem', fontWeight: 600, borderRadius: 1.5, boxShadow: 'none',
-	backgroundColor: THEME_GREEN, '&:hover': { backgroundColor: '#528035' },
-};
-const outlinedButtonSx = {
-	textTransform: 'none', fontSize: '0.78rem', fontWeight: 600, borderRadius: 1.5,
-	color: '#334155', borderColor: '#e2e8f0', '&:hover': { borderColor: '#cbd5e1', backgroundColor: '#f8fafc' },
-};
+const primaryButtonSx = brandButtonSx('0.78rem');
+const neutralButtonSx = outlinedButtonSx('0.78rem');
 const inputSx = { fontSize: '0.82rem', borderRadius: 1.5, backgroundColor: '#fff' };
 
 const errorCodeOf = (err) => err?.response?.data?.errorCode;
@@ -378,7 +373,7 @@ const CandidateOutreachDock = () => {
 									</Select>
 									<Box sx={{ flexGrow: 1 }} />
 									{body.trim() && (
-										<Button size="small" variant="outlined" onClick={handleShorter} disabled={drafting || suppressed} sx={outlinedButtonSx}>
+										<Button size="small" variant="outlined" onClick={handleShorter} disabled={drafting || suppressed} sx={neutralButtonSx}>
 											{t('candidateOutreach.ai.shorter')}
 										</Button>
 									)}
@@ -444,14 +439,14 @@ const CandidateOutreachDock = () => {
 									<Button
 										onClick={() => handleHandoff(handoffChoice)} disabled={suppressed || !hasRecipient}
 										startIcon={<OpenInNewIcon sx={{ fontSize: 14 }} />}
-										sx={canSendFromQorva ? outlinedButtonSx : primaryButtonSx}
+										sx={canSendFromQorva ? neutralButtonSx : primaryButtonSx}
 									>
 										{t(`candidateOutreach.handoff.${handoffChoice}`)}
 									</Button>
 									<Button
 										size="small" onClick={(e) => setHandoffAnchor(e.currentTarget)} disabled={suppressed || !hasRecipient}
 										aria-label={t('candidateOutreach.handoff.choose')}
-										sx={{ ...(canSendFromQorva ? outlinedButtonSx : primaryButtonSx), px: 0.5, minWidth: 32 }}
+										sx={{ ...(canSendFromQorva ? neutralButtonSx : primaryButtonSx), px: 0.5, minWidth: 32 }}
 									>
 										<ArrowDropDownIcon />
 									</Button>

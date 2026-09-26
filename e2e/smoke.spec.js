@@ -63,3 +63,15 @@ test.describe('sign-in', () => {
 		await expect(page).toHaveURL(/\/login/);
 	});
 });
+
+test.describe('settings', () => {
+	test('the integrations tab lists the ATS providers from the recorded API', async ({ page }) => {
+		const unknown = await openApp(page, '/app/settings');
+		await page.getByText('Integrations', { exact: true }).first().click();
+		await expect(page.getByText('Connect your ATS to import candidates and jobs automatically', { exact: false })).toBeVisible();
+		for (const provider of ['Greenhouse', 'Recruitee', 'Workable', 'Manatal']) {
+			await expect(page.getByText(provider, { exact: true })).toBeVisible();
+		}
+		expect(unknown, 'API calls missing from e2e/fixtures/api.json').toEqual([]);
+	});
+});

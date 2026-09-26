@@ -47,8 +47,8 @@ import {
 } from '../../../services/libraryQualityService.js';
 import QualityIssueList from './QualityIssueList.jsx';
 import QualityDuplicatesList from './QualityDuplicatesList.jsx';
-import EmailTemplatesDialog from './EmailTemplatesDialog.jsx';
-import { getEmailTemplates } from '../../../services/emailTemplateService.js';
+import EmailTemplatesDialog from '../../../features/email-templates/components/EmailTemplatesDialog.jsx';
+import { getEmailTemplates } from '../../../features/email-templates/api/emailTemplateService.js';
 
 // Freshness issues offer criteria-level "archive all" — the only bulk that scales to thousands of hits.
 const ARCHIVABLE_ISSUES = new Set(['OUTDATED', 'UNKNOWN_FRESHNESS']);

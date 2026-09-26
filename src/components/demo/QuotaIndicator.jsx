@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Box, Typography, LinearProgress, Tooltip } from '@mui/material';
 import BoltOutlinedIcon from '@mui/icons-material/BoltOutlined';
 import { useTranslation } from 'react-i18next';
-import { getUsageMonitoring } from '../../services/usageMonitoringService.js';
+import { getUsageMonitoring } from '../../features/usage/api/usageMonitoringService.js';
 import { openUpgradeDialog } from '../../utils/demoMode.js';
 
 // Demo report generation is bounded by the Starter-tier quota. This chip shows

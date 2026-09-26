@@ -19,6 +19,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { addNote, editNote, getNotes, removeNote } from '../../../services/noteService.js';
 import { USER_EMAIL } from '../../../constants.js';
 import { isActionAllowed, openUpgradeDialog } from '../../../utils/demoMode.js';
+import { brandButtonSx, textButtonSx } from '../../../shared/ui/buttonSx.js';
 
 const THEME_GREEN = '#629C44';
 const MAX_LENGTH = 4000;
@@ -26,11 +27,8 @@ const MAX_LENGTH = 4000;
 // Which authority the backend checks for writes on each target type.
 const WRITE_ACTION = { CV: 'MODIFY_CV', MATCHING_REPORT: 'MODIFY_REPORT' };
 
-const primaryButtonSx = {
-	textTransform: 'none', fontSize: '0.78rem', fontWeight: 600, borderRadius: 1.5, boxShadow: 'none',
-	backgroundColor: THEME_GREEN, '&:hover': { backgroundColor: '#528035' },
-};
-const secondaryButtonSx = { textTransform: 'none', fontSize: '0.78rem', color: '#64748b', borderRadius: 1.5 };
+const primaryButtonSx = brandButtonSx('0.78rem');
+const secondaryButtonSx = textButtonSx('0.78rem');
 const inputSx = { fontSize: '0.82rem', borderRadius: 1.5, backgroundColor: '#fff' };
 
 const isEdited = (note) =>
