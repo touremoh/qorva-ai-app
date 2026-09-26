@@ -49,11 +49,8 @@
     "dataDeleted": "Deleting your account will permanently erase your data.",
     "firstNameRequired": "First name is required",
     "lastNameRequired": "Last name is required",
-    "companyNameRequired": "Company name is required",
     "emailRequired": "Email is required",
     "emailInvalid": "Enter a valid business email",
-    "passwordRequired": "Password is required",
-    "passwordInvalid": "8–20 characters, with uppercase, lowercase, number, and special character",
     "errorMessage": "Something went wrong. Try again.",
     "clientError": "Request error. Check your input.",
     "serverError": "Server issue. Please try later.",
@@ -62,27 +59,10 @@
     "firstName": "First Name",
     "lastName": "Last Name",
     "email": "Work Email",
-    "password": "Password",
-    "togglePasswordVisibility": "Show/Hide password",
-    "companyName": "Company Name",
-    "registerButton": "Sign Up",
     "alreadyHaveAccount": "Already have an account?",
     "signIn": "Sign in",
-    "step1": "Account Details",
-    "step2": "Choose Plan",
-    "next": "Next: Choose Plan",
-    "back": "Back",
-    "continueToCheckout": "Continue to Checkout",
     "panel": {
-      "badge": "No credit card required",
-      "headline": "Everything you need to hire smarter.",
-      "subtext": "Join teams that screen candidates in seconds, not days."
-    },
-    "success": {
-      "title": "You’re All Set!",
-      "message": "Your account has been created.",
-      "confirmationEmail": "We sent a confirmation email to your inbox.",
-      "signInLink": "Sign in now to get started."
+      "headline": "Everything you need to hire smarter."
     },
     "demoSubtext": "Create your free demo workspace — no credit card, no payment.",
     "organizationName": "Organization Name",
@@ -103,7 +83,6 @@
     }
   },
   "header": {
-    "matching": "Matching",
     "jobs": "Jobs",
     "cvs": "Resume Library",
     "reports": "Match Reports",
@@ -114,10 +93,10 @@
     "usageMonitoring": "Usage Monitoring",
     "libraryQuality": "Library Quality",
     "resumes": "All Resumes",
-    "emailTemplates": "Email Templates"
-  },
-  "footer": {
-    "rightsReserved": "© Qorva AI. All rights reserved."
+    "emailTemplates": "Email Templates",
+    "dashboard": "Dashboard",
+    "expandMenu": "Expand",
+    "collapseMenu": "Collapse"
   },
   "jobContent": {
     "createJobPost": "New Job Post",
@@ -460,45 +439,23 @@
       },
       "pickDate": "Pick a date",
       "quickSearch": "Quick search — name, role, skill…"
-    }
+    },
+    "dropHere": "Drag & drop files here",
+    "browseHint": "or click to browse — .pdf or .docx, up to {{max}} files",
+    "filesReady_one": "{{count}} file ready to upload",
+    "filesReady_other": "{{count}} files ready to upload"
   },
   "appCVMatching": {
-    "selectJobPost": "Choose Job Post",
-    "selectCVs": "Choose Resumes",
-    "analyzeCVs": "Run Analysis",
-    "noJobPostSelected": "No job selected",
-    "reportData": "Results",
     "noAnalysisResult": "No results available",
-    "selectAll": "Select All",
-    "searchCVs": "Search resumes by name, title, or skills",
-    "analyzedResults": "Results",
-    "analysisDetails": "Details",
     "skillsMatch": "Skills Match",
-    "exceedsRequirements": "Above Requirements",
     "lackingSkills": "Missing Skills",
     "experienceAlignment": "Experience Match",
-    "overallSummary": "Summary",
-    "score": "Score",
-    "pointsForImprovement": "Areas to Improve",
-    "interviewQuestions": "Interview Prep Questions",
-    "skillsBasedQuestions": "Skills Questions",
-    "strengthBasedQuestions": "Strength Questions",
-    "gapExplorationQuestions": "Gap Questions",
-    "saveReport": "Save Report",
-    "reportName": "Report Name",
-    "submit": "Save",
-    "reportSaveSuccessTitle": "Report Saved",
-    "reportSaveSuccessMessage": "Your report is saved and available in Records.",
-    "close": "Close",
     "candidateProfile": "Candidate Profile",
     "skills": "Skills",
-    "degreeOfMatch": "Match Level",
-    "job": "Job",
     "finalScore": "Final Score",
     "locationMatch": "Location Match",
     "industryMatch": "Industry Match",
     "matchingSkills": "Matching Skills",
-    "seeCvDetails": "View CV",
     "strengths": "Strengths",
     "weaknesses": "Weaknesses",
     "redFlags": "Red Flags",
@@ -736,10 +693,6 @@
       "label": "Total Matches",
       "title": "Skills Report"
     },
-    "subscription": {
-      "active": "Subscription: Active",
-      "inactive": "Subscription: Inactive"
-    },
     "loading": "Loading dashboard…",
     "kpi": {
       "totalCVs": "Resumes",
@@ -751,7 +704,6 @@
       "skillsReport": "Top 10 Skills",
       "jobPostsReport": "Reports per Job",
       "topCandidates": "Top 5 Candidates per Job Post",
-      "usageMonitoring": "Usage Monitoring",
       "talentPoolInsight": "Talent Pool Insight"
     },
     "talent": {
@@ -791,8 +743,7 @@
     },
     "table": {
       "jobPostTitle": "Job Title",
-      "totalMatch": "Applications",
-      "candidate": "Candidate"
+      "totalMatch": "Applications"
     },
     "usage": {
       "matchingActions": "Matching Actions",
@@ -874,9 +825,6 @@
     "refreshReport": "Refresh"
   },
   "pricing": {
-    "title": "Simple, Transparent Pricing",
-    "chooseYourPlan": "Choose Your Plan",
-    "stepSubtitle": "Start free, upgrade when you're ready. Cancel anytime.",
     "monthly": "Monthly",
     "yearly": "Yearly",
     "periodMonthly": "/month",
@@ -885,15 +833,7 @@
     "mostPopular": "Most Popular",
     "selectPlan": "Select Plan",
     "selected": "Selected",
-    "noPlanSelected": "Please select a plan to continue.",
     "loadError": "Failed to load plans. Please try again.",
-    "badge": "Simple, transparent pricing",
-    "subtitle": "Choose the plan that fits your team",
-    "footer": "Payments are securely processed by Stripe. You can cancel or change your plan at any time.",
-    "matchingActionNote": "1 matching action = 1 CV extraction or 1 job match report",
-    "button": {
-      "freeTrial": "Start Free Trial"
-    },
     "features": {
       "freeTrial": "14-day free trial",
       "brandedCvExport": "Branded CV exports",

@@ -33,10 +33,10 @@ const UploadFilePicker = ({ upload }) => {
 			>
 				<CloudUploadIcon sx={{ fontSize: 36, color: upload.isDragging ? `${tokens.brand.main}` : `${tokens.ink.subtle}` }} />
 				<Typography sx={{ fontSize: tokens.fontSize.body2, fontWeight: 600, color: tokens.ink.body }}>
-					Drag & drop files here
+					{t('appCVContent.dropHere')}
 				</Typography>
 				<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.subtle }}>
-					or click to browse — .pdf or .docx, up to {upload.bulkLimit} files
+					{t('appCVContent.browseHint', { max: upload.bulkLimit })}
 				</Typography>
 				<input
 					ref={upload.fileInputRef}
@@ -52,7 +52,7 @@ const UploadFilePicker = ({ upload }) => {
 			{upload.selectedFiles.length > 0 && (
 				<Box sx={{ mt: 2, p: 1.5, backgroundColor: tokens.status.success.pale, borderRadius: 1.5, border: `1px solid ${tokens.status.success.border}` }}>
 					<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.status.success.main, fontWeight: 600 }}>
-						{upload.selectedFiles.length} file{upload.selectedFiles.length > 1 ? 's' : ''} ready to upload
+						{t('appCVContent.filesReady', { count: upload.selectedFiles.length })}
 					</Typography>
 					{upload.selectedFiles.length > SYNC_MAX_FILES && (
 						<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.muted, mt: 0.25 }}>

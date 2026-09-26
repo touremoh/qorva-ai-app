@@ -49,7 +49,7 @@ const AppHeader = ({ handleContentChange, contentTitle, isSidebarCollapsed }) =>
 	}, []);
 
 	const pageTitles = {
-		[COMP_ID_DASHBOARD]:        'Dashboard',
+		[COMP_ID_DASHBOARD]:        t('header.dashboard'),
 		[COMP_ID_CVLIB]:            t('header.cvs'),
 		[COMP_ID_LIBRARY_QUALITY]:  t('header.libraryQuality', 'Library Quality'),
 		[COMP_ID_JOBS]:             t('header.jobs'),
@@ -60,7 +60,7 @@ const AppHeader = ({ handleContentChange, contentTitle, isSidebarCollapsed }) =>
 		[COMP_ID_SETTINGS]:         t('header.accountSettings'),
 	};
 
-	const displayTitle = pageTitles[contentTitle] || 'Dashboard';
+	const displayTitle = pageTitles[contentTitle] || t('header.dashboard');
 
 	return (
 		<AppBar

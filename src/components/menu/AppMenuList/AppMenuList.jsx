@@ -76,7 +76,7 @@ const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, collap
 	};
 
 	const menuItems = [
-		{ id: COMP_ID_DASHBOARD, Icon: LeaderboardOutlinedIcon, label: 'Dashboard',                              display: true },
+		{ id: COMP_ID_DASHBOARD, Icon: LeaderboardOutlinedIcon, label: t('header.dashboard'),                              display: true },
 		{ groupId: 'RESUME_LIBRARY', Icon: PeopleOutlinedIcon,  label: t('header.cvs'),                         display: true,
 			children: [
 				{ id: COMP_ID_CVLIB,           Icon: DescriptionOutlinedIcon, label: t('header.resumes', 'All Resumes'),           display: true },
@@ -256,7 +256,7 @@ const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, collap
 					</Typography>
 				)}
 				{onToggleCollapse && (
-					<Tooltip title={collapsed ? 'Expand' : 'Collapse'} placement="right">
+					<Tooltip title={collapsed ? t('header.expandMenu') : t('header.collapseMenu')} placement="right">
 						<IconButton
 							onClick={onToggleCollapse}
 							size="small"

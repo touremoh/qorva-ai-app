@@ -14,8 +14,10 @@ export default [
     // Colours and type sizes come from src/theme (readability rules, guide §5.2): no hex colours and
     // no font-size literals anywhere else. Large decorative icons (28px and up) may stay numeric.
     files: ['src/**/*.{js,jsx}'],
-    ignores: ['src/theme/**', 'src/**/*.test.{js,jsx}', 'src/mocks.js'],
+    ignores: ['src/theme/**', 'src/**/*.test.{js,jsx}'],
     rules: {
+      // Components stay small; the containers still above this are listed in the refactor guide.
+      'max-lines': ['warn', { max: 300, skipBlankLines: true, skipComments: true }],
       'no-restricted-syntax': ['error',
         { selector: 'Literal[value=/#[0-9a-fA-F]{3,8}\\b/]', message: 'Use a colour token from src/theme/tokens.js instead of a hex literal.' },
         { selector: 'TemplateElement[value.raw=/#[0-9a-fA-F]{3,8}\\b/]', message: 'Use a colour token from src/theme/tokens.js instead of a hex literal.' },

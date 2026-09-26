@@ -49,11 +49,8 @@
     "dataDeleted": "En supprimant votre compte, vos données seront effacées définitivement.",
     "firstNameRequired": "Le prénom est obligatoire",
     "lastNameRequired": "Le nom est obligatoire",
-    "companyNameRequired": "Le nom de l’entreprise est obligatoire",
     "emailRequired": "L’e-mail est obligatoire",
     "emailInvalid": "Veuillez saisir une adresse e-mail valide",
-    "passwordRequired": "Le mot de passe est obligatoire",
-    "passwordInvalid": "8–20 caractères, avec majuscule, minuscule, chiffre et symbole",
     "errorMessage": "Une erreur est survenue. Veuillez réessayer.",
     "clientError": "Erreur de saisie. Vérifiez vos informations.",
     "serverError": "Erreur serveur. Réessayez plus tard.",
@@ -62,27 +59,10 @@
     "firstName": "Prénom",
     "lastName": "Nom",
     "email": "E-mail",
-    "password": "Mot de passe",
-    "togglePasswordVisibility": "Afficher/masquer le mot de passe",
-    "companyName": "Entreprise",
-    "registerButton": "S’inscrire",
     "alreadyHaveAccount": "Vous avez déjà un compte ?",
     "signIn": "Se connecter",
-    "step1": "Détails du compte",
-    "step2": "Choisir un forfait",
-    "next": "Suivant : choisir un forfait",
-    "back": "Retour",
-    "continueToCheckout": "Continuer vers le paiement",
     "panel": {
-      "badge": "Sans carte bancaire",
-      "headline": "Tout ce dont vous avez besoin pour recruter intelligemment.",
-      "subtext": "Rejoignez les équipes qui évaluent les candidats en quelques secondes."
-    },
-    "success": {
-      "title": "Inscription réussie",
-      "message": "Votre compte a bien été créé.",
-      "confirmationEmail": "Un e-mail de confirmation a été envoyé.",
-      "signInLink": "Connectez-vous pour commencer à utiliser la plateforme."
+      "headline": "Tout ce dont vous avez besoin pour recruter intelligemment."
     },
     "demoSubtext": "Créez votre espace de démonstration gratuit — sans carte bancaire, sans paiement.",
     "organizationName": "Nom de l'organisation",
@@ -103,7 +83,6 @@
     }
   },
   "header": {
-    "matching": "Matching",
     "jobs": "Offres",
     "cvs": "CVthèque",
     "reports": "Rapports de matching",
@@ -114,10 +93,10 @@
     "usageMonitoring": "Suivi d'utilisation",
     "libraryQuality": "Qualité de la CVthèque",
     "resumes": "Tous les CV",
-    "emailTemplates": "Modèles d'e-mails"
-  },
-  "footer": {
-    "rightsReserved": "© Qorva AI. Tous droits réservés."
+    "emailTemplates": "Modèles d'e-mails",
+    "dashboard": "Tableau de bord",
+    "expandMenu": "Déplier",
+    "collapseMenu": "Replier"
   },
   "jobContent": {
     "createJobPost": "Nouvelle offre",
@@ -210,8 +189,6 @@
   },
   "appCVContent": {
     "createCVEntry": "Ajouter un CV",
-    "createCVCollection": "Créer une collection de CV",
-    "collectionName": "Nom de la collection",
     "noCVEntries": "Aucun CV disponible",
     "cvListTitle": "Liste des CV",
     "cvDetailsTitle": "Détails du CV",
@@ -305,8 +282,6 @@
     "uploadCV": "Import groupé de CV",
     "experience": "Expérience",
     "yearsAbbr": "ans",
-    "createCollection": "Nouvelle collection",
-    "saveCollection": "Enregistrer la collection",
     "attachment": "Pièce jointe",
     "viewAttachment": "Voir le fichier",
     "selectCVToSeeDetails": "Sélectionnez un CV pour voir les détails",
@@ -464,45 +439,23 @@
       },
       "pickDate": "Choisir une date",
       "quickSearch": "Recherche rapide — nom, poste, compétence…"
-    }
+    },
+    "dropHere": "Glissez-déposez vos fichiers ici",
+    "browseHint": "ou cliquez pour parcourir — .pdf ou .docx, jusqu’à {{max}} fichiers",
+    "filesReady_one": "{{count}} fichier prêt à être importé",
+    "filesReady_other": "{{count}} fichiers prêts à être importés"
   },
   "appCVMatching": {
-    "selectJobPost": "Sélectionner une offre",
-    "selectCVs": "Sélectionner des CV",
-    "analyzeCVs": "Analyser",
-    "noJobPostSelected": "Aucune offre sélectionnée",
-    "reportData": "Résultats",
     "noAnalysisResult": "Aucun résultat disponible",
-    "selectAll": "Tout sélectionner",
-    "searchCVs": "Rechercher par nom, poste ou compétences",
-    "analyzedResults": "Résultats",
-    "analysisDetails": "Détails",
     "skillsMatch": "Correspondance des compétences",
-    "exceedsRequirements": "Dépasse les critères",
     "lackingSkills": "Compétences manquantes",
     "experienceAlignment": "Expérience correspondante",
-    "overallSummary": "Résumé",
-    "score": "Score",
-    "pointsForImprovement": "Axes d’amélioration",
-    "interviewQuestions": "Questions pour entretien",
-    "skillsBasedQuestions": "Questions techniques",
-    "strengthBasedQuestions": "Questions sur les points forts",
-    "gapExplorationQuestions": "Questions sur les manques",
-    "saveReport": "Enregistrer",
-    "reportName": "Nom du rapport",
-    "submit": "Enregistrer",
-    "reportSaveSuccessTitle": "Rapport enregistré",
-    "reportSaveSuccessMessage": "Votre rapport a été enregistré et est disponible.",
-    "close": "Fermer",
     "candidateProfile": "Profil du candidat",
     "skills": "Compétences",
-    "degreeOfMatch": "Niveau de correspondance",
-    "job": "Poste",
     "finalScore": "Score Final",
     "locationMatch": "Correspondance Géographique",
     "industryMatch": "Correspondance Secteur",
     "matchingSkills": "Compétences Correspondantes",
-    "seeCvDetails": "Voir le CV",
     "strengths": "Points forts",
     "weaknesses": "Points faibles",
     "redFlags": "Signaux d'alerte",
@@ -740,10 +693,6 @@
       "label": "Correspondances totales",
       "title": "Rapport compétences"
     },
-    "subscription": {
-      "active": "Abonnement : Actif",
-      "inactive": "Abonnement : Inactif"
-    },
     "loading": "Chargement…",
     "kpi": {
       "totalCVs": "CV",
@@ -755,7 +704,6 @@
       "skillsReport": "Top 10 compétences",
       "jobPostsReport": "Rapports par offre",
       "topCandidates": "Top 5 candidats par offre d'emploi",
-      "usageMonitoring": "Suivi de consommation",
       "talentPoolInsight": "Analyse du vivier de talents"
     },
     "talent": {
@@ -795,8 +743,7 @@
     },
     "table": {
       "jobPostTitle": "Intitulé du poste",
-      "totalMatch": "Candidatures",
-      "candidate": "Candidat"
+      "totalMatch": "Candidatures"
     },
     "usage": {
       "matchingActions": "Actions de matching",
@@ -878,9 +825,6 @@
     "refreshReport": "Actualiser"
   },
   "pricing": {
-    "title": "Qorva AI — Choisissez votre forfait",
-    "chooseYourPlan": "Choisissez votre forfait",
-    "stepSubtitle": "Commencez gratuitement, évoluez à votre rythme. Résiliation à tout moment.",
     "monthly": "Mensuel",
     "yearly": "Annuel",
     "periodMonthly": "/mois",
@@ -889,15 +833,7 @@
     "mostPopular": "Le plus populaire",
     "selectPlan": "Choisir ce forfait",
     "selected": "Sélectionné",
-    "noPlanSelected": "Veuillez sélectionner un forfait pour continuer.",
     "loadError": "Impossible de charger les forfaits. Réessayez.",
-    "badge": "Tarifs simples et transparents",
-    "subtitle": "Choisissez le forfait adapté à votre équipe",
-    "footer": "Les paiements sont traités en toute sécurité par Stripe. Vous pouvez annuler ou changer de forfait à tout moment.",
-    "matchingActionNote": "Une action de matching = 1 offre mise en correspondance avec tous les candidats de votre vivier",
-    "button": {
-      "freeTrial": "Démarrer l'essai gratuit"
-    },
     "features": {
       "freeTrial": "Essai gratuit de 14 jours",
       "brandedCvExport": "Export de CV brandé",
@@ -1237,7 +1173,12 @@
     "trialStartedSubtitle": "Votre essai gratuit de 14 jours est actif et l'accès complet est débloqué. Votre espace de travail est prêt pour vos données.",
     "goToWorkspace": "Accéder à votre espace de travail",
     "pendingTitle": "Paiement reçu",
-    "pendingSubtitle": "Votre essai est en cours d'activation. Cela peut prendre un instant — ouvrez votre espace de travail et il se débloquera automatiquement."
+    "pendingSubtitle": "Votre essai est en cours d'activation. Cela peut prendre un instant — ouvrez votre espace de travail et il se débloquera automatiquement.",
+    "cta": "Se connecter à Qorva",
+    "emailNote": "Un e-mail de confirmation vous a été envoyé. Connectez-vous pour recruter plus intelligemment.",
+    "help": "Besoin d'aide ? Écrivez-nous à support@qorva.ai",
+    "subtitle": "Votre abonnement est actif. Bienvenue sur Qorva AI !",
+    "title": "Paiement réussi !"
   },
   "libraryQuality": {
     "overall": "Santé de la CVthèque",
@@ -1746,5 +1687,13 @@
       "toggle": "Votre organisation a bloqué le consentement ?",
       "body": "Certains tenants Microsoft 365 n’autorisent que les administrateurs à approuver de nouvelles applications. Demandez à votre administrateur IT d’approuver « Qorva » pour votre organisation (la demande apparaît dans Microsoft Entra › Applications d’entreprise › Demandes de consentement administrateur), puis reconnectez-vous."
     }
+  },
+  "checkoutCancel": {
+    "help": "Besoin d'aide ? Écrivez-nous à support@qorva.ai",
+    "retry": "Relancer le paiement",
+    "retryError": "Impossible de relancer le paiement. Veuillez réessayer.",
+    "startOver": "Recommencer",
+    "subtitle": "Aucun montant n'a été débité. Votre compte est créé — il ne reste qu'à finaliser le paiement.",
+    "title": "Paiement annulé"
   }
 }

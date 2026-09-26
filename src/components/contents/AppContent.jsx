@@ -1,10 +1,7 @@
-// eslint-disable-next-line no-unused-vars
-import React from 'react';
+import { lazy, Suspense } from 'react';
 import PropTypes from 'prop-types';
-import { Box } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 import { SIDEBAR_WIDTH, SIDEBAR_WIDTH_COLLAPSED } from '../menu/AppSidebar.jsx';
-import JobContent from "../../features/jobs/components/JobsContent.jsx";
-import AppCVContent from "../../features/cv/components/AppCVContent.jsx";
 import {
 	COMP_ID_CVLIB,
 	COMP_ID_EMAIL_TEMPLATES,
@@ -17,17 +14,27 @@ import {
 	COMP_ID_INTELLIGENCE,
 	COMP_ID_USAGE_MONITORING,
 } from "../../constants.js";
-import AppLibraryQuality from "../../features/library-quality/components/AppLibraryQuality.jsx";
-import AppEmailTemplates from "../../features/email-templates/components/AppEmailTemplates.jsx";
-import AppMatchingReports from "../../features/reports/components/AppMatchingReports.jsx";
-import QorvaDashboard from "../../features/dashboard/components/QorvaDashboard.jsx";
-import AccountSettings from "../../features/settings/components/AccountSettings.jsx";
-import AppAIResumeChat from "../../features/chat/components/AppAIResumeChat.jsx";
-import AppLibraryInsights from "../../features/intelligence/components/AppLibraryInsights.jsx";
-import UsageMonitoringContent from "../../features/usage/components/UsageMonitoringContent.jsx";
 import DemoBanner from "../demo/DemoBanner.jsx";
 import { isDemoUser } from "../../utils/demoMode.js";
 import * as tokens from '../../theme/tokens.js';
+
+// Each tab's screen is its own chunk: the first load only fetches the tab being opened.
+const JobContent = lazy(() => import('../../features/jobs/components/JobsContent.jsx'));
+const AppCVContent = lazy(() => import('../../features/cv/components/AppCVContent.jsx'));
+const AppLibraryQuality = lazy(() => import('../../features/library-quality/components/AppLibraryQuality.jsx'));
+const AppEmailTemplates = lazy(() => import('../../features/email-templates/components/AppEmailTemplates.jsx'));
+const AppMatchingReports = lazy(() => import('../../features/reports/components/AppMatchingReports.jsx'));
+const QorvaDashboard = lazy(() => import('../../features/dashboard/components/QorvaDashboard.jsx'));
+const AccountSettings = lazy(() => import('../../features/settings/components/AccountSettings.jsx'));
+const AppAIResumeChat = lazy(() => import('../../features/chat/components/AppAIResumeChat.jsx'));
+const AppLibraryInsights = lazy(() => import('../../features/intelligence/components/AppLibraryInsights.jsx'));
+const UsageMonitoringContent = lazy(() => import('../../features/usage/components/UsageMonitoringContent.jsx'));
+
+const TabLoading = () => (
+	<Box sx={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+		<CircularProgress size={28} sx={{ color: tokens.brand.main }} />
+	</Box>
+);
 
 const AppContent = ({ content, isSidebarCollapsed }) => {
 	const demo = isDemoUser();
@@ -75,7 +82,9 @@ const AppContent = ({ content, isSidebarCollapsed }) => {
 		}}>
 			{demo && <DemoBanner />}
 			<Box sx={{ flex: 1, minHeight: 0, overflow: 'hidden' }}>
-				{renderContent()}
+				<Suspense fallback={<TabLoading />}>
+					{renderContent()}
+				</Suspense>
 			</Box>
 		</Box>
 	);

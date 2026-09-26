@@ -49,11 +49,8 @@
     "dataDeleted": "Bij verwijderen van je account worden al je gegevens permanent gewist.",
     "firstNameRequired": "Voornaam is verplicht",
     "lastNameRequired": "Achternaam is verplicht",
-    "companyNameRequired": "Bedrijfsnaam is verplicht",
     "emailRequired": "E-mail is verplicht",
     "emailInvalid": "Voer een geldig e-mailadres in",
-    "passwordRequired": "Wachtwoord is verplicht",
-    "passwordInvalid": "8–20 tekens met hoofdletter, kleine letter, cijfer en symbool",
     "errorMessage": "Er ging iets mis. Probeer opnieuw.",
     "clientError": "Invoerfout. Controleer je gegevens.",
     "serverError": "Serverfout. Probeer later opnieuw.",
@@ -62,27 +59,10 @@
     "firstName": "Voornaam",
     "lastName": "Achternaam",
     "email": "E-mail",
-    "password": "Wachtwoord",
-    "togglePasswordVisibility": "Wachtwoord tonen/verbergen",
-    "companyName": "Bedrijfsnaam",
-    "registerButton": "Registreren",
     "alreadyHaveAccount": "Heb je al een account?",
     "signIn": "Inloggen",
-    "step1": "Accountgegevens",
-    "step2": "Kies plan",
-    "next": "Volgende: kies plan",
-    "back": "Terug",
-    "continueToCheckout": "Doorgaan naar betaling",
     "panel": {
-      "badge": "Geen creditcard nodig",
-      "headline": "Alles wat u nodig heeft om slimmer te werven.",
-      "subtext": "Sluit je aan bij teams die kandidaten in seconden screenen."
-    },
-    "success": {
-      "title": "Registratie geslaagd",
-      "message": "Je account is succesvol aangemaakt.",
-      "confirmationEmail": "Een bevestigingsmail is verstuurd.",
-      "signInLink": "Log in om direct te starten."
+      "headline": "Alles wat u nodig heeft om slimmer te werven."
     },
     "demoSubtext": "Maak uw gratis demowerkruimte — geen creditcard, geen betaling.",
     "organizationName": "Naam van de organisatie",
@@ -103,7 +83,6 @@
     }
   },
   "header": {
-    "matching": "Matching",
     "jobs": "Vacatures",
     "cvs": "CV-archief",
     "reports": "Matchingrapporten",
@@ -114,10 +93,10 @@
     "usageMonitoring": "Gebruiksmonitoring",
     "libraryQuality": "Bibliotheekkwaliteit",
     "resumes": "Alle cv's",
-    "emailTemplates": "E-mailsjablonen"
-  },
-  "footer": {
-    "rightsReserved": "© Qorva AI. Alle rechten voorbehouden."
+    "emailTemplates": "E-mailsjablonen",
+    "dashboard": "Dashboard",
+    "expandMenu": "Uitklappen",
+    "collapseMenu": "Inklappen"
   },
   "jobContent": {
     "createJobPost": "Nieuwe vacature",
@@ -210,8 +189,6 @@
   },
   "appCVContent": {
     "createCVEntry": "CV toevoegen",
-    "createCVCollection": "CV-verzameling maken",
-    "collectionName": "Naam verzameling",
     "noCVEntries": "Geen CV’s beschikbaar",
     "cvListTitle": "CV-overzicht",
     "cvDetailsTitle": "CV-details",
@@ -305,8 +282,6 @@
     "uploadCV": "Bulk-upload CV's",
     "experience": "Ervaring",
     "yearsAbbr": "jr.",
-    "createCollection": "Nieuwe verzameling",
-    "saveCollection": "Verzameling opslaan",
     "attachment": "Bijlage",
     "viewAttachment": "Bekijk bestand",
     "selectCVToSeeDetails": "Selecteer een CV voor details",
@@ -464,42 +439,21 @@
       },
       "pickDate": "Kies een datum",
       "quickSearch": "Snel zoeken — naam, rol, vaardigheid…"
-    }
+    },
+    "dropHere": "Sleep bestanden hierheen",
+    "browseHint": "of klik om te bladeren — .pdf of .docx, tot {{max}} bestanden",
+    "filesReady_one": "{{count}} bestand klaar om te uploaden",
+    "filesReady_other": "{{count}} bestanden klaar om te uploaden"
   },
   "appCVMatching": {
-    "selectJobPost": "Selecteer vacature",
-    "selectCVs": "Selecteer CV’s",
-    "analyzeCVs": "Analyseren",
-    "noJobPostSelected": "Geen vacature geselecteerd",
-    "reportData": "Resultaten",
     "noAnalysisResult": "Geen resultaten beschikbaar",
-    "selectAll": "Alles selecteren",
-    "searchCVs": "Zoek op naam, rol of vaardigheden",
-    "analyzedResults": "Geanalyseerde resultaten",
-    "analysisDetails": "Analyse details",
     "skillsMatch": "Vaardigheden match",
-    "exceedsRequirements": "Boven vereisten",
     "lackingSkills": "Ontbrekende vaardigheden",
     "experienceAlignment": "Ervaring passend",
-    "overallSummary": "Samenvatting",
-    "score": "Score",
-    "pointsForImprovement": "Verbeterpunten",
-    "interviewQuestions": "Voorstel vragen voor gesprek",
-    "skillsBasedQuestions": "Vragen over vaardigheden",
-    "strengthBasedQuestions": "Vragen over sterke punten",
-    "gapExplorationQuestions": "Vragen over hiaten",
-    "saveReport": "Opslaan",
-    "reportName": "Rapportnaam",
-    "submit": "Opslaan",
-    "reportSaveSuccessTitle": "Rapport opgeslagen",
-    "reportSaveSuccessMessage": "Het rapport is opgeslagen en beschikbaar.",
-    "close": "Sluiten",
-    "job": "Functie",
     "finalScore": "Eindscore",
     "locationMatch": "Locatieovereenkomst",
     "industryMatch": "Sectorovereenkomst",
     "matchingSkills": "Overeenkomende Vaardigheden",
-    "seeCvDetails": "CV bekijken",
     "strengths": "Sterke punten",
     "weaknesses": "Zwakke punten",
     "redFlags": "Waarschuwingssignalen",
@@ -528,7 +482,9 @@
       "learningVelocity": "Leersnelheid",
       "confidence": "Clusterbetrouwbaarheid",
       "reasoning": "Redenering"
-    }
+    },
+    "candidateProfile": "Kandidaatprofiel",
+    "skills": "Vaardigheden"
   },
   "appReportContent": {
     "reportListTitle": "Rapporten",
@@ -737,10 +693,6 @@
       "label": "Totaal aantal matches",
       "title": "Vaardighedenrapport"
     },
-    "subscription": {
-      "active": "Abonnement: Actief",
-      "inactive": "Abonnement: Inactief"
-    },
     "loading": "Bezig met laden…",
     "kpi": {
       "totalCVs": "CV’s",
@@ -752,7 +704,6 @@
       "skillsReport": "Top 10 vaardigheden",
       "jobPostsReport": "Rapporten per vacature",
       "topCandidates": "Top 5 kandidaten per vacature",
-      "usageMonitoring": "Gebruiksmonitoring",
       "talentPoolInsight": "Talentpool-analyse"
     },
     "talent": {
@@ -792,8 +743,7 @@
     },
     "table": {
       "jobPostTitle": "Vacaturetitel",
-      "totalMatch": "Aantal sollicitaties",
-      "candidate": "Kandidaat"
+      "totalMatch": "Aantal sollicitaties"
     },
     "usage": {
       "matchingActions": "Matching-acties",
@@ -875,9 +825,6 @@
     "refreshReport": "Vernieuwen"
   },
   "pricing": {
-    "title": "Qorva AI — Kies uw plan",
-    "chooseYourPlan": "Kies uw plan",
-    "stepSubtitle": "Start gratis, upgrade wanneer u er klaar voor bent. Altijd opzegbaar.",
     "monthly": "Maandelijks",
     "yearly": "Jaarlijks",
     "periodMonthly": "/mnd",
@@ -886,15 +833,7 @@
     "mostPopular": "Meest populair",
     "selectPlan": "Plan kiezen",
     "selected": "Geselecteerd",
-    "noPlanSelected": "Selecteer een plan om door te gaan.",
     "loadError": "Plannen konden niet worden geladen. Probeer opnieuw.",
-    "badge": "Eenvoudige, transparante prijzen",
-    "subtitle": "Kies het plan dat bij uw team past",
-    "footer": "Betalingen worden veilig verwerkt via Stripe. U kunt uw plan op elk moment annuleren of wijzigen.",
-    "matchingActionNote": "Een matching-actie = 1 vacature gekoppeld aan alle kandidaten in uw talentpool",
-    "button": {
-      "freeTrial": "Gratis proefperiode starten"
-    },
     "features": {
       "freeTrial": "14 dagen gratis proefperiode",
       "brandedCvExport": "Cv-export met huisstijl",
@@ -1234,7 +1173,12 @@
     "trialStartedSubtitle": "Uw gratis proefperiode van 14 dagen is actief en volledige toegang is ontgrendeld. Uw werkruimte is klaar voor echte gegevens.",
     "goToWorkspace": "Ga naar uw werkruimte",
     "pendingTitle": "Betaling ontvangen",
-    "pendingSubtitle": "Uw proefperiode wordt geactiveerd. Dit kan even duren — open uw werkruimte en deze wordt automatisch ontgrendeld."
+    "pendingSubtitle": "Uw proefperiode wordt geactiveerd. Dit kan even duren — open uw werkruimte en deze wordt automatisch ontgrendeld.",
+    "cta": "Inloggen bij Qorva",
+    "emailNote": "We hebben je een bevestigingsmail gestuurd. Log in en werf slimmer.",
+    "help": "Hulp nodig? Mail ons op support@qorva.ai",
+    "subtitle": "Je abonnement is nu actief. Welkom bij Qorva AI!",
+    "title": "Betaling geslaagd!"
   },
   "libraryQuality": {
     "overall": "Bibliotheekgezondheid",
@@ -1743,5 +1687,13 @@
       "toggle": "Heeft uw organisatie de toestemming geblokkeerd?",
       "body": "Sommige Microsoft 365-tenants laten alleen een beheerder nieuwe apps goedkeuren. Vraag uw IT-beheerder om “Qorva” voor uw organisatie goed te keuren (het verzoek staat in Microsoft Entra › Bedrijfstoepassingen › Aanvragen voor beheerderstoestemming) en koppel daarna opnieuw."
     }
+  },
+  "checkoutCancel": {
+    "help": "Hulp nodig? Mail ons op support@qorva.ai",
+    "retry": "Betaling opnieuw proberen",
+    "retryError": "Het afrekenen kon niet opnieuw worden gestart. Probeer het opnieuw.",
+    "startOver": "Opnieuw beginnen",
+    "subtitle": "Er is niets in rekening gebracht. Je account is aangemaakt — je hoeft alleen nog af te rekenen.",
+    "title": "Betaling geannuleerd"
   }
 }
