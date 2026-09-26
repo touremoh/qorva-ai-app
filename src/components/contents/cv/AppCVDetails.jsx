@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import SectionHeader from '../../../shared/ui/SectionHeader.jsx';
 import { getInitials, toLabel } from '../../../shared/lib/text.js';
 import {
@@ -54,7 +54,6 @@ import TranslateIcon from '@mui/icons-material/Translate';
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
-import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined';
 import FingerprintOutlinedIcon from '@mui/icons-material/FingerprintOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
@@ -62,51 +61,15 @@ import CheckIcon from '@mui/icons-material/Check';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import HubOutlinedIcon from '@mui/icons-material/HubOutlined';
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
-import { getTenantLogo } from '../../../features/settings/api/tenantService.js';
-import { getTenantById } from '../../../features/settings/api/tenantService.js';
 import { updateCV } from '../../../services/cvService.js';
 import NotesPanel from '../common/NotesPanel.jsx';
-import { TENANT_ID } from '../../../constants.js';
 import { safeExternalUrl } from '../../../utils/safeUrl.js';
 import { fontFamilyMono } from '../../../theme/tokens.js';
+import useTenantBranding from '../../../features/settings/hooks/useTenantBranding.js';
+import TenantBrandHeader from '../../../features/settings/components/branding/TenantBrandHeader.jsx';
+import { SKILL_DEPTH_STYLE, STYLE_UNKNOWN, getSeniorityStyle, getLeadershipStyle, getVelocityStyle } from '../../../shared/lib/clustering.js';
 
 // ─── Clustering style helpers ────────────────────────────────────────────────
-
-const SKILL_DEPTH_STYLE = {
-	specialist: { color: '#7c3aed', bg: 'rgba(124,58,237,0.08)', bdr: 'rgba(124,58,237,0.2)' },
-	generalist: { color: '#2563eb', bg: 'rgba(37,99,235,0.08)',  bdr: 'rgba(37,99,235,0.2)'  },
-	tShaped:    { color: '#0891b2', bg: 'rgba(8,145,178,0.08)',  bdr: 'rgba(8,145,178,0.2)'  },
-	hybrid:     { color: '#6366f1', bg: 'rgba(99,102,241,0.08)', bdr: 'rgba(99,102,241,0.2)' },
-};
-const STYLE_UNKNOWN = { color: '#94a3b8', bg: 'rgba(148,163,184,0.08)', bdr: 'rgba(148,163,184,0.2)' };
-const STYLE_GREEN   = { color: '#629C44', bg: 'rgba(98,156,68,0.08)',   bdr: 'rgba(98,156,68,0.2)'   };
-const STYLE_AMBER   = { color: '#d97706', bg: 'rgba(245,158,11,0.08)',  bdr: 'rgba(245,158,11,0.2)'  };
-const STYLE_SLATE   = { color: '#64748b', bg: 'rgba(100,116,139,0.08)', bdr: 'rgba(100,116,139,0.2)' };
-
-const getSeniorityStyle = (v) => {
-	const lower = (v || '').toLowerCase();
-	const HIGH = new Set(['senior', 'lead', 'principal', 'manager', 'director', 'executive']);
-	if (HIGH.has(lower))      return STYLE_GREEN;
-	if (lower === 'midlevel') return STYLE_AMBER;
-	return STYLE_SLATE;
-};
-
-const getLeadershipStyle = (v) => {
-	const lower = (v || '').toLowerCase();
-	const HIGH = new Set(['crossfunctionalleader', 'strategicleader', 'executiveinfluence']);
-	if (HIGH.has(lower))      return STYLE_GREEN;
-	if (lower === 'teamlead') return STYLE_AMBER;
-	return STYLE_SLATE;
-};
-
-const getVelocityStyle = (v) => {
-	const lower = (v || '').toLowerCase();
-	if (lower === 'veryhigh') return { color: '#16a34a', bg: 'rgba(22,163,74,0.10)',  bdr: 'rgba(22,163,74,0.3)'  };
-	if (lower === 'high')     return STYLE_GREEN;
-	if (lower === 'medium')   return STYLE_AMBER;
-	if (lower === 'low')      return { color: '#dc2626', bg: 'rgba(220,38,38,0.10)',  bdr: 'rgba(220,38,38,0.3)'  };
-	return STYLE_UNKNOWN;
-};
 
 // ─── ClusteringTabContent ─────────────────────────────────────────────────────
 
@@ -413,28 +376,7 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 			setTimeout(() => setRefCopied(false), 2000);
 		});
 	}, [cv?.applicantNumber]);
-	const [tenant, setTenant] = useState(null);
-	const [tenantLogoUrl, setTenantLogoUrl] = useState('');
-
-	useEffect(() => {
-		const tenantId = localStorage.getItem(TENANT_ID);
-		if (!tenantId) return;
-		getTenantById(tenantId)
-			.then(res => setTenant(res?.data?.data ?? null))
-			.catch(() => {});
-	}, []);
-
-	useEffect(() => {
-		if (!tenant?.companyLogoUrl) { setTenantLogoUrl(''); return; }
-		let objectUrl = '';
-		getTenantLogo()
-			.then(res => {
-				objectUrl = URL.createObjectURL(res.data);
-				setTenantLogoUrl(objectUrl);
-			})
-			.catch(() => setTenantLogoUrl(''));
-		return () => { if (objectUrl) URL.revokeObjectURL(objectUrl); };
-	}, [tenant?.companyLogoUrl]);
+	const { tenant, tenantLogoUrl } = useTenantBranding();
 
 	if (!cv) {
 		return (
@@ -581,74 +523,7 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 			<Box ref={resumeRef} sx={{ display: activeTab === 0 ? 'block' : 'none', flex: 1, overflowY: 'auto', p: 2.5, textAlign: 'left' }}>
 
 				{/* Company branding header */}
-				{tenant && (
-					<Box sx={{
-						display: 'flex', alignItems: 'center', gap: 2,
-						px: 2, py: 1.5, mb: 2.5,
-						borderRadius: 2, border: '1px solid #e2e8f0',
-						backgroundColor: '#ffffff',
-					}}>
-						{tenantLogoUrl ? (
-							<Box
-								component="img"
-								src={tenantLogoUrl}
-								alt={tenant.tenantName}
-								sx={{ height: 36, maxWidth: 100, objectFit: 'contain', flexShrink: 0 }}
-							/>
-						) : (
-							<Box sx={{
-								width: 36, height: 36, borderRadius: 1.5, flexShrink: 0,
-								display: 'flex', alignItems: 'center', justifyContent: 'center',
-								backgroundColor: 'rgba(98,156,68,0.08)', border: '1px solid rgba(98,156,68,0.2)',
-							}}>
-								<BusinessOutlinedIcon sx={{ fontSize: 18, color: '#629C44' }} />
-							</Box>
-						)}
-						<Box sx={{ flex: 1, minWidth: 0 }}>
-							<Typography sx={{ fontWeight: 700, fontSize: '0.85rem', color: '#0f172a', lineHeight: 1.3 }}>
-								{tenant.tenantName}
-							</Typography>
-							<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, mt: 0.4 }}>
-								{tenant.contactEmail && (
-									<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.4 }}>
-										<EmailIcon sx={{ fontSize: 11, color: '#94a3b8' }} />
-										<Typography sx={{ fontSize: '0.72rem', color: '#64748b' }}>
-											{tenant.contactEmail}
-										</Typography>
-									</Box>
-								)}
-								{tenant.phoneNumber && (
-									<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.4 }}>
-										<PhoneIcon sx={{ fontSize: 11, color: '#94a3b8' }} />
-										<Typography sx={{ fontSize: '0.72rem', color: '#64748b' }}>
-											{tenant.phoneNumber}
-										</Typography>
-									</Box>
-								)}
-								{tenant.websiteUrl && (
-									<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.4 }}>
-										<LanguageIcon sx={{ fontSize: 11, color: '#94a3b8' }} />
-										<Typography
-											component="a"
-											href={safeExternalUrl(tenant.websiteUrl) ?? undefined}
-											target="_blank"
-											rel="noopener noreferrer"
-											sx={{ fontSize: '0.72rem', color: '#629C44', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
-										>
-											{tenant.websiteUrl.replace(/^https?:\/\//, '')}
-										</Typography>
-									</Box>
-								)}
-							</Box>
-						</Box>
-						<Typography sx={{
-							fontSize: '0.65rem', color: '#cbd5e1', fontStyle: 'italic',
-							flexShrink: 0, alignSelf: 'flex-start',
-						}}>
-							{t('appCVContent.presentedBy')}
-						</Typography>
-					</Box>
-				)}
+				{tenant && <TenantBrandHeader tenant={tenant} logoUrl={tenantLogoUrl} sx={{ px: 2, mb: 2.5, borderRadius: 2, border: '1px solid', borderColor: 'line.main' }} />}
 
 				{/* Candidate header card */}
 				<Card sx={{ mb: 2, display: 'flex', alignItems: 'flex-start', gap: 2 }}>

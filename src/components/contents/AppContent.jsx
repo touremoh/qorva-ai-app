@@ -19,7 +19,7 @@ import {
 } from "../../constants.js";
 import AppLibraryQuality from "../../features/library-quality/components/AppLibraryQuality.jsx";
 import AppEmailTemplates from "../../features/email-templates/components/AppEmailTemplates.jsx";
-import AppMatchingReports from "./reports/AppMatchingReports.jsx";
+import AppMatchingReports from "../../features/reports/components/AppMatchingReports.jsx";
 import QorvaDashboard from "../../features/dashboard/components/QorvaDashboard.jsx";
 import AccountSettings from "../../features/settings/components/AccountSettings.jsx";
 import AppAIResumeChat from "./chats/AppAIResumeChat.jsx";

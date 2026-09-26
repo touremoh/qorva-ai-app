@@ -1,5 +1,7 @@
 import { brandPillButtonSx } from '../../../shared/ui/buttonSx.js';
+
 export const GREEN = '#629C44';
+
 export const BTN_GREEN_SX = { ...brandPillButtonSx, fontSize: '0.8rem' };
 /**
  * Static provider metadata: display name, the credential fields the connect form asks for,

@@ -58,7 +58,7 @@ import ChatMarkdown from './ChatMarkdown.jsx';
 import ChatContextPanel from './ChatContextPanel.jsx';
 import { getCVs, searchCVs } from '../../../services/cvService.js';
 import { getJobs } from '../../../services/jobService.js';
-import { findReportByCriteria } from '../../../services/reportService.js';
+import { findReportByCriteria } from '../../../features/reports/api/reportService.js';
 import { QORVA_USER_LANGUAGE } from '../../../constants.js';
 import { resolveError } from '../../../utils/errorHandler.js';
 

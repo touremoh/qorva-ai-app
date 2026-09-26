@@ -10,6 +10,7 @@ export const ALL_ACTIONS = [
 	'CONTACT_CANDIDATE',
 	'UPDATE_SUBSCRIPTION', 'CANCEL_SUBSCRIPTION',
 ];
+
 export const AUTHORITY_GROUPS = [
 	{ key: 'dashboard', actions: ['VIEW_DASHBOARD'] },
 	{ key: 'resumes', actions: ['ADD_CV', 'VIEW_CV', 'MODIFY_CV', 'DELETE_CV'] },
@@ -24,8 +25,11 @@ export const AUTHORITY_GROUPS = [
 	{ key: 'outreach', actions: ['CONTACT_CANDIDATE'] },
 	{ key: 'billing', actions: ['UPDATE_SUBSCRIPTION', 'CANCEL_SUBSCRIPTION'] },
 ];
+
 export const emptyPerms = () => Object.fromEntries(ALL_ACTIONS.map(a => [a, false]));
+
 export const fullPerms = () => Object.fromEntries(ALL_ACTIONS.map(a => [a, true]));
+
 export const permsFromAuthorities = (authorities = []) => {
 	const p = emptyPerms();
 	(authorities || []).forEach(auth => {
@@ -35,18 +39,23 @@ export const permsFromAuthorities = (authorities = []) => {
 	});
 	return p;
 };
+
 export const getRoleFromAuthorities = (authorities = []) =>
 	(authorities || []).find(a => a.role)?.role ?? null;
+
 export const ROLE_LABELS = {
 	ACCOUNT_OWNER: 'Owner',
 	ACCOUNT_MANAGER: 'Manager',
 };
+
 export const permsToAuthorities = (perms, role) =>
 	Object.entries(perms)
 		.filter(([, v]) => v)
 		.map(([action]) => ({ role: role ?? null, action, permission: 'ALLOWED' }));
+
 export const SWITCH_SX = {
 	'& .MuiSwitch-switchBase.Mui-checked': { color: '#629C44' },
 	'& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#629C44' },
 };
+
 export const DIALOG_PAPER_SX = { elevation: 0, sx: { borderRadius: 3, border: '1px solid #e2e8f0' } };

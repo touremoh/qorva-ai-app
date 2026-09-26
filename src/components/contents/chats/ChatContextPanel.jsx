@@ -7,7 +7,7 @@ import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import AppCVDetails from '../cv/AppCVDetails.jsx';
-import AppMatchingReportDetails from '../reports/AppMatchingReportDetails.jsx';
+import AppMatchingReportDetails from '../../../features/reports/components/AppMatchingReportDetails.jsx';
 import JobPostReadView from '../jobs/JobPostReadView.jsx';
 import { getCVById } from '../../../services/cvService.js';
 import { getJobById } from '../../../services/jobService.js';
