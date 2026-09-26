@@ -22,7 +22,7 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { getQualityIssues, performQualityAction, notifyQualityChanged } from '../api/libraryQualityService.js';
-import { getCVById, updateCV } from '../../../services/cvService.js';
+import { getCVById, updateCV } from '../../cv/api/cvService.js';
 
 const PAGE_SIZE = 10;
 const CONFIRM_CURRENT_CAP = 50;

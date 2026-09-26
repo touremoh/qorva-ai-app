@@ -1,4 +1,4 @@
-import { getCVs, searchCVs } from './cvService.js';
+import { getCVs, searchCVs } from '../features/cv/api/cvService.js';
 import { getJobs } from '../features/jobs/api/jobService.js';
 
 const PAGE_SIZE = 8;

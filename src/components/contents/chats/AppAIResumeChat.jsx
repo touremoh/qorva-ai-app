@@ -56,7 +56,7 @@ import ViewSidebarOutlinedIcon from '@mui/icons-material/ViewSidebarOutlined';
 import { getChats, getMessages, createChat, sendMessage as sendChatMessage, updateChatStatus, deleteChat, getChat } from '../../../services/chatService.js';
 import ChatMarkdown from './ChatMarkdown.jsx';
 import ChatContextPanel from './ChatContextPanel.jsx';
-import { getCVs, searchCVs } from '../../../services/cvService.js';
+import { getCVs, searchCVs } from '../../../features/cv/api/cvService.js';
 import { getJobs } from '../../../features/jobs/api/jobService.js';
 import { findReportByCriteria } from '../../../features/reports/api/reportService.js';
 import { QORVA_USER_LANGUAGE } from '../../../constants.js';

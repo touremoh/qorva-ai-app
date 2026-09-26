@@ -24,7 +24,7 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useTranslation } from 'react-i18next';
-import { getDuplicates, deleteCV } from '../../../services/cvService.js';
+import { getDuplicates, deleteCV } from '../../cv/api/cvService.js';
 
 const PAGE_SIZE = 10;
 

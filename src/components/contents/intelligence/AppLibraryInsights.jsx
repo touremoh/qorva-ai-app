@@ -7,12 +7,12 @@ import PsychologyOutlinedIcon from '@mui/icons-material/PsychologyOutlined';
 import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
 import { useTranslation } from 'react-i18next';
 import { askInsight, getConversations, getConversationHistory, deleteConversation } from '../../../services/libraryInsightsService.js';
-import { getCVById } from '../../../services/cvService.js';
+import { getCVById } from '../../../features/cv/api/cvService.js';
 import InsightResultCard from './InsightResultCard.jsx';
 import InsightConversationList from './InsightConversationList.jsx';
 import InsightIntentCards from './InsightIntentCards.jsx';
 import MentionInput from './MentionInput.jsx';
-import AppCVDetails from '../cv/AppCVDetails.jsx';
+import AppCVDetails from '../../../features/cv/components/AppCVDetails.jsx';
 
 // Map InsightConversationTurnDTO to the shape InsightResultCard expects
 const turnToResult = (turn) => ({

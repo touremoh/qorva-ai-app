@@ -22,60 +22,12 @@ import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { ATS_LABELS } from './atsLabels.js';
-import { DEFAULT_SORT } from './useCVFilters.js';
+import { ATS_LABELS } from '../model/atsLabels.js';
+import { DEFAULT_SORT } from '../hooks/useCVFilters.js';
+import GroupLabel from './filters/GroupLabel.jsx';
+import { UNSET, DRAWER_WIDTH, GREEN, SORT_OPTIONS, ENUM_GROUPS, VALUE_GROUPS, inputSx } from '../model/filterRail.js';
 
 export const RAIL_WIDTH = 260;
-// Sent for the "Not analysed" bucket; the backend maps it to a null match (CVSpecifications.fieldIn).
-const UNSET = '_unset';
-const DRAWER_WIDTH = 280;
-const GREEN = '#629C44';
-
-const SORT_OPTIONS = [
-	{ value: 'lastUpdatedAt,desc', key: 'lastUpdated' },
-	{ value: 'createdAt,desc', key: 'newest' },
-	{ value: 'name,asc', key: 'name' },
-	{ value: 'experience,desc', key: 'experience' },
-];
-
-// Chip groups read their labels from i18n by value; sources use the ATS display names.
-const ENUM_GROUPS = ['seniority', 'leadership', 'availability', 'skillDepth'];
-const VALUE_GROUPS = ['industries', 'locations', 'skills', 'tags'];
-
-const labelSx = {
-	fontSize: '0.68rem',
-	fontWeight: 700,
-	color: '#64748b',
-	textTransform: 'uppercase',
-	letterSpacing: '0.05em',
-	display: 'flex',
-	alignItems: 'center',
-	justifyContent: 'space-between',
-	mb: 0.5,
-};
-
-const inputSx = {
-	fontSize: '0.78rem',
-	borderRadius: 1,
-	backgroundColor: '#ffffff',
-	'& input': { py: '5px', px: '8px', fontSize: '0.78rem' },
-};
-
-const GroupLabel = ({ text, count, onReset }) => (
-	<Typography component="div" sx={labelSx}>
-		<span>{text}{count > 0 ? ` · ${count}` : ''}</span>
-		{count > 0 && onReset && (
-			<Box component="button" type="button" onClick={onReset} sx={{
-				border: 0, background: 'none', p: 0, cursor: 'pointer',
-				fontSize: '0.66rem', fontWeight: 600, color: GREEN, textTransform: 'none', letterSpacing: 0,
-				'&:hover': { textDecoration: 'underline' },
-			}}>
-				×
-			</Box>
-		)}
-	</Typography>
-);
-GroupLabel.propTypes = { text: PropTypes.string.isRequired, count: PropTypes.number, onReset: PropTypes.func };
 
 const CVFilterRail = ({
 	open, onClose, persistent,
