@@ -15,14 +15,14 @@ const OutreachContextStrip = ({ lastContact, locale, target }) => {
 			<Box sx={{ px: 2, py: 1, backgroundColor: tokens.surface.subtle, borderBottom: `1px solid ${tokens.line.main}`, display: 'flex', flexWrap: 'wrap', gap: 1.5, alignItems: 'center' }}>
 				{target?.jobTitle && (
 					<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, minWidth: 0 }}>
-						<WorkOutlineOutlinedIcon sx={{ fontSize: 14, color: tokens.ink.subtle }} />
-						<Typography sx={{ fontSize: '0.75rem', color: tokens.ink.soft, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+						<WorkOutlineOutlinedIcon sx={{ fontSize: tokens.iconSize.sm, color: tokens.ink.subtle }} />
+						<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.soft, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
 							{target.jobTitle}{target.score != null ? ` · ${Math.round(target.score)}%` : ''}
 						</Typography>
 					</Box>
 				)}
 				{lastContact && (
-					<Typography sx={{ fontSize: '0.75rem', color: tokens.ink.muted }}>
+					<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.muted }}>
 						{t('candidateOutreach.lastContacted', {
 							when: dayjs(lastContact.createdAt).locale(locale).fromNow(),
 							who: lastContact.senderEmail === (localStorage.getItem(USER_EMAIL) || '') ? t('candidateOutreach.you') : (lastContact.senderName || lastContact.senderEmail),

@@ -15,9 +15,9 @@ const InsightCard = ({ label, icon: Icon, accent, bg, items, t }) => {
 		<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
 			<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
 				<Box sx={{ width: 28, height: 28, borderRadius: 1.5, backgroundColor: bg, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-					<Icon sx={{ fontSize: 14, color: accent }} />
+					<Icon sx={{ fontSize: tokens.iconSize.sm, color: accent }} />
 				</Box>
-				<Typography sx={{ fontSize: '0.75rem', fontWeight: 700, color: tokens.ink.body }}>
+				<Typography sx={{ fontSize: tokens.fontSize.small, fontWeight: 700, color: tokens.ink.body }}>
 					{label}
 				</Typography>
 			</Box>
@@ -27,10 +27,10 @@ const InsightCard = ({ label, icon: Icon, accent, bg, items, t }) => {
 					return (
 						<Box key={name}>
 							<Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.35 }}>
-								<Typography sx={{ fontSize: '0.69rem', color: isUnknown ? `${tokens.ink.subtle}` : `${tokens.ink.soft}`, fontWeight: isUnknown ? 400 : 500 }}>
+								<Typography sx={{ fontSize: tokens.fontSize.caption, color: isUnknown ? `${tokens.ink.subtle}` : `${tokens.ink.soft}`, fontWeight: isUnknown ? 400 : 500 }}>
 									{t(`dashboard.talent.labels.${name}`, TALENT_INSIGHT_LABEL_MAP[name] ?? name)}
 								</Typography>
-								<Typography sx={{ fontSize: '0.69rem', color: isUnknown ? `${tokens.ink.subtle}` : `${tokens.ink.muted}`, fontWeight: 600 }}>
+								<Typography sx={{ fontSize: tokens.fontSize.caption, color: isUnknown ? `${tokens.ink.subtle}` : `${tokens.ink.muted}`, fontWeight: 600 }}>
 									{count} · {percentage.toFixed(1)}%
 								</Typography>
 							</Box>

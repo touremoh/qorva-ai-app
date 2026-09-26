@@ -11,7 +11,7 @@ const TypingDots = () => (
 			'0%, 100%': { opacity: 0.2 }, '50%': { opacity: 1 },
 		},
 	}}>
-		<SmartToyOutlinedIcon sx={{ fontSize: 14, color: tokens.brand.text }} />
+		<SmartToyOutlinedIcon sx={{ fontSize: tokens.iconSize.sm, color: tokens.brand.text }} />
 		<Box sx={{ display: 'flex', gap: 0.4, alignItems: 'center' }}>
 			{[0, 0.2, 0.4].map((delay, i) => (
 				<Box key={i} sx={{

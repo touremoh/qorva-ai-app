@@ -16,7 +16,7 @@ const StatusChip = ({ status }) => {
 	if (!s) return null;
 	return (
 		<Chip size="small" label={s.label} sx={{
-			height: 20, fontSize: '0.65rem', fontWeight: 700, color: s.color, backgroundColor: s.bg,
+			height: 20, fontSize: tokens.fontSize.micro, fontWeight: 700, color: s.color, backgroundColor: s.bg,
 		}} />
 	);
 };

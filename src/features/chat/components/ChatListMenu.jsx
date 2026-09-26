@@ -22,7 +22,7 @@ const ChatListMenu = ({ handleUpdateStatus, listMenuAnchor, setChatToDelete, set
 				<MenuItem
 					onClick={() => { handleUpdateStatus(listMenuAnchor.chat, 'OPEN'); setListMenuAnchor(null); }}
 					disabled={updatingStatusChatId === listMenuAnchor?.chat?.id}
-					sx={{ fontSize: '0.82rem', gap: 1 }}
+					sx={{ fontSize: tokens.fontSize.body2, gap: 1 }}
 				>
 					<ListItemIcon sx={{ minWidth: 0 }}>
 						{updatingStatusChatId === listMenuAnchor?.chat?.id
@@ -37,7 +37,7 @@ const ChatListMenu = ({ handleUpdateStatus, listMenuAnchor, setChatToDelete, set
 				<MenuItem
 					onClick={() => { handleUpdateStatus(listMenuAnchor.chat, 'CLOSED'); setListMenuAnchor(null); }}
 					disabled={updatingStatusChatId === listMenuAnchor?.chat?.id}
-					sx={{ fontSize: '0.82rem', gap: 1 }}
+					sx={{ fontSize: tokens.fontSize.body2, gap: 1 }}
 				>
 					<ListItemIcon sx={{ minWidth: 0 }}>
 						{updatingStatusChatId === listMenuAnchor?.chat?.id
@@ -52,7 +52,7 @@ const ChatListMenu = ({ handleUpdateStatus, listMenuAnchor, setChatToDelete, set
 				<MenuItem
 					onClick={() => { handleUpdateStatus(listMenuAnchor.chat, 'ARCHIVED'); setListMenuAnchor(null); }}
 					disabled={updatingStatusChatId === listMenuAnchor?.chat?.id}
-					sx={{ fontSize: '0.82rem', gap: 1 }}
+					sx={{ fontSize: tokens.fontSize.body2, gap: 1 }}
 				>
 					<ListItemIcon sx={{ minWidth: 0 }}>
 						{updatingStatusChatId === listMenuAnchor?.chat?.id
@@ -66,7 +66,7 @@ const ChatListMenu = ({ handleUpdateStatus, listMenuAnchor, setChatToDelete, set
 			<Divider sx={{ my: 0.5, borderColor: tokens.surface.muted }} />
 			<MenuItem
 				onClick={() => { setChatToDelete(listMenuAnchor?.chat); setListMenuAnchor(null); }}
-				sx={{ fontSize: '0.82rem', color: tokens.status.error.bright, gap: 1 }}
+				sx={{ fontSize: tokens.fontSize.body2, color: tokens.status.error.bright, gap: 1 }}
 			>
 				<ListItemIcon sx={{ minWidth: 0 }}>
 					<DeleteOutlineIcon fontSize="small" sx={{ color: tokens.status.error.bright }} />

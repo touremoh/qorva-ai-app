@@ -120,7 +120,7 @@ const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, collap
 					sx={{ width: 30, height: 30, flexShrink: 0 }}
 				/>
 				{!collapsed && (
-					<Typography sx={{ fontWeight: 700, fontSize: '1.1rem', color: tokens.ink.inverse, letterSpacing: '-0.02em' }}>
+					<Typography sx={{ fontWeight: 700, fontSize: tokens.fontSize.lg, color: tokens.ink.inverse, letterSpacing: '-0.02em' }}>
 						Qorva
 					</Typography>
 				)}
@@ -161,16 +161,16 @@ const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, collap
 							>
 								{collapsed && showBadge ? (
 									<Badge variant="dot" sx={{ '& .MuiBadge-badge': { backgroundColor: tokens.status.error.main } }}>
-										<Icon sx={{ fontSize: isChild ? 16 : 18, flexShrink: 0 }} />
+										<Icon sx={{ fontSize: isChild ? tokens.iconSize.sm : tokens.iconSize.md, flexShrink: 0 }} />
 									</Badge>
 								) : (
-									<Icon sx={{ fontSize: isChild ? 16 : 18, mr: collapsed ? 0 : 1.5, flexShrink: 0 }} />
+									<Icon sx={{ fontSize: isChild ? tokens.iconSize.sm : tokens.iconSize.md, mr: collapsed ? 0 : 1.5, flexShrink: 0 }} />
 								)}
 								{!collapsed && (
 									<Typography
 										sx={{
 											flex: 1,
-											fontSize: isChild ? '0.78rem' : '0.84rem',
+											fontSize: isChild ? tokens.fontSize.small : tokens.fontSize.body2,
 											fontWeight: isActive ? 600 : 400,
 											lineHeight: 1.2,
 											letterSpacing: '-0.01em',
@@ -184,7 +184,7 @@ const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, collap
 										<Box sx={{
 											px: 0.7, py: 0.1, borderRadius: 2, flexShrink: 0,
 											backgroundColor: tokens.status.error.main, color: tokens.ink.inverse,
-											fontSize: '0.62rem', fontWeight: 700, lineHeight: 1.6,
+											fontSize: tokens.fontSize.micro, fontWeight: 700, lineHeight: 1.6,
 										}}>
 											{entry.badge > 99 ? '99+' : entry.badge}
 										</Box>
@@ -225,13 +225,13 @@ const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, collap
 									'&:hover': { backgroundColor: 'rgba(255,255,255,0.06)', color: tokens.ink.inverse },
 								}}
 							>
-								<Icon sx={{ fontSize: 18, mr: 1.5, flexShrink: 0 }} />
-								<Typography sx={{ flex: 1, fontSize: '0.84rem', fontWeight: childActive ? 600 : 400, lineHeight: 1.2, letterSpacing: '-0.01em' }}>
+								<Icon sx={{ fontSize: tokens.iconSize.lg, mr: 1.5, flexShrink: 0 }} />
+								<Typography sx={{ flex: 1, fontSize: tokens.fontSize.body2, fontWeight: childActive ? 600 : 400, lineHeight: 1.2, letterSpacing: '-0.01em' }}>
 									{item.label}
 								</Typography>
 								{isOpen
-									? <ExpandLessRoundedIcon sx={{ fontSize: 17, opacity: 0.7 }} />
-									: <ExpandMoreRoundedIcon sx={{ fontSize: 17, opacity: 0.7 }} />}
+									? <ExpandLessRoundedIcon sx={{ fontSize: tokens.iconSize.md, opacity: 0.7 }} />
+									: <ExpandMoreRoundedIcon sx={{ fontSize: tokens.iconSize.md, opacity: 0.7 }} />}
 							</ListItemButton>
 							<Collapse in={isOpen} timeout="auto" unmountOnExit>
 								{visibleChildren.map((child) => renderLeaf(child, true))}
@@ -251,7 +251,7 @@ const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, collap
 				justifyContent: collapsed ? 'center' : 'space-between',
 			}}>
 				{!collapsed && (
-					<Typography sx={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.2)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+					<Typography sx={{ fontSize: tokens.fontSize.caption, color: 'rgba(255,255,255,0.45)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
 						Qorva AI
 					</Typography>
 				)}
@@ -267,8 +267,8 @@ const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, collap
 							}}
 						>
 							{collapsed
-								? <KeyboardDoubleArrowRightIcon sx={{ fontSize: 18 }} />
-								: <KeyboardDoubleArrowLeftIcon sx={{ fontSize: 18 }} />
+								? <KeyboardDoubleArrowRightIcon sx={{ fontSize: tokens.iconSize.lg }} />
+								: <KeyboardDoubleArrowLeftIcon sx={{ fontSize: tokens.iconSize.lg }} />
 							}
 						</IconButton>
 					</Tooltip>

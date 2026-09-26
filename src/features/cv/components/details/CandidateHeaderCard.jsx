@@ -36,7 +36,7 @@ const CandidateHeaderCard = ({ anonymized, applicantNumber, canContact, contact,
 			) : (
 				<Avatar sx={{
 					width: 52, height: 52,
-					fontSize: '1.1rem', fontWeight: 700,
+					fontSize: tokens.fontSize.lg, fontWeight: 700,
 					backgroundColor: tokens.brand.main, color: tokens.ink.inverse,
 					flexShrink: 0,
 				}}>
@@ -58,23 +58,23 @@ const CandidateHeaderCard = ({ anonymized, applicantNumber, canContact, contact,
 								'&:hover': applicantNumber ? { backgroundColor: tokens.surface.muted, borderColor: tokens.line.strong } : {},
 							}}
 						>
-							<Typography sx={{ fontWeight: 700, fontSize: '1rem', lineHeight: 1.2, fontFamily: fontFamilyMono, letterSpacing: '0.04em', color: refCopied ? `${tokens.brand.main}` : `${tokens.ink.muted}` }}>
+							<Typography sx={{ fontWeight: 700, fontSize: tokens.fontSize.body, lineHeight: 1.2, fontFamily: fontFamilyMono, letterSpacing: '0.04em', color: refCopied ? `${tokens.brand.main}` : `${tokens.ink.muted}` }}>
 								{applicantNumber ? `#${applicantNumber}` : t('appCVContent.identityHidden', 'Identity hidden')}
 							</Typography>
 							{applicantNumber && (
 								refCopied
-									? <CheckIcon sx={{ fontSize: 14, color: tokens.brand.text }} />
-									: <ContentCopyOutlinedIcon sx={{ fontSize: 13, color: tokens.ink.subtle }} />
+									? <CheckIcon sx={{ fontSize: tokens.iconSize.sm, color: tokens.brand.text }} />
+									: <ContentCopyOutlinedIcon sx={{ fontSize: tokens.iconSize.xs, color: tokens.ink.subtle }} />
 							)}
 						</Box>
 					</Tooltip>
 				) : (
-					<Typography sx={{ fontWeight: 700, fontSize: '1.1rem', color: tokens.ink.strong, lineHeight: 1.2 }}>
+					<Typography sx={{ fontWeight: 700, fontSize: tokens.fontSize.lg, color: tokens.ink.strong, lineHeight: 1.2 }}>
 						{pi.name}
 					</Typography>
 				)}
 				{pi.role && (
-					<Typography sx={{ fontSize: '0.85rem', color: tokens.ink.muted, mt: 0.25 }}>
+					<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.muted, mt: 0.25 }}>
 						{pi.role}
 					</Typography>
 				)}
@@ -85,13 +85,13 @@ const CandidateHeaderCard = ({ anonymized, applicantNumber, canContact, contact,
 							onClick={handleCopyRef}
 							sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5, mt: 0.5, cursor: 'pointer', '&:hover': { opacity: 0.75 } }}
 						>
-							<FingerprintOutlinedIcon sx={{ fontSize: 11, color: refCopied ? `${tokens.brand.main}` : `${tokens.ink.subtle}` }} />
-							<Typography sx={{ fontSize: '0.70rem', color: refCopied ? `${tokens.brand.main}` : `${tokens.ink.subtle}`, fontFamily: fontFamilyMono, letterSpacing: '0.03em' }}>
+							<FingerprintOutlinedIcon sx={{ fontSize: tokens.iconSize.xs, color: refCopied ? `${tokens.brand.main}` : `${tokens.ink.subtle}` }} />
+							<Typography sx={{ fontSize: tokens.fontSize.caption, color: refCopied ? `${tokens.brand.main}` : `${tokens.ink.subtle}`, fontFamily: fontFamilyMono, letterSpacing: '0.03em' }}>
 								{t('appCVContent.referenceNumber')}: {applicantNumber}
 							</Typography>
 							{refCopied
-								? <CheckIcon sx={{ fontSize: 12, color: tokens.brand.text }} />
-								: <ContentCopyOutlinedIcon sx={{ fontSize: 11, color: tokens.ink.subtle }} />
+								? <CheckIcon sx={{ fontSize: tokens.iconSize.xs, color: tokens.brand.text }} />
+								: <ContentCopyOutlinedIcon sx={{ fontSize: tokens.iconSize.xs, color: tokens.ink.subtle }} />
 							}
 						</Box>
 					</Tooltip>
@@ -133,8 +133,8 @@ const CandidateHeaderCard = ({ anonymized, applicantNumber, canContact, contact,
 					</Box>
 				) : (
 					<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 1 }}>
-						<VisibilityOffOutlinedIcon sx={{ fontSize: 12, color: tokens.ink.faint }} />
-						<Typography sx={{ fontSize: '0.72rem', color: tokens.ink.faint, fontStyle: 'italic' }}>
+						<VisibilityOffOutlinedIcon sx={{ fontSize: tokens.iconSize.xs, color: tokens.ink.faint }} />
+						<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.faint, fontStyle: 'italic' }}>
 							{t('appCVContent.contactHidden')}
 						</Typography>
 					</Box>

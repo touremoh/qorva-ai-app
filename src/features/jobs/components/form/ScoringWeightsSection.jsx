@@ -29,14 +29,14 @@ const ScoringWeightsSection = ({ sc, setWeights, weightOk, weightTotal }) => {
 			))}
 		</Box>
 		<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-			<Typography sx={{ fontSize: '0.76rem', color: tokens.ink.subtle }}>
+			<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.subtle }}>
 				{t('jobContent.totalWeight')}:
 			</Typography>
-			<Typography sx={{ fontSize: '0.78rem', fontWeight: 700, color: weightOk ? THEME_GREEN : `${tokens.status.warning.bright}` }}>
+			<Typography sx={{ fontSize: tokens.fontSize.small, fontWeight: 700, color: weightOk ? THEME_GREEN : `${tokens.status.warning.bright}` }}>
 				{weightTotal}%
 			</Typography>
 			{!weightOk && (
-				<Typography sx={{ fontSize: '0.72rem', color: tokens.status.warning.bright }}>
+				<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.status.warning.bright }}>
 					(should be 100%)
 				</Typography>
 			)}

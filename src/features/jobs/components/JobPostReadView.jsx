@@ -32,28 +32,28 @@ const JobPostReadView = ({ job, showScoringRules = true }) => {
 		<Box sx={{ textAlign: 'left' }}>
 			<Box sx={{ p: 3, pb: showScoringRules ? 1.5 : 3 }}>
 				<Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
-					<Avatar sx={{ width: 44, height: 44, fontSize: '0.9rem', fontWeight: 700, backgroundColor: THEME_GREEN, color: tokens.ink.inverse }}>
+					<Avatar sx={{ width: 44, height: 44, fontSize: tokens.fontSize.body, fontWeight: 700, backgroundColor: THEME_GREEN, color: tokens.ink.inverse }}>
 						{getInitials(job.title)}
 					</Avatar>
 					<Box>
-						<Typography sx={{ fontWeight: 700, fontSize: '1.1rem', color: tokens.ink.strong, lineHeight: 1.2 }}>
+						<Typography sx={{ fontWeight: 700, fontSize: tokens.fontSize.lg, color: tokens.ink.strong, lineHeight: 1.2 }}>
 							{job.title}
 						</Typography>
 						<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 0.5, flexWrap: 'wrap' }}>
 							<Chip label={job.status === 'open' ? 'Open' : 'Closed'} size="small" sx={{
-								height: 20, fontSize: '0.70rem', fontWeight: 600, borderRadius: 0.75,
+								height: 20, fontSize: tokens.fontSize.caption, fontWeight: 600, borderRadius: 0.75,
 								backgroundColor: job.status === 'open' ? alpha(tokens.brand.main, 0.12) : 'rgba(239,68,68,0.10)',
 								color: job.status === 'open' ? `${tokens.brand.dark}` : `${tokens.status.error.main}`,
 							}} />
 							{job.jobReference && (
 								<Tooltip title={copied ? t('jobContent.copied') : t('jobContent.copyReference')} placement="right">
 									<Box onClick={copyRef} sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5, cursor: 'pointer', '&:hover': { opacity: 0.75 } }}>
-										<Typography sx={{ fontSize: '0.72rem', color: copied ? THEME_GREEN : `${tokens.ink.subtle}` }}>
+										<Typography sx={{ fontSize: tokens.fontSize.caption, color: copied ? THEME_GREEN : `${tokens.ink.subtle}` }}>
 											{job.jobReference}
 										</Typography>
 										{copied
-											? <CheckIcon sx={{ fontSize: 13, color: THEME_GREEN }} />
-											: <ContentCopyOutlinedIcon sx={{ fontSize: 12, color: tokens.ink.subtle }} />
+											? <CheckIcon sx={{ fontSize: tokens.iconSize.xs, color: THEME_GREEN }} />
+											: <ContentCopyOutlinedIcon sx={{ fontSize: tokens.iconSize.xs, color: tokens.ink.subtle }} />
 										}
 									</Box>
 								</Tooltip>
@@ -63,18 +63,18 @@ const JobPostReadView = ({ job, showScoringRules = true }) => {
 				</Box>
 				<Box sx={{
 					textAlign: 'start',
-					'& p': { fontSize: '0.88rem', lineHeight: 1.8, color: tokens.ink.body, mb: 1 },
+					'& p': { fontSize: tokens.fontSize.body2, lineHeight: 1.8, color: tokens.ink.body, mb: 1 },
 					'& ul, & ol': { pl: 2.5, mb: 1 },
-					'& li': { fontSize: '0.88rem', lineHeight: 1.8, color: tokens.ink.body, mb: 0.25 },
+					'& li': { fontSize: tokens.fontSize.body2, lineHeight: 1.8, color: tokens.ink.body, mb: 0.25 },
 					'& strong': { fontWeight: 700, color: tokens.ink.strong },
 					'& h1, & h2, & h3': { color: tokens.ink.strong, mt: 2, mb: 1 },
 					// A non-wrapping <pre> would push the whole text off-screen and read as "empty".
-					'& pre': { whiteSpace: 'pre-wrap', wordBreak: 'break-word', fontFamily: 'inherit', fontSize: '0.88rem', lineHeight: 1.8, color: tokens.ink.body, m: 0 },
+					'& pre': { whiteSpace: 'pre-wrap', wordBreak: 'break-word', fontFamily: 'inherit', fontSize: tokens.fontSize.body2, lineHeight: 1.8, color: tokens.ink.body, m: 0 },
 				}} dir="auto" dangerouslySetInnerHTML={{ __html: descriptionToHtml(job.description) }} />
 			</Box>
 			{showScoringRules && (
 				<>
-					<Typography sx={{ px: 3, pt: 1, fontSize: '0.72rem', fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+					<Typography sx={{ px: 3, pt: 1, fontSize: tokens.fontSize.caption, fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
 						{t('jobContent.stepScoringRules')}
 					</Typography>
 					<JobScoringView scoringRules={job.scoringRules} t={t} />

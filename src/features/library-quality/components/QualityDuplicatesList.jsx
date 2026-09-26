@@ -36,7 +36,7 @@ const matchTypeStyle = {
 
 const thSx = {
 	fontWeight: 700,
-	fontSize: '0.68rem',
+	fontSize: tokens.fontSize.caption,
 	color: tokens.ink.muted,
 	textTransform: 'uppercase',
 	letterSpacing: '0.05em',
@@ -109,7 +109,7 @@ const QualityDuplicatesList = ({ onChanged }) => {
 
 	if (groups.length === 0) {
 		return (
-			<Typography sx={{ fontSize: '0.76rem', color: tokens.ink.subtle, py: 1.5, textAlign: 'center' }}>
+			<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.subtle, py: 1.5, textAlign: 'center' }}>
 				{t('libraryQuality.duplicates.empty', 'No duplicates found.')}
 			</Typography>
 		);
@@ -137,7 +137,7 @@ const QualityDuplicatesList = ({ onChanged }) => {
 						}}
 					>
 						<AccordionSummary
-							expandIcon={<ExpandMoreIcon sx={{ fontSize: 18, color: tokens.ink.subtle }} />}
+							expandIcon={<ExpandMoreIcon sx={{ fontSize: tokens.iconSize.lg, color: tokens.ink.subtle }} />}
 							sx={{
 								px: 1.5,
 								minHeight: 44,
@@ -151,19 +151,19 @@ const QualityDuplicatesList = ({ onChanged }) => {
 								px: 0.75, py: 0.25,
 								flexShrink: 0,
 							}}>
-								<Icon sx={{ fontSize: 12, color: style.color }} />
-								<Typography sx={{ fontSize: '0.68rem', fontWeight: 700, color: style.color, letterSpacing: '0.04em' }}>
+								<Icon sx={{ fontSize: tokens.iconSize.xs, color: style.color }} />
+								<Typography sx={{ fontSize: tokens.fontSize.caption, fontWeight: 700, color: style.color, letterSpacing: '0.04em' }}>
 									{group.matchType}
 								</Typography>
 							</Box>
-							<Typography sx={{ fontSize: '0.8rem', fontWeight: 500, color: tokens.ink.strong, flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+							<Typography sx={{ fontSize: tokens.fontSize.body2, fontWeight: 500, color: tokens.ink.strong, flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
 								{group.matchValue}
 							</Typography>
 							<Chip
 								label={group.count}
 								size="small"
 								sx={{
-									fontSize: '0.68rem',
+									fontSize: tokens.fontSize.caption,
 									height: 18,
 									backgroundColor: tokens.status.error.pale,
 									color: tokens.status.error.main,
@@ -187,13 +187,13 @@ const QualityDuplicatesList = ({ onChanged }) => {
 								<TableBody>
 									{group.cvs.map((cv) => (
 										<TableRow key={cv.cvId} hover sx={{ '&:last-child td': { borderBottom: 0 } }}>
-											<TableCell sx={{ fontSize: '0.78rem', fontWeight: 500, color: tokens.ink.strong, py: 0.9 }}>
+											<TableCell sx={{ fontSize: tokens.fontSize.small, fontWeight: 500, color: tokens.ink.strong, py: 0.9 }}>
 												{cv.name || '—'}
 											</TableCell>
-											<TableCell sx={{ fontSize: '0.76rem', color: tokens.ink.muted, py: 0.9 }}>
+											<TableCell sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.muted, py: 0.9 }}>
 												{cv.email || '—'}
 											</TableCell>
-											<TableCell sx={{ fontSize: '0.74rem', color: tokens.ink.subtle, whiteSpace: 'nowrap', py: 0.9 }}>
+											<TableCell sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.subtle, whiteSpace: 'nowrap', py: 0.9 }}>
 												{cv.createdAt ? new Date(cv.createdAt).toLocaleDateString() : '—'}
 											</TableCell>
 											<TableCell sx={{ py: 0.9 }}>
@@ -203,7 +203,7 @@ const QualityDuplicatesList = ({ onChanged }) => {
 														onClick={() => setCvToDelete(cv.cvId)}
 														sx={{ color: tokens.ink.subtle, '&:hover': { color: tokens.status.error.bright } }}
 													>
-														<DeleteOutlineIcon sx={{ fontSize: 16 }} />
+														<DeleteOutlineIcon sx={{ fontSize: tokens.iconSize.md }} />
 													</IconButton>
 												</Tooltip>
 											</TableCell>
@@ -217,7 +217,7 @@ const QualityDuplicatesList = ({ onChanged }) => {
 			})}
 
 			<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1, mt: 0.5, flexWrap: 'wrap' }}>
-				<Typography sx={{ fontSize: '0.7rem', color: tokens.ink.subtle }}>
+				<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle }}>
 					{t('libraryQuality.duplicates.groupCount', '{{count}} duplicate groups', { count: totalElements })}
 				</Typography>
 				{totalPages > 1 && (
@@ -228,7 +228,7 @@ const QualityDuplicatesList = ({ onChanged }) => {
 						size="small"
 						siblingCount={0}
 						boundaryCount={1}
-						sx={{ '& .MuiPaginationItem-root': { fontSize: '0.72rem', minWidth: 24, height: 24 } }}
+						sx={{ '& .MuiPaginationItem-root': { fontSize: tokens.fontSize.caption, minWidth: 24, height: 24 } }}
 					/>
 				)}
 			</Box>

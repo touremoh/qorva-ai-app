@@ -15,12 +15,12 @@ const EditPermissionsDialog = ({ editPerms, editUser, handleSavePermissions, sav
 		<Dialog open={!!editUser} onClose={() => { if (!savingEdit) setEditUser(null); }} maxWidth="md" fullWidth slotProps={{ paper: DIALOG_PAPER_SX }}>
 			<DialogTitle sx={{ pb: 1 }}>
 				<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
-					<ManageAccountsOutlinedIcon sx={{ fontSize: 18, color: tokens.brand.text }} />
-					<Typography sx={{ fontWeight: 700, fontSize: '1rem', color: tokens.ink.strong }}>
+					<ManageAccountsOutlinedIcon sx={{ fontSize: tokens.iconSize.lg, color: tokens.brand.text }} />
+					<Typography sx={{ fontWeight: 700, fontSize: tokens.fontSize.body, color: tokens.ink.strong }}>
 						{t('accountSettings.managePermissions')}
 					</Typography>
 					{editUser && (
-						<Typography sx={{ fontSize: '0.82rem', color: tokens.ink.muted }}>
+						<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.muted }}>
 							— {userDisplayName(editUser)}
 						</Typography>
 					)}
@@ -32,7 +32,7 @@ const EditPermissionsDialog = ({ editPerms, editUser, handleSavePermissions, sav
 			</DialogContent>
 			<Divider sx={{ borderColor: tokens.surface.muted }} />
 			<DialogActions sx={{ px: 3, py: 2, gap: 1 }}>
-				<Button onClick={() => setEditUser(null)} disabled={savingEdit} sx={{ borderRadius: 2, textTransform: 'none', fontSize: '0.82rem', color: tokens.ink.muted }}>
+				<Button onClick={() => setEditUser(null)} disabled={savingEdit} sx={{ borderRadius: 2, textTransform: 'none', fontSize: tokens.fontSize.body2, color: tokens.ink.muted }}>
 					{t('accountSettings.cancel')}
 				</Button>
 				<Button variant="contained" onClick={handleSavePermissions} disabled={savingEdit}

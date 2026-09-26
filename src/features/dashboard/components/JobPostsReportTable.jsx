@@ -40,10 +40,10 @@ const JobPostsReportTable = ({ rows, t }) => {
 					<Table size="small" stickyHeader>
 						<TableHead>
 							<TableRow>
-								<TableCell sx={{ fontWeight: 700, fontSize: '0.7rem', color: tokens.ink.muted, textTransform: 'uppercase', letterSpacing: '0.05em', backgroundColor: tokens.surface.subtle, borderBottom: `1px solid ${tokens.line.main}`, py: 1 }}>
+								<TableCell sx={{ fontWeight: 700, fontSize: tokens.fontSize.caption, color: tokens.ink.muted, textTransform: 'uppercase', letterSpacing: '0.05em', backgroundColor: tokens.surface.subtle, borderBottom: `1px solid ${tokens.line.main}`, py: 1 }}>
 									{t('dashboard.table.jobPostTitle')}
 								</TableCell>
-								<TableCell align="right" sx={{ fontWeight: 700, fontSize: '0.7rem', color: tokens.ink.muted, textTransform: 'uppercase', letterSpacing: '0.05em', backgroundColor: tokens.surface.subtle, borderBottom: `1px solid ${tokens.line.main}`, py: 1 }}>
+								<TableCell align="right" sx={{ fontWeight: 700, fontSize: tokens.fontSize.caption, color: tokens.ink.muted, textTransform: 'uppercase', letterSpacing: '0.05em', backgroundColor: tokens.surface.subtle, borderBottom: `1px solid ${tokens.line.main}`, py: 1 }}>
 									{t('dashboard.table.totalMatch')}
 								</TableCell>
 							</TableRow>
@@ -51,11 +51,11 @@ const JobPostsReportTable = ({ rows, t }) => {
 						<TableBody>
 							{visibleRows.map((row, idx) => (
 								<TableRow key={row.jobPostId ?? `${row.jobPostTitle}-${offset + idx}`} sx={{ '&:hover': { backgroundColor: tokens.surface.subtle } }}>
-									<TableCell sx={{ fontSize: '0.82rem', color: tokens.ink.strong, py: 1, borderBottom: `1px solid ${tokens.surface.muted}` }}>
+									<TableCell sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.strong, py: 1, borderBottom: `1px solid ${tokens.surface.muted}` }}>
 										{row?.jobPostTitle ?? '—'}
 									</TableCell>
 									<TableCell align="right" sx={{ py: 1, borderBottom: `1px solid ${tokens.surface.muted}` }}>
-										<Box sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: 32, height: 22, px: 1, borderRadius: 1.5, backgroundColor: alpha(tokens.brand.main, 0.10), color: tokens.status.success.text, fontSize: '0.75rem', fontWeight: 700 }}>
+										<Box sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: 32, height: 22, px: 1, borderRadius: 1.5, backgroundColor: alpha(tokens.brand.main, 0.10), color: tokens.status.success.text, fontSize: tokens.fontSize.small, fontWeight: 700 }}>
 											{row?.totalMatch ?? 0}
 										</Box>
 									</TableCell>
@@ -66,7 +66,7 @@ const JobPostsReportTable = ({ rows, t }) => {
 				</TableContainer>
 			) : (
 				<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
-					<Typography sx={{ fontSize: '0.82rem', color: tokens.ink.subtle }}>{t('dashboard.empty.jobPosts')}</Typography>
+					<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.subtle }}>{t('dashboard.empty.jobPosts')}</Typography>
 				</Box>
 			)}
 		</Paper>

@@ -21,7 +21,7 @@ const ProviderCard = ({
 	return (
 		<Paper elevation={0} sx={{ border: `1px solid ${tokens.line.main}`, borderRadius: 2.5, p: 2 }}>
 			<Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
-				<Typography sx={{ fontWeight: 700, fontSize: '0.92rem', color: tokens.ink.strong, flex: 1 }}>
+				<Typography sx={{ fontWeight: 700, fontSize: tokens.fontSize.body, color: tokens.ink.strong, flex: 1 }}>
 					{meta.label}
 				</Typography>
 				{connection && <StatusChip status={connection.status} />}
@@ -32,20 +32,20 @@ const ProviderCard = ({
 								<IconButton size="small" disabled={busy || connection.status !== 'CONNECTED'}
 									onClick={onSync}
 									sx={{ color: GREEN }}>
-									<SyncOutlinedIcon sx={{ fontSize: 17 }} />
+									<SyncOutlinedIcon sx={{ fontSize: tokens.iconSize.md }} />
 								</IconButton>
 							</span>
 						</Tooltip>
 						<Button size="small" disabled={busy}
 							onClick={onTest}
-							sx={{ textTransform: 'none', fontSize: '0.72rem', color: tokens.ink.muted }}>
+							sx={{ textTransform: 'none', fontSize: tokens.fontSize.caption, color: tokens.ink.muted }}>
 							{t('atsIntegrations.testConnection')}
 						</Button>
 						<Tooltip title={t('atsIntegrations.disconnect')}>
 							<span>
 								<IconButton size="small" disabled={busy} onClick={onDelete}
 									sx={{ color: tokens.status.error.main }}>
-									<DeleteOutlineOutlinedIcon sx={{ fontSize: 17 }} />
+									<DeleteOutlineOutlinedIcon sx={{ fontSize: tokens.iconSize.md }} />
 								</IconButton>
 							</span>
 						</Tooltip>
@@ -80,7 +80,7 @@ const ProviderCard = ({
 
 					{needsConfirmation && (
 						<Box sx={{ p: 1.5, borderRadius: 2, backgroundColor: 'rgba(217,119,6,0.06)', border: '1px solid rgba(217,119,6,0.25)' }}>
-							<Typography sx={{ fontSize: '0.78rem', color: tokens.status.warning.text, mb: 1 }}>
+							<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.status.warning.text, mb: 1 }}>
 								{t('atsIntegrations.initialSyncGuardHint')}
 							</Typography>
 							<Button size="small" variant="contained" disabled={busy}
@@ -106,7 +106,7 @@ const ProviderCard = ({
 								onCopy={() => onCopy(connection.webhookUrl, t('atsIntegrations.webhookCopied'))} />
 						)}
 						{!connection.webhooksManaged && !isPubliclyReachable(connection.webhookUrl) && (
-							<Typography sx={{ fontSize: '0.72rem', color: tokens.status.warning.main }}>
+							<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.status.warning.main }}>
 								{t('atsIntegrations.guides.webhookUrlNotPublic')}
 							</Typography>
 						)}
@@ -151,7 +151,7 @@ const ProviderCard = ({
 
 					{runs.length > 0 && (
 						<Box>
-							<Typography sx={{ fontSize: '0.7rem', color: tokens.ink.subtle, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', mb: 0.5 }}>
+							<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', mb: 0.5 }}>
 								{t('atsIntegrations.runs.title')}
 							</Typography>
 							{runs.slice(0, 5).map((run) => <RunLine key={run.id} run={run} />)}

@@ -13,9 +13,9 @@ const DimensionCard = ({ label, score, icon: Icon, accent, bg, children }) => (
 		<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1 }}>
 			<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, minWidth: 0 }}>
 				<Box sx={{ width: 32, height: 32, borderRadius: 1.5, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: bg }}>
-					<Icon sx={{ fontSize: 16, color: accent }} />
+					<Icon sx={{ fontSize: tokens.iconSize.md, color: accent }} />
 				</Box>
-				<Typography sx={{ fontSize: '0.78rem', fontWeight: 700, color: tokens.ink.body }}>{label}</Typography>
+				<Typography sx={{ fontSize: tokens.fontSize.small, fontWeight: 700, color: tokens.ink.body }}>{label}</Typography>
 			</Box>
 			<ScoreBadge score={score} />
 		</Box>

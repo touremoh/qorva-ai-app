@@ -20,18 +20,18 @@ const BulkImportSummary = ({ upload }) => {
 				display: 'flex', alignItems: 'center', gap: 1.25,
 			}}>
 				{upload.bulkSummary.status === 'CANCELLED'
-					? <ErrorOutlineIcon sx={{ fontSize: 22, color: tokens.ink.muted }} />
+					? <ErrorOutlineIcon sx={{ fontSize: tokens.iconSize.xl, color: tokens.ink.muted }} />
 					: upload.bulkSummary.failed > 0 || upload.bulkSummary.skipped > 0
-						? <WarningAmberRoundedIcon sx={{ fontSize: 22, color: tokens.status.warning.bright }} />
-						: <CheckCircleRoundedIcon sx={{ fontSize: 22, color: tokens.status.success.main }} />}
+						? <WarningAmberRoundedIcon sx={{ fontSize: tokens.iconSize.xl, color: tokens.status.warning.bright }} />
+						: <CheckCircleRoundedIcon sx={{ fontSize: tokens.iconSize.xl, color: tokens.status.success.main }} />}
 				<Box>
-					<Typography sx={{ fontSize: '0.92rem', fontWeight: 700, color: tokens.ink.strong }}>
+					<Typography sx={{ fontSize: tokens.fontSize.body, fontWeight: 700, color: tokens.ink.strong }}>
 						{upload.bulkSummary.status === 'CANCELLED'
 							? t('appCVContent.bulk.cancelled', 'Import cancelled')
 							: t('appCVContent.bulk.imported', '{{succeeded}} of {{total}} resumes imported', {
 								succeeded: upload.bulkSummary.succeeded, total: upload.bulkSummary.total })}
 					</Typography>
-					<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.muted }}>
+					<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.muted }}>
 						{upload.bulkSummary.failed > 0 && t('appCVContent.bulk.failedCount', '{{count}} failed', { count: upload.bulkSummary.failed })}
 						{upload.bulkSummary.failed > 0 && upload.bulkSummary.skipped > 0 && ' · '}
 						{upload.bulkSummary.skipped > 0 && (upload.bulkSummary.failureReason === 'quota_exceeded'
@@ -42,17 +42,17 @@ const BulkImportSummary = ({ upload }) => {
 			</Box>
 			{Array.isArray(upload.bulkSummary.errorSamples) && upload.bulkSummary.errorSamples.length > 0 && (
 				<Box sx={{ border: `1px solid ${tokens.line.main}`, borderRadius: 1.5, px: 1.5, py: 1, maxHeight: 180, overflowY: 'auto' }}>
-					<Typography sx={{ fontSize: '0.76rem', fontWeight: 700, color: tokens.status.warning.strong, mb: 0.5 }}>
+					<Typography sx={{ fontSize: tokens.fontSize.small, fontWeight: 700, color: tokens.status.warning.strong, mb: 0.5 }}>
 						{t('appCVContent.bulk.errorSamples', 'Files with errors')}
 					</Typography>
 					{upload.bulkSummary.errorSamples.map((sample, i) => (
-						<Typography key={i} sx={{ fontSize: '0.72rem', color: tokens.ink.muted, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+						<Typography key={i} sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.muted, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
 							{sample}
 						</Typography>
 					))}
 				</Box>
 			)}
-			<Typography sx={{ fontSize: '0.76rem', color: tokens.ink.subtle }}>
+			<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.subtle }}>
 				{t('appCVContent.bulk.duplicatesHint', 'Possible duplicates are flagged in Library Quality after import.')}
 			</Typography>
 		</Box>

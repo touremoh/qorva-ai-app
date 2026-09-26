@@ -11,7 +11,7 @@ import { alpha } from '@mui/material/styles';
 
 const ContactLine = ({ icon: Icon, children }) => (
 	<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.4 }}>
-		<Icon sx={{ fontSize: 11, color: 'ink.subtle' }} />
+		<Icon sx={{ fontSize: tokens.iconSize.xs, color: 'ink.subtle' }} />
 		{children}
 	</Box>
 );
@@ -39,22 +39,22 @@ const TenantBrandHeader = ({ tenant, logoUrl, sx }) => {
 					display: 'flex', alignItems: 'center', justifyContent: 'center',
 					backgroundColor: alpha(tokens.brand.main, 0.08), border: `1px solid ${alpha(tokens.brand.main, 0.2)}`,
 				}}>
-					<BusinessOutlinedIcon sx={{ fontSize: 18, color: 'brand.main' }} />
+					<BusinessOutlinedIcon sx={{ fontSize: tokens.iconSize.lg, color: 'brand.main' }} />
 				</Box>
 			)}
 			<Box sx={{ flex: 1, minWidth: 0 }}>
-				<Typography sx={{ fontWeight: 700, fontSize: '0.85rem', color: 'ink.strong', lineHeight: 1.3 }}>
+				<Typography sx={{ fontWeight: 700, fontSize: tokens.fontSize.body2, color: 'ink.strong', lineHeight: 1.3 }}>
 					{tenant.tenantName}
 				</Typography>
 				<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, mt: 0.4 }}>
 					{tenant.contactEmail && (
 						<ContactLine icon={EmailIcon}>
-							<Typography sx={{ fontSize: '0.72rem', color: 'ink.muted' }}>{tenant.contactEmail}</Typography>
+							<Typography sx={{ fontSize: tokens.fontSize.caption, color: 'ink.muted' }}>{tenant.contactEmail}</Typography>
 						</ContactLine>
 					)}
 					{tenant.phoneNumber && (
 						<ContactLine icon={PhoneIcon}>
-							<Typography sx={{ fontSize: '0.72rem', color: 'ink.muted' }}>{tenant.phoneNumber}</Typography>
+							<Typography sx={{ fontSize: tokens.fontSize.caption, color: 'ink.muted' }}>{tenant.phoneNumber}</Typography>
 						</ContactLine>
 					)}
 					{tenant.websiteUrl && (
@@ -64,7 +64,7 @@ const TenantBrandHeader = ({ tenant, logoUrl, sx }) => {
 								href={safeExternalUrl(tenant.websiteUrl) ?? undefined}
 								target="_blank"
 								rel="noopener noreferrer"
-								sx={{ fontSize: '0.72rem', color: 'brand.main', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+								sx={{ fontSize: tokens.fontSize.caption, color: 'brand.main', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
 							>
 								{tenant.websiteUrl.replace(/^https?:\/\//, '')}
 							</Typography>
@@ -72,7 +72,7 @@ const TenantBrandHeader = ({ tenant, logoUrl, sx }) => {
 					)}
 				</Box>
 			</Box>
-			<Typography sx={{ fontSize: '0.65rem', color: 'line.strong', fontStyle: 'italic', flexShrink: 0, alignSelf: 'flex-start' }}>
+			<Typography sx={{ fontSize: tokens.fontSize.micro, color: 'ink.subtle', fontStyle: 'italic', flexShrink: 0, alignSelf: 'flex-start' }}>
 				{t('appCVContent.presentedBy')}
 			</Typography>
 		</Box>

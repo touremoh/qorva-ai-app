@@ -30,7 +30,7 @@ const WRITE_ACTION = { CV: 'MODIFY_CV', MATCHING_REPORT: 'MODIFY_REPORT' };
 
 const primaryButtonSx = brandButtonSx('0.78rem');
 const secondaryButtonSx = textButtonSx('0.78rem');
-const inputSx = { fontSize: '0.82rem', borderRadius: 1.5, backgroundColor: tokens.surface.paper };
+const inputSx = { fontSize: tokens.fontSize.body2, borderRadius: 1.5, backgroundColor: tokens.surface.paper };
 
 const isEdited = (note) =>
 	note?.lastUpdatedAt && note?.createdAt && new Date(note.lastUpdatedAt) - new Date(note.createdAt) > 1000;
@@ -144,12 +144,12 @@ const NotesPanel = ({ targetType, targetId, sx }) => {
 		>
 			{/* Header */}
 			<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.75 }}>
-				<StickyNote2OutlinedIcon sx={{ fontSize: 16, color: THEME_GREEN }} />
-				<Typography sx={{ fontSize: '0.68rem', fontWeight: 700, color: THEME_GREEN, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
+				<StickyNote2OutlinedIcon sx={{ fontSize: tokens.iconSize.md, color: THEME_GREEN }} />
+				<Typography sx={{ fontSize: tokens.fontSize.caption, fontWeight: 700, color: THEME_GREEN, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
 					{t('notes.title', 'Notes')}
 				</Typography>
 				{notes.length > 0 && (
-					<Typography sx={{ fontSize: '0.68rem', color: tokens.ink.subtle, fontWeight: 600 }}>
+					<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle, fontWeight: 600 }}>
 						({notes.length})
 					</Typography>
 				)}
@@ -181,7 +181,7 @@ const NotesPanel = ({ targetType, targetId, sx }) => {
 						>
 							{t('notes.add', 'Add note')}
 						</Button>
-						<Typography sx={{ fontSize: '0.7rem', color: tokens.ink.subtle, ml: 'auto' }}>
+						<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle, ml: 'auto' }}>
 							{draft.length}/{MAX_LENGTH}
 						</Typography>
 					</Box>
@@ -189,7 +189,7 @@ const NotesPanel = ({ targetType, targetId, sx }) => {
 			) : (
 				<Typography
 					onClick={() => openUpgradeDialog('notes')}
-					sx={{ fontSize: '0.78rem', color: tokens.ink.muted, fontStyle: 'italic', cursor: 'pointer', mb: notes.length > 0 ? 2 : 0, '&:hover': { color: THEME_GREEN } }}
+					sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.muted, fontStyle: 'italic', cursor: 'pointer', mb: notes.length > 0 ? 2 : 0, '&:hover': { color: THEME_GREEN } }}
 				>
 					{t('notes.readOnlyHint', 'Upgrade to add notes for your team.')}
 				</Typography>
@@ -201,7 +201,7 @@ const NotesPanel = ({ targetType, targetId, sx }) => {
 					<CircularProgress size={18} sx={{ color: THEME_GREEN }} />
 				</Box>
 			) : notes.length === 0 ? (
-				<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.faint, fontStyle: 'italic', mt: canWrite ? 1.5 : 0 }}>
+				<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.faint, fontStyle: 'italic', mt: canWrite ? 1.5 : 0 }}>
 					{t('notes.empty', 'No notes yet.')}
 				</Typography>
 			) : (
@@ -215,16 +215,16 @@ const NotesPanel = ({ targetType, targetId, sx }) => {
 								sx={{ p: 1.5, borderRadius: 1.5, backgroundColor: tokens.surface.subtle, border: `1px solid ${tokens.surface.muted}` }}
 							>
 								<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, mb: 0.5 }}>
-									<Typography sx={{ fontSize: '0.78rem', fontWeight: 700, color: tokens.ink.strong }}>
+									<Typography sx={{ fontSize: tokens.fontSize.small, fontWeight: 700, color: tokens.ink.strong }}>
 										{own ? t('notes.you', 'You') : (note.authorName || note.authorEmail)}
 									</Typography>
 									<Tooltip title={absolute(note.createdAt)}>
-										<Typography sx={{ fontSize: '0.7rem', color: tokens.ink.subtle }}>
+										<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle }}>
 											{relative(note.createdAt)}
 										</Typography>
 									</Tooltip>
 									{isEdited(note) && (
-										<Typography sx={{ fontSize: '0.68rem', color: tokens.ink.subtle, fontStyle: 'italic' }}>
+										<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle, fontStyle: 'italic' }}>
 											· {t('notes.edited', 'edited')}
 										</Typography>
 									)}
@@ -232,12 +232,12 @@ const NotesPanel = ({ targetType, targetId, sx }) => {
 										<Box sx={{ ml: 'auto', display: 'flex', gap: 0.25 }}>
 											<Tooltip title={t('notes.edit', 'Edit')}>
 												<IconButton size="small" onClick={() => startEdit(note)} sx={{ color: tokens.ink.subtle, '&:hover': { color: THEME_GREEN } }}>
-													<EditOutlinedIcon sx={{ fontSize: 14 }} />
+													<EditOutlinedIcon sx={{ fontSize: tokens.iconSize.sm }} />
 												</IconButton>
 											</Tooltip>
 											<Tooltip title={t('notes.delete', 'Delete')}>
 												<IconButton size="small" onClick={() => setPendingDelete(note)} sx={{ color: tokens.ink.subtle, '&:hover': { color: tokens.status.error.main } }}>
-													<DeleteOutlineIcon sx={{ fontSize: 14 }} />
+													<DeleteOutlineIcon sx={{ fontSize: tokens.iconSize.sm }} />
 												</IconButton>
 											</Tooltip>
 										</Box>
@@ -275,7 +275,7 @@ const NotesPanel = ({ targetType, targetId, sx }) => {
 										</Box>
 									</Box>
 								) : (
-									<Typography sx={{ fontSize: '0.82rem', color: tokens.ink.body, lineHeight: 1.6, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+									<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.body, lineHeight: 1.6, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
 										{note.text}
 									</Typography>
 								)}

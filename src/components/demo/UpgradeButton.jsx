@@ -23,7 +23,7 @@ const UpgradeButton = ({
 			size={size}
 			variant={variant}
 			fullWidth={fullWidth}
-			startIcon={<LockOpenRoundedIcon sx={{ fontSize: 16 }} />}
+			startIcon={<LockOpenRoundedIcon sx={{ fontSize: tokens.iconSize.md }} />}
 			onClick={() => openUpgradeDialog(reason)}
 			sx={{
 				textTransform: 'none',

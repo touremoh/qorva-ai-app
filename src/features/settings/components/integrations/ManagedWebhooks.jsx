@@ -15,8 +15,8 @@ const ManagedWebhooks = ({ registered, error, busy, onRetry }) => {
 	if (registered) {
 		return (
 			<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
-				<CheckCircleOutlineOutlinedIcon sx={{ fontSize: 15, color: GREEN }} />
-				<Typography sx={{ fontSize: '0.76rem', color: tokens.ink.soft }}>
+				<CheckCircleOutlineOutlinedIcon sx={{ fontSize: tokens.iconSize.sm, color: GREEN }} />
+				<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.soft }}>
 					{t('atsIntegrations.guides.webhookManagedOk')}
 				</Typography>
 			</Box>
@@ -24,11 +24,11 @@ const ManagedWebhooks = ({ registered, error, busy, onRetry }) => {
 	}
 	return (
 		<Box sx={{ p: 1.5, borderRadius: 2, backgroundColor: 'rgba(217,119,6,0.06)', border: '1px solid rgba(217,119,6,0.25)' }}>
-			<Typography sx={{ fontSize: '0.78rem', color: tokens.status.warning.text }}>
+			<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.status.warning.text }}>
 				{t('atsIntegrations.guides.webhookManagedFailed')}
 			</Typography>
 			{error && (
-				<Typography sx={{ fontSize: '0.72rem', color: tokens.status.warning.strong, mt: 0.5, wordBreak: 'break-word' }}>
+				<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.status.warning.strong, mt: 0.5, wordBreak: 'break-word' }}>
 					{error}
 				</Typography>
 			)}

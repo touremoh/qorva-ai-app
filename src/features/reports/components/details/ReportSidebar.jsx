@@ -22,20 +22,20 @@ const ReportSidebar = ({ candidate }) => {
 			<Paper elevation={0} sx={{ border: `1px solid ${tokens.line.main}`, borderRadius: 2.5, p: 2.5 }}>
 				<SectionHeader sx={{ mb: 1.5 }} icon={PersonOutlineOutlinedIcon} label={t('appCVMatching.candidateProfile')} />
 				{candidate.candidateProfileSummary && (
-					<Typography sx={{ fontSize: '0.80rem', color: tokens.ink.body, lineHeight: 1.6, mb: 1.5 }}>
+					<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.body, lineHeight: 1.6, mb: 1.5 }}>
 						{candidate.candidateProfileSummary}
 					</Typography>
 				)}
 				{Array.isArray(candidate.skills) && candidate.skills.length > 0 && (
 					<>
 						<Divider sx={{ my: 1.5, borderColor: tokens.surface.muted }} />
-						<Typography sx={{ fontSize: '0.68rem', fontWeight: 700, color: THEME_GREEN, textTransform: 'uppercase', letterSpacing: '0.07em', mb: 1 }}>
+						<Typography sx={{ fontSize: tokens.fontSize.caption, fontWeight: 700, color: THEME_GREEN, textTransform: 'uppercase', letterSpacing: '0.07em', mb: 1 }}>
 							{t('appCVMatching.skills')}
 						</Typography>
 						<Stack direction="row" spacing={0.75} flexWrap="wrap" useFlexGap>
 							{candidate.skills.map((sk, i) => (
 								<Chip key={`sk-${i}`} label={sk} size="small"
-									sx={{ height: 22, fontSize: '0.72rem', fontWeight: 500, backgroundColor: alpha(tokens.brand.main, 0.10), color: tokens.status.success.text, border: `1px solid ${alpha(tokens.brand.main, 0.25)}` }} />
+									sx={{ height: 22, fontSize: tokens.fontSize.caption, fontWeight: 500, backgroundColor: alpha(tokens.brand.main, 0.10), color: tokens.status.success.text, border: `1px solid ${alpha(tokens.brand.main, 0.25)}` }} />
 							))}
 						</Stack>
 					</>
@@ -60,7 +60,7 @@ const ReportSidebar = ({ candidate }) => {
 						{/* Primary cluster */}
 						{cl.primaryCluster && (
 							<Chip label={cl.primaryCluster} size="small" sx={{
-								mb: 1.5, height: 'auto', py: 0.5, fontSize: '0.75rem', fontWeight: 700, width: '100%',
+								mb: 1.5, height: 'auto', py: 0.5, fontSize: tokens.fontSize.small, fontWeight: 700, width: '100%',
 								backgroundColor: 'rgba(99,102,241,0.08)', color: tokens.status.accent.main,
 								border: '1px solid rgba(99,102,241,0.2)', borderRadius: 1.5,
 								'& .MuiChip-label': { whiteSpace: 'normal', textAlign: 'center' },
@@ -70,12 +70,12 @@ const ReportSidebar = ({ candidate }) => {
 						{/* Secondary clusters */}
 						{Array.isArray(cl.secondaryClusters) && cl.secondaryClusters.length > 0 && (
 							<>
-								<Typography sx={{ fontSize: '0.60rem', fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.75 }}>
+								<Typography sx={{ fontSize: tokens.fontSize.micro, fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.75 }}>
 									{t('appCVMatching.clustering.secondaryClusters')}
 								</Typography>
 								<Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap sx={{ mb: 1.5 }}>
 									{cl.secondaryClusters.map((sc, i) => (
-										<Chip key={`sc-${i}`} label={sc} size="small" sx={{ height: 22, fontSize: '0.68rem', fontWeight: 500, backgroundColor: 'rgba(99,102,241,0.05)', color: tokens.status.accent.bright, border: '1px solid rgba(99,102,241,0.15)' }} />
+										<Chip key={`sc-${i}`} label={sc} size="small" sx={{ height: 22, fontSize: tokens.fontSize.caption, fontWeight: 500, backgroundColor: 'rgba(99,102,241,0.05)', color: tokens.status.accent.bright, border: '1px solid rgba(99,102,241,0.15)' }} />
 									))}
 								</Stack>
 							</>
@@ -85,12 +85,12 @@ const ReportSidebar = ({ candidate }) => {
 						{Array.isArray(cl.functionalExpertise) && cl.functionalExpertise.length > 0 && (
 							<>
 								<Divider sx={{ my: 1.25, borderColor: tokens.surface.muted }} />
-								<Typography sx={{ fontSize: '0.60rem', fontWeight: 700, color: THEME_GREEN, textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.75 }}>
+								<Typography sx={{ fontSize: tokens.fontSize.micro, fontWeight: 700, color: THEME_GREEN, textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.75 }}>
 									{t('appCVMatching.clustering.functionalExpertise')}
 								</Typography>
 								<Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap sx={{ mb: 0.5 }}>
 									{cl.functionalExpertise.map((fe, i) => (
-										<Chip key={`fe-${i}`} label={fe} size="small" sx={{ height: 22, fontSize: '0.68rem', fontWeight: 500, backgroundColor: alpha(tokens.brand.main, 0.08), color: tokens.status.success.text, border: `1px solid ${alpha(tokens.brand.main, 0.2)}` }} />
+										<Chip key={`fe-${i}`} label={fe} size="small" sx={{ height: 22, fontSize: tokens.fontSize.caption, fontWeight: 500, backgroundColor: alpha(tokens.brand.main, 0.08), color: tokens.status.success.text, border: `1px solid ${alpha(tokens.brand.main, 0.2)}` }} />
 									))}
 								</Stack>
 							</>
@@ -103,10 +103,10 @@ const ReportSidebar = ({ candidate }) => {
 								<Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.75 }}>
 									{attrRows.map(row => (
 										<Box key={row.key} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1 }}>
-											<Typography sx={{ fontSize: '0.68rem', color: tokens.ink.muted, flexShrink: 0 }}>
+											<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.muted, flexShrink: 0 }}>
 												{row.label}
 											</Typography>
-											<Chip label={toLabel(row.value)} size="small" sx={{ height: 18, fontSize: '0.62rem', fontWeight: 600, backgroundColor: row.bg, color: row.color, border: `1px solid ${row.bdr}` }} />
+											<Chip label={toLabel(row.value)} size="small" sx={{ height: 18, fontSize: tokens.fontSize.micro, fontWeight: 600, backgroundColor: row.bg, color: row.color, border: `1px solid ${row.bdr}` }} />
 										</Box>
 									))}
 								</Box>
@@ -117,12 +117,12 @@ const ReportSidebar = ({ candidate }) => {
 						{Array.isArray(cl.industryDomains) && cl.industryDomains.length > 0 && (
 							<>
 								<Divider sx={{ my: 1.25, borderColor: tokens.surface.muted }} />
-								<Typography sx={{ fontSize: '0.60rem', fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.75 }}>
+								<Typography sx={{ fontSize: tokens.fontSize.micro, fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.75 }}>
 									{t('appCVMatching.clustering.industryDomains')}
 								</Typography>
 								<Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap>
 									{cl.industryDomains.map((d, i) => (
-										<Chip key={`id-${i}`} label={d} size="small" sx={{ height: 22, fontSize: '0.68rem', fontWeight: 500, backgroundColor: tokens.surface.muted, color: tokens.ink.body, border: `1px solid ${tokens.line.main}` }} />
+										<Chip key={`id-${i}`} label={d} size="small" sx={{ height: 22, fontSize: tokens.fontSize.caption, fontWeight: 500, backgroundColor: tokens.surface.muted, color: tokens.ink.body, border: `1px solid ${tokens.line.main}` }} />
 									))}
 								</Stack>
 							</>
@@ -132,12 +132,12 @@ const ReportSidebar = ({ candidate }) => {
 						{Array.isArray(cl.environmentFit) && cl.environmentFit.length > 0 && (
 							<>
 								<Divider sx={{ my: 1.25, borderColor: tokens.surface.muted }} />
-								<Typography sx={{ fontSize: '0.60rem', fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.75 }}>
+								<Typography sx={{ fontSize: tokens.fontSize.micro, fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.75 }}>
 									{t('appCVMatching.clustering.environmentFit')}
 								</Typography>
 								<Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap>
 									{cl.environmentFit.map((e, i) => (
-										<Chip key={`ef-${i}`} label={toLabel(e)} size="small" sx={{ height: 22, fontSize: '0.68rem', fontWeight: 500, backgroundColor: tokens.status.info.pale, color: tokens.status.info.main, border: `1px solid ${tokens.status.info.border}` }} />
+										<Chip key={`ef-${i}`} label={toLabel(e)} size="small" sx={{ height: 22, fontSize: tokens.fontSize.caption, fontWeight: 500, backgroundColor: tokens.status.info.pale, color: tokens.status.info.main, border: `1px solid ${tokens.status.info.border}` }} />
 									))}
 								</Stack>
 							</>
@@ -147,14 +147,14 @@ const ReportSidebar = ({ candidate }) => {
 						{Array.isArray(cl.businessImpact) && cl.businessImpact.length > 0 && (
 							<>
 								<Divider sx={{ my: 1.25, borderColor: tokens.surface.muted }} />
-								<Typography sx={{ fontSize: '0.60rem', fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.75 }}>
+								<Typography sx={{ fontSize: tokens.fontSize.micro, fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.75 }}>
 									{t('appCVMatching.clustering.businessImpact')}
 								</Typography>
 								<Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
 									{cl.businessImpact.map((impact, i) => (
 										<Box key={`bi-${i}`} sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.5 }}>
-											<CheckCircleOutlineOutlinedIcon sx={{ fontSize: 12, color: THEME_GREEN, mt: 0.25, flexShrink: 0 }} />
-											<Typography sx={{ fontSize: '0.73rem', color: tokens.ink.body, lineHeight: 1.5 }}>
+											<CheckCircleOutlineOutlinedIcon sx={{ fontSize: tokens.iconSize.xs, color: THEME_GREEN, mt: 0.25, flexShrink: 0 }} />
+											<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.body, lineHeight: 1.5 }}>
 												{impact}
 											</Typography>
 										</Box>
@@ -168,10 +168,10 @@ const ReportSidebar = ({ candidate }) => {
 							<>
 								<Divider sx={{ my: 1.25, borderColor: tokens.surface.muted }} />
 								<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 0.6 }}>
-									<Typography sx={{ fontSize: '0.60rem', fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+									<Typography sx={{ fontSize: tokens.fontSize.micro, fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
 										{t('appCVMatching.clustering.confidence')}
 									</Typography>
-									<Typography sx={{ fontSize: '0.70rem', fontWeight: 700, color: THEME_GREEN }}>
+									<Typography sx={{ fontSize: tokens.fontSize.caption, fontWeight: 700, color: THEME_GREEN }}>
 										{confPct}%
 									</Typography>
 								</Box>
@@ -185,7 +185,7 @@ const ReportSidebar = ({ candidate }) => {
 						{cl.clusterReasoning && (
 							<>
 								<Divider sx={{ my: 1.25, borderColor: tokens.surface.muted }} />
-								<Typography sx={{ fontSize: '0.72rem', color: tokens.ink.muted, lineHeight: 1.6, fontStyle: 'italic' }}>
+								<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.muted, lineHeight: 1.6, fontStyle: 'italic' }}>
 									{cl.clusterReasoning}
 								</Typography>
 							</>

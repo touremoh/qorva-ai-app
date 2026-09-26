@@ -19,8 +19,8 @@ const PendingMatchingBanner = ({ matchingSubmitted, handleStartMatching, matchin
 				flexShrink: 0, flexWrap: 'wrap', gap: 1.5,
 			}}>
 				<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-					<WarningAmberIcon sx={{ fontSize: 17, color: tokens.status.warning.main }} />
-					<Typography sx={{ fontSize: '0.84rem', color: tokens.status.warning.text, fontWeight: 500 }}>
+					<WarningAmberIcon sx={{ fontSize: tokens.iconSize.md, color: tokens.status.warning.main }} />
+					<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.status.warning.text, fontWeight: 500 }}>
 						{t('appReportContent.matchingNeeded', { count: pendingMatchingCount })}
 					</Typography>
 				</Box>
@@ -31,13 +31,13 @@ const PendingMatchingBanner = ({ matchingSubmitted, handleStartMatching, matchin
 					disabled={matchingLoading}
 					startIcon={matchingLoading
 						? <CircularProgress size={14} color="inherit" />
-						: <PlayArrowRoundedIcon sx={{ fontSize: 17 }} />
+						: <PlayArrowRoundedIcon sx={{ fontSize: tokens.iconSize.md }} />
 					}
 					sx={{
 						backgroundColor: tokens.status.warning.main,
 						'&:hover': { backgroundColor: tokens.status.warning.strong },
 						'&.Mui-disabled': { backgroundColor: 'rgba(245,158,11,0.3)', color: tokens.status.warning.text, boxShadow: 'none' },
-						borderRadius: 1.5, textTransform: 'none', fontSize: '0.82rem', fontWeight: 600,
+						borderRadius: 1.5, textTransform: 'none', fontSize: tokens.fontSize.body2, fontWeight: 600,
 						boxShadow: '0 2px 6px rgba(217,119,6,0.3)', flexShrink: 0,
 					}}
 				>

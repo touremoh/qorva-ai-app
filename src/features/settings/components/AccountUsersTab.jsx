@@ -117,8 +117,8 @@ const AccountUsersTab = () => {
 		<Box sx={{ maxWidth: 900 }}>
 			{/* Header */}
 			<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2.5 }}>
-				<GroupOutlinedIcon sx={{ fontSize: 20, color: tokens.brand.text }} />
-				<Typography sx={{ fontWeight: 600, fontSize: '0.95rem', color: tokens.ink.strong, flex: 1 }}>
+				<GroupOutlinedIcon sx={{ fontSize: tokens.iconSize.lg, color: tokens.brand.text }} />
+				<Typography sx={{ fontWeight: 600, fontSize: tokens.fontSize.body, color: tokens.ink.strong, flex: 1 }}>
 					{t('accountSettings.tabs.users')}
 				</Typography>
 				{demo ? (
@@ -127,9 +127,9 @@ const AccountUsersTab = () => {
 					<Button
 						variant="contained"
 						size="small"
-						startIcon={<PersonAddOutlinedIcon sx={{ fontSize: 15 }} />}
+						startIcon={<PersonAddOutlinedIcon sx={{ fontSize: tokens.iconSize.sm }} />}
 						onClick={() => setOpenAdd(true)}
-						sx={{ ...brandPillButtonSx, px: 1.5, fontSize: '0.78rem' }}
+						sx={{ ...brandPillButtonSx, px: 1.5, fontSize: tokens.fontSize.small }}
 					>
 						{t('accountSettings.addUser')}
 					</Button>
@@ -178,8 +178,8 @@ const AccountUsersTab = () => {
 				title={t('accountSettings.deleteUserTitle')}
 				subject={userToDelete && (
 					<>
-						<Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: 'ink.strong' }}>{userDisplayName(userToDelete)}</Typography>
-						<Typography sx={{ fontSize: '0.72rem', color: 'ink.muted' }}>{userToDelete.email}</Typography>
+						<Typography sx={{ fontSize: tokens.fontSize.body2, fontWeight: 600, color: 'ink.strong' }}>{userDisplayName(userToDelete)}</Typography>
+						<Typography sx={{ fontSize: tokens.fontSize.caption, color: 'ink.muted' }}>{userToDelete.email}</Typography>
 					</>
 				)}
 				cancelLabel={t('accountSettings.cancel')}

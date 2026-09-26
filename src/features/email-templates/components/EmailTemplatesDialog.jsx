@@ -15,7 +15,7 @@ const EmailTemplatesDialog = ({ open, onClose, language }) => {
 
 	return (
 		<Dialog open={open} onClose={onClose} maxWidth="md" fullWidth PaperProps={{ sx: { borderRadius: 2.5 } }}>
-			<DialogTitle sx={{ fontWeight: 700, fontSize: '0.95rem', color: tokens.ink.strong }}>
+			<DialogTitle sx={{ fontWeight: 700, fontSize: tokens.fontSize.body, color: tokens.ink.strong }}>
 				{t('emailTemplates.title', 'Invitation email templates')}
 			</DialogTitle>
 			<DialogContent sx={{ display: 'flex', flexDirection: 'column', minHeight: 460 }}>

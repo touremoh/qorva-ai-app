@@ -14,20 +14,20 @@ const MfaCodeDialog = ({ closeDialog, code, confirming, error, handleCodeChange,
 	return (
 		<>
 		<Dialog open={Boolean(pending)} onClose={confirming ? undefined : closeDialog} maxWidth="xs" fullWidth>
-			<DialogTitle sx={{ fontSize: '1rem', fontWeight: 700 }}>
+			<DialogTitle sx={{ fontSize: tokens.fontSize.body, fontWeight: 700 }}>
 				{pending?.action === 'enable'
 					? t('accountSettings.mfa.dialogTitleEnable', 'Turn on two-step verification')
 					: t('accountSettings.mfa.dialogTitleDisable', 'Turn off two-step verification')}
 			</DialogTitle>
 			<DialogContent>
-				<Typography sx={{ fontSize: '0.85rem', color: tokens.ink.soft, mb: 2 }}>
+				<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.soft, mb: 2 }}>
 					{t('accountSettings.mfa.dialogBody', {
 						email: pending?.challenge?.maskedEmail ?? '',
 						defaultValue: 'Enter the 6-digit code we sent to {{email}}.',
 					})}
 				</Typography>
 				{error && (
-					<Alert severity="error" sx={{ mb: 2, fontSize: '0.8rem' }}>{error}</Alert>
+					<Alert severity="error" sx={{ mb: 2, fontSize: tokens.fontSize.body2 }}>{error}</Alert>
 				)}
 				<Box component="form" noValidate onSubmit={(e) => { e.preventDefault(); confirm(code); }}>
 					<MfaCodeField

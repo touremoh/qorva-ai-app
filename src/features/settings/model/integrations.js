@@ -3,7 +3,7 @@ import * as tokens from '../../../theme/tokens.js';
 
 export const GREEN = tokens.brand.main;
 
-export const BTN_GREEN_SX = { ...brandPillButtonSx, fontSize: '0.8rem' };
+export const BTN_GREEN_SX = { ...brandPillButtonSx, fontSize: tokens.fontSize.body2 };
 /**
  * Static provider metadata: display name, the credential fields the connect form asks for,
  * which of them are mandatory, and where the provider documents the setup.

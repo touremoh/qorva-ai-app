@@ -20,8 +20,8 @@ const MatchingCompletedBanner = ({ bannerDismissed, matchingCompleted, setBanner
 				flexShrink: 0,
 			}}>
 				<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-					<CheckCircleOutlineIcon sx={{ fontSize: 16, color: tokens.brand.text }} />
-					<Typography sx={{ fontSize: '0.82rem', color: tokens.brand.dark }}>
+					<CheckCircleOutlineIcon sx={{ fontSize: tokens.iconSize.md, color: tokens.brand.text }} />
+					<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.brand.dark }}>
 						{t('appReportContent.matchingReportsReady')}
 					</Typography>
 				</Box>
@@ -30,7 +30,7 @@ const MatchingCompletedBanner = ({ bannerDismissed, matchingCompleted, setBanner
 					onClick={() => setBannerDismissed(true)}
 					sx={{ color: tokens.brand.text, opacity: 0.6, '&:hover': { opacity: 1, backgroundColor: alpha(tokens.brand.main, 0.08) } }}
 				>
-					<CloseRoundedIcon sx={{ fontSize: 14 }} />
+					<CloseRoundedIcon sx={{ fontSize: tokens.iconSize.sm }} />
 				</IconButton>
 			</Box>
 		)}

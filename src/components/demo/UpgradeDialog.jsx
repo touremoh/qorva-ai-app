@@ -96,15 +96,15 @@ const UpgradeDialog = () => {
 						borderRadius: 5, px: 2, py: 0.6, mb: 2,
 					}}
 				>
-					<RocketLaunchRoundedIcon sx={{ fontSize: 16, color: tokens.brand.text }} />
-					<Typography sx={{ fontSize: '0.78rem', color: tokens.brand.hoverAlt, fontWeight: 600 }}>
+					<RocketLaunchRoundedIcon sx={{ fontSize: tokens.iconSize.md, color: tokens.brand.text }} />
+					<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.brand.hoverAlt, fontWeight: 600 }}>
 						{t('demo.startTrial', 'Start 14-day free trial')}
 					</Typography>
 				</Box>
-				<Typography sx={{ fontWeight: 800, fontSize: { xs: '1.4rem', md: '1.75rem' }, color: tokens.ink.strong, letterSpacing: '-0.03em', mb: 0.75 }}>
+				<Typography sx={{ fontWeight: 800, fontSize: { xs: tokens.fontSize.xxl, md: tokens.fontSize.display }, color: tokens.ink.strong, letterSpacing: '-0.03em', mb: 0.75 }}>
 					{t('demo.upgradeTitle', 'Upgrade your workspace')}
 				</Typography>
-				<Typography sx={{ color: tokens.ink.muted, fontSize: '0.92rem', maxWidth: 560, mx: 'auto' }}>
+				<Typography sx={{ color: tokens.ink.muted, fontSize: tokens.fontSize.body, maxWidth: 560, mx: 'auto' }}>
 					{subtitle}
 				</Typography>
 			</Box>
@@ -125,7 +125,7 @@ const UpgradeDialog = () => {
 						disabled={loading || !selectedPriceId}
 						sx={{
 							px: 5, py: 1.4, borderRadius: 1.5,
-							fontWeight: 600, fontSize: '0.95rem', textTransform: 'none',
+							fontWeight: 600, fontSize: tokens.fontSize.body, textTransform: 'none',
 							backgroundColor: tokens.brand.main,
 							boxShadow: `0 2px 8px ${alpha(tokens.brand.main, 0.35)}`,
 							'&:hover': { backgroundColor: tokens.brand.hoverAlt, boxShadow: `0 4px 14px ${alpha(tokens.brand.main, 0.45)}` },
@@ -138,7 +138,7 @@ const UpgradeDialog = () => {
 					</Button>
 				</Box>
 
-				<Typography sx={{ mt: 2, mb: 1, color: tokens.ink.subtle, fontSize: '0.72rem', textAlign: 'center' }}>
+				<Typography sx={{ mt: 2, mb: 1, color: tokens.ink.subtle, fontSize: tokens.fontSize.caption, textAlign: 'center' }}>
 					{t('demo.stripeNote', 'Secure checkout by Stripe. Your 14-day trial starts today — cancel anytime.')}
 				</Typography>
 			</DialogContent>

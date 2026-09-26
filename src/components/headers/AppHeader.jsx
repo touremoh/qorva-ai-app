@@ -86,7 +86,7 @@ const AppHeader = ({ handleContentChange, contentTitle, isSidebarCollapsed }) =>
 				<Typography
 					sx={{
 						fontWeight: 600,
-						fontSize: '1rem',
+						fontSize: tokens.fontSize.body,
 						color: tokens.ink.strong,
 						letterSpacing: '-0.01em',
 					}}
@@ -103,7 +103,7 @@ const AppHeader = ({ handleContentChange, contentTitle, isSidebarCollapsed }) =>
 						sx={{
 							width: 34,
 							height: 34,
-							fontSize: '0.75rem',
+							fontSize: tokens.fontSize.small,
 							fontWeight: 700,
 							backgroundColor: tokens.brand.main,
 							color: tokens.ink.inverse,
@@ -135,7 +135,7 @@ const AppHeader = ({ handleContentChange, contentTitle, isSidebarCollapsed }) =>
 					}}
 				>
 					<Box sx={{ px: 2, py: 1.5 }}>
-						<Typography sx={{ fontSize: '0.85rem', fontWeight: 600, color: tokens.ink.strong }}>
+						<Typography sx={{ fontSize: tokens.fontSize.body2, fontWeight: 600, color: tokens.ink.strong }}>
 							{fullName}
 						</Typography>
 					</Box>
@@ -145,7 +145,7 @@ const AppHeader = ({ handleContentChange, contentTitle, isSidebarCollapsed }) =>
 						sx={menuItemSx}
 					>
 						<ListItemIcon>
-							<SettingsOutlinedIcon sx={{ fontSize: 16, color: tokens.ink.muted }} />
+							<SettingsOutlinedIcon sx={{ fontSize: tokens.iconSize.md, color: tokens.ink.muted }} />
 						</ListItemIcon>
 						{t('header.accountSettings')}
 					</MenuItem>
@@ -154,7 +154,7 @@ const AppHeader = ({ handleContentChange, contentTitle, isSidebarCollapsed }) =>
 						sx={{ ...menuItemSx, color: tokens.status.error.bright }}
 					>
 						<ListItemIcon>
-							<LogoutOutlinedIcon sx={{ fontSize: 16, color: tokens.status.error.bright }} />
+							<LogoutOutlinedIcon sx={{ fontSize: tokens.iconSize.md, color: tokens.status.error.bright }} />
 						</ListItemIcon>
 						{t('header.logout')}
 					</MenuItem>
@@ -173,7 +173,7 @@ AppHeader.propTypes = {
 const menuItemSx = {
 	px: 2,
 	py: 1,
-	fontSize: '0.85rem',
+	fontSize: tokens.fontSize.body2,
 	color: tokens.ink.body,
 	gap: 0.5,
 	'&:hover': { backgroundColor: tokens.surface.subtle },

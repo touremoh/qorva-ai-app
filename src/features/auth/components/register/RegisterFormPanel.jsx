@@ -39,7 +39,7 @@ const RegisterFormPanel = ({ accountExists, formError, handleBlur, handleChange,
 			</Typography>
 
 			{formError && (
-				<Alert severity="error" variant="filled" sx={{ mb: 2, borderRadius: 1.5, fontSize: '0.82rem' }}>
+				<Alert severity="error" variant="filled" sx={{ mb: 2, borderRadius: 1.5, fontSize: tokens.fontSize.body2 }}>
 					{formError}
 				</Alert>
 			)}
@@ -47,7 +47,7 @@ const RegisterFormPanel = ({ accountExists, formError, handleBlur, handleChange,
 			{accountExists && (
 				<Alert
 					severity="info"
-					sx={{ mb: 2, borderRadius: 1.5, fontSize: '0.82rem' }}
+					sx={{ mb: 2, borderRadius: 1.5, fontSize: tokens.fontSize.body2 }}
 					action={
 						<Button color="inherit" size="small" onClick={() => navigate('/login')}>
 							{t('registration.signIn', 'Sign in')}
@@ -78,7 +78,7 @@ const RegisterFormPanel = ({ accountExists, formError, handleBlur, handleChange,
 								input: {
 									startAdornment: (
 										<InputAdornment position="start">
-											<PersonOutlinedIcon sx={{ fontSize: 18, color: tokens.ink.subtle }} />
+											<PersonOutlinedIcon sx={{ fontSize: tokens.iconSize.lg, color: tokens.ink.subtle }} />
 										</InputAdornment>
 									),
 								},
@@ -103,7 +103,7 @@ const RegisterFormPanel = ({ accountExists, formError, handleBlur, handleChange,
 								input: {
 									startAdornment: (
 										<InputAdornment position="start">
-											<PersonOutlinedIcon sx={{ fontSize: 18, color: tokens.ink.subtle }} />
+											<PersonOutlinedIcon sx={{ fontSize: tokens.iconSize.lg, color: tokens.ink.subtle }} />
 										</InputAdornment>
 									),
 								},
@@ -129,7 +129,7 @@ const RegisterFormPanel = ({ accountExists, formError, handleBlur, handleChange,
 								input: {
 									startAdornment: (
 										<InputAdornment position="start">
-											<EmailOutlinedIcon sx={{ fontSize: 18, color: tokens.ink.subtle }} />
+											<EmailOutlinedIcon sx={{ fontSize: tokens.iconSize.lg, color: tokens.ink.subtle }} />
 										</InputAdornment>
 									),
 								},
@@ -154,7 +154,7 @@ const RegisterFormPanel = ({ accountExists, formError, handleBlur, handleChange,
 								input: {
 									startAdornment: (
 										<InputAdornment position="start">
-											<BusinessOutlinedIcon sx={{ fontSize: 18, color: tokens.ink.subtle }} />
+											<BusinessOutlinedIcon sx={{ fontSize: tokens.iconSize.lg, color: tokens.ink.subtle }} />
 										</InputAdornment>
 									),
 								},
@@ -180,7 +180,7 @@ const RegisterFormPanel = ({ accountExists, formError, handleBlur, handleChange,
 								input: {
 									startAdornment: (
 										<InputAdornment position="start">
-											<WorkOutlineOutlinedIcon sx={{ fontSize: 18, color: tokens.ink.subtle }} />
+											<WorkOutlineOutlinedIcon sx={{ fontSize: tokens.iconSize.lg, color: tokens.ink.subtle }} />
 										</InputAdornment>
 									),
 								},
@@ -212,7 +212,7 @@ const RegisterFormPanel = ({ accountExists, formError, handleBlur, handleChange,
 								input: {
 									startAdornment: (
 										<InputAdornment position="start">
-											<GroupsOutlinedIcon sx={{ fontSize: 18, color: tokens.ink.subtle }} />
+											<GroupsOutlinedIcon sx={{ fontSize: tokens.iconSize.lg, color: tokens.ink.subtle }} />
 										</InputAdornment>
 									),
 								},
@@ -237,7 +237,7 @@ const RegisterFormPanel = ({ accountExists, formError, handleBlur, handleChange,
 						py: 1.3,
 						borderRadius: 1.5,
 						fontWeight: 600,
-						fontSize: '0.9rem',
+						fontSize: tokens.fontSize.body,
 						textTransform: 'none',
 						letterSpacing: 0,
 						backgroundColor: tokens.brand.main,
@@ -262,7 +262,7 @@ const RegisterFormPanel = ({ accountExists, formError, handleBlur, handleChange,
 					)}
 					{status === 'success' && (
 						<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
-							<CheckCircleRoundedIcon sx={{ fontSize: 19, color: tokens.status.success.main }} />
+							<CheckCircleRoundedIcon sx={{ fontSize: tokens.iconSize.lg, color: tokens.status.success.main }} />
 							{t('registration.progress.done', 'Account created!')}
 						</Box>
 					)}
@@ -273,7 +273,7 @@ const RegisterFormPanel = ({ accountExists, formError, handleBlur, handleChange,
 			<Divider sx={{ my: 2.5, borderColor: tokens.line.main }} />
 
 			<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-				<Typography sx={{ color: tokens.ink.muted, fontSize: '0.82rem' }}>
+				<Typography sx={{ color: tokens.ink.muted, fontSize: tokens.fontSize.body2 }}>
 					{t('registration.alreadyHaveAccount')}
 					{' '}
 					<Typography
@@ -281,7 +281,7 @@ const RegisterFormPanel = ({ accountExists, formError, handleBlur, handleChange,
 						onClick={() => navigate('/login')}
 						sx={{
 							color: tokens.brand.text,
-							fontSize: '0.82rem',
+							fontSize: tokens.fontSize.body2,
 							fontWeight: 600,
 							cursor: 'pointer',
 							'&:hover': { textDecoration: 'underline' },

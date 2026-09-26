@@ -17,11 +17,11 @@ const RunLine = ({ run }) => {
 	return (
 		<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, py: 0.5, borderBottom: `1px solid ${tokens.surface.subtle}` }}>
 			{['COMPLETED'].includes(run.status)
-				? <CheckCircleOutlineOutlinedIcon sx={{ fontSize: 14, color: GREEN }} />
+				? <CheckCircleOutlineOutlinedIcon sx={{ fontSize: tokens.iconSize.sm, color: GREEN }} />
 				: ['PENDING', 'RUNNING'].includes(run.status)
 					? <CircularProgress size={12} sx={{ color: GREEN }} />
-					: <ErrorOutlineOutlinedIcon sx={{ fontSize: 14, color: run.status === 'FAILED' ? `${tokens.status.error.main}` : `${tokens.status.warning.main}` }} />}
-			<Typography sx={{ fontSize: '0.72rem', color: tokens.ink.soft, flex: 1, minWidth: 0 }} noWrap>
+					: <ErrorOutlineOutlinedIcon sx={{ fontSize: tokens.iconSize.sm, color: run.status === 'FAILED' ? `${tokens.status.error.main}` : `${tokens.status.warning.main}` }} />}
+			<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.soft, flex: 1, minWidth: 0 }} noWrap>
 				{when} · {t('atsIntegrations.runs.summary', { imported: run.succeeded, skipped: run.skipped, failed: run.failed })}
 				{failureLabel ? ` · ${failureLabel}` : ''}
 			</Typography>

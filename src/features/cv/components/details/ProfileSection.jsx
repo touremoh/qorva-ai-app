@@ -30,7 +30,7 @@ const ProfileSection = ({ profiles }) => {
 						<Typography sx={availLabelSx}>{t('appCVContent.keyResponsibilities', 'Key Responsibilities')}</Typography>
 						<Box component="ul" sx={{ m: 0, mt: 0.5, pl: 2, listStyleType: 'disc' }}>
 							{profiles.keyResponsibilities.map((resp, i) => (
-								<Box component="li" key={i} sx={{ fontSize: '0.78rem', color: tokens.ink.muted, lineHeight: 1.7, mb: 0.25 }}>
+								<Box component="li" key={i} sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.muted, lineHeight: 1.7, mb: 0.25 }}>
 									{resp}
 								</Box>
 							))}

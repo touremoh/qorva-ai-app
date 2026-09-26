@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import * as tokens from '../../theme/tokens.js';
 
 const CONFIRM_TONES = {
 	primary: { backgroundColor: 'brand.main', '&:hover': { backgroundColor: 'brand.hover' } },
@@ -20,13 +21,13 @@ export default function ConfirmDialog({
 	const close = () => { if (!busy) onCancel(); };
 	return (
 		<Dialog open={open} onClose={close} maxWidth={maxWidth} fullWidth={fullWidth} PaperProps={{ sx: { borderRadius: 2.5 } }}>
-			<DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1, fontWeight: 700, fontSize: '0.95rem', color: 'ink.strong' }}>
-				{tone === 'danger' && <DeleteOutlineIcon sx={{ fontSize: 18, color: 'status.error.main' }} />}
+			<DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1, fontWeight: 700, fontSize: tokens.fontSize.body, color: 'ink.strong' }}>
+				{tone === 'danger' && <DeleteOutlineIcon sx={{ fontSize: tokens.iconSize.lg, color: 'status.error.main' }} />}
 				{title}
 			</DialogTitle>
 			<DialogContent>
 				{typeof children === 'string'
-					? <DialogContentText sx={{ fontSize: '0.88rem', color: 'ink.muted' }}>{children}</DialogContentText>
+					? <DialogContentText sx={{ fontSize: tokens.fontSize.body2, color: 'ink.muted' }}>{children}</DialogContentText>
 					: children}
 				{subject && (
 					<Box sx={{ mt: 1.5, px: 1.5, py: 1, borderRadius: 2, backgroundColor: 'surface.subtle', border: '1px solid', borderColor: 'line.main' }}>

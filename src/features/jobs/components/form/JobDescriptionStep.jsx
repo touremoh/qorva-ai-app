@@ -27,7 +27,7 @@ const JobDescriptionStep = ({ createMode, handleJdDraft, jobDescription, jobTitl
 			</Box>
 			<Box sx={{ flexShrink: 0, display: 'flex', gap: 1, px: { xs: 2, sm: 3 }, py: 2, borderTop: `1px solid ${tokens.line.main}`, backgroundColor: tokens.surface.paper }}>
 				<Button onClick={onCancel}
-					sx={{ textTransform: 'none', color: tokens.ink.muted, borderRadius: 1.5, fontSize: '0.84rem' }}>
+					sx={{ textTransform: 'none', color: tokens.ink.muted, borderRadius: 1.5, fontSize: tokens.fontSize.body2 }}>
 					{t('jobContent.cancel')}
 				</Button>
 				<Box sx={{ flex: 1 }} />
@@ -37,7 +37,7 @@ const JobDescriptionStep = ({ createMode, handleJdDraft, jobDescription, jobTitl
 					sx={{
 						textTransform: 'none', backgroundColor: THEME_GREEN,
 						'&:hover': { backgroundColor: THEME_GREEN_DARK },
-						borderRadius: 1.5, boxShadow: 'none', fontWeight: 600, fontSize: '0.84rem',
+						borderRadius: 1.5, boxShadow: 'none', fontWeight: 600, fontSize: tokens.fontSize.body2,
 					}}>
 					{t('jobContent.next')}
 				</Button>

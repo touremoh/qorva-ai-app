@@ -12,13 +12,13 @@ const KPICard = ({ label, value, icon: Icon, accent, bg }) => (
 		'&:hover': { boxShadow: '0 4px 16px rgba(0,0,0,0.07)' },
 	}}>
 		<Box sx={{ width: 42, height: 42, borderRadius: 2, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: bg }}>
-			<Icon sx={{ fontSize: 20, color: accent }} />
+			<Icon sx={{ fontSize: tokens.iconSize.lg, color: accent }} />
 		</Box>
 		<Box sx={{ minWidth: 0 }}>
-			<Typography sx={{ fontSize: '1.6rem', fontWeight: 800, color: tokens.ink.strong, lineHeight: 1 }}>
+			<Typography sx={{ fontSize: tokens.fontSize.xxl, fontWeight: 800, color: tokens.ink.strong, lineHeight: 1 }}>
 				{Number.isFinite(value) ? value.toLocaleString() : 0}
 			</Typography>
-			<Typography sx={{ fontSize: '0.72rem', color: tokens.ink.muted, fontWeight: 500, mt: 0.25, lineHeight: 1.3 }}>
+			<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.muted, fontWeight: 500, mt: 0.25, lineHeight: 1.3 }}>
 				{label}
 			</Typography>
 		</Box>

@@ -66,12 +66,12 @@ const AppLibraryInsights = () => {
                         justifyContent: 'center',
                         flexShrink: 0,
                     }}>
-                        <PsychologyOutlinedIcon sx={{ fontSize: 18, color: tokens.brand.text }} />
+                        <PsychologyOutlinedIcon sx={{ fontSize: tokens.iconSize.lg, color: tokens.brand.text }} />
                     </Box>
                     <Box sx={{ minWidth: 0 }}>
                         <Typography sx={{
                             fontWeight: 700,
-                            fontSize: '0.88rem',
+                            fontSize: tokens.fontSize.body2,
                             color: tokens.ink.strong,
                             lineHeight: 1.2,
                             whiteSpace: 'nowrap',
@@ -80,7 +80,7 @@ const AppLibraryInsights = () => {
                         }}>
                             {insight.activeTitle || t('header.intelligence', 'Talent Intelligence')}
                         </Typography>
-                        <Typography sx={{ fontSize: '0.68rem', color: tokens.ink.subtle, lineHeight: 1.2 }}>
+                        <Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle, lineHeight: 1.2 }}>
                             {insight.activeTitle ? t('header.intelligence', 'Talent Intelligence') : 'Ask questions about your talent pool'}
                         </Typography>
                     </Box>
@@ -114,7 +114,7 @@ const AppLibraryInsights = () => {
                                         color: tokens.ink.inverse,
                                         boxShadow: `0 2px 8px ${alpha(tokens.brand.main, 0.25)}`,
                                     }}>
-                                        <Typography sx={{ fontSize: '0.84rem', lineHeight: 1.6 }}>{entry.text}</Typography>
+                                        <Typography sx={{ fontSize: tokens.fontSize.body2, lineHeight: 1.6 }}>{entry.text}</Typography>
                                     </Box>
                                 </Box>
                             );
@@ -129,7 +129,7 @@ const AppLibraryInsights = () => {
                         if (entry.type === 'error') {
                             return (
                                 <Box key={i} sx={{ mb: 1.5, px: 1.5, py: 1, borderRadius: 1.5, backgroundColor: tokens.status.error.tint, border: `1px solid ${tokens.status.error.border}` }}>
-                                    <Typography sx={{ fontSize: '0.8rem', color: tokens.status.error.main }}>{entry.text}</Typography>
+                                    <Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.status.error.main }}>{entry.text}</Typography>
                                 </Box>
                             );
                         }
@@ -165,7 +165,7 @@ const AppLibraryInsights = () => {
                 open={!!insight.conversationToDelete}
                 title={t('insight.deleteConversation.title')}
                 subject={insight.conversationToDelete?.title && (
-                    <Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: 'ink.strong' }}>{insight.conversationToDelete.title}</Typography>
+                    <Typography sx={{ fontSize: tokens.fontSize.body2, fontWeight: 600, color: 'ink.strong' }}>{insight.conversationToDelete.title}</Typography>
                 )}
                 cancelLabel={t('insight.deleteConversation.cancel')}
                 confirmLabel={t('insight.deleteConversation.confirm')}

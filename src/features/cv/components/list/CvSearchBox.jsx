@@ -22,7 +22,7 @@ const CvSearchBox = ({ onQuickSearchChange, quickSearch }) => {
 				InputProps={{
 					startAdornment: (
 						<InputAdornment position="start">
-							<SearchIcon sx={{ fontSize: 16, color: quickSearch ? GREEN : `${tokens.ink.subtle}` }} />
+							<SearchIcon sx={{ fontSize: tokens.iconSize.md, color: quickSearch ? GREEN : `${tokens.ink.subtle}` }} />
 						</InputAdornment>
 					),
 					endAdornment: quickSearch ? (
@@ -33,12 +33,12 @@ const CvSearchBox = ({ onQuickSearchChange, quickSearch }) => {
 								aria-label={t('appCVContent.filters.clear')}
 								sx={{ p: 0.25, color: tokens.ink.subtle, '&:hover': { color: tokens.ink.body } }}
 							>
-								<CloseRoundedIcon sx={{ fontSize: 14 }} />
+								<CloseRoundedIcon sx={{ fontSize: tokens.iconSize.sm }} />
 							</IconButton>
 						</InputAdornment>
 					) : null,
 					sx: {
-						fontSize: '0.82rem',
+						fontSize: tokens.fontSize.body2,
 						borderRadius: 1.5,
 						backgroundColor: tokens.surface.paper,
 						'& fieldset': { borderColor: tokens.line.main },

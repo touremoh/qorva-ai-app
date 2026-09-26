@@ -43,7 +43,7 @@ const AppMatchingReportDetails = ({ reportData }) => {
 		return (
 			<Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', backgroundColor: tokens.surface.subtle, gap: 1.5 }}>
 				<AssessmentOutlinedIcon sx={{ fontSize: 40, color: tokens.ink.faint }} />
-				<Typography sx={{ fontSize: '0.85rem', color: tokens.ink.subtle, fontWeight: 500 }}>
+				<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.subtle, fontWeight: 500 }}>
 					{t('appCVMatching.noAnalysisResult')}
 				</Typography>
 			</Box>

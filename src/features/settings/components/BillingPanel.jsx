@@ -35,18 +35,18 @@ const BillingPanel = ({ demo, handleOpenBillingPortal, loadingPortal }) => {
 				{loadingPortal ? (
 					<Stack alignItems="center" spacing={1} sx={{ py: 2 }}>
 						<CircularProgress size={22} sx={{ color: tokens.brand.text }} />
-						<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.muted }}>
+						<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.muted }}>
 							{t('accountSettings.openingBillingPortal', 'Opening billing portal…')}
 						</Typography>
 					</Stack>
 				) : (
 					<>
-						<Typography sx={{ fontSize: '0.82rem', color: tokens.ink.soft, lineHeight: 1.65 }}>
+						<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.soft, lineHeight: 1.65 }}>
 							{t('accountSettings.manageBillingHint')}
 						</Typography>
 						<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, pt: 1.5, mt: 0.5, borderTop: `1px solid ${tokens.surface.muted}` }}>
-							<OpenInNewOutlinedIcon sx={{ fontSize: 14, color: tokens.brand.text }} />
-							<Typography sx={{ fontSize: '0.78rem', fontWeight: 600, color: tokens.brand.text }}>
+							<OpenInNewOutlinedIcon sx={{ fontSize: tokens.iconSize.sm, color: tokens.brand.text }} />
+							<Typography sx={{ fontSize: tokens.fontSize.small, fontWeight: 600, color: tokens.brand.text }}>
 								{t('accountSettings.manageBillingLink')}
 							</Typography>
 						</Box>
@@ -54,7 +54,7 @@ const BillingPanel = ({ demo, handleOpenBillingPortal, loadingPortal }) => {
 				)}
 			</Paper>
 			)}
-			<Typography sx={{ fontSize: '0.72rem', color: tokens.ink.subtle, lineHeight: 1.6, px: 0.5, mt: 2 }}>
+			<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle, lineHeight: 1.6, px: 0.5, mt: 2 }}>
 				{t('accountSettings.footerHint')}
 			</Typography>
 		</Box>

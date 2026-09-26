@@ -81,7 +81,7 @@ const CVFilterRail = ({
 								onClick={() => toggleIn(group, value)}
 								label={`${labelOf(value)} (${count})`}
 								sx={{
-									height: 22, fontSize: '0.7rem', fontWeight: active ? 600 : 500,
+									height: 22, fontSize: tokens.fontSize.caption, fontWeight: active ? 600 : 500,
 									color: active ? `${tokens.surface.paper}` : `${tokens.ink.body}`,
 									backgroundColor: active ? GREEN : `${tokens.surface.paper}`,
 									border: `1px solid ${active ? GREEN : `${tokens.line.main}`}`,
@@ -114,7 +114,7 @@ const CVFilterRail = ({
 					onChange={(_, value) => setFilter(group, value)}
 					getOptionLabel={(v) => v}
 					renderOption={(props, v) => (
-						<li {...props} key={v} style={{ fontSize: '0.78rem', display: 'flex', justifyContent: 'space-between' }}>
+						<li {...props} key={v} style={{ fontSize: tokens.fontSize.small, display: 'flex', justifyContent: 'space-between' }}>
 							<span>{v}</span>
 							<span style={{ color: tokens.ink.subtle, marginLeft: 8 }}>{byValue[v]?.count ?? ''}</span>
 						</li>
@@ -125,7 +125,7 @@ const CVFilterRail = ({
 							key={v}
 							label={v}
 							size="small"
-							sx={{ height: 20, fontSize: '0.68rem', backgroundColor: alpha(tokens.brand.main, 0.10), color: tokens.status.success.text }}
+							sx={{ height: 20, fontSize: tokens.fontSize.caption, backgroundColor: alpha(tokens.brand.main, 0.10), color: tokens.status.success.text }}
 						/>
 					))}
 					renderInput={(params) => (
@@ -135,7 +135,7 @@ const CVFilterRail = ({
 							InputProps={{ ...params.InputProps, sx: { ...inputSx, py: '2px' } }}
 						/>
 					)}
-					sx={{ '& .MuiAutocomplete-inputRoot': { fontSize: '0.78rem' } }}
+					sx={{ '& .MuiAutocomplete-inputRoot': { fontSize: tokens.fontSize.small } }}
 				/>
 			</Box>
 		);
@@ -170,12 +170,12 @@ const CVFilterRail = ({
 				},
 				field: { clearable: true },
 				openPickerButton: { size: 'small', sx: { color: tokens.ink.subtle, mr: -0.5 } },
-				openPickerIcon: { sx: { fontSize: 16 } },
+				openPickerIcon: { sx: { fontSize: tokens.iconSize.md } },
 				popper: { placement: 'bottom-start' },
 				desktopPaper: { sx: { borderRadius: 2, border: `1px solid ${tokens.line.main}`, boxShadow: '0 8px 24px rgba(15,23,42,0.10)' } },
 				day: {
 					sx: {
-						fontSize: '0.78rem',
+						fontSize: tokens.fontSize.small,
 						'&.Mui-selected, &.Mui-selected:hover, &.Mui-selected:focus': { backgroundColor: GREEN },
 						'&.MuiPickersDay-today:not(.Mui-selected)': { borderColor: GREEN },
 					},
@@ -195,18 +195,18 @@ const CVFilterRail = ({
 				display: 'flex', alignItems: 'center', gap: 0.5,
 				px: 1.5, py: 1, borderBottom: `1px solid ${tokens.line.main}`, flexShrink: 0,
 			}}>
-				<Typography sx={{ fontSize: '0.84rem', fontWeight: 700, color: tokens.ink.strong, flex: 1 }}>
+				<Typography sx={{ fontSize: tokens.fontSize.body2, fontWeight: 700, color: tokens.ink.strong, flex: 1 }}>
 					{t('appCVContent.filters.title')}
 				</Typography>
 				{activeCount > 0 && (
 					<Button size="small" onClick={onClearAll} sx={{
-						textTransform: 'none', fontSize: '0.74rem', fontWeight: 600, color: GREEN, minWidth: 0, px: 0.75,
+						textTransform: 'none', fontSize: tokens.fontSize.small, fontWeight: 600, color: GREEN, minWidth: 0, px: 0.75,
 					}}>
 						{t('appCVContent.filters.clearAll')}
 					</Button>
 				)}
 				<IconButton size="small" onClick={onClose} sx={{ color: tokens.ink.subtle }}>
-					<ChevronLeftIcon sx={{ fontSize: 18 }} />
+					<ChevronLeftIcon sx={{ fontSize: tokens.iconSize.lg }} />
 				</IconButton>
 			</Box>
 
@@ -230,9 +230,9 @@ const CVFilterRail = ({
 						/>
 						<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
 							{numberField('minYearsOfExperience', String(experience.min ?? 0))}
-							<Typography sx={{ fontSize: '0.74rem', color: tokens.ink.subtle }}>–</Typography>
+							<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.subtle }}>–</Typography>
 							{numberField('maxYearsOfExperience', String(experience.max))}
-							<Typography sx={{ fontSize: '0.74rem', color: tokens.ink.subtle }}>{t('appCVContent.yearsAbbr')}</Typography>
+							<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.subtle }}>{t('appCVContent.yearsAbbr')}</Typography>
 						</Box>
 					</Box>
 				)}
@@ -245,11 +245,11 @@ const CVFilterRail = ({
 					/>
 					<Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.75 }}>
 						<Box>
-							<Typography sx={{ fontSize: '0.7rem', color: tokens.ink.subtle, mb: 0.25 }}>{t('appCVContent.filters.createdAfter')}</Typography>
+							<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle, mb: 0.25 }}>{t('appCVContent.filters.createdAfter')}</Typography>
 							{dateField('createdAfter')}
 						</Box>
 						<Box>
-							<Typography sx={{ fontSize: '0.7rem', color: tokens.ink.subtle, mb: 0.25 }}>{t('appCVContent.filters.updatedAfter')}</Typography>
+							<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle, mb: 0.25 }}>{t('appCVContent.filters.updatedAfter')}</Typography>
 							{dateField('updatedAfter')}
 						</Box>
 					</Box>
@@ -262,10 +262,10 @@ const CVFilterRail = ({
 						fullWidth
 						value={sort || DEFAULT_SORT}
 						onChange={(e) => setSort(e.target.value)}
-						sx={{ fontSize: '0.78rem', backgroundColor: tokens.surface.paper, '& .MuiSelect-select': { py: '5px', px: '8px' } }}
+						sx={{ fontSize: tokens.fontSize.small, backgroundColor: tokens.surface.paper, '& .MuiSelect-select': { py: '5px', px: '8px' } }}
 					>
 						{SORT_OPTIONS.map(o => (
-							<MenuItem key={o.value} value={o.value} sx={{ fontSize: '0.78rem' }}>
+							<MenuItem key={o.value} value={o.value} sx={{ fontSize: tokens.fontSize.small }}>
 								{t(`appCVContent.filters.sort.${o.key}`)}
 							</MenuItem>
 						))}
@@ -274,15 +274,15 @@ const CVFilterRail = ({
 			</Box>
 
 			<Box sx={{ px: 1.5, py: 1.25, borderTop: `1px solid ${tokens.line.main}`, backgroundColor: tokens.surface.paper, flexShrink: 0 }}>
-				<Typography sx={{ fontSize: '0.72rem', color: tokens.ink.muted, lineHeight: 1.4 }}>
+				<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.muted, lineHeight: 1.4 }}>
 					{t('appCVContent.filters.needMore')}{' '}
 					<Link
 						component="button"
 						type="button"
 						onClick={() => navigate('/app/intelligence')}
-						sx={{ fontSize: '0.72rem', fontWeight: 600, color: GREEN, verticalAlign: 'baseline', display: 'inline-flex', alignItems: 'center', gap: 0.25 }}
+						sx={{ fontSize: tokens.fontSize.caption, fontWeight: 600, color: GREEN, verticalAlign: 'baseline', display: 'inline-flex', alignItems: 'center', gap: 0.25 }}
 					>
-						<PsychologyOutlinedIcon sx={{ fontSize: 14 }} />
+						<PsychologyOutlinedIcon sx={{ fontSize: tokens.iconSize.sm }} />
 						{t('appCVContent.filters.askIntelligence')}
 					</Link>
 				</Typography>

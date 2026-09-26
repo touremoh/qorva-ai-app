@@ -43,7 +43,7 @@ const InsightInputBar = ({ inputFocusToken, loading, loadingHistory, mentions, q
                         focusToken={inputFocusToken}
                     />
                 </Box>
-                <Typography sx={{ fontSize: '0.62rem', color: tokens.ink.faint, textAlign: 'center', mt: 0.6 }}>
+                <Typography sx={{ fontSize: tokens.fontSize.micro, color: tokens.ink.faint, textAlign: 'center', mt: 0.6 }}>
                     {t('insight.input.hint')}
                 </Typography>
             </Box>

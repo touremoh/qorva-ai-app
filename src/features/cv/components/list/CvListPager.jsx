@@ -16,7 +16,7 @@ const CvListPager = ({ currentPage, handlePageChange, handlePageSizeChange, page
 			flexShrink: 0, gap: 1, flexWrap: 'wrap',
 			backgroundColor: tokens.surface.dim,
 		}}>
-			<Typography sx={{ fontSize: '0.72rem', color: tokens.ink.subtle, flexShrink: 0 }}>
+			<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle, flexShrink: 0 }}>
 				{totalPages > 1
 					? t('appCVContent.pageOf', { page: currentPage, total: totalPages })
 					: t('appCVContent.resumeCount', { count: totalElements })}
@@ -28,13 +28,13 @@ const CvListPager = ({ currentPage, handlePageChange, handlePageSizeChange, page
 					onChange={handlePageSizeChange}
 					variant="outlined"
 					sx={{
-						fontSize: '0.72rem', height: 24, minWidth: 52,
+						fontSize: tokens.fontSize.caption, height: 24, minWidth: 52,
 						'& .MuiSelect-select': { py: '2px', px: '8px' },
 						'& .MuiOutlinedInput-notchedOutline': { borderColor: tokens.line.main },
 					}}
 				>
 					{PAGE_SIZES.map(n => (
-						<MenuItem key={n} value={n} sx={{ fontSize: '0.78rem' }}>{n}</MenuItem>
+						<MenuItem key={n} value={n} sx={{ fontSize: tokens.fontSize.small }}>{n}</MenuItem>
 					))}
 				</Select>
 				{totalPages > 1 && (
@@ -45,7 +45,7 @@ const CvListPager = ({ currentPage, handlePageChange, handlePageSizeChange, page
 						size="small"
 						siblingCount={0}
 						boundaryCount={1}
-						sx={{ '& .MuiPaginationItem-root': { fontSize: '0.72rem', minWidth: 24, height: 24 } }}
+						sx={{ '& .MuiPaginationItem-root': { fontSize: tokens.fontSize.caption, minWidth: 24, height: 24 } }}
 					/>
 				)}
 			</Box>

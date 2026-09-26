@@ -152,7 +152,7 @@ const MfaCard = () => {
 			{loading ? (
 				<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: tokens.ink.subtle }}>
 					<CircularProgress size={14} sx={{ color: THEME_GREEN }} />
-					<Typography sx={{ fontSize: '0.8rem' }}>{t('accountSettings.mfa.loading', 'Loading…')}</Typography>
+					<Typography sx={{ fontSize: tokens.fontSize.body2 }}>{t('accountSettings.mfa.loading', 'Loading…')}</Typography>
 				</Box>
 			) : status && (
 				<Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flexWrap: 'wrap' }}>
@@ -162,11 +162,11 @@ const MfaCard = () => {
 								size="small"
 								label={enabled ? t('accountSettings.mfa.on', 'On') : t('accountSettings.mfa.off', 'Off')}
 								sx={enabled
-									? { backgroundColor: tokens.status.success.tint, color: tokens.status.success.text, fontWeight: 600, fontSize: '0.7rem', height: 22 }
-									: { backgroundColor: tokens.surface.muted, color: tokens.ink.soft, fontWeight: 600, fontSize: '0.7rem', height: 22 }}
+									? { backgroundColor: tokens.status.success.tint, color: tokens.status.success.text, fontWeight: 600, fontSize: tokens.fontSize.caption, height: 22 }
+									: { backgroundColor: tokens.surface.muted, color: tokens.ink.soft, fontWeight: 600, fontSize: tokens.fontSize.caption, height: 22 }}
 							/>
 						</Box>
-						<Typography sx={{ fontSize: '0.8rem', color: tokens.ink.muted }}>
+						<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.muted }}>
 							{t('accountSettings.mfa.description', 'Ask for a code sent to your email each time you sign in, on top of your password.')}
 						</Typography>
 					</Box>

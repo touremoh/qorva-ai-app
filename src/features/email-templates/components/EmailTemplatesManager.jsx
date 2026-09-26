@@ -187,14 +187,14 @@ const EmailTemplatesManager = ({ language, onChanged }) => {
 						<Tooltip title={t('emailTemplates.deleteHint', 'Delete this template')}>
 							<span>
 								<IconButton size="small" onClick={handleDelete} disabled={busy} sx={{ color: tokens.ink.subtle }}>
-									<DeleteOutlineRoundedIcon sx={{ fontSize: 18 }} />
+									<DeleteOutlineRoundedIcon sx={{ fontSize: tokens.iconSize.lg }} />
 								</IconButton>
 							</span>
 						</Tooltip>
 						<Button
 							size="small" onClick={handleSendTest} disabled={busy}
-							startIcon={<ForwardToInboxOutlinedIcon sx={{ fontSize: 15 }} />}
-							sx={{ textTransform: 'none', fontSize: '0.75rem', fontWeight: 600, color: tokens.ink.muted }}>
+							startIcon={<ForwardToInboxOutlinedIcon sx={{ fontSize: tokens.iconSize.sm }} />}
+							sx={{ textTransform: 'none', fontSize: tokens.fontSize.small, fontWeight: 600, color: tokens.ink.muted }}>
 							{t('emailTemplates.sendTest', 'Send test to me')}
 						</Button>
 					</>
@@ -202,8 +202,8 @@ const EmailTemplatesManager = ({ language, onChanged }) => {
 				<Box sx={{ flex: 1 }} />
 				<Button
 					size="small" onClick={handlePreview} disabled={busy || !form.subject.trim() || !form.bodyText.trim()}
-					startIcon={<VisibilityOutlinedIcon sx={{ fontSize: 15 }} />}
-					sx={{ textTransform: 'none', fontSize: '0.75rem', fontWeight: 600, color: tokens.ink.muted }}>
+					startIcon={<VisibilityOutlinedIcon sx={{ fontSize: tokens.iconSize.sm }} />}
+					sx={{ textTransform: 'none', fontSize: tokens.fontSize.small, fontWeight: 600, color: tokens.ink.muted }}>
 					{t('emailTemplates.preview', 'Preview')}
 				</Button>
 				<Button onClick={handleSave} disabled={busy || !formValid} variant="contained"

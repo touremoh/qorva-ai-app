@@ -20,7 +20,7 @@ const CompletenessFreshnessRow = ({ completenessMetrics, freshnessMetrics, fresh
 				<Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, 1fr)' }, gap: 3 }}>
 					{COMPLETENESS_GROUPS.map(({ key, fields }) => (
 						<Box key={key} sx={{ display: 'flex', flexDirection: 'column', gap: 0.9 }}>
-							<Typography sx={{ fontSize: '0.68rem', fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+							<Typography sx={{ fontSize: tokens.fontSize.caption, fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
 								{t(`libraryQuality.groups.${key}`, key)}
 							</Typography>
 							{fields.map((field) => {
@@ -58,10 +58,10 @@ const CompletenessFreshnessRow = ({ completenessMetrics, freshnessMetrics, fresh
 							return (
 								<Box key={bucket} sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
 									<Box sx={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: color, flexShrink: 0 }} />
-									<Typography sx={{ flex: 1, fontSize: '0.72rem', color: tokens.ink.soft }}>
+									<Typography sx={{ flex: 1, fontSize: tokens.fontSize.caption, color: tokens.ink.soft }}>
 										{t(`libraryQuality.buckets.${bucket}`, bucket)}
 									</Typography>
-									<Typography sx={{ fontSize: '0.72rem', color: tokens.ink.muted, fontWeight: 600 }}>
+									<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.muted, fontWeight: 600 }}>
 										{metric.count} · {Number(metric.percentage).toFixed(1)}%
 									</Typography>
 								</Box>

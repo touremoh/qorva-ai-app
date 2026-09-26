@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { Box, Typography } from '@mui/material';
 import { GREEN, labelSx } from '../../model/filterRail.js';
+import * as tokens from '../../../../theme/tokens.js';
 
 const GroupLabel = ({ text, count, onReset }) => (
 	<Typography component="div" sx={labelSx}>
@@ -8,7 +9,7 @@ const GroupLabel = ({ text, count, onReset }) => (
 		{count > 0 && onReset && (
 			<Box component="button" type="button" onClick={onReset} sx={{
 				border: 0, background: 'none', p: 0, cursor: 'pointer',
-				fontSize: '0.66rem', fontWeight: 600, color: GREEN, textTransform: 'none', letterSpacing: 0,
+				fontSize: tokens.fontSize.caption, fontWeight: 600, color: GREEN, textTransform: 'none', letterSpacing: 0,
 				'&:hover': { textDecoration: 'underline' },
 			}}>
 				×

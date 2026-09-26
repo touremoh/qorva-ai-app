@@ -16,16 +16,16 @@ const TemplateList = ({ atPlanLimit, selectTemplate, selectedId, templateLimit, 
 				: ''}>
 				<span>
 					<Button
-						fullWidth size="small" startIcon={<AddRoundedIcon sx={{ fontSize: 15 }} />}
+						fullWidth size="small" startIcon={<AddRoundedIcon sx={{ fontSize: tokens.iconSize.sm }} />}
 						disabled={atPlanLimit}
 						onClick={() => selectTemplate(null)}
-						sx={{ justifyContent: 'flex-start', textTransform: 'none', fontSize: '0.75rem', fontWeight: 600, color: tokens.brand.text, mb: 0.5 }}>
+						sx={{ justifyContent: 'flex-start', textTransform: 'none', fontSize: tokens.fontSize.small, fontWeight: 600, color: tokens.brand.text, mb: 0.5 }}>
 						{t('emailTemplates.new', 'New template')}
 					</Button>
 				</span>
 			</Tooltip>
 			{templateLimit !== null && (
-				<Typography sx={{ fontSize: '0.66rem', color: atPlanLimit ? `${tokens.status.error.main}` : `${tokens.ink.subtle}`, px: 1, mb: 0.5 }}>
+				<Typography sx={{ fontSize: tokens.fontSize.caption, color: atPlanLimit ? `${tokens.status.error.main}` : `${tokens.ink.subtle}`, px: 1, mb: 0.5 }}>
 					{t('emailTemplates.limitNote', '{{count}} of {{limit}} templates used', { count: templates.length, limit: templateLimit })}
 				</Typography>
 			)}
@@ -38,12 +38,12 @@ const TemplateList = ({ atPlanLimit, selectTemplate, selectedId, templateLimit, 
 						sx={{ borderRadius: 1.5, '&.Mui-selected': { backgroundColor: alpha(tokens.brand.main, 0.10) } }}>
 						<ListItemText
 							primary={template.name}
-							primaryTypographyProps={{ fontSize: '0.78rem', fontWeight: 600, color: tokens.ink.body, noWrap: true }}
+							primaryTypographyProps={{ fontSize: tokens.fontSize.small, fontWeight: 600, color: tokens.ink.body, noWrap: true }}
 						/>
 					</ListItemButton>
 				))}
 				{templates.length === 0 && (
-					<Typography sx={{ fontSize: '0.72rem', color: tokens.ink.subtle, px: 1, py: 0.5 }}>
+					<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle, px: 1, py: 0.5 }}>
 						{t('emailTemplates.none', 'No templates yet — campaigns use the standard Qorva message.')}
 					</Typography>
 				)}

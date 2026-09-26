@@ -31,7 +31,7 @@ const RegisterTopBar = () => {
 			>
 				<Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
 					<Box component="img" src="/logo.svg" alt="Qorva" sx={{ width: 30, height: 30 }} />
-					<Typography sx={{ fontWeight: 700, fontSize: '1.05rem', color: tokens.ink.strong, letterSpacing: '-0.02em' }}>
+					<Typography sx={{ fontWeight: 700, fontSize: tokens.fontSize.lg, color: tokens.ink.strong, letterSpacing: '-0.02em' }}>
 						Qorva
 					</Typography>
 				</Box>

@@ -10,7 +10,7 @@ const ReportListPager = ({ currentPage, handlePageChange, handlePageSizeChange, 
 	return (
 		<>
 		<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 1.5, py: 0.75, borderTop: `1px solid ${tokens.surface.muted}`, flexShrink: 0, gap: 1, flexWrap: 'wrap', backgroundColor: tokens.surface.dim }}>
-			<Typography sx={{ fontSize: '0.72rem', color: tokens.ink.subtle }}>
+			<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle }}>
 				{t('appReportContent.reportCount', { count: totalElements })}
 				{totalPages > 1 && <span> · {t('appCVContent.pageOf', { page: currentPage, total: totalPages })}</span>}
 			</Typography>
@@ -19,9 +19,9 @@ const ReportListPager = ({ currentPage, handlePageChange, handlePageSizeChange, 
 					size="small"
 					value={pageSize}
 					onChange={handlePageSizeChange}
-					sx={{ fontSize: '0.72rem', height: 24, '& .MuiSelect-select': { py: 0, px: 1 } }}
+					sx={{ fontSize: tokens.fontSize.caption, height: 24, '& .MuiSelect-select': { py: 0, px: 1 } }}
 				>
-					{PAGE_SIZES.map(n => <MenuItem key={n} value={n} sx={{ fontSize: '0.78rem' }}>{n}</MenuItem>)}
+					{PAGE_SIZES.map(n => <MenuItem key={n} value={n} sx={{ fontSize: tokens.fontSize.small }}>{n}</MenuItem>)}
 				</Select>
 				{totalPages > 1 && (
 					<Pagination
@@ -31,7 +31,7 @@ const ReportListPager = ({ currentPage, handlePageChange, handlePageSizeChange, 
 						size="small"
 						siblingCount={0}
 						boundaryCount={1}
-						sx={{ '& .MuiPaginationItem-root': { fontSize: '0.72rem' } }}
+						sx={{ '& .MuiPaginationItem-root': { fontSize: tokens.fontSize.caption } }}
 					/>
 				)}
 			</Box>

@@ -16,18 +16,18 @@ const JobProgressPanel = ({ activeJob, handleCancelJob }) => {
 			<Paper elevation={0} sx={{ border: `1px solid ${tokens.line.main}`, borderLeft: `3px solid ${tokens.brand.main}`, borderRadius: 2.5, p: 2 }}>
 				<Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, mb: ACTIVE_JOB_STATUSES.has(activeJob.status) ? 1 : 0 }}>
 					<AutorenewRoundedIcon sx={{
-						fontSize: 18, color: tokens.brand.text,
+						fontSize: tokens.iconSize.lg, color: tokens.brand.text,
 						animation: ACTIVE_JOB_STATUSES.has(activeJob.status) ? 'spin 2s linear infinite' : 'none',
 						'@keyframes spin': { from: { transform: 'rotate(0deg)' }, to: { transform: 'rotate(360deg)' } },
 					}} />
-					<Typography sx={{ flex: 1, fontSize: '0.8rem', fontWeight: 600, color: tokens.ink.body }}>
+					<Typography sx={{ flex: 1, fontSize: tokens.fontSize.body2, fontWeight: 600, color: tokens.ink.body }}>
 						{ACTIVE_JOB_STATUSES.has(activeJob.status)
 							? t('libraryQuality.jobs.running', 'AI re-analysis in progress — {{processed}}/{{total}} resumes', { processed: activeJob.processed, total: activeJob.total })
 							: t(`libraryQuality.jobs.status.${activeJob.status}`, activeJob.status)}
 					</Typography>
 					{ACTIVE_JOB_STATUSES.has(activeJob.status) && (
 						<Button size="small" onClick={handleCancelJob}
-							sx={{ textTransform: 'none', fontSize: '0.72rem', fontWeight: 600, color: tokens.ink.muted }}>
+							sx={{ textTransform: 'none', fontSize: tokens.fontSize.caption, fontWeight: 600, color: tokens.ink.muted }}>
 							{t('libraryQuality.jobs.cancel', 'Cancel')}
 						</Button>
 					)}
@@ -43,7 +43,7 @@ const JobProgressPanel = ({ activeJob, handleCancelJob }) => {
 					/>
 				)}
 				{!ACTIVE_JOB_STATUSES.has(activeJob.status) && (activeJob.failed > 0 || activeJob.skipped > 0) && (
-					<Typography sx={{ fontSize: '0.72rem', color: tokens.ink.subtle, mt: 0.5 }}>
+					<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle, mt: 0.5 }}>
 						{t('libraryQuality.jobs.resultDetail', '{{succeeded}} updated · {{failed}} failed · {{skipped}} skipped (no stored text)', {
 							succeeded: activeJob.succeeded, failed: activeJob.failed, skipped: activeJob.skipped })}
 					</Typography>

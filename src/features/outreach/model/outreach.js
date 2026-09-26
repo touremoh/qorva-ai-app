@@ -21,6 +21,6 @@ export const primaryButtonSx = brandButtonSx('0.78rem');
 
 export const neutralButtonSx = outlinedButtonSx('0.78rem');
 
-export const inputSx = { fontSize: '0.82rem', borderRadius: 1.5, backgroundColor: tokens.surface.paper };
+export const inputSx = { fontSize: tokens.fontSize.body2, borderRadius: 1.5, backgroundColor: tokens.surface.paper };
 
 export const errorCodeOf = (err) => err?.response?.data?.errorCode;

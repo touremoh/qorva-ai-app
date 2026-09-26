@@ -34,7 +34,7 @@ const ReportActionBar = ({ canContact, candidate, finalScore, handleDownload, jo
 							'&:hover': { backgroundColor: tokens.surface.muted },
 						}}
 					>
-						<MailOutlineIcon sx={{ fontSize: 16 }} />
+						<MailOutlineIcon sx={{ fontSize: tokens.iconSize.md }} />
 					</IconButton>
 				</Tooltip>
 			)}
@@ -48,7 +48,7 @@ const ReportActionBar = ({ canContact, candidate, finalScore, handleDownload, jo
 						'&:hover': { backgroundColor: tokens.surface.muted },
 					}}
 				>
-					<FileDownloadIcon sx={{ fontSize: 16 }} />
+					<FileDownloadIcon sx={{ fontSize: tokens.iconSize.md }} />
 				</IconButton>
 			</Tooltip>
 		</Box>

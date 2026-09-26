@@ -19,19 +19,19 @@ const ScoringFormActions = ({ loading, onBack, onSave, onSkip, saveLabel }) => {
 			backgroundColor: tokens.surface.paper,
 		}}>
 			<Button onClick={onBack} disabled={loading}
-				sx={{ textTransform: 'none', color: tokens.ink.muted, borderRadius: 1.5, fontSize: '0.84rem' }}>
+				sx={{ textTransform: 'none', color: tokens.ink.muted, borderRadius: 1.5, fontSize: tokens.fontSize.body2 }}>
 				{t('jobContent.back')}
 			</Button>
 			<Box sx={{ flex: 1 }} />
 			<Button onClick={onSkip} disabled={loading}
-				sx={{ textTransform: 'none', color: tokens.ink.subtle, borderRadius: 1.5, fontSize: '0.84rem' }}>
+				sx={{ textTransform: 'none', color: tokens.ink.subtle, borderRadius: 1.5, fontSize: tokens.fontSize.body2 }}>
 				{t('jobContent.skipScoringRules')}
 			</Button>
 			<Button variant="contained" onClick={onSave} disabled={loading}
 				sx={{
 					textTransform: 'none', backgroundColor: THEME_GREEN,
 					'&:hover': { backgroundColor: THEME_GREEN_DARK },
-					borderRadius: 1.5, boxShadow: 'none', fontWeight: 600, fontSize: '0.84rem', minWidth: 100,
+					borderRadius: 1.5, boxShadow: 'none', fontWeight: 600, fontSize: tokens.fontSize.body2, minWidth: 100,
 				}}>
 				{loading ? <CircularProgress size={16} color="inherit" /> : saveLabel}
 			</Button>

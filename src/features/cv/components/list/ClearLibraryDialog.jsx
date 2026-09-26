@@ -22,7 +22,7 @@ const ClearLibraryDialog = ({ clearConfirmText, clearDialogOpen, clearPreflight,
 			maxWidth="xs"
 			fullWidth
 		>
-			<DialogContentText component="div" sx={{ fontSize: '0.86rem', color: tokens.ink.body }}>
+			<DialogContentText component="div" sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.body }}>
 				{clearPreflight ? (
 					t('appCVContent.clearLibrary.summary',
 						'This permanently deletes {{cvs}} resumes, {{reports}} matching reports and {{chats}} AI chats — including their stored documents. Job posts and usage history are kept. This cannot be undone.',
@@ -33,7 +33,7 @@ const ClearLibraryDialog = ({ clearConfirmText, clearDialogOpen, clearPreflight,
 					</Box>
 				)}
 			</DialogContentText>
-			<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.muted, mt: 2, mb: 0.75 }}>
+			<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.muted, mt: 2, mb: 0.75 }}>
 				{t('appCVContent.clearLibrary.typeToConfirm', 'Type DELETE to confirm.')}
 			</Typography>
 			<input
@@ -43,7 +43,7 @@ const ClearLibraryDialog = ({ clearConfirmText, clearDialogOpen, clearPreflight,
 				autoFocus
 				style={{
 					width: '100%', boxSizing: 'border-box', padding: '8px 10px',
-					border: `1px solid ${tokens.line.main}`, borderRadius: 8, fontSize: '0.9rem',
+					border: `1px solid ${tokens.line.main}`, borderRadius: 8, fontSize: tokens.fontSize.body,
 					letterSpacing: '0.08em', fontFamily: 'inherit',
 				}}
 			/>

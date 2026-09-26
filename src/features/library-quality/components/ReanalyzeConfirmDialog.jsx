@@ -19,7 +19,7 @@ const ReanalyzeConfirmDialog = ({ actionBusy, handleReanalyzeConfirm, reanalyzeE
 			busy={actionBusy}
 			confirmDisabled={(reanalyzeEstimate?.estimate?.estimatedActions ?? 0) === 0}
 		>
-			<DialogContentText sx={{ fontSize: '0.88rem', color: tokens.ink.muted }}>
+			<DialogContentText sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.muted }}>
 				{t('libraryQuality.jobs.confirmBody',
 					'This will re-run AI extraction on {{count}} resumes and use {{actions}} screening actions{{quota}}.',
 					{

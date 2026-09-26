@@ -35,7 +35,7 @@ const InsightTyping = ({ loading }) => {
                         }} />
                     ))}
                 </Box>
-                <Typography sx={{ fontSize: '0.72rem', color: tokens.ink.subtle }}>
+                <Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle }}>
                     Analyzing…
                 </Typography>
             </Box>

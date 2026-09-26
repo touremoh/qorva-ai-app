@@ -22,7 +22,7 @@ const SkillsColumn = ({ certifications, keySkills, skills }) => {
 					<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.25 }}>
 						{keySkills.map((group, i) => (
 							<Box key={i}>
-								<Typography sx={{ fontSize: '0.72rem', fontWeight: 600, color: tokens.ink.muted, mb: 0.5 }}>
+								<Typography sx={{ fontSize: tokens.fontSize.caption, fontWeight: 600, color: tokens.ink.muted, mb: 0.5 }}>
 									{group.category}
 								</Typography>
 								<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
@@ -74,10 +74,10 @@ const SkillsColumn = ({ certifications, keySkills, skills }) => {
 							<TableBody>
 								{skills.languages.map((lang, i) => (
 									<TableRow key={i} sx={{ '&:last-child td': { borderBottom: 0 } }}>
-										<TableCell sx={{ fontSize: '0.78rem', py: 0.75, fontWeight: 600 }}>{lang.language}</TableCell>
-										<TableCell sx={{ fontSize: '0.78rem', py: 0.75 }} align="center">{lang.proficiency?.read || '—'}</TableCell>
-										<TableCell sx={{ fontSize: '0.78rem', py: 0.75 }} align="center">{lang.proficiency?.written || '—'}</TableCell>
-										<TableCell sx={{ fontSize: '0.78rem', py: 0.75 }} align="center">{lang.proficiency?.spoken || '—'}</TableCell>
+										<TableCell sx={{ fontSize: tokens.fontSize.small, py: 0.75, fontWeight: 600 }}>{lang.language}</TableCell>
+										<TableCell sx={{ fontSize: tokens.fontSize.small, py: 0.75 }} align="center">{lang.proficiency?.read || '—'}</TableCell>
+										<TableCell sx={{ fontSize: tokens.fontSize.small, py: 0.75 }} align="center">{lang.proficiency?.written || '—'}</TableCell>
+										<TableCell sx={{ fontSize: tokens.fontSize.small, py: 0.75 }} align="center">{lang.proficiency?.spoken || '—'}</TableCell>
 									</TableRow>
 								))}
 							</TableBody>
@@ -92,17 +92,17 @@ const SkillsColumn = ({ certifications, keySkills, skills }) => {
 					<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
 						{certifications.map((cert, i) => (
 							<Box key={i} sx={{ textAlign: 'left', ...(i > 0 ? { pt: 1.5, borderTop: `1px solid ${tokens.surface.muted}` } : {}) }}>
-								<Typography sx={{ fontWeight: 700, fontSize: '0.84rem', color: tokens.ink.strong }}>
+								<Typography sx={{ fontWeight: 700, fontSize: tokens.fontSize.body2, color: tokens.ink.strong }}>
 									{cert.title}
 								</Typography>
-								<Typography sx={{ fontSize: '0.78rem', color: tokens.brand.text, fontWeight: 600 }}>
+								<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.brand.text, fontWeight: 600 }}>
 									{cert.institution}
 								</Typography>
 								{cert.year && (
-									<Typography sx={{ fontSize: '0.75rem', color: tokens.ink.subtle }}>{cert.year}</Typography>
+									<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.subtle }}>{cert.year}</Typography>
 								)}
 								{cert.description && (
-									<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.muted, mt: 0.25 }}>
+									<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.muted, mt: 0.25 }}>
 										{cert.description}
 									</Typography>
 								)}

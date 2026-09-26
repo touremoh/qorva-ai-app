@@ -15,12 +15,12 @@ const AppEmailTemplates = () => {
 			<Box sx={{ p: 2.5, display: 'flex', flexDirection: 'column', gap: 2, minHeight: '100%' }}>
 				<Paper elevation={0} sx={{ border: `1px solid ${tokens.line.main}`, borderRadius: 2.5, p: 2.5 }}>
 					<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-						<MarkEmailReadOutlinedIcon sx={{ fontSize: 18, color: tokens.brand.text }} />
-						<Typography sx={{ fontSize: '0.95rem', fontWeight: 700, color: tokens.ink.strong }}>
+						<MarkEmailReadOutlinedIcon sx={{ fontSize: tokens.iconSize.lg, color: tokens.brand.text }} />
+						<Typography sx={{ fontSize: tokens.fontSize.body, fontWeight: 700, color: tokens.ink.strong }}>
 							{t('emailTemplates.pageTitle', 'Email Templates')}
 						</Typography>
 					</Box>
-					<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.muted }}>
+					<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.muted }}>
 						{t('emailTemplates.pageSubtitle',
 							'Craft the messages candidates receive when you request a profile update. Pick a template when launching an update campaign from Library Quality — or leave it unset to use the standard Qorva message.')}
 					</Typography>

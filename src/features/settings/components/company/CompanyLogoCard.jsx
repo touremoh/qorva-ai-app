@@ -46,20 +46,20 @@ const CompanyLogoCard = ({ displayLogo, editMode, handleDrop, handleLogoInputCha
                 </Box>
 
                 <Box sx={{ flex: 1, minWidth: 180 }}>
-                    <Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: tokens.ink.body, mb: 0.5 }}>
+                    <Typography sx={{ fontSize: tokens.fontSize.body2, fontWeight: 600, color: tokens.ink.body, mb: 0.5 }}>
                         {t('accountSettings.company.logoTitle')}
                     </Typography>
-                    <Typography sx={{ fontSize: '0.75rem', color: tokens.ink.subtle, mb: 1.5, lineHeight: 1.5 }}>
+                    <Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.subtle, mb: 1.5, lineHeight: 1.5 }}>
                         {t('accountSettings.company.logoHint')}
                     </Typography>
                     {editMode && (
                         <Button
                             size="small"
                             variant="outlined"
-                            startIcon={<AddPhotoAlternateOutlinedIcon sx={{ fontSize: 15 }} />}
+                            startIcon={<AddPhotoAlternateOutlinedIcon sx={{ fontSize: tokens.iconSize.sm }} />}
                             onClick={() => logoInputRef.current?.click()}
                             sx={{
-                                borderRadius: 2, textTransform: 'none', fontSize: '0.78rem',
+                                borderRadius: 2, textTransform: 'none', fontSize: tokens.fontSize.small,
                                 borderColor: tokens.brand.main, color: tokens.brand.text,
                                 '&:hover': { borderColor: tokens.brand.pressed, backgroundColor: alpha(tokens.brand.main, 0.04) },
                             }}
@@ -68,7 +68,7 @@ const CompanyLogoCard = ({ displayLogo, editMode, handleDrop, handleLogoInputCha
                         </Button>
                     )}
                     {logoFile && (
-                        <Typography sx={{ fontSize: '0.72rem', color: tokens.brand.text, mt: 0.75 }}>
+                        <Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.brand.text, mt: 0.75 }}>
                             {logoFile.name}
                         </Typography>
                     )}

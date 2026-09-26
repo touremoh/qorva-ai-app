@@ -12,7 +12,7 @@ const AtsSourceChip = ({ cv }) => {
 			label={ATS_LABELS[ref.provider] || ref.provider}
 			size="small"
 			sx={{
-				height: 16, fontSize: '0.6rem', fontWeight: 700, ml: 0.5,
+				height: 16, fontSize: tokens.fontSize.micro, fontWeight: 700, ml: 0.5,
 				color: tokens.status.info.main, backgroundColor: 'rgba(3,105,161,0.08)',
 				'& .MuiChip-label': { px: 0.75 },
 			}}

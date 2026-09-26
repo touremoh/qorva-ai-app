@@ -14,7 +14,7 @@ const SummarySection = ({ candidateProfileSummary }) => {
 		{candidateProfileSummary && (
 			<Card sx={{ mb: 2 }}>
 				<SectionHeader tone="document" icon={InfoOutlinedIcon} label={t('appCVContent.summary')} />
-				<Typography sx={{ fontSize: '0.84rem', color: tokens.ink.body, lineHeight: 1.7 }}>
+				<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.body, lineHeight: 1.7 }}>
 					{candidateProfileSummary}
 				</Typography>
 			</Card>

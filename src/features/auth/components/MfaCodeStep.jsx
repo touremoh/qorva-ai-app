@@ -82,7 +82,7 @@ const MfaCodeStep = ({ challenge: initialChallenge, onVerified, onRestart, input
 	return (
 		<Box>
 			<Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, mb: 0.75 }}>
-				<MarkEmailReadOutlinedIcon sx={{ color: tokens.brand.text, fontSize: 26 }} />
+				<MarkEmailReadOutlinedIcon sx={{ color: tokens.brand.text, fontSize: tokens.iconSize.xl }} />
 				<Typography variant="h5" sx={{ fontWeight: 700, color: tokens.ink.strong, letterSpacing: '-0.03em' }}>
 					{t('login.mfa.title', 'Check your email')}
 				</Typography>
@@ -92,7 +92,7 @@ const MfaCodeStep = ({ challenge: initialChallenge, onVerified, onRestart, input
 			</Typography>
 
 			{error && (
-				<Alert severity="error" variant="filled" sx={{ mb: 2.5, borderRadius: 1.5, fontSize: '0.82rem' }}>
+				<Alert severity="error" variant="filled" sx={{ mb: 2.5, borderRadius: 1.5, fontSize: tokens.fontSize.body2 }}>
 					{error}
 				</Alert>
 			)}
@@ -117,7 +117,7 @@ const MfaCodeStep = ({ challenge: initialChallenge, onVerified, onRestart, input
 						py: 1.3,
 						borderRadius: 1.5,
 						fontWeight: 600,
-						fontSize: '0.9rem',
+						fontSize: tokens.fontSize.body,
 						textTransform: 'none',
 						backgroundColor: tokens.brand.main,
 						boxShadow: `0 2px 8px ${alpha(tokens.brand.main, 0.35)}`,
@@ -135,7 +135,7 @@ const MfaCodeStep = ({ challenge: initialChallenge, onVerified, onRestart, input
 					)}
 					{status === 'success' && (
 						<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
-							<CheckCircleRoundedIcon sx={{ fontSize: 19, color: tokens.status.success.main }} />
+							<CheckCircleRoundedIcon sx={{ fontSize: tokens.iconSize.lg, color: tokens.status.success.main }} />
 							{t('login.signedIn', 'Signed in!')}
 						</Box>
 					)}
@@ -143,7 +143,7 @@ const MfaCodeStep = ({ challenge: initialChallenge, onVerified, onRestart, input
 				</Button>
 			</Box>
 
-			<Typography sx={{ color: tokens.ink.muted, fontSize: '0.78rem', mt: 2 }}>
+			<Typography sx={{ color: tokens.ink.muted, fontSize: tokens.fontSize.small, mt: 2 }}>
 				{t('login.mfa.help', "Didn't get it? Check your spam folder, or resend the code.")}
 			</Typography>
 

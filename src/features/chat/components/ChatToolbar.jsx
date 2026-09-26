@@ -21,11 +21,11 @@ const ChatToolbar = ({ chatListOpen, fetchChatsPage, loadingChats, openCreateCha
 		}}>
 			<Tooltip title={t(chatListOpen ? 'appAIResumeChat.hideChats' : 'appAIResumeChat.showChats')}>
 				<IconButton size="small" onClick={toggleChatList} sx={{ color: tokens.ink.muted, border: `1px solid ${tokens.line.main}`, borderRadius: 1.5 }}>
-					{chatListOpen ? <MenuOpenOutlinedIcon sx={{ fontSize: 18 }} /> : <MenuOutlinedIcon sx={{ fontSize: 18 }} />}
+					{chatListOpen ? <MenuOpenOutlinedIcon sx={{ fontSize: tokens.iconSize.lg }} /> : <MenuOutlinedIcon sx={{ fontSize: tokens.iconSize.lg }} />}
 				</IconButton>
 			</Tooltip>
-			<AutoAwesomeOutlinedIcon sx={{ color: tokens.brand.text, fontSize: 20 }} />
-			<Typography sx={{ fontWeight: 600, fontSize: '0.9rem', color: tokens.ink.strong, flex: 1 }}>
+			<AutoAwesomeOutlinedIcon sx={{ color: tokens.brand.text, fontSize: tokens.iconSize.lg }} />
+			<Typography sx={{ fontWeight: 600, fontSize: tokens.fontSize.body, color: tokens.ink.strong, flex: 1 }}>
 				{t('header.aiResumeChat')}
 			</Typography>
 			<Tooltip title={t('appAIResumeChat.refresh')}>
@@ -36,18 +36,18 @@ const ChatToolbar = ({ chatListOpen, fetchChatsPage, loadingChats, openCreateCha
 						disabled={loadingChats}
 						sx={{ border: `1px solid ${tokens.line.main}`, borderRadius: 1.5, color: tokens.ink.muted, '&:hover': { backgroundColor: tokens.surface.muted } }}
 					>
-						<RefreshOutlinedIcon sx={{ fontSize: 16 }} />
+						<RefreshOutlinedIcon sx={{ fontSize: tokens.iconSize.md }} />
 					</IconButton>
 				</span>
 			</Tooltip>
 			<Button
 				variant="contained"
 				size="small"
-				startIcon={<AddCommentOutlinedIcon sx={{ fontSize: 16 }} />}
+				startIcon={<AddCommentOutlinedIcon sx={{ fontSize: tokens.iconSize.md }} />}
 				onClick={openCreateChatModal}
 				disabled={loadingChats}
 				sx={{
-					backgroundColor: tokens.brand.main, borderRadius: 2, fontSize: '0.78rem', fontWeight: 600,
+					backgroundColor: tokens.brand.main, borderRadius: 2, fontSize: tokens.fontSize.small, fontWeight: 600,
 					textTransform: 'none', px: 1.5, py: 0.75, boxShadow: 'none',
 					'&:hover': { backgroundColor: tokens.brand.pressed, boxShadow: 'none' },
 				}}

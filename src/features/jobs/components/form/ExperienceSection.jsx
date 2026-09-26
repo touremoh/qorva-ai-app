@@ -3,6 +3,7 @@ import { Box, TextField, Select, MenuItem, FormControl, InputLabel } from '@mui/
 import SectionTitle from './SectionTitle.jsx';
 import { inputSx, selectSx } from '../../model/jobForm.js';
 import { useTranslation } from 'react-i18next';
+import * as tokens from '../../../../theme/tokens.js';
 
 /** Minimum total and relevant years of experience, and seniority. */
 const ExperienceSection = ({ sc, setExp }) => {
@@ -20,13 +21,13 @@ const ExperienceSection = ({ sc, setExp }) => {
 				onChange={(e) => setExp({ minRelevantYears: e.target.value })}
 				inputProps={{ min: 0 }} sx={{ ...inputSx, flex: '1 1 150px' }} />
 			<FormControl size="small" sx={{ flex: '1 1 140px' }}>
-				<InputLabel sx={{ fontSize: '0.84rem' }}>{t('jobContent.seniorityLevel')}</InputLabel>
+				<InputLabel sx={{ fontSize: tokens.fontSize.body2 }}>{t('jobContent.seniorityLevel')}</InputLabel>
 				<Select value={sc.experienceRequirements.seniorityLevel}
 					onChange={(e) => setExp({ seniorityLevel: e.target.value })}
 					label={t('jobContent.seniorityLevel')} sx={selectSx}>
-					<MenuItem value="junior" sx={{ fontSize: '0.84rem' }}>{t('jobContent.junior')}</MenuItem>
-					<MenuItem value="mid" sx={{ fontSize: '0.84rem' }}>{t('jobContent.mid')}</MenuItem>
-					<MenuItem value="senior" sx={{ fontSize: '0.84rem' }}>{t('jobContent.senior')}</MenuItem>
+					<MenuItem value="junior" sx={{ fontSize: tokens.fontSize.body2 }}>{t('jobContent.junior')}</MenuItem>
+					<MenuItem value="mid" sx={{ fontSize: tokens.fontSize.body2 }}>{t('jobContent.mid')}</MenuItem>
+					<MenuItem value="senior" sx={{ fontSize: tokens.fontSize.body2 }}>{t('jobContent.senior')}</MenuItem>
 				</Select>
 			</FormControl>
 		</Box>

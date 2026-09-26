@@ -21,7 +21,7 @@ const TAB_RESUME = 0, TAB_JOB = 2; // 1 = report
 const tabsSx = {
 	borderBottom: `1px solid ${tokens.line.main}`, minHeight: 40, px: 1, backgroundColor: tokens.surface.paper, flex: 1,
 	'& .MuiTabs-indicator': { backgroundColor: THEME_GREEN },
-	'& .MuiTab-root': { textTransform: 'none', fontSize: '0.8rem', minHeight: 40, py: 1, color: tokens.ink.muted },
+	'& .MuiTab-root': { textTransform: 'none', fontSize: tokens.fontSize.body2, minHeight: 40, py: 1, color: tokens.ink.muted },
 	'& .MuiTab-root.Mui-selected': { color: THEME_GREEN, fontWeight: 600 },
 };
 
@@ -85,7 +85,7 @@ const ChatContextPanel = ({ chat, report, onReportRefresh, onCvUpdated, onClose 
 	};
 
 	const body = () => {
-		if (error) return <Centered><Typography sx={{ fontSize: '0.82rem', color: tokens.status.error.dark }}>{error}</Typography></Centered>;
+		if (error) return <Centered><Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.status.error.dark }}>{error}</Typography></Centered>;
 		if (loading) return <Centered><CircularProgress size={22} sx={{ color: THEME_GREEN }} /></Centered>;
 		if (tab === TAB_RESUME) return cv ? <AppCVDetails cv={cv} onUpdate={handleCvUpdate} /> : null;
 		if (tab === TAB_JOB) return job ? <JobPostReadView job={job} /> : null;
@@ -95,17 +95,17 @@ const ChatContextPanel = ({ chat, report, onReportRefresh, onCvUpdated, onClose 
 				<AssessmentOutlinedIcon sx={{ fontSize: 36, color: tokens.ink.faint }} />
 				<Chip
 					size="small"
-					icon={<AssessmentOutlinedIcon sx={{ fontSize: '13px !important' }} />}
+					icon={<AssessmentOutlinedIcon sx={{ fontSize: `${tokens.iconSize.xs}px !important` }} />}
 					label={t('appAIResumeChat.runScreening')}
 					onClick={() => navigate('/app/reports')}
 					variant="outlined"
-					sx={{ fontSize: '0.72rem', color: tokens.status.warning.text, borderColor: tokens.status.warning.border2, backgroundColor: tokens.status.warning.pale, cursor: 'pointer' }}
+					sx={{ fontSize: tokens.fontSize.caption, color: tokens.status.warning.text, borderColor: tokens.status.warning.border2, backgroundColor: tokens.status.warning.pale, cursor: 'pointer' }}
 				/>
-				<Typography sx={{ fontSize: '0.8rem', color: tokens.ink.subtle, maxWidth: 360 }}>
+				<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.subtle, maxWidth: 360 }}>
 					{t('appAIResumeChat.noReportYetHint')}
 				</Typography>
-				<Button size="small" startIcon={<RefreshOutlinedIcon sx={{ fontSize: 14 }} />} onClick={onReportRefresh}
-					sx={{ textTransform: 'none', fontSize: '0.78rem', color: THEME_GREEN }}>
+				<Button size="small" startIcon={<RefreshOutlinedIcon sx={{ fontSize: tokens.iconSize.sm }} />} onClick={onReportRefresh}
+					sx={{ textTransform: 'none', fontSize: tokens.fontSize.small, color: THEME_GREEN }}>
 					{t('appAIResumeChat.refreshReport')}
 				</Button>
 			</Centered>
@@ -123,7 +123,7 @@ const ChatContextPanel = ({ chat, report, onReportRefresh, onCvUpdated, onClose 
 				{onClose && (
 					<Tooltip title={t('appAIResumeChat.hideContext')}>
 						<IconButton size="small" onClick={onClose} sx={{ mx: 0.5, color: tokens.ink.muted }}>
-							<CloseIcon sx={{ fontSize: 16 }} />
+							<CloseIcon sx={{ fontSize: tokens.iconSize.md }} />
 						</IconButton>
 					</Tooltip>
 				)}

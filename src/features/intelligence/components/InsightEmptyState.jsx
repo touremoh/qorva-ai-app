@@ -23,12 +23,12 @@ const InsightEmptyState = ({ isEmpty, setInputFocusToken, setQuestion }) => {
                     alignItems: 'center',
                     justifyContent: 'center',
                 }}>
-                    <ForumOutlinedIcon sx={{ fontSize: 26, color: tokens.brand.text }} />
+                    <ForumOutlinedIcon sx={{ fontSize: tokens.iconSize.xl, color: tokens.brand.text }} />
                 </Box>
-                <Typography sx={{ fontWeight: 600, fontSize: '0.95rem', color: tokens.ink.heading, textAlign: 'center' }}>
+                <Typography sx={{ fontWeight: 600, fontSize: tokens.fontSize.body, color: tokens.ink.heading, textAlign: 'center' }}>
                     {t('insight.intro.title')}
                 </Typography>
-                <Typography sx={{ fontSize: '0.8rem', color: tokens.ink.subtle, textAlign: 'center', maxWidth: 480 }}>
+                <Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.subtle, textAlign: 'center', maxWidth: 480 }}>
                     {t('insight.intro.subtitle')}
                 </Typography>
                 <InsightIntentCards

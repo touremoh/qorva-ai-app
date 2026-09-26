@@ -12,14 +12,14 @@ const IntegrationsIntro = ({ catalog, catalogFailed }) => {
 		<>
 		<Paper elevation={0} sx={{ border: `1px solid ${tokens.line.main}`, borderRadius: 2.5, p: 2 }}>
 			<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-				<CableOutlinedIcon sx={{ fontSize: 16, color: GREEN }} />
-				<Typography sx={{ fontSize: '0.82rem', color: tokens.ink.soft, flex: 1 }}>
+				<CableOutlinedIcon sx={{ fontSize: tokens.iconSize.md, color: GREEN }} />
+				<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.soft, flex: 1 }}>
 					{t('atsIntegrations.intro')}
 				</Typography>
 				<Chip size="small" label={`${catalog.usedConnections}/${catalog.maxConnections}`} sx={{ fontWeight: 700 }} />
 			</Box>
 			{!catalogFailed && catalog.maxConnections === 0 && (
-				<Typography sx={{ fontSize: '0.78rem', color: tokens.status.warning.main, mt: 1 }}>
+				<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.status.warning.main, mt: 1 }}>
 					{t('atsIntegrations.planUpsell')}
 				</Typography>
 			)}

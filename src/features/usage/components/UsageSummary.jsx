@@ -18,8 +18,8 @@ const UsageSummary = ({ data, featureConfig, formatPeriodDate, templateUsage }) 
                 label={t('header.usageMonitoring', 'Usage Monitoring')}
                 action={
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
-                        <CalendarTodayOutlinedIcon sx={{ fontSize: 13, color: tokens.ink.subtle }} />
-                        <Typography sx={{ fontSize: '0.72rem', color: tokens.ink.subtle, fontWeight: 500 }}>
+                        <CalendarTodayOutlinedIcon sx={{ fontSize: tokens.iconSize.xs, color: tokens.ink.subtle }} />
+                        <Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle, fontWeight: 500 }}>
                             {formatPeriodDate(data.currentPeriodStart)} – {formatPeriodDate(data.currentPeriodEnd)}
                         </Typography>
                     </Box>
@@ -47,18 +47,18 @@ const UsageSummary = ({ data, featureConfig, formatPeriodDate, templateUsage }) 
                         }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.75 }}>
                                 <Box sx={{ width: 32, height: 32, borderRadius: 1.5, backgroundColor: bg, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                                    <Icon sx={{ fontSize: 16, color: accent }} />
+                                    <Icon sx={{ fontSize: tokens.iconSize.md, color: accent }} />
                                 </Box>
-                                <Typography sx={{ fontSize: '0.78rem', fontWeight: 600, color: tokens.ink.body, lineHeight: 1.3 }}>
+                                <Typography sx={{ fontSize: tokens.fontSize.small, fontWeight: 600, color: tokens.ink.body, lineHeight: 1.3 }}>
                                     {label}
                                 </Typography>
                             </Box>
 
                             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', mb: 1 }}>
-                                <Typography sx={{ fontSize: '1.5rem', fontWeight: 800, color: tokens.ink.strong, lineHeight: 1 }}>
+                                <Typography sx={{ fontSize: tokens.fontSize.xxl, fontWeight: 800, color: tokens.ink.strong, lineHeight: 1 }}>
                                     {feature.consumed.toLocaleString()}
                                 </Typography>
-                                <Typography sx={{ fontSize: '0.72rem', color: tokens.ink.subtle, fontWeight: 500 }}>
+                                <Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle, fontWeight: 500 }}>
                                     / {feature.limit.toLocaleString()}
                                 </Typography>
                             </Box>
@@ -74,11 +74,11 @@ const UsageSummary = ({ data, featureConfig, formatPeriodDate, templateUsage }) 
                             </Box>
 
                             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Typography sx={{ fontSize: '0.7rem', fontWeight: 600, color: isWarning ? `${tokens.status.warning.strong}` : `${tokens.ink.muted}` }}>
+                                <Typography sx={{ fontSize: tokens.fontSize.caption, fontWeight: 600, color: isWarning ? `${tokens.status.warning.strong}` : `${tokens.ink.muted}` }}>
                                     {pct.toFixed(1)}% {t('dashboard.usage.used', 'used')}
                                 </Typography>
                                 <Tooltip title={t('dashboard.usage.cumulativeTooltip', 'All-time total across all periods')} arrow placement="top">
-                                    <Typography sx={{ fontSize: '0.7rem', color: tokens.ink.subtle, cursor: 'default' }}>
+                                    <Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle, cursor: 'default' }}>
                                         {feature.cumulative.toLocaleString()} {t('dashboard.usage.allTime', 'all-time')}
                                     </Typography>
                                 </Tooltip>
@@ -102,18 +102,18 @@ const UsageSummary = ({ data, featureConfig, formatPeriodDate, templateUsage }) 
                         }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.75 }}>
                                 <Box sx={{ width: 32, height: 32, borderRadius: 1.5, backgroundColor: 'rgba(245,158,11,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                                    <MarkEmailReadOutlinedIcon sx={{ fontSize: 16, color: accent }} />
+                                    <MarkEmailReadOutlinedIcon sx={{ fontSize: tokens.iconSize.md, color: accent }} />
                                 </Box>
-                                <Typography sx={{ fontSize: '0.78rem', fontWeight: 600, color: tokens.ink.body, lineHeight: 1.3 }}>
+                                <Typography sx={{ fontSize: tokens.fontSize.small, fontWeight: 600, color: tokens.ink.body, lineHeight: 1.3 }}>
                                     {t('header.emailTemplates', 'Email Templates')}
                                 </Typography>
                             </Box>
 
                             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', mb: 1 }}>
-                                <Typography sx={{ fontSize: '1.5rem', fontWeight: 800, color: tokens.ink.strong, lineHeight: 1 }}>
+                                <Typography sx={{ fontSize: tokens.fontSize.xxl, fontWeight: 800, color: tokens.ink.strong, lineHeight: 1 }}>
                                     {count.toLocaleString()}
                                 </Typography>
-                                <Typography sx={{ fontSize: '0.72rem', color: tokens.ink.subtle, fontWeight: 500 }}>
+                                <Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle, fontWeight: 500 }}>
                                     {limit !== null
                                         ? `/ ${limit.toLocaleString()}`
                                         : t('dashboard.usage.unlimited', 'Unlimited')}
@@ -134,12 +134,12 @@ const UsageSummary = ({ data, featureConfig, formatPeriodDate, templateUsage }) 
 
                             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 {limit !== null && (
-                                    <Typography sx={{ fontSize: '0.7rem', fontWeight: 600, color: isWarning ? `${tokens.status.warning.strong}` : `${tokens.ink.muted}` }}>
+                                    <Typography sx={{ fontSize: tokens.fontSize.caption, fontWeight: 600, color: isWarning ? `${tokens.status.warning.strong}` : `${tokens.ink.muted}` }}>
                                         {pct.toFixed(1)}% {t('dashboard.usage.used', 'used')}
                                     </Typography>
                                 )}
                                 <Tooltip title={t('dashboard.usage.templatesTooltip', 'Saved invitation templates — a plan allowance, not a monthly quota')} arrow placement="top">
-                                    <Typography sx={{ fontSize: '0.7rem', color: tokens.ink.subtle, cursor: 'default', ml: 'auto' }}>
+                                    <Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle, cursor: 'default', ml: 'auto' }}>
                                         {t('dashboard.usage.planAllowance', 'plan allowance')}
                                     </Typography>
                                 </Tooltip>
@@ -150,7 +150,7 @@ const UsageSummary = ({ data, featureConfig, formatPeriodDate, templateUsage }) 
             </Box>
 
             {data.lastUpdatedAt && (
-                <Typography sx={{ mt: 1.75, fontSize: '0.68rem', color: tokens.ink.faint, textAlign: 'right' }}>
+                <Typography sx={{ mt: 1.75, fontSize: tokens.fontSize.caption, color: tokens.ink.faint, textAlign: 'right' }}>
                     {t('dashboard.usage.lastUpdated', 'Last updated')}: {new Date(data.lastUpdatedAt).toLocaleString()}
                 </Typography>
             )}

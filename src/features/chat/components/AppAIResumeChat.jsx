@@ -379,7 +379,7 @@ const AppAIResumeChat = () => {
 				open={!!chatToDelete}
 				title={t('appAIResumeChat.confirmDeleteChat')}
 				subject={chatToDelete && (
-					<Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: 'ink.strong' }}>{chatToDelete.title}</Typography>
+					<Typography sx={{ fontSize: tokens.fontSize.body2, fontWeight: 600, color: 'ink.strong' }}>{chatToDelete.title}</Typography>
 				)}
 				cancelLabel={t('appAIResumeChat.cancel')}
 				confirmLabel={t('appAIResumeChat.delete')}

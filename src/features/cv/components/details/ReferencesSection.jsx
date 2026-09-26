@@ -18,19 +18,19 @@ const ReferencesSection = ({ anonymized, references }) => {
 					{references.map((ref, i) => (
 						<Grid2 key={i} size={{ xs: 12, sm: 6 }}>
 							<Box sx={{ p: 1.5, backgroundColor: tokens.surface.subtle, borderRadius: 1.5, border: `1px solid ${tokens.surface.muted}` }}>
-								<Typography sx={{ fontWeight: 700, fontSize: '0.84rem', color: tokens.ink.strong }}>
+								<Typography sx={{ fontWeight: 700, fontSize: tokens.fontSize.body2, color: tokens.ink.strong }}>
 									{ref.name}
 								</Typography>
 								{(ref.position || ref.company) && (
-									<Typography sx={{ fontSize: '0.78rem', color: tokens.brand.text, fontWeight: 600 }}>
+									<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.brand.text, fontWeight: 600 }}>
 										{[ref.position, ref.company].filter(Boolean).join(' — ')}
 									</Typography>
 								)}
 								{!anonymized && ref.contact?.phone && (
-									<Typography sx={{ fontSize: '0.75rem', color: tokens.ink.muted }}>{ref.contact.phone}</Typography>
+									<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.muted }}>{ref.contact.phone}</Typography>
 								)}
 								{!anonymized && ref.contact?.email && (
-									<Typography sx={{ fontSize: '0.75rem', color: tokens.ink.muted }}>{ref.contact.email}</Typography>
+									<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.muted }}>{ref.contact.email}</Typography>
 								)}
 							</Box>
 						</Grid2>

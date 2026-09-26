@@ -209,7 +209,7 @@ const CandidateUpdatePage = () => {
 				<Typography sx={{ fontWeight: 700, color: tokens.ink.strong, mb: 0.5 }}>
 					{t('candidateUpdate.processingTitle', 'Updating your profile')}
 				</Typography>
-				<Typography sx={{ fontSize: '0.85rem', color: tokens.ink.muted, mb: 3 }}>
+				<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.muted, mb: 3 }}>
 					{stageLabel}
 				</Typography>
 				<LinearProgress
@@ -220,7 +220,7 @@ const CandidateUpdatePage = () => {
 						'& .MuiLinearProgress-bar': { borderRadius: 4, backgroundColor: tokens.brand.main },
 					}}
 				/>
-				<Typography sx={{ fontSize: '0.72rem', color: tokens.ink.subtle, mt: 2 }}>
+				<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle, mt: 2 }}>
 					{slowProcessing
 						? t('candidateUpdate.processingSlow', 'This is taking longer than expected — you can close this page; your update will finish automatically.')
 						: t('candidateUpdate.processingHint', 'This usually takes less than a minute.')}
@@ -238,7 +238,7 @@ const CandidateUpdatePage = () => {
 						? t('candidateUpdate.doneTitle', 'Thank you — your profile is up to date!')
 						: t('candidateUpdate.unsubscribedTitle', 'You have been unsubscribed.')}
 				</Typography>
-				<Typography sx={{ fontSize: '0.85rem', color: tokens.ink.muted }}>
+				<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.muted }}>
 					{state === 'done'
 						? t('candidateUpdate.doneSubtitle', 'You can close this page.')
 						: t('candidateUpdate.unsubscribedSubtitle', 'You will not receive further update requests.')}
@@ -253,7 +253,7 @@ const CandidateUpdatePage = () => {
 				<Typography sx={{ fontWeight: 700, color: tokens.ink.strong, mb: 1 }}>
 					{t('candidateUpdate.unsubscribeTitle', 'Unsubscribe from update requests?')}
 				</Typography>
-				<Typography sx={{ fontSize: '0.85rem', color: tokens.ink.muted, mb: 2.5 }}>
+				<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.muted, mb: 2.5 }}>
 					{t('candidateUpdate.unsubscribeSubtitle', 'You will no longer receive profile update emails from this recruiter.')}
 				</Typography>
 				<Button variant="contained" disabled={submitting} onClick={handleUnsubscribe}
@@ -269,10 +269,10 @@ const CandidateUpdatePage = () => {
 			{submitError && (
 				<Alert severity="error" sx={{ borderRadius: 1.5, mb: 2 }}>{submitError}</Alert>
 			)}
-			<Typography sx={{ fontWeight: 700, fontSize: '1.1rem', color: tokens.ink.strong, mb: 0.5 }}>
+			<Typography sx={{ fontWeight: 700, fontSize: tokens.fontSize.lg, color: tokens.ink.strong, mb: 0.5 }}>
 				{t('candidateUpdate.title', 'Hi {{name}}, keep your profile up to date', { name: prefill?.firstName || '' })}
 			</Typography>
-			<Typography sx={{ fontSize: '0.84rem', color: tokens.ink.muted, mb: 3 }}>
+			<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.muted, mb: 3 }}>
 				{t('candidateUpdate.subtitle', 'Confirm your availability and expectations — it takes a minute.')}
 			</Typography>
 
@@ -306,13 +306,13 @@ const CandidateUpdatePage = () => {
 					value={form.salaryMax} onChange={(e) => setForm(f => ({ ...f, salaryMax: e.target.value }))} sx={inputSx} />
 			</Box>
 
-			<Button component="label" fullWidth variant="outlined" startIcon={<CloudUploadIcon sx={{ fontSize: 18 }} />}
+			<Button component="label" fullWidth variant="outlined" startIcon={<CloudUploadIcon sx={{ fontSize: tokens.iconSize.lg }} />}
 				sx={{ textTransform: 'none', borderRadius: 1.5, borderColor: tokens.line.strong, color: file ? `${tokens.status.success.main}` : `${tokens.ink.muted}`, mb: 2, justifyContent: 'flex-start' }}>
 				{file ? file.name : t('candidateUpdate.uploadCV', 'Upload a newer resume (optional, .pdf or .docx)')}
 				<input type="file" hidden accept=".pdf,.docx" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
 			</Button>
 
-			<Typography sx={{ fontSize: '0.7rem', color: tokens.ink.subtle, mb: 2, lineHeight: 1.5 }}>
+			<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle, mb: 2, lineHeight: 1.5 }}>
 				{t('candidateUpdate.consent', 'By submitting, you agree that this information is shared with the recruiter who holds your profile and processed to keep it accurate.')}
 			</Typography>
 

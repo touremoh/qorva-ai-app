@@ -20,15 +20,15 @@ const MatchingProgressBanner = ({ matchingElapsed, matchingLoading, matchingProg
 				<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 0.75 }}>
 					<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
 						<CircularProgress size={14} thickness={5} sx={{ color: tokens.brand.text }} />
-						<Typography sx={{ fontSize: '0.84rem', fontWeight: 600, color: tokens.status.success.text }}>
+						<Typography sx={{ fontSize: tokens.fontSize.body2, fontWeight: 600, color: tokens.status.success.text }}>
 							{t('appReportContent.matchingInProgress')}
 						</Typography>
 					</Box>
 					<Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-						<Typography sx={{ fontSize: '0.75rem', color: tokens.brand.text, fontWeight: 600 }}>
+						<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.brand.text, fontWeight: 600 }}>
 							{Math.round(matchingProgress)}%
 						</Typography>
-						<Typography sx={{ fontSize: '0.75rem', color: tokens.ink.gray }}>
+						<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.gray }}>
 							{matchingElapsed < 60
 								? `~${Math.max(0, 60 - matchingElapsed)}s ${t('appReportContent.remaining')}`
 								: t('appReportContent.almostDone')
@@ -49,7 +49,7 @@ const MatchingProgressBanner = ({ matchingElapsed, matchingLoading, matchingProg
 						},
 					}}
 				/>
-				<Typography sx={{ fontSize: '0.72rem', color: tokens.brand.text, mt: 0.75, fontStyle: 'italic' }}>
+				<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.brand.text, mt: 0.75, fontStyle: 'italic' }}>
 					{t(`appReportContent.${getMatchingPhaseKey(matchingElapsed)}`)}
 				</Typography>
 			</Box>

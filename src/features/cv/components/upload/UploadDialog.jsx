@@ -21,10 +21,10 @@ const UploadDialog = ({ upload }) => {
 			fullWidth
 			PaperProps={{ sx: { borderRadius: 3 } }}
 		>
-			<DialogTitle sx={{ px: 3, pt: 3, pb: 1, fontWeight: 700, fontSize: '1rem', color: tokens.ink.strong }}>
+			<DialogTitle sx={{ px: 3, pt: 3, pb: 1, fontWeight: 700, fontSize: tokens.fontSize.body, color: tokens.ink.strong }}>
 				{(upload.uploadResults || upload.bulkSummary) ? t('appCVContent.uploadResults.title', 'Upload results') : t('appCVContent.uploadCV')}
 				{!upload.uploadResults && !upload.bulkSummary && (
-					<Typography sx={{ fontSize: '0.82rem', color: tokens.ink.muted, fontWeight: 400, mt: 0.25 }}>
+					<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.muted, fontWeight: 400, mt: 0.25 }}>
 						{t('appCVContent.uploadCVInfo', { max: upload.bulkLimit })}
 					</Typography>
 				)}

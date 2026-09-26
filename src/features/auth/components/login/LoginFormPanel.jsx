@@ -40,7 +40,7 @@ const LoginFormPanel = ({ completeLogin, email, formError, handleBlur, handleLog
 				<Typography
 					sx={{
 						fontWeight: 700,
-						fontSize: '1.25rem',
+						fontSize: tokens.fontSize.xl,
 						color: tokens.ink.strong,
 						letterSpacing: '-0.02em',
 					}}
@@ -83,7 +83,7 @@ const LoginFormPanel = ({ completeLogin, email, formError, handleBlur, handleLog
 						sx={{
 							mb: 2.5,
 							borderRadius: 1.5,
-							fontSize: '0.82rem',
+							fontSize: tokens.fontSize.body2,
 						}}
 					>
 						{formError}
@@ -107,7 +107,7 @@ const LoginFormPanel = ({ completeLogin, email, formError, handleBlur, handleLog
 							input: {
 								startAdornment: (
 									<InputAdornment position="start">
-										<EmailOutlinedIcon sx={{ fontSize: 18, color: tokens.ink.subtle }} />
+										<EmailOutlinedIcon sx={{ fontSize: tokens.iconSize.lg, color: tokens.ink.subtle }} />
 									</InputAdornment>
 								),
 							},
@@ -131,7 +131,7 @@ const LoginFormPanel = ({ completeLogin, email, formError, handleBlur, handleLog
 							input: {
 								startAdornment: (
 									<InputAdornment position="start">
-										<LockOutlinedIcon sx={{ fontSize: 18, color: tokens.ink.subtle }} />
+										<LockOutlinedIcon sx={{ fontSize: tokens.iconSize.lg, color: tokens.ink.subtle }} />
 									</InputAdornment>
 								),
 								endAdornment: (
@@ -143,7 +143,7 @@ const LoginFormPanel = ({ completeLogin, email, formError, handleBlur, handleLog
 											aria-label={t('login.togglePasswordVisibility', 'Toggle password visibility')}
 											sx={{ color: tokens.ink.subtle }}
 										>
-											{showPassword ? <VisibilityOff sx={{ fontSize: 18 }} /> : <Visibility sx={{ fontSize: 18 }} />}
+											{showPassword ? <VisibilityOff sx={{ fontSize: tokens.iconSize.lg }} /> : <Visibility sx={{ fontSize: tokens.iconSize.lg }} />}
 										</IconButton>
 									</InputAdornment>
 								),
@@ -155,7 +155,7 @@ const LoginFormPanel = ({ completeLogin, email, formError, handleBlur, handleLog
 						<Typography
 							component={RouterLink}
 							to="/forgot-password"
-							sx={{ color: tokens.brand.text, fontSize: '0.82rem', fontWeight: 600, textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+							sx={{ color: tokens.brand.text, fontSize: tokens.fontSize.body2, fontWeight: 600, textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
 						>
 							{t('login.forgotPassword', 'Forgot password?')}
 						</Typography>
@@ -171,7 +171,7 @@ const LoginFormPanel = ({ completeLogin, email, formError, handleBlur, handleLog
 							py: 1.3,
 							borderRadius: 1.5,
 							fontWeight: 600,
-							fontSize: '0.9rem',
+							fontSize: tokens.fontSize.body,
 							textTransform: 'none',
 							letterSpacing: 0,
 							backgroundColor: tokens.brand.main,
@@ -196,7 +196,7 @@ const LoginFormPanel = ({ completeLogin, email, formError, handleBlur, handleLog
 						)}
 						{status === 'success' && (
 							<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
-								<CheckCircleRoundedIcon sx={{ fontSize: 19, color: tokens.status.success.main }} />
+								<CheckCircleRoundedIcon sx={{ fontSize: tokens.iconSize.lg, color: tokens.status.success.main }} />
 								{t('login.signedIn', 'Signed in!')}
 							</Box>
 						)}

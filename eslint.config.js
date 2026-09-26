@@ -11,6 +11,20 @@ export default [
     languageOptions: { globals: globals.node },
   },
   {
+    // Colours and type sizes come from src/theme (readability rules, guide §5.2): no hex colours and
+    // no font-size literals anywhere else. Large decorative icons (28px and up) may stay numeric.
+    files: ['src/**/*.{js,jsx}'],
+    ignores: ['src/theme/**', 'src/**/*.test.{js,jsx}', 'src/mocks.js'],
+    rules: {
+      'no-restricted-syntax': ['error',
+        { selector: 'Literal[value=/#[0-9a-fA-F]{3,8}\\b/]', message: 'Use a colour token from src/theme/tokens.js instead of a hex literal.' },
+        { selector: 'TemplateElement[value.raw=/#[0-9a-fA-F]{3,8}\\b/]', message: 'Use a colour token from src/theme/tokens.js instead of a hex literal.' },
+        { selector: "Property[key.name='fontSize'] > Literal[value=/(rem|px|em)$/]", message: 'Use a size from tokens.fontSize / tokens.iconSize.' },
+        { selector: "Property[key.name='fontSize'] > Literal[value<28]", message: 'Use a size from tokens.fontSize / tokens.iconSize.' },
+      ],
+    },
+  },
+  {
     files: ['**/*.{js,jsx}'],
     languageOptions: {
       ecmaVersion: 2020,

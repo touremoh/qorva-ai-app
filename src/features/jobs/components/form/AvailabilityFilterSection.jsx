@@ -19,13 +19,13 @@ const AvailabilityFilterSection = ({ sc, set }) => {
 			}
 			label={
 				<Box>
-					<Typography sx={{ fontSize: '0.84rem', color: tokens.ink.body }}>{t('jobContent.filterOpenToWork')}</Typography>
-					<Typography sx={{ fontSize: '0.73rem', color: tokens.ink.subtle, lineHeight: 1.4 }}>{t('jobContent.filterOpenToWorkDesc')}</Typography>
+					<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.body }}>{t('jobContent.filterOpenToWork')}</Typography>
+					<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle, lineHeight: 1.4 }}>{t('jobContent.filterOpenToWorkDesc')}</Typography>
 				</Box>
 			}
 			sx={{ mb: 2, ml: 0, alignItems: 'flex-start', gap: 0.5 }}
 		/>
-		<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.soft, fontWeight: 600, mb: 0.75 }}>
+		<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.soft, fontWeight: 600, mb: 0.75 }}>
 			{t('jobContent.availabilityStatuses')}
 		</Typography>
 		<FormGroup sx={{ gap: 0.25, mb: 1 }}>
@@ -43,7 +43,7 @@ const AvailabilityFilterSection = ({ sc, set }) => {
 							sx={{ color: tokens.ink.subtle, '&.Mui-checked': { color: THEME_GREEN }, py: 0.5 }}
 						/>
 					}
-					label={<Typography sx={{ fontSize: '0.82rem', color: tokens.ink.body }}>{t(`jobContent.availabilityStatus.${status}`)}</Typography>}
+					label={<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.body }}>{t(`jobContent.availabilityStatus.${status}`)}</Typography>}
 					sx={{ ml: 0 }}
 				/>
 			))}

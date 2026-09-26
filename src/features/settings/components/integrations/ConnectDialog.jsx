@@ -13,7 +13,7 @@ const ConnectDialog = ({ provider, form, onFieldChange, connecting, onCancel, on
 	const complete = provider ? PROVIDERS[provider].required.every((field) => form[field]?.trim()) : false;
 	return (
 		<Dialog open={!!provider} onClose={() => !connecting && onCancel()} maxWidth="sm" fullWidth>
-			<DialogTitle sx={{ fontSize: '1rem', fontWeight: 700 }}>
+			<DialogTitle sx={{ fontSize: tokens.fontSize.body, fontWeight: 700 }}>
 				{provider ? t('atsIntegrations.connectTitle', { provider: PROVIDERS[provider].label }) : ''}
 			</DialogTitle>
 			<DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, pt: '8px !important' }}>
@@ -35,7 +35,7 @@ const ConnectDialog = ({ provider, form, onFieldChange, connecting, onCancel, on
 						helperText={t(`atsIntegrations.fields.${field}Hint`, '')}
 						value={form[field] || ''}
 						onChange={(e) => onFieldChange(field, e.target.value)}
-						sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2, fontSize: '0.85rem' } }}
+						sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2, fontSize: tokens.fontSize.body2 } }}
 					/>
 				))}
 			</DialogContent>

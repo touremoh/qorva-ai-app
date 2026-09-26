@@ -19,18 +19,18 @@ const DockTitleBar = ({ handleClose, minimize, minimized, restore, title }) => {
 				backgroundColor: tokens.ink.strong, color: tokens.ink.inverse, cursor: minimized ? 'pointer' : 'default',
 			}}
 		>
-			<MailOutlineIcon sx={{ fontSize: 18, color: tokens.brand.mintPale }} />
-			<Typography sx={{ fontSize: '0.85rem', fontWeight: 600, flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+			<MailOutlineIcon sx={{ fontSize: tokens.iconSize.lg, color: tokens.brand.mintPale }} />
+			<Typography sx={{ fontSize: tokens.fontSize.body2, fontWeight: 600, flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
 				{title}
 			</Typography>
 			<Tooltip title={minimized ? t('candidateOutreach.restore') : t('candidateOutreach.minimize')}>
-				<IconButton size="small" onClick={(e) => { e.stopPropagation(); minimized ? restore() : minimize(); }} sx={{ color: tokens.ink.faint }}>
-					{minimized ? <OpenInFullIcon sx={{ fontSize: 15 }} /> : <RemoveIcon sx={{ fontSize: 18 }} />}
+				<IconButton size="small" onClick={(e) => { e.stopPropagation(); minimized ? restore() : minimize(); }} sx={{ color: tokens.onDark.faint }}>
+					{minimized ? <OpenInFullIcon sx={{ fontSize: tokens.iconSize.sm }} /> : <RemoveIcon sx={{ fontSize: tokens.iconSize.lg }} />}
 				</IconButton>
 			</Tooltip>
 			<Tooltip title={t('candidateOutreach.close')}>
-				<IconButton size="small" onClick={(e) => { e.stopPropagation(); handleClose(); }} sx={{ color: tokens.ink.faint }}>
-					<CloseIcon sx={{ fontSize: 18 }} />
+				<IconButton size="small" onClick={(e) => { e.stopPropagation(); handleClose(); }} sx={{ color: tokens.onDark.faint }}>
+					<CloseIcon sx={{ fontSize: tokens.iconSize.lg }} />
 				</IconButton>
 			</Tooltip>
 		</Box>

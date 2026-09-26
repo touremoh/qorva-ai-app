@@ -21,7 +21,7 @@ const JobsToolbar = ({ demo, handleStartCreate }) => {
 				<Button startIcon={<AddIcon />} variant="contained" onClick={handleStartCreate}
 					sx={{
 						backgroundColor: THEME_GREEN, '&:hover': { backgroundColor: THEME_GREEN_DARK },
-						borderRadius: 1.5, textTransform: 'none', fontWeight: 600, fontSize: '0.84rem', boxShadow: 'none', px: 2,
+						borderRadius: 1.5, textTransform: 'none', fontWeight: 600, fontSize: tokens.fontSize.body2, boxShadow: 'none', px: 2,
 					}}>
 					{t('jobContent.createJobPost')}
 				</Button>

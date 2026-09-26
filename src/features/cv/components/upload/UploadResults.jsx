@@ -16,7 +16,7 @@ const UploadResults = ({ upload }) => {
 				<Button
 					size="small"
 					onClick={upload.handleReplaceAll}
-					sx={{ alignSelf: 'flex-end', textTransform: 'none', fontWeight: 600, color: tokens.brand.text, fontSize: '0.76rem' }}
+					sx={{ alignSelf: 'flex-end', textTransform: 'none', fontWeight: 600, color: tokens.brand.text, fontSize: tokens.fontSize.small }}
 				>
 					{t('appCVContent.uploadResults.replaceAll', 'Replace all old versions')}
 				</Button>
@@ -31,27 +31,27 @@ const UploadResults = ({ upload }) => {
 					}}>
 						<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
 							{isFailed
-								? <ErrorOutlineIcon sx={{ fontSize: 17, color: tokens.status.error.main, flexShrink: 0 }} />
+								? <ErrorOutlineIcon sx={{ fontSize: tokens.iconSize.md, color: tokens.status.error.main, flexShrink: 0 }} />
 								: isDuplicate && !result.resolution
-									? <WarningAmberRoundedIcon sx={{ fontSize: 17, color: tokens.status.warning.bright, flexShrink: 0 }} />
-									: <CheckCircleRoundedIcon sx={{ fontSize: 17, color: tokens.status.success.main, flexShrink: 0 }} />}
-							<Typography sx={{ flex: 1, fontSize: '0.8rem', fontWeight: 600, color: tokens.ink.strong, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+									? <WarningAmberRoundedIcon sx={{ fontSize: tokens.iconSize.md, color: tokens.status.warning.bright, flexShrink: 0 }} />
+									: <CheckCircleRoundedIcon sx={{ fontSize: tokens.iconSize.md, color: tokens.status.success.main, flexShrink: 0 }} />}
+							<Typography sx={{ flex: 1, fontSize: tokens.fontSize.body2, fontWeight: 600, color: tokens.ink.strong, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
 								{result.fileName}
 							</Typography>
 							{result.warnings?.length > 0 && !isFailed && (
-								<Typography sx={{ fontSize: '0.68rem', color: tokens.status.warning.strong, flexShrink: 0 }}>
+								<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.status.warning.strong, flexShrink: 0 }}>
 									{result.warnings.map(w => t(`appCVContent.uploadWarnings.${w}`, w)).join(' · ')}
 								</Typography>
 							)}
 						</Box>
 						{isFailed && (
-							<Typography sx={{ fontSize: '0.74rem', color: tokens.status.error.main }}>
+							<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.status.error.main }}>
 								{t('appCVContent.uploadResults.failed', 'This file could not be processed.')}
 							</Typography>
 						)}
 						{isDuplicate && (
 							<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
-								<Typography sx={{ flex: 1, fontSize: '0.74rem', color: tokens.ink.muted, minWidth: 180 }}>
+								<Typography sx={{ flex: 1, fontSize: tokens.fontSize.small, color: tokens.ink.muted, minWidth: 180 }}>
 									{result.resolution === 'REPLACED'
 										? t('appCVContent.uploadResults.replaced', 'Old version replaced.')
 										: result.resolution === 'KEPT'
@@ -64,11 +64,11 @@ const UploadResults = ({ upload }) => {
 								{!result.resolution && (
 									<>
 										<Button size="small" onClick={() => upload.handleReplaceDuplicate(result)}
-											sx={{ textTransform: 'none', fontWeight: 600, fontSize: '0.72rem', color: tokens.brand.text }}>
+											sx={{ textTransform: 'none', fontWeight: 600, fontSize: tokens.fontSize.caption, color: tokens.brand.text }}>
 											{t('appCVContent.uploadResults.replace', 'Replace old version')}
 										</Button>
 										<Button size="small" onClick={() => upload.handleKeepBoth(result)}
-											sx={{ textTransform: 'none', fontWeight: 600, fontSize: '0.72rem', color: tokens.ink.muted }}>
+											sx={{ textTransform: 'none', fontWeight: 600, fontSize: tokens.fontSize.caption, color: tokens.ink.muted }}>
 											{t('appCVContent.uploadResults.keepBoth', 'Keep both')}
 										</Button>
 									</>

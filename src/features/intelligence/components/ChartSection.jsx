@@ -55,7 +55,7 @@ const MiniPie = ({ title, labels = [], values = [], t }) => {
     return (
         <Box sx={{ textAlign: 'center', flex: '1 1 180px', minWidth: 0 }}>
             {title && (
-                <Typography sx={{ fontSize: '0.7rem', fontWeight: 600, color: tokens.ink.muted, textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.5 }}>
+                <Typography sx={{ fontSize: tokens.fontSize.caption, fontWeight: 600, color: tokens.ink.muted, textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.5 }}>
                     {translateTitle(title, t)}
                 </Typography>
             )}
@@ -70,7 +70,7 @@ const MiniPie = ({ title, labels = [], values = [], t }) => {
                 {data.map((d, i) => (
                     <Box key={i} sx={{ display: 'flex', alignItems: 'center', gap: 0.3 }}>
                         <Box sx={{ width: 7, height: 7, borderRadius: '50%', backgroundColor: d.color, flexShrink: 0 }} />
-                        <Typography sx={{ fontSize: '0.62rem', color: tokens.ink.muted }}>{d.label} ({d.value}%)</Typography>
+                        <Typography sx={{ fontSize: tokens.fontSize.micro, color: tokens.ink.muted }}>{d.label} ({d.value}%)</Typography>
                     </Box>
                 ))}
             </Box>
@@ -88,7 +88,7 @@ MiniPie.propTypes = {
 const BarChartCard = ({ title, labels = [], values = [], t }) => (
     <Box sx={{ width: '100%' }}>
         {title && (
-            <Typography sx={{ fontSize: '0.7rem', fontWeight: 600, color: tokens.ink.muted, textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.5 }}>
+            <Typography sx={{ fontSize: tokens.fontSize.caption, fontWeight: 600, color: tokens.ink.muted, textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.5 }}>
                 {translateTitle(title, t)}
             </Typography>
         )}

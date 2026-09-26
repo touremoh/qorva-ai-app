@@ -29,7 +29,7 @@ const SettingsNav = ({ activeTab, setActiveTab }) => {
 			display: 'flex', flexDirection: 'column',
 			pt: 2.5, gap: 0.25,
 		}}>
-			<Typography sx={{ px: 2, mb: 1, fontSize: '0.65rem', fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
+			<Typography sx={{ px: 2, mb: 1, fontSize: tokens.fontSize.micro, fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
 				{t('accountSettings.title')}
 			</Typography>
 			{NAV_TABS.map(({ id, Icon, labelKey }) => {
@@ -52,8 +52,8 @@ const SettingsNav = ({ activeTab, setActiveTab }) => {
 							},
 						}}
 					>
-						<Icon sx={{ fontSize: 17 }} />
-						<Typography sx={{ fontSize: '0.82rem', fontWeight: isActive ? 600 : 400 }}>
+						<Icon sx={{ fontSize: tokens.iconSize.md }} />
+						<Typography sx={{ fontSize: tokens.fontSize.body2, fontWeight: isActive ? 600 : 400 }}>
 							{t(labelKey)}
 						</Typography>
 					</Box>

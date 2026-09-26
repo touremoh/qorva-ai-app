@@ -20,7 +20,7 @@ const UsersTable = ({ currentEmail, demo, loadingUsers, openEditPermissions, set
 				</Box>
 			) : users.length === 0 ? (
 				<Box sx={{ py: 4, textAlign: 'center' }}>
-					<Typography sx={{ fontSize: '0.82rem', color: tokens.ink.subtle }}>
+					<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.subtle }}>
 						{t('accountSettings.noUsers')}
 					</Typography>
 				</Box>
@@ -30,7 +30,7 @@ const UsersTable = ({ currentEmail, demo, loadingUsers, openEditPermissions, set
 						<TableHead>
 							<TableRow sx={{ backgroundColor: tokens.surface.subtle }}>
 								{['tableUser', 'tableEmail', 'tableRole', 'tableActions'].map(key => (
-									<TableCell key={key} sx={{ fontSize: '0.65rem', fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.06em', borderBottom: `1px solid ${tokens.line.main}`, py: 1 }}>
+									<TableCell key={key} sx={{ fontSize: tokens.fontSize.micro, fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.06em', borderBottom: `1px solid ${tokens.line.main}`, py: 1 }}>
 										{t(`accountSettings.${key}`)}
 									</TableCell>
 								))}
@@ -49,19 +49,19 @@ const UsersTable = ({ currentEmail, demo, loadingUsers, openEditPermissions, set
 									}}>
 										<TableCell sx={{ py: 1.25 }}>
 											<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-												<Avatar sx={{ width: 28, height: 28, fontSize: '0.65rem', fontWeight: 700, backgroundColor: isSelf ? alpha(tokens.brand.main, 0.25) : alpha(tokens.brand.main, 0.12), color: tokens.brand.text }}>
+												<Avatar sx={{ width: 28, height: 28, fontSize: tokens.fontSize.micro, fontWeight: 700, backgroundColor: isSelf ? alpha(tokens.brand.main, 0.25) : alpha(tokens.brand.main, 0.12), color: tokens.brand.text }}>
 													{initials}
 												</Avatar>
-												<Typography sx={{ fontSize: '0.82rem', fontWeight: isSelf ? 700 : 500, color: tokens.ink.strong }}>
+												<Typography sx={{ fontSize: tokens.fontSize.body2, fontWeight: isSelf ? 700 : 500, color: tokens.ink.strong }}>
 													{userDisplayName(user)}
 												</Typography>
 												{isSelf && (
 													<Chip size="small" label={t('accountSettings.you', 'You')}
-														sx={{ fontSize: '0.6rem', height: 16, backgroundColor: alpha(tokens.brand.main, 0.12), color: tokens.brand.text, fontWeight: 700, '& .MuiChip-label': { px: 0.75 } }} />
+														sx={{ fontSize: tokens.fontSize.micro, height: 16, backgroundColor: alpha(tokens.brand.main, 0.12), color: tokens.brand.text, fontWeight: 700, '& .MuiChip-label': { px: 0.75 } }} />
 												)}
 											</Box>
 										</TableCell>
-										<TableCell sx={{ fontSize: '0.82rem', color: tokens.ink.soft, py: 1.25 }}>
+										<TableCell sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.soft, py: 1.25 }}>
 											{user.email || '—'}
 										</TableCell>
 										<TableCell sx={{ py: 1.25 }}>
@@ -69,7 +69,7 @@ const UsersTable = ({ currentEmail, demo, loadingUsers, openEditPermissions, set
 												size="small"
 												label={ROLE_LABELS[role] || t('accountSettings.roleManager', 'Manager')}
 												sx={{
-													fontSize: '0.68rem', height: 18,
+													fontSize: tokens.fontSize.caption, height: 18,
 													backgroundColor: role === 'ACCOUNT_OWNER' ? alpha(tokens.brand.main, 0.12) : `${tokens.surface.muted}`,
 													color: role === 'ACCOUNT_OWNER' ? `${tokens.brand.main}` : `${tokens.ink.soft}`,
 													fontWeight: role === 'ACCOUNT_OWNER' ? 700 : 400,
@@ -82,7 +82,7 @@ const UsersTable = ({ currentEmail, demo, loadingUsers, openEditPermissions, set
 												{!demo && (
 													<Tooltip title={t('accountSettings.managePermissions')}>
 														<IconButton size="small" onClick={() => openEditPermissions(user)} sx={{ color: tokens.ink.muted, '&:hover': { color: tokens.brand.text } }}>
-															<ManageAccountsOutlinedIcon sx={{ fontSize: 16 }} />
+															<ManageAccountsOutlinedIcon sx={{ fontSize: tokens.iconSize.md }} />
 														</IconButton>
 													</Tooltip>
 												)}
@@ -91,7 +91,7 @@ const UsersTable = ({ currentEmail, demo, loadingUsers, openEditPermissions, set
 														<span>
 															<IconButton size="small" onClick={() => setUserToDelete(user)} disabled={isSelf}
 																sx={{ color: tokens.ink.subtle, '&:hover': { color: tokens.status.error.bright }, '&.Mui-disabled': { color: tokens.ink.faintest } }}>
-																<DeleteOutlineIcon sx={{ fontSize: 16 }} />
+																<DeleteOutlineIcon sx={{ fontSize: tokens.iconSize.md }} />
 															</IconButton>
 														</span>
 													</Tooltip>

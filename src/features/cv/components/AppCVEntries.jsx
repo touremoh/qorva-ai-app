@@ -205,7 +205,7 @@ const AppCVEntries = ({
 							<Avatar sx={{
 								width: 34,
 								height: 34,
-								fontSize: '0.72rem',
+								fontSize: tokens.fontSize.caption,
 								fontWeight: 700,
 								backgroundColor: isActive(cv) ? `${tokens.brand.main}` : `${tokens.line.main}`,
 								color: isActive(cv) ? `${tokens.surface.paper}` : `${tokens.ink.muted}`,
@@ -216,7 +216,7 @@ const AppCVEntries = ({
 							</Avatar>
 							<Box sx={{ flex: 1, minWidth: 0 }}>
 								<Typography sx={{
-									fontSize: '0.84rem',
+									fontSize: tokens.fontSize.body2,
 									fontWeight: isActive(cv) ? 600 : 500,
 									color: tokens.ink.strong,
 									overflow: 'hidden',
@@ -227,7 +227,7 @@ const AppCVEntries = ({
 								</Typography>
 								<Box sx={{ display: 'flex', alignItems: 'center', minWidth: 0 }}>
 									<Typography sx={{
-										fontSize: '0.74rem',
+										fontSize: tokens.fontSize.small,
 										color: tokens.ink.subtle,
 										overflow: 'hidden',
 										textOverflow: 'ellipsis',
@@ -243,7 +243,7 @@ const AppCVEntries = ({
 								onClick={(e) => handleMenuOpen(e, cv.id)}
 								sx={{ ml: 0.5, color: tokens.ink.subtle, '&:hover': { color: tokens.ink.muted } }}
 							>
-								<MoreVertIcon sx={{ fontSize: 16 }} />
+								<MoreVertIcon sx={{ fontSize: tokens.iconSize.md }} />
 							</IconButton>
 						</ListItemButton>
 					))}

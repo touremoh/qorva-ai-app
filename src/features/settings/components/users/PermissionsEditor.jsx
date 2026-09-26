@@ -7,12 +7,12 @@ const PermissionsEditor = ({ perms, onChange, t }) => (
 	<Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 1.5 }}>
 		{AUTHORITY_GROUPS.map(({ key, actions }) => (
 			<Box key={key} sx={{ p: 1.5, borderRadius: 2, border: `1px solid ${tokens.line.main}`, backgroundColor: tokens.surface.subtle }}>
-				<Typography sx={{ fontSize: '0.65rem', fontWeight: 700, color: tokens.brand.text, textTransform: 'uppercase', letterSpacing: '0.07em', mb: 1 }}>
+				<Typography sx={{ fontSize: tokens.fontSize.micro, fontWeight: 700, color: tokens.brand.text, textTransform: 'uppercase', letterSpacing: '0.07em', mb: 1 }}>
 					{t(`accountSettings.authorityGroups.${key}`)}
 				</Typography>
 				{actions.map(action => (
 					<Box key={action} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', py: 0.25 }}>
-						<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.body }}>
+						<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.body }}>
 							{t(`accountSettings.authorities.${action}`)}
 						</Typography>
 						<Switch

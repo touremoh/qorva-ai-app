@@ -15,12 +15,12 @@ export const inputSx = {
 		'&.Mui-focused': { boxShadow: `0 0 0 3px ${THEME_GREEN_ALPHA}` },
 		'&.Mui-focused fieldset': { borderColor: THEME_GREEN, borderWidth: '2px' },
 	},
-	'& .MuiInputBase-input': { fontSize: '0.84rem' },
+	'& .MuiInputBase-input': { fontSize: tokens.fontSize.body2 },
 };
 
 export const selectSx = {
 	borderRadius: 1.5,
-	fontSize: '0.84rem',
+	fontSize: tokens.fontSize.body2,
 	transition: 'box-shadow 0.25s ease',
 	'&:hover .MuiOutlinedInput-notchedOutline': { borderColor: THEME_GREEN },
 	'&.Mui-focused': { boxShadow: `0 0 0 3px ${THEME_GREEN_ALPHA}` },
@@ -39,7 +39,7 @@ export const stepperSx = {
 	'& .MuiStepIcon-root': { color: tokens.ink.faintest },
 	'& .MuiStepIcon-root.Mui-active': { color: THEME_GREEN },
 	'& .MuiStepIcon-root.Mui-completed': { color: THEME_GREEN },
-	'& .MuiStepLabel-label': { fontSize: '0.82rem' },
+	'& .MuiStepLabel-label': { fontSize: tokens.fontSize.body2 },
 	'& .MuiStepLabel-label.Mui-active': { fontWeight: 600, color: THEME_GREEN },
 	'& .MuiStepLabel-label.Mui-completed': { color: THEME_GREEN },
 	'& .MuiStepConnector-line': { borderColor: tokens.line.main },
@@ -59,6 +59,6 @@ export const tabsSx = {
 	px: 2,
 	backgroundColor: tokens.surface.paper,
 	'& .MuiTabs-indicator': { backgroundColor: THEME_GREEN },
-	'& .MuiTab-root': { textTransform: 'none', fontSize: '0.82rem', minHeight: 40, py: 1, color: tokens.ink.muted },
+	'& .MuiTab-root': { textTransform: 'none', fontSize: tokens.fontSize.body2, minHeight: 40, py: 1, color: tokens.ink.muted },
 	'& .MuiTab-root.Mui-selected': { color: THEME_GREEN, fontWeight: 600 },
 };

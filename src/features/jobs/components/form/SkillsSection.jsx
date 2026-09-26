@@ -32,13 +32,13 @@ const SkillsSection = ({ addSkill, removeSkill, sc, skillWeightOk, skillWeightTo
 					/>
 					<FormControl size="small" sx={{ flex: '1 1 130px', minWidth: 110 }}>
 						<Select value={skill.importance} onChange={(e) => updateSkill(i, { importance: e.target.value })} sx={selectSx}>
-							<MenuItem value="mandatory" sx={{ fontSize: '0.84rem' }}>{t('jobContent.mandatory')}</MenuItem>
-							<MenuItem value="important" sx={{ fontSize: '0.84rem' }}>{t('jobContent.important')}</MenuItem>
-							<MenuItem value="nice_to_have" sx={{ fontSize: '0.84rem' }}>{t('jobContent.niceToHave')}</MenuItem>
+							<MenuItem value="mandatory" sx={{ fontSize: tokens.fontSize.body2 }}>{t('jobContent.mandatory')}</MenuItem>
+							<MenuItem value="important" sx={{ fontSize: tokens.fontSize.body2 }}>{t('jobContent.important')}</MenuItem>
+							<MenuItem value="nice_to_have" sx={{ fontSize: tokens.fontSize.body2 }}>{t('jobContent.niceToHave')}</MenuItem>
 						</Select>
 					</FormControl>
 					<IconButton size="small" onClick={() => removeSkill(i)} sx={{ color: tokens.status.error.bright, flexShrink: 0 }}>
-						<DeleteOutlinedIcon sx={{ fontSize: 16 }} />
+						<DeleteOutlinedIcon sx={{ fontSize: tokens.iconSize.md }} />
 					</IconButton>
 				</Box>
 
@@ -64,28 +64,28 @@ const SkillsSection = ({ addSkill, removeSkill, sc, skillWeightOk, skillWeightTo
 				<FormControlLabel
 					control={<Switch size="small" checked={skill.exactSkillOnly} onChange={(e) => updateSkill(i, { exactSkillOnly: e.target.checked })}
 						sx={{ '& .MuiSwitch-switchBase.Mui-checked': { color: THEME_GREEN }, '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: THEME_GREEN } }} />}
-					label={<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.muted }}>{t('jobContent.exactSkillOnly')}</Typography>}
+					label={<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.muted }}>{t('jobContent.exactSkillOnly')}</Typography>}
 					sx={{ mt: 0.5, ml: 0 }}
 				/>
 			</Box>
 		))}
 		{sc.skills.length > 0 && (
 			<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 0.5, mb: 1 }}>
-				<Typography sx={{ fontSize: '0.76rem', color: tokens.ink.subtle }}>
+				<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.subtle }}>
 					{t('jobContent.totalWeight')}:
 				</Typography>
-				<Typography sx={{ fontSize: '0.78rem', fontWeight: 700, color: skillWeightOk ? THEME_GREEN : `${tokens.status.warning.bright}` }}>
+				<Typography sx={{ fontSize: tokens.fontSize.small, fontWeight: 700, color: skillWeightOk ? THEME_GREEN : `${tokens.status.warning.bright}` }}>
 					{skillWeightTotal}%
 				</Typography>
 				{!skillWeightOk && (
-					<Typography sx={{ fontSize: '0.72rem', color: tokens.status.warning.bright }}>
+					<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.status.warning.bright }}>
 						({'>'} 100%)
 					</Typography>
 				)}
 			</Box>
 		)}
 		<Button size="small" startIcon={<AddIcon />} onClick={addSkill}
-			sx={{ textTransform: 'none', fontSize: '0.82rem', color: THEME_GREEN, mb: 2, '&:hover': { backgroundColor: alpha(tokens.brand.main, 0.06) } }}>
+			sx={{ textTransform: 'none', fontSize: tokens.fontSize.body2, color: THEME_GREEN, mb: 2, '&:hover': { backgroundColor: alpha(tokens.brand.main, 0.06) } }}>
 			{t('jobContent.addSkill')}
 		</Button>
 

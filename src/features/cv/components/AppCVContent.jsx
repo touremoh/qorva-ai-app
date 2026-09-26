@@ -174,17 +174,18 @@ const AppCVContent = () => {
 							borderRadius: 1.5,
 							textTransform: 'none',
 							fontWeight: 600,
-							fontSize: '0.84rem',
+							fontSize: tokens.fontSize.body2,
 							boxShadow: 'none',
 							px: 2,
+							whiteSpace: 'nowrap',
 						}}
 					>
 						{t('appCVContent.uploadCV')}
 						<Box component="span" sx={{
-							ml: 1, px: 0.75, py: 0.15,
+							ml: 1, px: 0.75, py: 0.15, display: { xs: 'none', sm: 'inline' },
 							backgroundColor: 'rgba(255,255,255,0.22)',
 							borderRadius: 0.75,
-							fontSize: '0.72rem',
+							fontSize: tokens.fontSize.caption,
 							fontWeight: 500,
 							letterSpacing: '0.02em',
 						}}>
@@ -195,7 +196,7 @@ const AppCVContent = () => {
 
 				<Tooltip title={t('appCVContent.showArchivedTooltip', 'Show archived resumes')}>
 					<Button
-						startIcon={<Inventory2OutlinedIcon sx={{ fontSize: 16 }} />}
+						startIcon={<Inventory2OutlinedIcon sx={{ fontSize: tokens.iconSize.md }} />}
 						variant="outlined"
 						onClick={() => { setShowArchived(prev => !prev); setSelectedCV(null); }}
 						sx={{
@@ -206,7 +207,7 @@ const AppCVContent = () => {
 							borderRadius: 1.5,
 							textTransform: 'none',
 							fontWeight: 600,
-							fontSize: '0.8rem',
+							fontSize: tokens.fontSize.body2,
 							boxShadow: 'none',
 							px: 1.5,
 						}}
@@ -226,7 +227,7 @@ const AppCVContent = () => {
 								'&:hover': { color: tokens.status.error.main, backgroundColor: 'rgba(220,38,38,0.06)' },
 							}}
 						>
-							<DeleteForeverOutlinedIcon sx={{ fontSize: 19 }} />
+							<DeleteForeverOutlinedIcon sx={{ fontSize: tokens.iconSize.lg }} />
 						</IconButton>
 					</Tooltip>
 				)}
@@ -312,7 +313,7 @@ const AppCVContent = () => {
 								gap: 1.5,
 							}}>
 								<CloudUploadIcon sx={{ fontSize: 40, color: tokens.ink.faint }} />
-								<Typography sx={{ fontSize: '0.88rem', color: tokens.ink.subtle }}>
+								<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.subtle }}>
 									{t('appCVContent.selectCVToSeeDetails')}
 								</Typography>
 							</Box>

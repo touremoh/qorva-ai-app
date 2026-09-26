@@ -15,7 +15,7 @@ const ReportList = ({ handleMenuOpen, selectedReport, setSelectedReport, sortedR
 		<Box sx={{ flex: 1, overflowY: 'auto', py: 1 }}>
 			{sortedReports.length === 0 ? (
 				<Box sx={{ px: 2, pt: 2 }}>
-					<Typography sx={{ fontSize: '0.82rem', color: tokens.ink.subtle }}>
+					<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.subtle }}>
 						{t('appCVMatching.noAnalysisResult')}
 					</Typography>
 				</Box>
@@ -40,7 +40,7 @@ const ReportList = ({ handleMenuOpen, selectedReport, setSelectedReport, sortedR
 							}}
 						>
 							<Avatar sx={{
-								width: 32, height: 32, fontSize: '0.7rem', fontWeight: 700,
+								width: 32, height: 32, fontSize: tokens.fontSize.caption, fontWeight: 700,
 								backgroundColor: tokens.brand.main, color: tokens.ink.inverse, flexShrink: 0, mt: 0.25,
 							}}>
 								{getInitials(name)}
@@ -48,14 +48,14 @@ const ReportList = ({ handleMenuOpen, selectedReport, setSelectedReport, sortedR
 
 							<Box sx={{ flex: 1, minWidth: 0 }}>
 								<Typography sx={{
-									fontSize: '0.82rem', fontWeight: isActive ? 600 : 400,
+									fontSize: tokens.fontSize.body2, fontWeight: isActive ? 600 : 400,
 									color: tokens.ink.strong, lineHeight: 1.3,
 									overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
 								}}>
 									{name}
 								</Typography>
 								{yrs != null && (
-									<Typography sx={{ fontSize: '0.72rem', color: tokens.ink.muted, lineHeight: 1.3 }}>
+									<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.muted, lineHeight: 1.3 }}>
 										{yrs} {t('appCVContent.yearsAbbr')} {t('appCVContent.experience')}
 									</Typography>
 								)}
@@ -63,7 +63,7 @@ const ReportList = ({ handleMenuOpen, selectedReport, setSelectedReport, sortedR
 									label={`${score}%`}
 									size="small"
 									sx={{
-										mt: 0.5, height: 18, fontSize: '0.68rem', fontWeight: 700,
+										mt: 0.5, height: 18, fontSize: tokens.fontSize.caption, fontWeight: 700,
 										...scoreChipSx(score),
 									}}
 								/>
@@ -74,7 +74,7 @@ const ReportList = ({ handleMenuOpen, selectedReport, setSelectedReport, sortedR
 								onClick={(e) => handleMenuOpen(e, report)}
 								sx={{ color: tokens.ink.subtle, flexShrink: 0, mt: 0.25 }}
 							>
-								<MoreVertIcon sx={{ fontSize: 16 }} />
+								<MoreVertIcon sx={{ fontSize: tokens.iconSize.md }} />
 							</IconButton>
 						</ListItemButton>
 					);

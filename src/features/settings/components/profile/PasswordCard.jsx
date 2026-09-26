@@ -20,7 +20,7 @@ const PasswordCard = ({ PW_FIELDS, handleCancelPw, handleSavePassword, pwError, 
 				label={t('accountSettings.security')}
 				action={!pwMode && (
 					<Button size="small" onClick={() => setPwMode(true)}
-						sx={{ borderRadius: 2, textTransform: 'none', fontSize: '0.72rem', color: tokens.brand.text, border: `1px solid ${alpha(tokens.brand.main, 0.3)}`, py: 0.25, px: 1 }}>
+						sx={{ borderRadius: 2, textTransform: 'none', fontSize: tokens.fontSize.caption, color: tokens.brand.text, border: `1px solid ${alpha(tokens.brand.main, 0.3)}`, py: 0.25, px: 1 }}>
 						{t('accountSettings.changePassword')}
 					</Button>
 				)}
@@ -28,7 +28,7 @@ const PasswordCard = ({ PW_FIELDS, handleCancelPw, handleSavePassword, pwError, 
 			{pwMode ? (
 				<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
 					{pwError && (
-						<Typography sx={{ fontSize: '0.78rem', color: tokens.status.error.bright }}>{pwError}</Typography>
+						<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.status.error.bright }}>{pwError}</Typography>
 					)}
 					{PW_FIELDS.map(({ field, labelKey, showKey }) => (
 						<TextField
@@ -41,19 +41,19 @@ const PasswordCard = ({ PW_FIELDS, handleCancelPw, handleSavePassword, pwError, 
 									<InputAdornment position="end">
 										<IconButton size="small" onClick={() => setShowPw(p => ({ ...p, [showKey]: !p[showKey] }))}>
 											{showPw[showKey]
-												? <VisibilityOffOutlinedIcon sx={{ fontSize: 16 }} />
-												: <VisibilityOutlinedIcon sx={{ fontSize: 16 }} />
+												? <VisibilityOffOutlinedIcon sx={{ fontSize: tokens.iconSize.md }} />
+												: <VisibilityOutlinedIcon sx={{ fontSize: tokens.iconSize.md }} />
 											}
 										</IconButton>
 									</InputAdornment>
 								),
 							}}
-							sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2, fontSize: '0.85rem' } }}
+							sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2, fontSize: tokens.fontSize.body2 } }}
 						/>
 					))}
 					<Box sx={{ display: 'flex', gap: 1, justifyContent: 'flex-end' }}>
 						<Button size="small" onClick={handleCancelPw}
-							sx={{ borderRadius: 2, textTransform: 'none', fontSize: '0.82rem', color: tokens.ink.muted }}>
+							sx={{ borderRadius: 2, textTransform: 'none', fontSize: tokens.fontSize.body2, color: tokens.ink.muted }}>
 							{t('accountSettings.cancel')}
 						</Button>
 						<Button size="small" variant="contained" onClick={handleSavePassword}
@@ -65,7 +65,7 @@ const PasswordCard = ({ PW_FIELDS, handleCancelPw, handleSavePassword, pwError, 
 					</Box>
 				</Box>
 			) : (
-				<Typography sx={{ fontSize: '0.82rem', color: tokens.ink.subtle }}>
+				<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.subtle }}>
 					{t('accountSettings.passwordHint')}
 				</Typography>
 			)}

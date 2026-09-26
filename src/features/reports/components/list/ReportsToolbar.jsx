@@ -23,8 +23,8 @@ const ReportsToolbar = ({ demo, exportLoading, fetchJobOptions, filterConfidence
 			flexShrink: 0,
 			flexWrap: 'wrap',
 		}}>
-			<AssessmentOutlinedIcon sx={{ color: tokens.brand.text, fontSize: 20 }} />
-			<Typography sx={{ fontWeight: 600, fontSize: '0.9rem', color: tokens.ink.strong, mr: 1 }}>
+			<AssessmentOutlinedIcon sx={{ color: tokens.brand.text, fontSize: tokens.iconSize.lg }} />
+			<Typography sx={{ fontWeight: 600, fontSize: tokens.fontSize.body, color: tokens.ink.strong, mr: 1 }}>
 				{t('appReportContent.reportListTitle')}
 			</Typography>
 
@@ -35,11 +35,11 @@ const ReportsToolbar = ({ demo, exportLoading, fetchJobOptions, filterConfidence
 					value={searchTerm}
 					onChange={handleSearchChange}
 					fullWidth
-					sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2, fontSize: '0.82rem' } }}
+					sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2, fontSize: tokens.fontSize.body2 } }}
 					InputProps={{
 						startAdornment: (
 							<InputAdornment position="start">
-								<SearchOutlinedIcon sx={{ fontSize: 16, color: tokens.ink.subtle }} />
+								<SearchOutlinedIcon sx={{ fontSize: tokens.iconSize.md, color: tokens.ink.subtle }} />
 							</InputAdornment>
 						),
 					}}
@@ -76,47 +76,47 @@ const ReportsToolbar = ({ demo, exportLoading, fetchJobOptions, filterConfidence
 									{params.InputProps.endAdornment}
 								</>
 							),
-							sx: { borderRadius: 2, fontSize: '0.82rem' },
+							sx: { borderRadius: 2, fontSize: tokens.fontSize.body2 },
 						}}
-						InputLabelProps={{ sx: { fontSize: '0.82rem' } }}
+						InputLabelProps={{ sx: { fontSize: tokens.fontSize.body2 } }}
 					/>
 				)}
 				renderOption={(props, opt) => (
-					<li {...props} key={opt.id} style={{ fontSize: '0.82rem' }}>
+					<li {...props} key={opt.id} style={{ fontSize: tokens.fontSize.body2 }}>
 						{opt.title || opt.jobTitle || opt.name || opt.id}
 					</li>
 				)}
-				noOptionsText={<Typography sx={{ fontSize: '0.82rem' }}>{t('appReportContent.allJobs')}</Typography>}
+				noOptionsText={<Typography sx={{ fontSize: tokens.fontSize.body2 }}>{t('appReportContent.allJobs')}</Typography>}
 			/>
 
-			<FormControl size="small" sx={{ minWidth: 160 }}>
-					<InputLabel sx={{ fontSize: '0.82rem' }}>{t('appReportContent.filterByRecommendation')}</InputLabel>
+			<FormControl size="small" sx={{ minWidth: 190 }}>
+					<InputLabel sx={{ fontSize: tokens.fontSize.body2 }}>{t('appReportContent.filterByRecommendation')}</InputLabel>
 					<Select
 						value={filterRecommendation}
 						label={t('appReportContent.filterByRecommendation')}
 						onChange={handleRecommendationChange}
-						sx={{ borderRadius: 2, fontSize: '0.82rem' }}
+						sx={{ borderRadius: 2, fontSize: tokens.fontSize.body2 }}
 					>
 						<MenuItem value="">{t('appReportContent.allRecommendations')}</MenuItem>
 						{['strong_interview', 'interview', 'may_be', 'reject'].map((key) => (
-							<MenuItem key={key} value={key} sx={{ fontSize: '0.82rem' }}>
+							<MenuItem key={key} value={key} sx={{ fontSize: tokens.fontSize.body2 }}>
 								{t(`appCVMatching.recommendation.${key}`)}
 							</MenuItem>
 						))}
 					</Select>
 				</FormControl>
 
-				<FormControl size="small" sx={{ minWidth: 150 }}>
-					<InputLabel sx={{ fontSize: '0.82rem' }}>{t('appReportContent.filterByConfidence')}</InputLabel>
+				<FormControl size="small" sx={{ minWidth: 170 }}>
+					<InputLabel sx={{ fontSize: tokens.fontSize.body2 }}>{t('appReportContent.filterByConfidence')}</InputLabel>
 					<Select
 						value={filterConfidence}
 						label={t('appReportContent.filterByConfidence')}
 						onChange={handleConfidenceChange}
-						sx={{ borderRadius: 2, fontSize: '0.82rem' }}
+						sx={{ borderRadius: 2, fontSize: tokens.fontSize.body2 }}
 					>
 						<MenuItem value="">{t('appReportContent.allConfidences')}</MenuItem>
 						{['high', 'medium', 'low'].map((key) => (
-							<MenuItem key={key} value={key} sx={{ fontSize: '0.82rem' }}>
+							<MenuItem key={key} value={key} sx={{ fontSize: tokens.fontSize.body2 }}>
 								{t(`appCVMatching.confidence.${key}`)}
 							</MenuItem>
 						))}
@@ -134,8 +134,8 @@ const ReportsToolbar = ({ demo, exportLoading, fetchJobOptions, filterConfidence
 					}}
 				>
 					{sortOrder === 'asc'
-						? <ArrowUpwardOutlinedIcon sx={{ fontSize: 18 }} />
-						: <ArrowDownwardOutlinedIcon sx={{ fontSize: 18 }} />
+						? <ArrowUpwardOutlinedIcon sx={{ fontSize: tokens.iconSize.lg }} />
+						: <ArrowDownwardOutlinedIcon sx={{ fontSize: tokens.iconSize.lg }} />
 					}
 				</IconButton>
 			</Tooltip>
@@ -152,10 +152,10 @@ const ReportsToolbar = ({ demo, exportLoading, fetchJobOptions, filterConfidence
 							disabled={!selectedJobId || exportLoading}
 							startIcon={exportLoading
 								? <CircularProgress size={14} color="inherit" />
-								: <FileDownloadOutlinedIcon sx={{ fontSize: 17 }} />
+								: <FileDownloadOutlinedIcon sx={{ fontSize: tokens.iconSize.md }} />
 							}
 							sx={{
-								borderRadius: 1.5, textTransform: 'none', fontSize: '0.82rem',
+								borderRadius: 1.5, textTransform: 'none', fontSize: tokens.fontSize.body2,
 								borderColor: tokens.line.main, color: tokens.ink.soft,
 								'&:hover': { borderColor: tokens.brand.main, color: tokens.brand.text, backgroundColor: alpha(tokens.brand.main, 0.05) },
 								'&.Mui-disabled': { borderColor: tokens.line.main, color: tokens.ink.faint },

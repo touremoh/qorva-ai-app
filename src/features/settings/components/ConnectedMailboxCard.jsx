@@ -112,16 +112,16 @@ const ConnectedMailboxCard = () => {
 			{loading ? (
 				<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: tokens.ink.subtle }}>
 					<CircularProgress size={14} sx={{ color: THEME_GREEN }} />
-					<Typography sx={{ fontSize: '0.8rem' }}>{t('mailbox.loading')}</Typography>
+					<Typography sx={{ fontSize: tokens.fontSize.body2 }}>{t('mailbox.loading')}</Typography>
 				</Box>
 			) : connection ? (
 				<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
 					<Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flexWrap: 'wrap' }}>
 						<Box sx={{ flex: 1, minWidth: 200 }}>
-							<Typography sx={{ fontSize: '0.9rem', fontWeight: 600, color: tokens.ink.strong }}>
+							<Typography sx={{ fontSize: tokens.fontSize.body, fontWeight: 600, color: tokens.ink.strong }}>
 								{t(`mailbox.provider.${connection.provider}`)} · {connection.emailAddress}
 							</Typography>
-							<Typography sx={{ fontSize: '0.75rem', color: tokens.ink.muted, mt: 0.25 }}>
+							<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.muted, mt: 0.25 }}>
 								{t('mailbox.connectedSince', { when: dayjs(connection.connectedAt).locale(locale).format('LL') })}
 								{connection.lastUsedAt && ` · ${t('mailbox.lastUsed', { when: dayjs(connection.lastUsedAt).locale(locale).fromNow() })}`}
 							</Typography>
@@ -130,13 +130,13 @@ const ConnectedMailboxCard = () => {
 							size="small"
 							label={reauth ? t('mailbox.status.REAUTH_REQUIRED') : t('mailbox.status.ACTIVE')}
 							sx={{
-								height: 22, fontSize: '0.7rem', fontWeight: 600, borderRadius: 1,
+								height: 22, fontSize: tokens.fontSize.caption, fontWeight: 600, borderRadius: 1,
 								backgroundColor: reauth ? `${tokens.status.warning.pale}` : `${tokens.status.success.paleAlt}`, color: reauth ? `${tokens.status.warning.strong}` : `${tokens.status.success.strong}`,
 							}}
 						/>
 					</Box>
 					{reauth && (
-						<Alert severity="warning" sx={{ fontSize: '0.8rem', borderRadius: 1.5 }}>{t('mailbox.reauthHint')}</Alert>
+						<Alert severity="warning" sx={{ fontSize: tokens.fontSize.body2, borderRadius: 1.5 }}>{t('mailbox.reauthHint')}</Alert>
 					)}
 					<Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
 						{reauth && (
@@ -145,39 +145,39 @@ const ConnectedMailboxCard = () => {
 							</Button>
 						)}
 						<Button variant="outlined" onClick={() => setConfirmOpen(true)} disabled={busy}
-							startIcon={<LinkOffOutlinedIcon sx={{ fontSize: 15 }} />} sx={neutralButtonSx}>
+							startIcon={<LinkOffOutlinedIcon sx={{ fontSize: tokens.iconSize.sm }} />} sx={neutralButtonSx}>
 							{t('mailbox.disconnect')}
 						</Button>
 					</Box>
-					<Typography sx={{ fontSize: '0.75rem', color: tokens.ink.subtle }}>{t('mailbox.scopeNote')}</Typography>
+					<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.subtle }}>{t('mailbox.scopeNote')}</Typography>
 				</Box>
 			) : (
 				<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-					<Typography sx={{ fontSize: '0.85rem', color: tokens.ink.soft, lineHeight: 1.6 }}>
+					<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.soft, lineHeight: 1.6 }}>
 						{t('mailbox.intro')}
 					</Typography>
 					{availability?.microsoft ? (
 						<Box>
 							<Button variant="contained" onClick={connect} disabled={busy}
-								startIcon={busy ? <CircularProgress size={12} sx={{ color: tokens.ink.inverse }} /> : <ForwardToInboxOutlinedIcon sx={{ fontSize: 15 }} />}
+								startIcon={busy ? <CircularProgress size={12} sx={{ color: tokens.ink.inverse }} /> : <ForwardToInboxOutlinedIcon sx={{ fontSize: tokens.iconSize.sm }} />}
 								sx={primaryButtonSx}>
 								{t('mailbox.connectMicrosoft')}
 							</Button>
 						</Box>
 					) : (
-						<Alert severity="info" sx={{ fontSize: '0.8rem', borderRadius: 1.5 }}>{t('mailbox.notAvailable')}</Alert>
+						<Alert severity="info" sx={{ fontSize: tokens.fontSize.body2, borderRadius: 1.5 }}>{t('mailbox.notAvailable')}</Alert>
 					)}
-					<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.muted }}>{t('mailbox.otherClients')}</Typography>
-					<Typography sx={{ fontSize: '0.75rem', color: tokens.ink.subtle }}>{t('mailbox.scopeNote')}</Typography>
+					<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.muted }}>{t('mailbox.otherClients')}</Typography>
+					<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.subtle }}>{t('mailbox.scopeNote')}</Typography>
 					{availability?.microsoft && (
 						<Box>
 							<Link component="button" type="button" onClick={() => setAdminHelpOpen(o => !o)}
-								sx={{ fontSize: '0.75rem', color: tokens.ink.muted, display: 'inline-flex', alignItems: 'center', gap: 0.25 }}>
+								sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.muted, display: 'inline-flex', alignItems: 'center', gap: 0.25 }}>
 								{t('mailbox.adminHelp.toggle')}
-								{adminHelpOpen ? <ExpandLessIcon sx={{ fontSize: 14 }} /> : <ExpandMoreIcon sx={{ fontSize: 14 }} />}
+								{adminHelpOpen ? <ExpandLessIcon sx={{ fontSize: tokens.iconSize.sm }} /> : <ExpandMoreIcon sx={{ fontSize: tokens.iconSize.sm }} />}
 							</Link>
 							<Collapse in={adminHelpOpen}>
-								<Typography sx={{ fontSize: '0.75rem', color: tokens.ink.muted, mt: 0.75, lineHeight: 1.6 }}>
+								<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.muted, mt: 0.75, lineHeight: 1.6 }}>
 									{t('mailbox.adminHelp.body')}
 								</Typography>
 							</Collapse>

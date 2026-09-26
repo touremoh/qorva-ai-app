@@ -15,10 +15,10 @@ const ChatComposer = ({ composer, handleSendMessage, selectedChat, setComposer }
 			{(selectedChat?.status === 'CLOSED' || selectedChat?.status === 'ARCHIVED') && (
 				<Box sx={{ px: 2, py: 0.75, display: 'flex', alignItems: 'center', gap: 0.75, backgroundColor: tokens.surface.subtle, borderBottom: `1px solid ${tokens.surface.muted}` }}>
 					{selectedChat.status === 'ARCHIVED'
-						? <ArchiveOutlinedIcon sx={{ fontSize: 13, color: tokens.status.warning.text }} />
-						: <LockOutlinedIcon sx={{ fontSize: 13, color: tokens.ink.subtle }} />
+						? <ArchiveOutlinedIcon sx={{ fontSize: tokens.iconSize.xs, color: tokens.status.warning.text }} />
+						: <LockOutlinedIcon sx={{ fontSize: tokens.iconSize.xs, color: tokens.ink.subtle }} />
 					}
-					<Typography sx={{ fontSize: '0.75rem', color: selectedChat.status === 'ARCHIVED' ? `${tokens.status.warning.text}` : `${tokens.ink.subtle}` }}>
+					<Typography sx={{ fontSize: tokens.fontSize.small, color: selectedChat.status === 'ARCHIVED' ? `${tokens.status.warning.text}` : `${tokens.ink.subtle}` }}>
 						{t(selectedChat.status === 'ARCHIVED' ? 'appAIResumeChat.chatArchived' : 'appAIResumeChat.chatClosed')}
 					</Typography>
 				</Box>
@@ -41,7 +41,7 @@ const ChatComposer = ({ composer, handleSendMessage, selectedChat, setComposer }
 					disabled={!selectedChat || selectedChat?.status === 'CLOSED' || selectedChat?.status === 'ARCHIVED'}
 					sx={{
 						'& .MuiOutlinedInput-root': {
-							borderRadius: 3, fontSize: '0.9rem', lineHeight: 1.5,
+							borderRadius: 3, fontSize: tokens.fontSize.body, lineHeight: 1.5,
 							padding: '12px 14px',
 							backgroundColor: tokens.surface.subtle,
 							'&.Mui-focused': { backgroundColor: tokens.surface.paper },
@@ -60,12 +60,12 @@ const ChatComposer = ({ composer, handleSendMessage, selectedChat, setComposer }
 								'&.Mui-disabled': { backgroundColor: tokens.line.main, color: tokens.ink.subtle },
 							}}
 						>
-							<SendRoundedIcon sx={{ fontSize: 17 }} />
+							<SendRoundedIcon sx={{ fontSize: tokens.iconSize.md }} />
 						</IconButton>
 					</span>
 				</Tooltip>
 			</Box>
-			<Typography sx={{ px: 2.5, pb: 1, fontSize: '0.68rem', color: tokens.ink.subtle }}>
+			<Typography sx={{ px: 2.5, pb: 1, fontSize: tokens.fontSize.caption, color: tokens.ink.subtle }}>
 				{t('appAIResumeChat.composerHint')}
 			</Typography>
 		</Box>

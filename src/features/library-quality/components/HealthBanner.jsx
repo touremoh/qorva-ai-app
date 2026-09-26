@@ -18,18 +18,18 @@ const HealthBanner = ({ overall, overallColors, report, verdict }) => {
 				display: 'flex', alignItems: 'center', justifyContent: 'center',
 				border: `3px solid ${overallColors.accent}`,
 			}}>
-				<Typography sx={{ fontSize: '1.7rem', fontWeight: 800, color: overallColors.color, lineHeight: 1 }}>
+				<Typography sx={{ fontSize: tokens.fontSize.display, fontWeight: 800, color: overallColors.color, lineHeight: 1 }}>
 					{overall}
 				</Typography>
 			</Box>
 			<Box sx={{ minWidth: 0 }}>
-				<Typography sx={{ fontSize: '0.68rem', fontWeight: 700, color: tokens.ink.muted, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
+				<Typography sx={{ fontSize: tokens.fontSize.caption, fontWeight: 700, color: tokens.ink.muted, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
 					{t('libraryQuality.overall', 'Library Health')}
 				</Typography>
-				<Typography sx={{ fontSize: '1.05rem', fontWeight: 700, color: tokens.ink.strong, mt: 0.25 }}>
+				<Typography sx={{ fontSize: tokens.fontSize.lg, fontWeight: 700, color: tokens.ink.strong, mt: 0.25 }}>
 					{verdict}
 				</Typography>
-				<Typography sx={{ fontSize: '0.72rem', color: tokens.ink.subtle, mt: 0.25 }}>
+				<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle, mt: 0.25 }}>
 					{t('libraryQuality.totalCVs', '{{count}} resumes analyzed', { count: report.totalCVs })}
 				</Typography>
 			</Box>

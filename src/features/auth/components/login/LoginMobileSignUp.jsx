@@ -18,7 +18,7 @@ const LoginMobileSignUp = ({ navigate }) => {
 				justifyContent: 'space-between',
 			}}
 		>
-			<Typography sx={{ color: tokens.ink.subtle, fontSize: '0.82rem' }}>
+			<Typography sx={{ color: tokens.onDark.subtle, fontSize: tokens.fontSize.body2 }}>
 				{t('login.noAccount')}
 			</Typography>
 			<Button

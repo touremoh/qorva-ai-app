@@ -25,7 +25,7 @@ const CompanyProfileCard = ({ PROFILE_FIELDS, demo, displayProfile, editMode, ha
                             onClick={() => setEditMode(true)}
                             sx={{ color: tokens.brand.text, border: `1px solid ${alpha(tokens.brand.main, 0.3)}`, borderRadius: 1.5, p: 0.5 }}
                         >
-                            <EditOutlinedIcon sx={{ fontSize: 14 }} />
+                            <EditOutlinedIcon sx={{ fontSize: tokens.iconSize.sm }} />
                         </IconButton>
                     </Tooltip>
                 )}
@@ -34,7 +34,7 @@ const CompanyProfileCard = ({ PROFILE_FIELDS, demo, displayProfile, editMode, ha
             {editMode ? (
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
                     {saveError && (
-                        <Typography sx={{ fontSize: '0.78rem', color: tokens.status.error.bright }}>{saveError}</Typography>
+                        <Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.status.error.bright }}>{saveError}</Typography>
                     )}
                     <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 1.5 }}>
                         {PROFILE_FIELDS.map(({ key, labelKey, type }) => (
@@ -45,13 +45,13 @@ const CompanyProfileCard = ({ PROFILE_FIELDS, demo, displayProfile, editMode, ha
                                 type={type}
                                 value={profile[key]}
                                 onChange={e => setProfile(p => ({ ...p, [key]: e.target.value }))}
-                                sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2, fontSize: '0.85rem' } }}
+                                sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2, fontSize: tokens.fontSize.body2 } }}
                             />
                         ))}
                     </Box>
                     <Box sx={{ display: 'flex', gap: 1, justifyContent: 'flex-end' }}>
                         <Button size="small" onClick={handleCancel} disabled={saving}
-                            sx={{ borderRadius: 2, textTransform: 'none', fontSize: '0.82rem', color: tokens.ink.muted }}>
+                            sx={{ borderRadius: 2, textTransform: 'none', fontSize: tokens.fontSize.body2, color: tokens.ink.muted }}>
                             {t('accountSettings.cancel')}
                         </Button>
                         <Button size="small" variant="contained" onClick={handleSave}

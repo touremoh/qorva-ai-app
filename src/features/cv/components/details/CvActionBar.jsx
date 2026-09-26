@@ -36,11 +36,11 @@ const CvActionBar = ({ anonymized, canContact, handleDownload, onClose, openEmai
 					}}
 				>
 					{anonymized
-						? <VisibilityOffOutlinedIcon sx={{ fontSize: 14, color: tokens.status.error.bright }} />
-						: <VisibilityOutlinedIcon sx={{ fontSize: 14, color: tokens.ink.muted }} />
+						? <VisibilityOffOutlinedIcon sx={{ fontSize: tokens.iconSize.sm, color: tokens.status.error.bright }} />
+						: <VisibilityOutlinedIcon sx={{ fontSize: tokens.iconSize.sm, color: tokens.ink.muted }} />
 					}
 					<Typography sx={{
-						fontSize: '0.72rem', fontWeight: 600,
+						fontSize: tokens.fontSize.caption, fontWeight: 600,
 						color: anonymized ? `${tokens.status.error.bright}` : `${tokens.ink.muted}`,
 					}}>
 						{anonymized ? t('appCVContent.showIdentity') : t('appCVContent.anonymize')}
@@ -64,7 +64,7 @@ const CvActionBar = ({ anonymized, canContact, handleDownload, onClose, openEmai
 							'&:hover': { backgroundColor: tokens.surface.muted },
 						}}
 					>
-						<MailOutlineIcon sx={{ fontSize: 16 }} />
+						<MailOutlineIcon sx={{ fontSize: tokens.iconSize.md }} />
 					</IconButton>
 				</Tooltip>
 			)}
@@ -81,7 +81,7 @@ const CvActionBar = ({ anonymized, canContact, handleDownload, onClose, openEmai
 						'&:hover': { backgroundColor: tokens.surface.muted },
 					}}
 				>
-					<FileDownloadIcon sx={{ fontSize: 16 }} />
+					<FileDownloadIcon sx={{ fontSize: tokens.iconSize.md }} />
 				</IconButton>
 			</Tooltip>
 
@@ -96,7 +96,7 @@ const CvActionBar = ({ anonymized, canContact, handleDownload, onClose, openEmai
 						'&:hover': { backgroundColor: tokens.surface.muted },
 					}}
 				>
-					<CloseIcon sx={{ fontSize: 16 }} />
+					<CloseIcon sx={{ fontSize: tokens.iconSize.md }} />
 				</IconButton>
 			)}
 		</Box>

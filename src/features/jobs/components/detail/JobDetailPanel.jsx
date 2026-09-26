@@ -21,7 +21,7 @@ const JobDetailPanel = ({ createMode, demo, detailTab, editMode, handleStartEdit
 					px: 2.5, py: 1.25, backgroundColor: tokens.surface.paper, borderBottom: `1px solid ${tokens.line.main}`, flexShrink: 0,
 				}}>
 					<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexShrink: 0 }}>
-						<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.muted, fontWeight: 500, display: { xs: 'none', sm: 'block' } }}>
+						<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.muted, fontWeight: 500, display: { xs: 'none', sm: 'block' } }}>
 							{selectedJob.status === 'open' ? 'Open' : 'Closed'}
 						</Typography>
 						<Switch checked={selectedJob.status === 'open'} onChange={handleToggleStatus} size="small"
@@ -34,13 +34,13 @@ const JobDetailPanel = ({ createMode, demo, detailTab, editMode, handleStartEdit
 								<Tooltip title={t('jobContent.editJobPost')}>
 									<IconButton size="small" onClick={handleStartEdit}
 										sx={{ border: `1px solid ${tokens.line.main}`, borderRadius: 1.5, color: tokens.ink.muted, '&:hover': { backgroundColor: tokens.surface.muted } }}>
-										<EditOutlinedIcon sx={{ fontSize: 16 }} />
+										<EditOutlinedIcon sx={{ fontSize: tokens.iconSize.md }} />
 									</IconButton>
 								</Tooltip>
 								<Tooltip title={t('jobContent.deleteJobTitle')}>
 									<IconButton size="small" onClick={() => setDeleteDialogOpen(true)}
 										sx={{ border: `1px solid ${tokens.status.error.border}`, borderRadius: 1.5, color: tokens.status.error.bright, '&:hover': { backgroundColor: tokens.status.error.pale } }}>
-										<DeleteOutlineIcon sx={{ fontSize: 16 }} />
+										<DeleteOutlineIcon sx={{ fontSize: tokens.iconSize.md }} />
 									</IconButton>
 								</Tooltip>
 							</>

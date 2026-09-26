@@ -21,14 +21,14 @@ const CvFilterBar = ({ activeCount, engaged, filtersOpen, onClearFilters, onTogg
 				onClick={onToggleFilters}
 				aria-pressed={filtersOpen}
 				disableRipple
-				startIcon={<TuneIcon sx={{ fontSize: 16 }} />}
+				startIcon={<TuneIcon sx={{ fontSize: tokens.iconSize.md }} />}
 				sx={{
 					height: 32,
 					pl: 1.25,
 					pr: activeCount > 0 ? 0.75 : 1.5,
 					borderRadius: 999,
 					textTransform: 'none',
-					fontSize: '0.8rem',
+					fontSize: tokens.fontSize.body2,
 					fontWeight: 600,
 					lineHeight: 1,
 					letterSpacing: 0,
@@ -58,7 +58,7 @@ const CvFilterBar = ({ activeCount, engaged, filtersOpen, onClearFilters, onTogg
 						display: 'inline-flex',
 						alignItems: 'center',
 						justifyContent: 'center',
-						fontSize: '0.68rem',
+						fontSize: tokens.fontSize.caption,
 						fontWeight: 700,
 						color: tokens.ink.inverse,
 						backgroundColor: GREEN,
@@ -79,11 +79,11 @@ const CvFilterBar = ({ activeCount, engaged, filtersOpen, onClearFilters, onTogg
 						'&:hover': { color: tokens.status.error.bright, backgroundColor: 'rgba(239,68,68,0.06)' },
 					}}
 				>
-					<CloseRoundedIcon sx={{ fontSize: 16 }} />
+					<CloseRoundedIcon sx={{ fontSize: tokens.iconSize.md }} />
 				</IconButton>
 			)}
 			<Box sx={{ flexGrow: 1 }} />
-			<Typography sx={{ fontSize: '0.72rem', color: tokens.ink.subtle, whiteSpace: 'nowrap' }}>
+			<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle, whiteSpace: 'nowrap' }}>
 				{t('appCVContent.resumeCount', { count: totalElements })}
 			</Typography>
 		</Box>

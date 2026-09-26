@@ -10,11 +10,11 @@ const RegionDialog = ({ provider, regions, region, onRegionChange, busy, onCance
 	const { t } = useTranslation();
 	return (
 		<Dialog open={!!provider} onClose={onCancel} maxWidth="xs" fullWidth>
-			<DialogTitle sx={{ fontSize: '1rem', fontWeight: 700 }}>
+			<DialogTitle sx={{ fontSize: tokens.fontSize.body, fontWeight: 700 }}>
 				{t('atsIntegrations.regionTitle')}
 			</DialogTitle>
 			<DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, pt: '8px !important' }}>
-				<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.muted }}>
+				<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.muted }}>
 					{t('atsIntegrations.regionHint')}
 				</Typography>
 				{provider && (
@@ -33,7 +33,7 @@ const RegionDialog = ({ provider, regions, region, onRegionChange, busy, onCance
 					slotProps={{ inputLabel: { shrink: true } }}
 				>
 					{(regions || ['com']).map((key) => (
-						<MenuItem key={key} value={key} sx={{ fontSize: '0.85rem' }}>
+						<MenuItem key={key} value={key} sx={{ fontSize: tokens.fontSize.body2 }}>
 							{regionLabel(key, t)}
 						</MenuItem>
 					))}
@@ -41,7 +41,7 @@ const RegionDialog = ({ provider, regions, region, onRegionChange, busy, onCance
 			</DialogContent>
 			<DialogActions sx={{ px: 3, pb: 2 }}>
 				<Button onClick={onCancel}
-					sx={{ textTransform: 'none', fontSize: '0.82rem', color: tokens.ink.muted }}>
+					sx={{ textTransform: 'none', fontSize: tokens.fontSize.body2, color: tokens.ink.muted }}>
 					{t('accountSettings.cancel')}
 				</Button>
 				<Button variant="contained" sx={BTN_GREEN_SX} disabled={busy} onClick={onConnect}>

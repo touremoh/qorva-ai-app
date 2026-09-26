@@ -17,9 +17,9 @@ const PagerControls = ({ page, totalPages, hasNext, loading = false, onPrev, onN
 				disabled={page === 0 || loading}
 				sx={{ color: tokens.ink.muted, p: 0.25, '&:hover': { backgroundColor: alpha(tokens.brand.main, 0.08), color: tokens.brand.text } }}
 			>
-				<ChevronLeftRoundedIcon sx={{ fontSize: 18 }} />
+				<ChevronLeftRoundedIcon sx={{ fontSize: tokens.iconSize.lg }} />
 			</IconButton>
-			<Typography sx={{ fontSize: '0.72rem', color: tokens.ink.subtle, minWidth: 32, textAlign: 'center' }}>
+			<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle, minWidth: 32, textAlign: 'center' }}>
 				{page + 1} / {totalPages}
 			</Typography>
 			<IconButton
@@ -28,7 +28,7 @@ const PagerControls = ({ page, totalPages, hasNext, loading = false, onPrev, onN
 				disabled={!hasNext || loading}
 				sx={{ color: tokens.ink.muted, p: 0.25, '&:hover': { backgroundColor: alpha(tokens.brand.main, 0.08), color: tokens.brand.text } }}
 			>
-				<ChevronRightRoundedIcon sx={{ fontSize: 18 }} />
+				<ChevronRightRoundedIcon sx={{ fontSize: tokens.iconSize.lg }} />
 			</IconButton>
 		</Box>
 	);

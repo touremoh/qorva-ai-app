@@ -99,7 +99,7 @@ const ConversationItem = ({ conv, isActive, onSelect, onDelete }) => {
             }}
         >
             <Typography sx={{
-                fontSize: '0.78rem',
+                fontSize: tokens.fontSize.small,
                 color: isActive ? `${tokens.ink.strong}` : `${tokens.ink.body}`,
                 fontWeight: isActive ? 600 : 400,
                 lineHeight: 1.4,
@@ -118,7 +118,7 @@ const ConversationItem = ({ conv, isActive, onSelect, onDelete }) => {
                         label={intentLabel}
                         size="small"
                         sx={{
-                            fontSize: '0.58rem',
+                            fontSize: tokens.fontSize.micro,
                             height: 15,
                             fontWeight: 600,
                             backgroundColor: `${intentColor}14`,
@@ -128,7 +128,7 @@ const ConversationItem = ({ conv, isActive, onSelect, onDelete }) => {
                         }}
                     />
                 )}
-                <Typography sx={{ fontSize: '0.6rem', color: tokens.ink.faint, ml: 'auto', flexShrink: 0 }}>
+                <Typography sx={{ fontSize: tokens.fontSize.micro, color: tokens.ink.faint, ml: 'auto', flexShrink: 0 }}>
                     {formatTime(conv.lastActivityAt)}
                 </Typography>
             </Box>
@@ -147,7 +147,7 @@ const ConversationItem = ({ conv, isActive, onSelect, onDelete }) => {
                     '&:hover': { color: tokens.status.error.bright, backgroundColor: 'rgba(239,68,68,0.08)' },
                 }}
             >
-                <DeleteOutlineIcon sx={{ fontSize: 14 }} />
+                <DeleteOutlineIcon sx={{ fontSize: tokens.iconSize.sm }} />
             </IconButton>
         </Box>
     );
@@ -174,7 +174,7 @@ const InsightConversationList = ({ conversations, activeConvId, onSelect, onNew,
             <Box sx={{ px: 1.5, pt: 1.5, pb: 1, flexShrink: 0 }}>
                 <Button
                     fullWidth
-                    startIcon={<AddOutlinedIcon sx={{ fontSize: 16 }} />}
+                    startIcon={<AddOutlinedIcon sx={{ fontSize: tokens.iconSize.md }} />}
                     variant="contained"
                     onClick={onNew}
                     sx={{
@@ -183,7 +183,7 @@ const InsightConversationList = ({ conversations, activeConvId, onSelect, onNew,
                         borderRadius: 1.5,
                         textTransform: 'none',
                         fontWeight: 600,
-                        fontSize: '0.82rem',
+                        fontSize: tokens.fontSize.body2,
                         boxShadow: 'none',
                         py: 0.85,
                     }}
@@ -194,7 +194,7 @@ const InsightConversationList = ({ conversations, activeConvId, onSelect, onNew,
 
             {/* Section label */}
             <Box sx={{ px: 2, mb: 0.5 }}>
-                <Typography sx={{ fontSize: '0.62rem', fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                <Typography sx={{ fontSize: tokens.fontSize.micro, fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                     History
                 </Typography>
             </Box>
@@ -209,8 +209,8 @@ const InsightConversationList = ({ conversations, activeConvId, onSelect, onNew,
 
                 {!loading && conversations.length === 0 && (
                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 6, gap: 1 }}>
-                        <ForumOutlinedIcon sx={{ fontSize: 26, color: tokens.ink.faintest }} />
-                        <Typography sx={{ fontSize: '0.73rem', color: tokens.ink.faint, textAlign: 'center' }}>
+                        <ForumOutlinedIcon sx={{ fontSize: tokens.iconSize.xl, color: tokens.ink.faintest }} />
+                        <Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.faint, textAlign: 'center' }}>
                             No conversations yet
                         </Typography>
                     </Box>
@@ -218,7 +218,7 @@ const InsightConversationList = ({ conversations, activeConvId, onSelect, onNew,
 
                 {groups.map(({ key, items }) => (
                     <Box key={key} sx={{ mb: 1.5 }}>
-                        <Typography sx={{ fontSize: '0.6rem', fontWeight: 700, color: tokens.ink.faint, textTransform: 'uppercase', letterSpacing: '0.08em', px: 1.25, mb: 0.4 }}>
+                        <Typography sx={{ fontSize: tokens.fontSize.micro, fontWeight: 700, color: tokens.ink.faint, textTransform: 'uppercase', letterSpacing: '0.08em', px: 1.25, mb: 0.4 }}>
                             {key}
                         </Typography>
                         {items.map(conv => (

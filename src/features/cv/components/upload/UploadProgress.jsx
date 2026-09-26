@@ -22,20 +22,20 @@ const UploadProgress = ({ upload }) => {
 			<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
 				<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
 					{upload.uploadComplete
-						? <CheckCircleRoundedIcon sx={{ fontSize: 18, color: tokens.status.success.main }} />
+						? <CheckCircleRoundedIcon sx={{ fontSize: tokens.iconSize.lg, color: tokens.status.success.main }} />
 						: <CircularProgress size={14} thickness={5} sx={{ color: tokens.brand.text }} />}
-					<Typography sx={{ fontSize: '0.9rem', fontWeight: 600, color: tokens.status.success.text }}>
+					<Typography sx={{ fontSize: tokens.fontSize.body, fontWeight: 600, color: tokens.status.success.text }}>
 						{upload.uploadComplete
 							? t('appCVContent.uploadComplete')
 							: t('appCVContent.uploadProgressTitle')}
 					</Typography>
 				</Box>
 				<Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-					<Typography sx={{ fontSize: '0.78rem', color: tokens.brand.text, fontWeight: 600 }}>
+					<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.brand.text, fontWeight: 600 }}>
 						{Math.round(upload.uploadProgress)}%
 					</Typography>
 					{!upload.uploadComplete && (
-						<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.gray }}>
+						<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.gray }}>
 							{upload.uploadElapsed < UPLOAD_ESTIMATE_SECONDS
 								? `~${Math.max(0, UPLOAD_ESTIMATE_SECONDS - upload.uploadElapsed)}s ${t('appCVContent.remaining')}`
 								: t('appCVContent.almostDone')}
@@ -58,7 +58,7 @@ const UploadProgress = ({ upload }) => {
 				}}
 			/>
 			{!upload.uploadComplete && (
-				<Typography sx={{ fontSize: '0.78rem', color: tokens.brand.text, mt: 1, fontStyle: 'italic' }}>
+				<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.brand.text, mt: 1, fontStyle: 'italic' }}>
 					{t(`appCVContent.${getUploadPhaseKey(upload.uploadElapsed)}`)}
 				</Typography>
 			)}

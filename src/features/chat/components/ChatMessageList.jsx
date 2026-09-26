@@ -22,7 +22,7 @@ const ChatMessageList = ({ assistantTyping, copiedMessageId, fetchMessagesPage, 
 			{!selectedChat ? (
 				<Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 1.5 }}>
 					<AutoAwesomeOutlinedIcon sx={{ fontSize: 40, color: tokens.ink.faint }} />
-					<Typography sx={{ fontSize: '0.85rem', color: tokens.ink.subtle, fontWeight: 500 }}>
+					<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.subtle, fontWeight: 500 }}>
 						{t('appAIResumeChat.noChatSelected')}
 					</Typography>
 				</Box>
@@ -33,7 +33,7 @@ const ChatMessageList = ({ assistantTyping, copiedMessageId, fetchMessagesPage, 
 							<Button
 								size="small"
 								onClick={() => fetchMessagesPage(selectedChat.id, msgPage + 1)}
-								sx={{ fontSize: '0.72rem', color: tokens.brand.text, textTransform: 'none', borderRadius: 2 }}
+								sx={{ fontSize: tokens.fontSize.caption, color: tokens.brand.text, textTransform: 'none', borderRadius: 2 }}
 							>
 								{t('appAIResumeChat.loadOlder')}
 							</Button>
@@ -55,7 +55,7 @@ const ChatMessageList = ({ assistantTyping, copiedMessageId, fetchMessagesPage, 
 										display: 'flex', alignItems: 'center', justifyContent: 'center',
 										backgroundColor: alpha(tokens.brand.main, 0.12),
 									}}>
-										<SmartToyOutlinedIcon sx={{ fontSize: 14, color: tokens.brand.text }} />
+										<SmartToyOutlinedIcon sx={{ fontSize: tokens.iconSize.sm, color: tokens.brand.text }} />
 									</Box>
 								)}
 								<Box sx={{
@@ -68,18 +68,18 @@ const ChatMessageList = ({ assistantTyping, copiedMessageId, fetchMessagesPage, 
 									boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
 								}}>
 									<Typography sx={{
-										fontSize: '0.72rem', fontWeight: 600,
+										fontSize: tokens.fontSize.caption, fontWeight: 600,
 										color: isUser ? `${tokens.brand.main}` : `${tokens.ink.subtle}`,
 										mb: 0.5,
 										display: 'flex', alignItems: 'center', gap: 0.5,
 									}}>
 										{isUser
-											? <><PersonOutlineOutlinedIcon sx={{ fontSize: 12 }} />{t('appAIResumeChat.you')}</>
-											: <><SmartToyOutlinedIcon sx={{ fontSize: 12 }} />{t('appAIResumeChat.assistant')}</>
+											? <><PersonOutlineOutlinedIcon sx={{ fontSize: tokens.iconSize.xs }} />{t('appAIResumeChat.you')}</>
+											: <><SmartToyOutlinedIcon sx={{ fontSize: tokens.iconSize.xs }} />{t('appAIResumeChat.assistant')}</>
 										}
 									</Typography>
 									{isUser ? (
-										<Typography sx={{ fontSize: '0.85rem', color: tokens.ink.strong, lineHeight: 1.55, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+										<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.strong, lineHeight: 1.55, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
 											{m.content}
 										</Typography>
 									) : (
@@ -87,29 +87,29 @@ const ChatMessageList = ({ assistantTyping, copiedMessageId, fetchMessagesPage, 
 									)}
 									{m.failed ? (
 										<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, mt: 0.75, flexWrap: 'wrap' }}>
-											<ErrorOutlineOutlinedIcon sx={{ fontSize: 14, color: tokens.status.error.dark }} />
-											<Typography sx={{ fontSize: '0.7rem', color: tokens.status.error.dark }}>
+											<ErrorOutlineOutlinedIcon sx={{ fontSize: tokens.iconSize.sm, color: tokens.status.error.dark }} />
+											<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.status.error.dark }}>
 												{m.error || t('appAIResumeChat.sendFailed')}
 											</Typography>
 											<Button
 												size="small"
-												startIcon={<ReplayOutlinedIcon sx={{ fontSize: 14 }} />}
+												startIcon={<ReplayOutlinedIcon sx={{ fontSize: tokens.iconSize.sm }} />}
 												onClick={() => handleRetryMessage(m)}
 												disabled={assistantTyping}
-												sx={{ fontSize: '0.7rem', color: tokens.brand.text, textTransform: 'none', minWidth: 0, px: 0.75, py: 0 }}
+												sx={{ fontSize: tokens.fontSize.caption, color: tokens.brand.text, textTransform: 'none', minWidth: 0, px: 0.75, py: 0 }}
 											>
 												{t('appAIResumeChat.retry')}
 											</Button>
 										</Box>
 									) : (
 										<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: isUser ? 'flex-end' : 'space-between', mt: 0.5, gap: 1 }}>
-											<Typography sx={{ fontSize: '0.65rem', color: tokens.ink.subtle }}>
+											<Typography sx={{ fontSize: tokens.fontSize.micro, color: tokens.ink.subtle }}>
 												{new Date(m.createdAt).toLocaleTimeString(userLang || 'en', { hour: '2-digit', minute: '2-digit' })}
 											</Typography>
 											{!isUser && (
 												<Tooltip title={copiedMessageId === m.id ? t('appAIResumeChat.copied') : t('appAIResumeChat.copyAnswer')}>
 													<IconButton size="small" onClick={() => handleCopyMessage(m)} sx={{ p: 0.25, color: copiedMessageId === m.id ? `${tokens.brand.main}` : `${tokens.ink.subtle}` }}>
-														{copiedMessageId === m.id ? <CheckIcon sx={{ fontSize: 13 }} /> : <ContentCopyOutlinedIcon sx={{ fontSize: 13 }} />}
+														{copiedMessageId === m.id ? <CheckIcon sx={{ fontSize: tokens.iconSize.xs }} /> : <ContentCopyOutlinedIcon sx={{ fontSize: tokens.iconSize.xs }} />}
 													</IconButton>
 												</Tooltip>
 											)}
@@ -122,7 +122,7 @@ const ChatMessageList = ({ assistantTyping, copiedMessageId, fetchMessagesPage, 
 										display: 'flex', alignItems: 'center', justifyContent: 'center',
 										backgroundColor: alpha(tokens.brand.main, 0.15),
 									}}>
-										<PersonOutlineOutlinedIcon sx={{ fontSize: 14, color: tokens.brand.text }} />
+										<PersonOutlineOutlinedIcon sx={{ fontSize: tokens.iconSize.sm, color: tokens.brand.text }} />
 									</Box>
 								)}
 							</Box>
@@ -136,7 +136,7 @@ const ChatMessageList = ({ assistantTyping, copiedMessageId, fetchMessagesPage, 
 								display: 'flex', alignItems: 'center', justifyContent: 'center',
 								backgroundColor: alpha(tokens.brand.main, 0.12),
 							}}>
-								<SmartToyOutlinedIcon sx={{ fontSize: 14, color: tokens.brand.text }} />
+								<SmartToyOutlinedIcon sx={{ fontSize: tokens.iconSize.sm, color: tokens.brand.text }} />
 							</Box>
 							<TypingDots />
 						</Box>

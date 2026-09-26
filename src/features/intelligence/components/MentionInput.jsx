@@ -215,8 +215,8 @@ const MentionInput = ({
     const popperOpen = !!activeMention;
 
     const iconFor = useMemo(() => ({
-        candidate: <PersonOutlineIcon sx={{ fontSize: 18, color: tokens.brand.text }} />,
-        job: <WorkOutlineIcon sx={{ fontSize: 18, color: tokens.brand.text }} />,
+        candidate: <PersonOutlineIcon sx={{ fontSize: tokens.iconSize.lg, color: tokens.brand.text }} />,
+        job: <WorkOutlineIcon sx={{ fontSize: tokens.iconSize.lg, color: tokens.brand.text }} />,
     }), []);
 
     return (
@@ -258,7 +258,7 @@ const MentionInput = ({
                     variant="standard"
                     sx={{
                         '& .MuiInput-root': {
-                            fontSize: '0.85rem',
+                            fontSize: tokens.fontSize.body2,
                             color: tokens.ink.heading,
                             '&::before, &::after': { display: 'none' },
                         },
@@ -281,7 +281,7 @@ const MentionInput = ({
                                 transition: 'all 0.15s ease',
                             }}
                         >
-                            <SendOutlinedIcon sx={{ fontSize: 16 }} />
+                            <SendOutlinedIcon sx={{ fontSize: tokens.iconSize.md }} />
                         </IconButton>
                     </span>
                 </Tooltip>
@@ -293,19 +293,19 @@ const MentionInput = ({
                         <Chip
                             key={mentionKey(m)}
                             size="small"
-                            icon={m.type === 'job' ? <WorkOutlineIcon sx={{ fontSize: 14 }} /> : <PersonOutlineIcon sx={{ fontSize: 14 }} />}
+                            icon={m.type === 'job' ? <WorkOutlineIcon sx={{ fontSize: tokens.iconSize.sm }} /> : <PersonOutlineIcon sx={{ fontSize: tokens.iconSize.sm }} />}
                             label={m.name}
                             onDelete={() => removeMention(m)}
                             sx={{
                                 backgroundColor: alpha(tokens.brand.main, 0.08),
                                 color: tokens.ink.heading,
                                 border: `1px solid ${alpha(tokens.brand.main, 0.25)}`,
-                                fontSize: '0.72rem',
+                                fontSize: tokens.fontSize.caption,
                                 height: 22,
                                 '& .MuiChip-icon': { color: tokens.brand.text, ml: '4px' },
                                 '& .MuiChip-deleteIcon': {
                                     color: tokens.ink.subtle,
-                                    fontSize: 14,
+                                    fontSize: tokens.iconSize.sm,
                                     '&:hover': { color: tokens.status.error.bright },
                                 },
                             }}
@@ -339,7 +339,7 @@ const MentionInput = ({
                             </Box>
                         ) : options.length === 0 ? (
                             <Box sx={{ px: 2, py: 1.5 }}>
-                                <Typography sx={{ fontSize: '0.78rem', color: tokens.ink.subtle }}>
+                                <Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.subtle }}>
                                     No matches
                                 </Typography>
                             </Box>
@@ -362,16 +362,16 @@ const MentionInput = ({
                                             {iconFor[option.type]}
                                         </Box>
                                         <Box sx={{ minWidth: 0, flex: 1 }}>
-                                            <Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: tokens.ink.heading, lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                            <Typography sx={{ fontSize: tokens.fontSize.body2, fontWeight: 600, color: tokens.ink.heading, lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                                                 {option.name}
                                             </Typography>
                                             {option.subtitle && (
-                                                <Typography sx={{ fontSize: '0.7rem', color: tokens.ink.subtle, lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                                <Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle, lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                                                     {option.subtitle}
                                                 </Typography>
                                             )}
                                         </Box>
-                                        <Typography sx={{ fontSize: '0.62rem', color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                                        <Typography sx={{ fontSize: tokens.fontSize.micro, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: 0.5 }}>
                                             {option.type}
                                         </Typography>
                                     </ListItemButton>

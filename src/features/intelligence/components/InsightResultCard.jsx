@@ -60,12 +60,12 @@ const InsightResultCard = ({ result, onFollowUp, onCandidateClick }) => {
                 alignItems: 'center',
                 gap: 1,
             }}>
-                <PsychologyOutlinedIcon sx={{ fontSize: 15, color: cfg.color, flexShrink: 0 }} />
+                <PsychologyOutlinedIcon sx={{ fontSize: tokens.iconSize.sm, color: cfg.color, flexShrink: 0 }} />
                 <Chip
                     label={t(`insight.intents.${intent}`, cfg.label)}
                     size="small"
                     sx={{
-                        fontSize: '0.67rem',
+                        fontSize: tokens.fontSize.caption,
                         height: 20,
                         fontWeight: 700,
                         backgroundColor: 'transparent',
@@ -80,7 +80,7 @@ const InsightResultCard = ({ result, onFollowUp, onCandidateClick }) => {
             <Box sx={{ p: 2 }}>
                 {/* Answer text */}
                 {answerText && (
-                    <Typography sx={{ fontSize: '0.85rem', color: tokens.ink.body, lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>
+                    <Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.body, lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>
                         {answerText}
                     </Typography>
                 )}
@@ -98,7 +98,7 @@ const InsightResultCard = ({ result, onFollowUp, onCandidateClick }) => {
                     </Box>
                 ) : candidates?.length > 0 ? (
                     <Box sx={{ mt: 1.5, pt: 1.5, borderTop: `1px solid ${tokens.surface.muted}` }}>
-                        <Typography sx={{ fontSize: '0.65rem', fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.08em', mb: 1 }}>
+                        <Typography sx={{ fontSize: tokens.fontSize.micro, fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.08em', mb: 1 }}>
                             {t('insight.candidates', 'Candidates')}
                         </Typography>
                         <CandidateSection candidates={candidates} showRediscoveredTag={showRediscoveredTag} onCandidateClick={onCandidateClick} />

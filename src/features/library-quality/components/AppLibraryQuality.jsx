@@ -140,10 +140,10 @@ const AppLibraryQuality = () => {
 		return (
 			<Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 1.5, p: 3 }}>
 				<FactCheckOutlinedIcon sx={{ fontSize: 44, color: tokens.ink.faint }} />
-				<Typography sx={{ fontSize: '0.95rem', fontWeight: 700, color: tokens.ink.body }}>
+				<Typography sx={{ fontSize: tokens.fontSize.body, fontWeight: 700, color: tokens.ink.body }}>
 					{t('libraryQuality.empty.title', 'No resumes yet')}
 				</Typography>
-				<Typography sx={{ fontSize: '0.8rem', color: tokens.ink.muted, textAlign: 'center', maxWidth: 380 }}>
+				<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.muted, textAlign: 'center', maxWidth: 380 }}>
 					{t('libraryQuality.empty.subtitle', 'Upload resumes to your library to see its health score and get improvement suggestions.')}
 				</Typography>
 			</Box>

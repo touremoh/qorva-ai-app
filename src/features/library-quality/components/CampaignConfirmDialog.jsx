@@ -19,7 +19,7 @@ const CampaignConfirmDialog = ({ actionBusy, campaignEstimate, emailTemplates, h
 			busy={actionBusy}
 			confirmDisabled={(campaignEstimate?.estimate?.affectedCount ?? 0) === 0}
 		>
-			<DialogContentText sx={{ fontSize: '0.88rem', color: tokens.ink.muted }}>
+			<DialogContentText sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.muted }}>
 				{t('libraryQuality.campaign.confirmBody',
 					'This will email up to {{count}} candidates a secure link to refresh their availability, salary expectations, and resume. Candidates without an email address, unsubscribed candidates, and those with a pending request are skipped automatically.',
 					{ count: campaignEstimate?.estimate?.affectedCount ?? 0 })}
@@ -41,7 +41,7 @@ const CampaignConfirmDialog = ({ actionBusy, campaignEstimate, emailTemplates, h
 				<Button
 					size="small"
 					onClick={() => setManageTemplatesOpen(true)}
-					sx={{ textTransform: 'none', fontSize: '0.72rem', fontWeight: 600, color: tokens.brand.text, flexShrink: 0 }}>
+					sx={{ textTransform: 'none', fontSize: tokens.fontSize.caption, fontWeight: 600, color: tokens.brand.text, flexShrink: 0 }}>
 					{t('libraryQuality.campaign.manageTemplates', 'Manage…')}
 				</Button>
 			</Box>

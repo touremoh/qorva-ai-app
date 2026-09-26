@@ -24,9 +24,9 @@ const ReportRowMenu = ({ anchorEl, handleDeleteClick, handleMenuClose }) => {
 		>
 			<MenuItem
 				onClick={handleDeleteClick}
-				sx={{ fontSize: '0.82rem', color: tokens.status.error.bright, gap: 1, '&:hover': { backgroundColor: tokens.status.error.blush } }}
+				sx={{ fontSize: tokens.fontSize.body2, color: tokens.status.error.bright, gap: 1, '&:hover': { backgroundColor: tokens.status.error.blush } }}
 			>
-				<DeleteOutlineOutlinedIcon sx={{ fontSize: 16, color: tokens.status.error.bright }} />
+				<DeleteOutlineOutlinedIcon sx={{ fontSize: tokens.iconSize.md, color: tokens.status.error.bright }} />
 				{t('appReportContent.deleteReport')}
 			</MenuItem>
 		</Menu>

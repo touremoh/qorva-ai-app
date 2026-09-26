@@ -171,7 +171,7 @@ const QorvaPricingTable = ({ selectedPriceId, onSelectPlan }) => {
 							background: `linear-gradient(135deg, ${tokens.brand.main}, ${tokens.brand.hoverAlt})`,
 							color: tokens.ink.inverse,
 							fontWeight: 600,
-							fontSize: '0.72rem',
+							fontSize: tokens.fontSize.caption,
 						}}
 					/>
 				)}
@@ -210,7 +210,7 @@ const QorvaPricingTable = ({ selectedPriceId, onSelectPlan }) => {
 											background: alpha(tokens.brand.main, 0.22),
 											color: tokens.brand.pale,
 											fontWeight: 700,
-											fontSize: '0.68rem',
+											fontSize: tokens.fontSize.caption,
 											border: `1px solid ${alpha(tokens.brand.main, 0.4)}`,
 										}}
 									/>
@@ -218,7 +218,7 @@ const QorvaPricingTable = ({ selectedPriceId, onSelectPlan }) => {
 
 								{isSelected && (
 									<CheckCircleIcon
-										sx={{ position: 'absolute', top: 16, left: 16, fontSize: 20, color: tokens.brand.text }}
+										sx={{ position: 'absolute', top: 16, left: 16, fontSize: tokens.iconSize.lg, color: tokens.brand.text }}
 									/>
 								)}
 
@@ -241,7 +241,7 @@ const QorvaPricingTable = ({ selectedPriceId, onSelectPlan }) => {
 										component="span"
 										sx={{
 											fontWeight: 800,
-											fontSize: { xs: '1.65rem', md: '2rem' },
+											fontSize: { xs: tokens.fontSize.display, md: tokens.fontSize.display },
 											color: isRecommended ? `${tokens.surface.paper}` : 'text.primary',
 											lineHeight: 1,
 										}}
@@ -289,14 +289,14 @@ const QorvaPricingTable = ({ selectedPriceId, onSelectPlan }) => {
 												{feat.included ? (
 													<CheckCircleOutlineIcon
 														sx={{
-															fontSize: 16,
+															fontSize: tokens.iconSize.md,
 															color: isRecommended ? 'rgba(255,255,255,0.85)' : `${tokens.brand.main}`,
 														}}
 													/>
 												) : (
 													<RemoveIcon
 														sx={{
-															fontSize: 16,
+															fontSize: tokens.iconSize.md,
 															color: isRecommended ? 'rgba(255,255,255,0.2)' : 'text.disabled',
 														}}
 													/>
@@ -307,7 +307,7 @@ const QorvaPricingTable = ({ selectedPriceId, onSelectPlan }) => {
 												primaryTypographyProps={{
 													variant: 'body2',
 													sx: {
-														fontSize: '0.78rem',
+														fontSize: tokens.fontSize.small,
 														color: feat.included
 															? isRecommended ? `${tokens.surface.paper}` : 'text.primary'
 															: isRecommended ? 'rgba(255,255,255,0.28)' : 'text.disabled',
@@ -329,7 +329,7 @@ const QorvaPricingTable = ({ selectedPriceId, onSelectPlan }) => {
 										py: 1.2,
 										fontWeight: 600,
 										textTransform: 'none',
-										fontSize: '0.88rem',
+										fontSize: tokens.fontSize.body2,
 										...(isSelected && {
 											backgroundColor: tokens.brand.main,
 											'&:hover': { backgroundColor: tokens.brand.hoverAlt },

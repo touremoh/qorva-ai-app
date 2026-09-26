@@ -20,7 +20,7 @@ export const ENUM_GROUPS = ['seniority', 'leadership', 'availability', 'skillDep
 export const VALUE_GROUPS = ['industries', 'locations', 'skills', 'tags'];
 
 export const labelSx = {
-	fontSize: '0.68rem',
+	fontSize: tokens.fontSize.caption,
 	fontWeight: 700,
 	color: tokens.ink.muted,
 	textTransform: 'uppercase',
@@ -32,8 +32,8 @@ export const labelSx = {
 };
 
 export const inputSx = {
-	fontSize: '0.78rem',
+	fontSize: tokens.fontSize.small,
 	borderRadius: 1,
 	backgroundColor: tokens.surface.paper,
-	'& input': { py: '5px', px: '8px', fontSize: '0.78rem' },
+	'& input': { py: '5px', px: '8px', fontSize: tokens.fontSize.small },
 };

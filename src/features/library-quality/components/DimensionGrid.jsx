@@ -18,7 +18,7 @@ const DimensionGrid = ({ confidenceMetrics, report, uniquenessMetrics }) => {
 				label={t('libraryQuality.dimensions.completeness', 'Completeness')}
 				score={report.completeness.score}
 				icon={ChecklistOutlinedIcon} accent={tokens.status.info.blue} bg="rgba(59,130,246,0.08)">
-				<Typography sx={{ fontSize: '0.68rem', color: tokens.ink.muted }}>
+				<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.muted }}>
 					{t('libraryQuality.dimensions.completenessHint', 'Contact details and profile data present on your resumes.')}
 				</Typography>
 			</DimensionCard>
@@ -27,7 +27,7 @@ const DimensionGrid = ({ confidenceMetrics, report, uniquenessMetrics }) => {
 				label={t('libraryQuality.dimensions.freshness', 'Freshness')}
 				score={report.freshness.score}
 				icon={UpdateOutlinedIcon} accent={tokens.brand.text} bg="rgba(98,156,68,0.08)">
-				<Typography sx={{ fontSize: '0.68rem', color: tokens.ink.muted }}>
+				<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.muted }}>
 					{t('libraryQuality.dimensions.freshnessHint', 'How current the resume content actually is.')}
 				</Typography>
 			</DimensionCard>
@@ -36,7 +36,7 @@ const DimensionGrid = ({ confidenceMetrics, report, uniquenessMetrics }) => {
 				label={t('libraryQuality.dimensions.uniqueness', 'Uniqueness')}
 				score={report.uniqueness.score}
 				icon={ContentCopyOutlinedIcon} accent={tokens.status.accent.purple} bg="rgba(139,92,246,0.08)">
-				<Typography sx={{ fontSize: '0.68rem', color: tokens.ink.muted }}>
+				<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.muted }}>
 					{t('libraryQuality.dimensions.uniquenessHint', '{{count}} duplicate groups detected.', { count: uniquenessMetrics.duplicateGroups?.count ?? 0 })}
 				</Typography>
 			</DimensionCard>
@@ -45,7 +45,7 @@ const DimensionGrid = ({ confidenceMetrics, report, uniquenessMetrics }) => {
 				label={t('libraryQuality.dimensions.parseConfidence', 'AI Confidence')}
 				score={report.parseConfidence.score}
 				icon={PsychologyOutlinedIcon} accent={tokens.status.warning.bright} bg="rgba(245,158,11,0.08)">
-				<Typography sx={{ fontSize: '0.68rem', color: tokens.ink.muted }}>
+				<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.muted }}>
 					{t('libraryQuality.dimensions.parseConfidenceHint', '{{count}} resumes need review.', { count: (confidenceMetrics.lowConfidence?.count ?? 0) + (confidenceMetrics.missingAnalysis?.count ?? 0) })}
 				</Typography>
 			</DimensionCard>

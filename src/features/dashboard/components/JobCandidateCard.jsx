@@ -15,7 +15,7 @@ const JobCandidateCard = ({ job }) => {
 			<Tooltip title={job.jobPostTitle} placement="top">
 				<Box sx={{ px: 1.5, py: 1, backgroundColor: tokens.surface.subtle, borderBottom: `1px solid ${tokens.line.main}` }}>
 					<Typography sx={{
-						fontSize: '0.76rem', fontWeight: 700, color: tokens.ink.strong,
+						fontSize: tokens.fontSize.small, fontWeight: 700, color: tokens.ink.strong,
 						overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
 					}}>
 						{job.jobPostTitle}
@@ -38,18 +38,18 @@ const JobCandidateCard = ({ job }) => {
 								backgroundColor: medalColor(i),
 								display: 'flex', alignItems: 'center', justifyContent: 'center',
 							}}>
-								<Typography sx={{ fontSize: '0.52rem', fontWeight: 800, color: i < 3 ? `${tokens.surface.paper}` : `${tokens.ink.subtle}`, lineHeight: 1 }}>
+								<Typography sx={{ fontSize: tokens.fontSize.micro, fontWeight: 800, color: i < 3 ? `${tokens.surface.paper}` : `${tokens.ink.subtle}`, lineHeight: 1 }}>
 									{i + 1}
 								</Typography>
 							</Box>
 							<Avatar sx={{
-								width: 22, height: 22, fontSize: '0.55rem', fontWeight: 700, flexShrink: 0,
+								width: 22, height: 22, fontSize: tokens.fontSize.micro, fontWeight: 700, flexShrink: 0,
 								backgroundColor: `${color}22`, color,
 							}}>
 								{initials}
 							</Avatar>
 							<Typography sx={{
-								flex: 1, fontSize: '0.76rem', fontWeight: i === 0 ? 600 : 400, color: tokens.ink.strong,
+								flex: 1, fontSize: tokens.fontSize.small, fontWeight: i === 0 ? 600 : 400, color: tokens.ink.strong,
 								overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', minWidth: 0,
 							}}>
 								{c.candidateName}
@@ -57,7 +57,7 @@ const JobCandidateCard = ({ job }) => {
 							<Box sx={{
 								flexShrink: 0, px: 0.6, py: 0.15, borderRadius: 1,
 								backgroundColor: scoreBg, color,
-								fontSize: '0.65rem', fontWeight: 800, lineHeight: 1.5,
+								fontSize: tokens.fontSize.micro, fontWeight: 800, lineHeight: 1.5,
 							}}>
 								{c.score}%
 							</Box>

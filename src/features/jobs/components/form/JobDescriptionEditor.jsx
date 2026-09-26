@@ -8,7 +8,7 @@ const JobDescriptionEditor = ({ jobDescription, setJobDescription }) => {
 	return (
 		<>
 		<Box sx={{
-			'.ql-container': { borderRadius: '0 0 8px 8px', fontSize: '0.88rem' },
+			'.ql-container': { borderRadius: '0 0 8px 8px', fontSize: tokens.fontSize.body2 },
 			'.ql-toolbar': { borderRadius: '8px 8px 0 0', borderColor: tokens.line.main, transition: 'border-color 0.2s, box-shadow 0.2s' },
 			'.ql-container.ql-snow': { borderColor: tokens.line.main, minHeight: 300, transition: 'border-color 0.2s, box-shadow 0.2s' },
 			// Mirror the title TextField's states (inputSx): hover darkens, focus turns green

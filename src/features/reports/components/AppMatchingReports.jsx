@@ -296,7 +296,7 @@ const AppMatchingReports = () => {
 				open={deleteDialogOpen}
 				title={t('appReportContent.deleteConfirm')}
 				subject={menuReport?.candidateInfo?.candidateName && (
-					<Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: 'ink.strong' }}>{menuReport.candidateInfo.candidateName}</Typography>
+					<Typography sx={{ fontSize: tokens.fontSize.body2, fontWeight: 600, color: 'ink.strong' }}>{menuReport.candidateInfo.candidateName}</Typography>
 				)}
 				cancelLabel={t('appReportContent.cancel')}
 				confirmLabel={t('appReportContent.delete')}

@@ -39,12 +39,12 @@ const BulkImportChip = () => {
 			}}
 		>
 			<CircularProgress size={13} thickness={5} sx={{ color: tokens.brand.text }} />
-			<Typography sx={{ fontSize: '0.78rem', fontWeight: 600, color: tokens.status.success.text, whiteSpace: 'nowrap' }}>
+			<Typography sx={{ fontSize: tokens.fontSize.small, fontWeight: 600, color: tokens.status.success.text, whiteSpace: 'nowrap' }}>
 				{t('appCVContent.bulk.chip', 'Importing {{processed}} / {{total}}', {
 					processed: job.processed, total: job.total })}
 			</Typography>
 			{bulk.etaMinutes != null && (
-				<Typography sx={{ fontSize: '0.72rem', color: tokens.brand.text, whiteSpace: 'nowrap' }}>
+				<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.brand.text, whiteSpace: 'nowrap' }}>
 					{t('appCVContent.bulk.eta', '~{{minutes}} min left', { minutes: bulk.etaMinutes })}
 				</Typography>
 			)}

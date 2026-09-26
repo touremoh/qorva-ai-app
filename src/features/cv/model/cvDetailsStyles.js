@@ -2,16 +2,16 @@ import * as tokens from '../../../theme/tokens.js';
 import { alpha } from '@mui/material/styles';
 
 export const contactChipSx = {
-	fontSize: '0.75rem',
+	fontSize: tokens.fontSize.small,
 	backgroundColor: tokens.surface.muted,
 	color: tokens.ink.body,
 	height: 24,
 	borderRadius: 1,
-	'& .MuiChip-icon': { fontSize: 13 },
+	'& .MuiChip-icon': { fontSize: tokens.iconSize.xs },
 };
 
 export const techSkillChipSx = {
-	fontSize: '0.75rem',
+	fontSize: tokens.fontSize.small,
 	backgroundColor: alpha(tokens.brand.main, 0.10),
 	color: tokens.brand.dark,
 	borderRadius: 1,
@@ -20,7 +20,7 @@ export const techSkillChipSx = {
 };
 
 export const softSkillChipSx = {
-	fontSize: '0.75rem',
+	fontSize: tokens.fontSize.small,
 	backgroundColor: tokens.surface.muted,
 	color: tokens.ink.soft,
 	borderRadius: 1,
@@ -28,7 +28,7 @@ export const softSkillChipSx = {
 };
 
 export const availLabelSx = {
-	fontSize: '0.70rem',
+	fontSize: tokens.fontSize.caption,
 	color: tokens.ink.subtle,
 	textTransform: 'uppercase',
 	letterSpacing: '0.05em',
@@ -37,7 +37,7 @@ export const availLabelSx = {
 
 export const availValueSx = {
 	fontWeight: 700,
-	fontSize: '0.88rem',
+	fontSize: tokens.fontSize.body2,
 	color: tokens.ink.strong,
 };
 
@@ -49,14 +49,14 @@ export const availabilityStatusChipSx = (status) => {
 		freelanceOnly:       { backgroundColor: 'rgba(139,92,246,0.10)', color: tokens.status.accent.deep },
 	};
 	return {
-		fontSize: '0.72rem', height: 22, fontWeight: 700, borderRadius: 0.75,
+		fontSize: tokens.fontSize.caption, height: 22, fontWeight: 700, borderRadius: 0.75,
 		...(map[status] ?? { backgroundColor: tokens.surface.muted, color: tokens.ink.muted }),
 	};
 };
 
 export const langThSx = {
 	fontWeight: 700,
-	fontSize: '0.70rem',
+	fontSize: tokens.fontSize.caption,
 	color: tokens.ink.muted,
 	textTransform: 'uppercase',
 	letterSpacing: '0.04em',

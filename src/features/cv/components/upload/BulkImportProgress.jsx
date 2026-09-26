@@ -18,14 +18,14 @@ const BulkImportProgress = ({ upload }) => {
 			<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
 				<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
 					<CircularProgress size={14} thickness={5} sx={{ color: tokens.brand.text }} />
-					<Typography sx={{ fontSize: '0.9rem', fontWeight: 600, color: tokens.status.success.text }}>
+					<Typography sx={{ fontSize: tokens.fontSize.body, fontWeight: 600, color: tokens.status.success.text }}>
 						{upload.bulkStage === 'staging'
 							? t('appCVContent.bulk.staging', 'Uploading files… {{staged}} of {{total}}', { staged: upload.bulkStaged, total: upload.bulkTotal })
 							: t('appCVContent.bulk.processing', 'Importing resumes… {{processed}} of {{total}}', {
 								processed: upload.bulkView?.processed ?? 0, total: upload.bulkTotal })}
 					</Typography>
 				</Box>
-				<Typography sx={{ fontSize: '0.78rem', color: tokens.brand.text, fontWeight: 600 }}>
+				<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.brand.text, fontWeight: 600 }}>
 					{Math.round(upload.bulkStage === 'staging'
 						? (upload.bulkTotal ? (upload.bulkStaged / upload.bulkTotal) * 30 : 0)
 						: 30 + (upload.bulkTotal ? ((upload.bulkView?.processed ?? 0) / upload.bulkTotal) * 70 : 0))}%
@@ -46,7 +46,7 @@ const BulkImportProgress = ({ upload }) => {
 					},
 				}}
 			/>
-			<Typography sx={{ fontSize: '0.78rem', color: tokens.brand.text, mt: 1, fontStyle: 'italic' }}>
+			<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.brand.text, mt: 1, fontStyle: 'italic' }}>
 				{upload.bulkStage === 'staging'
 					? t('appCVContent.bulk.stagingHint', 'Files are being uploaded — analysis starts when staging completes.')
 					: t('appCVContent.bulk.processingHint', 'Analysis runs on our servers — you can close this window and imported resumes will keep appearing in your library.')}

@@ -33,10 +33,10 @@ const CandidateSection = ({ candidates, showRediscoveredTag, onCandidateClick })
                 }}>
                     {/* Rank + Avatar */}
                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5, flexShrink: 0 }}>
-                        <Typography sx={{ fontSize: '0.65rem', color: tokens.ink.faint, fontWeight: 600, lineHeight: 1 }}>
+                        <Typography sx={{ fontSize: tokens.fontSize.micro, color: tokens.ink.faint, fontWeight: 600, lineHeight: 1 }}>
                             #{i + 1}
                         </Typography>
-                        <Avatar sx={{ width: 32, height: 32, fontSize: '0.7rem', fontWeight: 700, backgroundColor: tokens.brand.main, color: tokens.ink.inverse }}>
+                        <Avatar sx={{ width: 32, height: 32, fontSize: tokens.fontSize.caption, fontWeight: 700, backgroundColor: tokens.brand.main, color: tokens.ink.inverse }}>
                             {getInitials(c.name)}
                         </Avatar>
                     </Box>
@@ -45,22 +45,22 @@ const CandidateSection = ({ candidates, showRediscoveredTag, onCandidateClick })
                     <Box sx={{ flex: 1, minWidth: 0 }}>
                         {/* Name row */}
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, flexWrap: 'wrap', mb: 0.25 }}>
-                            <Typography sx={{ fontSize: '0.84rem', fontWeight: 600, color: tokens.ink.strong, lineHeight: 1.2 }}>
+                            <Typography sx={{ fontSize: tokens.fontSize.body2, fontWeight: 600, color: tokens.ink.strong, lineHeight: 1.2 }}>
                                 {c.name}
                             </Typography>
                             {c.seniorityLevel && (
                                 <Chip
                                     label={toLabel(c.seniorityLevel)}
                                     size="small"
-                                    sx={{ fontSize: '0.6rem', height: 16, fontWeight: 600, backgroundColor: 'rgba(99,102,241,0.08)', color: tokens.status.accent.main, border: '1px solid rgba(99,102,241,0.2)', '& .MuiChip-label': { px: 0.75 } }}
+                                    sx={{ fontSize: tokens.fontSize.micro, height: 16, fontWeight: 600, backgroundColor: 'rgba(99,102,241,0.08)', color: tokens.status.accent.main, border: '1px solid rgba(99,102,241,0.2)', '& .MuiChip-label': { px: 0.75 } }}
                                 />
                             )}
                             {showRediscoveredTag && c.rediscovered && (
                                 <Chip
-                                    icon={<RecyclingOutlinedIcon sx={{ fontSize: 11 }} />}
+                                    icon={<RecyclingOutlinedIcon sx={{ fontSize: tokens.iconSize.xs }} />}
                                     label="Rediscovered"
                                     size="small"
-                                    sx={{ fontSize: '0.6rem', height: 16, backgroundColor: alpha(tokens.brand.main, 0.08), border: `1px solid ${alpha(tokens.brand.main, 0.2)}`, color: tokens.brand.text, '& .MuiChip-icon': { color: tokens.brand.text }, '& .MuiChip-label': { px: 0.75 } }}
+                                    sx={{ fontSize: tokens.fontSize.micro, height: 16, backgroundColor: alpha(tokens.brand.main, 0.08), border: `1px solid ${alpha(tokens.brand.main, 0.2)}`, color: tokens.brand.text, '& .MuiChip-icon': { color: tokens.brand.text }, '& .MuiChip-label': { px: 0.75 } }}
                                 />
                             )}
                         </Box>
@@ -68,14 +68,14 @@ const CandidateSection = ({ candidates, showRediscoveredTag, onCandidateClick })
                         {/* Role + location */}
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap', mb: 0.5 }}>
                             {c.currentRole && (
-                                <Typography sx={{ fontSize: '0.72rem', color: tokens.ink.muted, lineHeight: 1.2 }}>
+                                <Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.muted, lineHeight: 1.2 }}>
                                     {c.currentRole}
                                 </Typography>
                             )}
                             {c.locationHint && (
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.25 }}>
-                                    <LocationOnOutlinedIcon sx={{ fontSize: 11, color: tokens.ink.faint }} />
-                                    <Typography sx={{ fontSize: '0.68rem', color: tokens.ink.subtle, lineHeight: 1.2 }}>
+                                    <LocationOnOutlinedIcon sx={{ fontSize: tokens.iconSize.xs, color: tokens.ink.faint }} />
+                                    <Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle, lineHeight: 1.2 }}>
                                         {c.locationHint}
                                     </Typography>
                                 </Box>
@@ -90,7 +90,7 @@ const CandidateSection = ({ candidates, showRediscoveredTag, onCandidateClick })
                                         key={si}
                                         label={s}
                                         size="small"
-                                        sx={{ fontSize: '0.62rem', height: 17, backgroundColor: tokens.surface.muted, color: tokens.ink.soft, border: `1px solid ${tokens.line.main}`, '& .MuiChip-label': { px: 0.75 } }}
+                                        sx={{ fontSize: tokens.fontSize.micro, height: 17, backgroundColor: tokens.surface.muted, color: tokens.ink.soft, border: `1px solid ${tokens.line.main}`, '& .MuiChip-label': { px: 0.75 } }}
                                     />
                                 ))}
                             </Box>
@@ -111,7 +111,7 @@ const CandidateSection = ({ candidates, showRediscoveredTag, onCandidateClick })
                             border: `2px solid ${scoreColor(c.matchScore)}30`,
                             alignSelf: 'center',
                         }}>
-                            <Typography sx={{ fontSize: '0.72rem', fontWeight: 700, color: scoreColor(c.matchScore), lineHeight: 1 }}>
+                            <Typography sx={{ fontSize: tokens.fontSize.caption, fontWeight: 700, color: scoreColor(c.matchScore), lineHeight: 1 }}>
                                 {Math.round(c.matchScore * 100)}%
                             </Typography>
                         </Box>

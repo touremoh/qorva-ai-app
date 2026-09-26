@@ -18,8 +18,8 @@ const DisclaimerBanner = ({ text }) => {
             border: '1px solid rgba(245,158,11,0.2)',
             mt: 1.5,
         }}>
-            <InfoOutlinedIcon sx={{ fontSize: 15, color: tokens.status.warning.main, mt: 0.15, flexShrink: 0 }} />
-            <Typography sx={{ fontSize: '0.75rem', color: tokens.status.warning.text, lineHeight: 1.5 }}>{text}</Typography>
+            <InfoOutlinedIcon sx={{ fontSize: tokens.iconSize.sm, color: tokens.status.warning.main, mt: 0.15, flexShrink: 0 }} />
+            <Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.status.warning.text, lineHeight: 1.5 }}>{text}</Typography>
         </Box>
     );
 };

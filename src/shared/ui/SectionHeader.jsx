@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
 import { Box, Typography } from '@mui/material';
+import * as tokens from '../../theme/tokens.js';
 
 const TONES = {
 	// Section titles in cards and panels: green icon and label.
-	brand: { iconSize: 15, label: { fontSize: '0.7rem', color: 'brand.main', letterSpacing: '0.07em' } },
+	brand: { iconSize: tokens.iconSize.sm, label: { fontSize: tokens.fontSize.caption, color: 'brand.text', letterSpacing: '0.07em' } },
 	// Section titles inside a document (resume, job scoring): quieter grey label, tighter spacing.
-	document: { iconSize: 14, spacing: { mb: 1.5, pb: 0.75 }, label: { fontSize: '0.68rem', color: 'ink.muted', letterSpacing: '0.08em' } },
+	document: { iconSize: tokens.iconSize.sm, spacing: { mb: 1.5, pb: 0.75 }, label: { fontSize: tokens.fontSize.caption, color: 'ink.muted', letterSpacing: '0.08em' } },
 };
 
 /**
@@ -22,7 +23,7 @@ export default function SectionHeader({ icon: Icon, label, action, tone = 'brand
 			...sx,
 		}}>
 			{Icon && <Icon sx={{ fontSize: style.iconSize, color: 'brand.main' }} />}
-			<Typography sx={{ ...style.label, fontWeight: 700, textTransform: 'uppercase', flex: 1 }}>
+			<Typography sx={{ ...style.label, fontWeight: 700, textTransform: 'uppercase', flex: 1, textAlign: 'left' }}>
 				{label}
 			</Typography>
 			{action}

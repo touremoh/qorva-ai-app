@@ -5,8 +5,8 @@ import * as tokens from '../../../theme/tokens.js';
 const Meter = ({ label, count, percentage, accent }) => (
 	<Box>
 		<Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.35 }}>
-			<Typography sx={{ fontSize: '0.69rem', color: tokens.ink.soft, fontWeight: 500 }}>{label}</Typography>
-			<Typography sx={{ fontSize: '0.69rem', color: tokens.ink.muted, fontWeight: 600 }}>
+			<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.soft, fontWeight: 500 }}>{label}</Typography>
+			<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.muted, fontWeight: 600 }}>
 				{count} · {Number(percentage).toFixed(1)}%
 			</Typography>
 		</Box>

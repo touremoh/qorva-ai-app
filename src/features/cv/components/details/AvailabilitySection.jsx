@@ -31,11 +31,11 @@ const AvailabilitySection = ({ draft, editingSection, handleCancelEdit, handleEd
 								value={draft.status ?? ''}
 								onChange={e => setDraft(d => ({ ...d, status: e.target.value }))}
 								displayEmpty
-								sx={{ fontSize: '0.82rem', minWidth: 200 }}
+								sx={{ fontSize: tokens.fontSize.body2, minWidth: 200 }}
 							>
-								<MenuItem value="" sx={{ fontSize: '0.82rem' }}><em>—</em></MenuItem>
+								<MenuItem value="" sx={{ fontSize: tokens.fontSize.body2 }}><em>—</em></MenuItem>
 								{['activelyLooking', 'openButNotSearching', 'notAvailable', 'freelanceOnly'].map(s => (
-									<MenuItem key={s} value={s} sx={{ fontSize: '0.82rem' }}>
+									<MenuItem key={s} value={s} sx={{ fontSize: tokens.fontSize.body2 }}>
 										{t(`appCVContent.availability.statusValue.${s}`, s)}
 									</MenuItem>
 								))}
@@ -50,7 +50,7 @@ const AvailabilitySection = ({ draft, editingSection, handleCancelEdit, handleEd
 							].map(({ key, label }) => (
 								<FormControlLabel
 									key={key}
-									label={<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.body }}>{label}</Typography>}
+									label={<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.body }}>{label}</Typography>}
 									control={
 										<Switch
 											size="small"
@@ -72,7 +72,7 @@ const AvailabilitySection = ({ draft, editingSection, handleCancelEdit, handleEd
 									type="date"
 									value={draft.availableFrom ?? ''}
 									onChange={e => setDraft(d => ({ ...d, availableFrom: e.target.value }))}
-									InputProps={{ sx: { fontSize: '0.82rem' } }}
+									InputProps={{ sx: { fontSize: tokens.fontSize.body2 } }}
 									InputLabelProps={{ shrink: true }}
 								/>
 							</Box>
@@ -85,7 +85,7 @@ const AvailabilitySection = ({ draft, editingSection, handleCancelEdit, handleEd
 									onChange={e => setDraft(d => ({ ...d, noticePeriodDays: e.target.value === '' ? null : Number(e.target.value) }))}
 									inputProps={{ min: 0 }}
 									sx={{ width: 100 }}
-									InputProps={{ sx: { fontSize: '0.82rem' } }}
+									InputProps={{ sx: { fontSize: tokens.fontSize.body2 } }}
 								/>
 							</Box>
 						</Box>
@@ -97,14 +97,14 @@ const AvailabilitySection = ({ draft, editingSection, handleCancelEdit, handleEd
 								disabled={isSaving}
 								onClick={handleSave}
 								startIcon={isSaving ? <CircularProgress size={12} color="inherit" /> : null}
-								sx={{ textTransform: 'none', fontSize: '0.78rem', backgroundColor: tokens.brand.main, '&:hover': { backgroundColor: tokens.brand.hover }, borderRadius: 1.5, boxShadow: 'none', fontWeight: 600 }}
+								sx={{ textTransform: 'none', fontSize: tokens.fontSize.small, backgroundColor: tokens.brand.main, '&:hover': { backgroundColor: tokens.brand.hover }, borderRadius: 1.5, boxShadow: 'none', fontWeight: 600 }}
 							>
 								{t('appCVContent.save', 'Save')}
 							</Button>
 							<Button
 								size="small"
 								onClick={handleCancelEdit}
-								sx={{ textTransform: 'none', fontSize: '0.78rem', color: tokens.ink.muted, borderRadius: 1.5 }}
+								sx={{ textTransform: 'none', fontSize: tokens.fontSize.small, color: tokens.ink.muted, borderRadius: 1.5 }}
 							>
 								{t('appCVContent.cancel')}
 							</Button>
@@ -128,7 +128,7 @@ const AvailabilitySection = ({ draft, editingSection, handleCancelEdit, handleEd
 										: t('appCVContent.availability.notOpenToWork')}
 									size="small"
 									sx={{
-										fontSize: '0.72rem', height: 22, fontWeight: 600, borderRadius: 0.75,
+										fontSize: tokens.fontSize.caption, height: 22, fontWeight: 600, borderRadius: 0.75,
 										...(pi.availability.openToWork
 											? { backgroundColor: alpha(tokens.brand.main, 0.10), color: tokens.brand.dark }
 											: { backgroundColor: tokens.status.error.tint, color: tokens.status.error.text }),
@@ -137,7 +137,7 @@ const AvailabilitySection = ({ draft, editingSection, handleCancelEdit, handleEd
 							)}
 							{pi.availability.remoteOnly && (
 								<Chip label={t('appCVContent.availability.remoteOnly')} size="small"
-									sx={{ fontSize: '0.72rem', height: 22, borderRadius: 0.75, fontWeight: 600, backgroundColor: 'rgba(139,92,246,0.08)', color: tokens.status.accent.deep }} />
+									sx={{ fontSize: tokens.fontSize.caption, height: 22, borderRadius: 0.75, fontWeight: 600, backgroundColor: 'rgba(139,92,246,0.08)', color: tokens.status.accent.deep }} />
 							)}
 							{pi.availability.willingToRelocate != null && (
 								<Chip
@@ -146,7 +146,7 @@ const AvailabilitySection = ({ draft, editingSection, handleCancelEdit, handleEd
 										: t('appCVContent.availability.notWillingToRelocate')}
 									size="small"
 									sx={{
-										fontSize: '0.72rem', height: 22, borderRadius: 0.75, fontWeight: 500,
+										fontSize: tokens.fontSize.caption, height: 22, borderRadius: 0.75, fontWeight: 500,
 										...(pi.availability.willingToRelocate
 											? { backgroundColor: 'rgba(59,130,246,0.08)', color: tokens.status.info.navy }
 											: { backgroundColor: tokens.surface.muted, color: tokens.ink.muted }),
@@ -205,7 +205,7 @@ const AvailabilitySection = ({ draft, editingSection, handleCancelEdit, handleEd
 							<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mt: 0.5 }}>
 								{pi.availability.interviewAvailability.map((slot, i) => (
 									<Chip key={i} label={slot} size="small"
-										sx={{ fontSize: '0.72rem', height: 22, backgroundColor: tokens.surface.muted, color: tokens.ink.soft, borderRadius: 0.75 }} />
+										sx={{ fontSize: tokens.fontSize.caption, height: 22, backgroundColor: tokens.surface.muted, color: tokens.ink.soft, borderRadius: 0.75 }} />
 								))}
 							</Box>
 						</Grid2>

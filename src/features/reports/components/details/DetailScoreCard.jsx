@@ -10,17 +10,17 @@ const DetailScoreCard = ({ icon: Icon, label, score, explanation }) => {
 		<Paper elevation={0} sx={{ border: `1px solid ${tokens.line.main}`, borderRadius: 2.5, p: 2 }}>
 			<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1.5, pb: 0.75, borderBottom: `2px solid ${THEME_GREEN}` }}>
 				<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
-					<Icon sx={{ fontSize: 14, color: THEME_GREEN }} />
-					<Typography sx={{ fontSize: '0.68rem', fontWeight: 700, color: THEME_GREEN, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+					<Icon sx={{ fontSize: tokens.iconSize.sm, color: THEME_GREEN }} />
+					<Typography sx={{ fontSize: tokens.fontSize.caption, fontWeight: 700, color: THEME_GREEN, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
 						{label}
 					</Typography>
 				</Box>
 				<Chip label={`${score}%`} size="small"
-					sx={{ height: 18, fontSize: '0.68rem', fontWeight: 700, backgroundColor: getBg(score), color }} />
+					sx={{ height: 18, fontSize: tokens.fontSize.caption, fontWeight: 700, backgroundColor: getBg(score), color }} />
 			</Box>
 			<Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5 }}>
 				<ScoreGaugeSmall value={score} />
-				<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.soft, lineHeight: 1.55, flex: 1, pt: 0.5 }}>
+				<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.soft, lineHeight: 1.55, flex: 1, pt: 0.5 }}>
 					{explanation}
 				</Typography>
 			</Box>

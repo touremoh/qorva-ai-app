@@ -36,13 +36,13 @@ const TemplateEditor = ({ bodyRef, error, form, insertPlaceholder, notice, previ
 				helperText={t('emailTemplates.bodyHint', 'Plain text. Blank lines start a new paragraph. The greeting, action button, your signature (name and company), and unsubscribe link are added automatically.')}
 			/>
 			<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, flexWrap: 'wrap' }}>
-				<Typography sx={{ fontSize: '0.7rem', color: tokens.ink.muted, fontWeight: 600 }}>
+				<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.muted, fontWeight: 600 }}>
 					{t('emailTemplates.placeholders', 'Insert:')}
 				</Typography>
 				{PLACEHOLDERS.map((token) => (
 					<Chip
 						key={token} label={`{{${token}}}`} size="small" onClick={() => insertPlaceholder(token)}
-						sx={{ fontSize: '0.66rem', fontFamily: fontFamilyMono, height: 22, cursor: 'pointer' }}
+						sx={{ fontSize: tokens.fontSize.caption, fontFamily: fontFamilyMono, height: 22, cursor: 'pointer' }}
 					/>
 				))}
 			</Box>
@@ -50,7 +50,7 @@ const TemplateEditor = ({ bodyRef, error, form, insertPlaceholder, notice, previ
 			{preview && (
 				<Box sx={{ border: `1px solid ${tokens.line.main}`, borderRadius: 2, overflow: 'hidden', flexShrink: 0 }}>
 					<Box sx={{ px: 1.5, py: 0.75, backgroundColor: tokens.surface.subtle, borderBottom: `1px solid ${tokens.line.main}` }}>
-						<Typography sx={{ fontSize: '0.72rem', color: tokens.ink.body, fontWeight: 700 }}>
+						<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.body, fontWeight: 700 }}>
 							{preview.subject}
 						</Typography>
 					</Box>

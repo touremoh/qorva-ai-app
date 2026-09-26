@@ -22,7 +22,7 @@ const ScoreGaugeSmall = ({ value }) => {
 				/>
 			</svg>
 			<Box sx={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-				<Typography sx={{ fontSize: '1.15rem', fontWeight: 800, color, lineHeight: 1 }}>{value}</Typography>
+				<Typography sx={{ fontSize: tokens.fontSize.lg, fontWeight: 800, color, lineHeight: 1 }}>{value}</Typography>
 			</Box>
 		</Box>
 	);

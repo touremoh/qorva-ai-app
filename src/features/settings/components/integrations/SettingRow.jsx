@@ -6,8 +6,8 @@ import * as tokens from '../../../../theme/tokens.js';
 const SettingRow = ({ label, hint, checked, onChange, disabled }) => (
 	<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
 		<Box sx={{ flex: 1, minWidth: 0 }}>
-			<Typography sx={{ fontSize: '0.8rem', color: tokens.ink.strong, fontWeight: 500 }}>{label}</Typography>
-			<Typography sx={{ fontSize: '0.7rem', color: tokens.ink.subtle }}>{hint}</Typography>
+			<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.strong, fontWeight: 500 }}>{label}</Typography>
+			<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle }}>{hint}</Typography>
 		</Box>
 		<Switch size="small" checked={!!checked} onChange={onChange} disabled={disabled}
 			sx={{ '& .MuiSwitch-switchBase.Mui-checked': { color: GREEN }, '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: GREEN } }} />

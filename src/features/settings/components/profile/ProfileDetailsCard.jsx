@@ -24,7 +24,7 @@ const ProfileDetailsCard = ({ demo, editMode, editValues, handleCancelEdit, hand
 					<Tooltip title={t('accountSettings.editProfile')}>
 						<IconButton size="small" onClick={() => setEditMode(true)}
 							sx={{ color: tokens.brand.text, border: `1px solid ${alpha(tokens.brand.main, 0.3)}`, borderRadius: 1.5, p: 0.5 }}>
-							<EditOutlinedIcon sx={{ fontSize: 14 }} />
+							<EditOutlinedIcon sx={{ fontSize: tokens.iconSize.sm }} />
 						</IconButton>
 					</Tooltip>
 				)}
@@ -35,16 +35,16 @@ const ProfileDetailsCard = ({ demo, editMode, editValues, handleCancelEdit, hand
 						<TextField size="small" label={t('accountSettings.firstName')}
 							value={editValues.firstName}
 							onChange={e => setEditValues(p => ({ ...p, firstName: e.target.value }))}
-							sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2, fontSize: '0.85rem' } }} />
+							sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2, fontSize: tokens.fontSize.body2 } }} />
 						<TextField size="small" label={t('accountSettings.lastName')}
 							value={editValues.lastName}
 							onChange={e => setEditValues(p => ({ ...p, lastName: e.target.value }))}
-							sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2, fontSize: '0.85rem' } }} />
+							sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2, fontSize: tokens.fontSize.body2 } }} />
 					</Box>
 					<FieldTile icon={EmailOutlinedIcon} label={t('accountSettings.email')} value={userInfo.email} />
 					<Box sx={{ display: 'flex', gap: 1, justifyContent: 'flex-end' }}>
 						<Button size="small" onClick={handleCancelEdit}
-							sx={{ borderRadius: 2, textTransform: 'none', fontSize: '0.82rem', color: tokens.ink.muted }}>
+							sx={{ borderRadius: 2, textTransform: 'none', fontSize: tokens.fontSize.body2, color: tokens.ink.muted }}>
 							{t('accountSettings.cancel')}
 						</Button>
 						<Button size="small" variant="contained" onClick={handleSaveProfile}

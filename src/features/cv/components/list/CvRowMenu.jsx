@@ -28,23 +28,23 @@ const CvRowMenu = ({ anchorEl, canContact, handleDeleteClick, handleEmailClick, 
 				<MenuItem
 					onClick={handleEmailClick}
 					disabled={!menuCVHasEmail}
-					sx={{ fontSize: '0.84rem', color: tokens.ink.body, py: 1, gap: 1 }}
+					sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.body, py: 1, gap: 1 }}
 				>
-					<MailOutlineIcon sx={{ fontSize: 16, color: tokens.ink.muted }} />
+					<MailOutlineIcon sx={{ fontSize: tokens.iconSize.md, color: tokens.ink.muted }} />
 					{menuCVHasEmail ? t('candidateOutreach.emailCandidate') : t('candidateOutreach.noEmailShort')}
 				</MenuItem>
 			)}
 			{showArchived && onUnarchive && (
 				<MenuItem
 					onClick={() => { onUnarchive(menuCVId); handleMenuClose(); }}
-					sx={{ fontSize: '0.84rem', color: tokens.brand.text, py: 1 }}
+					sx={{ fontSize: tokens.fontSize.body2, color: tokens.brand.text, py: 1 }}
 				>
 					{t('appCVContent.unarchive', 'Unarchive')}
 				</MenuItem>
 			)}
 			<MenuItem
 				onClick={handleDeleteClick}
-				sx={{ fontSize: '0.84rem', color: tokens.status.error.bright, py: 1 }}
+				sx={{ fontSize: tokens.fontSize.body2, color: tokens.status.error.bright, py: 1 }}
 			>
 				{t('appCVContent.deleteCVEntry')}
 			</MenuItem>

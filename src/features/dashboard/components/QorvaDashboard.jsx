@@ -80,7 +80,7 @@ const QorvaDashboard = () => {
 			legend: { display: false },
 			tooltip: {
 				backgroundColor: tokens.ink.strong,
-				titleColor: tokens.ink.subtle,
+				titleColor: tokens.onDark.subtle,
 				bodyColor: tokens.surface.paper,
 				padding: 10,
 				cornerRadius: 8,
@@ -89,12 +89,12 @@ const QorvaDashboard = () => {
 		scales: {
 			x: {
 				grid: { display: false },
-				ticks: { color: tokens.ink.muted, font: { size: 11 }, autoSkip: true, maxRotation: 0 },
+				ticks: { color: tokens.ink.muted, font: { size: 12 }, autoSkip: true, maxRotation: 0 },
 			},
 			y: {
 				beginAtZero: true,
 				grid: { color: tokens.surface.muted },
-				ticks: { precision: 0, color: tokens.ink.subtle, font: { size: 11 } },
+				ticks: { precision: 0, color: tokens.ink.subtle, font: { size: 12 } },
 			},
 		},
 	}), []);
@@ -108,8 +108,8 @@ const QorvaDashboard = () => {
 				{/* Toolbar */}
 				<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 1 }}>
 					<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-						<LeaderboardOutlinedIcon sx={{ fontSize: 20, color: tokens.brand.text }} />
-						<Typography sx={{ fontWeight: 700, fontSize: '1rem', color: tokens.ink.strong }}>Dashboard</Typography>
+						<LeaderboardOutlinedIcon sx={{ fontSize: tokens.iconSize.lg, color: tokens.brand.text }} />
+						<Typography sx={{ fontWeight: 700, fontSize: tokens.fontSize.body, color: tokens.ink.strong }}>Dashboard</Typography>
 					</Box>
 					<QorvaChip statusCode={dashboardData.subscriptionStatus} />
 				</Box>
@@ -118,14 +118,14 @@ const QorvaDashboard = () => {
 				{loading && (
 					<Stack alignItems="center" justifyContent="center" sx={{ flex: 1, py: 8 }} spacing={1.5}>
 						<CircularProgress size={32} sx={{ color: tokens.brand.text }} />
-						<Typography sx={{ fontSize: '0.82rem', color: tokens.ink.subtle }}>{t('dashboard.loading')}</Typography>
+						<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.subtle }}>{t('dashboard.loading')}</Typography>
 					</Stack>
 				)}
 
 				{/* Error */}
 				{!loading && error && (
 					<Paper elevation={0} sx={{ border: `1px solid ${tokens.status.error.tint}`, borderRadius: 2.5, p: 2.5 }}>
-						<Typography sx={{ fontSize: '0.85rem', color: tokens.status.error.main }}>{error}</Typography>
+						<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.status.error.main }}>{error}</Typography>
 					</Paper>
 				)}
 
@@ -163,7 +163,7 @@ const QorvaDashboard = () => {
 										<Bar data={skillsBarData} options={skillsBarOptions} />
 									) : (
 										<Box sx={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-											<Typography sx={{ fontSize: '0.82rem', color: tokens.ink.subtle }}>{t('dashboard.empty.skills')}</Typography>
+											<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.subtle }}>{t('dashboard.empty.skills')}</Typography>
 										</Box>
 									)}
 								</Box>

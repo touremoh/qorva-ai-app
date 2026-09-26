@@ -143,7 +143,7 @@ const EmailLinkRequest = ({ variant = 'activation' }) => {
 						<>
 							<Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 3 }}>
 								<Box component="img" src="/logo.svg" alt="Qorva" sx={{ width: 34, height: 34 }} />
-								<Typography sx={{ fontWeight: 700, fontSize: '1.2rem', color: tokens.ink.strong }}>Qorva</Typography>
+								<Typography sx={{ fontWeight: 700, fontSize: tokens.fontSize.xl, color: tokens.ink.strong }}>Qorva</Typography>
 							</Box>
 
 							<Typography variant="h5" sx={{ fontWeight: 700, color: tokens.ink.strong, letterSpacing: '-0.03em', mb: 0.75 }}>
@@ -171,7 +171,7 @@ const EmailLinkRequest = ({ variant = 'activation' }) => {
 										input: {
 											startAdornment: (
 												<InputAdornment position="start">
-													<EmailOutlinedIcon sx={{ fontSize: 18, color: tokens.ink.subtle }} />
+													<EmailOutlinedIcon sx={{ fontSize: tokens.iconSize.lg, color: tokens.ink.subtle }} />
 												</InputAdornment>
 											),
 										},
@@ -185,7 +185,7 @@ const EmailLinkRequest = ({ variant = 'activation' }) => {
 									disabled={loading}
 									sx={{
 										mt: 0.5, py: 1.3, borderRadius: 1.5,
-										fontWeight: 600, fontSize: '0.9rem', textTransform: 'none',
+										fontWeight: 600, fontSize: tokens.fontSize.body, textTransform: 'none',
 										backgroundColor: tokens.brand.main,
 										boxShadow: `0 2px 8px ${alpha(tokens.brand.main, 0.35)}`,
 										'&:hover': { backgroundColor: tokens.brand.hoverAlt, boxShadow: `0 4px 14px ${alpha(tokens.brand.main, 0.45)}` },
@@ -202,7 +202,7 @@ const EmailLinkRequest = ({ variant = 'activation' }) => {
 								<Typography
 									component={RouterLink}
 									to="/login"
-									sx={{ color: tokens.brand.text, fontSize: '0.82rem', fontWeight: 600, textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+									sx={{ color: tokens.brand.text, fontSize: tokens.fontSize.body2, fontWeight: 600, textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
 								>
 									{t(`${ns}.backToLogin`, 'Back to login')}
 								</Typography>

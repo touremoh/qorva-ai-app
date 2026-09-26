@@ -1,10 +1,11 @@
+import * as tokens from '../../theme/tokens.js';
 // The button looks in use across screens, in one place. Phase F12 folds them into the theme's
 // MUI button variants; until then each keeps its exact current size.
 
 /** Solid green, pill radius: the main action on settings screens. */
 export const brandPillButtonSx = {
 	backgroundColor: 'brand.main', borderRadius: 2, textTransform: 'none',
-	fontSize: '0.82rem', fontWeight: 600, boxShadow: 'none',
+	fontSize: tokens.fontSize.body2, fontWeight: 600, boxShadow: 'none',
 	'&:hover': { backgroundColor: 'brand.pressed', boxShadow: 'none' },
 };
 

@@ -32,10 +32,10 @@ const UploadFilePicker = ({ upload }) => {
 				}}
 			>
 				<CloudUploadIcon sx={{ fontSize: 36, color: upload.isDragging ? `${tokens.brand.main}` : `${tokens.ink.subtle}` }} />
-				<Typography sx={{ fontSize: '0.88rem', fontWeight: 600, color: tokens.ink.body }}>
+				<Typography sx={{ fontSize: tokens.fontSize.body2, fontWeight: 600, color: tokens.ink.body }}>
 					Drag & drop files here
 				</Typography>
-				<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.subtle }}>
+				<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.subtle }}>
 					or click to browse — .pdf or .docx, up to {upload.bulkLimit} files
 				</Typography>
 				<input
@@ -51,16 +51,16 @@ const UploadFilePicker = ({ upload }) => {
 
 			{upload.selectedFiles.length > 0 && (
 				<Box sx={{ mt: 2, p: 1.5, backgroundColor: tokens.status.success.pale, borderRadius: 1.5, border: `1px solid ${tokens.status.success.border}` }}>
-					<Typography sx={{ fontSize: '0.82rem', color: tokens.status.success.main, fontWeight: 600 }}>
+					<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.status.success.main, fontWeight: 600 }}>
 						{upload.selectedFiles.length} file{upload.selectedFiles.length > 1 ? 's' : ''} ready to upload
 					</Typography>
 					{upload.selectedFiles.length > SYNC_MAX_FILES && (
-						<Typography sx={{ fontSize: '0.74rem', color: tokens.ink.muted, mt: 0.25 }}>
+						<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.muted, mt: 0.25 }}>
 							{t('appCVContent.bulk.willRunInBackground', 'Large batch — analysis will run in the background while you keep working.')}
 						</Typography>
 					)}
 					{upload.confirmBulk && (
-						<Typography sx={{ fontSize: '0.74rem', color: tokens.status.warning.strong, mt: 0.25, fontWeight: 600 }}>
+						<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.status.warning.strong, mt: 0.25, fontWeight: 600 }}>
 							{t('appCVContent.bulk.confirmInfo', 'This will analyze {{count}} resumes and use {{count}} screening actions. Click again to confirm.', { count: upload.selectedFiles.length })}
 						</Typography>
 					)}
@@ -69,12 +69,12 @@ const UploadFilePicker = ({ upload }) => {
 			{upload.droppedInfo && (
 				<Box sx={{ mt: 1, p: 1.25, backgroundColor: tokens.status.warning.pale, borderRadius: 1.5, border: `1px solid ${tokens.status.warning.border}` }}>
 					{upload.droppedInfo.overCap > 0 && (
-						<Typography sx={{ fontSize: '0.76rem', color: tokens.status.warning.strong, fontWeight: 600 }}>
+						<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.status.warning.strong, fontWeight: 600 }}>
 							{t('appCVContent.bulk.overCap', 'Only the first {{max}} files were kept — your plan imports up to {{max}} at once.', { max: upload.bulkLimit })}
 						</Typography>
 					)}
 					{upload.droppedInfo.rejected > 0 && (
-						<Typography sx={{ fontSize: '0.76rem', color: tokens.status.warning.strong }}>
+						<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.status.warning.strong }}>
 							{t('appCVContent.bulk.rejectedType', '{{count}} unsupported file(s) ignored — only .pdf and .docx are accepted.', { count: upload.droppedInfo.rejected })}
 						</Typography>
 					)}

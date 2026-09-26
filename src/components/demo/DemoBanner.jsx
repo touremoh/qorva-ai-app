@@ -24,11 +24,11 @@ const DemoBanner = () => {
 				borderBottom: `1px solid ${alpha(tokens.brand.main, 0.35)}`,
 			}}
 		>
-			<ScienceOutlinedIcon sx={{ fontSize: 20, color: tokens.brand.pale, flexShrink: 0 }} />
+			<ScienceOutlinedIcon sx={{ fontSize: tokens.iconSize.lg, color: tokens.brand.pale, flexShrink: 0 }} />
 			<Typography
 				sx={{
-					color: tokens.ink.faintest,
-					fontSize: { xs: '0.78rem', sm: '0.85rem' },
+					color: tokens.onDark.faintest,
+					fontSize: { xs: tokens.fontSize.small, sm: tokens.fontSize.body2 },
 					fontWeight: 500,
 					lineHeight: 1.3,
 					flex: 1,
@@ -44,13 +44,13 @@ const DemoBanner = () => {
 			<Button
 				size="small"
 				variant="contained"
-				startIcon={<RocketLaunchRoundedIcon sx={{ fontSize: 16 }} />}
+				startIcon={<RocketLaunchRoundedIcon sx={{ fontSize: tokens.iconSize.md }} />}
 				onClick={() => openUpgradeDialog('banner')}
 				sx={{
 					flexShrink: 0,
 					textTransform: 'none',
 					fontWeight: 600,
-					fontSize: '0.78rem',
+					fontSize: tokens.fontSize.small,
 					borderRadius: 1.5,
 					px: 1.75,
 					backgroundColor: tokens.brand.main,

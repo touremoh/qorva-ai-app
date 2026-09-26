@@ -23,7 +23,7 @@ const IssuesPanel = ({ activeJob, expandedIssue, fetchReport, handleCampaignRequ
 		<Paper elevation={0} sx={{ border: `1px solid ${tokens.line.main}`, borderRadius: 2.5, p: 2.5 }}>
 			<SectionHeader sx={{ pb: 1.5 }} icon={ReportProblemOutlinedIcon} label={t('libraryQuality.sections.issues', 'Issues To Fix')} />
 			{report.issues.length === 0 ? (
-				<Typography sx={{ fontSize: '0.8rem', color: tokens.brand.text, fontWeight: 600 }}>
+				<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.brand.text, fontWeight: 600 }}>
 					{t('libraryQuality.noIssues', 'No issues found — your library is in great shape!')}
 				</Typography>
 			) : (() => {
@@ -39,21 +39,21 @@ const IssuesPanel = ({ activeJob, expandedIssue, fetchReport, handleCampaignRequ
 								<Chip
 									label={t(`libraryQuality.severity.${issue.severity}`, issue.severity)}
 									size="small"
-									sx={{ backgroundColor: chip.bg, color: chip.color, fontWeight: 700, fontSize: '0.62rem', height: 20 }}
+									sx={{ backgroundColor: chip.bg, color: chip.color, fontWeight: 700, fontSize: tokens.fontSize.micro, height: 20 }}
 								/>
-								<Typography sx={{ flex: 1, fontSize: '0.8rem', color: tokens.ink.body, fontWeight: 500, minWidth: 0 }}>
+								<Typography sx={{ flex: 1, fontSize: tokens.fontSize.body2, color: tokens.ink.body, fontWeight: 500, minWidth: 0 }}>
 									{t(`libraryQuality.issues.${issue.issueKey}`, issue.issueKey)}
 								</Typography>
-								<Typography sx={{ fontSize: '0.8rem', color: tokens.ink.strong, fontWeight: 800 }}>
+								<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.strong, fontWeight: 800 }}>
 									{issue.count}
 								</Typography>
 								{!issue.dismissed && REANALYZABLE_ISSUES.has(issue.issueKey) && (
 									<Button
 										size="small"
 										disabled={Boolean(activeJob && ACTIVE_JOB_STATUSES.has(activeJob.status))}
-										startIcon={<AutorenewRoundedIcon sx={{ fontSize: 13 }} />}
+										startIcon={<AutorenewRoundedIcon sx={{ fontSize: tokens.iconSize.xs }} />}
 										onClick={() => handleReanalyzeRequest(issue)}
-										sx={{ fontSize: '0.7rem', fontWeight: 600, textTransform: 'none', color: tokens.ink.muted }}
+										sx={{ fontSize: tokens.fontSize.caption, fontWeight: 600, textTransform: 'none', color: tokens.ink.muted }}
 									>
 										{t('libraryQuality.jobs.reanalyzeAll', 'Re-analyze all')}
 									</Button>
@@ -62,9 +62,9 @@ const IssuesPanel = ({ activeJob, expandedIssue, fetchReport, handleCampaignRequ
 									<Button
 										size="small"
 										disabled={Boolean(activeJob && ACTIVE_JOB_STATUSES.has(activeJob.status))}
-										startIcon={<SendOutlinedIcon sx={{ fontSize: 13 }} />}
+										startIcon={<SendOutlinedIcon sx={{ fontSize: tokens.iconSize.xs }} />}
 										onClick={() => handleCampaignRequest(issue)}
-										sx={{ fontSize: '0.7rem', fontWeight: 600, textTransform: 'none', color: tokens.ink.muted }}
+										sx={{ fontSize: tokens.fontSize.caption, fontWeight: 600, textTransform: 'none', color: tokens.ink.muted }}
 									>
 										{t('libraryQuality.campaign.requestUpdates', 'Request updates')}
 									</Button>
@@ -72,9 +72,9 @@ const IssuesPanel = ({ activeJob, expandedIssue, fetchReport, handleCampaignRequ
 								{!issue.dismissed && ARCHIVABLE_ISSUES.has(issue.issueKey) && (
 									<Button
 										size="small"
-										startIcon={<Inventory2OutlinedIcon sx={{ fontSize: 13 }} />}
+										startIcon={<Inventory2OutlinedIcon sx={{ fontSize: tokens.iconSize.xs }} />}
 										onClick={() => setArchiveConfirm(issue)}
-										sx={{ fontSize: '0.7rem', fontWeight: 600, textTransform: 'none', color: tokens.ink.muted }}
+										sx={{ fontSize: tokens.fontSize.caption, fontWeight: 600, textTransform: 'none', color: tokens.ink.muted }}
 									>
 										{t('libraryQuality.archiveAll', 'Archive all')}
 									</Button>
@@ -82,8 +82,8 @@ const IssuesPanel = ({ activeJob, expandedIssue, fetchReport, handleCampaignRequ
 								<Button
 									size="small"
 									onClick={() => handleIssueAction(issue)}
-									endIcon={isExpanded ? <ExpandLessRoundedIcon sx={{ fontSize: 16 }} /> : <ExpandMoreRoundedIcon sx={{ fontSize: 16 }} />}
-									sx={{ fontSize: '0.7rem', fontWeight: 600, textTransform: 'none', color: tokens.brand.text }}
+									endIcon={isExpanded ? <ExpandLessRoundedIcon sx={{ fontSize: tokens.iconSize.md }} /> : <ExpandMoreRoundedIcon sx={{ fontSize: tokens.iconSize.md }} />}
+									sx={{ fontSize: tokens.fontSize.caption, fontWeight: 600, textTransform: 'none', color: tokens.brand.text }}
 								>
 									{t('libraryQuality.view', 'View')}
 								</Button>
@@ -92,8 +92,8 @@ const IssuesPanel = ({ activeJob, expandedIssue, fetchReport, handleCampaignRequ
 									: t('libraryQuality.dismiss', 'Dismiss — accepted, hide from open issues')}>
 									<IconButton size="small" onClick={() => handleDismissToggle(issue)} sx={{ color: tokens.ink.subtle }}>
 										{issue.dismissed
-											? <RestoreOutlinedIcon sx={{ fontSize: 16 }} />
-											: <VisibilityOffOutlinedIcon sx={{ fontSize: 16 }} />}
+											? <RestoreOutlinedIcon sx={{ fontSize: tokens.iconSize.md }} />
+											: <VisibilityOffOutlinedIcon sx={{ fontSize: tokens.iconSize.md }} />}
 									</IconButton>
 								</Tooltip>
 							</Box>
@@ -112,7 +112,7 @@ const IssuesPanel = ({ activeJob, expandedIssue, fetchReport, handleCampaignRequ
 						{openIssues.map((issue, i) => renderIssueRow(issue, i, openIssues))}
 						{dismissedIssues.length > 0 && (
 							<>
-								<Typography sx={{ fontSize: '0.68rem', fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.05em', mt: 2, mb: 0.5 }}>
+								<Typography sx={{ fontSize: tokens.fontSize.caption, fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.05em', mt: 2, mb: 0.5 }}>
 									{t('libraryQuality.dismissedSection', 'Dismissed ({{count}})', { count: dismissedIssues.length })}
 								</Typography>
 								{dismissedIssues.map((issue, i) => renderIssueRow(issue, i, dismissedIssues))}

@@ -40,13 +40,13 @@ const RegisterBrandPanel = ({ trustItems }) => {
 					borderRadius: 5, px: 2, py: 0.6, mb: 3,
 				}}>
 					<Box sx={{ width: 7, height: 7, borderRadius: '50%', backgroundColor: tokens.brand.main }} />
-					<Typography sx={{ fontSize: '0.75rem', color: tokens.brand.pale, fontWeight: 500 }}>
+					<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.brand.pale, fontWeight: 500 }}>
 						{t('login.panel.badge')}
 					</Typography>
 				</Box>
 
 				<Typography sx={{
-					fontSize: '1.65rem', fontWeight: 700, color: tokens.ink.inverse,
+					fontSize: tokens.fontSize.display, fontWeight: 700, color: tokens.ink.inverse,
 					lineHeight: 1.3, letterSpacing: '-0.03em', mb: 3,
 				}}>
 					{t('registration.panel.headline')}
@@ -63,10 +63,10 @@ const RegisterBrandPanel = ({ trustItems }) => {
 							<Box sx={{ width: 7, height: 7, borderRadius: '50%', backgroundColor: tokens.brand.main }} />
 						</Box>
 						<Box>
-							<Typography sx={{ fontSize: '0.82rem', color: tokens.ink.faintest, fontWeight: 600, lineHeight: 1.3 }}>
+							<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.onDark.faintest, fontWeight: 600, lineHeight: 1.3 }}>
 								{item.title}
 							</Typography>
-							<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.subtle, lineHeight: 1.4 }}>
+							<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.onDark.subtle, lineHeight: 1.4 }}>
 								{item.desc}
 							</Typography>
 						</Box>

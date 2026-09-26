@@ -21,14 +21,14 @@ const ExperienceColumn = ({ education, workExperience }) => {
 							<Box key={i} sx={i > 0 ? { pt: 2.5, borderTop: `1px solid ${tokens.surface.muted}` } : {}}>
 								<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 0.5 }}>
 									<Box>
-										<Typography sx={{ fontWeight: 700, fontSize: '0.88rem', color: tokens.ink.strong }}>
+										<Typography sx={{ fontWeight: 700, fontSize: tokens.fontSize.body2, color: tokens.ink.strong }}>
 											{work.position}
 										</Typography>
-										<Typography sx={{ fontSize: '0.82rem', color: tokens.brand.text, fontWeight: 600 }}>
+										<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.brand.text, fontWeight: 600 }}>
 											{work.company}
 										</Typography>
 										{work.location && (
-											<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.subtle }}>
+											<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.subtle }}>
 												{work.location}
 											</Typography>
 										)}
@@ -36,7 +36,7 @@ const ExperienceColumn = ({ education, workExperience }) => {
 									<Chip
 										label={`${work.from} – ${work.to}`}
 										size="small"
-										sx={{ fontSize: '0.72rem', backgroundColor: tokens.surface.muted, color: tokens.ink.muted, height: 22, borderRadius: 0.75 }}
+										sx={{ fontSize: tokens.fontSize.caption, backgroundColor: tokens.surface.muted, color: tokens.ink.muted, height: 22, borderRadius: 0.75 }}
 									/>
 								</Box>
 								{work.activities?.length > 0 && (
@@ -44,13 +44,13 @@ const ExperienceColumn = ({ education, workExperience }) => {
 										{work.activities.map((act, j) => (
 											<Box key={j} sx={{ mb: 1.25 }}>
 												{act.project && (
-													<Typography sx={{ fontSize: '0.80rem', fontWeight: 600, color: tokens.ink.body, mb: 0.5 }}>
+													<Typography sx={{ fontSize: tokens.fontSize.body2, fontWeight: 600, color: tokens.ink.body, mb: 0.5 }}>
 														{act.project}
 													</Typography>
 												)}
 												<Box component="ul" sx={{ m: 0, pl: 2, listStyleType: 'disc' }}>
 													{act.tasks?.map((task, k) => (
-														<Box component="li" key={k} sx={{ fontSize: '0.78rem', color: tokens.ink.muted, lineHeight: 1.7, mb: 0.25 }}>
+														<Box component="li" key={k} sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.muted, lineHeight: 1.7, mb: 0.25 }}>
 															{task}
 														</Box>
 													))}
@@ -73,14 +73,14 @@ const ExperienceColumn = ({ education, workExperience }) => {
 							<Box key={i} sx={i > 0 ? { pt: 2, borderTop: `1px solid ${tokens.surface.muted}` } : {}}>
 								<Box sx={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 0.5, alignItems: 'flex-start' }}>
 									<Box sx={{ textAlign: 'left' }}>
-										<Typography sx={{ fontWeight: 700, fontSize: '0.88rem', color: tokens.ink.strong }}>
+										<Typography sx={{ fontWeight: 700, fontSize: tokens.fontSize.body2, color: tokens.ink.strong }}>
 											{edu.degree}
 										</Typography>
-										<Typography sx={{ fontSize: '0.82rem', color: tokens.brand.text, fontWeight: 600 }}>
+										<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.brand.text, fontWeight: 600 }}>
 											{edu.institution}
 										</Typography>
 										{edu.fieldOfStudy && (
-											<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.muted }}>
+											<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.muted }}>
 												{edu.fieldOfStudy}
 											</Typography>
 										)}
@@ -89,14 +89,14 @@ const ExperienceColumn = ({ education, workExperience }) => {
 										<Chip
 											label={edu.year}
 											size="small"
-											sx={{ fontSize: '0.72rem', backgroundColor: tokens.surface.muted, color: tokens.ink.muted, height: 22, borderRadius: 0.75 }}
+											sx={{ fontSize: tokens.fontSize.caption, backgroundColor: tokens.surface.muted, color: tokens.ink.muted, height: 22, borderRadius: 0.75 }}
 										/>
 									)}
 								</Box>
 								{edu.achievements?.length > 0 && (
 									<Box component="ul" sx={{ m: 0, mt: 0.75, pl: 2, listStyleType: 'disc' }}>
 										{edu.achievements.map((a, k) => (
-											<Box component="li" key={k} sx={{ fontSize: '0.78rem', color: tokens.ink.muted, lineHeight: 1.7, mb: 0.25 }}>
+											<Box component="li" key={k} sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.muted, lineHeight: 1.7, mb: 0.25 }}>
 												{a}
 											</Box>
 										))}

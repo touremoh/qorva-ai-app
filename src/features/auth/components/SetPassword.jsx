@@ -159,7 +159,7 @@ const SetPassword = ({ mode = 'activate' }) => {
 		}[linkError];
 
 		return (
-			<Alert severity="error" sx={{ mb: 2, borderRadius: 1.5, fontSize: '0.82rem' }} action={config.action}>
+			<Alert severity="error" sx={{ mb: 2, borderRadius: 1.5, fontSize: tokens.fontSize.body2 }} action={config.action}>
 				{config.message}
 			</Alert>
 		);
@@ -218,7 +218,7 @@ const SetPassword = ({ mode = 'activate' }) => {
 						<>
 							<Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 3 }}>
 								<Box component="img" src="/logo.svg" alt="Qorva" sx={{ width: 34, height: 34 }} />
-								<Typography sx={{ fontWeight: 700, fontSize: '1.2rem', color: tokens.ink.strong }}>Qorva</Typography>
+								<Typography sx={{ fontWeight: 700, fontSize: tokens.fontSize.xl, color: tokens.ink.strong }}>Qorva</Typography>
 							</Box>
 
 							<Typography variant="h5" sx={{ fontWeight: 700, color: tokens.ink.strong, letterSpacing: '-0.03em', mb: 0.75 }}>
@@ -248,7 +248,7 @@ const SetPassword = ({ mode = 'activate' }) => {
 										input: {
 											startAdornment: (
 												<InputAdornment position="start">
-													<LockOutlinedIcon sx={{ fontSize: 18, color: tokens.ink.subtle }} />
+													<LockOutlinedIcon sx={{ fontSize: tokens.iconSize.lg, color: tokens.ink.subtle }} />
 												</InputAdornment>
 											),
 											endAdornment: (
@@ -260,7 +260,7 @@ const SetPassword = ({ mode = 'activate' }) => {
 														aria-label={t('setPassword.togglePasswordVisibility', 'Toggle password visibility')}
 														sx={{ color: tokens.ink.subtle }}
 													>
-														{showPassword ? <VisibilityOff sx={{ fontSize: 18 }} /> : <Visibility sx={{ fontSize: 18 }} />}
+														{showPassword ? <VisibilityOff sx={{ fontSize: tokens.iconSize.lg }} /> : <Visibility sx={{ fontSize: tokens.iconSize.lg }} />}
 													</IconButton>
 												</InputAdornment>
 											),
@@ -285,7 +285,7 @@ const SetPassword = ({ mode = 'activate' }) => {
 										input: {
 											startAdornment: (
 												<InputAdornment position="start">
-													<LockOutlinedIcon sx={{ fontSize: 18, color: tokens.ink.subtle }} />
+													<LockOutlinedIcon sx={{ fontSize: tokens.iconSize.lg, color: tokens.ink.subtle }} />
 												</InputAdornment>
 											),
 										},
@@ -299,7 +299,7 @@ const SetPassword = ({ mode = 'activate' }) => {
 									disabled={loading}
 									sx={{
 										mt: 0.5, py: 1.3, borderRadius: 1.5,
-										fontWeight: 600, fontSize: '0.9rem', textTransform: 'none',
+										fontWeight: 600, fontSize: tokens.fontSize.body, textTransform: 'none',
 										backgroundColor: tokens.brand.main,
 										boxShadow: `0 2px 8px ${alpha(tokens.brand.main, 0.35)}`,
 										'&:hover': { backgroundColor: tokens.brand.hoverAlt, boxShadow: `0 4px 14px ${alpha(tokens.brand.main, 0.45)}` },

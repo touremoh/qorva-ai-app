@@ -87,8 +87,8 @@ const UsageMonitoringContent = () => {
             <Box sx={{ flex: 1, overflowY: 'auto', p: { xs: 2, md: 3 }, display: 'flex', flexDirection: 'column', gap: 2.5 }}>
 
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <SpeedOutlinedIcon sx={{ fontSize: 20, color: tokens.brand.text }} />
-                    <Typography sx={{ fontWeight: 700, fontSize: '1rem', color: tokens.ink.strong }}>
+                    <SpeedOutlinedIcon sx={{ fontSize: tokens.iconSize.lg, color: tokens.brand.text }} />
+                    <Typography sx={{ fontWeight: 700, fontSize: tokens.fontSize.body, color: tokens.ink.strong }}>
                         {t('header.usageMonitoring', 'Usage Monitoring')}
                     </Typography>
                 </Box>
@@ -96,13 +96,13 @@ const UsageMonitoringContent = () => {
                 {loading && (
                     <Stack alignItems="center" justifyContent="center" sx={{ flex: 1, py: 8 }} spacing={1.5}>
                         <CircularProgress size={32} sx={{ color: tokens.brand.text }} />
-                        <Typography sx={{ fontSize: '0.82rem', color: tokens.ink.subtle }}>{t('dashboard.loading')}</Typography>
+                        <Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.subtle }}>{t('dashboard.loading')}</Typography>
                     </Stack>
                 )}
 
                 {!loading && error && (
                     <Paper elevation={0} sx={{ border: `1px solid ${tokens.status.error.tint}`, borderRadius: 2.5, p: 2.5 }}>
-                        <Typography sx={{ fontSize: '0.85rem', color: tokens.status.error.main }}>{error}</Typography>
+                        <Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.status.error.main }}>{error}</Typography>
                     </Paper>
                 )}
 
@@ -110,10 +110,10 @@ const UsageMonitoringContent = () => {
                     <Paper elevation={0} sx={{ border: `1px dashed ${tokens.line.main}`, borderRadius: 2.5, p: 4 }}>
                         <Stack alignItems="center" spacing={1.25} sx={{ textAlign: 'center' }}>
                             <SpeedOutlinedIcon sx={{ fontSize: 36, color: tokens.ink.faint }} />
-                            <Typography sx={{ fontSize: '0.9rem', fontWeight: 600, color: tokens.ink.strong }}>
+                            <Typography sx={{ fontSize: tokens.fontSize.body, fontWeight: 600, color: tokens.ink.strong }}>
                                 {t('dashboard.usage.noPeriodTitle', 'No usage period is active for this account')}
                             </Typography>
-                            <Typography sx={{ fontSize: '0.82rem', color: tokens.ink.muted, maxWidth: 520 }}>
+                            <Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.muted, maxWidth: 520 }}>
                                 {t('dashboard.usage.noPeriodHint', 'Usage is metered per billing period. A period is opened automatically a few minutes after a subscription starts or renews; if this message persists, contact support.')}
                             </Typography>
                         </Stack>

@@ -9,7 +9,7 @@ const FollowUpChips = ({ suggestions, onSelect }) => {
     if (!suggestions?.length) return null;
     return (
         <Box sx={{ mt: 1.5 }}>
-            <Typography sx={{ fontSize: '0.68rem', color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.75 }}>
+            <Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.06em', mb: 0.75 }}>
                 Follow-up suggestions
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75 }}>
@@ -18,10 +18,10 @@ const FollowUpChips = ({ suggestions, onSelect }) => {
                         key={i}
                         label={s}
                         size="small"
-                        icon={<AutoAwesomeOutlinedIcon sx={{ fontSize: 13 }} />}
+                        icon={<AutoAwesomeOutlinedIcon sx={{ fontSize: tokens.iconSize.xs }} />}
                         onClick={() => onSelect?.(s)}
                         sx={{
-                            fontSize: '0.73rem',
+                            fontSize: tokens.fontSize.caption,
                             height: 26,
                             backgroundColor: 'rgba(99,102,241,0.06)',
                             border: '1px solid rgba(99,102,241,0.2)',

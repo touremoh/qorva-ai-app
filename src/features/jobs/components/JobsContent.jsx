@@ -283,7 +283,7 @@ const JobContent = () => {
 									display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 1.5,
 								}}>
 									<CircularProgress size={26} sx={{ color: tokens.brand.text }} />
-									<Typography sx={{ fontSize: '0.85rem', fontWeight: 600, color: tokens.ink.body }}>
+									<Typography sx={{ fontSize: tokens.fontSize.body2, fontWeight: 600, color: tokens.ink.body }}>
 										{t('jobContent.aiPrefill.drafting', 'AI is drafting your scoring rules…')}
 									</Typography>
 								</Box>
@@ -293,7 +293,7 @@ const JobContent = () => {
 									mx: 2.5, mt: 1, px: 1.5, py: 0.75, borderRadius: 1.5,
 									backgroundColor: alpha(tokens.brand.main, 0.08), border: `1px solid ${alpha(tokens.brand.main, 0.3)}`,
 								}}>
-									<Typography sx={{ fontSize: '0.74rem', color: tokens.brand.olive, fontWeight: 600 }}>
+									<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.brand.olive, fontWeight: 600 }}>
 										{t('jobContent.aiPrefill.applied', 'AI-suggested scoring rules — review and adjust before saving.')}
 									</Typography>
 								</Box>
@@ -348,7 +348,7 @@ const JobContent = () => {
 					{!createMode && !editMode && !selectedJob && (
 						<Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 1.5 }}>
 							<WorkOutlineOutlinedIcon sx={{ fontSize: 40, color: tokens.ink.faint }} />
-							<Typography sx={{ fontSize: '0.88rem', color: tokens.ink.subtle }}>{t('jobContent.selectJobToSeeDetails')}</Typography>
+							<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.subtle }}>{t('jobContent.selectJobToSeeDetails')}</Typography>
 						</Box>
 					)}
 				</Box>

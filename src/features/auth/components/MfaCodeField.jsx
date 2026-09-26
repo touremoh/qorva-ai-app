@@ -1,5 +1,6 @@
 import { TextField } from '@mui/material';
 import PropTypes from 'prop-types';
+import * as tokens from '../../../theme/tokens.js';
 
 export const MFA_CODE_LENGTH = 6;
 
@@ -25,7 +26,7 @@ const MfaCodeField = ({ value, onChange, label, error, helperText, disabled, aut
 				inputMode: 'numeric',
 				pattern: '[0-9]*',
 				maxLength: MFA_CODE_LENGTH,
-				style: { letterSpacing: '0.5em', fontSize: '1.15rem', fontWeight: 600, textAlign: 'center' },
+				style: { letterSpacing: '0.5em', fontSize: tokens.fontSize.lg, fontWeight: 600, textAlign: 'center' },
 			},
 		}}
 		sx={sx}

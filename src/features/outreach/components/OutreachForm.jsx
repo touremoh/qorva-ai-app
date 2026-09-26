@@ -26,23 +26,23 @@ const OutreachForm = ({ composer }) => {
 			{contextLoading && (
 				<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: tokens.ink.subtle }}>
 					<CircularProgress size={14} sx={{ color: THEME_GREEN }} />
-					<Typography sx={{ fontSize: '0.78rem' }}>{t('candidateOutreach.loading')}</Typography>
+					<Typography sx={{ fontSize: tokens.fontSize.small }}>{t('candidateOutreach.loading')}</Typography>
 				</Box>
 			)}
 			{contextError && (
-				<Alert severity="error" sx={{ fontSize: '0.78rem', borderRadius: 1.5 }}>{t('candidateOutreach.contextError')}</Alert>
+				<Alert severity="error" sx={{ fontSize: tokens.fontSize.small, borderRadius: 1.5 }}>{t('candidateOutreach.contextError')}</Alert>
 			)}
 			{suppressed && (
-				<Alert severity="error" sx={{ fontSize: '0.78rem', borderRadius: 1.5 }}>{t('candidateOutreach.suppressed')}</Alert>
+				<Alert severity="error" sx={{ fontSize: tokens.fontSize.small, borderRadius: 1.5 }}>{t('candidateOutreach.suppressed')}</Alert>
 			)}
 			{!suppressed && noEmail && (
-				<Alert severity="warning" sx={{ fontSize: '0.78rem', borderRadius: 1.5 }}>{t('candidateOutreach.noEmail')}</Alert>
+				<Alert severity="warning" sx={{ fontSize: tokens.fontSize.small, borderRadius: 1.5 }}>{t('candidateOutreach.noEmail')}</Alert>
 			)}
 			{mailbox === 'REAUTH_REQUIRED' && (
 				<Alert
 					severity="warning"
-					sx={{ fontSize: '0.78rem', borderRadius: 1.5 }}
-					action={<Button size="small" onClick={goToSettings} sx={{ textTransform: 'none', fontSize: '0.75rem', fontWeight: 600 }}>{t('candidateOutreach.reconnect')}</Button>}
+					sx={{ fontSize: tokens.fontSize.small, borderRadius: 1.5 }}
+					action={<Button size="small" onClick={goToSettings} sx={{ textTransform: 'none', fontSize: tokens.fontSize.small, fontWeight: 600 }}>{t('candidateOutreach.reconnect')}</Button>}
 				>
 					{t('candidateOutreach.reauthRequired')}
 				</Alert>
@@ -51,8 +51,8 @@ const OutreachForm = ({ composer }) => {
 			{/* AI draft bar */}
 			<Box sx={{ border: `1px dashed ${tokens.line.strong}`, borderRadius: 2, p: 1.25, backgroundColor: tokens.surface.greenTint }}>
 				<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, mb: 1 }}>
-					<AutoAwesomeIcon sx={{ fontSize: 15, color: THEME_GREEN }} />
-					<Typography sx={{ fontSize: '0.78rem', fontWeight: 600, color: tokens.ink.body }}>{t('candidateOutreach.ai.title')}</Typography>
+					<AutoAwesomeIcon sx={{ fontSize: tokens.iconSize.sm, color: THEME_GREEN }} />
+					<Typography sx={{ fontSize: tokens.fontSize.small, fontWeight: 600, color: tokens.ink.body }}>{t('candidateOutreach.ai.title')}</Typography>
 				</Box>
 				<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mb: 1 }}>
 					{INTENTS.map(key => (
@@ -63,7 +63,7 @@ const OutreachForm = ({ composer }) => {
 							onClick={() => setIntent(key)}
 							disabled={suppressed}
 							sx={{
-								fontSize: '0.72rem', height: 26, borderRadius: 1.5, cursor: 'pointer',
+								fontSize: tokens.fontSize.caption, height: 26, borderRadius: 1.5, cursor: 'pointer',
 								backgroundColor: intent === key ? THEME_GREEN : `${tokens.surface.paper}`,
 								color: intent === key ? `${tokens.surface.paper}` : `${tokens.ink.body}`,
 								border: `1px solid ${intent === key ? THEME_GREEN : `${tokens.line.main}`}`,
@@ -78,7 +78,7 @@ const OutreachForm = ({ composer }) => {
 						sx={{ ...inputSx, minWidth: 120, height: 32, '& .MuiSelect-select': { py: 0.5 } }}
 					>
 						{TONES.map(key => (
-							<MenuItem key={key || 'default'} value={key} sx={{ fontSize: '0.78rem' }}>{t(`candidateOutreach.ai.tone.${key || 'default'}`)}</MenuItem>
+							<MenuItem key={key || 'default'} value={key} sx={{ fontSize: tokens.fontSize.small }}>{t(`candidateOutreach.ai.tone.${key || 'default'}`)}</MenuItem>
 						))}
 					</Select>
 					<Select
@@ -86,7 +86,7 @@ const OutreachForm = ({ composer }) => {
 						sx={{ ...inputSx, minWidth: 90, height: 32, '& .MuiSelect-select': { py: 0.5 } }}
 					>
 						{LANGUAGES.map(code => (
-							<MenuItem key={code} value={code} sx={{ fontSize: '0.78rem' }}>{t(`candidateOutreach.ai.language.${code}`)}</MenuItem>
+							<MenuItem key={code} value={code} sx={{ fontSize: tokens.fontSize.small }}>{t(`candidateOutreach.ai.language.${code}`)}</MenuItem>
 						))}
 					</Select>
 					<Box sx={{ flexGrow: 1 }} />
@@ -97,7 +97,7 @@ const OutreachForm = ({ composer }) => {
 					)}
 					<Button
 						size="small" variant="contained" onClick={() => runDraft()} disabled={drafting || suppressed || !context}
-						startIcon={drafting ? <CircularProgress size={12} sx={{ color: tokens.ink.inverse }} /> : <AutoAwesomeIcon sx={{ fontSize: 14 }} />}
+						startIcon={drafting ? <CircularProgress size={12} sx={{ color: tokens.ink.inverse }} /> : <AutoAwesomeIcon sx={{ fontSize: tokens.iconSize.sm }} />}
 						sx={primaryButtonSx}
 					>
 						{body.trim() ? t('candidateOutreach.ai.regenerate') : t('candidateOutreach.ai.generate')}
@@ -117,22 +117,22 @@ const OutreachForm = ({ composer }) => {
 				size="small" fullWidth label={t('candidateOutreach.to')} value={to}
 				onChange={(e) => setTo(e.target.value)} disabled={suppressed}
 				error={Boolean(to) && !hasRecipient}
-				InputProps={{ sx: inputSx }} InputLabelProps={{ sx: { fontSize: '0.82rem' } }}
+				InputProps={{ sx: inputSx }} InputLabelProps={{ sx: { fontSize: tokens.fontSize.body2 } }}
 			/>
 			<TextField
 				size="small" fullWidth label={t('candidateOutreach.subject')} value={subject}
 				onChange={(e) => setSubject(e.target.value.slice(0, SUBJECT_MAX))} disabled={suppressed}
-				InputProps={{ sx: inputSx }} InputLabelProps={{ sx: { fontSize: '0.82rem' } }}
+				InputProps={{ sx: inputSx }} InputLabelProps={{ sx: { fontSize: tokens.fontSize.body2 } }}
 			/>
 			<TextField
 				size="small" fullWidth multiline minRows={8} maxRows={16} label={t('candidateOutreach.body')} value={body}
 				onChange={(e) => setBody(e.target.value.slice(0, BODY_MAX))} disabled={suppressed}
-				InputProps={{ sx: inputSx }} InputLabelProps={{ sx: { fontSize: '0.82rem' } }}
+				InputProps={{ sx: inputSx }} InputLabelProps={{ sx: { fontSize: tokens.fontSize.body2 } }}
 			/>
 			{mailtoWarning && (
 				<Alert
-					severity="info" sx={{ fontSize: '0.78rem', borderRadius: 1.5 }}
-					action={<Button size="small" startIcon={<ContentCopyOutlinedIcon sx={{ fontSize: 14 }} />} onClick={copyBody} sx={{ textTransform: 'none', fontSize: '0.75rem', fontWeight: 600 }}>{t('candidateOutreach.copy')}</Button>}
+					severity="info" sx={{ fontSize: tokens.fontSize.small, borderRadius: 1.5 }}
+					action={<Button size="small" startIcon={<ContentCopyOutlinedIcon sx={{ fontSize: tokens.iconSize.sm }} />} onClick={copyBody} sx={{ textTransform: 'none', fontSize: tokens.fontSize.small, fontWeight: 600 }}>{t('candidateOutreach.copy')}</Button>}
 				>
 					{t('candidateOutreach.mailtoTooLong')}
 				</Alert>
@@ -145,7 +145,7 @@ const OutreachForm = ({ composer }) => {
 						<span>
 							<Button
 								variant="contained" onClick={handleSend} disabled={!readyToSend || sending}
-								startIcon={sending ? <CircularProgress size={12} sx={{ color: tokens.ink.inverse }} /> : <SendIcon sx={{ fontSize: 14 }} />}
+								startIcon={sending ? <CircularProgress size={12} sx={{ color: tokens.ink.inverse }} /> : <SendIcon sx={{ fontSize: tokens.iconSize.sm }} />}
 								sx={primaryButtonSx}
 							>
 								{t('candidateOutreach.send')}
@@ -156,7 +156,7 @@ const OutreachForm = ({ composer }) => {
 				<ButtonGroup variant={canSendFromQorva ? 'outlined' : 'contained'} disableElevation>
 					<Button
 						onClick={() => handleHandoff(handoffChoice)} disabled={suppressed || !hasRecipient}
-						startIcon={<OpenInNewIcon sx={{ fontSize: 14 }} />}
+						startIcon={<OpenInNewIcon sx={{ fontSize: tokens.iconSize.sm }} />}
 						sx={canSendFromQorva ? neutralButtonSx : primaryButtonSx}
 					>
 						{t(`candidateOutreach.handoff.${handoffChoice}`)}
@@ -171,7 +171,7 @@ const OutreachForm = ({ composer }) => {
 				</ButtonGroup>
 				<Menu anchorEl={handoffAnchor} open={Boolean(handoffAnchor)} onClose={() => setHandoffAnchor(null)}>
 					{Object.values(HANDOFF).map(via => (
-						<MenuItem key={via} onClick={() => handleHandoff(via)} sx={{ fontSize: '0.82rem' }}>
+						<MenuItem key={via} onClick={() => handleHandoff(via)} sx={{ fontSize: tokens.fontSize.body2 }}>
 							{t(`candidateOutreach.handoff.${via}`)}
 						</MenuItem>
 					))}
@@ -180,18 +180,18 @@ const OutreachForm = ({ composer }) => {
 				{context?.history?.length > 0 && (
 					<Button
 						size="small" onClick={() => setHistoryOpen(o => !o)}
-						startIcon={<HistoryOutlinedIcon sx={{ fontSize: 15 }} />}
-						endIcon={historyOpen ? <ExpandLessIcon sx={{ fontSize: 15 }} /> : <ExpandMoreIcon sx={{ fontSize: 15 }} />}
-						sx={{ textTransform: 'none', fontSize: '0.75rem', color: tokens.ink.muted }}
+						startIcon={<HistoryOutlinedIcon sx={{ fontSize: tokens.iconSize.sm }} />}
+						endIcon={historyOpen ? <ExpandLessIcon sx={{ fontSize: tokens.iconSize.sm }} /> : <ExpandMoreIcon sx={{ fontSize: tokens.iconSize.sm }} />}
+						sx={{ textTransform: 'none', fontSize: tokens.fontSize.small, color: tokens.ink.muted }}
 					>
 						{t('candidateOutreach.history.title', { count: context.history.length })}
 					</Button>
 				)}
 			</Box>
 			{!canSendFromQorva && mailbox === 'NONE' && (
-				<Typography sx={{ fontSize: '0.72rem', color: tokens.ink.subtle }}>
+				<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle }}>
 					{t('candidateOutreach.connectHint')}{' '}
-					<Link component="button" type="button" onClick={goToSettings} sx={{ fontSize: '0.72rem', fontWeight: 600, color: THEME_GREEN }}>
+					<Link component="button" type="button" onClick={goToSettings} sx={{ fontSize: tokens.fontSize.caption, fontWeight: 600, color: THEME_GREEN }}>
 						{t('candidateOutreach.connectLink')}
 					</Link>
 				</Typography>
@@ -207,22 +207,22 @@ const OutreachForm = ({ composer }) => {
 									size="small"
 									label={t(`candidateOutreach.history.status.${row.status}`, { via: t(`candidateOutreach.history.via.${row.via}`) })}
 									sx={{
-										height: 20, fontSize: '0.68rem', fontWeight: 600, borderRadius: 1,
+										height: 20, fontSize: tokens.fontSize.caption, fontWeight: 600, borderRadius: 1,
 										backgroundColor: row.status === 'SENT' ? `${tokens.status.success.paleAlt}` : row.status === 'FAILED' ? `${tokens.status.error.pale}` : `${tokens.surface.muted}`,
 										color: row.status === 'SENT' ? `${tokens.status.success.strong}` : row.status === 'FAILED' ? `${tokens.status.error.dark}` : `${tokens.ink.soft}`,
 									}}
 								/>
-								<Typography sx={{ fontSize: '0.72rem', color: tokens.ink.muted, flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+								<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.muted, flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
 									{row.senderName || row.senderEmail} · {dayjs(row.createdAt).locale(locale).fromNow()}
 								</Typography>
 								{row.providerWebLink && (
-									<Link href={row.providerWebLink} target="_blank" rel="noopener" sx={{ fontSize: '0.72rem', fontWeight: 600, color: THEME_GREEN, whiteSpace: 'nowrap' }}>
+									<Link href={row.providerWebLink} target="_blank" rel="noopener" sx={{ fontSize: tokens.fontSize.caption, fontWeight: 600, color: THEME_GREEN, whiteSpace: 'nowrap' }}>
 										{t('candidateOutreach.history.openInOutlook')}
 									</Link>
 								)}
 							</Box>
 							{row.subject && (
-								<Typography sx={{ fontSize: '0.78rem', color: tokens.ink.strong, mt: 0.25, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+								<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.strong, mt: 0.25, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
 									{row.subject}
 								</Typography>
 							)}

@@ -83,12 +83,12 @@ const InsightIntentCards = ({ onCardClick }) => {
                                     flexShrink: 0,
                                 }}
                             >
-                                <Icon sx={{ fontSize: 17, color }} />
+                                <Icon sx={{ fontSize: tokens.iconSize.md, color }} />
                             </Box>
                             <Typography
                                 sx={{
                                     fontWeight: 700,
-                                    fontSize: '0.82rem',
+                                    fontSize: tokens.fontSize.body2,
                                     color: tokens.ink.strong,
                                     lineHeight: 1.2,
                                 }}
@@ -98,7 +98,7 @@ const InsightIntentCards = ({ onCardClick }) => {
                         </Box>
                         <Typography
                             sx={{
-                                fontSize: '0.72rem',
+                                fontSize: tokens.fontSize.caption,
                                 color: tokens.ink.muted,
                                 lineHeight: 1.4,
                             }}
@@ -114,7 +114,7 @@ const InsightIntentCards = ({ onCardClick }) => {
                         >
                             <Typography
                                 sx={{
-                                    fontSize: '0.7rem',
+                                    fontSize: tokens.fontSize.caption,
                                     color: tokens.ink.subtle,
                                     fontStyle: 'italic',
                                     lineHeight: 1.35,

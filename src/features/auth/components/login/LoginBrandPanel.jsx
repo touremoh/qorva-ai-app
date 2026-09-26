@@ -51,14 +51,14 @@ const LoginBrandPanel = ({ navigate }) => {
 					}}
 				>
 					<Box sx={{ width: 7, height: 7, borderRadius: '50%', backgroundColor: tokens.brand.main }} />
-					<Typography sx={{ fontSize: '0.75rem', color: tokens.brand.pale, fontWeight: 500 }}>
+					<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.brand.pale, fontWeight: 500 }}>
 						{t('login.panel.badge')}
 					</Typography>
 				</Box>
 
 				<Typography
 					sx={{
-						fontSize: '1.65rem',
+						fontSize: tokens.fontSize.display,
 						fontWeight: 700,
 						color: tokens.ink.inverse,
 						lineHeight: 1.3,
@@ -71,8 +71,8 @@ const LoginBrandPanel = ({ navigate }) => {
 
 				<Typography
 					sx={{
-						fontSize: '0.875rem',
-						color: tokens.ink.subtle,
+						fontSize: tokens.fontSize.body2,
+						color: tokens.onDark.subtle,
 						lineHeight: 1.65,
 						maxWidth: 280,
 						mb: 3.5,
@@ -98,7 +98,7 @@ const LoginBrandPanel = ({ navigate }) => {
 						>
 							<Box sx={{ width: 7, height: 7, borderRadius: '50%', backgroundColor: tokens.brand.main }} />
 						</Box>
-						<Typography sx={{ fontSize: '0.82rem', color: tokens.ink.faint, lineHeight: 1.4 }}>
+						<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.onDark.faint, lineHeight: 1.4 }}>
 							{label}
 						</Typography>
 					</Box>
@@ -107,10 +107,10 @@ const LoginBrandPanel = ({ navigate }) => {
 
 			{/* Bottom CTA */}
 			<Box sx={{ position: 'relative', zIndex: 1 }}>
-				<Typography sx={{ color: tokens.ink.subtle, fontSize: '0.82rem', mb: 0.5 }}>
+				<Typography sx={{ color: tokens.onDark.subtle, fontSize: tokens.fontSize.body2, mb: 0.5 }}>
 					{t('login.noAccount')}
 				</Typography>
-				<Typography sx={{ color: tokens.ink.muted, fontSize: '0.75rem', mb: 1.5 }}>
+				<Typography sx={{ color: tokens.onDark.muted, fontSize: tokens.fontSize.small, mb: 1.5 }}>
 					{t('login.panel.freeToStart')}
 				</Typography>
 				<Button
@@ -122,7 +122,7 @@ const LoginBrandPanel = ({ navigate }) => {
 						borderRadius: 1.5,
 						textTransform: 'none',
 						fontWeight: 500,
-						fontSize: '0.85rem',
+						fontSize: tokens.fontSize.body2,
 						px: 2.5,
 						py: 0.9,
 						backdropFilter: 'blur(4px)',

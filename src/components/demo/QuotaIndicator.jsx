@@ -47,9 +47,9 @@ const QuotaIndicator = () => {
 					minWidth: 150,
 				}}
 			>
-				<BoltOutlinedIcon sx={{ fontSize: 16, color: exhausted ? `${tokens.status.error.main}` : `${tokens.brand.main}` }} />
+				<BoltOutlinedIcon sx={{ fontSize: tokens.iconSize.md, color: exhausted ? `${tokens.status.error.main}` : `${tokens.brand.main}` }} />
 				<Box sx={{ flex: 1, minWidth: 0 }}>
-					<Typography sx={{ fontSize: '0.68rem', fontWeight: 600, color: exhausted ? `${tokens.status.error.text}` : `${tokens.status.success.text}`, lineHeight: 1.2 }}>
+					<Typography sx={{ fontSize: tokens.fontSize.caption, fontWeight: 600, color: exhausted ? `${tokens.status.error.text}` : `${tokens.status.success.text}`, lineHeight: 1.2 }}>
 						{t('demo.reportsQuota', 'Demo reports')}: {consumed}/{limit}
 					</Typography>
 					<LinearProgress

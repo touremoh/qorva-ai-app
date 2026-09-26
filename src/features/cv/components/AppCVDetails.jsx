@@ -125,7 +125,7 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 	if (!cv) {
 		return (
 			<Box sx={{ p: 3 }}>
-				<Typography sx={{ fontSize: '0.88rem', color: tokens.ink.subtle }}>
+				<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.subtle }}>
 					{t('appCVContent.selectCVToSeeDetails')}
 				</Typography>
 			</Box>
@@ -177,11 +177,11 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 					minHeight: 40,
 					backgroundColor: tokens.surface.paper,
 					flexShrink: 0,
-					'& .MuiTab-root': { minHeight: 40, fontSize: '0.78rem', textTransform: 'none', fontWeight: 600 },
+					'& .MuiTab-root': { minHeight: 40, fontSize: tokens.fontSize.small, textTransform: 'none', fontWeight: 600 },
 				}}
 			>
-				<Tab label={t('appCVContent.tabResume', 'Resume')} icon={<InfoOutlinedIcon sx={{ fontSize: 15 }} />} iconPosition="start" />
-				<Tab label={t('appCVContent.tabTalentIntelligence', 'Talent Intelligence')} icon={<HubOutlinedIcon sx={{ fontSize: 15 }} />} iconPosition="start" />
+				<Tab label={t('appCVContent.tabResume', 'Resume')} icon={<InfoOutlinedIcon sx={{ fontSize: tokens.iconSize.sm }} />} iconPosition="start" />
+				<Tab label={t('appCVContent.tabTalentIntelligence', 'Talent Intelligence')} icon={<HubOutlinedIcon sx={{ fontSize: tokens.iconSize.sm }} />} iconPosition="start" />
 			</Tabs>
 
 			{/* Resume tab — always in DOM for print ref */}
@@ -257,7 +257,7 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 				<ReferencesSection anonymized={anonymized} references={references} />
 
 				{lastUpdatedAt && (
-					<Typography sx={{ fontSize: '0.72rem', color: tokens.ink.subtle, textAlign: 'right', fontStyle: 'italic', pb: 1 }}>
+					<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle, textAlign: 'right', fontStyle: 'italic', pb: 1 }}>
 						{t('appCVContent.lastUpdatedAt')}: {new Date(lastUpdatedAt).toLocaleString()}
 					</Typography>
 				)}

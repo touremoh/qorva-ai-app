@@ -56,18 +56,18 @@ const JdAiBuilder = ({ createMode, jobTitle, onDraft }) => {
 						'&:hover': { backgroundColor: alpha(tokens.brand.main, 0.10) },
 					}}
 				>
-					<AutoAwesomeIcon sx={{ fontSize: 17, color: THEME_GREEN }} />
-					<Typography sx={{ fontSize: '0.84rem', fontWeight: 600, color: tokens.status.success.text }}>
+					<AutoAwesomeIcon sx={{ fontSize: tokens.iconSize.md, color: THEME_GREEN }} />
+					<Typography sx={{ fontSize: tokens.fontSize.body2, fontWeight: 600, color: tokens.status.success.text }}>
 						{t('jobContent.aiBuilder.toggle', 'Generate the description with AI')}
 					</Typography>
 					<Box sx={{ flex: 1 }} />
-					<Typography sx={{ fontSize: '0.76rem', color: tokens.brand.text }}>
+					<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.brand.text }}>
 						{aiBuilderOpen ? '−' : '+'}
 					</Typography>
 				</Box>
 				{aiBuilderOpen && (
 					<Box sx={{ px: 1.5, py: 1.5, display: 'flex', flexDirection: 'column', gap: 1.25 }}>
-						<Typography sx={{ fontSize: '0.76rem', color: tokens.ink.muted }}>
+						<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.muted }}>
 							{t('jobContent.aiBuilder.hint', 'Fill in the job title above plus any details below — the draft lands in the editor for you to review.')}
 						</Typography>
 						<Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
@@ -91,9 +91,9 @@ const JdAiBuilder = ({ createMode, jobTitle, onDraft }) => {
 							variant="contained"
 							disabled={!jobTitle.trim() || aiBuilderBusy}
 							onClick={handleGenerateJd}
-							startIcon={aiBuilderBusy ? <CircularProgress size={14} color="inherit" /> : <AutoAwesomeIcon sx={{ fontSize: 16 }} />}
+							startIcon={aiBuilderBusy ? <CircularProgress size={14} color="inherit" /> : <AutoAwesomeIcon sx={{ fontSize: tokens.iconSize.md }} />}
 							sx={{
-								alignSelf: 'flex-start', textTransform: 'none', fontWeight: 600, fontSize: '0.8rem',
+								alignSelf: 'flex-start', textTransform: 'none', fontWeight: 600, fontSize: tokens.fontSize.body2,
 								backgroundColor: THEME_GREEN, '&:hover': { backgroundColor: THEME_GREEN_DARK },
 								borderRadius: 1.5, boxShadow: 'none',
 							}}
