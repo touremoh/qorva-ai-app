@@ -34,7 +34,7 @@ const IssuesPanel = ({ activeJob, expandedIssue, fetchReport, handleCampaignRequ
 					const isDuplicates = issue.issueKey === 'DUPLICATES';
 					const isExpanded = expandedIssue === issue.issueKey;
 					return (
-						<Box key={issue.issueKey} sx={{ borderBottom: index < list.length - 1 ? `1px solid ${tokens.surface.muted}` : 'none', opacity: issue.dismissed ? 0.6 : 1 }}>
+						<Box key={issue.issueKey} id={`quality-issue-${issue.issueKey}`} sx={{ borderBottom: index < list.length - 1 ? `1px solid ${tokens.surface.muted}` : 'none', opacity: issue.dismissed ? 0.6 : 1 }}>
 							<Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, py: 1.1 }}>
 								<Chip
 									label={t(`libraryQuality.severity.${issue.severity}`, issue.severity)}

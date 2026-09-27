@@ -5,7 +5,7 @@ import { mockApi } from './support/api.js';
 // Design baselines. Font rendering differs per OS, so these run locally (macOS baselines are
 // committed) and CI skips them with --grep-invert @visual. Any diff must be an intended design change.
 
-const TABS = ['dashboard', 'cvs', 'library-quality', 'email-templates', 'jobs', 'intelligence', 'reports', 'chat', 'usage', 'settings'];
+const TABS = ['dashboard', 'cvs', 'library-quality', 'configuration', 'jobs', 'intelligence', 'reports', 'chat', 'usage', 'settings'];
 
 test.describe('screens @visual', () => {
 	for (const tab of TABS) {

@@ -3,6 +3,10 @@ import apiClient from '../../../shared/api/client.js';
 export const getLibraryQuality = () =>
     apiClient.get('/library-quality');
 
+/** AI summary of the report, in the caller's language (Accept-Language). 204 when the library is empty. */
+export const getLibraryQualityInsight = () =>
+    apiClient.get('/library-quality/insight');
+
 export const getQualityIssues = (issueKey, pageNumber = 0, pageSize = 20) =>
     apiClient.get('/library-quality/issues', { params: { issueKey, pageNumber, pageSize } });
 

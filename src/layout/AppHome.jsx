@@ -15,8 +15,8 @@ import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {
 	COMP_ID_CHAT,
 	COMP_ID_CVLIB,
+	COMP_ID_CONFIGURATION,
 	COMP_ID_DASHBOARD,
-	COMP_ID_EMAIL_TEMPLATES,
 	COMP_ID_INTELLIGENCE,
 	COMP_ID_JOBS,
 	COMP_ID_LIBRARY_QUALITY,
@@ -31,7 +31,7 @@ const TAB_TO_COMP = {
 	'dashboard': COMP_ID_DASHBOARD,
 	'cvs': COMP_ID_CVLIB,
 	'library-quality': COMP_ID_LIBRARY_QUALITY,
-	'email-templates': COMP_ID_EMAIL_TEMPLATES,
+	'configuration': COMP_ID_CONFIGURATION,
 	'jobs': COMP_ID_JOBS,
 	'intelligence': COMP_ID_INTELLIGENCE,
 	'reports': COMP_ID_REPORTS,
@@ -41,11 +41,16 @@ const TAB_TO_COMP = {
 };
 const COMP_TO_TAB = Object.fromEntries(Object.entries(TAB_TO_COMP).map(([tab, comp]) => [comp, tab]));
 
+// Tabs that moved: old slug → where it lives now, so bookmarks keep working.
+const MOVED_TABS = {
+	'email-templates': { comp: COMP_ID_CONFIGURATION, to: '/app/configuration?section=email-templates' },
+};
+
 const AppHome = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const { tab } = useParams();
-	const content = TAB_TO_COMP[tab] ?? COMP_ID_DASHBOARD;
+	const content = TAB_TO_COMP[tab] ?? MOVED_TABS[tab]?.comp ?? COMP_ID_DASHBOARD;
 
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 	const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -54,6 +59,10 @@ const AppHome = () => {
 	const handleSidebarCollapse = () => setIsSidebarCollapsed(prev => !prev);
 	const handleContentChange = (newContent) =>
 		navigate(`/app/${COMP_TO_TAB[newContent] ?? 'dashboard'}`);
+
+	useEffect(() => {
+		if (MOVED_TABS[tab]) navigate(MOVED_TABS[tab].to, { replace: true });
+	}, [tab, navigate]);
 
 	useEffect(() => {
 		logPageView();

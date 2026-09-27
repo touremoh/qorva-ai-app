@@ -16,6 +16,17 @@ const SYNTHETIC = {
 	'POST /auth/token/refresh': () => FIXTURE['POST /auth/login'],
 	'GET /mailbox-connections/me': () => ({ status: 204, body: null }),
 	'GET /tenants/logo': () => ({ status: 404, body: null }),
+	// Model output: never recorded by the backend export, so a fixed, representative answer.
+	'GET /library-quality/insight': () => ({ status: 200, body: {
+		headline: 'Your library is in fair shape, held back by missing contact details.',
+		explanation: 'Some resumes have neither an email nor a phone number, so those candidates cannot be contacted.',
+		recommendations: [
+			{ text: 'Re-analyze the resumes with no contact information.', issueKey: 'MISSING_CONTACT' },
+			{ text: 'Ask candidates with outdated profiles to update them.', issueKey: null },
+		],
+		language: 'en',
+		generatedAt: '2026-09-15T08:00:00Z',
+	} }),
 };
 
 /**

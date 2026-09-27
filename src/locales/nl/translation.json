@@ -93,11 +93,11 @@
     "intelligence": "Talent Intelligentie",
     "usageMonitoring": "Gebruiksmonitoring",
     "libraryQuality": "Bibliotheekkwaliteit",
-    "resumes": "Alle cv's",
     "emailTemplates": "E-mailsjablonen",
     "dashboard": "Dashboard",
     "expandMenu": "Uitklappen",
-    "collapseMenu": "Inklappen"
+    "collapseMenu": "Inklappen",
+    "configuration": "Configuratie"
   },
   "jobContent": {
     "createJobPost": "Nieuwe vacature",
@@ -1315,6 +1315,13 @@
       "template": "E-mailsjabloon",
       "defaultTemplate": "Standaard Qorva-bericht",
       "manageTemplates": "Beheren…"
+    },
+    "insight": {
+      "title": "AI-samenvatting",
+      "loading": "Samenvatting wordt geschreven…",
+      "nextSteps": "Wat nu te doen",
+      "show": "Tonen",
+      "disclaimer": "Door AI gegenereerd op basis van de cijfers op deze pagina — controleer voordat u handelt."
     }
   },
   "candidateUpdate": {
@@ -1703,5 +1710,11 @@
     "startOver": "Opnieuw beginnen",
     "subtitle": "Er is niets in rekening gebracht. Je account is aangemaakt — je hoeft alleen nog af te rekenen.",
     "title": "Betaling geannuleerd"
+  },
+  "configuration": {
+    "title": "Configuratie",
+    "sections": {
+      "emailTemplates": "E-mailsjablonen"
+    }
   }
 }
