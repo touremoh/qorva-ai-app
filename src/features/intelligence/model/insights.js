@@ -10,3 +10,6 @@ export const turnToResult = (turn) => ({
     disclaimer:          turn.disclaimer,
     rawData:             turn.rawData,
 });
+
+/** Kinds of entry in a conversation — shared by the hook that builds them and the page that renders them. */
+export const TURN = Object.freeze({ QUESTION: 'question', ANSWER: 'answer', ERROR: 'error' });

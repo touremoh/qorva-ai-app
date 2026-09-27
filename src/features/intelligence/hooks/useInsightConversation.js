@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { askInsight, getConversations, getConversationHistory, deleteConversation } from '../api/libraryInsightsService.js';
 import { getCVById } from '../../cv/api/cvService.js';
-import { turnToResult } from '../model/insights.js';
+import { TURN, turnToResult } from '../model/insights.js';
 
 /** One talent-intelligence conversation: its turns, asking a question (with @-mentions), history, deleting a conversation, and the resume opened from an answer. */
 export default function useInsightConversation() {
@@ -80,8 +80,8 @@ export default function useInsightConversation() {
         const turnsFromCache = summaryCache.current[convId]?.turns;
         if (turnsFromCache?.length) {
             setTurns(turnsFromCache.flatMap(t => [
-                { type: 'question', text: t.question },
-                { type: 'answer', result: turnToResult(t) },
+                { type: TURN.QUESTION, text: t.question },
+                { type: TURN.ANSWER, result: turnToResult(t) },
             ]));
             scrollToBottom();
             return;
@@ -93,11 +93,11 @@ export default function useInsightConversation() {
             const res = await getConversationHistory(convId);
             const history = res?.data?.data ?? res?.data ?? [];
             setTurns(history.flatMap(t => [
-                { type: 'question', text: t.question },
-                { type: 'answer', result: turnToResult(t) },
+                { type: TURN.QUESTION, text: t.question },
+                { type: TURN.ANSWER, result: turnToResult(t) },
             ]));
         } catch {
-            setTurns([{ type: 'error', text: 'Could not load conversation history.' }]);
+            setTurns([{ type: TURN.ERROR, text: 'Could not load conversation history.' }]);
         } finally {
             setLoadingHistory(false);
             scrollToBottom();
@@ -114,7 +114,7 @@ export default function useInsightConversation() {
             .filter((m) => trimmed.includes(`${m.type === 'job' ? '#' : '@'}${m.name}`))
             .map(({ type, id, name }) => ({ type, id, name }));
 
-        setTurns(prev => [...prev, { type: 'question', text: trimmed }]);
+        setTurns(prev => [...prev, { type: TURN.QUESTION, text: trimmed }]);
         setQuestion('');
         setMentions([]);
         setLoading(true);
@@ -162,10 +162,10 @@ export default function useInsightConversation() {
                 }
             }
 
-            setTurns(prev => [...prev, { type: 'answer', result: data }]);
+            setTurns(prev => [...prev, { type: TURN.ANSWER, result: data }]);
         } catch (err) {
             const msg = err?.response?.data?.message ?? 'Something went wrong. Please try again.';
-            setTurns(prev => [...prev, { type: 'error', text: msg }]);
+            setTurns(prev => [...prev, { type: TURN.ERROR, text: msg }]);
         } finally {
             setLoading(false);
             scrollToBottom();
