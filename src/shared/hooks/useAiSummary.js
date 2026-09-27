@@ -1,27 +1,29 @@
 import { useEffect, useRef, useState } from 'react';
-import { getLibraryQualityInsight } from '../api/libraryQualityService.js';
 
 /**
- * The AI summary of the quality report. Loads after the report, and again whenever the report is
- * reloaded — the backend only regenerates when the numbers changed, so a reload is cheap.
- * `failed` means the page shows the plain verdict only.
+ * An AI summary loaded from `fetcher` once the page's own data is ready, and again whenever
+ * `trigger` changes (the backend only regenerates when the underlying numbers changed, so a reload
+ * is cheap).
+ * - `pending`: the page's data is reloading — keep the previous summary on screen meanwhile.
+ * - `enabled`: false when there is nothing to summarise (empty library, no usage period).
+ * `failed` means the page shows its plain content only.
  */
-export default function useQualityInsight(report, reportLoading) {
+export default function useAiSummary(fetcher, { enabled, pending = false, trigger }) {
 	const [insight, setInsight] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [failed, setFailed] = useState(false);
 	const requestId = useRef(0);
 
 	useEffect(() => {
-		if (reportLoading) return; // keep the previous summary on screen while the report reloads
-		if (!report?.totalCVs) {
+		if (pending) return;
+		if (!enabled) {
 			setInsight(null);
 			return;
 		}
 		const id = ++requestId.current;
 		setLoading(true);
 		setFailed(false);
-		getLibraryQualityInsight()
+		fetcher()
 			.then((res) => {
 				if (id !== requestId.current) return;
 				const data = res.data?.data ?? res.data;
@@ -35,7 +37,8 @@ export default function useQualityInsight(report, reportLoading) {
 			.finally(() => {
 				if (id === requestId.current) setLoading(false);
 			});
-	}, [report, reportLoading]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [trigger, enabled, pending]);
 
 	return { insight, loading, failed };
 }

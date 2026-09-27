@@ -27,6 +27,16 @@ const SYNTHETIC = {
 		language: 'en',
 		generatedAt: '2026-09-15T08:00:00Z',
 	} }),
+	'GET /usage-monitoring/insight': () => ({ status: 200, body: {
+		headline: 'You are comfortably within your Pro plan.',
+		explanation: 'Every allowance is on track for this period; matching actions are the one to keep an eye on as you add resumes.',
+		recommendations: [
+			{ text: 'Upload resumes in batches, then run matching once.', feature: 'screeningActions' },
+			{ text: 'Close jobs you are no longer hiring for.', feature: null },
+		],
+		language: 'en',
+		generatedAt: '2026-09-15T08:00:00Z',
+	} }),
 };
 
 /**

@@ -45,6 +45,7 @@ const SILENT_ERROR_CODES = new Set([
 	'error.auth.mfa_too_many_codes',
 	'error.auth.mfa_delivery_failed',
 	'error.library_quality.insight_unavailable', // quality page falls back to the plain verdict
+	'error.usage.insight_unavailable',           // usage page shows its meters only
 ]);
 
 const handleResponseError = (error) => {

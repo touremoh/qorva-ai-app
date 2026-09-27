@@ -1315,13 +1315,6 @@
       "template": "E-mailsjabloon",
       "defaultTemplate": "Standaard Qorva-bericht",
       "manageTemplates": "Beheren…"
-    },
-    "insight": {
-      "title": "AI-samenvatting",
-      "loading": "Samenvatting wordt geschreven…",
-      "nextSteps": "Wat nu te doen",
-      "show": "Tonen",
-      "disclaimer": "Door AI gegenereerd op basis van de cijfers op deze pagina — controleer voordat u handelt."
     }
   },
   "candidateUpdate": {
@@ -1716,5 +1709,58 @@
     "sections": {
       "emailTemplates": "E-mailsjablonen"
     }
+  },
+  "aiSummary": {
+    "title": "AI-samenvatting",
+    "loading": "Samenvatting wordt geschreven…",
+    "nextSteps": "Wat nu te doen",
+    "show": "Tonen",
+    "disclaimer": "Door AI gegenereerd op basis van de cijfers op deze pagina — controleer voordat u handelt."
+  },
+  "usage": {
+    "plan": {
+      "label": "Uw abonnement",
+      "unknownTier": "Huidig abonnement",
+      "demo": "Demo-account · {{tier}}-limieten",
+      "cycle": {
+        "month": "Maandelijkse facturering",
+        "year": "Jaarlijkse facturering — limieten gelden voor het hele jaar"
+      },
+      "period": "{{start}} – {{end}}",
+      "daysLeft_one": "Nog {{count}} dag",
+      "daysLeft_other": "Nog {{count}} dagen",
+      "managePlan": "Abonnement beheren",
+      "purpose": "Uw abonnement bevat een hoeveelheid AI-werk per factureringsperiode. Hier ziet u hoeveel u hebt gebruikt, wat elk getal telt en wat er bij de limiet gebeurt."
+    },
+    "meters": {
+      "screeningActions": {
+        "what": "Eén per geanalyseerd cv en één per kandidaat die voor een vacature wordt beoordeeld.",
+        "details": "Geteld wanneer een cv wordt geüpload of uit uw ATS wordt geïmporteerd, wanneer een matchingronde een kandidaat voor een open vacature beoordeelt (tot 10 per vacature per ronde — nieuwe cv's zetten elke open vacature opnieuw in de wachtrij), wanneer Bibliotheekkwaliteit een cv opnieuw analyseert en wanneer AI scoringsregels voorstelt.",
+        "atLimit": "Bij de limiet worden uploads, ATS-imports, matching en heranalyses gepauzeerd tot de periode wordt vernieuwd."
+      },
+      "aiResumeChats": {
+        "what": "Eén per bericht dat u in de AI-cv-chat verstuurt.",
+        "details": "Elke vraag over een cv telt één keer; de antwoorden zijn gratis.",
+        "atLimit": "Bij de limiet worden nieuwe berichten geweigerd tot de periode wordt vernieuwd."
+      },
+      "talentIntelligenceQueries": {
+        "what": "Eén per vraag in Talent Intelligence.",
+        "details": "Elke vraag over uw hele bibliotheek telt één keer, vervolgvragen inbegrepen.",
+        "atLimit": "Telt mee voor de tegoed van uw abonnement in deze periode."
+      },
+      "emailTemplates": {
+        "what": "Opgeslagen uitnodigingssjablonen — een abonnementstegoed dat niet per periode wordt gereset."
+      }
+    },
+    "pace": {
+      "TOO_EARLY": "Te vroeg voor een prognose",
+      "ON_TRACK": "Op schema",
+      "WATCH": "Dicht bij de limiet in dit tempo",
+      "WILL_EXCEED": "In dit tempo op rond {{date}}",
+      "REACHED": "Limiet bereikt — vernieuwt op {{date}}",
+      "UNMETERED": "Niet geteld"
+    },
+    "notMetered": "Niet geteld",
+    "howCounted": "Hoe wordt dit geteld?"
   }
 }

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Box, Paper, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import QualityInsightPanel from './QualityInsightPanel.jsx';
+import AiSummaryPanel from '../../../shared/ui/AiSummaryPanel.jsx';
 import * as tokens from '../../../theme/tokens.js';
 
 /** Overall library health score with a one-line verdict; the AI summary fills the right side when available. */
@@ -42,7 +42,7 @@ const HealthBanner = ({ overall, overallColors, report, verdict, insight, insigh
 					borderLeft: { lg: `1px solid ${tokens.line.main}` }, pl: { lg: 2.5 },
 					borderTop: { xs: `1px solid ${tokens.line.main}`, lg: 'none' }, pt: { xs: 2, lg: 0 },
 				}}>
-					<QualityInsightPanel insight={insight} loading={insightLoading} onShowIssue={onShowIssue} />
+					<AiSummaryPanel insight={insight} loading={insightLoading} onShowRef={onShowIssue} refOf={(r) => r.issueKey} testId="quality-insight" />
 				</Box>
 			)}
 		</Paper>
