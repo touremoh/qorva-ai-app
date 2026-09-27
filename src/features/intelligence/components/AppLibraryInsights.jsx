@@ -11,6 +11,7 @@ import InsightInputBar from './InsightInputBar.jsx';
 import InsightTyping from './InsightTyping.jsx';
 import InsightEmptyState from './InsightEmptyState.jsx';
 import useInsightConversation from '../hooks/useInsightConversation.js';
+import { TURN } from '../model/insights.js';
 import * as tokens from '../../../theme/tokens.js';
 import { alpha } from '@mui/material/styles';
 
@@ -102,7 +103,7 @@ const AppLibraryInsights = () => {
 
                     {/* Turns */}
                     {!insight.loadingHistory && insight.turns.map((entry, i) => {
-                        if (entry.type === 'insight.question') {
+                        if (entry.type === TURN.QUESTION) {
                             return (
                                 <Box key={i} sx={{ display: 'flex', justifyContent: 'flex-end', mb: 1.5 }}>
                                     <Box sx={{
@@ -119,14 +120,14 @@ const AppLibraryInsights = () => {
                                 </Box>
                             );
                         }
-                        if (entry.type === 'answer') {
+                        if (entry.type === TURN.ANSWER) {
                             return (
                                 <Box key={i} sx={{ mb: 0.5 }}>
                                     <InsightResultCard result={entry.result} onFollowUp={insight.handleFollowUp} onCandidateClick={insight.handleCandidateClick} />
                                 </Box>
                             );
                         }
-                        if (entry.type === 'error') {
+                        if (entry.type === TURN.ERROR) {
                             return (
                                 <Box key={i} sx={{ mb: 1.5, px: 1.5, py: 1, borderRadius: 1.5, backgroundColor: tokens.status.error.tint, border: `1px solid ${tokens.status.error.border}` }}>
                                     <Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.status.error.main }}>{entry.text}</Typography>
