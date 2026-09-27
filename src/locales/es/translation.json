@@ -38,7 +38,8 @@
       "back": "Volver al inicio de sesión",
       "codeRequired": "Introduce el código de 6 dígitos",
       "help": "¿No lo has recibido? Revisa la carpeta de spam o reenvía el código."
-    }
+    },
+    "sessionExpired": "Su sesión ha caducado. Vuelva a iniciar sesión."
   },
   "registration": {
     "freeTrialTitle": "Prueba gratuita",
@@ -640,7 +641,8 @@
       "atsExport": "Exportación ATS",
       "billing": "Facturación",
       "integrations": "Integraciones de ATS",
-      "outreach": "Contacto con candidatos"
+      "outreach": "Contacto con candidatos",
+      "intelligence": "Talent Intelligence"
     },
     "authorities": {
       "VIEW_DASHBOARD": "Ver panel",
@@ -668,7 +670,8 @@
       "UPDATE_SUBSCRIPTION": "Actualizar suscripción",
       "CANCEL_SUBSCRIPTION": "Cancelar suscripción",
       "MANAGE_INTEGRATIONS": "Gestionar integraciones de ATS",
-      "CONTACT_CANDIDATE": "Escribir a candidatos"
+      "CONTACT_CANDIDATE": "Escribir a candidatos",
+      "VIEW_LIBRARY_INSIGHTS": "Consultar Talent Intelligence"
     },
     "mfa": {
       "title": "Verificación en dos pasos",
@@ -686,7 +689,8 @@
       "disabled": "La verificación en dos pasos está desactivada.",
       "loading": "Cargando…",
       "sending": "Enviando código…"
-    }
+    },
+    "billingOwnerOnly": "La facturación la gestiona un propietario de la cuenta. Pídale que cambie el plan o los datos de pago."
   },
   "dashboard": {
     "errors": {
@@ -1066,7 +1070,8 @@
       "customer_creation_failed": "No se pudo configurar su cuenta de facturación. Por favor, contacte con soporte.",
       "checkout_failed": "No se pudo iniciar el proceso de pago. Por favor, inténtelo de nuevo.",
       "price_id_required": "Se debe seleccionar un plan de precios.",
-      "no_stripe_customer": "No se encontró ninguna cuenta de pago. Por favor, contacte con soporte."
+      "no_stripe_customer": "No se encontró ninguna cuenta de pago. Por favor, contacte con soporte.",
+      "upgrade_demo_only": "Los cambios de plan se hacen en el portal de facturación. La actualización desde aquí es solo para cuentas de demostración."
     },
     "http": {
       "not_found": "El recurso solicitado no fue encontrado.",

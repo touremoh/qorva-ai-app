@@ -38,7 +38,8 @@
       "back": "Back to sign in",
       "codeRequired": "Enter the 6-digit code",
       "help": "Didn't get it? Check your spam folder, or resend the code."
-    }
+    },
+    "sessionExpired": "Your session expired. Please sign in again."
   },
   "registration": {
     "freeTrialTitle": "Free Trial",
@@ -640,7 +641,8 @@
       "atsExport": "ATS Export",
       "billing": "Billing",
       "integrations": "ATS Integrations",
-      "outreach": "Candidate outreach"
+      "outreach": "Candidate outreach",
+      "intelligence": "Talent Intelligence"
     },
     "authorities": {
       "VIEW_DASHBOARD": "View Dashboard",
@@ -668,7 +670,8 @@
       "UPDATE_SUBSCRIPTION": "Update Subscription",
       "CANCEL_SUBSCRIPTION": "Cancel Subscription",
       "MANAGE_INTEGRATIONS": "Manage ATS integrations",
-      "CONTACT_CANDIDATE": "Email candidates"
+      "CONTACT_CANDIDATE": "Email candidates",
+      "VIEW_LIBRARY_INSIGHTS": "Ask Talent Intelligence"
     },
     "mfa": {
       "title": "Two-step verification",
@@ -686,7 +689,8 @@
       "disabled": "Two-step verification is off.",
       "loading": "Loading…",
       "sending": "Sending code…"
-    }
+    },
+    "billingOwnerOnly": "Billing is managed by an account owner. Ask them to change the plan or payment details."
   },
   "dashboard": {
     "errors": {
@@ -1088,7 +1092,8 @@
       "customer_creation_failed": "Failed to set up your billing account. Please contact support.",
       "checkout_failed": "Failed to start the checkout process. Please try again.",
       "price_id_required": "A pricing plan must be selected.",
-      "no_stripe_customer": "No payment account found. Please contact support."
+      "no_stripe_customer": "No payment account found. Please contact support.",
+      "upgrade_demo_only": "Plan changes are made in the billing portal. Upgrading from here is only for demo accounts."
     },
     "http": {
       "not_found": "The requested resource was not found.",

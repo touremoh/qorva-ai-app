@@ -38,7 +38,8 @@
       "back": "Terug naar inloggen",
       "codeRequired": "Voer de 6-cijferige code in",
       "help": "Niets ontvangen? Kijk in uw spammap of stuur de code opnieuw."
-    }
+    },
+    "sessionExpired": "Je sessie is verlopen. Log opnieuw in."
   },
   "registration": {
     "freeTrialTitle": "Gratis proefperiode",
@@ -640,7 +641,8 @@
       "atsExport": "ATS-export",
       "billing": "Facturering",
       "integrations": "ATS-integraties",
-      "outreach": "Kandidaten benaderen"
+      "outreach": "Kandidaten benaderen",
+      "intelligence": "Talent Intelligence"
     },
     "authorities": {
       "VIEW_DASHBOARD": "Dashboard bekijken",
@@ -668,7 +670,8 @@
       "UPDATE_SUBSCRIPTION": "Abonnement bijwerken",
       "CANCEL_SUBSCRIPTION": "Abonnement opzeggen",
       "MANAGE_INTEGRATIONS": "ATS-integraties beheren",
-      "CONTACT_CANDIDATE": "Kandidaten mailen"
+      "CONTACT_CANDIDATE": "Kandidaten mailen",
+      "VIEW_LIBRARY_INSIGHTS": "Talent Intelligence bevragen"
     },
     "mfa": {
       "title": "Verificatie in twee stappen",
@@ -686,7 +689,8 @@
       "disabled": "Verificatie in twee stappen staat uit.",
       "loading": "Laden…",
       "sending": "Code wordt verstuurd…"
-    }
+    },
+    "billingOwnerOnly": "Facturatie wordt beheerd door een accounteigenaar. Vraag hen het abonnement of de betaalgegevens te wijzigen."
   },
   "dashboard": {
     "errors": {
@@ -1066,7 +1070,8 @@
       "customer_creation_failed": "Instellen van uw facturatieaccount mislukt. Neem contact op met ondersteuning.",
       "checkout_failed": "Starten van het afrekenproces mislukt. Probeer het opnieuw.",
       "price_id_required": "Er moet een prijsplan worden geselecteerd.",
-      "no_stripe_customer": "Geen betaalaccount gevonden. Neem contact op met ondersteuning."
+      "no_stripe_customer": "Geen betaalaccount gevonden. Neem contact op met ondersteuning.",
+      "upgrade_demo_only": "Abonnementswijzigingen doe je in het factuurportaal. Upgraden vanaf hier kan alleen voor demo-accounts."
     },
     "http": {
       "not_found": "De gevraagde bron is niet gevonden.",

@@ -80,7 +80,7 @@ const AccountUsersTab = () => {
 		try {
 			setSavingEdit(true);
 			const role = getRoleFromAuthorities(editUser.authorities);
-			const authorities = permsToAuthorities(editPerms, role);
+			const authorities = permsToAuthorities(editPerms, role, editUser.authorities);
 			await updateUserAuthorities(editUser.id, authorities);
 			setUsers(prev => prev.map(u => u.id === editUser.id ? { ...u, authorities } : u));
 			setEditUser(null);

@@ -38,7 +38,8 @@
       "back": "Torna all'accesso",
       "codeRequired": "Inserisci il codice di 6 cifre",
       "help": "Non lo trovi? Controlla lo spam o invia di nuovo il codice."
-    }
+    },
+    "sessionExpired": "La sessione è scaduta. Accedi di nuovo."
   },
   "registration": {
     "freeTrialTitle": "Prova gratuita",
@@ -640,7 +641,8 @@
       "atsExport": "Esportazione ATS",
       "billing": "Fatturazione",
       "integrations": "Integrazioni ATS",
-      "outreach": "Contatto candidati"
+      "outreach": "Contatto candidati",
+      "intelligence": "Talent Intelligence"
     },
     "authorities": {
       "VIEW_DASHBOARD": "Visualizza dashboard",
@@ -668,7 +670,8 @@
       "UPDATE_SUBSCRIPTION": "Aggiorna abbonamento",
       "CANCEL_SUBSCRIPTION": "Annulla abbonamento",
       "MANAGE_INTEGRATIONS": "Gestire le integrazioni ATS",
-      "CONTACT_CANDIDATE": "Scrivere ai candidati"
+      "CONTACT_CANDIDATE": "Scrivere ai candidati",
+      "VIEW_LIBRARY_INSIGHTS": "Interrogare Talent Intelligence"
     },
     "mfa": {
       "title": "Verifica in due passaggi",
@@ -686,7 +689,8 @@
       "disabled": "La verifica in due passaggi è disattivata.",
       "loading": "Caricamento…",
       "sending": "Invio del codice…"
-    }
+    },
+    "billingOwnerOnly": "La fatturazione è gestita da un titolare dell’account. Chiedigli di modificare il piano o i dati di pagamento."
   },
   "dashboard": {
     "errors": {
@@ -1066,7 +1070,8 @@
       "customer_creation_failed": "Impossibile configurare il suo account di fatturazione. Contatti il supporto.",
       "checkout_failed": "Impossibile avviare il processo di pagamento. Riprovi.",
       "price_id_required": "È necessario selezionare un piano tariffario.",
-      "no_stripe_customer": "Nessun account di pagamento trovato. Contatti il supporto."
+      "no_stripe_customer": "Nessun account di pagamento trovato. Contatti il supporto.",
+      "upgrade_demo_only": "Le modifiche al piano si effettuano nel portale di fatturazione. L’upgrade da qui è riservato agli account demo."
     },
     "http": {
       "not_found": "La risorsa richiesta non è stata trovata.",

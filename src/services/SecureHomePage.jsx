@@ -10,13 +10,21 @@ import {
 	DASHBOARD_STATUSES,
 	NEEDS_PAYMENT_STATUSES,
 } from "../constants.js";
-import { setAuthResults } from "../shared/lib/session.js";
+import { renewSession, setAuthResults } from "../shared/lib/session.js";
+import useSessionRefresh from "../shared/hooks/useSessionRefresh.js";
 import { isDemoUser } from "../utils/demoMode.js";
 import * as tokens from '../theme/tokens.js';
 
 const SecureHomePage = ({ children }) => {
 	const navigate = useNavigate();
 	const [isAuthorized, setIsAuthorized] = useState(false);
+
+	// Refresh before the token expires while the user is active (the API cannot renew an expired one).
+	useSessionRefresh({
+		active: isAuthorized,
+		refresh: refreshToken,
+		onRefreshed: (response) => renewSession(response.data.data),
+	});
 
 	useEffect(() => {
 		const isTokenValid = async (token) => {
@@ -34,7 +42,8 @@ const SecureHomePage = ({ children }) => {
 
 			if (!(await isTokenValid(token))) {
 				localStorage.clear();
-				navigate('/login');
+				// A stored token that no longer validates is an expired (or ended) session.
+				navigate(token ? '/login?expired=1' : '/login');
 				return;
 			}
 

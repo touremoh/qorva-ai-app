@@ -38,7 +38,8 @@
       "back": "Retour à la connexion",
       "codeRequired": "Saisissez le code à 6 chiffres",
       "help": "Rien reçu ? Vérifiez vos spams ou renvoyez le code."
-    }
+    },
+    "sessionExpired": "Votre session a expiré. Veuillez vous reconnecter."
   },
   "registration": {
     "freeTrialTitle": "Essai gratuit",
@@ -640,7 +641,8 @@
       "atsExport": "Export ATS",
       "billing": "Facturation",
       "integrations": "Intégrations ATS",
-      "outreach": "Contact des candidats"
+      "outreach": "Contact des candidats",
+      "intelligence": "Talent Intelligence"
     },
     "authorities": {
       "VIEW_DASHBOARD": "Voir le tableau de bord",
@@ -668,7 +670,8 @@
       "UPDATE_SUBSCRIPTION": "Mettre à jour l'abonnement",
       "CANCEL_SUBSCRIPTION": "Annuler l'abonnement",
       "MANAGE_INTEGRATIONS": "Gérer les intégrations ATS",
-      "CONTACT_CANDIDATE": "Écrire aux candidats"
+      "CONTACT_CANDIDATE": "Écrire aux candidats",
+      "VIEW_LIBRARY_INSIGHTS": "Interroger Talent Intelligence"
     },
     "mfa": {
       "title": "Vérification en deux étapes",
@@ -686,7 +689,8 @@
       "disabled": "La vérification en deux étapes est désactivée.",
       "loading": "Chargement…",
       "sending": "Envoi du code…"
-    }
+    },
+    "billingOwnerOnly": "La facturation est gérée par un propriétaire du compte. Demandez-lui de modifier l’offre ou le moyen de paiement."
   },
   "dashboard": {
     "errors": {
@@ -1066,7 +1070,8 @@
       "customer_creation_failed": "Échec de la configuration de votre compte de facturation. Veuillez contacter le support.",
       "checkout_failed": "Échec du démarrage du processus de paiement. Veuillez réessayer.",
       "price_id_required": "Un forfait tarifaire doit être sélectionné.",
-      "no_stripe_customer": "Aucun compte de paiement trouvé. Veuillez contacter le support."
+      "no_stripe_customer": "Aucun compte de paiement trouvé. Veuillez contacter le support.",
+      "upgrade_demo_only": "Les changements d’offre se font dans le portail de facturation. La mise à niveau ici est réservée aux comptes de démonstration."
     },
     "http": {
       "not_found": "La ressource demandée est introuvable.",
