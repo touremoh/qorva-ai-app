@@ -1,20 +1,19 @@
 // eslint-disable-next-line no-unused-vars
 import React, {useEffect} from 'react'
-import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'sonner';
-import Login from "./views/pages/login/Login.jsx";
-import Register from "./views/pages/register/Register.jsx";
+import Login from "./features/auth/components/Login.jsx";
+import Register from "./features/auth/components/Register.jsx";
 import AppHome from "./layout/AppHome.jsx";
 import SecureHomePage from "./services/SecureHomePage.jsx";
 import ErrorPage from "./views/pages/errors/ErrorPage.jsx";
-import RegistrationSuccessful from "./views/pages/success/RegistrationSuccessful.jsx";
+import RegistrationSuccessful from "./features/auth/components/RegistrationSuccessful.jsx";
 import CheckLoginPage from "./services/CheckLoginPage.jsx";
-import CheckoutSuccessPage from "./views/pages/checkout/CheckoutSuccessPage.jsx";
-import CheckoutCancelPage from "./views/pages/checkout/CheckoutCancelPage.jsx";
-import SetPassword from "./views/pages/auth/SetPassword.jsx";
-import EmailLinkRequest from "./views/pages/auth/EmailLinkRequest.jsx";
-import CandidateUpdatePage from "./views/pages/candidate-update/CandidateUpdatePage.jsx";
+import CheckoutSuccessPage from "./features/billing/components/CheckoutSuccessPage.jsx";
+import CheckoutCancelPage from "./features/billing/components/CheckoutCancelPage.jsx";
+import SetPassword from "./features/auth/components/SetPassword.jsx";
+import EmailLinkRequest from "./features/auth/components/EmailLinkRequest.jsx";
+import CandidateUpdatePage from "./features/candidate-update/components/CandidateUpdatePage.jsx";
 import {initGA} from "./utils/analytics.js";
 
 function App() {

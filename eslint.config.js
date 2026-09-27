@@ -5,10 +5,26 @@ import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 
 export default [
-  { ignores: ['dist'] },
+  { ignores: ['dist', 'playwright-report', 'test-results', 'coverage'] },
   {
-    files: ['vite.config.js'],
+    files: ['vite.config.js', 'vitest.config.js', 'playwright.config.js', 'e2e/**/*.js'],
     languageOptions: { globals: globals.node },
+  },
+  {
+    // Colours and type sizes come from src/theme (readability rules, guide §5.2): no hex colours and
+    // no font-size literals anywhere else. Large decorative icons (28px and up) may stay numeric.
+    files: ['src/**/*.{js,jsx}'],
+    ignores: ['src/theme/**', 'src/**/*.test.{js,jsx}'],
+    rules: {
+      // Components stay small; the containers still above this are listed in the refactor guide.
+      'max-lines': ['warn', { max: 300, skipBlankLines: true, skipComments: true }],
+      'no-restricted-syntax': ['error',
+        { selector: 'Literal[value=/#[0-9a-fA-F]{3,8}\\b/]', message: 'Use a colour token from src/theme/tokens.js instead of a hex literal.' },
+        { selector: 'TemplateElement[value.raw=/#[0-9a-fA-F]{3,8}\\b/]', message: 'Use a colour token from src/theme/tokens.js instead of a hex literal.' },
+        { selector: "Property[key.name='fontSize'] > Literal[value=/(rem|px|em)$/]", message: 'Use a size from tokens.fontSize / tokens.iconSize.' },
+        { selector: "Property[key.name='fontSize'] > Literal[value<28]", message: 'Use a size from tokens.fontSize / tokens.iconSize.' },
+      ],
+    },
   },
   {
     files: ['**/*.{js,jsx}'],

@@ -40,7 +40,7 @@ export const isActionAllowed = (action) => {
 // ---------------------------------------------------------------------------
 // The upgrade flow (Screen 7) can be triggered from several disconnected places:
 // the persistent demo banner, a gated write-action CTA, or the global 403
-// handler that lives outside React (in axiosConfig). A window CustomEvent keeps
+// handler that lives outside React (in the API client). A window CustomEvent keeps
 // them decoupled from the single <UpgradeDialogHost/> that renders the dialog.
 
 export const OPEN_UPGRADE_EVENT = 'qorva:open-upgrade';

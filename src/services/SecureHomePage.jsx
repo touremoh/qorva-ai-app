@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, CircularProgress } from '@mui/material';
 import PropTypes from 'prop-types';
-import { validateToken, refreshToken } from './authService.js';
+import { validateToken, refreshToken } from '../features/auth/api/authService.js';
 import { t } from "i18next";
 import {
 	AUTH_TOKEN,
@@ -10,8 +10,9 @@ import {
 	DASHBOARD_STATUSES,
 	NEEDS_PAYMENT_STATUSES,
 } from "../constants.js";
-import { setAuthResults } from "../../localStorageManager.js";
+import { setAuthResults } from "../shared/lib/session.js";
 import { isDemoUser } from "../utils/demoMode.js";
+import * as tokens from '../theme/tokens.js';
 
 const SecureHomePage = ({ children }) => {
 	const navigate = useNavigate();
@@ -78,7 +79,7 @@ const SecureHomePage = ({ children }) => {
 					justifyContent: 'center',
 				}}
 			>
-				<CircularProgress sx={{ color: '#629C44' }} />
+				<CircularProgress sx={{ color: tokens.brand.text }} />
 			</Box>
 		);
 	}

@@ -1,0 +1,138 @@
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Chip from '@mui/material/Chip';
+import PsychologyOutlinedIcon from '@mui/icons-material/PsychologyOutlined';
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
+import MetricRow from './MetricRow.jsx';
+import ChartSection from './ChartSection.jsx';
+import CandidateSection from './CandidateSection.jsx';
+import CandidateComparisonSection from './CandidateComparisonSection.jsx';
+import FollowUpChips from './FollowUpChips.jsx';
+import DisclaimerBanner from './DisclaimerBanner.jsx';
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
+
+// Follow-up chips are temporarily hidden; set to true to re-enable.
+const SHOW_FOLLOW_UPS = false;
+
+const INTENT_CONFIG = {
+    TALENT_POOL_INTELLIGENCE:        { label: 'Talent Pool Intelligence',  color: tokens.status.accent.main, bg: 'rgba(79,70,229,0.07)'   },
+    TALENT_CLUSTERING:               { label: 'Talent Clustering',         color: tokens.status.accent.main, bg: 'rgba(79,70,229,0.07)'   },
+    CANDIDATE_RANKING:               { label: 'Candidate Ranking',         color: tokens.brand.text, bg: alpha(tokens.brand.main, 0.07)   },
+    CANDIDATE_REDISCOVERY:           { label: 'Candidate Rediscovery',     color: tokens.status.info.bright, bg: 'rgba(8,145,178,0.07)'   },
+    SKILL_GAP_ANALYSIS:              { label: 'Skill Gap Analysis',        color: tokens.status.warning.main, bg: 'rgba(217,119,6,0.07)'   },
+    GENERAL_RECRUITING_QUESTION:     { label: 'Recruiting Question',       color: tokens.ink.muted, bg: 'rgba(100,116,139,0.07)' },
+    LOCATION_INTELLIGENCE:           { label: 'Location Intelligence',     color: tokens.status.success.teal, bg: 'rgba(15,118,110,0.07)'  },
+    SALARY_EXPECTATION_ANALYSIS:     { label: 'Salary Analysis',           color: tokens.status.accent.violet, bg: 'rgba(124,58,237,0.07)'  },
+    CANDIDATE_COMPARISON:            { label: 'Candidate Comparison',      color: tokens.status.info.bright, bg: 'rgba(8,145,178,0.07)'   },
+    JOB_DESCRIPTION_ANALYSIS:        { label: 'Job Description Analysis',  color: tokens.status.warning.main, bg: 'rgba(217,119,6,0.07)'   },
+    RESUME_DATA_QUALITY_ANALYSIS:    { label: 'Resume Quality Analysis',   color: tokens.ink.muted, bg: 'rgba(100,116,139,0.07)' },
+    SENIORITY_DISTRIBUTION_ANALYSIS: { label: 'Seniority Distribution',   color: tokens.brand.text, bg: alpha(tokens.brand.main, 0.07)   },
+    SKILLS_DISTRIBUTION:             { label: 'Skills Distribution',      color: tokens.status.info.sky, bg: 'rgba(2,132,199,0.07)'    },
+};
+
+const InsightResultCard = ({ result, onFollowUp, onCandidateClick }) => {
+    const { t } = useTranslation();
+    const { intent, answerText, metrics, charts, candidates, followUpQuestions, disclaimer, showRediscoveredTag, rawData } = result;
+    const cfg = INTENT_CONFIG[intent] ?? INTENT_CONFIG.GENERAL_RECRUITING_QUESTION;
+
+    return (
+        <Box sx={{
+            backgroundColor: tokens.surface.paper,
+            borderRadius: 2.5,
+            border: `1px solid ${tokens.surface.coolAlt}`,
+            borderLeft: `3px solid ${cfg.color}`,
+            boxShadow: '0 1px 4px rgba(0,0,0,0.05), 0 0 0 0 transparent',
+            overflow: 'hidden',
+            mb: 1.5,
+            transition: 'box-shadow 0.2s ease',
+            '&:hover': { boxShadow: '0 4px 12px rgba(0,0,0,0.07)' },
+        }}>
+            {/* Intent header stripe */}
+            <Box sx={{
+                px: 2,
+                pt: 1.5,
+                pb: 1,
+                borderBottom: `1px solid ${cfg.color}18`,
+                background: `linear-gradient(135deg, ${cfg.bg} 0%, transparent 80%)`,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+            }}>
+                <PsychologyOutlinedIcon sx={{ fontSize: tokens.iconSize.sm, color: cfg.color, flexShrink: 0 }} />
+                <Chip
+                    label={t(`insight.intents.${intent}`, cfg.label)}
+                    size="small"
+                    sx={{
+                        fontSize: tokens.fontSize.caption,
+                        height: 20,
+                        fontWeight: 700,
+                        backgroundColor: 'transparent',
+                        color: cfg.color,
+                        border: 'none',
+                        '& .MuiChip-label': { px: 0 },
+                    }}
+                />
+            </Box>
+
+            {/* Card body */}
+            <Box sx={{ p: 2 }}>
+                {/* Answer text */}
+                {answerText && (
+                    <Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.body, lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>
+                        {answerText}
+                    </Typography>
+                )}
+
+                {/* Metrics */}
+                <MetricRow metrics={metrics} />
+
+                {/* Charts */}
+                <ChartSection charts={charts} />
+
+                {/* Candidates */}
+                {intent === 'CANDIDATE_COMPARISON' && candidates?.length > 0 ? (
+                    <Box sx={{ mt: 1.5, pt: 1.5, borderTop: `1px solid ${tokens.surface.muted}` }}>
+                        <CandidateComparisonSection candidates={candidates} rawData={rawData ?? {}} onCandidateClick={onCandidateClick} />
+                    </Box>
+                ) : candidates?.length > 0 ? (
+                    <Box sx={{ mt: 1.5, pt: 1.5, borderTop: `1px solid ${tokens.surface.muted}` }}>
+                        <Typography sx={{ fontSize: tokens.fontSize.micro, fontWeight: 700, color: tokens.ink.subtle, textTransform: 'uppercase', letterSpacing: '0.08em', mb: 1 }}>
+                            {t('insight.candidates', 'Candidates')}
+                        </Typography>
+                        <CandidateSection candidates={candidates} showRediscoveredTag={showRediscoveredTag} onCandidateClick={onCandidateClick} />
+                    </Box>
+                ) : null}
+
+                {/* Disclaimer */}
+                <DisclaimerBanner text={disclaimer} />
+
+                {/* Follow-ups — temporarily hidden, see SHOW_FOLLOW_UPS */}
+                {SHOW_FOLLOW_UPS && followUpQuestions?.length > 0 && (
+                    <Box sx={{ mt: 1.5, pt: 1.5, borderTop: `1px solid ${tokens.surface.muted}` }}>
+                        <FollowUpChips suggestions={followUpQuestions} onSelect={onFollowUp} />
+                    </Box>
+                )}
+            </Box>
+        </Box>
+    );
+};
+
+InsightResultCard.propTypes = {
+    result: PropTypes.shape({
+        intent: PropTypes.string,
+        answerText: PropTypes.string,
+        metrics: PropTypes.array,
+        charts: PropTypes.array,
+        candidates: PropTypes.array,
+        followUpQuestions: PropTypes.array,
+        disclaimer: PropTypes.string,
+        showRediscoveredTag: PropTypes.bool,
+        rawData: PropTypes.object,
+    }).isRequired,
+    onFollowUp: PropTypes.func,
+    onCandidateClick: PropTypes.func,
+};
+
+export default InsightResultCard;

@@ -1,0 +1,64 @@
+import * as tokens from '../../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
+export const THEME_GREEN = tokens.brand.main;
+
+export const THEME_GREEN_DARK = tokens.brand.hover;
+
+export const THEME_GREEN_ALPHA = alpha(tokens.brand.main, 0.18);
+
+export const inputSx = {
+	'& .MuiOutlinedInput-root': {
+		borderRadius: 1.5,
+		transition: 'box-shadow 0.25s ease',
+		'& fieldset': { transition: 'border-color 0.2s ease, border-width 0.1s ease' },
+		'&:hover fieldset': { borderColor: THEME_GREEN },
+		'&.Mui-focused': { boxShadow: `0 0 0 3px ${THEME_GREEN_ALPHA}` },
+		'&.Mui-focused fieldset': { borderColor: THEME_GREEN, borderWidth: '2px' },
+	},
+	'& .MuiInputBase-input': { fontSize: tokens.fontSize.body2 },
+};
+
+export const selectSx = {
+	borderRadius: 1.5,
+	fontSize: tokens.fontSize.body2,
+	transition: 'box-shadow 0.25s ease',
+	'&:hover .MuiOutlinedInput-notchedOutline': { borderColor: THEME_GREEN },
+	'&.Mui-focused': { boxShadow: `0 0 0 3px ${THEME_GREEN_ALPHA}` },
+	'&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: THEME_GREEN, borderWidth: '2px' },
+};
+
+export const sliderSx = {
+	color: THEME_GREEN,
+	'& .MuiSlider-thumb': { width: 14, height: 14 },
+	'& .MuiSlider-track': { height: 4 },
+	'& .MuiSlider-rail': { height: 4, opacity: 0.25 },
+};
+
+export const stepperSx = {
+	width: '100%',
+	'& .MuiStepIcon-root': { color: tokens.ink.faintest },
+	'& .MuiStepIcon-root.Mui-active': { color: THEME_GREEN },
+	'& .MuiStepIcon-root.Mui-completed': { color: THEME_GREEN },
+	'& .MuiStepLabel-label': { fontSize: tokens.fontSize.body2 },
+	'& .MuiStepLabel-label.Mui-active': { fontWeight: 600, color: THEME_GREEN },
+	'& .MuiStepLabel-label.Mui-completed': { color: THEME_GREEN },
+	'& .MuiStepConnector-line': { borderColor: tokens.line.main },
+	'& .MuiStepConnector-root.Mui-active .MuiStepConnector-line': { borderColor: THEME_GREEN },
+	'& .MuiStepConnector-root.Mui-completed .MuiStepConnector-line': { borderColor: THEME_GREEN },
+};
+
+// ─── Scoring form helpers ─────────────────────────────────────────────────────
+
+export const emptySkill = () => ({ name: '', importance: 'mandatory', weight: 50, minYearsOfExperience: 1, exactSkillOnly: false });
+
+export const AVAILABILITY_STATUSES = ['activelyLooking', 'openButNotSearching', 'notAvailable', 'freelanceOnly'];
+
+export const tabsSx = {
+	borderBottom: `1px solid ${tokens.line.main}`,
+	minHeight: 40,
+	px: 2,
+	backgroundColor: tokens.surface.paper,
+	'& .MuiTabs-indicator': { backgroundColor: THEME_GREEN },
+	'& .MuiTab-root': { textTransform: 'none', fontSize: tokens.fontSize.body2, minHeight: 40, py: 1, color: tokens.ink.muted },
+	'& .MuiTab-root.Mui-selected': { color: THEME_GREEN, fontWeight: 600 },
+};

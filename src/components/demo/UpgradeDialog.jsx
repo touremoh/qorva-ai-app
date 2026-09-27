@@ -12,9 +12,11 @@ import {
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import RocketLaunchRoundedIcon from '@mui/icons-material/RocketLaunchRounded';
 import { useTranslation } from 'react-i18next';
-import QorvaPricingTable from '../../views/pages/register/QorvaPricingTable.jsx';
-import { upgradeSubscription } from '../../services/subscriptionService.js';
+import QorvaPricingTable from '../../features/billing/components/QorvaPricingTable.jsx';
+import { upgradeSubscription } from '../../features/billing/api/subscriptionService.js';
 import { OPEN_UPGRADE_EVENT } from '../../utils/demoMode.js';
+import * as tokens from '../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 // Global host for the demo → paid upgrade flow (Screen 7). Mounted once inside
 // the authenticated shell; opens in response to the OPEN_UPGRADE_EVENT window
@@ -81,7 +83,7 @@ const UpgradeDialog = () => {
 				<IconButton
 					onClick={handleClose}
 					disabled={loading}
-					sx={{ position: 'absolute', top: 12, right: 12, color: '#94a3b8' }}
+					sx={{ position: 'absolute', top: 12, right: 12, color: tokens.ink.subtle }}
 					aria-label={t('demo.close', 'Close')}
 				>
 					<CloseRoundedIcon />
@@ -89,20 +91,20 @@ const UpgradeDialog = () => {
 				<Box
 					sx={{
 						display: 'inline-flex', alignItems: 'center', gap: 1,
-						backgroundColor: 'rgba(98,156,68,0.12)',
-						border: '1px solid rgba(98,156,68,0.3)',
+						backgroundColor: alpha(tokens.brand.main, 0.12),
+						border: `1px solid ${alpha(tokens.brand.main, 0.3)}`,
 						borderRadius: 5, px: 2, py: 0.6, mb: 2,
 					}}
 				>
-					<RocketLaunchRoundedIcon sx={{ fontSize: 16, color: '#629C44' }} />
-					<Typography sx={{ fontSize: '0.78rem', color: '#518136', fontWeight: 600 }}>
+					<RocketLaunchRoundedIcon sx={{ fontSize: tokens.iconSize.md, color: tokens.brand.text }} />
+					<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.brand.hoverAlt, fontWeight: 600 }}>
 						{t('demo.startTrial', 'Start 14-day free trial')}
 					</Typography>
 				</Box>
-				<Typography sx={{ fontWeight: 800, fontSize: { xs: '1.4rem', md: '1.75rem' }, color: '#0f172a', letterSpacing: '-0.03em', mb: 0.75 }}>
+				<Typography sx={{ fontWeight: 800, fontSize: { xs: tokens.fontSize.xxl, md: tokens.fontSize.display }, color: tokens.ink.strong, letterSpacing: '-0.03em', mb: 0.75 }}>
 					{t('demo.upgradeTitle', 'Upgrade your workspace')}
 				</Typography>
-				<Typography sx={{ color: '#64748b', fontSize: '0.92rem', maxWidth: 560, mx: 'auto' }}>
+				<Typography sx={{ color: tokens.ink.muted, fontSize: tokens.fontSize.body, maxWidth: 560, mx: 'auto' }}>
 					{subtitle}
 				</Typography>
 			</Box>
@@ -123,11 +125,11 @@ const UpgradeDialog = () => {
 						disabled={loading || !selectedPriceId}
 						sx={{
 							px: 5, py: 1.4, borderRadius: 1.5,
-							fontWeight: 600, fontSize: '0.95rem', textTransform: 'none',
-							backgroundColor: '#629C44',
-							boxShadow: '0 2px 8px rgba(98,156,68,0.35)',
-							'&:hover': { backgroundColor: '#518136', boxShadow: '0 4px 14px rgba(98,156,68,0.45)' },
-							'&.Mui-disabled': { backgroundColor: '#b8d4a8', boxShadow: 'none' },
+							fontWeight: 600, fontSize: tokens.fontSize.body, textTransform: 'none',
+							backgroundColor: tokens.brand.main,
+							boxShadow: `0 2px 8px ${alpha(tokens.brand.main, 0.35)}`,
+							'&:hover': { backgroundColor: tokens.brand.hoverAlt, boxShadow: `0 4px 14px ${alpha(tokens.brand.main, 0.45)}` },
+							'&.Mui-disabled': { backgroundColor: tokens.brand.soft, boxShadow: 'none' },
 						}}
 					>
 						{loading
@@ -136,7 +138,7 @@ const UpgradeDialog = () => {
 					</Button>
 				</Box>
 
-				<Typography sx={{ mt: 2, mb: 1, color: '#94a3b8', fontSize: '0.72rem', textAlign: 'center' }}>
+				<Typography sx={{ mt: 2, mb: 1, color: tokens.ink.subtle, fontSize: tokens.fontSize.caption, textAlign: 'center' }}>
 					{t('demo.stripeNote', 'Secure checkout by Stripe. Your 14-day trial starts today — cancel anytime.')}
 				</Typography>
 			</DialogContent>

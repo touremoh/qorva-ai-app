@@ -3,6 +3,8 @@ import LockOpenRoundedIcon from '@mui/icons-material/LockOpenRounded';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { openUpgradeDialog } from '../../utils/demoMode.js';
+import * as tokens from '../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 // Drop-in "Upgrade to unlock" CTA used in place of write actions that demo
 // users cannot perform. Clicking it opens the upgrade flow (Screen 7).
@@ -21,7 +23,7 @@ const UpgradeButton = ({
 			size={size}
 			variant={variant}
 			fullWidth={fullWidth}
-			startIcon={<LockOpenRoundedIcon sx={{ fontSize: 16 }} />}
+			startIcon={<LockOpenRoundedIcon sx={{ fontSize: tokens.iconSize.md }} />}
 			onClick={() => openUpgradeDialog(reason)}
 			sx={{
 				textTransform: 'none',
@@ -29,14 +31,14 @@ const UpgradeButton = ({
 				borderRadius: 1.5,
 				...(variant === 'outlined'
 					? {
-						borderColor: 'rgba(98,156,68,0.6)',
-						color: '#629C44',
-						'&:hover': { borderColor: '#629C44', backgroundColor: 'rgba(98,156,68,0.06)' },
+						borderColor: alpha(tokens.brand.main, 0.6),
+						color: tokens.brand.text,
+						'&:hover': { borderColor: tokens.brand.main, backgroundColor: alpha(tokens.brand.main, 0.06) },
 					}
 					: {
-						backgroundColor: '#629C44',
-						boxShadow: '0 2px 8px rgba(98,156,68,0.35)',
-						'&:hover': { backgroundColor: '#518136' },
+						backgroundColor: tokens.brand.main,
+						boxShadow: `0 2px 8px ${alpha(tokens.brand.main, 0.35)}`,
+						'&:hover': { backgroundColor: tokens.brand.hoverAlt },
 					}),
 				...sx,
 			}}

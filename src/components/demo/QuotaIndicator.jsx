@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react';
 import { Box, Typography, LinearProgress, Tooltip } from '@mui/material';
 import BoltOutlinedIcon from '@mui/icons-material/BoltOutlined';
 import { useTranslation } from 'react-i18next';
-import { getUsageMonitoring } from '../../services/usageMonitoringService.js';
+import { getUsageMonitoring } from '../../features/usage/api/usageMonitoringService.js';
 import { openUpgradeDialog } from '../../utils/demoMode.js';
+import * as tokens from '../../theme/tokens.js';
+import { alpha } from '@mui/material/styles';
 
 // Demo report generation is bounded by the Starter-tier quota. This chip shows
 // the remaining screening-actions usage from GET /usage-monitoring/current,
@@ -39,15 +41,15 @@ const QuotaIndicator = () => {
 					display: 'flex', alignItems: 'center', gap: 1,
 					px: 1.25, py: 0.6, borderRadius: 1.5,
 					border: '1px solid',
-					borderColor: exhausted ? 'rgba(220,38,38,0.35)' : 'rgba(98,156,68,0.3)',
-					backgroundColor: exhausted ? 'rgba(220,38,38,0.05)' : 'rgba(98,156,68,0.05)',
+					borderColor: exhausted ? 'rgba(220,38,38,0.35)' : alpha(tokens.brand.main, 0.3),
+					backgroundColor: exhausted ? 'rgba(220,38,38,0.05)' : alpha(tokens.brand.main, 0.05),
 					cursor: exhausted ? 'pointer' : 'default',
 					minWidth: 150,
 				}}
 			>
-				<BoltOutlinedIcon sx={{ fontSize: 16, color: exhausted ? '#dc2626' : '#629C44' }} />
+				<BoltOutlinedIcon sx={{ fontSize: tokens.iconSize.md, color: exhausted ? `${tokens.status.error.main}` : `${tokens.brand.main}` }} />
 				<Box sx={{ flex: 1, minWidth: 0 }}>
-					<Typography sx={{ fontSize: '0.68rem', fontWeight: 600, color: exhausted ? '#991b1b' : '#166534', lineHeight: 1.2 }}>
+					<Typography sx={{ fontSize: tokens.fontSize.caption, fontWeight: 600, color: exhausted ? `${tokens.status.error.text}` : `${tokens.status.success.text}`, lineHeight: 1.2 }}>
 						{t('demo.reportsQuota', 'Demo reports')}: {consumed}/{limit}
 					</Typography>
 					<LinearProgress
@@ -55,10 +57,10 @@ const QuotaIndicator = () => {
 						value={pct}
 						sx={{
 							mt: 0.4, height: 4, borderRadius: 3,
-							backgroundColor: exhausted ? 'rgba(220,38,38,0.15)' : 'rgba(98,156,68,0.15)',
+							backgroundColor: exhausted ? 'rgba(220,38,38,0.15)' : alpha(tokens.brand.main, 0.15),
 							'& .MuiLinearProgress-bar': {
 								borderRadius: 3,
-								backgroundColor: exhausted ? '#dc2626' : '#629C44',
+								backgroundColor: exhausted ? `${tokens.status.error.main}` : `${tokens.brand.main}`,
 							},
 						}}
 					/>
