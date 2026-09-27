@@ -92,7 +92,7 @@
     "aiResumeChat": "AI Resume Chat",
     "intelligence": "Talent Intelligence",
     "usageMonitoring": "Usage Monitoring",
-    "libraryQuality": "Library Quality",
+    "libraryQuality": "Data Health",
     "emailTemplates": "Email Templates",
     "dashboard": "Dashboard",
     "expandMenu": "Expand",
@@ -352,7 +352,7 @@
       "skippedCount": "{{count}} skipped",
       "skippedQuota": "{{count}} skipped — your plan's screening limit was reached",
       "errorSamples": "Files with errors",
-      "duplicatesHint": "Possible duplicates are flagged in Library Quality after import.",
+      "duplicatesHint": "Possible duplicates are flagged in Data Health after import.",
       "cancelled": "Import cancelled",
       "cancelImport": "Cancel import",
       "continueInBackground": "Continue in background",
@@ -1199,7 +1199,7 @@
   "libraryQuality": {
     "overall": "Library Health",
     "totalCVs": "{{count}} resumes analyzed",
-    "error": "Could not load the library quality report. Please try again.",
+    "error": "Could not load the data health report. Please try again.",
     "retry": "Retry",
     "empty": {
       "title": "No resumes yet",
@@ -1356,7 +1356,7 @@
   },
   "emailTemplates": {
     "pageTitle": "Email Templates",
-    "pageSubtitle": "Craft the messages candidates receive when you request a profile update. Pick a template when launching an update campaign from Library Quality — or leave it unset to use the standard Qorva message.",
+    "pageSubtitle": "Craft the messages candidates receive when you request a profile update. Pick a template when launching an update campaign from Data Health — or leave it unset to use the standard Qorva message.",
     "title": "Invitation email templates",
     "new": "New template",
     "none": "No templates yet — campaigns use the standard Qorva message.",
@@ -1735,7 +1735,7 @@
     "meters": {
       "screeningActions": {
         "what": "One per resume analysed, and one per candidate scored against a job.",
-        "details": "Counted when a resume is uploaded or imported from your ATS, when a matching run scores a candidate against an open job (up to 10 per job per run — adding resumes queues every open job again), when Library Quality re-analyses a resume, and when AI suggests scoring rules.",
+        "details": "Counted when a resume is uploaded or imported from your ATS, when a matching run scores a candidate against an open job (up to 10 per job per run — adding resumes queues every open job again), when Data Health re-analyses a resume, and when AI suggests scoring rules.",
         "atLimit": "At the limit, uploads, ATS imports, matching and re-analysis pause until the period renews."
       },
       "aiResumeChats": {
@@ -1762,5 +1762,17 @@
     },
     "notMetered": "Not metered",
     "howCounted": "How is this counted?"
+  },
+  "menu": {
+    "dashboard": "Dashboard",
+    "cvs": "Resume Library",
+    "dataHealth": "Data Health",
+    "jobs": "Jobs",
+    "reports": "Match Reports",
+    "intelligence": "Talent Intelligence",
+    "aiResumeChat": "AI Resume Chat",
+    "usage": "Usage",
+    "configuration": "Configuration",
+    "accountSettings": "Account Settings"
   }
 }

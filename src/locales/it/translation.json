@@ -16,7 +16,7 @@
       "badge": "Piattaforma Talenti con IA",
       "headline": "Trasforma il tuo cimitero di CV in una miniera d'oro.",
       "subtext": "Qorva AI estrae, raggruppa e classifica fino a 100 CV in una volta sola — con regole di punteggio personalizzate e insight sui talenti in tempo reale.",
-      "bullet1": "Motore di Intelligenza dei Talenti",
+      "bullet1": "Motore Talent Intelligence",
       "bullet2": "Matching offerte-candidati",
       "bullet3": "AI Resume Chat",
       "freeToStart": "Inizia gratis."
@@ -90,9 +90,9 @@
     "accountSettings": "Account",
     "logout": "Disconnetti",
     "aiResumeChat": "Chat CV IA",
-    "intelligence": "Intelligenza dei Talenti",
+    "intelligence": "Talent Intelligence",
     "usageMonitoring": "Monitoraggio utilizzo",
-    "libraryQuality": "Qualità della libreria",
+    "libraryQuality": "Salute dei dati",
     "emailTemplates": "Modelli e-mail",
     "dashboard": "Dashboard",
     "expandMenu": "Espandi",
@@ -297,7 +297,7 @@
     "keyResponsibilities": "Responsabilità chiave",
     "downloadCV": "Scarica CV",
     "tabResume": "Curriculum",
-    "tabTalentIntelligence": "Intelligenza dei Talenti",
+    "tabTalentIntelligence": "Talent Intelligence",
     "referenceNumber": "Rif",
     "anonymize": "CV anonimo",
     "showIdentity": "Rivela identità",
@@ -352,7 +352,7 @@
       "skippedCount": "{{count}} saltati",
       "skippedQuota": "{{count}} saltati — è stato raggiunto il limite di screening del tuo piano",
       "errorSamples": "File con errori",
-      "duplicatesHint": "I possibili duplicati vengono segnalati in Qualità della libreria dopo l'importazione.",
+      "duplicatesHint": "I possibili duplicati vengono segnalati in Salute dei dati dopo l'importazione.",
       "cancelled": "Importazione annullata",
       "cancelImport": "Annulla importazione",
       "continueInBackground": "Continua in background",
@@ -755,7 +755,7 @@
     "usage": {
       "matchingActions": "Azioni di matching",
       "aiResumeChats": "Chat IA CV",
-      "talentIntelligenceQueries": "Intelligenza talenti",
+      "talentIntelligenceQueries": "Talent Intelligence",
       "used": "utilizzato",
       "cumulativeTooltip": "Totale cumulativo di tutti i periodi",
       "allTime": "totale",
@@ -1191,7 +1191,7 @@
   "libraryQuality": {
     "overall": "Salute della libreria",
     "totalCVs": "{{count}} curriculum analizzati",
-    "error": "Impossibile caricare il report sulla qualità. Riprova.",
+    "error": "Impossibile caricare il report sulla salute dei dati. Riprova.",
     "retry": "Riprova",
     "empty": {
       "title": "Nessun curriculum",
@@ -1348,7 +1348,7 @@
   },
   "emailTemplates": {
     "pageTitle": "Modelli e-mail",
-    "pageSubtitle": "Scrivi i messaggi che i candidati ricevono quando richiedi un aggiornamento del profilo. Scegli un modello quando avvii una campagna dalla Qualità della libreria — oppure lascialo vuoto per usare il messaggio standard Qorva.",
+    "pageSubtitle": "Scrivi i messaggi che i candidati ricevono quando richiedi un aggiornamento del profilo. Scegli un modello quando avvii una campagna dalla Salute dei dati — oppure lascialo vuoto per usare il messaggio standard Qorva.",
     "title": "Modelli e-mail di invito",
     "new": "Nuovo modello",
     "none": "Nessun modello — le campagne usano il messaggio standard Qorva.",
@@ -1735,7 +1735,7 @@
     "meters": {
       "screeningActions": {
         "what": "Una per curriculum analizzato e una per candidato valutato per un annuncio.",
-        "details": "Conteggiata quando un curriculum viene caricato o importato dal tuo ATS, quando un'esecuzione di matching valuta un candidato per un annuncio aperto (fino a 10 per annuncio e per esecuzione — aggiungere curriculum rimette in coda ogni annuncio aperto), quando Qualità della libreria rianalizza un curriculum e quando l'IA suggerisce regole di punteggio.",
+        "details": "Conteggiata quando un curriculum viene caricato o importato dal tuo ATS, quando un'esecuzione di matching valuta un candidato per un annuncio aperto (fino a 10 per annuncio e per esecuzione — aggiungere curriculum rimette in coda ogni annuncio aperto), quando Salute dei dati rianalizza un curriculum e quando l'IA suggerisce regole di punteggio.",
         "atLimit": "Al limite, caricamenti, importazioni ATS, matching e rianalisi vengono sospesi fino al rinnovo del periodo."
       },
       "aiResumeChats": {
@@ -1762,5 +1762,17 @@
     },
     "notMetered": "Non conteggiato",
     "howCounted": "Come viene conteggiato?"
+  },
+  "menu": {
+    "dashboard": "Dashboard",
+    "cvs": "Archivio CV",
+    "dataHealth": "Salute dei dati",
+    "jobs": "Annunci",
+    "reports": "Report",
+    "intelligence": "Talent Intelligence",
+    "aiResumeChat": "Chat CV IA",
+    "usage": "Consumi",
+    "configuration": "Configurazione",
+    "accountSettings": "Account"
   }
 }
