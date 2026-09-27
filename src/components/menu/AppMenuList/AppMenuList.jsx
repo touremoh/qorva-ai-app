@@ -74,19 +74,21 @@ const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, collap
 		handleContentChange(id);
 	};
 
+	// Menu labels have their own `menu.*` keys: page titles (`header.*`) can be longer than the
+	// ~160 px a sidebar row has. Labels never wrap — anything too long ends in "…" (full text on hover).
 	const menuItems = [
-		{ id: COMP_ID_DASHBOARD, Icon: LeaderboardOutlinedIcon, label: t('header.dashboard'),                              display: true },
-		{ id: COMP_ID_CVLIB,           Icon: PeopleOutlinedIcon,    label: t('header.cvs'),                                display: true },
-		{ id: COMP_ID_LIBRARY_QUALITY, Icon: FactCheckOutlinedIcon, label: t('header.libraryQuality', 'Library Quality'), display: true,
+		{ id: COMP_ID_DASHBOARD,        Icon: LeaderboardOutlinedIcon,     label: t('menu.dashboard', 'Dashboard'),                    display: true },
+		{ id: COMP_ID_CVLIB,            Icon: PeopleOutlinedIcon,          label: t('menu.cvs', 'Resume Library'),                     display: true },
+		{ id: COMP_ID_LIBRARY_QUALITY,  Icon: FactCheckOutlinedIcon,       label: t('menu.dataHealth', 'Data Health'),                 display: true,
 			badge: qualityIssueCount,
 			badgeTooltip: t('libraryQuality.badgeTooltip', '{{count}} issues to fix', { count: qualityIssueCount }) },
-		{ id: COMP_ID_JOBS,         Icon: WorkOutlineOutlinedIcon,  label: t('header.jobs'),                      display: true },
-		{ id: COMP_ID_REPORTS,      Icon: AssessmentOutlinedIcon,   label: t('header.reports'),                   display: true },
-		{ id: COMP_ID_INTELLIGENCE, Icon: PsychologyOutlinedIcon,   label: t('header.intelligence', 'Intelligence'), display: true },
-		{ id: COMP_ID_CHAT,             Icon: AutoAwesomeOutlinedIcon, label: t('header.aiResumeChat') || 'AI Chat',              display: isChatAllowed },
-		{ id: COMP_ID_USAGE_MONITORING, Icon: SpeedOutlinedIcon,       label: t('header.usageMonitoring', 'Usage Monitoring'),   display: true },
-		{ id: COMP_ID_CONFIGURATION,    Icon: SettingsSuggestOutlinedIcon, label: t('header.configuration', 'Configuration'),     display: true },
-		{ id: COMP_ID_SETTINGS,         Icon: TuneOutlinedIcon,        label: t('header.accountSettings'),                      display: true },
+		{ id: COMP_ID_JOBS,             Icon: WorkOutlineOutlinedIcon,     label: t('menu.jobs', 'Jobs'),                              display: true },
+		{ id: COMP_ID_REPORTS,          Icon: AssessmentOutlinedIcon,      label: t('menu.reports', 'Match Reports'),                  display: true },
+		{ id: COMP_ID_INTELLIGENCE,     Icon: PsychologyOutlinedIcon,      label: t('menu.intelligence', 'Talent Intelligence'),       display: true },
+		{ id: COMP_ID_CHAT,             Icon: AutoAwesomeOutlinedIcon,     label: t('menu.aiResumeChat', 'AI Resume Chat'),            display: isChatAllowed },
+		{ id: COMP_ID_USAGE_MONITORING, Icon: SpeedOutlinedIcon,           label: t('menu.usage', 'Usage'),                            display: true },
+		{ id: COMP_ID_CONFIGURATION,    Icon: SettingsSuggestOutlinedIcon, label: t('menu.configuration', 'Configuration'),            display: true },
+		{ id: COMP_ID_SETTINGS,         Icon: TuneOutlinedIcon,            label: t('menu.accountSettings', 'Account Settings'),       display: true },
 	];
 
 	return (
@@ -164,8 +166,12 @@ const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, collap
 								)}
 								{!collapsed && (
 									<Typography
+										noWrap
+										title={entry.label}
+										data-testid="menu-label"
 										sx={{
 											flex: 1,
+											minWidth: 0,
 											fontSize: isChild ? tokens.fontSize.small : tokens.fontSize.body2,
 											fontWeight: isActive ? 600 : 400,
 											lineHeight: 1.2,

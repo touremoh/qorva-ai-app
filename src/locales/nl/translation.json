@@ -90,9 +90,9 @@
     "accountSettings": "Account",
     "logout": "Uitloggen",
     "aiResumeChat": "AI CV-chat",
-    "intelligence": "Talent Intelligentie",
+    "intelligence": "Talent Intelligence",
     "usageMonitoring": "Gebruiksmonitoring",
-    "libraryQuality": "Bibliotheekkwaliteit",
+    "libraryQuality": "Datakwaliteit",
     "emailTemplates": "E-mailsjablonen",
     "dashboard": "Dashboard",
     "expandMenu": "Uitklappen",
@@ -352,7 +352,7 @@
       "skippedCount": "{{count}} overgeslagen",
       "skippedQuota": "{{count}} overgeslagen — de screeninglimiet van uw abonnement is bereikt",
       "errorSamples": "Bestanden met fouten",
-      "duplicatesHint": "Mogelijke duplicaten worden na de import gemarkeerd in Bibliotheekkwaliteit.",
+      "duplicatesHint": "Mogelijke duplicaten worden na de import gemarkeerd in Datakwaliteit.",
       "cancelled": "Import geannuleerd",
       "cancelImport": "Import annuleren",
       "continueInBackground": "Doorgaan op de achtergrond",
@@ -755,7 +755,7 @@
     "usage": {
       "matchingActions": "Matching-acties",
       "aiResumeChats": "AI CV-chats",
-      "talentIntelligenceQueries": "Talentinformatie",
+      "talentIntelligenceQueries": "Talent Intelligence",
       "used": "gebruikt",
       "cumulativeTooltip": "Totaal over alle perioden",
       "allTime": "totaal",
@@ -1191,7 +1191,7 @@
   "libraryQuality": {
     "overall": "Bibliotheekgezondheid",
     "totalCVs": "{{count}} cv's geanalyseerd",
-    "error": "Het kwaliteitsrapport kon niet worden geladen. Probeer het opnieuw.",
+    "error": "Het datakwaliteitsrapport kon niet worden geladen. Probeer het opnieuw.",
     "retry": "Opnieuw proberen",
     "empty": {
       "title": "Nog geen cv's",
@@ -1348,7 +1348,7 @@
   },
   "emailTemplates": {
     "pageTitle": "E-mailsjablonen",
-    "pageSubtitle": "Stel de berichten op die kandidaten ontvangen wanneer u een profielupdate aanvraagt. Kies een sjabloon bij het starten van een campagne vanuit Bibliotheekkwaliteit — of laat het leeg om het standaard Qorva-bericht te gebruiken.",
+    "pageSubtitle": "Stel de berichten op die kandidaten ontvangen wanneer u een profielupdate aanvraagt. Kies een sjabloon bij het starten van een campagne vanuit Datakwaliteit — of laat het leeg om het standaard Qorva-bericht te gebruiken.",
     "title": "Uitnodigings-e-mailsjablonen",
     "new": "Nieuw sjabloon",
     "none": "Nog geen sjablonen — campagnes gebruiken het standaard Qorva-bericht.",
@@ -1735,7 +1735,7 @@
     "meters": {
       "screeningActions": {
         "what": "Eén per geanalyseerd cv en één per kandidaat die voor een vacature wordt beoordeeld.",
-        "details": "Geteld wanneer een cv wordt geüpload of uit uw ATS wordt geïmporteerd, wanneer een matchingronde een kandidaat voor een open vacature beoordeelt (tot 10 per vacature per ronde — nieuwe cv's zetten elke open vacature opnieuw in de wachtrij), wanneer Bibliotheekkwaliteit een cv opnieuw analyseert en wanneer AI scoringsregels voorstelt.",
+        "details": "Geteld wanneer een cv wordt geüpload of uit uw ATS wordt geïmporteerd, wanneer een matchingronde een kandidaat voor een open vacature beoordeelt (tot 10 per vacature per ronde — nieuwe cv's zetten elke open vacature opnieuw in de wachtrij), wanneer Datakwaliteit een cv opnieuw analyseert en wanneer AI scoringsregels voorstelt.",
         "atLimit": "Bij de limiet worden uploads, ATS-imports, matching en heranalyses gepauzeerd tot de periode wordt vernieuwd."
       },
       "aiResumeChats": {
@@ -1762,5 +1762,17 @@
     },
     "notMetered": "Niet geteld",
     "howCounted": "Hoe wordt dit geteld?"
+  },
+  "menu": {
+    "dashboard": "Dashboard",
+    "cvs": "CV-archief",
+    "dataHealth": "Datakwaliteit",
+    "jobs": "Vacatures",
+    "reports": "Matchingrapporten",
+    "intelligence": "Talent Intelligence",
+    "aiResumeChat": "AI CV-chat",
+    "usage": "Verbruik",
+    "configuration": "Configuratie",
+    "accountSettings": "Account"
   }
 }

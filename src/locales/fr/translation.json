@@ -16,7 +16,7 @@
       "badge": "Plateforme IA de Recrutement",
       "headline": "Transformez votre cimetière de CV en véritable mine d'or.",
       "subtext": "Qorva AI extrait, regroupe et classe jusqu'à 100 CV en une fois — avec des règles de scoring personnalisées et des analyses de talents en temps réel.",
-      "bullet1": "Moteur d'Intelligence des Talents",
+      "bullet1": "Moteur Talent Intelligence",
       "bullet2": "Matching emploi-candidats",
       "bullet3": "Chat CV IA",
       "freeToStart": "Gratuit pour commencer"
@@ -92,7 +92,7 @@
     "aiResumeChat": "Chat CV IA",
     "intelligence": "Talent Intelligence",
     "usageMonitoring": "Suivi d'utilisation",
-    "libraryQuality": "Qualité de la CVthèque",
+    "libraryQuality": "Santé des données",
     "emailTemplates": "Modèles d'e-mails",
     "dashboard": "Tableau de bord",
     "expandMenu": "Déplier",
@@ -297,7 +297,7 @@
     "keyResponsibilities": "Responsabilités clés",
     "downloadCV": "Télécharger le CV",
     "tabResume": "CV",
-    "tabTalentIntelligence": "Intelligence Talent",
+    "tabTalentIntelligence": "Talent Intelligence",
     "referenceNumber": "Réf",
     "anonymize": "CV anonyme",
     "showIdentity": "Révéler l'identité",
@@ -352,7 +352,7 @@
       "skippedCount": "{{count}} ignorés",
       "skippedQuota": "{{count}} ignorés — la limite d'analyses de votre offre est atteinte",
       "errorSamples": "Fichiers en erreur",
-      "duplicatesHint": "Les doublons potentiels sont signalés dans Qualité de la CVthèque après l'import.",
+      "duplicatesHint": "Les doublons potentiels sont signalés dans Santé des données après l'import.",
       "cancelled": "Import annulé",
       "cancelImport": "Annuler l'import",
       "continueInBackground": "Continuer en arrière-plan",
@@ -755,7 +755,7 @@
     "usage": {
       "matchingActions": "Actions de matching",
       "aiResumeChats": "Chats IA CV",
-      "talentIntelligenceQueries": "Intelligence talents",
+      "talentIntelligenceQueries": "Talent Intelligence",
       "used": "utilisé",
       "cumulativeTooltip": "Total cumulé sur toutes les périodes",
       "allTime": "total",
@@ -1191,7 +1191,7 @@
   "libraryQuality": {
     "overall": "Santé de la CVthèque",
     "totalCVs": "{{count}} CV analysés",
-    "error": "Impossible de charger le rapport de qualité. Veuillez réessayer.",
+    "error": "Impossible de charger le rapport de santé des données. Veuillez réessayer.",
     "retry": "Réessayer",
     "empty": {
       "title": "Aucun CV pour le moment",
@@ -1348,7 +1348,7 @@
   },
   "emailTemplates": {
     "pageTitle": "Modèles d'e-mails",
-    "pageSubtitle": "Rédigez les messages que reçoivent les candidats lorsque vous demandez une mise à jour de profil. Choisissez un modèle au lancement d'une campagne depuis Qualité de la bibliothèque — ou laissez vide pour utiliser le message Qorva standard.",
+    "pageSubtitle": "Rédigez les messages que reçoivent les candidats lorsque vous demandez une mise à jour de profil. Choisissez un modèle au lancement d'une campagne depuis Santé des données — ou laissez vide pour utiliser le message Qorva standard.",
     "title": "Modèles d'e-mail d'invitation",
     "new": "Nouveau modèle",
     "none": "Aucun modèle pour l'instant — les campagnes utilisent le message Qorva standard.",
@@ -1735,7 +1735,7 @@
     "meters": {
       "screeningActions": {
         "what": "Une par CV analysé, et une par candidat évalué pour une offre.",
-        "details": "Comptée quand un CV est importé ou synchronisé depuis votre ATS, quand une analyse de correspondance évalue un candidat pour une offre ouverte (jusqu'à 10 par offre et par analyse — tout ajout de CV remet chaque offre ouverte en file), quand Qualité de la CVthèque réanalyse un CV, et quand l'IA propose des règles de notation.",
+        "details": "Comptée quand un CV est importé ou synchronisé depuis votre ATS, quand une analyse de correspondance évalue un candidat pour une offre ouverte (jusqu'à 10 par offre et par analyse — tout ajout de CV remet chaque offre ouverte en file), quand Santé des données réanalyse un CV, et quand l'IA propose des règles de notation.",
         "atLimit": "À la limite, les imports, la synchronisation ATS, les correspondances et les réanalyses sont suspendus jusqu'au renouvellement de la période."
       },
       "aiResumeChats": {
@@ -1762,5 +1762,17 @@
     },
     "notMetered": "Non décompté",
     "howCounted": "Comment est-ce compté ?"
+  },
+  "menu": {
+    "dashboard": "Tableau de bord",
+    "cvs": "CVthèque",
+    "dataHealth": "Santé des données",
+    "jobs": "Offres",
+    "reports": "Rapports",
+    "intelligence": "Talent Intelligence",
+    "aiResumeChat": "Chat CV IA",
+    "usage": "Consommation",
+    "configuration": "Configuration",
+    "accountSettings": "Compte"
   }
 }

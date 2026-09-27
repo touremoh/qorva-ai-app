@@ -6,7 +6,7 @@ import { loginResponse, mockApi } from './support/api.js';
 const TABS = [
 	['dashboard', 'Dashboard'],
 	['cvs', 'Resume Library'],
-	['library-quality', 'Library Quality'],
+	['library-quality', 'Data Health'],
 	['configuration', 'Configuration'],
 	['jobs', 'Jobs'],
 	['intelligence', 'Talent Intelligence'],

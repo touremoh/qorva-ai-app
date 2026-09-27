@@ -90,9 +90,9 @@
     "accountSettings": "Kontoeinstellungen",
     "logout": "Abmelden",
     "aiResumeChat": "KI-Lebenslauf-Chat",
-    "intelligence": "Talent-Intelligenz",
+    "intelligence": "Talent Intelligence",
     "usageMonitoring": "Nutzungsüberwachung",
-    "libraryQuality": "Bibliotheksqualität",
+    "libraryQuality": "Datenqualität",
     "emailTemplates": "E-Mail-Vorlagen",
     "dashboard": "Dashboard",
     "expandMenu": "Ausklappen",
@@ -297,7 +297,7 @@
     "keyResponsibilities": "Kernverantwortlichkeiten",
     "downloadCV": "Lebenslauf herunterladen",
     "tabResume": "Lebenslauf",
-    "tabTalentIntelligence": "Talent-Intelligenz",
+    "tabTalentIntelligence": "Talent Intelligence",
     "referenceNumber": "Ref",
     "anonymize": "Anonymes CV",
     "showIdentity": "Identität einblenden",
@@ -352,7 +352,7 @@
       "skippedCount": "{{count}} übersprungen",
       "skippedQuota": "{{count}} übersprungen — das Screening-Limit Ihres Tarifs wurde erreicht",
       "errorSamples": "Dateien mit Fehlern",
-      "duplicatesHint": "Mögliche Duplikate werden nach dem Import in der Bibliotheksqualität markiert.",
+      "duplicatesHint": "Mögliche Duplikate werden nach dem Import in der Datenqualität markiert.",
       "cancelled": "Import abgebrochen",
       "cancelImport": "Import abbrechen",
       "continueInBackground": "Im Hintergrund fortsetzen",
@@ -380,7 +380,7 @@
       "any": "Alle",
       "noMatch": "Keine Lebensläufe entsprechen diesen Filtern.",
       "needMore": "Etwas Unschärferes gesucht — alle Finanzprofile, ein Abschlussniveau, ein früherer Arbeitgeber?",
-      "askIntelligence": "Talent-Intelligenz fragen",
+      "askIntelligence": "Talent Intelligence fragen",
       "notAnalysed": "Nicht analysiert",
       "industries": "Branche",
       "locations": "Standort",
@@ -755,7 +755,7 @@
     "usage": {
       "matchingActions": "Matching-Aktionen",
       "aiResumeChats": "KI-Lebenslauf-Chats",
-      "talentIntelligenceQueries": "Talent-Intelligenz",
+      "talentIntelligenceQueries": "Talent Intelligence",
       "used": "genutzt",
       "cumulativeTooltip": "Gesamtzahl über alle Zeiträume",
       "allTime": "gesamt",
@@ -1191,7 +1191,7 @@
   "libraryQuality": {
     "overall": "Bibliotheksgesundheit",
     "totalCVs": "{{count}} Lebensläufe analysiert",
-    "error": "Der Qualitätsbericht konnte nicht geladen werden. Bitte versuchen Sie es erneut.",
+    "error": "Der Datenqualitätsbericht konnte nicht geladen werden. Bitte versuchen Sie es erneut.",
     "retry": "Erneut versuchen",
     "empty": {
       "title": "Noch keine Lebensläufe",
@@ -1348,7 +1348,7 @@
   },
   "emailTemplates": {
     "pageTitle": "E-Mail-Vorlagen",
-    "pageSubtitle": "Gestalten Sie die Nachrichten, die Kandidaten erhalten, wenn Sie eine Profilaktualisierung anfordern. Wählen Sie beim Start einer Kampagne aus der Bibliotheksqualität eine Vorlage — oder lassen Sie das Feld leer, um die Standard-Qorva-Nachricht zu verwenden.",
+    "pageSubtitle": "Gestalten Sie die Nachrichten, die Kandidaten erhalten, wenn Sie eine Profilaktualisierung anfordern. Wählen Sie beim Start einer Kampagne aus der Datenqualität eine Vorlage — oder lassen Sie das Feld leer, um die Standard-Qorva-Nachricht zu verwenden.",
     "title": "Einladungs-E-Mail-Vorlagen",
     "new": "Neue Vorlage",
     "none": "Noch keine Vorlagen — Kampagnen verwenden die Standard-Qorva-Nachricht.",
@@ -1735,7 +1735,7 @@
     "meters": {
       "screeningActions": {
         "what": "Eine pro analysiertem Lebenslauf und eine pro Kandidat, der für eine Stelle bewertet wird.",
-        "details": "Gezählt, wenn ein Lebenslauf hochgeladen oder aus Ihrem ATS importiert wird, wenn ein Matching-Lauf einen Kandidaten für eine offene Stelle bewertet (bis zu 10 pro Stelle und Lauf — neue Lebensläufe stellen jede offene Stelle erneut in die Warteschlange), wenn die Bibliotheksqualität einen Lebenslauf neu analysiert und wenn die KI Bewertungsregeln vorschlägt.",
+        "details": "Gezählt, wenn ein Lebenslauf hochgeladen oder aus Ihrem ATS importiert wird, wenn ein Matching-Lauf einen Kandidaten für eine offene Stelle bewertet (bis zu 10 pro Stelle und Lauf — neue Lebensläufe stellen jede offene Stelle erneut in die Warteschlange), wenn die Datenqualität einen Lebenslauf neu analysiert und wenn die KI Bewertungsregeln vorschlägt.",
         "atLimit": "Am Limit werden Uploads, ATS-Importe, Matching und Neuanalysen bis zur Verlängerung des Zeitraums pausiert."
       },
       "aiResumeChats": {
@@ -1762,5 +1762,17 @@
     },
     "notMetered": "Nicht gezählt",
     "howCounted": "Wie wird gezählt?"
+  },
+  "menu": {
+    "dashboard": "Dashboard",
+    "cvs": "Lebenslauf-Archiv",
+    "dataHealth": "Datenqualität",
+    "jobs": "Stellen",
+    "reports": "Match-Berichte",
+    "intelligence": "Talent Intelligence",
+    "aiResumeChat": "KI-Lebenslauf-Chat",
+    "usage": "Nutzung",
+    "configuration": "Konfiguration",
+    "accountSettings": "Kontoeinstellungen"
   }
 }

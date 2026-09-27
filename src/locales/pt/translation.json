@@ -16,7 +16,7 @@
       "badge": "Plataforma de Talentos com IA",
       "headline": "Transforme o seu cemitério de CV numa mina de ouro.",
       "subtext": "Qorva AI extrai, agrupa e classifica até 100 CV de uma vez — com regras de pontuação personalizadas e insights de talentos em tempo real.",
-      "bullet1": "Motor de Inteligência de Talentos",
+      "bullet1": "Motor Talent Intelligence",
       "bullet2": "Matching de vagas para candidatos",
       "bullet3": "Chat CV IA",
       "freeToStart": "Gratuito para começar."
@@ -90,9 +90,9 @@
     "accountSettings": "Definições da Conta",
     "logout": "Terminar sessão",
     "aiResumeChat": "Chat CV IA",
-    "intelligence": "Inteligência de Talentos",
+    "intelligence": "Talent Intelligence",
     "usageMonitoring": "Monitorização de utilização",
-    "libraryQuality": "Qualidade da biblioteca",
+    "libraryQuality": "Saúde dos dados",
     "emailTemplates": "Modelos de e-mail",
     "dashboard": "Painel",
     "expandMenu": "Expandir",
@@ -297,7 +297,7 @@
     "keyResponsibilities": "Principais responsabilidades",
     "downloadCV": "Transferir CV",
     "tabResume": "Currículo",
-    "tabTalentIntelligence": "Inteligência de Talentos",
+    "tabTalentIntelligence": "Talent Intelligence",
     "referenceNumber": "Ref",
     "anonymize": "CV anónimo",
     "showIdentity": "Revelar identidade",
@@ -352,7 +352,7 @@
       "skippedCount": "{{count}} ignorados",
       "skippedQuota": "{{count}} ignorados — o limite de triagem do seu plano foi atingido",
       "errorSamples": "Ficheiros com erros",
-      "duplicatesHint": "Possíveis duplicados são assinalados na Qualidade da biblioteca após a importação.",
+      "duplicatesHint": "Possíveis duplicados são assinalados na Saúde dos dados após a importação.",
       "cancelled": "Importação cancelada",
       "cancelImport": "Cancelar importação",
       "continueInBackground": "Continuar em segundo plano",
@@ -755,7 +755,7 @@
     "usage": {
       "matchingActions": "Ações de matching",
       "aiResumeChats": "Chats IA de CV",
-      "talentIntelligenceQueries": "Inteligência de talentos",
+      "talentIntelligenceQueries": "Talent Intelligence",
       "used": "utilizado",
       "cumulativeTooltip": "Total acumulado em todos os períodos",
       "allTime": "total",
@@ -1191,7 +1191,7 @@
   "libraryQuality": {
     "overall": "Saúde da biblioteca",
     "totalCVs": "{{count}} currículos analisados",
-    "error": "Não foi possível carregar o relatório de qualidade. Por favor, tente novamente.",
+    "error": "Não foi possível carregar o relatório de saúde dos dados. Tente novamente.",
     "retry": "Tentar novamente",
     "empty": {
       "title": "Ainda não há currículos",
@@ -1348,7 +1348,7 @@
   },
   "emailTemplates": {
     "pageTitle": "Modelos de e-mail",
-    "pageSubtitle": "Redija as mensagens que os candidatos recebem quando solicita uma atualização de perfil. Escolha um modelo ao lançar uma campanha a partir da Qualidade da biblioteca — ou deixe em branco para usar a mensagem padrão da Qorva.",
+    "pageSubtitle": "Redija as mensagens que os candidatos recebem quando solicita uma atualização de perfil. Escolha um modelo ao lançar uma campanha a partir da Saúde dos dados — ou deixe em branco para usar a mensagem padrão da Qorva.",
     "title": "Modelos de e-mail de convite",
     "new": "Novo modelo",
     "none": "Ainda não há modelos — as campanhas usam a mensagem padrão da Qorva.",
@@ -1735,7 +1735,7 @@
     "meters": {
       "screeningActions": {
         "what": "Uma por currículo analisado e uma por candidato avaliado para uma vaga.",
-        "details": "Contada quando um currículo é carregado ou importado do seu ATS, quando uma execução de correspondência avalia um candidato para uma vaga aberta (até 10 por vaga e por execução — adicionar currículos volta a colocar todas as vagas abertas em fila), quando a Qualidade da biblioteca reanalisa um currículo e quando a IA sugere regras de pontuação.",
+        "details": "Contada quando um currículo é carregado ou importado do seu ATS, quando uma execução de correspondência avalia um candidato para uma vaga aberta (até 10 por vaga e por execução — adicionar currículos volta a colocar todas as vagas abertas em fila), quando a Saúde dos dados reanalisa um currículo e quando a IA sugere regras de pontuação.",
         "atLimit": "No limite, os carregamentos, importações do ATS, correspondências e reanálises ficam em pausa até à renovação do período."
       },
       "aiResumeChats": {
@@ -1762,5 +1762,17 @@
     },
     "notMetered": "Sem contagem",
     "howCounted": "Como é contado?"
+  },
+  "menu": {
+    "dashboard": "Painel",
+    "cvs": "Base de CV",
+    "dataHealth": "Saúde dos dados",
+    "jobs": "Vagas",
+    "reports": "Relatórios",
+    "intelligence": "Talent Intelligence",
+    "aiResumeChat": "Chat CV IA",
+    "usage": "Consumo",
+    "configuration": "Configuração",
+    "accountSettings": "Definições da Conta"
   }
 }
