@@ -38,7 +38,8 @@
       "back": "Voltar ao início de sessão",
       "codeRequired": "Introduza o código de 6 dígitos",
       "help": "Não recebeu? Verifique a pasta de spam ou reenvie o código."
-    }
+    },
+    "sessionExpired": "A sua sessão expirou. Inicie sessão novamente."
   },
   "registration": {
     "freeTrialTitle": "Período gratuito",
@@ -640,7 +641,8 @@
       "atsExport": "Exportação ATS",
       "billing": "Faturação",
       "integrations": "Integrações de ATS",
-      "outreach": "Contacto com candidatos"
+      "outreach": "Contacto com candidatos",
+      "intelligence": "Talent Intelligence"
     },
     "authorities": {
       "VIEW_DASHBOARD": "Ver painel",
@@ -668,7 +670,8 @@
       "UPDATE_SUBSCRIPTION": "Atualizar subscrição",
       "CANCEL_SUBSCRIPTION": "Cancelar subscrição",
       "MANAGE_INTEGRATIONS": "Gerir integrações de ATS",
-      "CONTACT_CANDIDATE": "Escrever aos candidatos"
+      "CONTACT_CANDIDATE": "Escrever aos candidatos",
+      "VIEW_LIBRARY_INSIGHTS": "Consultar Talent Intelligence"
     },
     "mfa": {
       "title": "Verificação em dois passos",
@@ -686,7 +689,8 @@
       "disabled": "A verificação em dois passos está desativada.",
       "loading": "A carregar…",
       "sending": "A enviar o código…"
-    }
+    },
+    "billingOwnerOnly": "A faturação é gerida por um proprietário da conta. Peça-lhe para alterar o plano ou os dados de pagamento."
   },
   "dashboard": {
     "errors": {
@@ -1066,7 +1070,8 @@
       "customer_creation_failed": "Falha ao configurar a sua conta de faturação. Por favor, contacte o suporte.",
       "checkout_failed": "Falha ao iniciar o processo de pagamento. Por favor, tente novamente.",
       "price_id_required": "Deve ser selecionado um plano de preços.",
-      "no_stripe_customer": "Nenhuma conta de pagamento encontrada. Por favor, contacte o suporte."
+      "no_stripe_customer": "Nenhuma conta de pagamento encontrada. Por favor, contacte o suporte.",
+      "upgrade_demo_only": "As alterações de plano são feitas no portal de faturação. A atualização a partir daqui é apenas para contas de demonstração."
     },
     "http": {
       "not_found": "O recurso solicitado não foi encontrado.",

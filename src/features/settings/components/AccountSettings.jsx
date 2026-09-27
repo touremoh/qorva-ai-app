@@ -3,7 +3,7 @@ import { getInitials } from '../../../shared/lib/text.js';
 import {
 	Box,
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { createPortalSession } from '../api/stripeService.js';
 import { updateProfile, updatePassword } from '../api/userService.js';
 import { useTranslation } from 'react-i18next';
@@ -26,7 +26,9 @@ import ProfileDetailsCard from './profile/ProfileDetailsCard.jsx';
 import ProfileBanner from './profile/ProfileBanner.jsx';
 import SettingsNav from './SettingsNav.jsx';
 import * as tokens from '../../../theme/tokens.js';
-import { storeAccessToken } from '../../../shared/lib/session.js';
+import { hasPermission, storeAccessToken } from '../../../shared/lib/session.js';
+
+const SETTINGS_TABS = ['profile', 'company', 'users', 'integrations', 'billing'];
 
 
 
@@ -35,7 +37,12 @@ const AccountSettings = () => {
 	const navigate = useNavigate();
 	const demo = isDemoUser();
 
-	const [activeTab, setActiveTab] = useState('profile');
+	const location = useLocation();
+	// ?tab= deep-links a tab (the ATS OAuth callback lands on ?tab=integrations&atsOauth=…).
+	const [activeTab, setActiveTab] = useState(() => {
+		const requested = new URLSearchParams(location.search).get('tab');
+		return SETTINGS_TABS.includes(requested) ? requested : 'profile';
+	});
 	const [loadingPortal, setLoadingPortal] = useState(false);
 	const [userInfo, setUserInfo] = useState({
 		id: '', email: '', firstName: '', lastName: '', tenantId: '',
@@ -73,6 +80,8 @@ const AccountSettings = () => {
 			const fallback = import.meta.env.VITE_STRIPE_TEST_PORTAL_URL;
 			if (fallback) window.location.href = fallback;
 		} catch (e) {
+			// 403: no UPDATE_SUBSCRIPTION — the API client has already shown the error toast.
+			if (e.response?.status === 403) return;
 			console.error('Failed to open billing portal', e);
 			navigate('/error', { state: { errorCode: e.response?.status || 500, errorMessage: t('errors.generic.message') } });
 		} finally {
@@ -204,7 +213,7 @@ const AccountSettings = () => {
 
 				{/* ══ Billing Tab ══ */}
 				{activeTab === 'billing' && (
-					<BillingPanel demo={demo} handleOpenBillingPortal={handleOpenBillingPortal} loadingPortal={loadingPortal} />
+					<BillingPanel demo={demo} canManage={hasPermission('UPDATE_SUBSCRIPTION')} handleOpenBillingPortal={handleOpenBillingPortal} loadingPortal={loadingPortal} />
 				)}
 			</Box>
 		</Box>

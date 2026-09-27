@@ -8,13 +8,17 @@ import { useTranslation } from 'react-i18next';
 import * as tokens from '../../../theme/tokens.js';
 
 /** Subscription management: opens the Stripe billing portal. */
-const BillingPanel = ({ demo, handleOpenBillingPortal, loadingPortal }) => {
+const BillingPanel = ({ demo, canManage, handleOpenBillingPortal, loadingPortal }) => {
 	const { t } = useTranslation();
 	return (
 		<>
 		<Box sx={{ maxWidth: 480 }}>
 			{demo ? (
 				<UpgradeButton reason="billing" variant="outlined" size="small" />
+			) : !canManage ? (
+				<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.soft, lineHeight: 1.65 }}>
+					{t('accountSettings.billingOwnerOnly')}
+				</Typography>
 			) : (
 			<Paper
 				elevation={0}
@@ -64,6 +68,7 @@ const BillingPanel = ({ demo, handleOpenBillingPortal, loadingPortal }) => {
 
 BillingPanel.propTypes = {
 	demo: PropTypes.bool,
+	canManage: PropTypes.bool,
 	handleOpenBillingPortal: PropTypes.func,
 	loadingPortal: PropTypes.any,
 };

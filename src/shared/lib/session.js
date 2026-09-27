@@ -14,7 +14,8 @@ import {
 
 const SELECTED_PRICE_ID = 'SELECTED_PRICE_ID';
 
-const setAuthResults = (authResults) => {
+/** Writes the session fields from an auth response ({jwt, user}) over the current ones. */
+const writeSession = (authResults) => {
 	const { jwt, user } = authResults;
 	const { access_token, expires_in } = jwt;
 	const { id, email, firstName, lastName, tenantId, userAccountStatus, authorities } = user;
@@ -23,13 +24,6 @@ const setAuthResults = (authResults) => {
 	const subscriptionStatus = subscriptionInfo?.subscriptionStatus ?? user.subscriptionStatus;
 	const priceId = subscriptionInfo?.priceId;
 
-	// Preserve the chosen UI language across the clear() below.
-	const language = localStorage.getItem(QORVA_USER_LANGUAGE);
-
-	localStorage.clear();
-	if (language) {
-		localStorage.setItem(QORVA_USER_LANGUAGE, language);
-	}
 	localStorage.setItem(AUTH_TOKEN, access_token);
 	localStorage.setItem(TOKEN_EXPIRY, expires_in);
 	localStorage.setItem(USER_ID, id);
@@ -44,6 +38,21 @@ const setAuthResults = (authResults) => {
 		localStorage.setItem(SELECTED_PRICE_ID, priceId);
 	}
 };
+
+/** Starts a session: wipes the previous one (keeping the UI language), then writes this one. */
+const setAuthResults = (authResults) => {
+	// Preserve the chosen UI language across the clear() below.
+	const language = localStorage.getItem(QORVA_USER_LANGUAGE);
+
+	localStorage.clear();
+	if (language) {
+		localStorage.setItem(QORVA_USER_LANGUAGE, language);
+	}
+	writeSession(authResults);
+};
+
+/** Renews the running session (token, authorities, subscription) without touching other stored state. */
+const renewSession = (authResults) => writeSession(authResults);
 
 /** Replaces only the access token, e.g. with the fresh one a password change returns; the rest of the session stays. */
 const storeAccessToken = (jwt) => {
@@ -62,4 +71,4 @@ const hasPermission = (action) => {
 	}
 };
 
-export { setAuthResults, storeAccessToken, hasPermission };
+export { setAuthResults, renewSession, storeAccessToken, hasPermission };

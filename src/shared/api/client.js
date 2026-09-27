@@ -52,7 +52,7 @@ const handleResponseError = (error) => {
 	// Session died (expired/invalid token): back to login instead of a toast storm.
 	if (status === 401 && !publicEndpoint(error?.config?.url ?? '')) {
 		localStorage.removeItem(AUTH_TOKEN);
-		window.location.assign('/login');
+		window.location.assign('/login?expired=1');
 		return Promise.reject(error);
 	}
 

@@ -38,7 +38,8 @@
       "back": "Zurück zur Anmeldung",
       "codeRequired": "Geben Sie den 6-stelligen Code ein",
       "help": "Nichts erhalten? Prüfen Sie Ihren Spam-Ordner oder senden Sie den Code erneut."
-    }
+    },
+    "sessionExpired": "Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an."
   },
   "registration": {
     "freeTrialTitle": "Kostenlose Testphase",
@@ -640,7 +641,8 @@
       "atsExport": "ATS-Export",
       "billing": "Abrechnung",
       "integrations": "ATS-Integrationen",
-      "outreach": "Kandidatenkontakt"
+      "outreach": "Kandidatenkontakt",
+      "intelligence": "Talent Intelligence"
     },
     "authorities": {
       "VIEW_DASHBOARD": "Dashboard anzeigen",
@@ -668,7 +670,8 @@
       "UPDATE_SUBSCRIPTION": "Abonnement aktualisieren",
       "CANCEL_SUBSCRIPTION": "Abonnement kündigen",
       "MANAGE_INTEGRATIONS": "ATS-Integrationen verwalten",
-      "CONTACT_CANDIDATE": "Kandidaten anschreiben"
+      "CONTACT_CANDIDATE": "Kandidaten anschreiben",
+      "VIEW_LIBRARY_INSIGHTS": "Talent Intelligence nutzen"
     },
     "mfa": {
       "title": "Zwei-Schritt-Verifizierung",
@@ -686,7 +689,8 @@
       "disabled": "Die Zwei-Schritt-Verifizierung ist deaktiviert.",
       "loading": "Wird geladen…",
       "sending": "Code wird gesendet…"
-    }
+    },
+    "billingOwnerOnly": "Die Abrechnung wird von einem Kontoinhaber verwaltet. Bitten Sie ihn, den Tarif oder die Zahlungsdaten zu ändern."
   },
   "dashboard": {
     "errors": {
@@ -1066,7 +1070,8 @@
       "customer_creation_failed": "Ihr Abrechnungskonto konnte nicht eingerichtet werden. Bitte kontaktieren Sie den Support.",
       "checkout_failed": "Der Checkout-Prozess konnte nicht gestartet werden. Bitte versuchen Sie es erneut.",
       "price_id_required": "Ein Preisplan muss ausgewählt werden.",
-      "no_stripe_customer": "Kein Zahlungskonto gefunden. Bitte kontaktieren Sie den Support."
+      "no_stripe_customer": "Kein Zahlungskonto gefunden. Bitte kontaktieren Sie den Support.",
+      "upgrade_demo_only": "Tarifänderungen erfolgen im Abrechnungsportal. Das Upgrade hier ist nur für Demokonten möglich."
     },
     "http": {
       "not_found": "Die angeforderte Ressource wurde nicht gefunden.",

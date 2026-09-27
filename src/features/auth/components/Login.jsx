@@ -3,7 +3,7 @@ import {
 	Grid2,
 	Box,
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { login as loginUser } from '../api/authService.js';
 import { createCheckoutSession } from '../api/registrationService.js';
 import { useTranslation } from 'react-i18next';
@@ -23,7 +23,10 @@ const Login = () => {
 	const [password, setPassword] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
 	const [touched, setTouched] = useState({ email: false, password: false });
-	const [formError, setFormError] = useState("");
+	const location = useLocation();
+	// The API client sends a dead session here with ?expired=1.
+	const [formError, setFormError] = useState(() =>
+		new URLSearchParams(location.search).has('expired') ? t('login.sessionExpired') : "");
 	// idle → loading (spinner + progress text) → success (green check, then navigate)
 	const [status, setStatus] = useState('idle');
 	// Set when the password was right but the account has email MFA on: the form becomes the code step.
