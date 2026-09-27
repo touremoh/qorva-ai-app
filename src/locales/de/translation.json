@@ -1315,13 +1315,6 @@
       "template": "E-Mail-Vorlage",
       "defaultTemplate": "Standard-Qorva-Nachricht",
       "manageTemplates": "Verwalten…"
-    },
-    "insight": {
-      "title": "KI-Zusammenfassung",
-      "loading": "Zusammenfassung wird erstellt…",
-      "nextSteps": "Nächste Schritte",
-      "show": "Anzeigen",
-      "disclaimer": "Von der KI aus den Zahlen dieser Seite erstellt – vor dem Handeln prüfen."
     }
   },
   "candidateUpdate": {
@@ -1716,5 +1709,58 @@
     "sections": {
       "emailTemplates": "E-Mail-Vorlagen"
     }
+  },
+  "aiSummary": {
+    "title": "KI-Zusammenfassung",
+    "loading": "Zusammenfassung wird erstellt…",
+    "nextSteps": "Nächste Schritte",
+    "show": "Anzeigen",
+    "disclaimer": "Von der KI aus den Zahlen dieser Seite erstellt – vor dem Handeln prüfen."
+  },
+  "usage": {
+    "plan": {
+      "label": "Ihr Tarif",
+      "unknownTier": "Aktueller Tarif",
+      "demo": "Demo-Konto · {{tier}}-Limits",
+      "cycle": {
+        "month": "Monatliche Abrechnung",
+        "year": "Jährliche Abrechnung — Limits gelten für das ganze Jahr"
+      },
+      "period": "{{start}} – {{end}}",
+      "daysLeft_one": "Noch {{count}} Tag",
+      "daysLeft_other": "Noch {{count}} Tage",
+      "managePlan": "Tarif verwalten",
+      "purpose": "Ihr Tarif enthält ein Kontingent an KI-Arbeit pro Abrechnungszeitraum. Hier sehen Sie, wie viel Sie verbraucht haben, was jede Zahl zählt und was am Limit passiert."
+    },
+    "meters": {
+      "screeningActions": {
+        "what": "Eine pro analysiertem Lebenslauf und eine pro Kandidat, der für eine Stelle bewertet wird.",
+        "details": "Gezählt, wenn ein Lebenslauf hochgeladen oder aus Ihrem ATS importiert wird, wenn ein Matching-Lauf einen Kandidaten für eine offene Stelle bewertet (bis zu 10 pro Stelle und Lauf — neue Lebensläufe stellen jede offene Stelle erneut in die Warteschlange), wenn die Bibliotheksqualität einen Lebenslauf neu analysiert und wenn die KI Bewertungsregeln vorschlägt.",
+        "atLimit": "Am Limit werden Uploads, ATS-Importe, Matching und Neuanalysen bis zur Verlängerung des Zeitraums pausiert."
+      },
+      "aiResumeChats": {
+        "what": "Eine pro Nachricht, die Sie im KI-Lebenslauf-Chat senden.",
+        "details": "Jede Frage zu einem Lebenslauf zählt einmal; die Antworten sind kostenlos.",
+        "atLimit": "Am Limit werden neue Chat-Nachrichten bis zur Verlängerung des Zeitraums abgelehnt."
+      },
+      "talentIntelligenceQueries": {
+        "what": "Eine pro Frage in Talent Intelligence.",
+        "details": "Jede Frage zu Ihrer gesamten Bibliothek zählt einmal, Folgefragen eingeschlossen.",
+        "atLimit": "Wird auf das Kontingent Ihres Tarifs für den Zeitraum angerechnet."
+      },
+      "emailTemplates": {
+        "what": "Gespeicherte Einladungsvorlagen — ein Tarifkontingent, das nicht pro Zeitraum zurückgesetzt wird."
+      }
+    },
+    "pace": {
+      "TOO_EARLY": "Zu früh für eine Prognose",
+      "ON_TRACK": "Im Plan",
+      "WATCH": "Bei diesem Tempo nah am Limit",
+      "WILL_EXCEED": "Bei diesem Tempo erschöpft um den {{date}}",
+      "REACHED": "Limit erreicht — Verlängerung am {{date}}",
+      "UNMETERED": "Nicht gezählt"
+    },
+    "notMetered": "Nicht gezählt",
+    "howCounted": "Wie wird gezählt?"
   }
 }

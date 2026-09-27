@@ -1315,13 +1315,6 @@
       "template": "Plantilla de correo",
       "defaultTemplate": "Mensaje estándar de Qorva",
       "manageTemplates": "Gestionar…"
-    },
-    "insight": {
-      "title": "Resumen de IA",
-      "loading": "Redactando el resumen…",
-      "nextSteps": "Qué hacer ahora",
-      "show": "Ver",
-      "disclaimer": "Generado por IA a partir de las cifras de esta página: compruébelo antes de actuar."
     }
   },
   "candidateUpdate": {
@@ -1716,5 +1709,58 @@
     "sections": {
       "emailTemplates": "Plantillas de correo"
     }
+  },
+  "aiSummary": {
+    "title": "Resumen de IA",
+    "loading": "Redactando el resumen…",
+    "nextSteps": "Qué hacer ahora",
+    "show": "Ver",
+    "disclaimer": "Generado por IA a partir de las cifras de esta página: compruébelo antes de actuar."
+  },
+  "usage": {
+    "plan": {
+      "label": "Su plan",
+      "unknownTier": "Plan actual",
+      "demo": "Cuenta de demostración · límites {{tier}}",
+      "cycle": {
+        "month": "Facturación mensual",
+        "year": "Facturación anual — los límites cubren todo el año"
+      },
+      "period": "{{start}} – {{end}}",
+      "daysLeft_one": "Queda {{count}} día",
+      "daysLeft_other": "Quedan {{count}} días",
+      "managePlan": "Gestionar plan",
+      "purpose": "Su plan incluye una cantidad de trabajo de IA por periodo de facturación. Aquí verá cuánto ha usado, qué cuenta cada cifra y qué ocurre al llegar al límite."
+    },
+    "meters": {
+      "screeningActions": {
+        "what": "Una por currículum analizado y una por candidato evaluado para una oferta.",
+        "details": "Se cuenta cuando se sube un currículum o se importa desde su ATS, cuando una ejecución de coincidencias evalúa a un candidato para una oferta abierta (hasta 10 por oferta y ejecución — añadir currículums vuelve a poner en cola todas las ofertas abiertas), cuando Calidad de la biblioteca reanaliza un currículum y cuando la IA sugiere reglas de puntuación.",
+        "atLimit": "Al llegar al límite, las subidas, importaciones del ATS, coincidencias y reanálisis se pausan hasta que se renueve el periodo."
+      },
+      "aiResumeChats": {
+        "what": "Uno por mensaje enviado en el Chat IA de currículums.",
+        "details": "Cada pregunta enviada sobre un currículum cuenta una vez; las respuestas son gratuitas.",
+        "atLimit": "Al llegar al límite, los nuevos mensajes se rechazan hasta que se renueve el periodo."
+      },
+      "talentIntelligenceQueries": {
+        "what": "Una por pregunta en Talent Intelligence.",
+        "details": "Cada pregunta sobre toda su biblioteca cuenta una vez, incluidas las de seguimiento.",
+        "atLimit": "Se descuenta de la asignación de su plan para el periodo."
+      },
+      "emailTemplates": {
+        "what": "Plantillas de invitación guardadas — una asignación del plan que no se reinicia cada periodo."
+      }
+    },
+    "pace": {
+      "TOO_EARLY": "Demasiado pronto para proyectar",
+      "ON_TRACK": "En buen camino",
+      "WATCH": "Cerca del límite a este ritmo",
+      "WILL_EXCEED": "A este ritmo, se agota hacia el {{date}}",
+      "REACHED": "Límite alcanzado — se renueva el {{date}}",
+      "UNMETERED": "Sin medición"
+    },
+    "notMetered": "Sin medición",
+    "howCounted": "¿Cómo se cuenta?"
   }
 }

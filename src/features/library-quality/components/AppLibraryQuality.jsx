@@ -10,6 +10,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import FactCheckOutlinedIcon from '@mui/icons-material/FactCheckOutlined';
 import {
+	getLibraryQualityInsight,
 	performQualityAction,
 	dismissQualityIssue,
 	reopenQualityIssue,
@@ -29,7 +30,7 @@ import HealthBanner from './HealthBanner.jsx';
 import useQualityReport from '../hooks/useQualityReport.js';
 import useQualityJob from '../hooks/useQualityJob.js';
 import useUpdateCampaign from '../hooks/useUpdateCampaign.js';
-import useQualityInsight from '../hooks/useQualityInsight.js';
+import useAiSummary from '../../../shared/hooks/useAiSummary.js';
 import * as tokens from '../../../theme/tokens.js';
 
 const AppLibraryQuality = () => {
@@ -37,7 +38,9 @@ const AppLibraryQuality = () => {
 	const { report, loading, error, fetchReport } = useQualityReport();
 	const { activeJob, setActiveJob, trackJob } = useQualityJob(() => fetchReport());
 	const [expandedIssue, setExpandedIssue] = useState(null);
-	const { insight, loading: insightLoading } = useQualityInsight(report, loading);
+	const { insight, loading: insightLoading } = useAiSummary(getLibraryQualityInsight, {
+		enabled: report.totalCVs > 0, pending: loading, trigger: report,
+	});
 
 	const metricsByName = (dimension) =>
 		Object.fromEntries((dimension?.metrics ?? []).map((m) => [m.name, m]));

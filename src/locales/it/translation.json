@@ -1315,13 +1315,6 @@
       "template": "Modello e-mail",
       "defaultTemplate": "Messaggio standard Qorva",
       "manageTemplates": "Gestisci…"
-    },
-    "insight": {
-      "title": "Riepilogo IA",
-      "loading": "Scrittura del riepilogo…",
-      "nextSteps": "Cosa fare ora",
-      "show": "Mostra",
-      "disclaimer": "Generato dall'IA dai numeri di questa pagina: verifica prima di agire."
     }
   },
   "candidateUpdate": {
@@ -1716,5 +1709,58 @@
     "sections": {
       "emailTemplates": "Modelli e-mail"
     }
+  },
+  "aiSummary": {
+    "title": "Riepilogo IA",
+    "loading": "Scrittura del riepilogo…",
+    "nextSteps": "Cosa fare ora",
+    "show": "Mostra",
+    "disclaimer": "Generato dall'IA dai numeri di questa pagina: verifica prima di agire."
+  },
+  "usage": {
+    "plan": {
+      "label": "Il tuo piano",
+      "unknownTier": "Piano attuale",
+      "demo": "Account demo · limiti {{tier}}",
+      "cycle": {
+        "month": "Fatturazione mensile",
+        "year": "Fatturazione annuale — i limiti coprono l'intero anno"
+      },
+      "period": "{{start}} – {{end}}",
+      "daysLeft_one": "Manca {{count}} giorno",
+      "daysLeft_other": "Mancano {{count}} giorni",
+      "managePlan": "Gestisci piano",
+      "purpose": "Il tuo piano include una quota di lavoro IA per ogni periodo di fatturazione. Qui vedi quanto hai usato, cosa conta ogni numero e cosa succede al limite."
+    },
+    "meters": {
+      "screeningActions": {
+        "what": "Una per curriculum analizzato e una per candidato valutato per un annuncio.",
+        "details": "Conteggiata quando un curriculum viene caricato o importato dal tuo ATS, quando un'esecuzione di matching valuta un candidato per un annuncio aperto (fino a 10 per annuncio e per esecuzione — aggiungere curriculum rimette in coda ogni annuncio aperto), quando Qualità della libreria rianalizza un curriculum e quando l'IA suggerisce regole di punteggio.",
+        "atLimit": "Al limite, caricamenti, importazioni ATS, matching e rianalisi vengono sospesi fino al rinnovo del periodo."
+      },
+      "aiResumeChats": {
+        "what": "Uno per messaggio inviato nella Chat IA sui curriculum.",
+        "details": "Ogni domanda inviata su un curriculum conta una volta; le risposte sono gratuite.",
+        "atLimit": "Al limite, i nuovi messaggi vengono rifiutati fino al rinnovo del periodo."
+      },
+      "talentIntelligenceQueries": {
+        "what": "Una per domanda posta in Talent Intelligence.",
+        "details": "Ogni domanda sull'intera libreria conta una volta, comprese quelle di approfondimento.",
+        "atLimit": "Viene scalata dalla quota del tuo piano per il periodo."
+      },
+      "emailTemplates": {
+        "what": "Modelli di invito salvati — una quota del piano, non azzerata a ogni periodo."
+      }
+    },
+    "pace": {
+      "TOO_EARLY": "Troppo presto per una stima",
+      "ON_TRACK": "In linea",
+      "WATCH": "Vicino al limite a questo ritmo",
+      "WILL_EXCEED": "A questo ritmo, esaurito verso il {{date}}",
+      "REACHED": "Limite raggiunto — rinnovo il {{date}}",
+      "UNMETERED": "Non conteggiato"
+    },
+    "notMetered": "Non conteggiato",
+    "howCounted": "Come viene conteggiato?"
   }
 }

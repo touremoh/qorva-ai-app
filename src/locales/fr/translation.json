@@ -1315,13 +1315,6 @@
       "template": "Modèle d'e-mail",
       "defaultTemplate": "Message Qorva standard",
       "manageTemplates": "Gérer…"
-    },
-    "insight": {
-      "title": "Résumé IA",
-      "loading": "Rédaction du résumé…",
-      "nextSteps": "Que faire ensuite",
-      "show": "Voir",
-      "disclaimer": "Généré par l'IA à partir des chiffres de cette page — vérifiez avant d'agir."
     }
   },
   "candidateUpdate": {
@@ -1716,5 +1709,58 @@
     "sections": {
       "emailTemplates": "Modèles d'e-mails"
     }
+  },
+  "aiSummary": {
+    "title": "Résumé IA",
+    "loading": "Rédaction du résumé…",
+    "nextSteps": "Que faire ensuite",
+    "show": "Voir",
+    "disclaimer": "Généré par l'IA à partir des chiffres de cette page — vérifiez avant d'agir."
+  },
+  "usage": {
+    "plan": {
+      "label": "Votre offre",
+      "unknownTier": "Offre actuelle",
+      "demo": "Compte de démonstration · limites {{tier}}",
+      "cycle": {
+        "month": "Facturation mensuelle",
+        "year": "Facturation annuelle — les limites couvrent toute l'année"
+      },
+      "period": "{{start}} – {{end}}",
+      "daysLeft_one": "{{count}} jour restant",
+      "daysLeft_other": "{{count}} jours restants",
+      "managePlan": "Gérer l'offre",
+      "purpose": "Votre offre inclut un volume de travail IA pour chaque période de facturation. Voici ce que vous avez utilisé, ce que compte chaque chiffre et ce qui se passe à la limite."
+    },
+    "meters": {
+      "screeningActions": {
+        "what": "Une par CV analysé, et une par candidat évalué pour une offre.",
+        "details": "Comptée quand un CV est importé ou synchronisé depuis votre ATS, quand une analyse de correspondance évalue un candidat pour une offre ouverte (jusqu'à 10 par offre et par analyse — tout ajout de CV remet chaque offre ouverte en file), quand Qualité de la CVthèque réanalyse un CV, et quand l'IA propose des règles de notation.",
+        "atLimit": "À la limite, les imports, la synchronisation ATS, les correspondances et les réanalyses sont suspendus jusqu'au renouvellement de la période."
+      },
+      "aiResumeChats": {
+        "what": "Un par message envoyé dans le Chat IA CV.",
+        "details": "Chaque question envoyée sur un CV compte une fois ; les réponses sont gratuites.",
+        "atLimit": "À la limite, les nouveaux messages sont refusés jusqu'au renouvellement de la période."
+      },
+      "talentIntelligenceQueries": {
+        "what": "Une par question posée dans Talent Intelligence.",
+        "details": "Chaque question posée sur l'ensemble de votre CVthèque compte une fois, relances comprises.",
+        "atLimit": "Décomptée de l'allocation de votre offre pour la période."
+      },
+      "emailTemplates": {
+        "what": "Modèles d'invitation enregistrés — une allocation de l'offre, non remise à zéro à chaque période."
+      }
+    },
+    "pace": {
+      "TOO_EARLY": "Trop tôt pour une projection",
+      "ON_TRACK": "Dans les clous",
+      "WATCH": "Proche de la limite à ce rythme",
+      "WILL_EXCEED": "À ce rythme, épuisé vers le {{date}}",
+      "REACHED": "Limite atteinte — renouvellement le {{date}}",
+      "UNMETERED": "Non décompté"
+    },
+    "notMetered": "Non décompté",
+    "howCounted": "Comment est-ce compté ?"
   }
 }

@@ -11,9 +11,12 @@ import ManageSearchOutlinedIcon from '@mui/icons-material/ManageSearchOutlined';
 import QuestionAnswerOutlinedIcon from '@mui/icons-material/QuestionAnswerOutlined';
 import InsightsOutlinedIcon from '@mui/icons-material/InsightsOutlined';
 import { useTranslation } from 'react-i18next';
-import { getUsageMonitoring } from '../api/usageMonitoringService.js';
+import { getUsageInsight, getUsageMonitoring } from '../api/usageMonitoringService.js';
 import { getEmailTemplates } from '../../email-templates/api/emailTemplateService.js';
 import UsageSummary from './UsageSummary.jsx';
+import UsagePlanHeader from './UsagePlanHeader.jsx';
+import AiSummaryPanel from '../../../shared/ui/AiSummaryPanel.jsx';
+import useAiSummary from '../../../shared/hooks/useAiSummary.js';
 import * as tokens from '../../../theme/tokens.js';
 import { alpha } from '@mui/material/styles';
 
@@ -77,21 +80,15 @@ const UsageMonitoringContent = () => {
         })();
     }, [t]);
 
-    const formatPeriodDate = (iso) =>
-        new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    const { insight, loading: insightLoading } = useAiSummary(getUsageInsight, {
+        enabled: Boolean(data), pending: loading, trigger: data,
+    });
 
     const featureConfig = USAGE_FEATURE_CONFIG(t);
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', overflow: 'hidden', backgroundColor: tokens.surface.subtle }}>
             <Box sx={{ flex: 1, overflowY: 'auto', p: { xs: 2, md: 3 }, display: 'flex', flexDirection: 'column', gap: 2.5 }}>
-
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <SpeedOutlinedIcon sx={{ fontSize: tokens.iconSize.lg, color: tokens.brand.text }} />
-                    <Typography sx={{ fontWeight: 700, fontSize: tokens.fontSize.body, color: tokens.ink.strong }}>
-                        {t('header.usageMonitoring', 'Usage Monitoring')}
-                    </Typography>
-                </Box>
 
                 {loading && (
                     <Stack alignItems="center" justifyContent="center" sx={{ flex: 1, py: 8, textAlign: 'center' }} spacing={1.5}>
@@ -121,12 +118,28 @@ const UsageMonitoringContent = () => {
                 )}
 
                 {!loading && !error && data && (
-                    <UsageSummary
-                        data={data}
-                        featureConfig={featureConfig}
-                        formatPeriodDate={formatPeriodDate}
-                        templateUsage={templateUsage}
-                    />
+                    <>
+                        <Box sx={{
+                            display: 'grid', gap: 2.5, alignItems: 'stretch',
+                            gridTemplateColumns: { xs: '1fr', lg: (insight || insightLoading) ? 'minmax(300px, 2fr) 3fr' : '1fr' },
+                        }}>
+                            <UsagePlanHeader data={data} />
+                            {(insight || insightLoading) && (
+                                <Paper elevation={0} sx={{ border: `1px solid ${tokens.line.main}`, borderRadius: 2.5, p: 2.5 }}>
+                                    <AiSummaryPanel
+                                        insight={insight}
+                                        loading={insightLoading}
+                                        testId="usage-insight"
+                                    />
+                                </Paper>
+                            )}
+                        </Box>
+                        <UsageSummary
+                            data={data}
+                            featureConfig={featureConfig}
+                            templateUsage={templateUsage}
+                        />
+                    </>
                 )}
             </Box>
         </Box>

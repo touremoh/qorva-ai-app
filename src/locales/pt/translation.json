@@ -1315,13 +1315,6 @@
       "template": "Modelo de e-mail",
       "defaultTemplate": "Mensagem padrão da Qorva",
       "manageTemplates": "Gerir…"
-    },
-    "insight": {
-      "title": "Resumo de IA",
-      "loading": "A redigir o resumo…",
-      "nextSteps": "O que fazer a seguir",
-      "show": "Ver",
-      "disclaimer": "Gerado por IA a partir dos números desta página — verifique antes de agir."
     }
   },
   "candidateUpdate": {
@@ -1716,5 +1709,58 @@
     "sections": {
       "emailTemplates": "Modelos de e-mail"
     }
+  },
+  "aiSummary": {
+    "title": "Resumo de IA",
+    "loading": "A redigir o resumo…",
+    "nextSteps": "O que fazer a seguir",
+    "show": "Ver",
+    "disclaimer": "Gerado por IA a partir dos números desta página — verifique antes de agir."
+  },
+  "usage": {
+    "plan": {
+      "label": "O seu plano",
+      "unknownTier": "Plano atual",
+      "demo": "Conta de demonstração · limites {{tier}}",
+      "cycle": {
+        "month": "Faturação mensal",
+        "year": "Faturação anual — os limites cobrem o ano inteiro"
+      },
+      "period": "{{start}} – {{end}}",
+      "daysLeft_one": "Falta {{count}} dia",
+      "daysLeft_other": "Faltam {{count}} dias",
+      "managePlan": "Gerir plano",
+      "purpose": "O seu plano inclui uma quantidade de trabalho de IA por período de faturação. Aqui vê quanto já usou, o que cada número conta e o que acontece no limite."
+    },
+    "meters": {
+      "screeningActions": {
+        "what": "Uma por currículo analisado e uma por candidato avaliado para uma vaga.",
+        "details": "Contada quando um currículo é carregado ou importado do seu ATS, quando uma execução de correspondência avalia um candidato para uma vaga aberta (até 10 por vaga e por execução — adicionar currículos volta a colocar todas as vagas abertas em fila), quando a Qualidade da biblioteca reanalisa um currículo e quando a IA sugere regras de pontuação.",
+        "atLimit": "No limite, os carregamentos, importações do ATS, correspondências e reanálises ficam em pausa até à renovação do período."
+      },
+      "aiResumeChats": {
+        "what": "Uma por mensagem enviada no Chat IA de currículos.",
+        "details": "Cada pergunta enviada sobre um currículo conta uma vez; as respostas são gratuitas.",
+        "atLimit": "No limite, as novas mensagens são recusadas até à renovação do período."
+      },
+      "talentIntelligenceQueries": {
+        "what": "Uma por pergunta no Talent Intelligence.",
+        "details": "Cada pergunta sobre toda a sua biblioteca conta uma vez, incluindo as de seguimento.",
+        "atLimit": "É descontada da quota do seu plano para o período."
+      },
+      "emailTemplates": {
+        "what": "Modelos de convite guardados — uma quota do plano, não reposta em cada período."
+      }
+    },
+    "pace": {
+      "TOO_EARLY": "Ainda é cedo para projetar",
+      "ON_TRACK": "Dentro do previsto",
+      "WATCH": "Perto do limite a este ritmo",
+      "WILL_EXCEED": "A este ritmo, esgota por volta de {{date}}",
+      "REACHED": "Limite atingido — renova a {{date}}",
+      "UNMETERED": "Sem contagem"
+    },
+    "notMetered": "Sem contagem",
+    "howCounted": "Como é contado?"
   }
 }
