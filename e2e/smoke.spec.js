@@ -7,7 +7,7 @@ const TABS = [
 	['dashboard', 'Dashboard'],
 	['cvs', 'Resume Library'],
 	['library-quality', 'Library Quality'],
-	['email-templates', 'Email Templates'],
+	['configuration', 'Configuration'],
 	['jobs', 'Jobs'],
 	['intelligence', 'Talent Intelligence'],
 	['reports', 'Match Reports'],
@@ -24,6 +24,13 @@ test.describe('app shell', () => {
 			expect(unknown, 'API calls missing from e2e/fixtures/api.json').toEqual([]);
 		});
 	}
+
+	test('the old email templates address opens them under Configuration', async ({ page }) => {
+		const unknown = await openApp(page, '/app/email-templates');
+		await expect(page).toHaveURL(/\/app\/configuration\?section=email-templates$/);
+		await expect(page.getByText('Email Templates', { exact: true }).first()).toBeVisible();
+		expect(unknown, 'API calls missing from e2e/fixtures/api.json').toEqual([]);
+	});
 
 	test('dashboard shows the seeded tenant', async ({ page }) => {
 		await openApp(page, '/app/dashboard');

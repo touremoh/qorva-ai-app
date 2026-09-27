@@ -29,6 +29,7 @@ import HealthBanner from './HealthBanner.jsx';
 import useQualityReport from '../hooks/useQualityReport.js';
 import useQualityJob from '../hooks/useQualityJob.js';
 import useUpdateCampaign from '../hooks/useUpdateCampaign.js';
+import useQualityInsight from '../hooks/useQualityInsight.js';
 import * as tokens from '../../../theme/tokens.js';
 
 const AppLibraryQuality = () => {
@@ -36,14 +37,19 @@ const AppLibraryQuality = () => {
 	const { report, loading, error, fetchReport } = useQualityReport();
 	const { activeJob, setActiveJob, trackJob } = useQualityJob(() => fetchReport());
 	const [expandedIssue, setExpandedIssue] = useState(null);
-
-
+	const { insight, loading: insightLoading } = useQualityInsight(report, loading);
 
 	const metricsByName = (dimension) =>
 		Object.fromEntries((dimension?.metrics ?? []).map((m) => [m.name, m]));
 
 	const handleIssueAction = (issue) => {
 		setExpandedIssue((prev) => (prev === issue.issueKey ? null : issue.issueKey));
+	};
+
+	// From an AI recommendation: open that issue's list and bring it into view.
+	const handleShowIssue = (issueKey) => {
+		setExpandedIssue(issueKey);
+		document.getElementById(`quality-issue-${issueKey}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 	};
 
 	const [archiveConfirm, setArchiveConfirm] = useState(null); // issue pending "archive all" confirmation
@@ -179,6 +185,9 @@ const AppLibraryQuality = () => {
 				overallColors={overallColors}
 				report={report}
 				verdict={verdict}
+				insight={insight}
+				insightLoading={insightLoading}
+				onShowIssue={handleShowIssue}
 			/>
 
 			{/* Dimension cards */}

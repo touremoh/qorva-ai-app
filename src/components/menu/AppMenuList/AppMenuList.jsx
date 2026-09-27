@@ -10,17 +10,16 @@ import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
-import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
 import PsychologyOutlinedIcon from '@mui/icons-material/PsychologyOutlined';
 import SpeedOutlinedIcon from '@mui/icons-material/SpeedOutlined';
 import FactCheckOutlinedIcon from '@mui/icons-material/FactCheckOutlined';
-import MarkEmailReadOutlinedIcon from '@mui/icons-material/MarkEmailReadOutlined';
+import SettingsSuggestOutlinedIcon from '@mui/icons-material/SettingsSuggestOutlined';
 import {
 	COMP_ID_CHAT,
+	COMP_ID_CONFIGURATION,
 	COMP_ID_CVLIB,
 	COMP_ID_DASHBOARD,
-	COMP_ID_EMAIL_TEMPLATES,
 	COMP_ID_INTELLIGENCE,
 	COMP_ID_JOBS,
 	COMP_ID_LIBRARY_QUALITY,
@@ -77,19 +76,16 @@ const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, collap
 
 	const menuItems = [
 		{ id: COMP_ID_DASHBOARD, Icon: LeaderboardOutlinedIcon, label: t('header.dashboard'),                              display: true },
-		{ groupId: 'RESUME_LIBRARY', Icon: PeopleOutlinedIcon,  label: t('header.cvs'),                         display: true,
-			children: [
-				{ id: COMP_ID_CVLIB,           Icon: DescriptionOutlinedIcon, label: t('header.resumes', 'All Resumes'),           display: true },
-				{ id: COMP_ID_LIBRARY_QUALITY, Icon: FactCheckOutlinedIcon,   label: t('header.libraryQuality', 'Library Quality'), display: true,
-					badge: qualityIssueCount,
-					badgeTooltip: t('libraryQuality.badgeTooltip', '{{count}} issues to fix', { count: qualityIssueCount }) },
-				{ id: COMP_ID_EMAIL_TEMPLATES, Icon: MarkEmailReadOutlinedIcon, label: t('header.emailTemplates', 'Email Templates'), display: true },
-			] },
+		{ id: COMP_ID_CVLIB,           Icon: PeopleOutlinedIcon,    label: t('header.cvs'),                                display: true },
+		{ id: COMP_ID_LIBRARY_QUALITY, Icon: FactCheckOutlinedIcon, label: t('header.libraryQuality', 'Library Quality'), display: true,
+			badge: qualityIssueCount,
+			badgeTooltip: t('libraryQuality.badgeTooltip', '{{count}} issues to fix', { count: qualityIssueCount }) },
 		{ id: COMP_ID_JOBS,         Icon: WorkOutlineOutlinedIcon,  label: t('header.jobs'),                      display: true },
 		{ id: COMP_ID_REPORTS,      Icon: AssessmentOutlinedIcon,   label: t('header.reports'),                   display: true },
 		{ id: COMP_ID_INTELLIGENCE, Icon: PsychologyOutlinedIcon,   label: t('header.intelligence', 'Intelligence'), display: true },
 		{ id: COMP_ID_CHAT,             Icon: AutoAwesomeOutlinedIcon, label: t('header.aiResumeChat') || 'AI Chat',              display: isChatAllowed },
 		{ id: COMP_ID_USAGE_MONITORING, Icon: SpeedOutlinedIcon,       label: t('header.usageMonitoring', 'Usage Monitoring'),   display: true },
+		{ id: COMP_ID_CONFIGURATION,    Icon: SettingsSuggestOutlinedIcon, label: t('header.configuration', 'Configuration'),     display: true },
 		{ id: COMP_ID_SETTINGS,         Icon: TuneOutlinedIcon,        label: t('header.accountSettings'),                      display: true },
 	];
 

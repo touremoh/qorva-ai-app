@@ -4,7 +4,7 @@ import { Box, CircularProgress } from '@mui/material';
 import { SIDEBAR_WIDTH, SIDEBAR_WIDTH_COLLAPSED } from '../menu/AppSidebar.jsx';
 import {
 	COMP_ID_CVLIB,
-	COMP_ID_EMAIL_TEMPLATES,
+	COMP_ID_CONFIGURATION,
 	COMP_ID_LIBRARY_QUALITY,
 	COMP_ID_REPORTS,
 	COMP_ID_SETTINGS,
@@ -22,7 +22,7 @@ import * as tokens from '../../theme/tokens.js';
 const JobContent = lazy(() => import('../../features/jobs/components/JobsContent.jsx'));
 const AppCVContent = lazy(() => import('../../features/cv/components/AppCVContent.jsx'));
 const AppLibraryQuality = lazy(() => import('../../features/library-quality/components/AppLibraryQuality.jsx'));
-const AppEmailTemplates = lazy(() => import('../../features/email-templates/components/AppEmailTemplates.jsx'));
+const AppConfiguration = lazy(() => import('../../features/configuration/components/AppConfiguration.jsx'));
 const AppMatchingReports = lazy(() => import('../../features/reports/components/AppMatchingReports.jsx'));
 const QorvaDashboard = lazy(() => import('../../features/dashboard/components/QorvaDashboard.jsx'));
 const AccountSettings = lazy(() => import('../../features/settings/components/AccountSettings.jsx'));
@@ -46,8 +46,8 @@ const AppContent = ({ content, isSidebarCollapsed }) => {
 				return <AppCVContent />;
 			case COMP_ID_LIBRARY_QUALITY:
 				return <AppLibraryQuality />;
-			case COMP_ID_EMAIL_TEMPLATES:
-				return <AppEmailTemplates />;
+			case COMP_ID_CONFIGURATION:
+				return <AppConfiguration />;
 			case COMP_ID_JOBS:
 				return <JobContent />;
 			case COMP_ID_INTELLIGENCE:

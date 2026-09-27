@@ -44,6 +44,7 @@ const SILENT_ERROR_CODES = new Set([
 	'error.auth.mfa_resend_too_soon',
 	'error.auth.mfa_too_many_codes',
 	'error.auth.mfa_delivery_failed',
+	'error.library_quality.insight_unavailable', // quality page falls back to the plain verdict
 ]);
 
 const handleResponseError = (error) => {

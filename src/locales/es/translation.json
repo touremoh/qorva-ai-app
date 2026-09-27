@@ -93,11 +93,11 @@
     "intelligence": "Inteligencia de Talento",
     "usageMonitoring": "Supervisión de uso",
     "libraryQuality": "Calidad de la biblioteca",
-    "resumes": "Todos los currículums",
     "emailTemplates": "Plantillas de correo",
     "dashboard": "Panel",
     "expandMenu": "Expandir",
-    "collapseMenu": "Contraer"
+    "collapseMenu": "Contraer",
+    "configuration": "Configuración"
   },
   "jobContent": {
     "createJobPost": "Nueva oferta",
@@ -1315,6 +1315,13 @@
       "template": "Plantilla de correo",
       "defaultTemplate": "Mensaje estándar de Qorva",
       "manageTemplates": "Gestionar…"
+    },
+    "insight": {
+      "title": "Resumen de IA",
+      "loading": "Redactando el resumen…",
+      "nextSteps": "Qué hacer ahora",
+      "show": "Ver",
+      "disclaimer": "Generado por IA a partir de las cifras de esta página: compruébelo antes de actuar."
     }
   },
   "candidateUpdate": {
@@ -1703,5 +1710,11 @@
     "startOver": "Empezar de nuevo",
     "subtitle": "No se ha realizado ningún cargo. Tu cuenta ya está creada; solo falta completar el pago.",
     "title": "Pago cancelado"
+  },
+  "configuration": {
+    "title": "Configuración",
+    "sections": {
+      "emailTemplates": "Plantillas de correo"
+    }
   }
 }

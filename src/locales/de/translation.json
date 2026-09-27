@@ -93,11 +93,11 @@
     "intelligence": "Talent-Intelligenz",
     "usageMonitoring": "Nutzungsüberwachung",
     "libraryQuality": "Bibliotheksqualität",
-    "resumes": "Alle Lebensläufe",
     "emailTemplates": "E-Mail-Vorlagen",
     "dashboard": "Dashboard",
     "expandMenu": "Ausklappen",
-    "collapseMenu": "Einklappen"
+    "collapseMenu": "Einklappen",
+    "configuration": "Konfiguration"
   },
   "jobContent": {
     "createJobPost": "Neue Stelle",
@@ -1315,6 +1315,13 @@
       "template": "E-Mail-Vorlage",
       "defaultTemplate": "Standard-Qorva-Nachricht",
       "manageTemplates": "Verwalten…"
+    },
+    "insight": {
+      "title": "KI-Zusammenfassung",
+      "loading": "Zusammenfassung wird erstellt…",
+      "nextSteps": "Nächste Schritte",
+      "show": "Anzeigen",
+      "disclaimer": "Von der KI aus den Zahlen dieser Seite erstellt – vor dem Handeln prüfen."
     }
   },
   "candidateUpdate": {
@@ -1703,5 +1710,11 @@
     "startOver": "Neu beginnen",
     "subtitle": "Es wurde nichts berechnet. Ihr Konto ist angelegt – Sie müssen nur noch den Bezahlvorgang abschließen.",
     "title": "Zahlung abgebrochen"
+  },
+  "configuration": {
+    "title": "Konfiguration",
+    "sections": {
+      "emailTemplates": "E-Mail-Vorlagen"
+    }
   }
 }

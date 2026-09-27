@@ -93,11 +93,11 @@
     "intelligence": "Talent Intelligence",
     "usageMonitoring": "Suivi d'utilisation",
     "libraryQuality": "Qualité de la CVthèque",
-    "resumes": "Tous les CV",
     "emailTemplates": "Modèles d'e-mails",
     "dashboard": "Tableau de bord",
     "expandMenu": "Déplier",
-    "collapseMenu": "Replier"
+    "collapseMenu": "Replier",
+    "configuration": "Configuration"
   },
   "jobContent": {
     "createJobPost": "Nouvelle offre",
@@ -1315,6 +1315,13 @@
       "template": "Modèle d'e-mail",
       "defaultTemplate": "Message Qorva standard",
       "manageTemplates": "Gérer…"
+    },
+    "insight": {
+      "title": "Résumé IA",
+      "loading": "Rédaction du résumé…",
+      "nextSteps": "Que faire ensuite",
+      "show": "Voir",
+      "disclaimer": "Généré par l'IA à partir des chiffres de cette page — vérifiez avant d'agir."
     }
   },
   "candidateUpdate": {
@@ -1703,5 +1710,11 @@
     "startOver": "Recommencer",
     "subtitle": "Aucun montant n'a été débité. Votre compte est créé — il ne reste qu'à finaliser le paiement.",
     "title": "Paiement annulé"
+  },
+  "configuration": {
+    "title": "Configuration",
+    "sections": {
+      "emailTemplates": "Modèles d'e-mails"
+    }
   }
 }
