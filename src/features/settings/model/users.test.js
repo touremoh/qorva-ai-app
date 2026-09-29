@@ -16,6 +16,7 @@ const BACKEND_ACTIONS = [
 	'UPDATE_SUBSCRIPTION', 'CANCEL_SUBSCRIPTION',
 	'VIEW_LIBRARY_INSIGHTS',
 	'CONTACT_CANDIDATE',
+	'USE_AGENT',
 ];
 
 const allowed = (action, role = 'ACCOUNT_MANAGER') => ({ role, action, permission: 'ALLOWED' });

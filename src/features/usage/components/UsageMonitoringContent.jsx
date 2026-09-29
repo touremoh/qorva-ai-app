@@ -10,6 +10,7 @@ import SpeedOutlinedIcon from '@mui/icons-material/SpeedOutlined';
 import ManageSearchOutlinedIcon from '@mui/icons-material/ManageSearchOutlined';
 import QuestionAnswerOutlinedIcon from '@mui/icons-material/QuestionAnswerOutlined';
 import InsightsOutlinedIcon from '@mui/icons-material/InsightsOutlined';
+import SmartToyOutlinedIcon from '@mui/icons-material/SmartToyOutlined';
 import { useTranslation } from 'react-i18next';
 import { getUsageInsight, getUsageMonitoring } from '../api/usageMonitoringService.js';
 import { getEmailTemplates } from '../../email-templates/api/emailTemplateService.js';
@@ -41,6 +42,13 @@ const USAGE_FEATURE_CONFIG = (t) => [
         icon: InsightsOutlinedIcon,
         accent: tokens.status.accent.purple,
         bg: 'rgba(139,92,246,0.08)',
+    },
+    {
+        key: 'agentRuns',
+        label: t('dashboard.usage.agentRuns', 'Copilot tasks'),
+        icon: SmartToyOutlinedIcon,
+        accent: tokens.status.info.royal,
+        bg: alpha(tokens.status.info.royal, 0.08),
     },
 ];
 

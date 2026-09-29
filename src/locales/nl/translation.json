@@ -97,7 +97,8 @@
     "dashboard": "Dashboard",
     "expandMenu": "Uitklappen",
     "collapseMenu": "Inklappen",
-    "configuration": "Configuratie"
+    "configuration": "Configuratie",
+    "copilot": "Copilot"
   },
   "jobContent": {
     "createJobPost": "Nieuwe vacature",
@@ -642,7 +643,8 @@
       "billing": "Facturering",
       "integrations": "ATS-integraties",
       "outreach": "Kandidaten benaderen",
-      "intelligence": "Talent Intelligence"
+      "intelligence": "Talent Intelligence",
+      "copilot": "Copilot"
     },
     "authorities": {
       "VIEW_DASHBOARD": "Dashboard bekijken",
@@ -671,7 +673,8 @@
       "CANCEL_SUBSCRIPTION": "Abonnement opzeggen",
       "MANAGE_INTEGRATIONS": "ATS-integraties beheren",
       "CONTACT_CANDIDATE": "Kandidaten mailen",
-      "VIEW_LIBRARY_INSIGHTS": "Talent Intelligence bevragen"
+      "VIEW_LIBRARY_INSIGHTS": "Talent Intelligence bevragen",
+      "USE_AGENT": "Copilot gebruiken"
     },
     "mfa": {
       "title": "Verificatie in twee stappen",
@@ -764,7 +767,8 @@
       "planAllowance": "plantegoed",
       "templatesTooltip": "Opgeslagen uitnodigingssjablonen — een plantegoed, geen maandelijks quotum",
       "noPeriodTitle": "Er is geen actieve gebruiksperiode voor dit account",
-      "noPeriodHint": "Gebruik wordt per factureringsperiode gemeten. Een periode wordt automatisch geopend enkele minuten na de start of verlenging van een abonnement; blijft dit bericht staan, neem dan contact op met support."
+      "noPeriodHint": "Gebruik wordt per factureringsperiode gemeten. Een periode wordt automatisch geopend enkele minuten na de start of verlenging van een abonnement; blijft dit bericht staan, neem dan contact op met support.",
+      "agentRuns": "Copilot-taken"
     }
   },
   "appAIResumeChat": {
@@ -1096,6 +1100,20 @@
       "reauth_required": "Uw mailboxkoppeling is verlopen. Koppel deze opnieuw in de accountinstellingen.",
       "send_failed": "Uw mailbox heeft het verzenden geweigerd. Probeer het opnieuw of gebruik uw e-mailprogramma.",
       "oauth_state_invalid": "Het koppelingsverzoek is ongeldig of verlopen. Begin opnieuw."
+    },
+    "usage": {
+      "agent_limit_exceeded": "De Copilot-takenlimiet van uw abonnement voor deze periode is bereikt. Deze wordt aan het begin van de volgende periode opnieuw ingesteld."
+    },
+    "agent": {
+      "disabled": "Copilot is momenteel niet beschikbaar.",
+      "run_active": "Copilot werkt al aan een van uw taken. Wacht tot die klaar is of annuleer hem.",
+      "run_not_found": "Deze Copilot-taak is niet gevonden.",
+      "goal_invalid": "Beschrijf de taak in 1 tot 2.000 tekens.",
+      "conversation_active": "In dit gesprek loopt een taak. Annuleer die voordat u het gesprek verwijdert.",
+      "team_scope_forbidden": "Alleen gebruikers die gebruikers mogen beheren, zien de Copilot-activiteit van het team.",
+      "user_unavailable": "De gebruiker voor wie deze Copilot-taak wordt uitgevoerd, kan Copilot niet meer gebruiken.",
+      "model_failed": "Copilot kon de AI-dienst niet bereiken. Probeer het zo meteen opnieuw.",
+      "too_many_errors": "Copilot is gestopt na herhaalde fouten."
     }
   },
   "recruitment": {
@@ -1750,6 +1768,11 @@
       },
       "emailTemplates": {
         "what": "Opgeslagen uitnodigingssjablonen — een abonnementstegoed dat niet per periode wordt gereset."
+      },
+      "agentRuns": {
+        "what": "Eén per taak waaraan Copilot werkt.",
+        "details": "Elke taak telt één keer, of u hem in de chat gaf of een regel hem startte. Wat Copilot onderweg doet, zoals een matchingronde, telt ook mee voor het eigen tegoed.",
+        "atLimit": "Nieuwe Copilot-taken worden geweigerd tot de periode wordt vernieuwd."
       }
     },
     "pace": {
@@ -1773,6 +1796,101 @@
     "aiResumeChat": "AI CV-chat",
     "usage": "Verbruik",
     "configuration": "Configuratie",
-    "accountSettings": "Account"
+    "accountSettings": "Account",
+    "copilot": "Copilot"
+  },
+  "copilot": {
+    "tabs": {
+      "chat": "Chat",
+      "activity": "Activiteit"
+    },
+    "conversations": {
+      "new": "Nieuwe taak",
+      "empty": "Nog geen gesprekken.",
+      "delete": "Gesprek verwijderen"
+    },
+    "deleteConversation": {
+      "title": "Dit gesprek verwijderen?",
+      "message": "De taken en antwoorden worden verwijderd. Niets wat Copilot heeft bekeken, wordt gewijzigd.",
+      "cancel": "Annuleren",
+      "confirm": "Verwijderen"
+    },
+    "empty": {
+      "title": "Wat moet Copilot doen?",
+      "subtitle": "Geef Copilot een taak in gewone woorden. Het doorzoekt uw cv's, vacatures en matchrapporten en brengt dan verslag uit. Voorlopig leest het alleen: het wijzigt en verstuurt niets.",
+      "examples": {
+        "topCandidates": "Wie zijn de 5 best passende kandidaten voor onze nieuwste openstaande vacature, en waarom?",
+        "count": "Hoeveel senior Java-ontwikkelaars die openstaan voor werk hebben we in Lissabon?",
+        "compare": "Welke kandidaten die deze maand zijn toegevoegd, hebben sterke cloudervaring?",
+        "usage": "Hoeveel van ons abonnement hebben we deze periode gebruikt?"
+      }
+    },
+    "input": {
+      "placeholder": "Beschrijf een taak… @ voor een kandidaat, # voor een vacature",
+      "hint": "Copilot leest uw gegevens om te antwoorden. Het kan zich vergissen, dus controleer belangrijke resultaten.",
+      "tooLong": "Houd de taak korter dan {{max}} tekens."
+    },
+    "run": {
+      "queued": "Wacht om te starten…",
+      "working": "Bezig…",
+      "cancel": "Annuleren",
+      "failed": "Copilot kon deze taak niet afronden.",
+      "stoppedEarly": "Copilot stopte voordat het klaar was: de taak had meer stappen nodig dan toegestaan. Probeer een gerichtere taak.",
+      "cancelled": "Geannuleerd."
+    },
+    "status": {
+      "QUEUED": "In wachtrij",
+      "RUNNING": "Bezig",
+      "AWAITING_APPROVAL": "Goedkeuring nodig",
+      "COMPLETED": "Klaar",
+      "FAILED": "Mislukt",
+      "CANCELLED": "Geannuleerd",
+      "EXPIRED": "Verlopen"
+    },
+    "link": {
+      "CV": "Kandidaat",
+      "JOB": "Vacature",
+      "REPORT": "Rapport"
+    },
+    "toast": {
+      "completed": "Copilot is klaar: {{title}}",
+      "failed": "Copilot kon niet afronden: {{title}}",
+      "open": "Openen"
+    },
+    "activity": {
+      "scope": {
+        "mine": "Mijn taken",
+        "team": "Team"
+      },
+      "filter": {
+        "status": "Status",
+        "all": "Alle"
+      },
+      "empty": "Nog geen Copilot-taken.",
+      "columns": {
+        "task": "Taak",
+        "user": "Gebruiker",
+        "status": "Status",
+        "started": "Gestart"
+      },
+      "fromRule": "Gestart door een regel",
+      "run": "Copilot-taak",
+      "close": "Sluiten"
+    }
+  },
+  "agent": {
+    "step": {
+      "search_cvs": "Cv-bibliotheek doorzocht: {{count}} gevonden",
+      "semantic_search_cvs": "Vergelijkbare profielen gezocht: {{count}} gevonden",
+      "get_cv": "Profiel van {{name}} gelezen",
+      "list_jobs": "Vacatures opgesomd: {{count}} gevonden",
+      "get_job": "Vacature ‘{{title}}’ gelezen",
+      "list_reports": "Matchrapporten bekeken: {{count}} gevonden",
+      "get_report": "Matchrapport van {{name}} gelezen",
+      "get_usage": "Verbruik van het abonnement bekeken",
+      "error": "Een stap is mislukt; Copilot heeft zich aangepast",
+      "interrupted": "Een stap is onderbroken",
+      "generic": "{{tool}} gebruikt"
+    }
   }
 }

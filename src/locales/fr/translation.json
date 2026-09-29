@@ -97,7 +97,8 @@
     "dashboard": "Tableau de bord",
     "expandMenu": "Déplier",
     "collapseMenu": "Replier",
-    "configuration": "Configuration"
+    "configuration": "Configuration",
+    "copilot": "Copilot"
   },
   "jobContent": {
     "createJobPost": "Nouvelle offre",
@@ -642,7 +643,8 @@
       "billing": "Facturation",
       "integrations": "Intégrations ATS",
       "outreach": "Contact des candidats",
-      "intelligence": "Talent Intelligence"
+      "intelligence": "Talent Intelligence",
+      "copilot": "Copilot"
     },
     "authorities": {
       "VIEW_DASHBOARD": "Voir le tableau de bord",
@@ -671,7 +673,8 @@
       "CANCEL_SUBSCRIPTION": "Annuler l'abonnement",
       "MANAGE_INTEGRATIONS": "Gérer les intégrations ATS",
       "CONTACT_CANDIDATE": "Écrire aux candidats",
-      "VIEW_LIBRARY_INSIGHTS": "Interroger Talent Intelligence"
+      "VIEW_LIBRARY_INSIGHTS": "Interroger Talent Intelligence",
+      "USE_AGENT": "Utiliser Copilot"
     },
     "mfa": {
       "title": "Vérification en deux étapes",
@@ -764,7 +767,8 @@
       "planAllowance": "quota du plan",
       "templatesTooltip": "Modèles d'invitation enregistrés — un quota du plan, pas un quota mensuel",
       "noPeriodTitle": "Aucune période d'utilisation n'est active pour ce compte",
-      "noPeriodHint": "L'utilisation est mesurée par période de facturation. Une période s'ouvre automatiquement quelques minutes après le début ou le renouvellement d'un abonnement ; si ce message persiste, contactez le support."
+      "noPeriodHint": "L'utilisation est mesurée par période de facturation. Une période s'ouvre automatiquement quelques minutes après le début ou le renouvellement d'un abonnement ; si ce message persiste, contactez le support.",
+      "agentRuns": "Tâches Copilot"
     }
   },
   "appAIResumeChat": {
@@ -1096,6 +1100,20 @@
       "reauth_required": "La connexion à votre boîte mail a expiré. Reconnectez-la dans les paramètres du compte.",
       "send_failed": "Votre boîte mail a refusé l’envoi. Réessayez ou utilisez votre messagerie.",
       "oauth_state_invalid": "La demande de connexion est invalide ou a expiré. Veuillez recommencer."
+    },
+    "usage": {
+      "agent_limit_exceeded": "La limite de tâches Copilot de votre offre est atteinte pour cette période. Elle sera réinitialisée au début de la prochaine période."
+    },
+    "agent": {
+      "disabled": "Copilot n'est pas disponible pour le moment.",
+      "run_active": "Copilot travaille déjà sur l'une de vos tâches. Attendez qu'elle se termine ou annulez-la.",
+      "run_not_found": "Cette tâche Copilot est introuvable.",
+      "goal_invalid": "Décrivez la tâche en 1 à 2 000 caractères.",
+      "conversation_active": "Une tâche est en cours dans cette conversation. Annulez-la avant de supprimer la conversation.",
+      "team_scope_forbidden": "Seuls les utilisateurs pouvant gérer les utilisateurs peuvent voir l'activité Copilot de l'équipe.",
+      "user_unavailable": "L'utilisateur pour qui cette tâche Copilot s'exécute ne peut plus utiliser Copilot.",
+      "model_failed": "Copilot n'a pas pu joindre le service d'IA. Réessayez dans un instant.",
+      "too_many_errors": "Copilot s'est arrêté après plusieurs erreurs."
     }
   },
   "recruitment": {
@@ -1750,6 +1768,11 @@
       },
       "emailTemplates": {
         "what": "Modèles d'invitation enregistrés — une allocation de l'offre, non remise à zéro à chaque période."
+      },
+      "agentRuns": {
+        "what": "Une par tâche traitée par Copilot.",
+        "details": "Chaque tâche compte une fois, qu'elle vienne du chat ou d'une règle. Ce que Copilot fait en chemin, comme une analyse de correspondance, compte aussi dans sa propre allocation.",
+        "atLimit": "Les nouvelles tâches Copilot sont refusées jusqu'au renouvellement de la période."
       }
     },
     "pace": {
@@ -1773,6 +1796,101 @@
     "aiResumeChat": "Chat CV IA",
     "usage": "Consommation",
     "configuration": "Configuration",
-    "accountSettings": "Compte"
+    "accountSettings": "Compte",
+    "copilot": "Copilot"
+  },
+  "copilot": {
+    "tabs": {
+      "chat": "Chat",
+      "activity": "Activité"
+    },
+    "conversations": {
+      "new": "Nouvelle tâche",
+      "empty": "Aucune conversation pour l'instant.",
+      "delete": "Supprimer la conversation"
+    },
+    "deleteConversation": {
+      "title": "Supprimer cette conversation ?",
+      "message": "Ses tâches et réponses seront supprimées. Rien de ce que Copilot a consulté n'est modifié.",
+      "cancel": "Annuler",
+      "confirm": "Supprimer"
+    },
+    "empty": {
+      "title": "Que doit faire Copilot ?",
+      "subtitle": "Confiez une tâche à Copilot en langage courant. Il cherche dans vos CV, offres et rapports de correspondance, puis vous répond. Pour l'instant, il ne fait que lire : il ne modifie et n'envoie rien.",
+      "examples": {
+        "topCandidates": "Quels sont les 5 meilleurs candidats pour notre dernière offre ouverte, et pourquoi ?",
+        "count": "Combien de développeurs Java seniors ouverts aux opportunités avons-nous à Lisbonne ?",
+        "compare": "Quels candidats ajoutés ce mois-ci ont une solide expérience du cloud ?",
+        "usage": "Quelle part de notre offre avons-nous utilisée sur cette période ?"
+      }
+    },
+    "input": {
+      "placeholder": "Décrivez une tâche… @ pour un candidat, # pour une offre",
+      "hint": "Copilot lit vos données pour répondre. Il peut se tromper : vérifiez les résultats importants.",
+      "tooLong": "La tâche doit faire moins de {{max}} caractères."
+    },
+    "run": {
+      "queued": "En attente…",
+      "working": "En cours…",
+      "cancel": "Annuler",
+      "failed": "Copilot n'a pas pu terminer cette tâche.",
+      "stoppedEarly": "Copilot s'est arrêté avant la fin : la tâche demandait plus d'étapes que permis. Essayez une tâche plus ciblée.",
+      "cancelled": "Annulée."
+    },
+    "status": {
+      "QUEUED": "En attente",
+      "RUNNING": "En cours",
+      "AWAITING_APPROVAL": "À valider",
+      "COMPLETED": "Terminée",
+      "FAILED": "Échec",
+      "CANCELLED": "Annulée",
+      "EXPIRED": "Expirée"
+    },
+    "link": {
+      "CV": "Candidat",
+      "JOB": "Offre",
+      "REPORT": "Rapport"
+    },
+    "toast": {
+      "completed": "Copilot a terminé : {{title}}",
+      "failed": "Copilot n'a pas pu terminer : {{title}}",
+      "open": "Ouvrir"
+    },
+    "activity": {
+      "scope": {
+        "mine": "Mes tâches",
+        "team": "Équipe"
+      },
+      "filter": {
+        "status": "Statut",
+        "all": "Tous"
+      },
+      "empty": "Aucune tâche Copilot pour l'instant.",
+      "columns": {
+        "task": "Tâche",
+        "user": "Utilisateur",
+        "status": "Statut",
+        "started": "Lancée"
+      },
+      "fromRule": "Lancée par une règle",
+      "run": "Tâche Copilot",
+      "close": "Fermer"
+    }
+  },
+  "agent": {
+    "step": {
+      "search_cvs": "Recherche dans la CVthèque : {{count}} trouvé(s)",
+      "semantic_search_cvs": "Recherche de profils similaires : {{count}} trouvé(s)",
+      "get_cv": "Profil de {{name}} consulté",
+      "list_jobs": "Offres listées : {{count}} trouvée(s)",
+      "get_job": "Offre « {{title}} » consultée",
+      "list_reports": "Rapports de correspondance consultés : {{count}} trouvé(s)",
+      "get_report": "Rapport de correspondance de {{name}} consulté",
+      "get_usage": "Consommation de l'offre consultée",
+      "error": "Une étape a échoué ; Copilot s'est adapté",
+      "interrupted": "Une étape a été interrompue",
+      "generic": "{{tool}} utilisé"
+    }
   }
 }

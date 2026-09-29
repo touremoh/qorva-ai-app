@@ -159,6 +159,10 @@
             "role" : "ACCOUNT_OWNER",
             "action" : "CONTACT_CANDIDATE",
             "permission" : "ALLOWED"
+          }, {
+            "role" : "ACCOUNT_OWNER",
+            "action" : "USE_AGENT",
+            "permission" : "ALLOWED"
           } ],
           "createdBy" : "owner@a.qorva.test",
           "lastUpdatedBy" : "owner@a.qorva.test",
@@ -7362,6 +7366,11 @@
           "limit" : 3000,
           "consumed" : 0,
           "cumulative" : 0
+        },
+        "agentRuns" : {
+          "limit" : 500,
+          "consumed" : 0,
+          "cumulative" : 0
         }
       },
       "bulkUploadFilesLimit" : 100,
@@ -7378,6 +7387,11 @@
           "status" : "ON_TRACK"
         },
         "talentIntelligenceQueries" : {
+          "projectedConsumed" : 0,
+          "limitReachedOn" : null,
+          "status" : "ON_TRACK"
+        },
+        "agentRuns" : {
           "projectedConsumed" : 0,
           "limitReachedOn" : null,
           "status" : "ON_TRACK"
@@ -7541,6 +7555,10 @@
           }, {
             "role" : "ACCOUNT_OWNER",
             "action" : "CONTACT_CANDIDATE",
+            "permission" : "ALLOWED"
+          }, {
+            "role" : "ACCOUNT_OWNER",
+            "action" : "USE_AGENT",
             "permission" : "ALLOWED"
           } ],
           "createdBy" : "owner@a.qorva.test",
@@ -12393,6 +12411,116 @@
       },
       "code" : 200,
       "timestamp" : "2026-09-26T01:00:00.925458Z"
+    }
+  },
+  "GET /agent/availability" : {
+    "status" : 200,
+    "body" : {
+      "enabled" : false,
+      "rulesEnabled" : false,
+      "runsRemaining" : 500,
+      "canViewTeam" : true
+    }
+  },
+  "GET /agent/conversations" : {
+    "status" : 200,
+    "body" : [ {
+      "conversationId" : "6abc25f00243ffb2599331c6",
+      "title" : "Best Java candidates",
+      "lastStatus" : "COMPLETED",
+      "lastActivityAt" : "2026-09-15T08:00:00Z"
+    } ]
+  },
+  "GET /agent/runs" : {
+    "status" : 200,
+    "body" : {
+      "items" : [ {
+        "id" : "6abc25f00243ffb2599331c7",
+        "conversationId" : "6abc25f00243ffb2599331c6",
+        "title" : "Best Java candidates",
+        "origin" : "CHAT",
+        "userEmail" : "owner@a.qorva.test",
+        "status" : "COMPLETED",
+        "goal" : "Who are our best Java candidates?",
+        "stepCount" : 2,
+        "failureReason" : null,
+        "canCancel" : false,
+        "createdAt" : "2026-09-15T08:00:00Z",
+        "finishedAt" : "2026-09-15T08:00:00Z"
+      } ],
+      "page" : 0,
+      "size" : 20,
+      "total" : 1
+    }
+  },
+  "GET /agent/conversations/6abc25f00243ffb2599331c6" : {
+    "status" : 200,
+    "body" : [ {
+      "id" : "6abc25f00243ffb2599331c7",
+      "conversationId" : "6abc25f00243ffb2599331c6",
+      "title" : "Best Java candidates",
+      "origin" : "CHAT",
+      "userEmail" : "owner@a.qorva.test",
+      "status" : "COMPLETED",
+      "goal" : "Who are our best Java candidates?",
+      "mentions" : [ ],
+      "steps" : [ {
+        "seq" : 1,
+        "kind" : "TOOL_CALL",
+        "tool" : "search_cvs",
+        "state" : "OK",
+        "summaryKey" : "agent.step.search_cvs",
+        "summaryParams" : {
+          "count" : "1"
+        },
+        "links" : [ {
+          "type" : "CV",
+          "id" : "6ab7190e28a8f342d03d978b",
+          "label" : "Candidate"
+        } ]
+      } ],
+      "finalAnswer" : "One strong Java candidate.",
+      "failureReason" : null,
+      "stoppedEarly" : false,
+      "canCancel" : false,
+      "canApprove" : false,
+      "createdAt" : "2026-09-15T08:00:00Z",
+      "finishedAt" : "2026-09-15T08:00:00Z"
+    } ]
+  },
+  "GET /agent/runs/6abc25f00243ffb2599331c7" : {
+    "status" : 200,
+    "body" : {
+      "id" : "6abc25f00243ffb2599331c7",
+      "conversationId" : "6abc25f00243ffb2599331c6",
+      "title" : "Best Java candidates",
+      "origin" : "CHAT",
+      "userEmail" : "owner@a.qorva.test",
+      "status" : "COMPLETED",
+      "goal" : "Who are our best Java candidates?",
+      "mentions" : [ ],
+      "steps" : [ {
+        "seq" : 1,
+        "kind" : "TOOL_CALL",
+        "tool" : "search_cvs",
+        "state" : "OK",
+        "summaryKey" : "agent.step.search_cvs",
+        "summaryParams" : {
+          "count" : "1"
+        },
+        "links" : [ {
+          "type" : "CV",
+          "id" : "6ab7190e28a8f342d03d978b",
+          "label" : "Candidate"
+        } ]
+      } ],
+      "finalAnswer" : "One strong Java candidate.",
+      "failureReason" : null,
+      "stoppedEarly" : false,
+      "canCancel" : false,
+      "canApprove" : false,
+      "createdAt" : "2026-09-15T08:00:00Z",
+      "finishedAt" : "2026-09-15T08:00:00Z"
     }
   }
 }

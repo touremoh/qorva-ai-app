@@ -46,6 +46,11 @@ const SILENT_ERROR_CODES = new Set([
 	'error.auth.mfa_delivery_failed',
 	'error.library_quality.insight_unavailable', // quality page falls back to the plain verdict
 	'error.usage.insight_unavailable',           // usage page shows its meters only
+	'error.agent.run_active',                    // Copilot composer explains inline
+	'error.agent.goal_invalid',
+	'error.agent.disabled',
+	'error.agent.conversation_active',
+	'error.usage.agent_limit_exceeded',
 ]);
 
 const handleResponseError = (error) => {
