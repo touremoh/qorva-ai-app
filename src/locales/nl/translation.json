@@ -1817,11 +1817,11 @@
     },
     "empty": {
       "title": "Wat moet Copilot doen?",
-      "subtitle": "Geef Copilot een taak in gewone woorden. Het doorzoekt uw cv's, vacatures en matchrapporten en brengt dan verslag uit. Voorlopig leest het alleen: het wijzigt en verstuurt niets.",
+      "subtitle": "Geef Copilot een taak in gewone woorden. Het doorzoekt uw cv's, vacatures en matchrapporten, kan kandidaten taggen, notities toevoegen, vacatures aanmaken of wijzigen en e-mails opstellen, en brengt dan verslag uit. Het verstuurt, analyseert of verwijdert nooit iets.",
       "examples": {
         "topCandidates": "Wie zijn de 5 best passende kandidaten voor onze nieuwste openstaande vacature, en waarom?",
         "count": "Hoeveel senior Java-ontwikkelaars die openstaan voor werk hebben we in Lissabon?",
-        "compare": "Welke kandidaten die deze maand zijn toegevoegd, hebben sterke cloudervaring?",
+        "tag": "Tag de 3 best passende kandidaten voor onze nieuwste openstaande vacature als ‘shortlist’.",
         "usage": "Hoeveel van ons abonnement hebben we deze periode gebruikt?"
       }
     },
@@ -1890,7 +1890,13 @@
       "get_usage": "Verbruik van het abonnement bekeken",
       "error": "Een stap is mislukt; Copilot heeft zich aangepast",
       "interrupted": "Een stap is onderbroken",
-      "generic": "{{tool}} gebruikt"
+      "generic": "{{tool}} gebruikt",
+      "add_cv_tags": "{{count}} kandidaat/kandidaten getagd: {{tags}}",
+      "remove_cv_tags": "{{tags}} verwijderd bij {{count}} kandidaat/kandidaten",
+      "add_note": "Notitie toegevoegd aan het profiel van {{name}}",
+      "create_job_post": "Vacature ‘{{title}}’ aangemaakt",
+      "update_job_post": "Vacature ‘{{title}}’ bijgewerkt",
+      "draft_outreach": "E-mail aan {{name}} opgesteld (niet verzonden)"
     }
   }
 }
