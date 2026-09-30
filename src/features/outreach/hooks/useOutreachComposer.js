@@ -39,10 +39,11 @@ export default function useOutreachComposer() {
 	// A new target resets the message; the same target re-opened keeps what was typed.
 	useEffect(() => {
 		if (!target) return;
-		if (lastCvIdRef.current !== target.cvId) {
+		// A draft handed over (e.g. by Copilot) always fills the message, even for the same candidate.
+		if (lastCvIdRef.current !== target.cvId || target.draft) {
 			lastCvIdRef.current = target.cvId;
-			setSubject('');
-			setBody('');
+			setSubject(target.draft?.subject ?? '');
+			setBody(target.draft?.body ?? '');
 			setInstructions('');
 			setIntent(target.matchingReportId ? 'INTERVIEW' : 'INTRO');
 			setLanguage(locale);

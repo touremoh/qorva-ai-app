@@ -16,6 +16,7 @@ const SYNTHETIC = {
 	'POST /auth/token/refresh': () => FIXTURE['POST /auth/login'],
 	'GET /mailbox-connections/me': () => ({ status: 204, body: null }),
 	'GET /tenants/logo': () => ({ status: 404, body: null }),
+	'GET /agent/runs/pending-approval/count': () => ({ status: 200, body: { count: 0 } }),
 	// Model output: never recorded by the backend export, so a fixed, representative answer.
 	'GET /library-quality/insight': () => ({ status: 200, body: {
 		headline: 'Your library is in fair shape, held back by missing contact details.',

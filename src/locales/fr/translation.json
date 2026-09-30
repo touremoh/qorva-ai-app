@@ -1113,7 +1113,10 @@
       "team_scope_forbidden": "Seuls les utilisateurs pouvant gérer les utilisateurs peuvent voir l'activité Copilot de l'équipe.",
       "user_unavailable": "L'utilisateur pour qui cette tâche Copilot s'exécute ne peut plus utiliser Copilot.",
       "model_failed": "Le service d'IA de Copilot a renvoyé une erreur. Réessayez plus tard ; si le problème persiste, contactez le support.",
-      "too_many_errors": "Copilot s'est arrêté après plusieurs erreurs."
+      "too_many_errors": "Copilot s'est arrêté après plusieurs erreurs.",
+      "action_stale": "Cette action a déjà été décidée ou a changé. Actualisez pour voir la dernière version.",
+      "action_invalid": "Vérifiez l'objet (200 caractères max.), le message (8 000 max.) et le motif (500 max.).",
+      "approval_expired": "Copilot s'est arrêté car une validation n'a pas été donnée à temps."
     }
   },
   "recruitment": {
@@ -1679,7 +1682,8 @@
         "OUTLOOK_WEB": "Outlook",
         "MAILTO": "la messagerie",
         "CONNECTED_MICROSOFT": "Microsoft 365"
-      }
+      },
+      "viaCopilot": "via Copilot"
     }
   },
   "mailbox": {
@@ -1817,7 +1821,7 @@
     },
     "empty": {
       "title": "Que doit faire Copilot ?",
-      "subtitle": "Confiez une tâche à Copilot en langage courant. Il cherche dans vos CV, offres et rapports de correspondance, peut étiqueter des candidats, ajouter des notes, créer ou modifier des offres et rédiger des e-mails, puis vous répond. Il n'envoie, n'analyse et ne supprime jamais rien.",
+      "subtitle": "Confiez une tâche à Copilot en langage courant. Il cherche dans vos CV, offres et rapports de correspondance, peut étiqueter des candidats, ajouter des notes, créer ou modifier des offres et rédiger des e-mails. L'envoi d'un e-mail, une analyse de correspondance ou un import ATS attendent toujours votre validation. Il ne supprime jamais rien.",
       "examples": {
         "topCandidates": "Quels sont les 5 meilleurs candidats pour notre dernière offre ouverte, et pourquoi ?",
         "count": "Combien de développeurs Java seniors ouverts aux opportunités avons-nous à Lisbonne ?",
@@ -1836,7 +1840,8 @@
       "cancel": "Annuler",
       "failed": "Copilot n'a pas pu terminer cette tâche.",
       "stoppedEarly": "Copilot s'est arrêté avant la fin : la tâche demandait plus d'étapes que permis. Essayez une tâche plus ciblée.",
-      "cancelled": "Annulée."
+      "cancelled": "Annulée.",
+      "expired": "Expirée : une validation n'a pas été donnée à temps."
     },
     "status": {
       "QUEUED": "En attente",
@@ -1855,7 +1860,8 @@
     "toast": {
       "completed": "Copilot a terminé : {{title}}",
       "failed": "Copilot n'a pas pu terminer : {{title}}",
-      "open": "Ouvrir"
+      "open": "Ouvrir",
+      "approval": "Copilot attend votre validation : {{title}}"
     },
     "activity": {
       "scope": {
@@ -1876,6 +1882,49 @@
       "fromRule": "Lancée par une règle",
       "run": "Tâche Copilot",
       "close": "Fermer"
+    },
+    "badgeTooltip": "{{count}} actions à valider",
+    "action": {
+      "generic": "Valider : {{tool}}",
+      "email": {
+        "title": "Envoyer cet e-mail ?",
+        "to": "À",
+        "from": "De",
+        "lastContacted": "Dernier contact",
+        "subject": "Objet",
+        "body": "Message"
+      },
+      "screening": {
+        "title": "Lancer l'analyse de correspondance ?",
+        "jobs": "Offres",
+        "cost": "Coût",
+        "estimate": "Jusqu'à {{count}} analyses",
+        "left": "Restant",
+        "unmetered": "Illimité"
+      },
+      "ats": {
+        "title": "Lancer un import ATS ?",
+        "connection": "Intégration",
+        "note": "S'exécute en arrière-plan ; chaque CV importé peut consommer une analyse."
+      },
+      "decided": {
+        "APPROVED": "Validée",
+        "REJECTED": "Refusée",
+        "EXECUTING": "En cours",
+        "DONE": "Terminée"
+      },
+      "reasonShown": "Motif : {{reason}}",
+      "reasonPlaceholder": "Pourquoi ? (facultatif, Copilot le verra)",
+      "editInComposer": "Modifier dans l'éditeur d'e-mail",
+      "back": "Retour",
+      "reject": "Refuser",
+      "approve": "Valider",
+      "approveSend": "Valider et envoyer",
+      "needsYou": "{{count}} action(s) attendent votre validation",
+      "waitingFor": "En attente de la décision de {{user}}",
+      "approveAll": "Tout valider ({{count}})",
+      "expires": "Expire le {{date}}",
+      "openDraft": "Ouvrir dans l'éditeur d'e-mail"
     }
   },
   "agent": {
@@ -1896,7 +1945,14 @@
       "add_note": "Note ajoutée au profil de {{name}}",
       "create_job_post": "Offre « {{title}} » créée",
       "update_job_post": "Offre « {{title}} » modifiée",
-      "draft_outreach": "E-mail rédigé pour {{name}} (non envoyé)"
+      "draft_outreach": "E-mail rédigé pour {{name}} (non envoyé)",
+      "send_outreach_email": "E-mail à {{name}}",
+      "email_sent": "E-mail envoyé à {{name}}",
+      "start_screening": "Analyse pour {{count}} offre(s)",
+      "screening_done": "Analyse effectuée pour {{count}} offre(s)",
+      "trigger_ats_sync": "Import depuis {{name}}",
+      "ats_sync_started": "Import lancé depuis {{name}}",
+      "list_ats_connections": "Intégrations ATS consultées : {{count}} trouvée(s)"
     }
   }
 }

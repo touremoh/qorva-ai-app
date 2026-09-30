@@ -10,7 +10,7 @@ import * as tokens from '../../../theme/tokens.js';
 import AgentRunCard from './AgentRunCard.jsx';
 
 /** A run in full, opened from the Activity table. Someone else's run is read-only apart from Cancel. */
-const AgentRunDrawer = ({ open, run, onClose, onCancel }) => {
+const AgentRunDrawer = ({ open, run, onClose, onCancel, onRunUpdate }) => {
 	const { t } = useTranslation();
 	return (
 		<Drawer anchor="right" open={open} onClose={onClose} PaperProps={{ sx: { width: { xs: '100%', sm: 520 }, backgroundColor: tokens.surface.subtle } }}>
@@ -33,7 +33,7 @@ const AgentRunDrawer = ({ open, run, onClose, onCancel }) => {
 						<CircularProgress size={22} sx={{ color: tokens.brand.text }} />
 					</Box>
 				) : (
-					<AgentRunCard run={run} onCancel={onCancel} />
+					<AgentRunCard run={run} onCancel={onCancel} onRunUpdate={onRunUpdate} />
 				)}
 			</Box>
 		</Drawer>
@@ -45,6 +45,7 @@ AgentRunDrawer.propTypes = {
 	run: PropTypes.object,
 	onClose: PropTypes.func.isRequired,
 	onCancel: PropTypes.func,
+	onRunUpdate: PropTypes.func,
 };
 
 export default AgentRunDrawer;

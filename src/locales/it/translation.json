@@ -1113,7 +1113,10 @@
       "team_scope_forbidden": "Solo gli utenti che possono gestire gli utenti vedono l'attività Copilot del team.",
       "user_unavailable": "L'utente per cui viene eseguita questa attività Copilot non può più usare Copilot.",
       "model_failed": "Il servizio di IA di Copilot ha restituito un errore. Riprova più tardi; se il problema persiste, contatta l'assistenza.",
-      "too_many_errors": "Copilot si è fermato dopo ripetuti errori."
+      "too_many_errors": "Copilot si è fermato dopo ripetuti errori.",
+      "action_stale": "Questa azione è già stata decisa o è cambiata. Aggiorna per vedere la versione più recente.",
+      "action_invalid": "Controlla l'oggetto (max 200 caratteri), il messaggio (max 8.000) e il motivo (max 500).",
+      "approval_expired": "Copilot si è fermato perché un'approvazione non è stata data in tempo."
     }
   },
   "recruitment": {
@@ -1679,7 +1682,8 @@
         "OUTLOOK_WEB": "Outlook",
         "MAILTO": "app di posta",
         "CONNECTED_MICROSOFT": "Microsoft 365"
-      }
+      },
+      "viaCopilot": "tramite Copilot"
     }
   },
   "mailbox": {
@@ -1817,7 +1821,7 @@
     },
     "empty": {
       "title": "Cosa deve fare Copilot?",
-      "subtitle": "Affida a Copilot un'attività con parole tue. Cerca tra CV, offerte e report di corrispondenza, può etichettare candidati, aggiungere note, creare o modificare offerte e scrivere email, poi ti risponde. Non invia, non analizza e non elimina mai nulla.",
+      "subtitle": "Affida a Copilot un'attività con parole tue. Cerca tra CV, offerte e report di corrispondenza, può etichettare candidati, aggiungere note, creare o modificare offerte e scrivere email. L'invio di un'email, un'analisi di corrispondenza o un'importazione ATS attendono sempre la tua approvazione. Non elimina mai nulla.",
       "examples": {
         "topCandidates": "Chi sono i 5 candidati più adatti alla nostra offerta aperta più recente, e perché?",
         "count": "Quanti sviluppatori Java senior aperti a nuove opportunità abbiamo a Lisbona?",
@@ -1836,7 +1840,8 @@
       "cancel": "Annulla",
       "failed": "Copilot non è riuscito a completare questa attività.",
       "stoppedEarly": "Copilot si è fermato prima di finire: l'attività richiedeva più passaggi del consentito. Prova un'attività più mirata.",
-      "cancelled": "Annullata."
+      "cancelled": "Annullata.",
+      "expired": "Scaduta: un'approvazione non è stata data in tempo."
     },
     "status": {
       "QUEUED": "In coda",
@@ -1855,7 +1860,8 @@
     "toast": {
       "completed": "Copilot ha terminato: {{title}}",
       "failed": "Copilot non è riuscito a terminare: {{title}}",
-      "open": "Apri"
+      "open": "Apri",
+      "approval": "Copilot attende la tua approvazione: {{title}}"
     },
     "activity": {
       "scope": {
@@ -1876,6 +1882,49 @@
       "fromRule": "Avviata da una regola",
       "run": "Attività Copilot",
       "close": "Chiudi"
+    },
+    "badgeTooltip": "{{count}} azioni da approvare",
+    "action": {
+      "generic": "Approva: {{tool}}",
+      "email": {
+        "title": "Inviare questa email?",
+        "to": "A",
+        "from": "Da",
+        "lastContacted": "Ultimo contatto",
+        "subject": "Oggetto",
+        "body": "Messaggio"
+      },
+      "screening": {
+        "title": "Avviare l'analisi di corrispondenza?",
+        "jobs": "Offerte",
+        "cost": "Costo",
+        "estimate": "Fino a {{count}} analisi",
+        "left": "Rimaste",
+        "unmetered": "Illimitate"
+      },
+      "ats": {
+        "title": "Avviare un'importazione ATS?",
+        "connection": "Integrazione",
+        "note": "Viene eseguita in background; ogni CV importato può consumare un'analisi."
+      },
+      "decided": {
+        "APPROVED": "Approvata",
+        "REJECTED": "Rifiutata",
+        "EXECUTING": "In corso",
+        "DONE": "Completata"
+      },
+      "reasonShown": "Motivo: {{reason}}",
+      "reasonPlaceholder": "Perché? (facoltativo, Copilot lo vedrà)",
+      "editInComposer": "Modifica nell'editor email",
+      "back": "Indietro",
+      "reject": "Rifiuta",
+      "approve": "Approva",
+      "approveSend": "Approva e invia",
+      "needsYou": "{{count}} azione/i attendono la tua approvazione",
+      "waitingFor": "In attesa della decisione di {{user}}",
+      "approveAll": "Approva tutto ({{count}})",
+      "expires": "Scade il {{date}}",
+      "openDraft": "Apri nell'editor email"
     }
   },
   "agent": {
@@ -1896,7 +1945,14 @@
       "add_note": "Nota aggiunta al profilo di {{name}}",
       "create_job_post": "Offerta «{{title}}» creata",
       "update_job_post": "Offerta «{{title}}» aggiornata",
-      "draft_outreach": "Email scritta per {{name}} (non inviata)"
+      "draft_outreach": "Email scritta per {{name}} (non inviata)",
+      "send_outreach_email": "Email a {{name}}",
+      "email_sent": "Email inviata a {{name}}",
+      "start_screening": "Analisi per {{count}} offerta/e",
+      "screening_done": "Analisi eseguita per {{count}} offerta/e",
+      "trigger_ats_sync": "Importazione da {{name}}",
+      "ats_sync_started": "Importazione avviata da {{name}}",
+      "list_ats_connections": "Integrazioni ATS controllate: {{count}} trovate"
     }
   }
 }

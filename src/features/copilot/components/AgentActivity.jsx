@@ -75,7 +75,7 @@ const AgentActivity = () => {
 				</Box>
 			</Box>
 
-			<AgentRunDrawer open={activity.drawerOpen} run={activity.selectedRun} onClose={activity.closeRun} onCancel={activity.cancelRun} />
+			<AgentRunDrawer open={activity.drawerOpen} run={activity.selectedRun} onClose={activity.closeRun} onCancel={activity.cancelRun} onRunUpdate={activity.updateRun} />
 		</Box>
 	);
 };

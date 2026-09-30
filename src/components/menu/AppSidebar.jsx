@@ -13,7 +13,7 @@ const AppSidebar = ({ isSidebarOpen, isSidebarCollapsed, handleSidebarToggle, ha
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
 	const [isChatAllowed, setIsChatAllowed] = useState(false);
-	const { available: isAgentAllowed } = useAgentRun();
+	const { available: isAgentAllowed, pendingApprovals } = useAgentRun();
 
 	const handleNavigation = (newContent) => {
 		handleContentChange(newContent);
@@ -47,11 +47,11 @@ const AppSidebar = ({ isSidebarOpen, isSidebarCollapsed, handleSidebarToggle, ha
 
 	return isLargeScreen ? (
 		<Drawer variant="permanent" open sx={drawerSx}>
-			<AppMenuList handleContentChange={handleNavigation} activeContent={activeContent} isChatAllowed={isChatAllowed} isAgentAllowed={isAgentAllowed} collapsed={collapsed} onToggleCollapse={handleSidebarCollapse} />
+			<AppMenuList handleContentChange={handleNavigation} activeContent={activeContent} isChatAllowed={isChatAllowed} isAgentAllowed={isAgentAllowed} agentPendingCount={pendingApprovals} collapsed={collapsed} onToggleCollapse={handleSidebarCollapse} />
 		</Drawer>
 	) : (
 		<Drawer variant="temporary" open={isSidebarOpen} onClose={handleSidebarToggle} sx={drawerSx}>
-			<AppMenuList handleContentChange={handleNavigation} activeContent={activeContent} isChatAllowed={isChatAllowed} isAgentAllowed={isAgentAllowed} collapsed={false} onToggleCollapse={handleSidebarToggle} />
+			<AppMenuList handleContentChange={handleNavigation} activeContent={activeContent} isChatAllowed={isChatAllowed} isAgentAllowed={isAgentAllowed} agentPendingCount={pendingApprovals} collapsed={false} onToggleCollapse={handleSidebarToggle} />
 		</Drawer>
 	);
 };

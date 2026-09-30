@@ -51,6 +51,8 @@ const SILENT_ERROR_CODES = new Set([
 	'error.agent.disabled',
 	'error.agent.conversation_active',
 	'error.usage.agent_limit_exceeded',
+	'error.agent.action_stale',                  // approval cards show these inline
+	'error.agent.action_invalid',
 ]);
 
 const handleResponseError = (error) => {

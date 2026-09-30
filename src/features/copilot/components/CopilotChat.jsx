@@ -49,7 +49,7 @@ const CopilotChat = () => {
 								</Box>
 							)}
 							{!chat.loadingHistory && chat.runs.map((run) => (
-								<AgentRunCard key={run.id} run={run} onCancel={chat.handleCancel} onLinkClick={chat.handleLinkClick} />
+								<AgentRunCard key={run.id} run={run} onCancel={chat.handleCancel} onLinkClick={chat.handleLinkClick} onRunUpdate={chat.replaceRun} />
 							))}
 							<div ref={chat.bottomRef} />
 						</Box>
