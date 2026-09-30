@@ -1134,7 +1134,7 @@
       "conversation_active": "This conversation has a task in progress. Cancel it before deleting the conversation.",
       "team_scope_forbidden": "Only users who can manage users can see the team's Copilot activity.",
       "user_unavailable": "The user this Copilot task runs for can no longer use Copilot.",
-      "model_failed": "Copilot could not reach the AI service. Try again in a moment.",
+      "model_failed": "Copilot's AI service returned an error. Try again later; if it keeps happening, contact support.",
       "too_many_errors": "Copilot stopped after repeated errors."
     }
   },
