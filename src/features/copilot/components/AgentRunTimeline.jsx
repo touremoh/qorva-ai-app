@@ -5,6 +5,10 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+import BlockIcon from '@mui/icons-material/Block';
+import Button from '@mui/material/Button';
+import { useCandidateOutreach } from '../../../contexts/CandidateOutreachContext.jsx';
 import { useTranslation } from 'react-i18next';
 import * as tokens from '../../../theme/tokens.js';
 import { stepLine } from '../model/agentRun.js';
@@ -12,6 +16,8 @@ import { stepLine } from '../model/agentRun.js';
 const StepIcon = ({ state }) => {
 	if (state === 'EXECUTING') return <CircularProgress size={14} sx={{ color: tokens.brand.text }} />;
 	if (state === 'OK') return <CheckCircleOutlineIcon sx={{ fontSize: tokens.iconSize.sm, color: tokens.status.success.main }} />;
+	if (state === 'PENDING') return <HourglassEmptyIcon sx={{ fontSize: tokens.iconSize.sm, color: tokens.status.warning.text }} />;
+	if (state === 'REJECTED') return <BlockIcon sx={{ fontSize: tokens.iconSize.sm, color: tokens.ink.faintest }} />;
 	return <ErrorOutlineIcon sx={{ fontSize: tokens.iconSize.sm, color: tokens.status.error.main }} />;
 };
 
@@ -20,7 +26,11 @@ StepIcon.propTypes = { state: PropTypes.string };
 /** What the agent did, one line per tool call, with the records it touched as chips. */
 const AgentRunTimeline = ({ steps, onLinkClick }) => {
 	const { t } = useTranslation();
+	const outreach = useCandidateOutreach();
 	if (!steps?.length) return null;
+	const openDraft = (draft) => outreach?.openComposer({
+		cvId: draft.cvId, jobPostId: draft.jobId ?? undefined, draft: { subject: draft.subject, body: draft.body },
+	});
 	return (
 		<Box component="ol" sx={{ listStyle: 'none', m: 0, p: 0, display: 'flex', flexDirection: 'column', gap: 0.75 }}>
 			{steps.map((step) => (
@@ -29,11 +39,18 @@ const AgentRunTimeline = ({ steps, onLinkClick }) => {
 					<Box sx={{ minWidth: 0 }}>
 						<Typography sx={{
 							fontSize: tokens.fontSize.caption,
-							color: step.state === 'ERROR' ? tokens.status.error.text : tokens.ink.body,
+							color: step.state === 'ERROR' ? tokens.status.error.text : step.state === 'REJECTED' ? tokens.ink.faintest : tokens.ink.body,
+							textDecoration: step.state === 'REJECTED' ? 'line-through' : 'none',
 							lineHeight: 1.5,
 						}}>
 							{stepLine(t, step)}
 						</Typography>
+						{step.draft?.cvId && outreach && (
+							<Button size="small" onClick={() => openDraft(step.draft)} data-testid="copilot-open-draft"
+								sx={{ textTransform: 'none', fontSize: tokens.fontSize.micro, px: 0.5, minWidth: 0 }}>
+								{t('copilot.action.openDraft')}
+							</Button>
+						)}
 						{step.links?.length > 0 && (
 							<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mt: 0.5 }}>
 								{step.links.map((link) => (
@@ -63,6 +80,7 @@ AgentRunTimeline.propTypes = {
 		summaryKey: PropTypes.string,
 		summaryParams: PropTypes.object,
 		links: PropTypes.array,
+		draft: PropTypes.object,
 	})),
 	onLinkClick: PropTypes.func,
 };

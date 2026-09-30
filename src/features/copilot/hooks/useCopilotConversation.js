@@ -100,6 +100,12 @@ export default function useCopilotConversation() {
 		}
 	}, [cancelRun]);
 
+	/** A run changed by an approval decision (the context also follows it). */
+	const replaceRun = useCallback((run) => {
+		if (!run?.id) return;
+		setRuns((current) => current.map((r) => (r.id === run.id ? run : r)));
+	}, []);
+
 	const handleDeleteConfirm = useCallback(async () => {
 		const target = conversationToDelete;
 		if (!target) return;
@@ -136,7 +142,7 @@ export default function useCopilotConversation() {
 	return {
 		activeConvId, activeTitle, bottomRef, conversationToDelete, conversations, cvLoading, deleting, error, goal,
 		handleCancel, handleDeleteConfirm, handleLinkClick, handleNewConversation, handleSelectConversation,
-		inputFocusToken, isEmpty: !loadingHistory && runs.length === 0, listLoading, loadingHistory, mentions, runs,
+		inputFocusToken, isEmpty: !loadingHistory && runs.length === 0, listLoading, loadingHistory, mentions, replaceRun, runs,
 		selectedCV, setConversationToDelete, setGoal, setInputFocusToken, setMentions, setSelectedCV, submit, submitting,
 	};
 }

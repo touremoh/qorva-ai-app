@@ -50,3 +50,21 @@ describe('agentRun model', () => {
 		expect(next[0].lastStatus).toBe('QUEUED');
 	});
 });
+
+describe('approval helpers', () => {
+	it('lists only the undecided cards', async () => {
+		const { undecidedActions, isAwaitingApproval } = await import('./agentRun.js');
+		const run = { status: 'AWAITING_APPROVAL', pendingActions: [{ actionId: 'a', status: 'PENDING' }, { actionId: 'b', status: 'APPROVED' }] };
+		expect(isAwaitingApproval(run)).toBe(true);
+		expect(undecidedActions(run).map((a) => a.actionId)).toEqual(['a']);
+		expect(undecidedActions(null)).toEqual([]);
+	});
+
+	it('sends only the email fields the user changed', async () => {
+		const { emailEdits } = await import('./agentRun.js');
+		const preview = { subject: 'Hi', body: 'Hello' };
+		expect(emailEdits(preview, 'Hi', 'Hello')).toEqual({});
+		expect(emailEdits(preview, 'Hi', 'Hello, edited')).toEqual({ body: 'Hello, edited' });
+		expect(emailEdits(preview, undefined, undefined)).toEqual({});
+	});
+});

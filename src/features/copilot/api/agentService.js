@@ -18,3 +18,13 @@ export const listAgentConversations = () => apiClient.get('/agent/conversations'
 export const getAgentConversation = (conversationId) => apiClient.get(`/agent/conversations/${conversationId}`);
 
 export const deleteAgentConversation = (conversationId) => apiClient.delete(`/agent/conversations/${conversationId}`);
+
+export const getPendingApprovalCount = () => apiClient.get('/agent/runs/pending-approval/count');
+
+/** decision: { argsHash, subject?, body? } — the argsHash of the card the user saw. */
+export const approveAgentAction = (runId, actionId, decision) =>
+	apiClient.post(`/agent/runs/${runId}/actions/${actionId}/approve`, decision);
+
+/** decision: { argsHash, reason? } */
+export const rejectAgentAction = (runId, actionId, decision) =>
+	apiClient.post(`/agent/runs/${runId}/actions/${actionId}/reject`, decision);

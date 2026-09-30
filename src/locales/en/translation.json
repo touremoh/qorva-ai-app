@@ -1135,7 +1135,10 @@
       "team_scope_forbidden": "Only users who can manage users can see the team's Copilot activity.",
       "user_unavailable": "The user this Copilot task runs for can no longer use Copilot.",
       "model_failed": "Copilot's AI service returned an error. Try again later; if it keeps happening, contact support.",
-      "too_many_errors": "Copilot stopped after repeated errors."
+      "too_many_errors": "Copilot stopped after repeated errors.",
+      "action_stale": "This action was already decided or has changed. Refresh to see the latest.",
+      "action_invalid": "Check the subject (up to 200 characters), the message (up to 8,000) and the reason (up to 500).",
+      "approval_expired": "Copilot stopped because an approval was not given in time."
     }
   },
   "recruitment": {
@@ -1687,7 +1690,8 @@
         "OUTLOOK_WEB": "Outlook",
         "MAILTO": "mail app",
         "CONNECTED_MICROSOFT": "Microsoft 365"
-      }
+      },
+      "viaCopilot": "via Copilot"
     }
   },
   "mailbox": {
@@ -1817,7 +1821,7 @@
     },
     "empty": {
       "title": "What should Copilot do?",
-      "subtitle": "Give Copilot a task in plain words. It searches your resumes, jobs and match reports, can tag candidates, add notes, create or update jobs and draft emails, then reports back. It never sends, screens or deletes anything.",
+      "subtitle": "Give Copilot a task in plain words. It searches your resumes, jobs and match reports, can tag candidates, add notes, create or update jobs and draft emails. Sending an email, running matching or an ATS import always waits for your approval. It never deletes anything.",
       "examples": {
         "topCandidates": "Who are the 5 best-matched candidates for our newest open job, and why?",
         "count": "How many senior Java developers open to work do we have in Lisbon?",
@@ -1836,7 +1840,8 @@
       "cancel": "Cancel",
       "failed": "Copilot could not finish this task.",
       "stoppedEarly": "Copilot stopped before finishing: the task needed more steps than allowed. Try a narrower task.",
-      "cancelled": "Cancelled."
+      "cancelled": "Cancelled.",
+      "expired": "Expired: an approval was not given in time."
     },
     "status": {
       "QUEUED": "Queued",
@@ -1855,7 +1860,8 @@
     "toast": {
       "completed": "Copilot finished: {{title}}",
       "failed": "Copilot could not finish: {{title}}",
-      "open": "Open"
+      "open": "Open",
+      "approval": "Copilot needs your approval: {{title}}"
     },
     "activity": {
       "scope": {
@@ -1876,6 +1882,49 @@
       "fromRule": "Started by a rule",
       "run": "Copilot task",
       "close": "Close"
+    },
+    "badgeTooltip": "{{count}} actions to approve",
+    "action": {
+      "generic": "Approve: {{tool}}",
+      "email": {
+        "title": "Send this email?",
+        "to": "To",
+        "from": "From",
+        "lastContacted": "Last contact",
+        "subject": "Subject",
+        "body": "Message"
+      },
+      "screening": {
+        "title": "Run matching?",
+        "jobs": "Jobs",
+        "cost": "Cost",
+        "estimate": "Up to {{count}} matching actions",
+        "left": "Left",
+        "unmetered": "Not limited"
+      },
+      "ats": {
+        "title": "Start an ATS import?",
+        "connection": "Integration",
+        "note": "Runs in the background; each imported resume can use a matching action."
+      },
+      "decided": {
+        "APPROVED": "Approved",
+        "REJECTED": "Rejected",
+        "EXECUTING": "Running",
+        "DONE": "Done"
+      },
+      "reasonShown": "Reason: {{reason}}",
+      "reasonPlaceholder": "Why? (optional, Copilot will see it)",
+      "editInComposer": "Edit in email composer",
+      "back": "Back",
+      "reject": "Reject",
+      "approve": "Approve",
+      "approveSend": "Approve and send",
+      "needsYou": "{{count}} action(s) need your approval",
+      "waitingFor": "Waiting for {{user}} to decide",
+      "approveAll": "Approve all ({{count}})",
+      "expires": "Expires {{date}}",
+      "openDraft": "Open in email composer"
     }
   },
   "agent": {
@@ -1896,7 +1945,14 @@
       "add_note": "Added a note to {{name}}'s profile",
       "create_job_post": "Created the job “{{title}}”",
       "update_job_post": "Updated the job “{{title}}”",
-      "draft_outreach": "Drafted an email to {{name}} (not sent)"
+      "draft_outreach": "Drafted an email to {{name}} (not sent)",
+      "send_outreach_email": "Email to {{name}}",
+      "email_sent": "Sent an email to {{name}}",
+      "start_screening": "Matching for {{count}} job(s)",
+      "screening_done": "Ran matching for {{count}} job(s)",
+      "trigger_ats_sync": "Import from {{name}}",
+      "ats_sync_started": "Started an import from {{name}}",
+      "list_ats_connections": "Checked ATS integrations: {{count}} found"
     }
   }
 }

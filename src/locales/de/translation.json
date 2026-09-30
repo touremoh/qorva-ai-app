@@ -1113,7 +1113,10 @@
       "team_scope_forbidden": "Nur Benutzer, die Benutzer verwalten dürfen, können die Copilot-Aktivität des Teams sehen.",
       "user_unavailable": "Der Benutzer, für den diese Copilot-Aufgabe läuft, kann Copilot nicht mehr verwenden.",
       "model_failed": "Der KI-Dienst von Copilot hat einen Fehler gemeldet. Versuchen Sie es später erneut; wenn das Problem bleibt, wenden Sie sich an den Support.",
-      "too_many_errors": "Copilot wurde nach wiederholten Fehlern beendet."
+      "too_many_errors": "Copilot wurde nach wiederholten Fehlern beendet.",
+      "action_stale": "Über diese Aktion wurde bereits entschieden oder sie hat sich geändert. Aktualisieren Sie die Ansicht.",
+      "action_invalid": "Prüfen Sie den Betreff (max. 200 Zeichen), die Nachricht (max. 8.000) und den Grund (max. 500).",
+      "approval_expired": "Copilot wurde beendet, weil eine Freigabe nicht rechtzeitig erteilt wurde."
     }
   },
   "recruitment": {
@@ -1679,7 +1682,8 @@
         "OUTLOOK_WEB": "Outlook",
         "MAILTO": "E-Mail-Programm",
         "CONNECTED_MICROSOFT": "Microsoft 365"
-      }
+      },
+      "viaCopilot": "über Copilot"
     }
   },
   "mailbox": {
@@ -1817,7 +1821,7 @@
     },
     "empty": {
       "title": "Was soll Copilot tun?",
-      "subtitle": "Geben Sie Copilot eine Aufgabe in eigenen Worten. Er durchsucht Ihre Lebensläufe, Stellen und Matching-Berichte, kann Kandidaten taggen, Notizen hinzufügen, Stellen erstellen oder ändern und E-Mails entwerfen und berichtet dann. Er versendet, analysiert oder löscht nie etwas.",
+      "subtitle": "Geben Sie Copilot eine Aufgabe in eigenen Worten. Er durchsucht Ihre Lebensläufe, Stellen und Matching-Berichte, kann Kandidaten taggen, Notizen hinzufügen, Stellen erstellen oder ändern und E-Mails entwerfen. Das Senden einer E-Mail, ein Matching-Lauf oder ein ATS-Import warten immer auf Ihre Freigabe. Er löscht nie etwas.",
       "examples": {
         "topCandidates": "Wer sind die 5 am besten passenden Kandidaten für unsere neueste offene Stelle, und warum?",
         "count": "Wie viele wechselbereite Senior-Java-Entwickler haben wir in Lissabon?",
@@ -1836,7 +1840,8 @@
       "cancel": "Abbrechen",
       "failed": "Copilot konnte diese Aufgabe nicht abschließen.",
       "stoppedEarly": "Copilot hat vorzeitig aufgehört: Die Aufgabe brauchte mehr Schritte als erlaubt. Versuchen Sie eine engere Aufgabe.",
-      "cancelled": "Abgebrochen."
+      "cancelled": "Abgebrochen.",
+      "expired": "Abgelaufen: Eine Freigabe wurde nicht rechtzeitig erteilt."
     },
     "status": {
       "QUEUED": "Wartend",
@@ -1855,7 +1860,8 @@
     "toast": {
       "completed": "Copilot ist fertig: {{title}}",
       "failed": "Copilot konnte nicht abschließen: {{title}}",
-      "open": "Öffnen"
+      "open": "Öffnen",
+      "approval": "Copilot braucht Ihre Freigabe: {{title}}"
     },
     "activity": {
       "scope": {
@@ -1876,6 +1882,49 @@
       "fromRule": "Von einer Regel gestartet",
       "run": "Copilot-Aufgabe",
       "close": "Schließen"
+    },
+    "badgeTooltip": "{{count}} Aktionen zur Freigabe",
+    "action": {
+      "generic": "Freigeben: {{tool}}",
+      "email": {
+        "title": "Diese E-Mail senden?",
+        "to": "An",
+        "from": "Von",
+        "lastContacted": "Letzter Kontakt",
+        "subject": "Betreff",
+        "body": "Nachricht"
+      },
+      "screening": {
+        "title": "Matching starten?",
+        "jobs": "Stellen",
+        "cost": "Kosten",
+        "estimate": "Bis zu {{count}} Matching-Aktionen",
+        "left": "Übrig",
+        "unmetered": "Unbegrenzt"
+      },
+      "ats": {
+        "title": "ATS-Import starten?",
+        "connection": "Integration",
+        "note": "Läuft im Hintergrund; jeder importierte Lebenslauf kann eine Matching-Aktion verbrauchen."
+      },
+      "decided": {
+        "APPROVED": "Freigegeben",
+        "REJECTED": "Abgelehnt",
+        "EXECUTING": "Läuft",
+        "DONE": "Erledigt"
+      },
+      "reasonShown": "Grund: {{reason}}",
+      "reasonPlaceholder": "Warum? (optional, Copilot sieht es)",
+      "editInComposer": "Im E-Mail-Editor bearbeiten",
+      "back": "Zurück",
+      "reject": "Ablehnen",
+      "approve": "Freigeben",
+      "approveSend": "Freigeben und senden",
+      "needsYou": "{{count}} Aktion(en) warten auf Ihre Freigabe",
+      "waitingFor": "Wartet auf die Entscheidung von {{user}}",
+      "approveAll": "Alle freigeben ({{count}})",
+      "expires": "Läuft ab am {{date}}",
+      "openDraft": "Im E-Mail-Editor öffnen"
     }
   },
   "agent": {
@@ -1896,7 +1945,14 @@
       "add_note": "Notiz zum Profil von {{name}} hinzugefügt",
       "create_job_post": "Stelle „{{title}}“ erstellt",
       "update_job_post": "Stelle „{{title}}“ aktualisiert",
-      "draft_outreach": "E-Mail an {{name}} entworfen (nicht gesendet)"
+      "draft_outreach": "E-Mail an {{name}} entworfen (nicht gesendet)",
+      "send_outreach_email": "E-Mail an {{name}}",
+      "email_sent": "E-Mail an {{name}} gesendet",
+      "start_screening": "Matching für {{count}} Stelle(n)",
+      "screening_done": "Matching für {{count}} Stelle(n) ausgeführt",
+      "trigger_ats_sync": "Import aus {{name}}",
+      "ats_sync_started": "Import aus {{name}} gestartet",
+      "list_ats_connections": "ATS-Integrationen geprüft: {{count}} gefunden"
     }
   }
 }

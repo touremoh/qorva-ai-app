@@ -1113,7 +1113,10 @@
       "team_scope_forbidden": "Alleen gebruikers die gebruikers mogen beheren, zien de Copilot-activiteit van het team.",
       "user_unavailable": "De gebruiker voor wie deze Copilot-taak wordt uitgevoerd, kan Copilot niet meer gebruiken.",
       "model_failed": "De AI-dienst van Copilot gaf een fout. Probeer het later opnieuw; neem contact op met support als het blijft gebeuren.",
-      "too_many_errors": "Copilot is gestopt na herhaalde fouten."
+      "too_many_errors": "Copilot is gestopt na herhaalde fouten.",
+      "action_stale": "Over deze actie is al beslist of ze is gewijzigd. Vernieuw om de laatste versie te zien.",
+      "action_invalid": "Controleer het onderwerp (max. 200 tekens), het bericht (max. 8.000) en de reden (max. 500).",
+      "approval_expired": "Copilot is gestopt omdat een goedkeuring niet op tijd is gegeven."
     }
   },
   "recruitment": {
@@ -1679,7 +1682,8 @@
         "OUTLOOK_WEB": "Outlook",
         "MAILTO": "e-mailprogramma",
         "CONNECTED_MICROSOFT": "Microsoft 365"
-      }
+      },
+      "viaCopilot": "via Copilot"
     }
   },
   "mailbox": {
@@ -1817,7 +1821,7 @@
     },
     "empty": {
       "title": "Wat moet Copilot doen?",
-      "subtitle": "Geef Copilot een taak in gewone woorden. Het doorzoekt uw cv's, vacatures en matchrapporten, kan kandidaten taggen, notities toevoegen, vacatures aanmaken of wijzigen en e-mails opstellen, en brengt dan verslag uit. Het verstuurt, analyseert of verwijdert nooit iets.",
+      "subtitle": "Geef Copilot een taak in gewone woorden. Het doorzoekt uw cv's, vacatures en matchrapporten, kan kandidaten taggen, notities toevoegen, vacatures aanmaken of wijzigen en e-mails opstellen. Een e-mail versturen, een matchingronde of een ATS-import wacht altijd op uw goedkeuring. Het verwijdert nooit iets.",
       "examples": {
         "topCandidates": "Wie zijn de 5 best passende kandidaten voor onze nieuwste openstaande vacature, en waarom?",
         "count": "Hoeveel senior Java-ontwikkelaars die openstaan voor werk hebben we in Lissabon?",
@@ -1836,7 +1840,8 @@
       "cancel": "Annuleren",
       "failed": "Copilot kon deze taak niet afronden.",
       "stoppedEarly": "Copilot stopte voordat het klaar was: de taak had meer stappen nodig dan toegestaan. Probeer een gerichtere taak.",
-      "cancelled": "Geannuleerd."
+      "cancelled": "Geannuleerd.",
+      "expired": "Verlopen: een goedkeuring is niet op tijd gegeven."
     },
     "status": {
       "QUEUED": "In wachtrij",
@@ -1855,7 +1860,8 @@
     "toast": {
       "completed": "Copilot is klaar: {{title}}",
       "failed": "Copilot kon niet afronden: {{title}}",
-      "open": "Openen"
+      "open": "Openen",
+      "approval": "Copilot wacht op uw goedkeuring: {{title}}"
     },
     "activity": {
       "scope": {
@@ -1876,6 +1882,49 @@
       "fromRule": "Gestart door een regel",
       "run": "Copilot-taak",
       "close": "Sluiten"
+    },
+    "badgeTooltip": "{{count}} acties om goed te keuren",
+    "action": {
+      "generic": "Goedkeuren: {{tool}}",
+      "email": {
+        "title": "Deze e-mail versturen?",
+        "to": "Aan",
+        "from": "Van",
+        "lastContacted": "Laatste contact",
+        "subject": "Onderwerp",
+        "body": "Bericht"
+      },
+      "screening": {
+        "title": "Matching starten?",
+        "jobs": "Vacatures",
+        "cost": "Kosten",
+        "estimate": "Tot {{count}} matchingacties",
+        "left": "Over",
+        "unmetered": "Onbeperkt"
+      },
+      "ats": {
+        "title": "ATS-import starten?",
+        "connection": "Integratie",
+        "note": "Loopt op de achtergrond; elk geïmporteerd cv kan een matchingactie gebruiken."
+      },
+      "decided": {
+        "APPROVED": "Goedgekeurd",
+        "REJECTED": "Afgewezen",
+        "EXECUTING": "Bezig",
+        "DONE": "Klaar"
+      },
+      "reasonShown": "Reden: {{reason}}",
+      "reasonPlaceholder": "Waarom? (optioneel, Copilot ziet het)",
+      "editInComposer": "Bewerken in de e-maileditor",
+      "back": "Terug",
+      "reject": "Afwijzen",
+      "approve": "Goedkeuren",
+      "approveSend": "Goedkeuren en versturen",
+      "needsYou": "{{count}} actie(s) wachten op uw goedkeuring",
+      "waitingFor": "Wacht op de beslissing van {{user}}",
+      "approveAll": "Alles goedkeuren ({{count}})",
+      "expires": "Verloopt op {{date}}",
+      "openDraft": "Openen in de e-maileditor"
     }
   },
   "agent": {
@@ -1896,7 +1945,14 @@
       "add_note": "Notitie toegevoegd aan het profiel van {{name}}",
       "create_job_post": "Vacature ‘{{title}}’ aangemaakt",
       "update_job_post": "Vacature ‘{{title}}’ bijgewerkt",
-      "draft_outreach": "E-mail aan {{name}} opgesteld (niet verzonden)"
+      "draft_outreach": "E-mail aan {{name}} opgesteld (niet verzonden)",
+      "send_outreach_email": "E-mail aan {{name}}",
+      "email_sent": "E-mail verstuurd aan {{name}}",
+      "start_screening": "Matching voor {{count}} vacature(s)",
+      "screening_done": "Matching uitgevoerd voor {{count}} vacature(s)",
+      "trigger_ats_sync": "Import uit {{name}}",
+      "ats_sync_started": "Import gestart uit {{name}}",
+      "list_ats_connections": "ATS-integraties bekeken: {{count}} gevonden"
     }
   }
 }

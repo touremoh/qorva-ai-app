@@ -212,6 +212,10 @@ const OutreachForm = ({ composer }) => {
 										color: row.status === 'SENT' ? `${tokens.status.success.strong}` : row.status === 'FAILED' ? `${tokens.status.error.dark}` : `${tokens.ink.soft}`,
 									}}
 								/>
+								{row.agentRunId && (
+									<Chip size="small" label={t('candidateOutreach.history.viaCopilot')} data-testid="outreach-via-copilot"
+										sx={{ height: 20, fontSize: tokens.fontSize.caption, borderRadius: 1, backgroundColor: tokens.surface.muted, color: tokens.ink.soft }} />
+								)}
 								<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.muted, flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
 									{row.senderName || row.senderEmail} · {dayjs(row.createdAt).locale(locale).fromNow()}
 								</Typography>

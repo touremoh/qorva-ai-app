@@ -40,7 +40,10 @@ const completed = run('COMPLETED', {
 	finishedAt: '2026-09-16T10:00:00Z',
 });
 
-const enabled = { 'GET /agent/availability': () => json(200, { enabled: true, rulesEnabled: false, runsRemaining: 499, canViewTeam: true }) };
+const enabled = {
+	'GET /agent/availability': () => json(200, { enabled: true, rulesEnabled: false, runsRemaining: 499, canViewTeam: true }),
+	'GET /agent/runs/pending-approval/count': () => json(200, { count: 0 }),
+};
 
 test.describe('copilot', () => {
 	test.skip(({ isMobile }) => isMobile, 'the conversation list is desktop layout');
@@ -110,6 +113,90 @@ test.describe('copilot', () => {
 		await expect(page.getByText('Tagged 2 candidate(s): shortlist')).toBeVisible();
 		await expect(page.getByText('Drafted an email to Ana Ruiz (not sent)')).toBeVisible();
 		expect(unknown).toEqual([]);
+	});
+
+	const awaiting = run('AWAITING_APPROVAL', {
+		canApprove: true,
+		approvalExpiresAt: '2026-09-17T10:00:00Z',
+		steps: [{ seq: 1, kind: 'TOOL_CALL', tool: 'send_outreach_email', state: 'PENDING', summaryKey: 'agent.step.send_outreach_email',
+			summaryParams: { name: 'Ana Ruiz' }, links: [], draft: null }],
+		pendingActions: [{ actionId: 'act-1', stepSeq: 1, tool: 'send_outreach_email', status: 'PENDING', argsHash: 'h1', reason: null,
+			preview: { cvId: 'cv-1', candidateName: 'Ana Ruiz', to: 'ana@x.test', from: 'owner@a.qorva.test', subject: 'Intro', body: 'Hello' } }],
+	});
+
+	test('an email waits on a card, and is sent only after the recruiter edits and approves it', async ({ page }) => {
+		let decision = null;
+		await mockApi(page, {
+			...enabled,
+			'POST /agent/runs': () => json(202, run('QUEUED')),
+			[`GET /agent/runs/${RUN_ID}`]: () => json(200, decision ? run('COMPLETED', {
+				steps: [{ seq: 1, kind: 'TOOL_CALL', tool: 'send_outreach_email', state: 'OK', summaryKey: 'agent.step.email_sent',
+					summaryParams: { name: 'Ana Ruiz' }, links: [] }],
+				finalAnswer: 'Sent the intro to Ana Ruiz.', finishedAt: '2026-09-16T10:01:00Z',
+			}) : awaiting),
+			[`POST /agent/runs/${RUN_ID}/actions/act-1/approve`]: (request) => {
+				decision = request.postDataJSON();
+				return json(200, run('QUEUED'));
+			},
+		});
+		await signIn(page);
+		await page.goto('/app/copilot');
+		await page.getByPlaceholder(/Describe a task/).fill('Email Ana an intro');
+		await page.getByPlaceholder(/Describe a task/).press('Enter');
+
+		const card = page.getByTestId('copilot-action-card');
+		await expect(card).toContainText('Ana Ruiz <ana@x.test>', { timeout: 10000 });
+		await expect(page.getByText('Email to Ana Ruiz')).toBeVisible();
+		await page.getByTestId('copilot-action-body').fill('Hello, edited');
+		await page.getByTestId('copilot-action-approve').click();
+
+		await expect(page.getByTestId('copilot-answer')).toContainText('Sent the intro to Ana Ruiz.', { timeout: 10000 });
+		expect(decision).toEqual({ argsHash: 'h1', body: 'Hello, edited' });
+		await expect(page.getByText('Sent an email to Ana Ruiz')).toBeVisible();
+	});
+
+	test('rejecting a card sends the reason to Copilot', async ({ page }) => {
+		let decision = null;
+		await mockApi(page, {
+			...enabled,
+			'POST /agent/runs': () => json(202, awaiting),
+			[`GET /agent/runs/${RUN_ID}`]: () => json(200, awaiting),
+			[`POST /agent/runs/${RUN_ID}/actions/act-1/reject`]: (request) => {
+				decision = request.postDataJSON();
+				return json(200, run('QUEUED'));
+			},
+		});
+		await signIn(page);
+		await page.goto('/app/copilot');
+		await page.getByPlaceholder(/Describe a task/).fill('Email Ana an intro');
+		await page.getByPlaceholder(/Describe a task/).press('Enter');
+
+		await page.getByTestId('copilot-action-reject').click();
+		await page.getByTestId('copilot-action-reason').fill('Not before Friday');
+		await page.getByTestId('copilot-action-confirm-reject').click();
+
+		await expect.poll(() => decision).toEqual({ argsHash: 'h1', reason: 'Not before Friday' });
+	});
+
+	test('a draft opens in the email composer, filled in', async ({ page }) => {
+		await mockApi(page, {
+			...enabled,
+			'POST /agent/runs': () => json(202, run('COMPLETED', {
+				steps: [{ seq: 1, kind: 'TOOL_CALL', tool: 'draft_outreach', state: 'OK', summaryKey: 'agent.step.draft_outreach',
+					summaryParams: { name: 'Oliver Whitfield' }, links: [],
+					draft: { cvId: 'cv-1', jobId: null, subject: 'Hello Oliver', body: 'Would you be open to a chat?' } }],
+				finalAnswer: 'Here is a draft.', finishedAt: '2026-09-16T10:00:00Z',
+			})),
+		});
+		await signIn(page);
+		await page.goto('/app/copilot');
+		await page.getByPlaceholder(/Describe a task/).fill('Draft an intro to Oliver');
+		await page.getByPlaceholder(/Describe a task/).press('Enter');
+
+		await page.getByTestId('copilot-open-draft').click();
+
+		await expect(page.getByRole('textbox', { name: 'Subject' })).toHaveValue('Hello Oliver');
+		await expect(page.getByRole('textbox', { name: 'Message' })).toHaveValue('Would you be open to a chat?');
 	});
 
 	test('the limit is explained inline, without a toast', async ({ page }) => {

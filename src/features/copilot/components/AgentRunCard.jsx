@@ -8,12 +8,13 @@ import { useTranslation } from 'react-i18next';
 import { alpha } from '@mui/material/styles';
 import ChatMarkdown from '../../chat/components/ChatMarkdown.jsx';
 import AgentRunTimeline from './AgentRunTimeline.jsx';
+import AgentActionCards from './AgentActionCards.jsx';
 import RunStatusChip from './RunStatusChip.jsx';
 import * as tokens from '../../../theme/tokens.js';
 import { failureMessage, isWorking, RUN_STATUS } from '../model/agentRun.js';
 
 /** One task of a conversation: the goal, what Copilot did, and its answer. */
-const AgentRunCard = ({ run, onCancel, onLinkClick, showGoal = true }) => {
+const AgentRunCard = ({ run, onCancel, onLinkClick, onRunUpdate, showGoal = true }) => {
 	const { t } = useTranslation();
 	const working = isWorking(run);
 	return (
@@ -61,6 +62,7 @@ const AgentRunCard = ({ run, onCancel, onLinkClick, showGoal = true }) => {
 						</Typography>
 					)}
 					<AgentRunTimeline steps={run.steps} onLinkClick={onLinkClick} />
+					<AgentActionCards run={run} onRunUpdate={onRunUpdate} />
 					{run.status === RUN_STATUS.COMPLETED && run.finalAnswer && (
 						<Box data-testid="copilot-answer" sx={{ pt: run.steps?.length ? 1 : 0, borderTop: run.steps?.length ? `1px dashed ${tokens.line.main}` : 'none' }}>
 							<ChatMarkdown content={run.finalAnswer} />
@@ -74,6 +76,11 @@ const AgentRunCard = ({ run, onCancel, onLinkClick, showGoal = true }) => {
 					{run.status === RUN_STATUS.FAILED && (
 						<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.status.error.text }}>
 							{failureMessage(t, run)}
+						</Typography>
+					)}
+					{run.status === RUN_STATUS.EXPIRED && (
+						<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle }}>
+							{t('copilot.run.expired')}
 						</Typography>
 					)}
 					{run.status === RUN_STATUS.CANCELLED && (
@@ -100,6 +107,7 @@ AgentRunCard.propTypes = {
 	}).isRequired,
 	onCancel: PropTypes.func,
 	onLinkClick: PropTypes.func,
+	onRunUpdate: PropTypes.func,
 	showGoal: PropTypes.bool,
 };
 

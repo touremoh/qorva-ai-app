@@ -20,6 +20,19 @@ export const isWorking = (run) => !!run && WORKING_STATUSES.includes(run.status)
 
 export const isActive = (run) => !!run && ACTIVE_STATUSES.includes(run.status);
 
+export const isAwaitingApproval = (run) => run?.status === RUN_STATUS.AWAITING_APPROVAL;
+
+export const ACTION_STATUS = Object.freeze({ PENDING: 'PENDING', APPROVED: 'APPROVED', REJECTED: 'REJECTED' });
+
+/** The cards still waiting for a decision. */
+export const undecidedActions = (run) => (run?.pendingActions ?? []).filter((a) => a.status === ACTION_STATUS.PENDING);
+
+/** Email card edits worth sending: only fields the user actually changed. */
+export const emailEdits = (preview, subject, body) => ({
+	...(subject !== undefined && subject !== preview?.subject ? { subject } : {}),
+	...(body !== undefined && body !== preview?.body ? { body } : {}),
+});
+
 export const MAX_GOAL_LENGTH = 2000;
 
 /** Colours of a status chip: every value comes from the theme. */

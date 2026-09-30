@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import usePolling from '../../../shared/hooks/usePolling.js';
 import { toastError } from '../../../utils/errorHandler.js';
 import { cancelAgentRun, getAgentRun, listAgentRuns } from '../api/agentService.js';
-import { isActive, isWorking } from '../model/agentRun.js';
+import { isActive, isAwaitingApproval, isWorking } from '../model/agentRun.js';
 
 const PAGE_SIZE = 20;
 const LIST_POLL_MS = 10000;
@@ -35,7 +35,7 @@ export default function useAgentActivity() {
 	usePolling(() => {
 		if (!selectedRun?.id) return;
 		getAgentRun(selectedRun.id).then((res) => setSelectedRun(res.data)).catch(() => {});
-	}, { active: drawerOpen && isWorking(selectedRun), intervalMs: RUN_POLL_MS });
+	}, { active: drawerOpen && (isWorking(selectedRun) || isAwaitingApproval(selectedRun)), intervalMs: RUN_POLL_MS });
 
 	const setStatus = useCallback((next) => {
 		const nextParams = new URLSearchParams(params);
@@ -62,6 +62,12 @@ export default function useAgentActivity() {
 		}
 	}, []);
 
+	const updateRun = useCallback((run) => {
+		if (!run?.id) return;
+		setSelectedRun((current) => (current?.id === run.id ? run : current));
+		load(true);
+	}, [load]);
+
 	const closeRun = useCallback(() => {
 		setDrawerOpen(false);
 		setSelectedRun(null);
@@ -79,6 +85,6 @@ export default function useAgentActivity() {
 
 	return {
 		cancelRun, changeScope, closeRun, data, drawerOpen, loading, openRun, page, pageSize: PAGE_SIZE,
-		scope, selectedRun, setPage, setStatus, status,
+		scope, selectedRun, setPage, setStatus, status, updateRun,
 	};
 }
