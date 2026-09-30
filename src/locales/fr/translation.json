@@ -1112,7 +1112,7 @@
       "conversation_active": "Une tâche est en cours dans cette conversation. Annulez-la avant de supprimer la conversation.",
       "team_scope_forbidden": "Seuls les utilisateurs pouvant gérer les utilisateurs peuvent voir l'activité Copilot de l'équipe.",
       "user_unavailable": "L'utilisateur pour qui cette tâche Copilot s'exécute ne peut plus utiliser Copilot.",
-      "model_failed": "Copilot n'a pas pu joindre le service d'IA. Réessayez dans un instant.",
+      "model_failed": "Le service d'IA de Copilot a renvoyé une erreur. Réessayez plus tard ; si le problème persiste, contactez le support.",
       "too_many_errors": "Copilot s'est arrêté après plusieurs erreurs."
     }
   },
@@ -1817,11 +1817,11 @@
     },
     "empty": {
       "title": "Que doit faire Copilot ?",
-      "subtitle": "Confiez une tâche à Copilot en langage courant. Il cherche dans vos CV, offres et rapports de correspondance, puis vous répond. Pour l'instant, il ne fait que lire : il ne modifie et n'envoie rien.",
+      "subtitle": "Confiez une tâche à Copilot en langage courant. Il cherche dans vos CV, offres et rapports de correspondance, peut étiqueter des candidats, ajouter des notes, créer ou modifier des offres et rédiger des e-mails, puis vous répond. Il n'envoie, n'analyse et ne supprime jamais rien.",
       "examples": {
         "topCandidates": "Quels sont les 5 meilleurs candidats pour notre dernière offre ouverte, et pourquoi ?",
         "count": "Combien de développeurs Java seniors ouverts aux opportunités avons-nous à Lisbonne ?",
-        "compare": "Quels candidats ajoutés ce mois-ci ont une solide expérience du cloud ?",
+        "tag": "Étiquette « shortlist » les 3 meilleurs candidats pour notre dernière offre ouverte.",
         "usage": "Quelle part de notre offre avons-nous utilisée sur cette période ?"
       }
     },
@@ -1890,7 +1890,13 @@
       "get_usage": "Consommation de l'offre consultée",
       "error": "Une étape a échoué ; Copilot s'est adapté",
       "interrupted": "Une étape a été interrompue",
-      "generic": "{{tool}} utilisé"
+      "generic": "{{tool}} utilisé",
+      "add_cv_tags": "{{count}} candidat(s) étiqueté(s) : {{tags}}",
+      "remove_cv_tags": "{{tags}} retiré de {{count}} candidat(s)",
+      "add_note": "Note ajoutée au profil de {{name}}",
+      "create_job_post": "Offre « {{title}} » créée",
+      "update_job_post": "Offre « {{title}} » modifiée",
+      "draft_outreach": "E-mail rédigé pour {{name}} (non envoyé)"
     }
   }
 }

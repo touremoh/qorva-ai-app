@@ -1112,7 +1112,7 @@
       "conversation_active": "In dieser Unterhaltung läuft eine Aufgabe. Brechen Sie sie ab, bevor Sie die Unterhaltung löschen.",
       "team_scope_forbidden": "Nur Benutzer, die Benutzer verwalten dürfen, können die Copilot-Aktivität des Teams sehen.",
       "user_unavailable": "Der Benutzer, für den diese Copilot-Aufgabe läuft, kann Copilot nicht mehr verwenden.",
-      "model_failed": "Copilot konnte den KI-Dienst nicht erreichen. Versuchen Sie es gleich noch einmal.",
+      "model_failed": "Der KI-Dienst von Copilot hat einen Fehler gemeldet. Versuchen Sie es später erneut; wenn das Problem bleibt, wenden Sie sich an den Support.",
       "too_many_errors": "Copilot wurde nach wiederholten Fehlern beendet."
     }
   },
@@ -1817,11 +1817,11 @@
     },
     "empty": {
       "title": "Was soll Copilot tun?",
-      "subtitle": "Geben Sie Copilot eine Aufgabe in eigenen Worten. Er durchsucht Ihre Lebensläufe, Stellen und Matching-Berichte und berichtet dann. Vorerst liest er nur: Er ändert und versendet nichts.",
+      "subtitle": "Geben Sie Copilot eine Aufgabe in eigenen Worten. Er durchsucht Ihre Lebensläufe, Stellen und Matching-Berichte, kann Kandidaten taggen, Notizen hinzufügen, Stellen erstellen oder ändern und E-Mails entwerfen und berichtet dann. Er versendet, analysiert oder löscht nie etwas.",
       "examples": {
         "topCandidates": "Wer sind die 5 am besten passenden Kandidaten für unsere neueste offene Stelle, und warum?",
         "count": "Wie viele wechselbereite Senior-Java-Entwickler haben wir in Lissabon?",
-        "compare": "Welche diesen Monat hinzugefügten Kandidaten haben fundierte Cloud-Erfahrung?",
+        "tag": "Tagge die 3 am besten passenden Kandidaten für unsere neueste offene Stelle mit „shortlist“.",
         "usage": "Wie viel unseres Tarifs haben wir in diesem Zeitraum verbraucht?"
       }
     },
@@ -1890,7 +1890,13 @@
       "get_usage": "Tarifverbrauch geprüft",
       "error": "Ein Schritt ist fehlgeschlagen; Copilot hat sich angepasst",
       "interrupted": "Ein Schritt wurde unterbrochen",
-      "generic": "{{tool}} verwendet"
+      "generic": "{{tool}} verwendet",
+      "add_cv_tags": "{{count}} Kandidat(en) getaggt: {{tags}}",
+      "remove_cv_tags": "{{tags}} bei {{count}} Kandidat(en) entfernt",
+      "add_note": "Notiz zum Profil von {{name}} hinzugefügt",
+      "create_job_post": "Stelle „{{title}}“ erstellt",
+      "update_job_post": "Stelle „{{title}}“ aktualisiert",
+      "draft_outreach": "E-Mail an {{name}} entworfen (nicht gesendet)"
     }
   }
 }

@@ -1134,7 +1134,7 @@
       "conversation_active": "This conversation has a task in progress. Cancel it before deleting the conversation.",
       "team_scope_forbidden": "Only users who can manage users can see the team's Copilot activity.",
       "user_unavailable": "The user this Copilot task runs for can no longer use Copilot.",
-      "model_failed": "Copilot could not reach the AI service. Try again in a moment.",
+      "model_failed": "Copilot's AI service returned an error. Try again later; if it keeps happening, contact support.",
       "too_many_errors": "Copilot stopped after repeated errors."
     }
   },
@@ -1817,11 +1817,11 @@
     },
     "empty": {
       "title": "What should Copilot do?",
-      "subtitle": "Give Copilot a task in plain words. It searches your resumes, jobs and match reports, then reports back. For now it only reads: it doesn't change or send anything.",
+      "subtitle": "Give Copilot a task in plain words. It searches your resumes, jobs and match reports, can tag candidates, add notes, create or update jobs and draft emails, then reports back. It never sends, screens or deletes anything.",
       "examples": {
         "topCandidates": "Who are the 5 best-matched candidates for our newest open job, and why?",
         "count": "How many senior Java developers open to work do we have in Lisbon?",
-        "compare": "Which candidates added this month have strong cloud experience?",
+        "tag": "Tag the 3 best-matched candidates for our newest open job as “shortlist”.",
         "usage": "How much of our plan have we used this period?"
       }
     },
@@ -1890,7 +1890,13 @@
       "get_usage": "Checked the plan's usage",
       "error": "A step failed; Copilot adapted",
       "interrupted": "A step was interrupted",
-      "generic": "Used {{tool}}"
+      "generic": "Used {{tool}}",
+      "add_cv_tags": "Tagged {{count}} candidate(s): {{tags}}",
+      "remove_cv_tags": "Removed {{tags}} from {{count}} candidate(s)",
+      "add_note": "Added a note to {{name}}'s profile",
+      "create_job_post": "Created the job “{{title}}”",
+      "update_job_post": "Updated the job “{{title}}”",
+      "draft_outreach": "Drafted an email to {{name}} (not sent)"
     }
   }
 }
