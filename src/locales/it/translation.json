@@ -1817,11 +1817,11 @@
     },
     "empty": {
       "title": "Cosa deve fare Copilot?",
-      "subtitle": "Affida a Copilot un'attività con parole tue. Cerca tra CV, offerte e report di corrispondenza, poi ti risponde. Per ora legge soltanto: non modifica e non invia nulla.",
+      "subtitle": "Affida a Copilot un'attività con parole tue. Cerca tra CV, offerte e report di corrispondenza, può etichettare candidati, aggiungere note, creare o modificare offerte e scrivere email, poi ti risponde. Non invia, non analizza e non elimina mai nulla.",
       "examples": {
         "topCandidates": "Chi sono i 5 candidati più adatti alla nostra offerta aperta più recente, e perché?",
         "count": "Quanti sviluppatori Java senior aperti a nuove opportunità abbiamo a Lisbona?",
-        "compare": "Quali candidati aggiunti questo mese hanno una solida esperienza cloud?",
+        "tag": "Etichetta come «shortlist» i 3 candidati più adatti alla nostra offerta aperta più recente.",
         "usage": "Quanto del nostro piano abbiamo usato in questo periodo?"
       }
     },
@@ -1890,7 +1890,13 @@
       "get_usage": "Consumo del piano controllato",
       "error": "Un passaggio non è riuscito; Copilot si è adattato",
       "interrupted": "Un passaggio è stato interrotto",
-      "generic": "{{tool}} usato"
+      "generic": "{{tool}} usato",
+      "add_cv_tags": "{{count}} candidato/i etichettato/i: {{tags}}",
+      "remove_cv_tags": "{{tags}} rimosso da {{count}} candidato/i",
+      "add_note": "Nota aggiunta al profilo di {{name}}",
+      "create_job_post": "Offerta «{{title}}» creata",
+      "update_job_post": "Offerta «{{title}}» aggiornata",
+      "draft_outreach": "Email scritta per {{name}} (non inviata)"
     }
   }
 }

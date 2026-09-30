@@ -87,6 +87,31 @@ test.describe('copilot', () => {
 		expect(unknown).toEqual([]);
 	});
 
+	test('changes Copilot made read as sentences, and a draft says it was not sent', async ({ page }) => {
+		const unknown = await mockApi(page, {
+			...enabled,
+			'POST /agent/runs': () => json(202, run('COMPLETED', {
+				steps: [
+					{ seq: 1, kind: 'TOOL_CALL', tool: 'add_cv_tags', state: 'OK', summaryKey: 'agent.step.add_cv_tags',
+						summaryParams: { count: '2', tags: 'shortlist' }, links: [] },
+					{ seq: 2, kind: 'TOOL_CALL', tool: 'draft_outreach', state: 'OK', summaryKey: 'agent.step.draft_outreach',
+						summaryParams: { name: 'Ana Ruiz' }, links: [] },
+				],
+				finalAnswer: 'Tagged 2 candidates and drafted an intro for Ana Ruiz.',
+				finishedAt: '2026-09-16T10:00:00Z',
+			})),
+		});
+		await signIn(page);
+		await page.goto('/app/copilot');
+
+		await page.getByPlaceholder(/Describe a task/).fill('Tag the top 2 and draft an intro');
+		await page.getByPlaceholder(/Describe a task/).press('Enter');
+
+		await expect(page.getByText('Tagged 2 candidate(s): shortlist')).toBeVisible();
+		await expect(page.getByText('Drafted an email to Ana Ruiz (not sent)')).toBeVisible();
+		expect(unknown).toEqual([]);
+	});
+
 	test('the limit is explained inline, without a toast', async ({ page }) => {
 		await mockApi(page, {
 			...enabled,
