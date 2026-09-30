@@ -1112,7 +1112,7 @@
       "conversation_active": "In dit gesprek loopt een taak. Annuleer die voordat u het gesprek verwijdert.",
       "team_scope_forbidden": "Alleen gebruikers die gebruikers mogen beheren, zien de Copilot-activiteit van het team.",
       "user_unavailable": "De gebruiker voor wie deze Copilot-taak wordt uitgevoerd, kan Copilot niet meer gebruiken.",
-      "model_failed": "Copilot kon de AI-dienst niet bereiken. Probeer het zo meteen opnieuw.",
+      "model_failed": "De AI-dienst van Copilot gaf een fout. Probeer het later opnieuw; neem contact op met support als het blijft gebeuren.",
       "too_many_errors": "Copilot is gestopt na herhaalde fouten."
     }
   },

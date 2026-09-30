@@ -1112,7 +1112,7 @@
       "conversation_active": "Esta conversa tem uma tarefa em curso. Cancele-a antes de eliminar a conversa.",
       "team_scope_forbidden": "Apenas utilizadores que podem gerir utilizadores veem a atividade do Copilot da equipa.",
       "user_unavailable": "O utilizador para quem esta tarefa do Copilot é executada já não pode usar o Copilot.",
-      "model_failed": "O Copilot não conseguiu contactar o serviço de IA. Tente novamente dentro de momentos.",
+      "model_failed": "O serviço de IA do Copilot devolveu um erro. Tente mais tarde; se continuar a acontecer, contacte o suporte.",
       "too_many_errors": "O Copilot parou após erros repetidos."
     }
   },
