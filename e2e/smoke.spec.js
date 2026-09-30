@@ -10,6 +10,7 @@ const TABS = [
 	['configuration', 'Configuration'],
 	['jobs', 'Jobs'],
 	['intelligence', 'Talent Intelligence'],
+	['copilot', 'Copilot'],
 	['reports', 'Match Reports'],
 	['chat', 'AI Resume Chat'],
 	['usage', 'Usage Monitoring'],

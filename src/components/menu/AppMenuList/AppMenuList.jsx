@@ -15,9 +15,11 @@ import PsychologyOutlinedIcon from '@mui/icons-material/PsychologyOutlined';
 import SpeedOutlinedIcon from '@mui/icons-material/SpeedOutlined';
 import FactCheckOutlinedIcon from '@mui/icons-material/FactCheckOutlined';
 import SettingsSuggestOutlinedIcon from '@mui/icons-material/SettingsSuggestOutlined';
+import SmartToyOutlinedIcon from '@mui/icons-material/SmartToyOutlined';
 import {
 	COMP_ID_CHAT,
 	COMP_ID_CONFIGURATION,
+	COMP_ID_COPILOT,
 	COMP_ID_CVLIB,
 	COMP_ID_DASHBOARD,
 	COMP_ID_INTELLIGENCE,
@@ -31,7 +33,7 @@ import PropTypes from 'prop-types';
 import * as tokens from '../../../theme/tokens.js';
 import { alpha } from '@mui/material/styles';
 
-const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, collapsed, onToggleCollapse }) => {
+const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, isAgentAllowed = false, collapsed, onToggleCollapse }) => {
 	const { t } = useTranslation();
 	// Selection is derived from the URL-driven content (via AppHome), so the highlight
 	// survives refreshes and deep links instead of resetting to Dashboard.
@@ -85,6 +87,7 @@ const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, collap
 		{ id: COMP_ID_JOBS,             Icon: WorkOutlineOutlinedIcon,     label: t('menu.jobs', 'Jobs'),                              display: true },
 		{ id: COMP_ID_REPORTS,          Icon: AssessmentOutlinedIcon,      label: t('menu.reports', 'Match Reports'),                  display: true },
 		{ id: COMP_ID_INTELLIGENCE,     Icon: PsychologyOutlinedIcon,      label: t('menu.intelligence', 'Talent Intelligence'),       display: true },
+		{ id: COMP_ID_COPILOT,          Icon: SmartToyOutlinedIcon,        label: t('menu.copilot', 'Copilot'),                        display: isAgentAllowed },
 		{ id: COMP_ID_CHAT,             Icon: AutoAwesomeOutlinedIcon,     label: t('menu.aiResumeChat', 'AI Resume Chat'),            display: isChatAllowed },
 		{ id: COMP_ID_USAGE_MONITORING, Icon: SpeedOutlinedIcon,           label: t('menu.usage', 'Usage'),                            display: true },
 		{ id: COMP_ID_CONFIGURATION,    Icon: SettingsSuggestOutlinedIcon, label: t('menu.configuration', 'Configuration'),            display: true },
@@ -286,6 +289,7 @@ AppMenuList.propTypes = {
 	handleContentChange: PropTypes.func.isRequired,
 	activeContent: PropTypes.string,
 	isChatAllowed: PropTypes.bool.isRequired,
+	isAgentAllowed: PropTypes.bool,
 	collapsed: PropTypes.bool,
 	onToggleCollapse: PropTypes.func,
 };

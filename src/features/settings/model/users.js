@@ -10,6 +10,7 @@ export const ALL_ACTIONS = [
 	'ATS_REPORT_EXPORT',
 	'MANAGE_INTEGRATIONS',
 	'CONTACT_CANDIDATE',
+	'USE_AGENT',
 	'UPDATE_SUBSCRIPTION', 'CANCEL_SUBSCRIPTION',
 ];
 
@@ -26,6 +27,7 @@ export const AUTHORITY_GROUPS = [
 	// is silently revoked on the next edit — every granted action must appear.
 	{ key: 'integrations', actions: ['MANAGE_INTEGRATIONS'] },
 	{ key: 'outreach', actions: ['CONTACT_CANDIDATE'] },
+	{ key: 'copilot', actions: ['USE_AGENT'] },
 	{ key: 'billing', actions: ['UPDATE_SUBSCRIPTION', 'CANCEL_SUBSCRIPTION'] },
 ];
 

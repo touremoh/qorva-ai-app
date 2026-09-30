@@ -9,11 +9,13 @@ import AppSidebar from "../components/menu/AppSidebar.jsx";
 import UpgradeDialog from "../components/demo/UpgradeDialog.jsx";
 import { BulkImportProvider } from "../contexts/BulkImportContext.jsx";
 import { CandidateOutreachProvider } from "../contexts/CandidateOutreachContext.jsx";
+import { AgentRunProvider } from "../contexts/AgentRunContext.jsx";
 import CandidateOutreachDock from "../features/outreach/components/CandidateOutreachDock.jsx";
 import {logPageView} from "../utils/analytics.js";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {
 	COMP_ID_CHAT,
+	COMP_ID_COPILOT,
 	COMP_ID_CVLIB,
 	COMP_ID_CONFIGURATION,
 	COMP_ID_DASHBOARD,
@@ -34,6 +36,7 @@ const TAB_TO_COMP = {
 	'configuration': COMP_ID_CONFIGURATION,
 	'jobs': COMP_ID_JOBS,
 	'intelligence': COMP_ID_INTELLIGENCE,
+	'copilot': COMP_ID_COPILOT,
 	'reports': COMP_ID_REPORTS,
 	'chat': COMP_ID_CHAT,
 	'usage': COMP_ID_USAGE_MONITORING,
@@ -71,6 +74,7 @@ const AppHome = () => {
 	return (
 		<BulkImportProvider>
 		<CandidateOutreachProvider>
+		<AgentRunProvider>
 		<Box sx={{ display: 'flex', height: '100vh', bottom: 0 }}>
 
 			{/* Sidebar */}
@@ -102,6 +106,7 @@ const AppHome = () => {
 			{/* Candidate email composer — docked bottom-right, survives panel switches */}
 			<CandidateOutreachDock />
 		</Box>
+		</AgentRunProvider>
 		</CandidateOutreachProvider>
 		</BulkImportProvider>
 	);

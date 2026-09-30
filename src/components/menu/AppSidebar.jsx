@@ -3,6 +3,7 @@ import { Drawer, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import AppMenuList from './AppMenuList/AppMenuList.jsx';
 import { getChatAllowedStatus } from '../../features/chat/api/chatService.js';
+import { useAgentRun } from '../../contexts/AgentRunContext.jsx';
 import PropTypes from 'prop-types';
 
 export const SIDEBAR_WIDTH = 240;
@@ -12,6 +13,7 @@ const AppSidebar = ({ isSidebarOpen, isSidebarCollapsed, handleSidebarToggle, ha
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
 	const [isChatAllowed, setIsChatAllowed] = useState(false);
+	const { available: isAgentAllowed } = useAgentRun();
 
 	const handleNavigation = (newContent) => {
 		handleContentChange(newContent);
@@ -45,11 +47,11 @@ const AppSidebar = ({ isSidebarOpen, isSidebarCollapsed, handleSidebarToggle, ha
 
 	return isLargeScreen ? (
 		<Drawer variant="permanent" open sx={drawerSx}>
-			<AppMenuList handleContentChange={handleNavigation} activeContent={activeContent} isChatAllowed={isChatAllowed} collapsed={collapsed} onToggleCollapse={handleSidebarCollapse} />
+			<AppMenuList handleContentChange={handleNavigation} activeContent={activeContent} isChatAllowed={isChatAllowed} isAgentAllowed={isAgentAllowed} collapsed={collapsed} onToggleCollapse={handleSidebarCollapse} />
 		</Drawer>
 	) : (
 		<Drawer variant="temporary" open={isSidebarOpen} onClose={handleSidebarToggle} sx={drawerSx}>
-			<AppMenuList handleContentChange={handleNavigation} activeContent={activeContent} isChatAllowed={isChatAllowed} collapsed={false} onToggleCollapse={handleSidebarToggle} />
+			<AppMenuList handleContentChange={handleNavigation} activeContent={activeContent} isChatAllowed={isChatAllowed} isAgentAllowed={isAgentAllowed} collapsed={false} onToggleCollapse={handleSidebarToggle} />
 		</Drawer>
 	);
 };

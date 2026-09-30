@@ -97,7 +97,8 @@
     "dashboard": "Dashboard",
     "expandMenu": "Expand",
     "collapseMenu": "Collapse",
-    "configuration": "Configuration"
+    "configuration": "Configuration",
+    "copilot": "Copilot"
   },
   "jobContent": {
     "createJobPost": "New Job Post",
@@ -642,7 +643,8 @@
       "billing": "Billing",
       "integrations": "ATS Integrations",
       "outreach": "Candidate outreach",
-      "intelligence": "Talent Intelligence"
+      "intelligence": "Talent Intelligence",
+      "copilot": "Copilot"
     },
     "authorities": {
       "VIEW_DASHBOARD": "View Dashboard",
@@ -671,7 +673,8 @@
       "CANCEL_SUBSCRIPTION": "Cancel Subscription",
       "MANAGE_INTEGRATIONS": "Manage ATS integrations",
       "CONTACT_CANDIDATE": "Email candidates",
-      "VIEW_LIBRARY_INSIGHTS": "Ask Talent Intelligence"
+      "VIEW_LIBRARY_INSIGHTS": "Ask Talent Intelligence",
+      "USE_AGENT": "Use Copilot"
     },
     "mfa": {
       "title": "Two-step verification",
@@ -764,7 +767,8 @@
       "planAllowance": "plan allowance",
       "templatesTooltip": "Saved invitation templates — a plan allowance, not a monthly quota",
       "noPeriodTitle": "No usage period is active for this account",
-      "noPeriodHint": "Usage is metered per billing period. A period is opened automatically a few minutes after a subscription starts or renews; if this message persists, contact support."
+      "noPeriodHint": "Usage is metered per billing period. A period is opened automatically a few minutes after a subscription starts or renews; if this message persists, contact support.",
+      "agentRuns": "Copilot tasks"
     }
   },
   "appAIResumeChat": {
@@ -1118,6 +1122,20 @@
       "reauth_required": "Your mailbox connection has expired. Reconnect it in Account settings.",
       "send_failed": "Your mailbox refused to send the message. Please try again or use your mail app.",
       "oauth_state_invalid": "The connection request is invalid or has expired. Please start again."
+    },
+    "usage": {
+      "agent_limit_exceeded": "Your plan's Copilot task limit for this period has been reached. It resets at the start of the next period."
+    },
+    "agent": {
+      "disabled": "Copilot is not available right now.",
+      "run_active": "Copilot is already working on one of your tasks. Wait for it to finish or cancel it.",
+      "run_not_found": "This Copilot task was not found.",
+      "goal_invalid": "Describe the task in 1 to 2,000 characters.",
+      "conversation_active": "This conversation has a task in progress. Cancel it before deleting the conversation.",
+      "team_scope_forbidden": "Only users who can manage users can see the team's Copilot activity.",
+      "user_unavailable": "The user this Copilot task runs for can no longer use Copilot.",
+      "model_failed": "Copilot could not reach the AI service. Try again in a moment.",
+      "too_many_errors": "Copilot stopped after repeated errors."
     }
   },
   "recruitment": {
@@ -1750,6 +1768,11 @@
       },
       "emailTemplates": {
         "what": "Saved invitation templates — a plan allowance, not reset each period."
+      },
+      "agentRuns": {
+        "what": "One per task Copilot works on.",
+        "details": "Each task counts once, whether you gave it in chat or a rule started it. What Copilot does along the way, such as a matching run, also counts against its own allowance.",
+        "atLimit": "New Copilot tasks are refused until the period renews."
       }
     },
     "pace": {
@@ -1773,6 +1796,101 @@
     "aiResumeChat": "AI Resume Chat",
     "usage": "Usage",
     "configuration": "Configuration",
-    "accountSettings": "Account Settings"
+    "accountSettings": "Account Settings",
+    "copilot": "Copilot"
+  },
+  "copilot": {
+    "tabs": {
+      "chat": "Chat",
+      "activity": "Activity"
+    },
+    "conversations": {
+      "new": "New task",
+      "empty": "No conversations yet.",
+      "delete": "Delete conversation"
+    },
+    "deleteConversation": {
+      "title": "Delete this conversation?",
+      "message": "Its tasks and answers will be removed. Nothing Copilot looked at is changed.",
+      "cancel": "Cancel",
+      "confirm": "Delete"
+    },
+    "empty": {
+      "title": "What should Copilot do?",
+      "subtitle": "Give Copilot a task in plain words. It searches your resumes, jobs and match reports, then reports back. For now it only reads: it doesn't change or send anything.",
+      "examples": {
+        "topCandidates": "Who are the 5 best-matched candidates for our newest open job, and why?",
+        "count": "How many senior Java developers open to work do we have in Lisbon?",
+        "compare": "Which candidates added this month have strong cloud experience?",
+        "usage": "How much of our plan have we used this period?"
+      }
+    },
+    "input": {
+      "placeholder": "Describe a task… Use @ for a candidate, # for a job",
+      "hint": "Copilot reads your data to answer. It can make mistakes, so check important results.",
+      "tooLong": "Keep the task under {{max}} characters."
+    },
+    "run": {
+      "queued": "Waiting to start…",
+      "working": "Working on it…",
+      "cancel": "Cancel",
+      "failed": "Copilot could not finish this task.",
+      "stoppedEarly": "Copilot stopped before finishing: the task needed more steps than allowed. Try a narrower task.",
+      "cancelled": "Cancelled."
+    },
+    "status": {
+      "QUEUED": "Queued",
+      "RUNNING": "Working",
+      "AWAITING_APPROVAL": "Needs approval",
+      "COMPLETED": "Done",
+      "FAILED": "Failed",
+      "CANCELLED": "Cancelled",
+      "EXPIRED": "Expired"
+    },
+    "link": {
+      "CV": "Candidate",
+      "JOB": "Job",
+      "REPORT": "Report"
+    },
+    "toast": {
+      "completed": "Copilot finished: {{title}}",
+      "failed": "Copilot could not finish: {{title}}",
+      "open": "Open"
+    },
+    "activity": {
+      "scope": {
+        "mine": "My tasks",
+        "team": "Team"
+      },
+      "filter": {
+        "status": "Status",
+        "all": "All"
+      },
+      "empty": "No Copilot tasks yet.",
+      "columns": {
+        "task": "Task",
+        "user": "User",
+        "status": "Status",
+        "started": "Started"
+      },
+      "fromRule": "Started by a rule",
+      "run": "Copilot task",
+      "close": "Close"
+    }
+  },
+  "agent": {
+    "step": {
+      "search_cvs": "Searched the resume library: {{count}} found",
+      "semantic_search_cvs": "Looked for similar profiles: {{count}} found",
+      "get_cv": "Read {{name}}'s profile",
+      "list_jobs": "Listed jobs: {{count}} found",
+      "get_job": "Read the job “{{title}}”",
+      "list_reports": "Checked match reports: {{count}} found",
+      "get_report": "Read the match report for {{name}}",
+      "get_usage": "Checked the plan's usage",
+      "error": "A step failed; Copilot adapted",
+      "interrupted": "A step was interrupted",
+      "generic": "Used {{tool}}"
+    }
   }
 }
