@@ -17,6 +17,7 @@ import {
 	startAgentRun,
 } from '../features/copilot/api/agentService.js';
 import { isActive, isAwaitingApproval, isWorking, RUN_STATUS } from '../features/copilot/model/agentRun.js';
+import { browserTimeZone } from '../features/copilot/model/agentRule.js';
 
 // App-level owner of the user's current Copilot run: it keeps polling while the run works, so the
 // run survives switching panels and refreshing the page, and tells the user when it is done if
@@ -55,10 +56,10 @@ export const AgentRunProvider = ({ children }) => {
 
 	const available = !!availability?.enabled;
 
-	// Resume after a refresh: the user's newest run, if it is still active.
+	// Resume after a refresh: the user's newest chat run, if it is still active (rule runs live in Activity).
 	useEffect(() => {
 		if (!available) return;
-		listAgentRuns({ scope: 'mine', page: 0, size: 1 })
+		listAgentRuns({ scope: 'mine', origin: 'CHAT', page: 0, size: 1 })
 			.then((res) => {
 				const latest = res.data?.items?.[0];
 				if (isActive(latest)) getAgentRun(latest.id).then((r) => setActiveRun(r.data)).catch(() => {});
@@ -108,7 +109,8 @@ export const AgentRunProvider = ({ children }) => {
 	usePolling(pollActiveRun, { active: isAwaitingApproval(activeRun), intervalMs: AWAITING_POLL_MS });
 
 	const startRun = useCallback(async (payload) => {
-		const res = await startAgentRun(payload);
+		// The browser's time zone: a scheduled rule proposed from this chat runs in it.
+		const res = await startAgentRun({ ...payload, timeZone: browserTimeZone() });
 		setActiveRun(res.data);
 		return res.data;
 	}, []);

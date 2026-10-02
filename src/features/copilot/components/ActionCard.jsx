@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import ManageSearchOutlinedIcon from '@mui/icons-material/ManageSearchOutlined';
 import SyncOutlinedIcon from '@mui/icons-material/SyncOutlined';
+import EventRepeatOutlinedIcon from '@mui/icons-material/EventRepeatOutlined';
 import { useTranslation } from 'react-i18next';
 import { alpha } from '@mui/material/styles';
 import { useAgentRun } from '../../../contexts/AgentRunContext.jsx';
@@ -15,12 +16,13 @@ import { useCandidateOutreach } from '../../../contexts/CandidateOutreachContext
 import { resolveError } from '../../../utils/errorHandler.js';
 import * as tokens from '../../../theme/tokens.js';
 import { ACTION_STATUS, emailEdits } from '../model/agentRun.js';
-import { AtsSyncActionBody, EmailActionBody, ScreeningActionBody } from './ActionBodies.jsx';
+import { AtsSyncActionBody, EmailActionBody, RuleActionBody, ScreeningActionBody } from './ActionBodies.jsx';
 
 const KIND = {
 	send_outreach_email: { Icon: MailOutlineIcon, titleKey: 'copilot.action.email.title' },
 	start_screening: { Icon: ManageSearchOutlinedIcon, titleKey: 'copilot.action.screening.title' },
 	trigger_ats_sync: { Icon: SyncOutlinedIcon, titleKey: 'copilot.action.ats.title' },
+	propose_rule: { Icon: EventRepeatOutlinedIcon, titleKey: 'copilot.action.rule.title' },
 };
 
 /** One approval card. Nothing happens until the run's own user approves; decided cards stay visible, read-only. */
@@ -79,6 +81,7 @@ const ActionCard = ({ run, action, canDecide, onDecided }) => {
 			{isEmail && <EmailActionBody preview={preview} subject={subject} body={body} onSubject={setSubject} onBody={setBody} editable={editable} />}
 			{action.tool === 'start_screening' && <ScreeningActionBody preview={preview} />}
 			{action.tool === 'trigger_ats_sync' && <AtsSyncActionBody preview={preview} />}
+			{action.tool === 'propose_rule' && <RuleActionBody preview={preview} />}
 			{action.status === ACTION_STATUS.REJECTED && action.reason && (
 				<Typography sx={{ fontSize: tokens.fontSize.micro, color: tokens.ink.subtle }}>{t('copilot.action.reasonShown', { reason: action.reason })}</Typography>
 			)}

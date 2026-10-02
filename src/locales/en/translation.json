@@ -1138,7 +1138,11 @@
       "too_many_errors": "Copilot stopped after repeated errors.",
       "action_stale": "This action was already decided or has changed. Refresh to see the latest.",
       "action_invalid": "Check the subject (up to 200 characters), the message (up to 8,000) and the reason (up to 500).",
-      "approval_expired": "Copilot stopped because an approval was not given in time."
+      "approval_expired": "Copilot stopped because an approval was not given in time.",
+      "rules_disabled": "Standing rules are not available right now.",
+      "rule_not_found": "This rule was not found.",
+      "rule_invalid": "This rule is not valid: check its trigger, task and daily limit.",
+      "rule_limit_reached": "Your company has reached the maximum number of rules."
     }
   },
   "recruitment": {
@@ -1806,7 +1810,8 @@
   "copilot": {
     "tabs": {
       "chat": "Chat",
-      "activity": "Activity"
+      "activity": "Activity",
+      "rules": "Rules"
     },
     "conversations": {
       "new": "New task",
@@ -1870,7 +1875,9 @@
       },
       "filter": {
         "status": "Status",
-        "all": "All"
+        "all": "All",
+        "origin": "Started from",
+        "oneRule": "One rule's tasks"
       },
       "empty": "No Copilot tasks yet.",
       "columns": {
@@ -1881,7 +1888,12 @@
       },
       "fromRule": "Started by a rule",
       "run": "Copilot task",
-      "close": "Close"
+      "close": "Close",
+      "origin": {
+        "CHAT": "Chat",
+        "RULE": "Rules"
+      },
+      "fromNamedRule": "Started by the rule “{{name}}”"
     },
     "badgeTooltip": "{{count}} actions to approve",
     "action": {
@@ -1924,7 +1936,125 @@
       "waitingFor": "Waiting for {{user}} to decide",
       "approveAll": "Approve all ({{count}})",
       "expires": "Expires {{date}}",
-      "openDraft": "Open in email composer"
+      "openDraft": "Open in email composer",
+      "rule": {
+        "title": "Create this rule?",
+        "name": "Name",
+        "when": "When",
+        "goal": "Task",
+        "cap": "Limit",
+        "perDay": "Up to {{count}} tasks a day",
+        "note": "From now on only: nothing that already exists is processed. You can pause or edit it in Copilot → Rules."
+      }
+    },
+    "rules": {
+      "scope": {
+        "mine": "My rules",
+        "team": "Team"
+      },
+      "new": "New rule",
+      "intro": "A rule starts a Copilot task by itself when something happens, as you. Emails and other actions still wait for your approval.",
+      "empty": "No rules yet. Create one, or ask Copilot in the chat: “whenever a candidate scores 80+ on a job, draft an invitation”.",
+      "active": "Active",
+      "paused": {
+        "MANUAL": "Paused",
+        "OWNER_UNAVAILABLE": "Paused: owner can't use Copilot",
+        "QUOTA": "Paused: no Copilot tasks left",
+        "SUBSCRIPTION_INACTIVE": "Paused: subscription inactive",
+        "JOB_DELETED": "Paused: job deleted",
+        "CONNECTION_REMOVED": "Paused: integration removed"
+      },
+      "runsToday": "Tasks today: {{count}}/{{cap}}",
+      "skippedToday": "Skipped today (daily limit): {{count}}",
+      "lastFired": "Last task: {{date}}",
+      "nextRun": "Next run: {{date}}",
+      "owner": "Owner: {{email}}",
+      "showRuns": "See its tasks",
+      "pause": "Pause",
+      "resume": "Resume",
+      "edit": "Edit",
+      "delete": "Delete",
+      "cancel": "Cancel",
+      "deleteTitle": "Delete this rule?",
+      "deleteMessage": "It stops starting tasks. Tasks it already started are kept in Activity.",
+      "anyJob": "any open job",
+      "anyConnection": "any integration",
+      "triggers": {
+        "CV_ADDED": "A candidate is added",
+        "CV_SCORED": "A candidate is scored on a job",
+        "SCHEDULE": "On a schedule",
+        "ATS_SYNC_FINISHED": "An ATS import finishes"
+      },
+      "sources": {
+        "ANY": "Uploaded or imported",
+        "MANUAL": "Uploaded only",
+        "ATS": "Imported from the ATS only"
+      },
+      "frequency": {
+        "DAILY": "Every day",
+        "WEEKLY": "Every week"
+      },
+      "weekdays": {
+        "1": "Monday",
+        "2": "Tuesday",
+        "3": "Wednesday",
+        "4": "Thursday",
+        "5": "Friday",
+        "6": "Saturday",
+        "7": "Sunday"
+      },
+      "placeholders": {
+        "candidates": "Candidates",
+        "job": "Job",
+        "count": "Count",
+        "sync": "Integration"
+      },
+      "summary": {
+        "cvAdded": {
+          "ANY": "When a candidate is added",
+          "MANUAL": "When a candidate is uploaded",
+          "ATS": "When a candidate is imported from the ATS"
+        },
+        "cvScored": "When a candidate is scored on {{job}}",
+        "minScore": "score {{score}}+",
+        "recommended": "recommended for interview",
+        "daily": "Every day at {{time}} ({{zone}})",
+        "weekly": "Every {{day}} at {{time}} ({{zone}})",
+        "atsSync": "When an import from {{name}} finishes"
+      },
+      "errors": {
+        "name": "Give the rule a name (up to 100 characters).",
+        "goal": "Describe the task (up to 2,000 characters).",
+        "cap": "Between 1 and 100.",
+        "trigger": "Choose a trigger.",
+        "score": "Between 0 and 100.",
+        "hour": "Choose an hour.",
+        "weekday": "Choose a day."
+      },
+      "dialog": {
+        "newTitle": "New rule",
+        "editTitle": "Edit rule",
+        "name": "Name",
+        "trigger": "When",
+        "source": "Candidates",
+        "job": "Job",
+        "minScore": "Minimum score",
+        "minScoreHelp": "Leave empty for any score",
+        "recommendedOnly": "Only when recommended for interview",
+        "frequency": "Repeat",
+        "weekday": "Day",
+        "hour": "Time",
+        "zone": "Time zone: {{zone}}",
+        "connection": "Integration",
+        "goal": "What Copilot does",
+        "goalPlaceholder": "e.g. Draft an interview invitation for {{candidates}} for {{job}}.",
+        "insert": "Insert:",
+        "cap": "Tasks per day (max)",
+        "capHelp": "Beyond it, the rule waits until tomorrow",
+        "note": "The rule only acts on what happens from now on. It runs as you; emails, matching and imports wait for your approval (up to 72 hours), and you get an email when something waits.",
+        "save": "Save",
+        "create": "Create rule"
+      }
     }
   },
   "agent": {
@@ -1952,7 +2082,9 @@
       "screening_done": "Ran matching for {{count}} job(s)",
       "trigger_ats_sync": "Import from {{name}}",
       "ats_sync_started": "Started an import from {{name}}",
-      "list_ats_connections": "Checked ATS integrations: {{count}} found"
+      "list_ats_connections": "Checked ATS integrations: {{count}} found",
+      "propose_rule": "Rule “{{name}}”",
+      "rule_created": "Created the rule “{{name}}”"
     }
   }
 }

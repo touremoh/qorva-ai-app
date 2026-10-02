@@ -8,6 +8,7 @@ import { login as loginUser } from '../api/authService.js';
 import { createCheckoutSession } from '../api/registrationService.js';
 import { useTranslation } from 'react-i18next';
 import { setAuthResults } from "../../../shared/lib/session.js";
+import { safeReturnPath } from "../../../shared/lib/returnPath.js";
 import { DASHBOARD_STATUSES, NEEDS_PAYMENT_STATUSES, ACCOUNT_STATUS_DEMO } from '../../../constants.js';
 import { EMAIL_REGEX } from '../../../shared/lib/validators.js';
 import LoginMobileSignUp from './login/LoginMobileSignUp.jsx';
@@ -27,6 +28,8 @@ const Login = () => {
 	// The API client sends a dead session here with ?expired=1.
 	const [formError, setFormError] = useState(() =>
 		new URLSearchParams(location.search).has('expired') ? t('login.sessionExpired') : "");
+	// The app page the user was sent here from (?next=, app pages only); the home page otherwise.
+	const [home] = useState(() => safeReturnPath(new URLSearchParams(location.search).get('next')) ?? '/');
 	// idle → loading (spinner + progress text) → success (green check, then navigate)
 	const [status, setStatus] = useState('idle');
 	// Set when the password was right but the account has email MFA on: the form becomes the code step.
@@ -102,10 +105,10 @@ const Login = () => {
 		// is required; the UI runs in restricted demo mode with sample data.
 		if (user.userAccountStatus === ACCOUNT_STATUS_DEMO) {
 			setAuthResults(data);
-			showSuccessThen(() => navigate('/'));
+			showSuccessThen(() => navigate(home));
 		} else if (DASHBOARD_STATUSES.includes(subscriptionStatus)) {
 			setAuthResults(data);
-			showSuccessThen(() => navigate('/'));
+			showSuccessThen(() => navigate(home));
 		} else if (NEEDS_PAYMENT_STATUSES.includes(subscriptionStatus)) {
 			const tenantId = user.tenantId;
 			const userId = user.id;
