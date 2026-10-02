@@ -1,4 +1,5 @@
 import Box from '@mui/material/Box';
+import Chip from '@mui/material/Chip';
 import CircularProgress from '@mui/material/CircularProgress';
 import MenuItem from '@mui/material/MenuItem';
 import TablePagination from '@mui/material/TablePagination';
@@ -48,6 +49,24 @@ const AgentActivity = () => {
 							<MenuItem key={s} value={s}>{t(`copilot.status.${s}`)}</MenuItem>
 						))}
 					</TextField>
+					{availability?.rulesEnabled && (
+						<TextField
+							select
+							size="small"
+							label={t('copilot.activity.filter.origin')}
+							value={activity.origin}
+							onChange={(e) => activity.setOrigin(e.target.value)}
+							sx={{ minWidth: 160, '& .MuiInputBase-root': { fontSize: tokens.fontSize.caption } }}
+						>
+							<MenuItem value="">{t('copilot.activity.filter.all')}</MenuItem>
+							<MenuItem value="CHAT">{t('copilot.activity.origin.CHAT')}</MenuItem>
+							<MenuItem value="RULE">{t('copilot.activity.origin.RULE')}</MenuItem>
+						</TextField>
+					)}
+					{activity.ruleId && (
+						<Chip size="small" label={t('copilot.activity.filter.oneRule')} onDelete={activity.clearRule}
+							data-testid="copilot-activity-rule-filter" sx={{ fontSize: tokens.fontSize.micro }} />
+					)}
 				</Box>
 
 				<Box sx={{ backgroundColor: tokens.surface.paper, border: `1px solid ${tokens.line.main}`, borderRadius: 2, overflow: 'hidden' }}>

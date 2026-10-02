@@ -1116,7 +1116,11 @@
       "too_many_errors": "Copilot se detuvo tras varios errores.",
       "action_stale": "Esta acción ya se decidió o ha cambiado. Actualice para ver la última versión.",
       "action_invalid": "Revise el asunto (hasta 200 caracteres), el mensaje (hasta 8.000) y el motivo (hasta 500).",
-      "approval_expired": "Copilot se detuvo porque no se dio una aprobación a tiempo."
+      "approval_expired": "Copilot se detuvo porque no se dio una aprobación a tiempo.",
+      "rules_disabled": "Las reglas automáticas no están disponibles en este momento.",
+      "rule_not_found": "No se encontró esta regla.",
+      "rule_invalid": "Esta regla no es válida: revisa su desencadenante, su tarea y su límite diario.",
+      "rule_limit_reached": "Tu empresa ha alcanzado el número máximo de reglas."
     }
   },
   "recruitment": {
@@ -1806,7 +1810,8 @@
   "copilot": {
     "tabs": {
       "chat": "Chat",
-      "activity": "Actividad"
+      "activity": "Actividad",
+      "rules": "Reglas"
     },
     "conversations": {
       "new": "Nueva tarea",
@@ -1870,7 +1875,9 @@
       },
       "filter": {
         "status": "Estado",
-        "all": "Todos"
+        "all": "Todos",
+        "origin": "Iniciado desde",
+        "oneRule": "Tareas de una regla"
       },
       "empty": "Aún no hay tareas de Copilot.",
       "columns": {
@@ -1881,7 +1888,12 @@
       },
       "fromRule": "Iniciada por una regla",
       "run": "Tarea de Copilot",
-      "close": "Cerrar"
+      "close": "Cerrar",
+      "origin": {
+        "CHAT": "Chat",
+        "RULE": "Reglas"
+      },
+      "fromNamedRule": "Iniciado por la regla «{{name}}»"
     },
     "badgeTooltip": "{{count}} acciones por aprobar",
     "action": {
@@ -1924,7 +1936,125 @@
       "waitingFor": "Esperando la decisión de {{user}}",
       "approveAll": "Aprobar todo ({{count}})",
       "expires": "Caduca el {{date}}",
-      "openDraft": "Abrir en el editor de correo"
+      "openDraft": "Abrir en el editor de correo",
+      "rule": {
+        "title": "¿Crear esta regla?",
+        "name": "Nombre",
+        "when": "Cuándo",
+        "goal": "Tarea",
+        "cap": "Límite",
+        "perDay": "Hasta {{count}} tareas al día",
+        "note": "Solo a partir de ahora: no se procesa nada de lo que ya existe. Puedes pausarla o editarla en Copilot → Reglas."
+      }
+    },
+    "rules": {
+      "scope": {
+        "mine": "Mis reglas",
+        "team": "Equipo"
+      },
+      "new": "Nueva regla",
+      "intro": "Una regla inicia una tarea de Copilot por sí sola cuando ocurre algo, en tu nombre. Los correos y demás acciones siguen esperando tu aprobación.",
+      "empty": "Aún no hay reglas. Crea una o pídeselo a Copilot en el chat: «cada vez que un candidato obtenga 80+ en una oferta, prepara una invitación».",
+      "active": "Activa",
+      "paused": {
+        "MANUAL": "En pausa",
+        "OWNER_UNAVAILABLE": "En pausa: el propietario no puede usar Copilot",
+        "QUOTA": "En pausa: no quedan tareas de Copilot",
+        "SUBSCRIPTION_INACTIVE": "En pausa: suscripción inactiva",
+        "JOB_DELETED": "En pausa: oferta eliminada",
+        "CONNECTION_REMOVED": "En pausa: integración eliminada"
+      },
+      "runsToday": "Tareas hoy: {{count}}/{{cap}}",
+      "skippedToday": "Omitidos hoy (límite diario): {{count}}",
+      "lastFired": "Última tarea: {{date}}",
+      "nextRun": "Próxima ejecución: {{date}}",
+      "owner": "Propietario: {{email}}",
+      "showRuns": "Ver sus tareas",
+      "pause": "Pausar",
+      "resume": "Reanudar",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "cancel": "Cancelar",
+      "deleteTitle": "¿Eliminar esta regla?",
+      "deleteMessage": "Dejará de iniciar tareas. Las tareas ya iniciadas se conservan en Actividad.",
+      "anyJob": "cualquier oferta abierta",
+      "anyConnection": "cualquier integración",
+      "triggers": {
+        "CV_ADDED": "Se añade un candidato",
+        "CV_SCORED": "Un candidato es evaluado en una oferta",
+        "SCHEDULE": "Según un horario",
+        "ATS_SYNC_FINISHED": "Termina una importación del ATS"
+      },
+      "sources": {
+        "ANY": "Subido o importado",
+        "MANUAL": "Solo subido",
+        "ATS": "Solo importado del ATS"
+      },
+      "frequency": {
+        "DAILY": "Cada día",
+        "WEEKLY": "Cada semana"
+      },
+      "weekdays": {
+        "1": "Lunes",
+        "2": "Martes",
+        "3": "Miércoles",
+        "4": "Jueves",
+        "5": "Viernes",
+        "6": "Sábado",
+        "7": "Domingo"
+      },
+      "placeholders": {
+        "candidates": "Candidatos",
+        "job": "Oferta",
+        "count": "Cantidad",
+        "sync": "Integración"
+      },
+      "summary": {
+        "cvAdded": {
+          "ANY": "Cuando se añade un candidato",
+          "MANUAL": "Cuando se sube un candidato",
+          "ATS": "Cuando se importa un candidato del ATS"
+        },
+        "cvScored": "Cuando un candidato es evaluado en {{job}}",
+        "minScore": "puntuación {{score}}+",
+        "recommended": "recomendado para entrevista",
+        "daily": "Cada día a las {{time}} ({{zone}})",
+        "weekly": "Cada {{day}} a las {{time}} ({{zone}})",
+        "atsSync": "Cuando termina una importación de {{name}}"
+      },
+      "errors": {
+        "name": "Ponle un nombre a la regla (máx. 100 caracteres).",
+        "goal": "Describe la tarea (máx. 2.000 caracteres).",
+        "cap": "Entre 1 y 100.",
+        "trigger": "Elige un desencadenante.",
+        "score": "Entre 0 y 100.",
+        "hour": "Elige una hora.",
+        "weekday": "Elige un día."
+      },
+      "dialog": {
+        "newTitle": "Nueva regla",
+        "editTitle": "Editar regla",
+        "name": "Nombre",
+        "trigger": "Cuándo",
+        "source": "Candidatos",
+        "job": "Oferta",
+        "minScore": "Puntuación mínima",
+        "minScoreHelp": "Déjalo vacío para cualquier puntuación",
+        "recommendedOnly": "Solo si se recomienda para entrevista",
+        "frequency": "Repetir",
+        "weekday": "Día",
+        "hour": "Hora",
+        "zone": "Zona horaria: {{zone}}",
+        "connection": "Integración",
+        "goal": "Qué hace Copilot",
+        "goalPlaceholder": "p. ej. Prepara una invitación a entrevista para {{candidates}} para {{job}}.",
+        "insert": "Insertar:",
+        "cap": "Tareas por día (máx.)",
+        "capHelp": "Por encima, la regla espera hasta mañana",
+        "note": "La regla solo actúa sobre lo que ocurra a partir de ahora. Actúa en tu nombre; los correos, el matching y las importaciones esperan tu aprobación (hasta 72 horas), y recibes un correo cuando algo espera.",
+        "save": "Guardar",
+        "create": "Crear regla"
+      }
     }
   },
   "agent": {
@@ -1952,7 +2082,9 @@
       "screening_done": "Análisis realizado para {{count}} oferta(s)",
       "trigger_ats_sync": "Importación desde {{name}}",
       "ats_sync_started": "Importación iniciada desde {{name}}",
-      "list_ats_connections": "Integraciones ATS revisadas: {{count}} encontradas"
+      "list_ats_connections": "Integraciones ATS revisadas: {{count}} encontradas",
+      "propose_rule": "Regla «{{name}}»",
+      "rule_created": "Regla «{{name}}» creada"
     }
   }
 }

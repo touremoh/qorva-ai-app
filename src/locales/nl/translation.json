@@ -1116,7 +1116,11 @@
       "too_many_errors": "Copilot is gestopt na herhaalde fouten.",
       "action_stale": "Over deze actie is al beslist of ze is gewijzigd. Vernieuw om de laatste versie te zien.",
       "action_invalid": "Controleer het onderwerp (max. 200 tekens), het bericht (max. 8.000) en de reden (max. 500).",
-      "approval_expired": "Copilot is gestopt omdat een goedkeuring niet op tijd is gegeven."
+      "approval_expired": "Copilot is gestopt omdat een goedkeuring niet op tijd is gegeven.",
+      "rules_disabled": "Automatische regels zijn momenteel niet beschikbaar.",
+      "rule_not_found": "Deze regel is niet gevonden.",
+      "rule_invalid": "Deze regel is ongeldig: controleer de trigger, de taak en de daglimiet.",
+      "rule_limit_reached": "Uw bedrijf heeft het maximale aantal regels bereikt."
     }
   },
   "recruitment": {
@@ -1806,7 +1810,8 @@
   "copilot": {
     "tabs": {
       "chat": "Chat",
-      "activity": "Activiteit"
+      "activity": "Activiteit",
+      "rules": "Regels"
     },
     "conversations": {
       "new": "Nieuwe taak",
@@ -1870,7 +1875,9 @@
       },
       "filter": {
         "status": "Status",
-        "all": "Alle"
+        "all": "Alle",
+        "origin": "Gestart vanuit",
+        "oneRule": "Taken van één regel"
       },
       "empty": "Nog geen Copilot-taken.",
       "columns": {
@@ -1881,7 +1888,12 @@
       },
       "fromRule": "Gestart door een regel",
       "run": "Copilot-taak",
-      "close": "Sluiten"
+      "close": "Sluiten",
+      "origin": {
+        "CHAT": "Chat",
+        "RULE": "Regels"
+      },
+      "fromNamedRule": "Gestart door de regel ‘{{name}}’"
     },
     "badgeTooltip": "{{count}} acties om goed te keuren",
     "action": {
@@ -1924,7 +1936,125 @@
       "waitingFor": "Wacht op de beslissing van {{user}}",
       "approveAll": "Alles goedkeuren ({{count}})",
       "expires": "Verloopt op {{date}}",
-      "openDraft": "Openen in de e-maileditor"
+      "openDraft": "Openen in de e-maileditor",
+      "rule": {
+        "title": "Deze regel aanmaken?",
+        "name": "Naam",
+        "when": "Wanneer",
+        "goal": "Taak",
+        "cap": "Limiet",
+        "perDay": "Tot {{count}} taken per dag",
+        "note": "Alleen vanaf nu: wat al bestaat wordt niet verwerkt. U kunt de regel pauzeren of bewerken in Copilot → Regels."
+      }
+    },
+    "rules": {
+      "scope": {
+        "mine": "Mijn regels",
+        "team": "Team"
+      },
+      "new": "Nieuwe regel",
+      "intro": "Een regel start zelf een Copilot-taak wanneer er iets gebeurt, namens u. E-mails en andere acties wachten nog steeds op uw goedkeuring.",
+      "empty": "Nog geen regels. Maak er een of vraag Copilot in de chat: ‘als een kandidaat 80+ scoort op een vacature, stel een uitnodiging op’.",
+      "active": "Actief",
+      "paused": {
+        "MANUAL": "Gepauzeerd",
+        "OWNER_UNAVAILABLE": "Gepauzeerd: eigenaar kan Copilot niet gebruiken",
+        "QUOTA": "Gepauzeerd: geen Copilot-taken meer",
+        "SUBSCRIPTION_INACTIVE": "Gepauzeerd: abonnement inactief",
+        "JOB_DELETED": "Gepauzeerd: vacature verwijderd",
+        "CONNECTION_REMOVED": "Gepauzeerd: integratie verwijderd"
+      },
+      "runsToday": "Taken vandaag: {{count}}/{{cap}}",
+      "skippedToday": "Vandaag overgeslagen (daglimiet): {{count}}",
+      "lastFired": "Laatste taak: {{date}}",
+      "nextRun": "Volgende uitvoering: {{date}}",
+      "owner": "Eigenaar: {{email}}",
+      "showRuns": "Taken bekijken",
+      "pause": "Pauzeren",
+      "resume": "Hervatten",
+      "edit": "Bewerken",
+      "delete": "Verwijderen",
+      "cancel": "Annuleren",
+      "deleteTitle": "Deze regel verwijderen?",
+      "deleteMessage": "Ze start geen taken meer. Al gestarte taken blijven in Activiteit.",
+      "anyJob": "elke open vacature",
+      "anyConnection": "elke integratie",
+      "triggers": {
+        "CV_ADDED": "Er wordt een kandidaat toegevoegd",
+        "CV_SCORED": "Een kandidaat wordt beoordeeld op een vacature",
+        "SCHEDULE": "Volgens een schema",
+        "ATS_SYNC_FINISHED": "Een ATS-import is klaar"
+      },
+      "sources": {
+        "ANY": "Geüpload of geïmporteerd",
+        "MANUAL": "Alleen geüpload",
+        "ATS": "Alleen uit het ATS geïmporteerd"
+      },
+      "frequency": {
+        "DAILY": "Elke dag",
+        "WEEKLY": "Elke week"
+      },
+      "weekdays": {
+        "1": "Maandag",
+        "2": "Dinsdag",
+        "3": "Woensdag",
+        "4": "Donderdag",
+        "5": "Vrijdag",
+        "6": "Zaterdag",
+        "7": "Zondag"
+      },
+      "placeholders": {
+        "candidates": "Kandidaten",
+        "job": "Vacature",
+        "count": "Aantal",
+        "sync": "Integratie"
+      },
+      "summary": {
+        "cvAdded": {
+          "ANY": "Als een kandidaat wordt toegevoegd",
+          "MANUAL": "Als een kandidaat wordt geüpload",
+          "ATS": "Als een kandidaat uit het ATS wordt geïmporteerd"
+        },
+        "cvScored": "Als een kandidaat wordt beoordeeld op {{job}}",
+        "minScore": "score {{score}}+",
+        "recommended": "aanbevolen voor een gesprek",
+        "daily": "Elke dag om {{time}} ({{zone}})",
+        "weekly": "Elke {{day}} om {{time}} ({{zone}})",
+        "atsSync": "Als een import uit {{name}} klaar is"
+      },
+      "errors": {
+        "name": "Geef de regel een naam (max. 100 tekens).",
+        "goal": "Beschrijf de taak (max. 2.000 tekens).",
+        "cap": "Tussen 1 en 100.",
+        "trigger": "Kies een trigger.",
+        "score": "Tussen 0 en 100.",
+        "hour": "Kies een tijd.",
+        "weekday": "Kies een dag."
+      },
+      "dialog": {
+        "newTitle": "Nieuwe regel",
+        "editTitle": "Regel bewerken",
+        "name": "Naam",
+        "trigger": "Wanneer",
+        "source": "Kandidaten",
+        "job": "Vacature",
+        "minScore": "Minimale score",
+        "minScoreHelp": "Leeg laten voor elke score",
+        "recommendedOnly": "Alleen als aanbevolen voor een gesprek",
+        "frequency": "Herhalen",
+        "weekday": "Dag",
+        "hour": "Tijd",
+        "zone": "Tijdzone: {{zone}}",
+        "connection": "Integratie",
+        "goal": "Wat Copilot doet",
+        "goalPlaceholder": "bijv. Stel een uitnodiging voor een gesprek op voor {{candidates}} voor {{job}}.",
+        "insert": "Invoegen:",
+        "cap": "Taken per dag (max.)",
+        "capHelp": "Daarboven wacht de regel tot morgen",
+        "note": "De regel werkt alleen op wat er vanaf nu gebeurt. Ze handelt namens u; e-mails, matching en imports wachten op uw goedkeuring (tot 72 uur) en u krijgt een e-mail als er iets wacht.",
+        "save": "Opslaan",
+        "create": "Regel aanmaken"
+      }
     }
   },
   "agent": {
@@ -1952,7 +2082,9 @@
       "screening_done": "Matching uitgevoerd voor {{count}} vacature(s)",
       "trigger_ats_sync": "Import uit {{name}}",
       "ats_sync_started": "Import gestart uit {{name}}",
-      "list_ats_connections": "ATS-integraties bekeken: {{count}} gevonden"
+      "list_ats_connections": "ATS-integraties bekeken: {{count}} gevonden",
+      "propose_rule": "Regel ‘{{name}}’",
+      "rule_created": "Regel ‘{{name}}’ aangemaakt"
     }
   }
 }

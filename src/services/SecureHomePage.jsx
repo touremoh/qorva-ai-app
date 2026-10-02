@@ -11,6 +11,7 @@ import {
 	NEEDS_PAYMENT_STATUSES,
 } from "../constants.js";
 import { renewSession, setAuthResults } from "../shared/lib/session.js";
+import { loginPath } from "../shared/lib/returnPath.js";
 import useSessionRefresh from "../shared/hooks/useSessionRefresh.js";
 import { isDemoUser } from "../utils/demoMode.js";
 import * as tokens from '../theme/tokens.js';
@@ -37,13 +38,17 @@ const SecureHomePage = ({ children }) => {
 			}
 		};
 
+		// Read before any await: once a redirect has happened (or a second effect run), the URL is the login page.
+		const requested = window.location.pathname + window.location.search;
+
 		const verifyToken = async () => {
 			const token = localStorage.getItem(AUTH_TOKEN);
 
 			if (!(await isTokenValid(token))) {
 				localStorage.clear();
-				// A stored token that no longer validates is an expired (or ended) session.
-				navigate(token ? '/login?expired=1' : '/login');
+				// A stored token that no longer validates is an expired (or ended) session. Either way the page
+				// asked for (e.g. a digest email's link) is opened again after login.
+				navigate(loginPath({ expired: !!token, from: requested }));
 				return;
 			}
 

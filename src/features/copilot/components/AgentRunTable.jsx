@@ -41,7 +41,9 @@ const AgentRunTable = ({ items, showUser, onOpen }) => {
 								{run.goal}
 							</Typography>
 							{run.origin === 'RULE' && (
-								<Typography sx={{ fontSize: tokens.fontSize.micro, color: tokens.ink.faintest }}>{t('copilot.activity.fromRule')}</Typography>
+								<Typography sx={{ fontSize: tokens.fontSize.micro, color: tokens.ink.faintest }}>
+									{run.ruleName ? t('copilot.activity.fromNamedRule', { name: run.ruleName }) : t('copilot.activity.fromRule')}
+								</Typography>
 							)}
 						</TableCell>
 						{showUser && <TableCell sx={cellText}>{run.userEmail}</TableCell>}
@@ -59,6 +61,7 @@ AgentRunTable.propTypes = {
 		id: PropTypes.string,
 		goal: PropTypes.string,
 		origin: PropTypes.string,
+		ruleName: PropTypes.string,
 		userEmail: PropTypes.string,
 		status: PropTypes.string,
 		createdAt: PropTypes.string,

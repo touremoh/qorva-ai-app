@@ -2,6 +2,7 @@ import axios from 'axios';
 import {AUTH_TOKEN, QORVA_USER_LANGUAGE} from "../../constants.js";
 import { toastError } from '../../utils/errorHandler.js';
 import { isDemoUser, openUpgradeDialog } from '../../utils/demoMode.js';
+import { loginPath } from '../lib/returnPath.js';
 
 // Never bake the token into client defaults: a default header snapshots whatever was
 // in localStorage at page load and shadows the fresh token after login/refresh — the
@@ -53,6 +54,9 @@ const SILENT_ERROR_CODES = new Set([
 	'error.usage.agent_limit_exceeded',
 	'error.agent.action_stale',                  // approval cards show these inline
 	'error.agent.action_invalid',
+	'error.agent.rule_invalid',                  // the rule dialog shows these inline
+	'error.agent.rule_limit_reached',
+	'error.agent.rules_disabled',
 ]);
 
 const handleResponseError = (error) => {
@@ -61,7 +65,7 @@ const handleResponseError = (error) => {
 	// Session died (expired/invalid token): back to login instead of a toast storm.
 	if (status === 401 && !publicEndpoint(error?.config?.url ?? '')) {
 		localStorage.removeItem(AUTH_TOKEN);
-		window.location.assign('/login?expired=1');
+		window.location.assign(loginPath({ expired: true, from: window.location.pathname + window.location.search }));
 		return Promise.reject(error);
 	}
 

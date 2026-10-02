@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
 import * as tokens from '../../../theme/tokens.js';
+import { triggerSummary } from '../model/agentRule.js';
 
 const label = { fontSize: tokens.fontSize.micro, color: tokens.ink.faintest, textTransform: 'uppercase', letterSpacing: 0.4 };
 const value = { fontSize: tokens.fontSize.caption, color: tokens.ink.strong };
@@ -77,3 +78,18 @@ export const AtsSyncActionBody = ({ preview }) => {
 	);
 };
 AtsSyncActionBody.propTypes = { preview: PropTypes.object.isRequired };
+
+/** Standing-rule card: what it will watch, what Copilot will then do, and its daily limit. */
+export const RuleActionBody = ({ preview }) => {
+	const { t } = useTranslation();
+	return (
+		<Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.75 }}>
+			<Row name={t('copilot.action.rule.name')}>{preview.name}</Row>
+			<Row name={t('copilot.action.rule.when')}>{triggerSummary(t, preview.trigger)}</Row>
+			<Row name={t('copilot.action.rule.goal')}><Box component="span" sx={{ whiteSpace: 'pre-wrap' }}>{preview.goalTemplate}</Box></Row>
+			<Row name={t('copilot.action.rule.cap')}>{t('copilot.action.rule.perDay', { count: preview.dailyRunCap ?? 20 })}</Row>
+			<Typography sx={{ fontSize: tokens.fontSize.micro, color: tokens.ink.subtle }}>{t('copilot.action.rule.note')}</Typography>
+		</Box>
+	);
+};
+RuleActionBody.propTypes = { preview: PropTypes.object.isRequired };
