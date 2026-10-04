@@ -8,17 +8,21 @@ import {
 import { useTranslation } from 'react-i18next';
 import AppMatchingReportDetails from './AppMatchingReportDetails.jsx';
 import { getReports, getReportsByFilter, deleteReport, exportCsv } from '../api/reportService.js';
-import { getJobs } from '../../jobs/api/jobService.js';
 import { QORVA_USER_LANGUAGE } from '../../../constants.js';
 import { isDemoUser } from '../../../utils/demoMode.js';
 import ReportRowMenu from './list/ReportRowMenu.jsx';
 import ReportListPager from './list/ReportListPager.jsx';
 import ReportList from './list/ReportList.jsx';
 import MatchingCompletedBanner from './list/MatchingCompletedBanner.jsx';
-import PendingMatchingBanner from './list/PendingMatchingBanner.jsx';
+import MatchingActionsBar from './list/MatchingActionsBar.jsx';
 import MatchingProgressBanner from './list/MatchingProgressBanner.jsx';
 import ReportsToolbar from './list/ReportsToolbar.jsx';
+import RunMatchingDialog from './run/RunMatchingDialog.jsx';
+import DeleteOutdatedDialog from './list/DeleteOutdatedDialog.jsx';
+import useOutdatedReports from '../hooks/useOutdatedReports.js';
+import useJobOptions from '../hooks/useJobOptions.js';
 import useMatchingRun from '../hooks/useMatchingRun.js';
+import { finalScoreOf } from '../model/reportList.js';
 import { saveBlob } from '../../../shared/lib/download.js';
 import * as tokens from '../../../theme/tokens.js';
 
@@ -41,29 +45,28 @@ const AppMatchingReports = () => {
 	const [menuReport, setMenuReport] = useState(null);
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 	const [deletingReport, setDeletingReport] = useState(false);
+	const [runDialogOpen, setRunDialogOpen] = useState(false);
+	// Outdated reports are shown, badged, unless the recruiter hides them.
+	const [hideOutdated, setHideOutdated] = useState(false);
 
-	const latestParamsRef = useRef({ selectedJobId: '', searchTerm: '', filterRecommendation: '', filterConfidence: '', pageSize: 25 });
+	const latestParamsRef = useRef({ selectedJobId: '', searchTerm: '', filterRecommendation: '', filterConfidence: '', pageSize: 25, hideOutdated: false });
 
 	const [exportLoading, setExportLoading] = useState(false);
 	const [selectedJobFilter, setSelectedJobFilter] = useState(null);
-	const [jobOptions, setJobOptions] = useState([]);
-	const [jobOptionsLoading, setJobOptionsLoading] = useState(false);
-	const [jobInputValue, setJobInputValue] = useState('');
-	const jobSearchRef = useRef(null);
+	const { jobOptions, jobOptionsLoading, jobInputValue, setJobInputValue, jobSearchRef, fetchJobOptions } = useJobOptions();
 
 	const {
-		fetchJobs, pendingMatchingCount, handleStartMatching,
-		matchingLoading, matchingSubmitted, matchingCompleted, bannerDismissed, setBannerDismissed,
-		matchingProgress, matchingElapsed,
+		runs, matchingActive, matchingProgress, finishedRun, bannerDismissed, setBannerDismissed,
+		pendingJobsCount, follow,
 	} = useMatchingRun({
 		refreshReports: () => {
-			const { selectedJobId, searchTerm, filterRecommendation, filterConfidence, pageSize } = latestParamsRef.current;
-			return fetchData(0, selectedJobId, searchTerm, filterRecommendation, filterConfidence, pageSize);
+			const { selectedJobId, searchTerm, filterRecommendation, filterConfidence, pageSize, hideOutdated } = latestParamsRef.current;
+			outdated.refreshOutdatedCount(selectedJobId);
+			return fetchData(0, selectedJobId, searchTerm, filterRecommendation, filterConfidence, pageSize, hideOutdated);
 		},
-		onJobsFetched: (content) => setJobOptions(prev => prev.length === 0 ? content : prev),
 	});
 
-	const fetchData = async (pageNumber, jobId, term, recommendation, confidence, size) => {
+	const fetchData = async (pageNumber, jobId, term, recommendation, confidence, size, hide = hideOutdated) => {
 		try {
 			const hasSearch = term && term.trim();
 			const params = {
@@ -73,16 +76,14 @@ const AppMatchingReports = () => {
 				...(hasSearch ? { searchTerms: term.trim() } : {}),
 				...(recommendation ? { recommendation } : {}),
 				...(confidence ? { confidenceLevel: confidence } : {}),
+				...(hide ? { outdated: false } : {}),
 			};
 			const response = hasSearch
 				? await getReportsByFilter(params)
 				: await getReports(params);
-			const content = response?.data?.data?.content ?? [];
-			const sorted = [...content].sort((a, b) => {
-				const sa = a.matchingReportDetails?.decisionSummary?.finalScore ?? 0;
-				const sb = b.matchingReportDetails?.decisionSummary?.finalScore ?? 0;
-				return sb - sa;
-			});
+			// Text search has no outdated filter server-side: hide them here too.
+			const content = (response?.data?.data?.content ?? []).filter((r) => !(hide && r.outdated));
+			const sorted = [...content].sort((a, b) => finalScoreOf(b) - finalScoreOf(a));
 			setReports(content);
 			setTotalPages(response?.data?.data?.totalPages ?? 1);
 			setTotalElements(response?.data?.data?.totalElements ?? 0);
@@ -92,27 +93,23 @@ const AppMatchingReports = () => {
 		}
 	};
 
-	const fetchJobOptions = async (term = '') => {
-		setJobOptionsLoading(true);
-		try {
-			const params = { pageSize: 25, pageNumber: 0 };
-			if (term.trim()) { params.title = term.trim(); params.description = term.trim(); }
-			const res = await getJobs(params);
-			setJobOptions(res?.data?.data?.content ?? []);
-		} catch { /* silent */ }
-		finally { setJobOptionsLoading(false); }
-	};
+	const outdated = useOutdatedReports({
+		onDeleted: () => {
+			setCurrentPage(1);
+			return fetchData(0, selectedJobId, searchTerm, filterRecommendation, filterConfidence);
+		},
+	});
 
 	useEffect(() => {
 		fetchData(0, '', '', '', '');
-		fetchJobs();
+		fetchJobOptions();
 	// eslint-disable-next-line react-hooks/exhaustive-deps -- initial load only; filters and polling drive later fetches
 	}, []);
 
 	// Keep latest filter params accessible inside the polling closure without recreating the interval
 	useEffect(() => {
-		latestParamsRef.current = { selectedJobId, searchTerm, filterRecommendation, filterConfidence, pageSize };
-	}, [selectedJobId, searchTerm, filterRecommendation, filterConfidence, pageSize]);
+		latestParamsRef.current = { selectedJobId, searchTerm, filterRecommendation, filterConfidence, pageSize, hideOutdated };
+	}, [selectedJobId, searchTerm, filterRecommendation, filterConfidence, pageSize, hideOutdated]);
 
 	const handleSearchChange = (event) => {
 		const value = event.target.value;
@@ -127,7 +124,15 @@ const AppMatchingReports = () => {
 		setSelectedJobId(jobId);
 		setCurrentPage(1);
 		fetchData(0, jobId, searchTerm, filterRecommendation, filterConfidence);
+		outdated.refreshOutdatedCount(jobId);
 	};
+
+	const handleToggleHideOutdated = (hide) => {
+		setHideOutdated(hide);
+		setCurrentPage(1);
+		fetchData(0, selectedJobId, searchTerm, filterRecommendation, filterConfidence, pageSize, hide);
+	};
+
 
 	const handleRecommendationChange = (event) => {
 		const value = event.target.value;
@@ -156,11 +161,7 @@ const AppMatchingReports = () => {
 	};
 
 	const sortedReports = useMemo(() => {
-		return [...reports].sort((a, b) => {
-			const sa = a.matchingReportDetails?.decisionSummary?.finalScore ?? 0;
-			const sb = b.matchingReportDetails?.decisionSummary?.finalScore ?? 0;
-			return sortOrder === 'asc' ? sa - sb : sb - sa;
-		});
+		return [...reports].sort((a, b) => (sortOrder === 'asc' ? finalScoreOf(a) - finalScoreOf(b) : finalScoreOf(b) - finalScoreOf(a)));
 	}, [reports, sortOrder]);
 
 	const handleMenuOpen = (event, report) => {
@@ -181,6 +182,7 @@ const AppMatchingReports = () => {
 			setDeletingReport(true);
 			await deleteReport(menuReport.id);
 			setReports(prev => prev.filter(r => r.id !== menuReport.id));
+			if (menuReport.outdated) outdated.refreshOutdatedCount(selectedJobId);
 			if (selectedReport?.id === menuReport.id) setSelectedReport(null);
 		} catch (error) {
 			console.error('Error deleting report:', error);
@@ -238,17 +240,22 @@ const AppMatchingReports = () => {
 				sortOrder={sortOrder}
 			/>
 
-			{/* Matching in progress — progress bar */}
-			<MatchingProgressBanner
-				matchingElapsed={matchingElapsed}
-				matchingLoading={matchingLoading}
-				matchingProgress={matchingProgress}
-				matchingSubmitted={matchingSubmitted}
+			{/* Out-of-date jobs, the run dialog, and the selected job's outdated reports */}
+			<MatchingActionsBar
+				demo={demo}
+				pendingJobsCount={pendingJobsCount}
+				matchingActive={matchingActive}
+				onRunMatching={() => setRunDialogOpen(true)}
+				selectedJobId={selectedJobId}
+				hideOutdated={hideOutdated}
+				onToggleHideOutdated={handleToggleHideOutdated}
+				outdatedCount={outdated.outdatedCount}
+				onDeleteOutdated={() => outdated.setConfirmOpen(true)}
 			/>
 
-			{/* Pending matching banner — start button */}
-			<PendingMatchingBanner matchingSubmitted={matchingSubmitted} handleStartMatching={handleStartMatching} matchingLoading={matchingLoading} pendingMatchingCount={pendingMatchingCount} />
-			<MatchingCompletedBanner bannerDismissed={bannerDismissed} matchingCompleted={matchingCompleted} setBannerDismissed={setBannerDismissed} />
+			{/* Matching in progress — real progress of the runs */}
+			<MatchingProgressBanner runs={runs} matchingProgress={matchingProgress} />
+			<MatchingCompletedBanner bannerDismissed={bannerDismissed} finishedRun={finishedRun} setBannerDismissed={setBannerDismissed} />
 
 			{/* Split pane */}
 			<Box sx={{ display: 'flex', flex: 1, minHeight: 0 }}>
@@ -290,6 +297,22 @@ const AppMatchingReports = () => {
 
 			{/* Context menu */}
 			<ReportRowMenu anchorEl={anchorEl} handleDeleteClick={handleDeleteClick} handleMenuClose={handleMenuClose} />
+
+			<RunMatchingDialog
+				open={runDialogOpen}
+				onClose={() => setRunDialogOpen(false)}
+				onStarted={(run) => follow(run)}
+				presetJobIds={selectedJobId ? [selectedJobId] : []}
+			/>
+
+			<DeleteOutdatedDialog
+				open={outdated.confirmOpen}
+				count={outdated.outdatedCount}
+				jobTitle={selectedJobFilter?.title}
+				busy={outdated.deleting}
+				onCancel={() => outdated.setConfirmOpen(false)}
+				onConfirm={() => outdated.deleteOutdated(selectedJobId)}
+			/>
 
 			{/* Delete confirmation dialog */}
 			<ConfirmDialog

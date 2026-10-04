@@ -4,6 +4,7 @@ import ConfirmDialog from '../../../shared/ui/ConfirmDialog.jsx';
 import {
 	Box,
 	Paper,
+	Portal,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { DOCK_WIDTH } from '../model/outreach.js';
@@ -18,6 +19,9 @@ import * as tokens from '../../../theme/tokens.js';
  * the CV list, CV details and matching report through useCandidateOutreach().openComposer(). The
  * primary action depends on the recruiter's mailbox: connected Microsoft 365 → Send from Qorva
  * (as them, into their Sent folder); otherwise a hand-off to their own client. Hidden from print.
+ *
+ * Portalled to <body>, so a drawer that was open when it appeared (Copilot's task drawer) does not mark it
+ * aria-hidden with the rest of the app — that drawer also leaves focus free (AgentRunDrawer).
  */
 const CandidateOutreachDock = () => {
 	const { t } = useTranslation();
@@ -28,7 +32,7 @@ const CandidateOutreachDock = () => {
 	const lastContact = composer.context?.history?.[0];
 
 	return (
-		<>
+		<Portal>
 			<Paper
 				elevation={0}
 				role="dialog"
@@ -77,7 +81,7 @@ const CandidateOutreachDock = () => {
 			>
 				{t('candidateOutreach.discardBody')}
 			</ConfirmDialog>
-		</>
+		</Portal>
 	);
 };
 

@@ -1,19 +1,13 @@
 import { scoreColorsFor } from '../../../shared/lib/score.js';
 
-// A job counts as pending only while it is open: the backend screens open jobs only, so it
-// never clears the flag on a closed one, and counting it here kept the poll waiting until
-// its timeout and the "jobs need matching" banner showing for good.
+// A job counts as pending only while it is open: only open jobs are matched, and a closed
+// job's flag means nothing.
 export const needsMatching = (job) => job.matchingReportsNeeded === true && job.status === 'open';
 
 export const PAGE_SIZES = [10, 25, 50, 100];
 
-export const getMatchingPhaseKey = (elapsed) => {
-	if (elapsed < 10) return 'matchingPhase1';
-	if (elapsed < 20) return 'matchingPhase2';
-	if (elapsed < 30) return 'matchingPhase3';
-	if (elapsed < 50) return 'matchingPhase4';
-	return 'matchingPhase5';
-};
+/** A report's final score, 0 when it has none — what the list is sorted by. */
+export const finalScoreOf = (report) => report?.matchingReportDetails?.decisionSummary?.finalScore ?? 0;
 
 export const scoreChipSx = (score) => {
 	const tone = scoreColorsFor(score);

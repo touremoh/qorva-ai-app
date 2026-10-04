@@ -4,11 +4,12 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import JobScoringView from '../JobScoringView.jsx';
 import JobPostReadView from '../JobPostReadView.jsx';
+import JobMatchingStrip from './JobMatchingStrip.jsx';
 import { THEME_GREEN, tabsSx } from '../../model/jobForm.js';
 import { useTranslation } from 'react-i18next';
 import * as tokens from '../../../../theme/tokens.js';
 
-/** The selected job: title, actions, description and scoring tabs. */
+/** The selected job: title, actions, matching status, description and scoring tabs. */
 const JobDetailPanel = ({ createMode, demo, detailTab, editMode, handleStartEdit, handleToggleStatus, selectedJob, setDeleteDialogOpen, setDetailTab }) => {
 	const { t } = useTranslation();
 	return (
@@ -47,6 +48,9 @@ const JobDetailPanel = ({ createMode, demo, detailTab, editMode, handleStartEdit
 						)}
 					</Box>
 				</Box>
+
+				{/* Matching: last run, why it is out of date, run / show more */}
+				<JobMatchingStrip job={selectedJob} demo={demo} />
 
 				{/* Tabs */}
 				<Tabs value={detailTab} onChange={(_, v) => setDetailTab(v)} sx={{ ...tabsSx, flexShrink: 0 }}>

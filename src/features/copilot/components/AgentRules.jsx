@@ -52,6 +52,9 @@ const RuleRow = ({ rule, showOwner, onEdit, onDelete, onTogglePause, onShowRuns 
 			<Typography sx={{ ...text, color: tokens.ink.subtle, whiteSpace: 'pre-wrap' }}>{rule.goalTemplate}</Typography>
 			<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
 				<Typography sx={faint}>{t('copilot.rules.runsToday', { count: rule.runsToday, cap: rule.dailyRunCap })}</Typography>
+				{rule.autoApproveMatching && (
+					<Typography sx={faint}>{t('copilot.rules.autoApproved', { count: rule.autoApproveMaxActions })}</Typography>
+				)}
 				{rule.skippedToday > 0 && <Typography sx={{ ...faint, color: tokens.status.warning.text }}>{t('copilot.rules.skippedToday', { count: rule.skippedToday })}</Typography>}
 				{lastFired && <Typography sx={faint}>{t('copilot.rules.lastFired', { date: lastFired })}</Typography>}
 				{nextRun && rule.status === RULE_STATUS.ACTIVE && <Typography sx={faint}>{t('copilot.rules.nextRun', { date: nextRun })}</Typography>}

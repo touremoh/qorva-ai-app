@@ -12,6 +12,7 @@ import BuildOutlinedIcon from '@mui/icons-material/BuildOutlined';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import BusinessCenterOutlinedIcon from '@mui/icons-material/BusinessCenterOutlined';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
+import HistoryOutlinedIcon from '@mui/icons-material/HistoryOutlined';
 import { isActionAllowed } from '../../../utils/demoMode.js';
 import { useCandidateOutreach } from '../../../contexts/CandidateOutreachContext.jsx';
 import { RECOMMENDATION_CONFIG, CONFIDENCE_CONFIG, getColor } from '../model/reportDetails.js';
@@ -80,6 +81,16 @@ const AppMatchingReportDetails = ({ reportData }) => {
 				reportData={reportData}
 			/>
 
+			{/* ── Outdated: no longer in the job's latest results — not printed ── */}
+			{reportData.outdated && (
+				<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, px: 3, py: 1, flexShrink: 0, backgroundColor: tokens.surface.muted, borderBottom: '1px solid', borderColor: 'line.main' }}>
+					<HistoryOutlinedIcon sx={{ fontSize: tokens.iconSize.md, color: tokens.ink.muted }} />
+					<Typography sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.muted }}>
+						{t('matchingRun.outdatedNotice', { reason: t(`matchingRun.outdatedReason.${reportData.outdatedReason ?? 'RANKED_OUT'}`) })}
+					</Typography>
+				</Box>
+			)}
+
 			{/* ── Printable content ── */}
 			<Box ref={componentRef} sx={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
 
@@ -120,6 +131,8 @@ AppMatchingReportDetails.propTypes = {
 		id: PropTypes.string,
 		jobPostId: PropTypes.string,
 		jobPostTitle: PropTypes.string,
+		outdated: PropTypes.bool,
+		outdatedReason: PropTypes.string,
 		candidateInfo: PropTypes.shape({
 			candidateId: PropTypes.string,
 			candidateName: PropTypes.string.isRequired,

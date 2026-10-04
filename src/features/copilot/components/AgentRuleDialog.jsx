@@ -17,7 +17,7 @@ import { resolveError } from '../../../utils/errorHandler.js';
 import * as tokens from '../../../theme/tokens.js';
 import { getJobs } from '../../jobs/api/jobService.js';
 import { getAtsConnections } from '../../settings/api/atsService.js';
-import { MAX_DAILY_CAP, MAX_RULE_GOAL, MAX_RULE_NAME, PLACEHOLDERS, ruleToForm, TRIGGER, TRIGGERS, validateRule } from '../model/agentRule.js';
+import { MAX_AUTO_APPROVE_ACTIONS, MAX_DAILY_CAP, MAX_RULE_GOAL, MAX_RULE_NAME, PLACEHOLDERS, ruleToForm, STALE_REASONS, TRIGGER, TRIGGERS, validateRule } from '../model/agentRule.js';
 
 const fieldSx = { '& .MuiInputBase-root': { fontSize: tokens.fontSize.caption }, '& .MuiInputLabel-root': { fontSize: tokens.fontSize.caption } };
 const HOURS = Array.from({ length: 24 }, (_, h) => h);
@@ -28,7 +28,7 @@ const useRuleTargets = (type) => {
 	const [jobs, setJobs] = useState([]);
 	const [connections, setConnections] = useState([]);
 	useEffect(() => {
-		if (type !== TRIGGER.CV_SCORED || jobs.length) return;
+		if ((type !== TRIGGER.CV_SCORED && type !== TRIGGER.JOB_NEEDS_MATCHING) || jobs.length) return;
 		getJobs({ pageSize: 100, pageNumber: 0 })
 			.then((res) => setJobs((res.data?.data?.content ?? []).filter((j) => (j.status ?? 'open').toLowerCase() === 'open')))
 			.catch(() => {});
@@ -54,6 +54,8 @@ const AgentRuleDialog = ({ open, rule, onClose, onSave }) => {
 
 	const set = (field, value) => setForm((f) => ({ ...f, [field]: value }));
 	const setTrigger = (field, value) => setForm((f) => ({ ...f, trigger: { ...f.trigger, [field]: value } }));
+	const toggleReason = (reason, on) => setTrigger('staleReasons',
+		STALE_REASONS.filter((r) => (r === reason ? on : form.trigger.staleReasons?.includes(r))));
 
 	const insertPlaceholder = (placeholder) => {
 		const input = goalRef.current;
@@ -142,6 +144,27 @@ const AgentRuleDialog = ({ open, rule, onClose, onSave }) => {
 					</Box>
 				)}
 
+				{tr.type === TRIGGER.JOB_NEEDS_MATCHING && (
+					<>
+						<TextField select size="small" label={t('copilot.rules.dialog.job')} value={tr.jobPostId} onChange={(e) => setTrigger('jobPostId', e.target.value)} sx={fieldSx}>
+							<MenuItem value="">{t('copilot.rules.anyJob')}</MenuItem>
+							{jobOptions.map((j) => <MenuItem key={j.id} value={j.id}>{j.title}</MenuItem>)}
+						</TextField>
+						<Box data-testid="copilot-rule-stale-reasons">
+							<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.muted }}>{t('copilot.rules.dialog.staleReasons')}</Typography>
+							<Box sx={{ display: 'flex', flexWrap: 'wrap', columnGap: 1 }}>
+								{STALE_REASONS.map((r) => (
+									<FormControlLabel key={r}
+										control={<Checkbox size="small" checked={!!tr.staleReasons?.includes(r)} onChange={(e) => toggleReason(r, e.target.checked)} />}
+										label={<Typography sx={{ fontSize: tokens.fontSize.caption }}>{t(`copilot.rules.staleReasons.${r}`)}</Typography>}
+									/>
+								))}
+							</Box>
+							{show('staleReasons') && <Typography sx={{ fontSize: tokens.fontSize.micro, color: tokens.status.error.text }}>{show('staleReasons')}</Typography>}
+						</Box>
+					</>
+				)}
+
 				{tr.type === TRIGGER.ATS_SYNC_FINISHED && (
 					<TextField select size="small" label={t('copilot.rules.dialog.connection')} value={tr.connectionId} onChange={(e) => setTrigger('connectionId', e.target.value)} sx={fieldSx}>
 						<MenuItem value="">{t('copilot.rules.anyConnection')}</MenuItem>
@@ -167,6 +190,20 @@ const AgentRuleDialog = ({ open, rule, onClose, onSave }) => {
 					onChange={(e) => set('dailyRunCap', e.target.value === '' ? '' : Number(e.target.value))}
 					error={!!show('dailyRunCap')} helperText={show('dailyRunCap') ?? t('copilot.rules.dialog.capHelp')}
 					inputProps={{ min: 1, max: MAX_DAILY_CAP, 'data-testid': 'copilot-rule-cap' }} sx={{ ...fieldSx, width: 220 }} />
+
+				<Box>
+					<FormControlLabel
+						control={<Checkbox size="small" checked={!!form.autoApproveMatching} onChange={(e) => set('autoApproveMatching', e.target.checked)}
+							inputProps={{ 'data-testid': 'copilot-rule-auto-approve' }} />}
+						label={<Typography sx={{ fontSize: tokens.fontSize.caption }}>{t('copilot.rules.dialog.autoApprove')}</Typography>}
+					/>
+					{form.autoApproveMatching && (
+						<TextField size="small" type="number" label={t('copilot.rules.dialog.autoApproveMax')} value={form.autoApproveMaxActions}
+							onChange={(e) => set('autoApproveMaxActions', e.target.value === '' ? '' : Number(e.target.value))}
+							error={!!show('autoApproveMaxActions')} helperText={show('autoApproveMaxActions') ?? t('copilot.rules.dialog.autoApproveHelp')}
+							inputProps={{ min: 1, max: MAX_AUTO_APPROVE_ACTIONS, 'data-testid': 'copilot-rule-auto-approve-max' }} sx={{ ...fieldSx, width: 260, mt: 1 }} />
+					)}
+				</Box>
 
 				<Typography sx={{ fontSize: tokens.fontSize.micro, color: tokens.ink.faintest }}>{t('copilot.rules.dialog.note')}</Typography>
 				{error && <Typography role="alert" sx={{ fontSize: tokens.fontSize.caption, color: tokens.status.error.text }}>{error}</Typography>}

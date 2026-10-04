@@ -12522,5 +12522,19 @@
       "createdAt" : "2026-09-15T08:00:00Z",
       "finishedAt" : "2026-09-15T08:00:00Z"
     }
+  },
+  "GET /ai/matching-runs/options" : {
+    "status" : 200,
+    "body" : {
+      "allowedTopN" : [ 5, 10, 15, 20 ],
+      "defaultTopN" : 10,
+      "maxTopN" : 20
+    }
+  },
+  "GET /ai/matching-runs" : {
+    "status" : 200,
+    "body" : {
+      "runs" : [ ]
+    }
   }
 }

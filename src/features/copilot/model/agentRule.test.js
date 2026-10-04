@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { emptyRule, ruleToForm, toRuleRequest, TRIGGER, triggerSummary, validateRule } from './agentRule.js';
+import { emptyRule, ruleToForm, STALE_REASONS, toRuleRequest, TRIGGER, triggerSummary, validateRule } from './agentRule.js';
 
 const t = (key, params) => (params ? `${key} ${JSON.stringify(params)}` : key);
 
@@ -56,5 +56,41 @@ describe('triggerSummary', () => {
 		expect(triggerSummary(t, { type: 'SCHEDULE', frequency: 'DAILY', hour: 8, zoneId: 'UTC' }))
 			.toBe('copilot.rules.summary.daily {"time":"08:00","zone":"UTC"}');
 		expect(triggerSummary(t, { type: 'CV_ADDED', source: 'ATS' })).toBe('copilot.rules.summary.cvAdded.ATS');
+	});
+});
+
+describe('a rule on jobs that need matching', () => {
+	const jobRule = (trigger = {}, overrides = {}) => form(overrides, { type: TRIGGER.JOB_NEEDS_MATCHING, ...trigger });
+
+	it('watches every reason by default, and sends that as no reason at all', () => {
+		expect(emptyRule().trigger.staleReasons).toEqual(STALE_REASONS);
+		expect(toRuleRequest(jobRule()).trigger).toEqual({ type: 'JOB_NEEDS_MATCHING' });
+	});
+
+	it('sends the chosen reasons and job, and needs at least one reason', () => {
+		expect(toRuleRequest(jobRule({ jobPostId: 'j1', staleReasons: ['JOB_CHANGED'] })).trigger)
+			.toEqual({ type: 'JOB_NEEDS_MATCHING', jobPostId: 'j1', staleReasons: ['JOB_CHANGED'] });
+		expect(validateRule(jobRule({ staleReasons: [] })).staleReasons).toBeDefined();
+	});
+
+	it('sends the matching pre-approval only when it is on, within 1–500 actions', () => {
+		expect(toRuleRequest(jobRule()).autoApproveMatching).toBeUndefined();
+		expect(toRuleRequest(jobRule({}, { autoApproveMatching: true, autoApproveMaxActions: '30' })))
+			.toMatchObject({ autoApproveMatching: true, autoApproveMaxActions: 30 });
+		expect(validateRule(jobRule({}, { autoApproveMatching: true, autoApproveMaxActions: 501 })).autoApproveMaxActions).toBeDefined();
+	});
+
+	it('reads a rule watching every reason back with all of them ticked', () => {
+		const form = ruleToForm({ name: 'n', goalTemplate: 'g', autoApproveMatching: true, autoApproveMaxActions: 20,
+			trigger: { type: 'JOB_NEEDS_MATCHING', staleReasons: null } });
+		expect(form.trigger.staleReasons).toEqual(STALE_REASONS);
+		expect(form).toMatchObject({ autoApproveMatching: true, autoApproveMaxActions: 20 });
+	});
+
+	it('is summed up with its job and, when not all, its reasons', () => {
+		expect(triggerSummary(t, { type: 'JOB_NEEDS_MATCHING', jobTitle: 'Java' }))
+			.toBe('copilot.rules.summary.jobNeedsMatching {"job":"Java"}');
+		expect(triggerSummary(t, { type: 'JOB_NEEDS_MATCHING', staleReasons: ['JOB_CHANGED'] }))
+			.toBe('copilot.rules.summary.jobNeedsMatching {"job":"copilot.rules.anyJob"} · copilot.rules.staleReasons.JOB_CHANGED');
 	});
 });

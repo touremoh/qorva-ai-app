@@ -1,10 +1,18 @@
-/** Copilot standing rules: the four triggers and what a rule form may send. Mirrors AgentRuleService's checks. */
+/** Copilot standing rules: the triggers and what a rule form may send. Mirrors AgentRuleService's checks. */
 export const TRIGGER = Object.freeze({
 	CV_ADDED: 'CV_ADDED',
 	CV_SCORED: 'CV_SCORED',
 	SCHEDULE: 'SCHEDULE',
 	ATS_SYNC_FINISHED: 'ATS_SYNC_FINISHED',
+	JOB_NEEDS_MATCHING: 'JOB_NEEDS_MATCHING',
 });
+
+/** Why a job needs matching (the job's matchingStaleReason); a JOB_NEEDS_MATCHING rule watches some or all. */
+export const STALE_REASONS = ['NEVER_RUN', 'JOB_CHANGED', 'NEW_CANDIDATES', 'CANDIDATE_CHANGED'];
+
+/** Pre-approved matching: most actions one matching may cost without asking (server: 1–500, default 50). */
+export const DEFAULT_AUTO_APPROVE_ACTIONS = 50;
+export const MAX_AUTO_APPROVE_ACTIONS = 500;
 
 export const TRIGGERS = Object.values(TRIGGER);
 
@@ -31,6 +39,8 @@ export const emptyRule = () => ({
 	name: '',
 	goalTemplate: '',
 	dailyRunCap: DEFAULT_DAILY_CAP,
+	autoApproveMatching: false,
+	autoApproveMaxActions: DEFAULT_AUTO_APPROVE_ACTIONS,
 	trigger: {
 		type: TRIGGER.CV_SCORED,
 		source: 'ANY',
@@ -42,6 +52,7 @@ export const emptyRule = () => ({
 		weekday: 1,
 		zoneId: browserTimeZone(),
 		connectionId: '',
+		staleReasons: [...STALE_REASONS],
 	},
 });
 
@@ -54,6 +65,8 @@ export const ruleToForm = (rule) => {
 		name: rule.name ?? '',
 		goalTemplate: rule.goalTemplate ?? '',
 		dailyRunCap: rule.dailyRunCap ?? DEFAULT_DAILY_CAP,
+		autoApproveMatching: !!rule.autoApproveMatching,
+		autoApproveMaxActions: rule.autoApproveMaxActions ?? DEFAULT_AUTO_APPROVE_ACTIONS,
 		trigger: {
 			...base.trigger,
 			type: t.type ?? base.trigger.type,
@@ -66,6 +79,8 @@ export const ruleToForm = (rule) => {
 			weekday: t.weekday ?? 1,
 			zoneId: t.zoneId ?? base.trigger.zoneId,
 			connectionId: t.connectionId ?? '',
+			// Stored as null when the rule watches every reason.
+			staleReasons: t.staleReasons?.length ? [...t.staleReasons] : [...STALE_REASONS],
 		},
 	};
 };
@@ -89,6 +104,10 @@ export const validateRule = (form) => {
 		if (!isInt(Number(t.hour), 0, 23)) errors.hour = 'copilot.rules.errors.hour';
 		if (t.frequency === 'WEEKLY' && !isInt(Number(t.weekday), 1, 7)) errors.weekday = 'copilot.rules.errors.weekday';
 	}
+	if (t.type === TRIGGER.JOB_NEEDS_MATCHING && !(t.staleReasons?.length > 0)) errors.staleReasons = 'copilot.rules.errors.staleReasons';
+	if (form?.autoApproveMatching && !isInt(Number(form.autoApproveMaxActions), 1, MAX_AUTO_APPROVE_ACTIONS)) {
+		errors.autoApproveMaxActions = 'copilot.rules.errors.autoApproveMax';
+	}
 	return errors;
 };
 
@@ -109,12 +128,23 @@ export const toRuleRequest = (form) => {
 		trigger.zoneId = t.zoneId || browserTimeZone();
 	}
 	if (t.type === TRIGGER.ATS_SYNC_FINISHED && t.connectionId) trigger.connectionId = t.connectionId;
-	return {
+	if (t.type === TRIGGER.JOB_NEEDS_MATCHING) {
+		if (t.jobPostId) trigger.jobPostId = t.jobPostId;
+		// Every reason ticked is sent as none: "all of them", including reasons added later.
+		const reasons = STALE_REASONS.filter((r) => t.staleReasons?.includes(r));
+		if (reasons.length < STALE_REASONS.length) trigger.staleReasons = reasons;
+	}
+	const request = {
 		name: form.name.trim(),
 		goalTemplate: form.goalTemplate.trim(),
 		dailyRunCap: Number(form.dailyRunCap),
 		trigger,
 	};
+	if (form.autoApproveMatching) {
+		request.autoApproveMatching = true;
+		request.autoApproveMaxActions = Number(form.autoApproveMaxActions);
+	}
+	return request;
 };
 
 const two = (n) => String(n).padStart(2, '0');
@@ -139,6 +169,12 @@ export const triggerSummary = (t, trigger) => {
 		}
 		case TRIGGER.ATS_SYNC_FINISHED:
 			return t('copilot.rules.summary.atsSync', { name: trigger.connectionName || t('copilot.rules.anyConnection') });
+		case TRIGGER.JOB_NEEDS_MATCHING: {
+			const head = t('copilot.rules.summary.jobNeedsMatching', { job: trigger.jobTitle || t('copilot.rules.anyJob') });
+			const reasons = trigger.staleReasons?.length && trigger.staleReasons.length < STALE_REASONS.length
+				? trigger.staleReasons.map((r) => t(`copilot.rules.staleReasons.${r}`)).join(', ') : null;
+			return reasons ? `${head} · ${reasons}` : head;
+		}
 		default:
 			return trigger.type;
 	}

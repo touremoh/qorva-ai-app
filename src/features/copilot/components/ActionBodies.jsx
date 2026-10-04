@@ -52,13 +52,17 @@ EmailActionBody.propTypes = {
 	editable: PropTypes.bool,
 };
 
-/** Matching card: which jobs, what it may cost, what the plan has left. */
+/** Matching card: which jobs (with their Top N), what it may cost — unchanged reports are free —, what the plan has left. */
 export const ScreeningActionBody = ({ preview }) => {
 	const { t } = useTranslation();
+	const jobLabel = (j) => (j.topN ? `${j.title} (${t('matchingRun.topNOption', { n: j.topN })})` : j.title);
 	return (
 		<Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.75 }}>
-			<Row name={t('copilot.action.screening.jobs')}>{(preview.jobs ?? []).map((j) => j.title).join(', ')}</Row>
-			<Row name={t('copilot.action.screening.cost')}>{t('copilot.action.screening.estimate', { count: preview.estimatedActions })}</Row>
+			<Row name={t('copilot.action.screening.jobs')}>{(preview.jobs ?? []).map(jobLabel).join(', ')}</Row>
+			<Row name={t('copilot.action.screening.cost')}>
+				{t('copilot.action.screening.estimate', { count: preview.estimatedActions })}
+				{preview.reusedReports > 0 && ` · ${t('copilot.action.screening.reused', { count: preview.reusedReports })}`}
+			</Row>
 			<Row name={t('copilot.action.screening.left')}>
 				{preview.remainingActions == null ? t('copilot.action.screening.unmetered') : preview.remainingActions}
 			</Row>
@@ -88,6 +92,9 @@ export const RuleActionBody = ({ preview }) => {
 			<Row name={t('copilot.action.rule.when')}>{triggerSummary(t, preview.trigger)}</Row>
 			<Row name={t('copilot.action.rule.goal')}><Box component="span" sx={{ whiteSpace: 'pre-wrap' }}>{preview.goalTemplate}</Box></Row>
 			<Row name={t('copilot.action.rule.cap')}>{t('copilot.action.rule.perDay', { count: preview.dailyRunCap ?? 20 })}</Row>
+			{preview.autoApproveMatching && (
+				<Row name={t('copilot.action.rule.matching')}>{t('copilot.rules.autoApproved', { count: preview.autoApproveMaxActions ?? 50 })}</Row>
+			)}
 			<Typography sx={{ fontSize: tokens.fontSize.micro, color: tokens.ink.subtle }}>{t('copilot.action.rule.note')}</Typography>
 		</Box>
 	);

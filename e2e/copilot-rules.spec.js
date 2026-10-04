@@ -91,6 +91,51 @@ test.describe('copilot rules', () => {
 		expect(unknown).toEqual([]);
 	});
 
+	test('a rule re-matches a changed job with its top 5, without asking, within a cost cap', async ({ page }) => {
+		let created = null;
+		const jobRule = rule({
+			name: 'Re-match changed jobs', goalTemplate: 'Run matching for {{job}} with the top 5 candidates.',
+			trigger: { type: 'JOB_NEEDS_MATCHING', staleReasons: ['JOB_CHANGED'] }, autoApproveMatching: true, autoApproveMaxActions: 30,
+		});
+		await mockApi(page, {
+			...availability(true),
+			'GET /agent/rules': () => json(200, created ? [jobRule] : []),
+			'POST /agent/rules': (request) => {
+				created = request.postDataJSON();
+				return json(201, jobRule);
+			},
+		});
+		await signIn(page);
+		await page.goto('/app/copilot?tab=rules');
+		await expect(page.getByTestId('copilot-rules-empty')).toBeVisible({ timeout: 15_000 });
+
+		await page.getByTestId('copilot-rule-new').click();
+		const dialog = page.getByTestId('copilot-rule-dialog');
+		await page.getByTestId('copilot-rule-name').fill('Re-match changed jobs');
+		await page.getByTestId('copilot-rule-trigger').click();
+		await page.getByRole('option', { name: 'A job needs matching' }).click();
+		// Every reason is ticked by default; keep only "Job changed".
+		const reasons = dialog.getByTestId('copilot-rule-stale-reasons');
+		for (const label of ['New job', 'New candidates would rank', 'Candidate profiles changed']) {
+			await reasons.getByLabel(label).uncheck();
+		}
+		await page.getByTestId('copilot-rule-goal').fill('Run matching for {{job}} with the top 5 candidates.');
+		await page.getByTestId('copilot-rule-auto-approve').check();
+		await page.getByTestId('copilot-rule-auto-approve-max').fill('30');
+		await page.getByTestId('copilot-rule-save').click();
+
+		await expect(page.getByTestId('copilot-rule')).toContainText('When any open job needs matching · Job changed');
+		await expect(page.getByTestId('copilot-rule')).toContainText('Matching runs without asking (up to 30 actions)');
+		expect(created).toEqual({
+			name: 'Re-match changed jobs',
+			goalTemplate: 'Run matching for {{job}} with the top 5 candidates.',
+			dailyRunCap: 20,
+			trigger: { type: 'JOB_NEEDS_MATCHING', staleReasons: ['JOB_CHANGED'] },
+			autoApproveMatching: true,
+			autoApproveMaxActions: 30,
+		});
+	});
+
 	test('a rule can be paused, and its tasks open in Activity', async ({ page }) => {
 		let listed = null;
 		await mockApi(page, {

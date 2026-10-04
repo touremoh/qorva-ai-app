@@ -511,17 +511,8 @@
     "sortDesc": "Sorteren: Aflopend",
     "startMatching": "Matching starten",
     "matchingInProgress": "Matching bezig…",
-    "matchingNeeded": "{{count}} vacature(s) wachten op matching",
     "noMatchingNeeded": "Alle vacatures zijn up-to-date — geen matching nodig.",
     "reportCount": "{{count}} rapport(en)",
-    "remaining": "resterend",
-    "almostDone": "Bijna klaar…",
-    "matchingPhase1": "Wervingsbehoeften worden geanalyseerd…",
-    "matchingPhase2": "Gekwalificeerde talenten worden ontdekt…",
-    "matchingPhase3": "Shortlist wordt opgesteld…",
-    "matchingPhase4": "Kandidaadinzichten worden gegenereerd…",
-    "matchingPhase5": "Definitieve aanbevelingen worden voorbereid…",
-    "matchingReportsReady": "Rapporten gereed.",
     "exportCsv": "CSV exporteren",
     "exportCsvSelectJob": "Selecteer een vacature om te exporteren"
   },
@@ -1761,7 +1752,7 @@
     "meters": {
       "screeningActions": {
         "what": "Eén per geanalyseerd cv en één per kandidaat die voor een vacature wordt beoordeeld.",
-        "details": "Geteld wanneer een cv wordt geüpload of uit uw ATS wordt geïmporteerd, wanneer een matchingronde een kandidaat voor een open vacature beoordeelt (tot 10 per vacature per ronde — nieuwe cv's zetten elke open vacature opnieuw in de wachtrij), wanneer Datakwaliteit een cv opnieuw analyseert en wanneer AI scoringsregels voorstelt.",
+        "details": "Geteld wanneer een cv wordt geüpload of uit uw ATS wordt geïmporteerd, wanneer een matchingronde een kandidaat voor een open vacature beoordeelt (alleen nieuwe kandidaten en gewijzigde cv's of vacatures — ongewijzigde rapporten worden gratis hergebruikt — tot de gekozen Top N per vacature), wanneer Datakwaliteit een cv opnieuw analyseert en wanneer AI scoringsregels voorstelt.",
         "atLimit": "Bij de limiet worden uploads, ATS-imports, matching en heranalyses gepauzeerd tot de periode wordt vernieuwd."
       },
       "aiResumeChats": {
@@ -1912,7 +1903,8 @@
         "cost": "Kosten",
         "estimate": "Tot {{count}} matchingacties",
         "left": "Over",
-        "unmetered": "Onbeperkt"
+        "unmetered": "Onbeperkt",
+        "reused": "{{count}} ongewijzigde rapport(en) gratis hergebruikt"
       },
       "ats": {
         "title": "ATS-import starten?",
@@ -1944,7 +1936,8 @@
         "goal": "Taak",
         "cap": "Limiet",
         "perDay": "Tot {{count}} taken per dag",
-        "note": "Alleen vanaf nu: wat al bestaat wordt niet verwerkt. U kunt de regel pauzeren of bewerken in Copilot → Regels."
+        "note": "Alleen vanaf nu: wat al bestaat wordt niet verwerkt. U kunt de regel pauzeren of bewerken in Copilot → Regels.",
+        "matching": "Matching"
       }
     },
     "rules": {
@@ -1983,7 +1976,8 @@
         "CV_ADDED": "Er wordt een kandidaat toegevoegd",
         "CV_SCORED": "Een kandidaat wordt beoordeeld op een vacature",
         "SCHEDULE": "Volgens een schema",
-        "ATS_SYNC_FINISHED": "Een ATS-import is klaar"
+        "ATS_SYNC_FINISHED": "Een ATS-import is klaar",
+        "JOB_NEEDS_MATCHING": "Een vacature moet gematcht worden"
       },
       "sources": {
         "ANY": "Geüpload of geïmporteerd",
@@ -2020,7 +2014,8 @@
         "recommended": "aanbevolen voor een gesprek",
         "daily": "Elke dag om {{time}} ({{zone}})",
         "weekly": "Elke {{day}} om {{time}} ({{zone}})",
-        "atsSync": "Als een import uit {{name}} klaar is"
+        "atsSync": "Als een import uit {{name}} klaar is",
+        "jobNeedsMatching": "Als {{job}} gematcht moet worden"
       },
       "errors": {
         "name": "Geef de regel een naam (max. 100 tekens).",
@@ -2029,7 +2024,9 @@
         "trigger": "Kies een trigger.",
         "score": "Tussen 0 en 100.",
         "hour": "Kies een tijd.",
-        "weekday": "Kies een dag."
+        "weekday": "Kies een dag.",
+        "staleReasons": "Kies minstens één reden.",
+        "autoApproveMax": "Tussen 1 en 500."
       },
       "dialog": {
         "newTitle": "Nieuwe regel",
@@ -2051,10 +2048,22 @@
         "insert": "Invoegen:",
         "cap": "Taken per dag (max.)",
         "capHelp": "Daarboven wacht de regel tot morgen",
-        "note": "De regel werkt alleen op wat er vanaf nu gebeurt. Ze handelt namens u; e-mails, matching en imports wachten op uw goedkeuring (tot 72 uur) en u krijgt een e-mail als er iets wacht.",
+        "note": "De regel werkt alleen op wat er vanaf nu gebeurt. Ze handelt namens u; e-mails, imports en — tenzij u het hierboven vooraf goedkeurt — matching wachten op uw goedkeuring (tot 72 uur) en u krijgt een e-mail als er iets wacht.",
         "save": "Opslaan",
-        "create": "Regel aanmaken"
-      }
+        "create": "Regel aanmaken",
+        "staleReasons": "Omdat",
+        "autoApprove": "Matching starten zonder het mij te vragen",
+        "autoApproveMax": "Max. acties per matching",
+        "autoApproveHelp": "Een duurdere matching wacht nog steeds op uw goedkeuring"
+      },
+      "staleReasons": {
+        "NEVER_RUN": "Nieuwe vacature",
+        "JOB_CHANGED": "Vacature gewijzigd",
+        "NEW_CANDIDATES": "Nieuwe passende kandidaten",
+        "CANDIDATE_CHANGED": "Kandidaatprofielen gewijzigd"
+      },
+      "autoApproved": "Matching start zonder te vragen (tot {{count}} acties)",
+      "stepAutoApproved": "Uitgevoerd zonder te vragen — vooraf goedgekeurd door de regel"
     }
   },
   "agent": {
@@ -2086,5 +2095,60 @@
       "propose_rule": "Regel ‘{{name}}’",
       "rule_created": "Regel ‘{{name}}’ aangemaakt"
     }
+  },
+  "matchingRun": {
+    "title": "Matching starten",
+    "subtitle": "Kies de vacatures om te matchen en hoeveel topkandidaten u per vacature wilt. Alleen nieuwe of gewijzigde rapporten worden aangerekend.",
+    "searchJobs": "Open vacatures zoeken",
+    "selectAllOutdated": "Alle verouderde vacatures selecteren",
+    "clearSelection": "Selectie wissen",
+    "noOpenJobs": "Geen open vacatures.",
+    "lastMatched": "Laatst gematcht op {{date}} · Top {{topN}}",
+    "neverMatched": "Nog nooit gematcht",
+    "tooManyJobs": "Selecteer maximaal {{max}} vacatures per ronde.",
+    "selectedCount": "{{count}} vacature(s) geselecteerd",
+    "topNLabel": "Kandidaten per vacature",
+    "topNOption": "Top {{n}}",
+    "topNLocked": "Beschikbaar in een hoger abonnement",
+    "selectJobsFirst": "Selecteer minstens één vacature om de kosten te zien.",
+    "estimating": "Kosten worden geschat…",
+    "estimateCandidates": "{{candidates}} kandidaat/kandidaten: {{newReports}} nieuwe of gewijzigde rapport(en), {{reused}} ongewijzigd en gratis hergebruikt.",
+    "estimateActionsLeft": "Gebruikt tot {{actions}} screeningactie(s) — nog {{remaining}} over deze periode.",
+    "estimateActions": "Gebruikt tot {{actions}} screeningactie(s).",
+    "notEnoughActions": "Er zijn deze periode niet genoeg screeningacties over. Selecteer minder vacatures of minder kandidaten per vacature.",
+    "indexing": "{{count}} vacature(s) worden nog geïndexeerd en worden overgeslagen. Probeer het over een minuut opnieuw.",
+    "start": "Matching starten",
+    "cancel": "Annuleren",
+    "stale": {
+      "NEVER_RUN": "Nog nooit gematcht",
+      "JOB_CHANGED": "Vacature gewijzigd sinds de laatste ronde",
+      "NEW_CANDIDATES": "{{count}} nieuwe kandidaat/kandidaten zouden in de top {{topN}} komen",
+      "CANDIDATE_CHANGED": "Kandidaatprofielen gewijzigd sinds de laatste ronde",
+      "UNKNOWN": "Resultaten verouderd"
+    },
+    "staleShort": "Verouderd",
+    "bannerPending": "{{count}} vacature(s) hebben verouderde matchingresultaten",
+    "bannerUpToDate": "De matchingresultaten zijn actueel.",
+    "hideOutdated": "Verouderde verbergen",
+    "deleteOutdated": "Verouderde verwijderen ({{count}})",
+    "deleteOutdatedTitle": "Verouderde rapporten verwijderen",
+    "deleteOutdatedBody": "De {{count}} verouderde rapport(en) van deze vacature verwijderen? Hun notities en chats worden ook verwijderd. Dit kan niet ongedaan worden gemaakt.",
+    "queued": "De matching staat in de wachtrij en start zo…",
+    "progress": "Matching van {{jobs}} vacature(s)… {{processed}} van ~{{total}} kandidaten",
+    "canLeave": "U kunt deze pagina verlaten — de matching gaat op de achtergrond door.",
+    "done": "Matching klaar: {{generated}} nieuwe of bijgewerkte rapport(en), {{reused}} gratis hergebruikt.",
+    "doneQuota": "Ze is vroegtijdig gestopt: er zijn deze periode geen screeningacties meer over.",
+    "doneWithIssues": "{{failed}} kandidaat/kandidaten konden niet worden beoordeeld en {{skipped}} vacature(s) zijn overgeslagen — start ze opnieuw om af te ronden.",
+    "dismiss": "Sluiten",
+    "scoreMoved": "Verandering sinds de laatste ronde (eerst {{previous}}%)",
+    "outdated": "Verouderd",
+    "outdatedReason": {
+      "RANKED_OUT": "Niet meer bij de beste kandidaten van de laatste ronde",
+      "NO_LONGER_ELIGIBLE": "Niet meer in aanmerking (gearchiveerd of buiten de beschikbaarheidsregels van de vacature)"
+    },
+    "outdatedSince": "sinds {{date}}",
+    "outdatedNotice": "Dit rapport is verouderd: {{reason}}. Het blijft bewaard tot u het verwijdert.",
+    "startedFollow": "Matching gestart — rapporten openen",
+    "showMore": "Top {{topN}} tonen"
   }
 }
