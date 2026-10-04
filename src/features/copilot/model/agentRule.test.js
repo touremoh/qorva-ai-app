@@ -93,4 +93,22 @@ describe('a rule on jobs that need matching', () => {
 		expect(triggerSummary(t, { type: 'JOB_NEEDS_MATCHING', staleReasons: ['JOB_CHANGED'] }))
 			.toBe('copilot.rules.summary.jobNeedsMatching {"job":"copilot.rules.anyJob"} · copilot.rules.staleReasons.JOB_CHANGED');
 	});
+
+	describe('a status rule', () => {
+		const statusRule = (trigger = {}) => form({}, { type: TRIGGER.REPORT_STATUS_CHANGED, ...trigger });
+
+		it('watches every status unless some are unticked, and needs at least one', () => {
+			expect(toRuleRequest(statusRule()).trigger).toEqual({ type: 'REPORT_STATUS_CHANGED' });
+			expect(toRuleRequest(statusRule({ jobPostId: 'j1', toStatuses: ['INTERVIEWING', 'SHORTLISTED'] })).trigger)
+				.toEqual({ type: 'REPORT_STATUS_CHANGED', jobPostId: 'j1', toStatuses: ['SHORTLISTED', 'INTERVIEWING'] });
+			expect(validateRule(statusRule({ toStatuses: [] })).toStatuses).toBe('copilot.rules.errors.toStatuses');
+		});
+
+		it('reads back a stored rule and summarises it', () => {
+			expect(ruleToForm({ trigger: { type: 'REPORT_STATUS_CHANGED', toStatuses: null } }).trigger.toStatuses).toHaveLength(8);
+			const t = (key, opts) => (opts ? `${key}:${JSON.stringify(opts)}` : key);
+			expect(triggerSummary(t, { type: 'REPORT_STATUS_CHANGED', toStatuses: ['HIRED'] }))
+				.toBe('copilot.rules.summary.statusChanged:{"job":"copilot.rules.anyJob"} · reportStatus.values.HIRED');
+		});
+	});
 });

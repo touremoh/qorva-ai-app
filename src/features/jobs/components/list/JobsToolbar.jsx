@@ -5,8 +5,9 @@ import UpgradeButton from '../../../../components/demo/UpgradeButton.jsx';
 import { THEME_GREEN, THEME_GREEN_DARK } from '../../model/jobForm.js';
 import { useTranslation } from 'react-i18next';
 import * as tokens from '../../../../theme/tokens.js';
+import AtsSyncLine from '../../../settings/components/integrations/AtsSyncLine.jsx';
 
-/** Create-job button (or the upgrade prompt for demo accounts). */
+/** Create-job button (or the upgrade prompt for demo accounts), and when the ATS last synced. */
 const JobsToolbar = ({ demo, handleStartCreate }) => {
 	const { t } = useTranslation();
 	return (
@@ -26,6 +27,7 @@ const JobsToolbar = ({ demo, handleStartCreate }) => {
 					{t('jobContent.createJobPost')}
 				</Button>
 			)}
+			<AtsSyncLine />
 		</Box>
 		</>
 	);

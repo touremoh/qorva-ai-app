@@ -5,3 +5,7 @@ export const getDashboardData = () =>
 
 export const getTopCandidatesPerJobPost = (pageNumber = 0, pageSize = 5) =>
     apiClient.get('/dashboard/top-candidates', { params: { pageNumber, pageSize } });
+
+/** Pipeline card and per-job counts: current statuses and each recruiter's moves (default: last 30 days). */
+export const getPipeline = ({ from, to, jobPostId } = {}) =>
+    apiClient.get('/dashboard/pipeline', { params: { from, to, jobPostId } });

@@ -41,3 +41,7 @@ export const registerAtsWebhooks = (connectionId) =>
 // region is the provider datacenter to authenticate against (Zoho only; ignored elsewhere).
 export const startAtsOauth = (provider, region) =>
     apiClient.post('/ats/connections/oauth/start', { provider, region });
+
+// What recruiters see of the ATS: last sync per connection (VIEW_JOB or VIEW_CV); empty without an ATS.
+export const getAtsSyncStatus = () =>
+    apiClient.get('/ats/sync-status');

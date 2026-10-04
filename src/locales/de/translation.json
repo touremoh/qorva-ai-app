@@ -705,7 +705,8 @@
       "skillsReport": "Top 10 Fähigkeiten",
       "jobPostsReport": "Berichte pro Stelle",
       "topCandidates": "Top 5 Kandidaten pro Stellenanzeige",
-      "talentPoolInsight": "Talentpool-Analyse"
+      "talentPoolInsight": "Talentpool-Analyse",
+      "pipeline": "Kandidaten-Pipeline"
     },
     "talent": {
       "skillDepth": "Kenntnistiefe",
@@ -760,6 +761,18 @@
       "noPeriodTitle": "Für dieses Konto ist kein Nutzungszeitraum aktiv",
       "noPeriodHint": "Die Nutzung wird pro Abrechnungszeitraum gemessen. Ein Zeitraum wird wenige Minuten nach Beginn oder Verlängerung eines Abonnements automatisch eröffnet; bleibt diese Meldung bestehen, wenden Sie sich an den Support.",
       "agentRuns": "Copilot-Aufgaben"
+    },
+    "pipeline": {
+      "job": "Stelle",
+      "allJobs": "Alle Stellen",
+      "period": "Zeitraum",
+      "lastDays": "Letzte {{count}} Tage",
+      "recruiter": "Recruiter",
+      "timeToShortlist": "Mittlere Zeit bis zur Vorauswahl",
+      "hours": "{{count}} Std.",
+      "days": "{{count}} T.",
+      "copilot": "Copilot",
+      "empty": "Noch kein Kandidat wurde in der Pipeline bewegt. Setzen Sie einen Status in einem Matching-Bericht, um zu beginnen."
     }
   },
   "appAIResumeChat": {
@@ -1977,7 +1990,8 @@
         "CV_SCORED": "Ein Kandidat wird für eine Stelle bewertet",
         "SCHEDULE": "Nach Zeitplan",
         "ATS_SYNC_FINISHED": "Ein ATS-Import endet",
-        "JOB_NEEDS_MATCHING": "Eine Stelle braucht ein Matching"
+        "JOB_NEEDS_MATCHING": "Eine Stelle braucht ein Matching",
+        "REPORT_STATUS_CHANGED": "Der Status eines Kandidaten ändert sich"
       },
       "sources": {
         "ANY": "Hochgeladen oder importiert",
@@ -2015,7 +2029,8 @@
         "daily": "Jeden Tag um {{time}} ({{zone}})",
         "weekly": "Jeden {{day}} um {{time}} ({{zone}})",
         "atsSync": "Wenn ein Import aus {{name}} endet",
-        "jobNeedsMatching": "Wenn {{job}} ein Matching braucht"
+        "jobNeedsMatching": "Wenn {{job}} ein Matching braucht",
+        "statusChanged": "Wenn sich der Status eines Kandidaten bei {{job}} ändert"
       },
       "errors": {
         "name": "Geben Sie der Regel einen Namen (max. 100 Zeichen).",
@@ -2026,7 +2041,8 @@
         "hour": "Wählen Sie eine Uhrzeit.",
         "weekday": "Wählen Sie einen Tag.",
         "staleReasons": "Wählen Sie mindestens einen Grund.",
-        "autoApproveMax": "Zwischen 1 und 500."
+        "autoApproveMax": "Zwischen 1 und 500.",
+        "toStatuses": "Wählen Sie mindestens einen Status."
       },
       "dialog": {
         "newTitle": "Neue Regel",
@@ -2054,7 +2070,8 @@
         "staleReasons": "Weil",
         "autoApprove": "Matching ohne Rückfrage starten",
         "autoApproveMax": "Max. Aktionen pro Matching",
-        "autoApproveHelp": "Ein teureres Matching wartet weiterhin auf Ihre Freigabe"
+        "autoApproveHelp": "Ein teureres Matching wartet weiterhin auf Ihre Freigabe",
+        "toStatuses": "Status, die die Regel auslösen"
       },
       "staleReasons": {
         "NEVER_RUN": "Neue Stelle",
@@ -2093,7 +2110,8 @@
       "ats_sync_started": "Import aus {{name}} gestartet",
       "list_ats_connections": "ATS-Integrationen geprüft: {{count}} gefunden",
       "propose_rule": "Regel „{{name}}“",
-      "rule_created": "Regel „{{name}}“ erstellt"
+      "rule_created": "Regel „{{name}}“ erstellt",
+      "set_report_status": "{{count}} Kandidat(en) auf {{status}} gesetzt"
     }
   },
   "matchingRun": {
@@ -2150,5 +2168,42 @@
     "outdatedNotice": "Dieser Bericht ist veraltet: {{reason}}. Er bleibt erhalten, bis Sie ihn löschen.",
     "startedFollow": "Matching gestartet — Berichte öffnen",
     "showMore": "Top {{topN}} anzeigen"
+  },
+  "reportStatus": {
+    "label": "Kandidatenstatus",
+    "filter": "Status",
+    "all": "Alle Status",
+    "change": "Status: {{status}}. Ändern",
+    "values": {
+      "NEW": "Neu",
+      "CONTACTED": "Kontaktiert",
+      "SHORTLISTED": "Vorausgewählt",
+      "INTERVIEWING": "Im Interview",
+      "OFFERED": "Angebot",
+      "HIRED": "Eingestellt",
+      "REJECTED": "Abgelehnt",
+      "WITHDRAWN": "Zurückgezogen"
+    },
+    "counts": {
+      "NEW": "{{count}} neu",
+      "CONTACTED": "{{count}} kontaktiert",
+      "SHORTLISTED": "{{count}} vorausgewählt",
+      "INTERVIEWING": "{{count}} im Interview",
+      "OFFERED": "{{count}} mit Angebot",
+      "HIRED": "{{count}} eingestellt",
+      "REJECTED": "{{count}} abgelehnt",
+      "WITHDRAWN": "{{count}} zurückgezogen"
+    },
+    "movedVia": {
+      "APP": "{{status}} durch {{name}}, {{date}}",
+      "EMAIL": "{{status}} nach E-Mail von {{name}}, {{date}}",
+      "COPILOT": "{{status}} durch Copilot, {{date}}"
+    }
+  },
+  "atsSync": {
+    "synced": "Mit {{name}} synchronisiert · {{when}}",
+    "never": "{{name}}: noch nicht synchronisiert",
+    "failed": "Letzte Synchronisierung mit {{name}} fehlgeschlagen",
+    "failedHint": "Ein Admin kann die Verbindung unter Einstellungen → Integrationen prüfen."
   }
 }

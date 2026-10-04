@@ -17,7 +17,7 @@ import { resolveError } from '../../../utils/errorHandler.js';
 import * as tokens from '../../../theme/tokens.js';
 import { getJobs } from '../../jobs/api/jobService.js';
 import { getAtsConnections } from '../../settings/api/atsService.js';
-import { MAX_AUTO_APPROVE_ACTIONS, MAX_DAILY_CAP, MAX_RULE_GOAL, MAX_RULE_NAME, PLACEHOLDERS, ruleToForm, STALE_REASONS, TRIGGER, TRIGGERS, validateRule } from '../model/agentRule.js';
+import { MAX_AUTO_APPROVE_ACTIONS, MAX_DAILY_CAP, MAX_RULE_GOAL, MAX_RULE_NAME, PLACEHOLDERS, RULE_STATUSES, ruleToForm, STALE_REASONS, TRIGGER, TRIGGERS, validateRule } from '../model/agentRule.js';
 
 const fieldSx = { '& .MuiInputBase-root': { fontSize: tokens.fontSize.caption }, '& .MuiInputLabel-root': { fontSize: tokens.fontSize.caption } };
 const HOURS = Array.from({ length: 24 }, (_, h) => h);
@@ -28,7 +28,7 @@ const useRuleTargets = (type) => {
 	const [jobs, setJobs] = useState([]);
 	const [connections, setConnections] = useState([]);
 	useEffect(() => {
-		if ((type !== TRIGGER.CV_SCORED && type !== TRIGGER.JOB_NEEDS_MATCHING) || jobs.length) return;
+		if (![TRIGGER.CV_SCORED, TRIGGER.JOB_NEEDS_MATCHING, TRIGGER.REPORT_STATUS_CHANGED].includes(type) || jobs.length) return;
 		getJobs({ pageSize: 100, pageNumber: 0 })
 			.then((res) => setJobs((res.data?.data?.content ?? []).filter((j) => (j.status ?? 'open').toLowerCase() === 'open')))
 			.catch(() => {});
@@ -56,6 +56,8 @@ const AgentRuleDialog = ({ open, rule, onClose, onSave }) => {
 	const setTrigger = (field, value) => setForm((f) => ({ ...f, trigger: { ...f.trigger, [field]: value } }));
 	const toggleReason = (reason, on) => setTrigger('staleReasons',
 		STALE_REASONS.filter((r) => (r === reason ? on : form.trigger.staleReasons?.includes(r))));
+	const toggleStatus = (status, on) => setTrigger('toStatuses',
+		RULE_STATUSES.filter((s) => (s === status ? on : form.trigger.toStatuses?.includes(s))));
 
 	const insertPlaceholder = (placeholder) => {
 		const input = goalRef.current;
@@ -161,6 +163,27 @@ const AgentRuleDialog = ({ open, rule, onClose, onSave }) => {
 								))}
 							</Box>
 							{show('staleReasons') && <Typography sx={{ fontSize: tokens.fontSize.micro, color: tokens.status.error.text }}>{show('staleReasons')}</Typography>}
+						</Box>
+					</>
+				)}
+
+				{tr.type === TRIGGER.REPORT_STATUS_CHANGED && (
+					<>
+						<TextField select size="small" label={t('copilot.rules.dialog.job')} value={tr.jobPostId} onChange={(e) => setTrigger('jobPostId', e.target.value)} sx={fieldSx}>
+							<MenuItem value="">{t('copilot.rules.anyJob')}</MenuItem>
+							{jobOptions.map((j) => <MenuItem key={j.id} value={j.id}>{j.title}</MenuItem>)}
+						</TextField>
+						<Box data-testid="copilot-rule-to-statuses">
+							<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.muted }}>{t('copilot.rules.dialog.toStatuses')}</Typography>
+							<Box sx={{ display: 'flex', flexWrap: 'wrap', columnGap: 1 }}>
+								{RULE_STATUSES.map((s) => (
+									<FormControlLabel key={s}
+										control={<Checkbox size="small" checked={!!tr.toStatuses?.includes(s)} onChange={(e) => toggleStatus(s, e.target.checked)} />}
+										label={<Typography sx={{ fontSize: tokens.fontSize.caption }}>{t(`reportStatus.values.${s}`)}</Typography>}
+									/>
+								))}
+							</Box>
+							{show('toStatuses') && <Typography sx={{ fontSize: tokens.fontSize.micro, color: tokens.status.error.text }}>{show('toStatuses')}</Typography>}
 						</Box>
 					</>
 				)}

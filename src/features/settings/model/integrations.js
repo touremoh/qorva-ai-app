@@ -121,3 +121,15 @@ export const regionLabel = (key, t) => {
 	const name = t(`atsIntegrations.regions.${key.replace(/\./g, '_')}`, '');
 	return name ? `${name} — ${domain}` : domain;
 };
+
+/**
+ * The "last synced" line for the Jobs and Resumes pages, one entry per ATS connection: the name to show, when it
+ * last synced (null before the first sync), and whether the last sync failed. Disabled connections are left out.
+ */
+export const syncLines = (connections) => (connections ?? [])
+	.filter((c) => c && c.status !== 'DISABLED')
+	.map((c) => ({
+		name: c.displayName || c.provider,
+		at: c.lastSyncAt ?? null,
+		failed: Boolean(c.lastSyncError) || c.status === 'AUTH_ERROR',
+	}));

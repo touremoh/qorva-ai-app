@@ -33,3 +33,7 @@ export const deleteOutdatedReports = (jobPostId) =>
 
 export const exportCsv = (jobPostId, format) =>
     apiClient.get('/matching-reports/export/csv', { params: { jobPostId, format }, responseType: 'blob' });
+
+/** Moves the candidate along the pipeline on this job; answers with the updated report. */
+export const setReportStatus = (id, status) =>
+    apiClient.patch(`/matching-reports/${id}/status`, { status });
