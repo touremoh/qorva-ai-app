@@ -26,6 +26,7 @@ import KPICard from './KPICard.jsx';
 import TopCandidatesTable from './TopCandidatesTable.jsx';
 import JobPostsReportTable from './JobPostsReportTable.jsx';
 import TalentPoolInsightSection from './TalentPoolInsightSection.jsx';
+import PipelineCard from './PipelineCard.jsx';
 import { initialDashboardData, KPI_CONFIG } from '../model/dashboard.js';
 import * as tokens from '../../../theme/tokens.js';
 import { alpha } from '@mui/material/styles';
@@ -144,6 +145,9 @@ const QorvaDashboard = () => {
 
 						{/* Talent pool insight */}
 						<TalentPoolInsightSection data={dashboardData} t={t} />
+
+						{/* Candidate pipeline and recruiter metrics — self-fetches via /dashboard/pipeline */}
+						<PipelineCard t={t} jobs={dashboardData.jobPostsReport} />
 
 						{/* Top candidates per job — self-fetches via /dashboard/top-candidates */}
 						<TopCandidatesTable t={t} />

@@ -9,9 +9,10 @@ import QuotaIndicator from '../../../../components/demo/QuotaIndicator.jsx';
 import { useTranslation } from 'react-i18next';
 import * as tokens from '../../../../theme/tokens.js';
 import { alpha } from '@mui/material/styles';
+import { REPORT_STATUSES } from '../../model/reportStatus.js';
 
-/** Search, job filter, sort and CSV export above the report list. */
-const ReportsToolbar = ({ demo, exportLoading, fetchJobOptions, filterConfidence, filterRecommendation, handleConfidenceChange, handleExportCsv, handleJobAutocompleteChange, handleRecommendationChange, handleSearchChange, jobInputValue, jobOptions, jobOptionsLoading, jobSearchRef, searchTerm, selectedJobFilter, selectedJobId, setJobInputValue, setSortOrder, sortOrder }) => {
+/** Search, job, recommendation, confidence and status filters, sort and CSV export above the report list. */
+const ReportsToolbar = ({ demo, exportLoading, fetchJobOptions, filterConfidence, filterRecommendation, filterStatus, handleConfidenceChange, handleStatusFilterChange, handleExportCsv, handleJobAutocompleteChange, handleRecommendationChange, handleSearchChange, jobInputValue, jobOptions, jobOptionsLoading, jobSearchRef, searchTerm, selectedJobFilter, selectedJobId, setJobInputValue, setSortOrder, sortOrder }) => {
 	const { t } = useTranslation();
 	return (
 		<>
@@ -123,6 +124,24 @@ const ReportsToolbar = ({ demo, exportLoading, fetchJobOptions, filterConfidence
 					</Select>
 				</FormControl>
 
+				<FormControl size="small" sx={{ minWidth: 150 }}>
+					<InputLabel id="report-status-filter-label" sx={{ fontSize: tokens.fontSize.body2 }}>{t('reportStatus.filter')}</InputLabel>
+					<Select
+						labelId="report-status-filter-label"
+						value={filterStatus ?? ''}
+						label={t('reportStatus.filter')}
+						onChange={handleStatusFilterChange}
+						sx={{ borderRadius: 2, fontSize: tokens.fontSize.body2 }}
+					>
+						<MenuItem value="">{t('reportStatus.all')}</MenuItem>
+						{REPORT_STATUSES.map((key) => (
+							<MenuItem key={key} value={key} sx={{ fontSize: tokens.fontSize.body2 }}>
+								{t(`reportStatus.values.${key}`)}
+							</MenuItem>
+						))}
+					</Select>
+				</FormControl>
+
 				<Tooltip title={sortOrder === 'asc' ? t('appReportContent.sortDesc') : t('appReportContent.sortAsc')}>
 				<IconButton
 					size="small"
@@ -177,7 +196,9 @@ ReportsToolbar.propTypes = {
 	fetchJobOptions: PropTypes.any,
 	filterConfidence: PropTypes.any,
 	filterRecommendation: PropTypes.any,
+	filterStatus: PropTypes.string,
 	handleConfidenceChange: PropTypes.func,
+	handleStatusFilterChange: PropTypes.func,
 	handleExportCsv: PropTypes.func,
 	handleJobAutocompleteChange: PropTypes.func,
 	handleRecommendationChange: PropTypes.func,

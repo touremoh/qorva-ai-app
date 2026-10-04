@@ -24,7 +24,8 @@ import ReportCandidateHeader from './details/ReportCandidateHeader.jsx';
 import ReportActionBar from './details/ReportActionBar.jsx';
 import * as tokens from '../../../theme/tokens.js';
 
-const AppMatchingReportDetails = ({ reportData }) => {
+/** {@code onStatusChange}: moves the candidate on the job; without it the status is shown read-only. */
+const AppMatchingReportDetails = ({ reportData, onStatusChange }) => {
 	const { t } = useTranslation();
 
 	const componentRef = useRef(null);
@@ -77,6 +78,7 @@ const AppMatchingReportDetails = ({ reportData }) => {
 				finalScore={finalScore}
 				handleDownload={handleDownload}
 				jobTitle={jobTitle}
+				onStatusChange={onStatusChange}
 				outreach={outreach}
 				reportData={reportData}
 			/>
@@ -127,12 +129,17 @@ const AppMatchingReportDetails = ({ reportData }) => {
 };
 
 AppMatchingReportDetails.propTypes = {
+	onStatusChange: PropTypes.func,
 	reportData: PropTypes.shape({
 		id: PropTypes.string,
 		jobPostId: PropTypes.string,
 		jobPostTitle: PropTypes.string,
 		outdated: PropTypes.bool,
 		outdatedReason: PropTypes.string,
+		status: PropTypes.string,
+		statusHistory: PropTypes.arrayOf(PropTypes.shape({
+			from: PropTypes.string, status: PropTypes.string, by: PropTypes.string, byName: PropTypes.string, via: PropTypes.string, at: PropTypes.string,
+		})),
 		candidateInfo: PropTypes.shape({
 			candidateId: PropTypes.string,
 			candidateName: PropTypes.string.isRequired,

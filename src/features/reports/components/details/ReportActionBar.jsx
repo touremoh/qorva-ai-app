@@ -1,13 +1,20 @@
 import PropTypes from 'prop-types';
-import { Box, IconButton, Tooltip } from '@mui/material';
+import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import { useTranslation } from 'react-i18next';
 import * as tokens from '../../../../theme/tokens.js';
+import dayjs from '../../../../shared/lib/dayjs.js';
+import ReportStatusChip from '../status/ReportStatusChip.jsx';
+import { lastMove } from '../../model/reportStatus.js';
 
-/** Email-candidate and download actions above the report (not printed). */
-const ReportActionBar = ({ canContact, candidate, finalScore, handleDownload, jobTitle, outreach, reportData }) => {
-	const { t } = useTranslation();
+/**
+ * Above the report (not printed): where the candidate stands on the job and who moved them last, then the
+ * email-candidate and download actions.
+ */
+const ReportActionBar = ({ canContact, candidate, finalScore, handleDownload, jobTitle, onStatusChange, outreach, reportData }) => {
+	const { t, i18n } = useTranslation();
+	const move = lastMove(reportData);
 	return (
 		<>
 		<Box sx={{
@@ -15,7 +22,18 @@ const ReportActionBar = ({ canContact, candidate, finalScore, handleDownload, jo
 			px: 2.5, py: 1.25, flexShrink: 0,
 			backgroundColor: tokens.surface.paper, borderBottom: `1px solid ${tokens.line.main}`,
 		}}>
-			<Box sx={{ flexGrow: 1 }} />
+			<Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, flexGrow: 1, minWidth: 0 }}>
+				<ReportStatusChip report={reportData} onChange={onStatusChange} size="medium" />
+				{move && (
+					<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.muted, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+						{t(`reportStatus.movedVia.${move.via ?? 'APP'}`, {
+							status: t(`reportStatus.values.${move.status}`),
+							name: move.byName ?? '',
+							date: dayjs(move.at).locale(i18n.language?.slice(0, 2) || 'en').format('D MMM'),
+						})}
+					</Typography>
+				)}
+			</Box>
 			{canContact && (
 				<Tooltip title={t('candidateOutreach.emailCandidate')}>
 					<IconButton
@@ -62,6 +80,7 @@ ReportActionBar.propTypes = {
 	finalScore: PropTypes.any,
 	handleDownload: PropTypes.func,
 	jobTitle: PropTypes.any,
+	onStatusChange: PropTypes.func,
 	outreach: PropTypes.any,
 	reportData: PropTypes.any,
 };

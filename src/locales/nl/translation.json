@@ -705,7 +705,8 @@
       "skillsReport": "Top 10 vaardigheden",
       "jobPostsReport": "Rapporten per vacature",
       "topCandidates": "Top 5 kandidaten per vacature",
-      "talentPoolInsight": "Talentpool-analyse"
+      "talentPoolInsight": "Talentpool-analyse",
+      "pipeline": "Kandidatenpijplijn"
     },
     "talent": {
       "skillDepth": "Vaardigheidsdiepte",
@@ -760,6 +761,18 @@
       "noPeriodTitle": "Er is geen actieve gebruiksperiode voor dit account",
       "noPeriodHint": "Gebruik wordt per factureringsperiode gemeten. Een periode wordt automatisch geopend enkele minuten na de start of verlenging van een abonnement; blijft dit bericht staan, neem dan contact op met support.",
       "agentRuns": "Copilot-taken"
+    },
+    "pipeline": {
+      "job": "Vacature",
+      "allJobs": "Alle vacatures",
+      "period": "Periode",
+      "lastDays": "Laatste {{count}} dagen",
+      "recruiter": "Recruiter",
+      "timeToShortlist": "Mediane tijd tot shortlist",
+      "hours": "{{count}} u",
+      "days": "{{count}} d",
+      "copilot": "Copilot",
+      "empty": "Er is nog geen kandidaat door de pijplijn verplaatst. Stel een status in op een matchingrapport om te beginnen."
     }
   },
   "appAIResumeChat": {
@@ -1977,7 +1990,8 @@
         "CV_SCORED": "Een kandidaat wordt beoordeeld op een vacature",
         "SCHEDULE": "Volgens een schema",
         "ATS_SYNC_FINISHED": "Een ATS-import is klaar",
-        "JOB_NEEDS_MATCHING": "Een vacature moet gematcht worden"
+        "JOB_NEEDS_MATCHING": "Een vacature moet gematcht worden",
+        "REPORT_STATUS_CHANGED": "De status van een kandidaat verandert"
       },
       "sources": {
         "ANY": "Geüpload of geïmporteerd",
@@ -2015,7 +2029,8 @@
         "daily": "Elke dag om {{time}} ({{zone}})",
         "weekly": "Elke {{day}} om {{time}} ({{zone}})",
         "atsSync": "Als een import uit {{name}} klaar is",
-        "jobNeedsMatching": "Als {{job}} gematcht moet worden"
+        "jobNeedsMatching": "Als {{job}} gematcht moet worden",
+        "statusChanged": "Wanneer de status van een kandidaat verandert bij {{job}}"
       },
       "errors": {
         "name": "Geef de regel een naam (max. 100 tekens).",
@@ -2026,7 +2041,8 @@
         "hour": "Kies een tijd.",
         "weekday": "Kies een dag.",
         "staleReasons": "Kies minstens één reden.",
-        "autoApproveMax": "Tussen 1 en 500."
+        "autoApproveMax": "Tussen 1 en 500.",
+        "toStatuses": "Kies minstens één status."
       },
       "dialog": {
         "newTitle": "Nieuwe regel",
@@ -2054,7 +2070,8 @@
         "staleReasons": "Omdat",
         "autoApprove": "Matching starten zonder het mij te vragen",
         "autoApproveMax": "Max. acties per matching",
-        "autoApproveHelp": "Een duurdere matching wacht nog steeds op uw goedkeuring"
+        "autoApproveHelp": "Een duurdere matching wacht nog steeds op uw goedkeuring",
+        "toStatuses": "Statussen die de regel starten"
       },
       "staleReasons": {
         "NEVER_RUN": "Nieuwe vacature",
@@ -2093,7 +2110,8 @@
       "ats_sync_started": "Import gestart uit {{name}}",
       "list_ats_connections": "ATS-integraties bekeken: {{count}} gevonden",
       "propose_rule": "Regel ‘{{name}}’",
-      "rule_created": "Regel ‘{{name}}’ aangemaakt"
+      "rule_created": "Regel ‘{{name}}’ aangemaakt",
+      "set_report_status": "{{count}} kandidaat/kandidaten naar {{status}} verplaatst"
     }
   },
   "matchingRun": {
@@ -2150,5 +2168,42 @@
     "outdatedNotice": "Dit rapport is verouderd: {{reason}}. Het blijft bewaard tot u het verwijdert.",
     "startedFollow": "Matching gestart — rapporten openen",
     "showMore": "Top {{topN}} tonen"
+  },
+  "reportStatus": {
+    "label": "Kandidaatstatus",
+    "filter": "Status",
+    "all": "Alle statussen",
+    "change": "Status: {{status}}. Wijzigen",
+    "values": {
+      "NEW": "Nieuw",
+      "CONTACTED": "Benaderd",
+      "SHORTLISTED": "Shortlist",
+      "INTERVIEWING": "In gesprek",
+      "OFFERED": "Aanbod",
+      "HIRED": "Aangenomen",
+      "REJECTED": "Afgewezen",
+      "WITHDRAWN": "Teruggetrokken"
+    },
+    "counts": {
+      "NEW": "{{count}} nieuw",
+      "CONTACTED": "{{count}} benaderd",
+      "SHORTLISTED": "{{count}} op de shortlist",
+      "INTERVIEWING": "{{count}} in gesprek",
+      "OFFERED": "{{count}} met aanbod",
+      "HIRED": "{{count}} aangenomen",
+      "REJECTED": "{{count}} afgewezen",
+      "WITHDRAWN": "{{count}} teruggetrokken"
+    },
+    "movedVia": {
+      "APP": "{{status}} door {{name}}, {{date}}",
+      "EMAIL": "{{status}} na e-mail van {{name}}, {{date}}",
+      "COPILOT": "{{status}} door Copilot, {{date}}"
+    }
+  },
+  "atsSync": {
+    "synced": "Gesynchroniseerd met {{name}} · {{when}}",
+    "never": "{{name}}: nog niet gesynchroniseerd",
+    "failed": "Laatste synchronisatie met {{name}} mislukt",
+    "failedHint": "Een beheerder kan de koppeling controleren in Instellingen → Integraties."
   }
 }

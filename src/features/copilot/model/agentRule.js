@@ -1,3 +1,5 @@
+import { REPORT_STATUSES } from '../../reports/model/reportStatus.js';
+
 /** Copilot standing rules: the triggers and what a rule form may send. Mirrors AgentRuleService's checks. */
 export const TRIGGER = Object.freeze({
 	CV_ADDED: 'CV_ADDED',
@@ -5,7 +7,11 @@ export const TRIGGER = Object.freeze({
 	SCHEDULE: 'SCHEDULE',
 	ATS_SYNC_FINISHED: 'ATS_SYNC_FINISHED',
 	JOB_NEEDS_MATCHING: 'JOB_NEEDS_MATCHING',
+	REPORT_STATUS_CHANGED: 'REPORT_STATUS_CHANGED',
 });
+
+/** The statuses a REPORT_STATUS_CHANGED rule may watch (all of them = any change). */
+export const RULE_STATUSES = REPORT_STATUSES;
 
 /** Why a job needs matching (the job's matchingStaleReason); a JOB_NEEDS_MATCHING rule watches some or all. */
 export const STALE_REASONS = ['NEVER_RUN', 'JOB_CHANGED', 'NEW_CANDIDATES', 'CANDIDATE_CHANGED'];
@@ -53,6 +59,7 @@ export const emptyRule = () => ({
 		zoneId: browserTimeZone(),
 		connectionId: '',
 		staleReasons: [...STALE_REASONS],
+		toStatuses: [...RULE_STATUSES],
 	},
 });
 
@@ -81,6 +88,8 @@ export const ruleToForm = (rule) => {
 			connectionId: t.connectionId ?? '',
 			// Stored as null when the rule watches every reason.
 			staleReasons: t.staleReasons?.length ? [...t.staleReasons] : [...STALE_REASONS],
+			// Stored as null when the rule watches every status.
+			toStatuses: t.toStatuses?.length ? [...t.toStatuses] : [...RULE_STATUSES],
 		},
 	};
 };
@@ -105,6 +114,7 @@ export const validateRule = (form) => {
 		if (t.frequency === 'WEEKLY' && !isInt(Number(t.weekday), 1, 7)) errors.weekday = 'copilot.rules.errors.weekday';
 	}
 	if (t.type === TRIGGER.JOB_NEEDS_MATCHING && !(t.staleReasons?.length > 0)) errors.staleReasons = 'copilot.rules.errors.staleReasons';
+	if (t.type === TRIGGER.REPORT_STATUS_CHANGED && !(t.toStatuses?.length > 0)) errors.toStatuses = 'copilot.rules.errors.toStatuses';
 	if (form?.autoApproveMatching && !isInt(Number(form.autoApproveMaxActions), 1, MAX_AUTO_APPROVE_ACTIONS)) {
 		errors.autoApproveMaxActions = 'copilot.rules.errors.autoApproveMax';
 	}
@@ -133,6 +143,11 @@ export const toRuleRequest = (form) => {
 		// Every reason ticked is sent as none: "all of them", including reasons added later.
 		const reasons = STALE_REASONS.filter((r) => t.staleReasons?.includes(r));
 		if (reasons.length < STALE_REASONS.length) trigger.staleReasons = reasons;
+	}
+	if (t.type === TRIGGER.REPORT_STATUS_CHANGED) {
+		if (t.jobPostId) trigger.jobPostId = t.jobPostId;
+		const statuses = RULE_STATUSES.filter((s) => t.toStatuses?.includes(s));
+		if (statuses.length < RULE_STATUSES.length) trigger.toStatuses = statuses;
 	}
 	const request = {
 		name: form.name.trim(),
@@ -174,6 +189,12 @@ export const triggerSummary = (t, trigger) => {
 			const reasons = trigger.staleReasons?.length && trigger.staleReasons.length < STALE_REASONS.length
 				? trigger.staleReasons.map((r) => t(`copilot.rules.staleReasons.${r}`)).join(', ') : null;
 			return reasons ? `${head} · ${reasons}` : head;
+		}
+		case TRIGGER.REPORT_STATUS_CHANGED: {
+			const head = t('copilot.rules.summary.statusChanged', { job: trigger.jobTitle || t('copilot.rules.anyJob') });
+			const statuses = trigger.toStatuses?.length && trigger.toStatuses.length < RULE_STATUSES.length
+				? trigger.toStatuses.map((s) => t(`reportStatus.values.${s}`)).join(', ') : null;
+			return statuses ? `${head} · ${statuses}` : head;
 		}
 		default:
 			return trigger.type;

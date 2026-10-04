@@ -5,17 +5,20 @@ import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useTranslation } from 'react-i18next';
 import * as tokens from '../../../../theme/tokens.js';
+import { pipelineSummary } from '../../model/reportStatus.js';
 
 /**
  * Under the toolbar: how many jobs have out-of-date results and the button that opens the run dialog; for the
- * selected job, showing or hiding its outdated reports and deleting them.
+ * selected job, where its candidates stand ("3 shortlisted · 1 interviewing"), showing or hiding its outdated
+ * reports and deleting them.
  */
 const MatchingActionsBar = ({
 	demo, pendingJobsCount, matchingActive, onRunMatching,
-	selectedJobId, hideOutdated, onToggleHideOutdated, outdatedCount, onDeleteOutdated,
+	selectedJobId, hideOutdated, onToggleHideOutdated, outdatedCount, onDeleteOutdated, pipelineCounts,
 }) => {
 	const { t } = useTranslation();
 	const pending = pendingJobsCount > 0;
+	const pipeline = selectedJobId ? pipelineSummary(pipelineCounts) : [];
 	return (
 		<Box sx={{
 			display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -28,6 +31,11 @@ const MatchingActionsBar = ({
 				<Typography sx={{ fontSize: tokens.fontSize.body2, fontWeight: 500, color: pending ? tokens.status.warning.text : tokens.ink.muted }}>
 					{pending ? t('matchingRun.bannerPending', { count: pendingJobsCount }) : t('matchingRun.bannerUpToDate')}
 				</Typography>
+				{pipeline.length > 0 && (
+					<Typography data-testid="job-pipeline-counts" sx={{ fontSize: tokens.fontSize.small, color: tokens.ink.muted }}>
+						{'· '}{pipeline.map(({ status, count }) => t(`reportStatus.counts.${status}`, { count })).join(' · ')}
+					</Typography>
+				)}
 			</Box>
 
 			<Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flexWrap: 'wrap' }}>
@@ -78,6 +86,7 @@ MatchingActionsBar.propTypes = {
 	onToggleHideOutdated: PropTypes.func,
 	outdatedCount: PropTypes.number,
 	onDeleteOutdated: PropTypes.func,
+	pipelineCounts: PropTypes.objectOf(PropTypes.number),
 };
 
 export default MatchingActionsBar;

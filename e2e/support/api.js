@@ -97,3 +97,6 @@ export const seededTenant = () => {
 	const cvIds = Object.keys(FIXTURE).filter((k) => /^GET \/cvs\/[0-9a-f]{24}$/.test(k)).map((k) => k.split('/').pop());
 	return { user, cvIds };
 };
+
+/** A recorded matching report of tenant A, as the API returns it on its own. */
+export const seededReport = (id) => FIXTURE[`GET /matching-reports/${id}`].body.data;

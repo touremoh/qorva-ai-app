@@ -6,14 +6,15 @@ import { scoreChipSx } from '../../model/reportList.js';
 import { scoreDelta } from '../../model/matchingRun.js';
 import dayjs from '../../../../shared/lib/dayjs.js';
 import { useTranslation } from 'react-i18next';
+import ReportStatusChip from '../status/ReportStatusChip.jsx';
 import * as tokens from '../../../../theme/tokens.js';
 import { alpha } from '@mui/material/styles';
 
 /**
- * The match reports of the selected job: candidate, score (and how it moved at the last re-scoring), menu.
+ * The match reports of the selected job: candidate, score (and how it moved at the last re-scoring), status, menu.
  * A report that left the job's latest results stays listed, dimmed and badged "Outdated" with the reason.
  */
-const ReportList = ({ handleMenuOpen, selectedReport, setSelectedReport, sortedReports }) => {
+const ReportList = ({ handleMenuOpen, onStatusChange, selectedReport, setSelectedReport, sortedReports }) => {
 	const { t, i18n } = useTranslation();
 	const locale = i18n.language?.slice(0, 2) || 'en';
 	return (
@@ -73,6 +74,7 @@ const ReportList = ({ handleMenuOpen, selectedReport, setSelectedReport, sortedR
 										size="small"
 										sx={{ height: 18, fontSize: tokens.fontSize.caption, fontWeight: 700, ...scoreChipSx(score) }}
 									/>
+									<ReportStatusChip report={report} onChange={onStatusChange} />
 									{delta != null && (
 										<Tooltip title={t('matchingRun.scoreMoved', { previous: Math.ceil(report.previousFinalScore) })}>
 											<Typography component="span" sx={{ fontSize: tokens.fontSize.caption, fontWeight: 700, color: delta > 0 ? tokens.status.success.text : tokens.status.error.main }}>
@@ -108,6 +110,7 @@ const ReportList = ({ handleMenuOpen, selectedReport, setSelectedReport, sortedR
 
 ReportList.propTypes = {
 	handleMenuOpen: PropTypes.func,
+	onStatusChange: PropTypes.func,
 	selectedReport: PropTypes.any,
 	setSelectedReport: PropTypes.func,
 	sortedReports: PropTypes.any,

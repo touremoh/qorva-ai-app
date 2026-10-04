@@ -12536,5 +12536,30 @@
     "body" : {
       "runs" : [ ]
     }
+  },
+  "GET /dashboard/pipeline" : {
+    "status" : 200,
+    "body" : {
+      "from" : "2026-08-16T08:00:00Z",
+      "to" : "2026-09-15T08:00:00Z",
+      "jobPostId" : null,
+      "currentByStatus" : {
+        "NEW" : 3,
+        "CONTACTED" : 0,
+        "SHORTLISTED" : 0,
+        "INTERVIEWING" : 0,
+        "OFFERED" : 0,
+        "HIRED" : 0,
+        "REJECTED" : 0,
+        "WITHDRAWN" : 0
+      },
+      "recruiters" : [ ]
+    }
+  },
+  "GET /ats/sync-status" : {
+    "status" : 200,
+    "body" : {
+      "connections" : [ ]
+    }
   }
 }

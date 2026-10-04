@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import AppMatchingReportDetails from './AppMatchingReportDetails.jsx';
-import { getReports, getReportsByFilter, deleteReport, exportCsv } from '../api/reportService.js';
+import { getReports, getReportsByFilter, exportCsv } from '../api/reportService.js';
 import { QORVA_USER_LANGUAGE } from '../../../constants.js';
 import { isDemoUser } from '../../../utils/demoMode.js';
 import ReportRowMenu from './list/ReportRowMenu.jsx';
@@ -22,6 +22,9 @@ import DeleteOutdatedDialog from './list/DeleteOutdatedDialog.jsx';
 import useOutdatedReports from '../hooks/useOutdatedReports.js';
 import useJobOptions from '../hooks/useJobOptions.js';
 import useMatchingRun from '../hooks/useMatchingRun.js';
+import useReportStatus from '../hooks/useReportStatus.js';
+import useReportDeletion from '../hooks/useReportDeletion.js';
+import { isActionAllowed } from '../../../utils/demoMode.js';
 import { finalScoreOf } from '../model/reportList.js';
 import { saveBlob } from '../../../shared/lib/download.js';
 import * as tokens from '../../../theme/tokens.js';
@@ -41,15 +44,12 @@ const AppMatchingReports = () => {
 	const [selectedJobId, setSelectedJobId] = useState('');
 	const [filterRecommendation, setFilterRecommendation] = useState('');
 	const [filterConfidence, setFilterConfidence] = useState('');
-	const [anchorEl, setAnchorEl] = useState(null);
-	const [menuReport, setMenuReport] = useState(null);
-	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-	const [deletingReport, setDeletingReport] = useState(false);
+	const [filterStatus, setFilterStatus] = useState('');
 	const [runDialogOpen, setRunDialogOpen] = useState(false);
 	// Outdated reports are shown, badged, unless the recruiter hides them.
 	const [hideOutdated, setHideOutdated] = useState(false);
 
-	const latestParamsRef = useRef({ selectedJobId: '', searchTerm: '', filterRecommendation: '', filterConfidence: '', pageSize: 25, hideOutdated: false });
+	const latestParamsRef = useRef({ selectedJobId: '', searchTerm: '', filterRecommendation: '', filterConfidence: '', pageSize: 25, hideOutdated: false, filterStatus: '' });
 
 	const [exportLoading, setExportLoading] = useState(false);
 	const [selectedJobFilter, setSelectedJobFilter] = useState(null);
@@ -60,13 +60,14 @@ const AppMatchingReports = () => {
 		pendingJobsCount, follow,
 	} = useMatchingRun({
 		refreshReports: () => {
-			const { selectedJobId, searchTerm, filterRecommendation, filterConfidence, pageSize, hideOutdated } = latestParamsRef.current;
+			const { selectedJobId, searchTerm, filterRecommendation, filterConfidence, pageSize, hideOutdated, filterStatus } = latestParamsRef.current;
 			outdated.refreshOutdatedCount(selectedJobId);
-			return fetchData(0, selectedJobId, searchTerm, filterRecommendation, filterConfidence, pageSize, hideOutdated);
+			reportStatus.refreshCounts(selectedJobId);
+			return fetchData(0, selectedJobId, searchTerm, filterRecommendation, filterConfidence, pageSize, hideOutdated, filterStatus);
 		},
 	});
 
-	const fetchData = async (pageNumber, jobId, term, recommendation, confidence, size, hide = hideOutdated) => {
+	const fetchData = async (pageNumber, jobId, term, recommendation, confidence, size, hide = hideOutdated, candidateStatus = filterStatus) => {
 		try {
 			const hasSearch = term && term.trim();
 			const params = {
@@ -77,12 +78,15 @@ const AppMatchingReports = () => {
 				...(recommendation ? { recommendation } : {}),
 				...(confidence ? { confidenceLevel: confidence } : {}),
 				...(hide ? { outdated: false } : {}),
+				...(candidateStatus ? { status: candidateStatus } : {}),
 			};
 			const response = hasSearch
 				? await getReportsByFilter(params)
 				: await getReports(params);
-			// Text search has no outdated filter server-side: hide them here too.
-			const content = (response?.data?.data?.content ?? []).filter((r) => !(hide && r.outdated));
+			// Text search has no outdated or status filter server-side: apply them here too.
+			const content = (response?.data?.data?.content ?? [])
+				.filter((r) => !(hide && r.outdated))
+				.filter((r) => !candidateStatus || (r.status ?? 'NEW') === candidateStatus);
 			const sorted = [...content].sort((a, b) => finalScoreOf(b) - finalScoreOf(a));
 			setReports(content);
 			setTotalPages(response?.data?.data?.totalPages ?? 1);
@@ -108,8 +112,12 @@ const AppMatchingReports = () => {
 
 	// Keep latest filter params accessible inside the polling closure without recreating the interval
 	useEffect(() => {
-		latestParamsRef.current = { selectedJobId, searchTerm, filterRecommendation, filterConfidence, pageSize, hideOutdated };
-	}, [selectedJobId, searchTerm, filterRecommendation, filterConfidence, pageSize, hideOutdated]);
+		latestParamsRef.current = { selectedJobId, searchTerm, filterRecommendation, filterConfidence, pageSize, hideOutdated, filterStatus };
+	}, [selectedJobId, searchTerm, filterRecommendation, filterConfidence, pageSize, hideOutdated, filterStatus]);
+
+	const reportStatus = useReportStatus({ selectedJobId, setReports, setSelectedReport });
+	// Demo users browse; everyone else may move candidates (the server still checks MODIFY_REPORT).
+	const onStatusChange = isActionAllowed('MODIFY_REPORT') && !demo ? reportStatus.changeStatus : undefined;
 
 	const handleSearchChange = (event) => {
 		const value = event.target.value;
@@ -141,6 +149,13 @@ const AppMatchingReports = () => {
 		fetchData(0, selectedJobId, searchTerm, value, filterConfidence);
 	};
 
+	const handleStatusFilterChange = (event) => {
+		const value = event.target.value;
+		setFilterStatus(value);
+		setCurrentPage(1);
+		fetchData(0, selectedJobId, searchTerm, filterRecommendation, filterConfidence, pageSize, hideOutdated, value);
+	};
+
 	const handleConfidenceChange = (event) => {
 		const value = event.target.value;
 		setFilterConfidence(value);
@@ -164,39 +179,14 @@ const AppMatchingReports = () => {
 		return [...reports].sort((a, b) => (sortOrder === 'asc' ? finalScoreOf(a) - finalScoreOf(b) : finalScoreOf(b) - finalScoreOf(a)));
 	}, [reports, sortOrder]);
 
-	const handleMenuOpen = (event, report) => {
-		event.stopPropagation();
-		setAnchorEl(event.currentTarget);
-		setMenuReport(report);
-	};
-	const handleMenuClose = () => { setAnchorEl(null); };
-
-	const handleDeleteClick = () => {
-		setAnchorEl(null);
-		setDeleteDialogOpen(true);
-	};
-
-	const handleDeleteConfirm = async () => {
-		if (!menuReport) return;
-		try {
-			setDeletingReport(true);
-			await deleteReport(menuReport.id);
-			setReports(prev => prev.filter(r => r.id !== menuReport.id));
-			if (menuReport.outdated) outdated.refreshOutdatedCount(selectedJobId);
-			if (selectedReport?.id === menuReport.id) setSelectedReport(null);
-		} catch (error) {
-			console.error('Error deleting report:', error);
-		} finally {
-			setDeletingReport(false);
-			setDeleteDialogOpen(false);
-			setMenuReport(null);
-		}
-	};
-
-	const handleDeleteCancel = () => {
-		setDeleteDialogOpen(false);
-		setMenuReport(null);
-	};
+	const deletion = useReportDeletion({
+		onDeleted: (report) => {
+			setReports(prev => prev.filter(r => r.id !== report.id));
+			if (report.outdated) outdated.refreshOutdatedCount(selectedJobId);
+			if (selectedReport?.id === report.id) setSelectedReport(null);
+			reportStatus.refreshCounts();
+		},
+	});
 
 	const handleExportCsv = async () => {
 		if (!selectedJobId) return;
@@ -223,7 +213,9 @@ const AppMatchingReports = () => {
 				fetchJobOptions={fetchJobOptions}
 				filterConfidence={filterConfidence}
 				filterRecommendation={filterRecommendation}
+				filterStatus={filterStatus}
 				handleConfidenceChange={handleConfidenceChange}
+				handleStatusFilterChange={handleStatusFilterChange}
 				handleExportCsv={handleExportCsv}
 				handleJobAutocompleteChange={handleJobAutocompleteChange}
 				handleRecommendationChange={handleRecommendationChange}
@@ -251,6 +243,7 @@ const AppMatchingReports = () => {
 				onToggleHideOutdated={handleToggleHideOutdated}
 				outdatedCount={outdated.outdatedCount}
 				onDeleteOutdated={() => outdated.setConfirmOpen(true)}
+				pipelineCounts={reportStatus.jobCounts}
 			/>
 
 			{/* Matching in progress — real progress of the runs */}
@@ -272,7 +265,8 @@ const AppMatchingReports = () => {
 				}}>
 					{/* List */}
 					<ReportList
-						handleMenuOpen={handleMenuOpen}
+						handleMenuOpen={deletion.openMenu}
+						onStatusChange={onStatusChange}
 						selectedReport={selectedReport}
 						setSelectedReport={setSelectedReport}
 						sortedReports={sortedReports}
@@ -291,12 +285,12 @@ const AppMatchingReports = () => {
 
 				{/* Right panel */}
 				<Box sx={{ flex: 1, minWidth: 0, overflow: 'hidden' }}>
-					<AppMatchingReportDetails reportData={selectedReport} />
+					<AppMatchingReportDetails reportData={selectedReport} onStatusChange={onStatusChange} />
 				</Box>
 			</Box>
 
 			{/* Context menu */}
-			<ReportRowMenu anchorEl={anchorEl} handleDeleteClick={handleDeleteClick} handleMenuClose={handleMenuClose} />
+			<ReportRowMenu anchorEl={deletion.anchorEl} handleDeleteClick={deletion.askToDelete} handleMenuClose={deletion.closeMenu} />
 
 			<RunMatchingDialog
 				open={runDialogOpen}
@@ -316,16 +310,16 @@ const AppMatchingReports = () => {
 
 			{/* Delete confirmation dialog */}
 			<ConfirmDialog
-				open={deleteDialogOpen}
+				open={deletion.dialogOpen}
 				title={t('appReportContent.deleteConfirm')}
-				subject={menuReport?.candidateInfo?.candidateName && (
-					<Typography sx={{ fontSize: tokens.fontSize.body2, fontWeight: 600, color: 'ink.strong' }}>{menuReport.candidateInfo.candidateName}</Typography>
+				subject={deletion.menuReport?.candidateInfo?.candidateName && (
+					<Typography sx={{ fontSize: tokens.fontSize.body2, fontWeight: 600, color: 'ink.strong' }}>{deletion.menuReport.candidateInfo.candidateName}</Typography>
 				)}
 				cancelLabel={t('appReportContent.cancel')}
 				confirmLabel={t('appReportContent.delete')}
-				onCancel={handleDeleteCancel}
-				onConfirm={handleDeleteConfirm}
-				busy={deletingReport}
+				onCancel={deletion.cancel}
+				onConfirm={deletion.confirm}
+				busy={deletion.deleting}
 				tone="danger"
 			>
 				{`${t('appReportContent.deleteReport')}?`}

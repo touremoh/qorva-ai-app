@@ -705,7 +705,8 @@
       "skillsReport": "Top 10 Skills",
       "jobPostsReport": "Reports per Job",
       "topCandidates": "Top 5 Candidates per Job Post",
-      "talentPoolInsight": "Talent Pool Insight"
+      "talentPoolInsight": "Talent Pool Insight",
+      "pipeline": "Candidate pipeline"
     },
     "talent": {
       "skillDepth": "Skill Depth",
@@ -760,6 +761,18 @@
       "noPeriodTitle": "No usage period is active for this account",
       "noPeriodHint": "Usage is metered per billing period. A period is opened automatically a few minutes after a subscription starts or renews; if this message persists, contact support.",
       "agentRuns": "Copilot tasks"
+    },
+    "pipeline": {
+      "job": "Job",
+      "allJobs": "All jobs",
+      "period": "Period",
+      "lastDays": "Last {{count}} days",
+      "recruiter": "Recruiter",
+      "timeToShortlist": "Median time to shortlist",
+      "hours": "{{count}} h",
+      "days": "{{count}} d",
+      "copilot": "Copilot",
+      "empty": "No candidate has been moved along the pipeline yet. Set a status on a matching report to start."
     }
   },
   "appAIResumeChat": {
@@ -1977,7 +1990,8 @@
         "CV_SCORED": "A candidate is scored on a job",
         "SCHEDULE": "On a schedule",
         "ATS_SYNC_FINISHED": "An ATS import finishes",
-        "JOB_NEEDS_MATCHING": "A job needs matching"
+        "JOB_NEEDS_MATCHING": "A job needs matching",
+        "REPORT_STATUS_CHANGED": "A candidate's status changes"
       },
       "sources": {
         "ANY": "Uploaded or imported",
@@ -2015,7 +2029,8 @@
         "daily": "Every day at {{time}} ({{zone}})",
         "weekly": "Every {{day}} at {{time}} ({{zone}})",
         "atsSync": "When an import from {{name}} finishes",
-        "jobNeedsMatching": "When {{job}} needs matching"
+        "jobNeedsMatching": "When {{job}} needs matching",
+        "statusChanged": "When a candidate's status changes on {{job}}"
       },
       "errors": {
         "name": "Give the rule a name (up to 100 characters).",
@@ -2026,7 +2041,8 @@
         "hour": "Choose an hour.",
         "weekday": "Choose a day.",
         "staleReasons": "Choose at least one reason.",
-        "autoApproveMax": "Between 1 and 500."
+        "autoApproveMax": "Between 1 and 500.",
+        "toStatuses": "Choose at least one status."
       },
       "dialog": {
         "newTitle": "New rule",
@@ -2054,7 +2070,8 @@
         "staleReasons": "Because",
         "autoApprove": "Run matching without asking me",
         "autoApproveMax": "Max actions per matching",
-        "autoApproveHelp": "A dearer matching still waits for your approval"
+        "autoApproveHelp": "A dearer matching still waits for your approval",
+        "toStatuses": "Statuses that start the rule"
       },
       "staleReasons": {
         "NEVER_RUN": "New job",
@@ -2093,7 +2110,8 @@
       "ats_sync_started": "Started an import from {{name}}",
       "list_ats_connections": "Checked ATS integrations: {{count}} found",
       "propose_rule": "Rule “{{name}}”",
-      "rule_created": "Created the rule “{{name}}”"
+      "rule_created": "Created the rule “{{name}}”",
+      "set_report_status": "Moved {{count}} candidate(s) to {{status}}"
     }
   },
   "matchingRun": {
@@ -2150,5 +2168,42 @@
     "outdatedNotice": "This report is outdated: {{reason}}. It stays until you delete it.",
     "startedFollow": "Matching started — open Matching",
     "showMore": "Show top {{topN}}"
+  },
+  "reportStatus": {
+    "label": "Candidate status",
+    "filter": "Status",
+    "all": "All statuses",
+    "change": "Status: {{status}}. Change it",
+    "values": {
+      "NEW": "New",
+      "CONTACTED": "Contacted",
+      "SHORTLISTED": "Shortlisted",
+      "INTERVIEWING": "Interviewing",
+      "OFFERED": "Offered",
+      "HIRED": "Hired",
+      "REJECTED": "Rejected",
+      "WITHDRAWN": "Withdrawn"
+    },
+    "counts": {
+      "NEW": "{{count}} new",
+      "CONTACTED": "{{count}} contacted",
+      "SHORTLISTED": "{{count}} shortlisted",
+      "INTERVIEWING": "{{count}} interviewing",
+      "OFFERED": "{{count}} offered",
+      "HIRED": "{{count}} hired",
+      "REJECTED": "{{count}} rejected",
+      "WITHDRAWN": "{{count}} withdrawn"
+    },
+    "movedVia": {
+      "APP": "{{status}} by {{name}}, {{date}}",
+      "EMAIL": "{{status}} when {{name}} emailed, {{date}}",
+      "COPILOT": "{{status}} by Copilot, {{date}}"
+    }
+  },
+  "atsSync": {
+    "synced": "Synced with {{name}} · {{when}}",
+    "never": "{{name}}: not synced yet",
+    "failed": "Last sync with {{name}} failed",
+    "failedHint": "An admin can check the connection in Settings → Integrations."
   }
 }

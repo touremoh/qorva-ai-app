@@ -7,8 +7,9 @@ import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import UpgradeButton from '../../../../components/demo/UpgradeButton.jsx';
 import * as tokens from '../../../../theme/tokens.js';
+import AtsSyncLine from '../../../settings/components/integrations/AtsSyncLine.jsx';
 
-/** Library toolbar: upload (or upgrade in demo), archived toggle, clear-library. */
+/** Library toolbar: upload (or upgrade in demo), archived toggle, clear-library, and when the ATS last synced. */
 const CvToolbar = ({ demo, upload, showArchived, onToggleArchived, onOpenClearLibrary }) => {
 	const { t } = useTranslation();
 	return (
@@ -96,6 +97,7 @@ const CvToolbar = ({ demo, upload, showArchived, onToggleArchived, onOpenClearLi
 			)}
 
 			<Box sx={{ flexGrow: 1 }} />
+			<AtsSyncLine />
 		</Box>
 	);
 };
