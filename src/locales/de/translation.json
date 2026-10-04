@@ -511,17 +511,8 @@
     "sortDesc": "Sortieren: Absteigend",
     "startMatching": "Matching starten",
     "matchingInProgress": "Matching läuft…",
-    "matchingNeeded": "{{count}} Stellenanzeige(n) warten auf Matching",
     "noMatchingNeeded": "Alle Stellenanzeigen sind aktuell — kein Matching erforderlich.",
     "reportCount": "{{count}} Bericht(e)",
-    "remaining": "verbleibend",
-    "almostDone": "Fast fertig…",
-    "matchingPhase1": "Einstellungsbedarf wird analysiert…",
-    "matchingPhase2": "Qualifizierte Talente werden entdeckt…",
-    "matchingPhase3": "Shortlist wird erstellt…",
-    "matchingPhase4": "Kandidaten-Insights werden generiert…",
-    "matchingPhase5": "Abschließende Empfehlungen werden vorbereitet…",
-    "matchingReportsReady": "Berichte bereit.",
     "exportCsv": "CSV exportieren",
     "exportCsvSelectJob": "Job auswählen zum Exportieren"
   },
@@ -1761,7 +1752,7 @@
     "meters": {
       "screeningActions": {
         "what": "Eine pro analysiertem Lebenslauf und eine pro Kandidat, der für eine Stelle bewertet wird.",
-        "details": "Gezählt, wenn ein Lebenslauf hochgeladen oder aus Ihrem ATS importiert wird, wenn ein Matching-Lauf einen Kandidaten für eine offene Stelle bewertet (bis zu 10 pro Stelle und Lauf — neue Lebensläufe stellen jede offene Stelle erneut in die Warteschlange), wenn die Datenqualität einen Lebenslauf neu analysiert und wenn die KI Bewertungsregeln vorschlägt.",
+        "details": "Gezählt, wenn ein Lebenslauf hochgeladen oder aus Ihrem ATS importiert wird, wenn ein Matching-Lauf einen Kandidaten für eine offene Stelle bewertet (nur neue Kandidaten und geänderte Lebensläufe oder Stellen — unveränderte Berichte werden kostenlos wiederverwendet — bis zum gewählten Top N pro Stelle), wenn die Datenqualität einen Lebenslauf neu analysiert und wenn die KI Bewertungsregeln vorschlägt.",
         "atLimit": "Am Limit werden Uploads, ATS-Importe, Matching und Neuanalysen bis zur Verlängerung des Zeitraums pausiert."
       },
       "aiResumeChats": {
@@ -1912,7 +1903,8 @@
         "cost": "Kosten",
         "estimate": "Bis zu {{count}} Matching-Aktionen",
         "left": "Übrig",
-        "unmetered": "Unbegrenzt"
+        "unmetered": "Unbegrenzt",
+        "reused": "{{count}} unveränderte Berichte kostenlos wiederverwendet"
       },
       "ats": {
         "title": "ATS-Import starten?",
@@ -1944,7 +1936,8 @@
         "goal": "Aufgabe",
         "cap": "Limit",
         "perDay": "Bis zu {{count}} Aufgaben pro Tag",
-        "note": "Nur ab jetzt: Bereits Vorhandenes wird nicht verarbeitet. Sie können sie in Copilot → Regeln pausieren oder bearbeiten."
+        "note": "Nur ab jetzt: Bereits Vorhandenes wird nicht verarbeitet. Sie können sie in Copilot → Regeln pausieren oder bearbeiten.",
+        "matching": "Matching"
       }
     },
     "rules": {
@@ -1983,7 +1976,8 @@
         "CV_ADDED": "Ein Kandidat wird hinzugefügt",
         "CV_SCORED": "Ein Kandidat wird für eine Stelle bewertet",
         "SCHEDULE": "Nach Zeitplan",
-        "ATS_SYNC_FINISHED": "Ein ATS-Import endet"
+        "ATS_SYNC_FINISHED": "Ein ATS-Import endet",
+        "JOB_NEEDS_MATCHING": "Eine Stelle braucht ein Matching"
       },
       "sources": {
         "ANY": "Hochgeladen oder importiert",
@@ -2020,7 +2014,8 @@
         "recommended": "für ein Gespräch empfohlen",
         "daily": "Jeden Tag um {{time}} ({{zone}})",
         "weekly": "Jeden {{day}} um {{time}} ({{zone}})",
-        "atsSync": "Wenn ein Import aus {{name}} endet"
+        "atsSync": "Wenn ein Import aus {{name}} endet",
+        "jobNeedsMatching": "Wenn {{job}} ein Matching braucht"
       },
       "errors": {
         "name": "Geben Sie der Regel einen Namen (max. 100 Zeichen).",
@@ -2029,7 +2024,9 @@
         "trigger": "Wählen Sie einen Auslöser.",
         "score": "Zwischen 0 und 100.",
         "hour": "Wählen Sie eine Uhrzeit.",
-        "weekday": "Wählen Sie einen Tag."
+        "weekday": "Wählen Sie einen Tag.",
+        "staleReasons": "Wählen Sie mindestens einen Grund.",
+        "autoApproveMax": "Zwischen 1 und 500."
       },
       "dialog": {
         "newTitle": "Neue Regel",
@@ -2051,10 +2048,22 @@
         "insert": "Einfügen:",
         "cap": "Aufgaben pro Tag (max.)",
         "capHelp": "Darüber hinaus wartet die Regel bis morgen",
-        "note": "Die Regel wirkt nur auf das, was ab jetzt passiert. Sie handelt in Ihrem Namen; E-Mails, Matching und Importe warten auf Ihre Freigabe (bis zu 72 Stunden), und Sie erhalten eine E-Mail, wenn etwas wartet.",
+        "note": "Die Regel wirkt nur auf das, was ab jetzt passiert. Sie handelt in Ihrem Namen; E-Mails, Importe und — sofern Sie es oben nicht vorab freigeben — Matching warten auf Ihre Freigabe (bis zu 72 Stunden), und Sie erhalten eine E-Mail, wenn etwas wartet.",
         "save": "Speichern",
-        "create": "Regel erstellen"
-      }
+        "create": "Regel erstellen",
+        "staleReasons": "Weil",
+        "autoApprove": "Matching ohne Rückfrage starten",
+        "autoApproveMax": "Max. Aktionen pro Matching",
+        "autoApproveHelp": "Ein teureres Matching wartet weiterhin auf Ihre Freigabe"
+      },
+      "staleReasons": {
+        "NEVER_RUN": "Neue Stelle",
+        "JOB_CHANGED": "Stelle geändert",
+        "NEW_CANDIDATES": "Neue passende Kandidaten",
+        "CANDIDATE_CHANGED": "Kandidatenprofile geändert"
+      },
+      "autoApproved": "Matching läuft ohne Rückfrage (bis zu {{count}} Aktionen)",
+      "stepAutoApproved": "Ohne Rückfrage ausgeführt — von der Regel vorab freigegeben"
     }
   },
   "agent": {
@@ -2086,5 +2095,60 @@
       "propose_rule": "Regel „{{name}}“",
       "rule_created": "Regel „{{name}}“ erstellt"
     }
+  },
+  "matchingRun": {
+    "title": "Matching starten",
+    "subtitle": "Wählen Sie die Stellen und wie viele Top-Kandidaten Sie pro Stelle erhalten möchten. Nur neue oder geänderte Berichte werden berechnet.",
+    "searchJobs": "Offene Stellen suchen",
+    "selectAllOutdated": "Alle veralteten Stellen auswählen",
+    "clearSelection": "Auswahl aufheben",
+    "noOpenJobs": "Keine offenen Stellen.",
+    "lastMatched": "Zuletzt gematcht am {{date}} · Top {{topN}}",
+    "neverMatched": "Noch nie gematcht",
+    "tooManyJobs": "Wählen Sie höchstens {{max}} Stellen pro Lauf.",
+    "selectedCount": "{{count}} Stelle(n) ausgewählt",
+    "topNLabel": "Kandidaten pro Stelle",
+    "topNOption": "Top {{n}}",
+    "topNLocked": "In einem höheren Tarif verfügbar",
+    "selectJobsFirst": "Wählen Sie mindestens eine Stelle, um die Kosten zu sehen.",
+    "estimating": "Kosten werden geschätzt…",
+    "estimateCandidates": "{{candidates}} Kandidat(en): {{newReports}} neue oder geänderte Berichte, {{reused}} unverändert und kostenlos wiederverwendet.",
+    "estimateActionsLeft": "Verbraucht bis zu {{actions}} Screening-Aktion(en) — in diesem Zeitraum sind noch {{remaining}} übrig.",
+    "estimateActions": "Verbraucht bis zu {{actions}} Screening-Aktion(en).",
+    "notEnoughActions": "In diesem Zeitraum sind nicht genug Screening-Aktionen übrig. Wählen Sie weniger Stellen oder weniger Kandidaten pro Stelle.",
+    "indexing": "{{count}} Stelle(n) werden noch indexiert und übersprungen. Versuchen Sie es in einer Minute erneut.",
+    "start": "Matching starten",
+    "cancel": "Abbrechen",
+    "stale": {
+      "NEVER_RUN": "Noch nie gematcht",
+      "JOB_CHANGED": "Stelle seit dem letzten Lauf geändert",
+      "NEW_CANDIDATES": "{{count}} neue(r) Kandidat(en) kämen in die Top {{topN}}",
+      "CANDIDATE_CHANGED": "Kandidatenprofile seit dem letzten Lauf geändert",
+      "UNKNOWN": "Ergebnisse veraltet"
+    },
+    "staleShort": "Veraltet",
+    "bannerPending": "{{count}} Stelle(n) haben veraltete Matching-Ergebnisse",
+    "bannerUpToDate": "Die Matching-Ergebnisse sind aktuell.",
+    "hideOutdated": "Veraltete ausblenden",
+    "deleteOutdated": "Veraltete löschen ({{count}})",
+    "deleteOutdatedTitle": "Veraltete Berichte löschen",
+    "deleteOutdatedBody": "Die {{count}} veralteten Berichte dieser Stelle löschen? Ihre Notizen und Chats werden ebenfalls gelöscht. Das kann nicht rückgängig gemacht werden.",
+    "queued": "Das Matching ist eingereiht und startet gleich…",
+    "progress": "Matching für {{jobs}} Stelle(n)… {{processed}} von ~{{total}} Kandidaten",
+    "canLeave": "Sie können diese Seite verlassen — das Matching läuft im Hintergrund weiter.",
+    "done": "Matching abgeschlossen: {{generated}} neue oder aktualisierte Berichte, {{reused}} kostenlos wiederverwendet.",
+    "doneQuota": "Es wurde vorzeitig beendet: In diesem Zeitraum sind keine Screening-Aktionen mehr übrig.",
+    "doneWithIssues": "{{failed}} Kandidat(en) konnten nicht bewertet werden und {{skipped}} Stelle(n) wurden übersprungen — starten Sie es erneut, um es abzuschließen.",
+    "dismiss": "Schließen",
+    "scoreMoved": "Veränderung seit dem letzten Lauf (vorher {{previous}} %)",
+    "outdated": "Veraltet",
+    "outdatedReason": {
+      "RANKED_OUT": "Nicht mehr unter den besten Kandidaten des letzten Laufs",
+      "NO_LONGER_ELIGIBLE": "Nicht mehr geeignet (archiviert oder außerhalb der Verfügbarkeitsregeln der Stelle)"
+    },
+    "outdatedSince": "seit {{date}}",
+    "outdatedNotice": "Dieser Bericht ist veraltet: {{reason}}. Er bleibt erhalten, bis Sie ihn löschen.",
+    "startedFollow": "Matching gestartet — Berichte öffnen",
+    "showMore": "Top {{topN}} anzeigen"
   }
 }

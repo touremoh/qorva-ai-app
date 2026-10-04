@@ -45,6 +45,11 @@ const AgentRunTimeline = ({ steps, onLinkClick }) => {
 						}}>
 							{stepLine(t, step)}
 						</Typography>
+						{step.autoApproved && (
+							<Typography data-testid="copilot-step-auto-approved" sx={{ fontSize: tokens.fontSize.micro, color: tokens.ink.faintest }}>
+								{t('copilot.rules.stepAutoApproved')}
+							</Typography>
+						)}
 						{step.draft?.cvId && outreach && (
 							<Button size="small" onClick={() => openDraft(step.draft)} data-testid="copilot-open-draft"
 								sx={{ textTransform: 'none', fontSize: tokens.fontSize.micro, px: 0.5, minWidth: 0 }}>

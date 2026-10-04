@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 import { getInitials } from '../../../../shared/lib/text.js';
-import { Box, TextField, List, ListItemButton, Typography, Chip, Avatar, CircularProgress, InputAdornment, Pagination } from '@mui/material';
+import { Box, TextField, List, ListItemButton, Typography, Chip, Avatar, CircularProgress, InputAdornment, Pagination, Tooltip } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { THEME_GREEN } from '../../model/jobForm.js';
+import { staleReasonKey } from '../../../reports/model/matchingRun.js';
 import { useTranslation } from 'react-i18next';
 import * as tokens from '../../../../theme/tokens.js';
 import { alpha } from '@mui/material/styles';
@@ -43,6 +44,7 @@ const JobListPanel = ({ createMode, currentPage, editMode, fetchJobs, handleJobC
 					{jobs.map((job) => {
 						const active = selectedJob?.id === job.id && !createMode && !editMode;
 						const isOpen = job.status === 'open';
+						const reasonKey = staleReasonKey(job);
 						return (
 							<ListItemButton key={job.id} onClick={() => handleJobClick(job)} sx={{
 								borderRadius: 1.5, mb: 0.5, px: 1.5, py: 1,
@@ -63,6 +65,14 @@ const JobListPanel = ({ createMode, currentPage, editMode, fetchJobs, handleJobC
 											backgroundColor: isOpen ? alpha(tokens.brand.main, 0.12) : 'rgba(239,68,68,0.10)',
 											color: isOpen ? `${tokens.brand.dark}` : `${tokens.status.error.main}`,
 										}} />
+										{reasonKey && (
+											<Tooltip title={t(reasonKey, { count: job.newCandidateCount ?? 0, topN: job.matchingTopN ?? 10 })}>
+												<Chip label={t('matchingRun.staleShort')} size="small" sx={{
+													height: 18, fontSize: tokens.fontSize.caption, fontWeight: 600, borderRadius: 0.75,
+													backgroundColor: 'rgba(245,158,11,0.12)', color: tokens.status.warning.text,
+												}} />
+											</Tooltip>
+										)}
 									</Box>
 								</Box>
 							</ListItemButton>

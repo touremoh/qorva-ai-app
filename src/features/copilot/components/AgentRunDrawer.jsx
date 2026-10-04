@@ -13,7 +13,9 @@ import AgentRunCard from './AgentRunCard.jsx';
 const AgentRunDrawer = ({ open, run, onClose, onCancel, onRunUpdate }) => {
 	const { t } = useTranslation();
 	return (
-		<Drawer anchor="right" open={open} onClose={onClose} PaperProps={{ sx: { width: { xs: '100%', sm: 520 }, backgroundColor: tokens.surface.subtle } }}>
+		// Focus stays free: a draft opened from the task shows the email composer beside the drawer, and a
+		// modal focus trap would pull every click in it back here — nothing could be typed.
+		<Drawer anchor="right" open={open} onClose={onClose} disableEnforceFocus disableRestoreFocus PaperProps={{ sx: { width: { xs: '100%', sm: 520 }, backgroundColor: tokens.surface.subtle } }}>
 			<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, px: 2, py: 1.5, backgroundColor: tokens.surface.paper, borderBottom: `1px solid ${tokens.line.main}` }}>
 				<Box sx={{ flex: 1, minWidth: 0 }}>
 					<Typography sx={{ fontSize: tokens.fontSize.body2, fontWeight: 700, color: tokens.ink.strong, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>

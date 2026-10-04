@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { expect, test } from '@playwright/test';
 import { NOW } from './support/app.js';
 import { mockApi, signIn } from './support/api.js';
@@ -10,6 +11,11 @@ const CONVERSATION_ID = '6ab7190e28a8f342d03d9f02';
 const GOAL = 'How many senior Java developers do we have?';
 
 const json = (status, body) => ({ status, body });
+
+// The task Activity opens, as recorded in the fixture.
+const FIXTURE = JSON.parse(readFileSync(new URL('./fixtures/api.json', import.meta.url), 'utf8'));
+const FIXTURE_RUN_ID = Object.keys(FIXTURE).find((k) => /^GET \/agent\/runs\/[0-9a-f]{24}$/.test(k)).split('/').pop();
+const FIXTURE_RUN = FIXTURE[`GET /agent/runs/${FIXTURE_RUN_ID}`];
 
 const run = (status, extra = {}) => ({
 	id: RUN_ID,
@@ -197,6 +203,28 @@ test.describe('copilot', () => {
 
 		await expect(page.getByRole('textbox', { name: 'Subject' })).toHaveValue('Hello Oliver');
 		await expect(page.getByRole('textbox', { name: 'Message' })).toHaveValue('Would you be open to a chat?');
+	});
+
+	test('a draft opened from a task in Activity can be edited in the composer', async ({ page }) => {
+		// The task drawer is modal: it used to pull focus back from the composer, so nothing could be typed.
+		const ruleRun = JSON.parse(JSON.stringify(FIXTURE_RUN));
+		ruleRun.body.steps = [{ seq: 1, kind: 'TOOL_CALL', tool: 'draft_outreach', state: 'OK', summaryKey: 'agent.step.draft_outreach',
+			summaryParams: { name: 'Oliver Whitfield' }, links: [],
+			draft: { cvId: 'cv-1', jobId: null, subject: 'Interview invitation', body: 'Would you be open to an interview?' } }];
+		await mockApi(page, { ...enabled, [`GET /agent/runs/${FIXTURE_RUN_ID}`]: () => ruleRun });
+		await signIn(page);
+		await page.goto('/app/copilot?tab=activity');
+
+		await page.getByTestId('copilot-activity-row').first().click();
+		await page.getByTestId('copilot-run-drawer').getByTestId('copilot-open-draft').click();
+
+		const subject = page.getByRole('textbox', { name: 'Subject' });
+		await expect(subject).toHaveValue('Interview invitation');
+		await subject.fill('Interview invitation — Backend Lead');
+		await expect(subject).toHaveValue('Interview invitation — Backend Lead');
+		await page.getByRole('textbox', { name: 'Message' }).press('End');
+		await page.keyboard.type(' Next week works.');
+		await expect(page.getByRole('textbox', { name: 'Message' })).toHaveValue('Would you be open to an interview? Next week works.');
 	});
 
 	test('the limit is explained inline, without a toast', async ({ page }) => {

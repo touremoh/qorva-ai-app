@@ -511,17 +511,8 @@
     "sortDesc": "Sort: High to Low",
     "startMatching": "Run Matching",
     "matchingInProgress": "Matching in progress…",
-    "matchingNeeded": "{{count}} job post(s) ready for matching",
     "noMatchingNeeded": "All candidates are matched — no action needed.",
     "reportCount": "{{count}} report(s)",
-    "remaining": "remaining",
-    "almostDone": "Almost done…",
-    "matchingPhase1": "Understanding the hiring needs…",
-    "matchingPhase2": "Discovering qualified talents…",
-    "matchingPhase3": "Building the shortlist…",
-    "matchingPhase4": "Generating candidate insights…",
-    "matchingPhase5": "Preparing final recommendations…",
-    "matchingReportsReady": "Reports ready.",
     "exportCsv": "Export CSV",
     "exportCsvSelectJob": "Select a job to export"
   },
@@ -1761,7 +1752,7 @@
     "meters": {
       "screeningActions": {
         "what": "One per resume analysed, and one per candidate scored against a job.",
-        "details": "Counted when a resume is uploaded or imported from your ATS, when a matching run scores a candidate against an open job (up to 10 per job per run — adding resumes queues every open job again), when Data Health re-analyses a resume, and when AI suggests scoring rules.",
+        "details": "Counted when a resume is uploaded or imported from your ATS, when a matching run scores a candidate against an open job (only new candidates and changed resumes or jobs — unchanged reports are reused for free — up to the Top N you choose per job), when Data Health re-analyses a resume, and when AI suggests scoring rules.",
         "atLimit": "At the limit, uploads, ATS imports, matching and re-analysis pause until the period renews."
       },
       "aiResumeChats": {
@@ -1912,7 +1903,8 @@
         "cost": "Cost",
         "estimate": "Up to {{count}} matching actions",
         "left": "Left",
-        "unmetered": "Not limited"
+        "unmetered": "Not limited",
+        "reused": "{{count}} unchanged report(s) reused for free"
       },
       "ats": {
         "title": "Start an ATS import?",
@@ -1944,7 +1936,8 @@
         "goal": "Task",
         "cap": "Limit",
         "perDay": "Up to {{count}} tasks a day",
-        "note": "From now on only: nothing that already exists is processed. You can pause or edit it in Copilot → Rules."
+        "note": "From now on only: nothing that already exists is processed. You can pause or edit it in Copilot → Rules.",
+        "matching": "Matching"
       }
     },
     "rules": {
@@ -1983,7 +1976,8 @@
         "CV_ADDED": "A candidate is added",
         "CV_SCORED": "A candidate is scored on a job",
         "SCHEDULE": "On a schedule",
-        "ATS_SYNC_FINISHED": "An ATS import finishes"
+        "ATS_SYNC_FINISHED": "An ATS import finishes",
+        "JOB_NEEDS_MATCHING": "A job needs matching"
       },
       "sources": {
         "ANY": "Uploaded or imported",
@@ -2020,7 +2014,8 @@
         "recommended": "recommended for interview",
         "daily": "Every day at {{time}} ({{zone}})",
         "weekly": "Every {{day}} at {{time}} ({{zone}})",
-        "atsSync": "When an import from {{name}} finishes"
+        "atsSync": "When an import from {{name}} finishes",
+        "jobNeedsMatching": "When {{job}} needs matching"
       },
       "errors": {
         "name": "Give the rule a name (up to 100 characters).",
@@ -2029,7 +2024,9 @@
         "trigger": "Choose a trigger.",
         "score": "Between 0 and 100.",
         "hour": "Choose an hour.",
-        "weekday": "Choose a day."
+        "weekday": "Choose a day.",
+        "staleReasons": "Choose at least one reason.",
+        "autoApproveMax": "Between 1 and 500."
       },
       "dialog": {
         "newTitle": "New rule",
@@ -2051,10 +2048,22 @@
         "insert": "Insert:",
         "cap": "Tasks per day (max)",
         "capHelp": "Beyond it, the rule waits until tomorrow",
-        "note": "The rule only acts on what happens from now on. It runs as you; emails, matching and imports wait for your approval (up to 72 hours), and you get an email when something waits.",
+        "note": "The rule only acts on what happens from now on. It runs as you; emails, imports and — unless you pre-approve it above — matching wait for your approval (up to 72 hours), and you get an email when something waits.",
         "save": "Save",
-        "create": "Create rule"
-      }
+        "create": "Create rule",
+        "staleReasons": "Because",
+        "autoApprove": "Run matching without asking me",
+        "autoApproveMax": "Max actions per matching",
+        "autoApproveHelp": "A dearer matching still waits for your approval"
+      },
+      "staleReasons": {
+        "NEVER_RUN": "New job",
+        "JOB_CHANGED": "Job changed",
+        "NEW_CANDIDATES": "New candidates would rank",
+        "CANDIDATE_CHANGED": "Candidate profiles changed"
+      },
+      "autoApproved": "Matching runs without asking (up to {{count}} actions)",
+      "stepAutoApproved": "Ran without asking — pre-approved by the rule"
     }
   },
   "agent": {
@@ -2086,5 +2095,60 @@
       "propose_rule": "Rule “{{name}}”",
       "rule_created": "Created the rule “{{name}}”"
     }
+  },
+  "matchingRun": {
+    "title": "Run matching",
+    "subtitle": "Choose the jobs to match and how many top candidates to get for each. Only new or changed reports are charged.",
+    "searchJobs": "Search open jobs",
+    "selectAllOutdated": "Select all out-of-date jobs",
+    "clearSelection": "Clear selection",
+    "noOpenJobs": "No open jobs.",
+    "lastMatched": "Last matched {{date}} · Top {{topN}}",
+    "neverMatched": "Never matched",
+    "tooManyJobs": "Select up to {{max}} jobs per run.",
+    "selectedCount": "{{count}} job(s) selected",
+    "topNLabel": "Candidates per job",
+    "topNOption": "Top {{n}}",
+    "topNLocked": "Available on a higher plan",
+    "selectJobsFirst": "Select at least one job to see what it costs.",
+    "estimating": "Estimating the cost…",
+    "estimateCandidates": "{{candidates}} candidate(s): {{newReports}} new or changed report(s), {{reused}} unchanged and reused for free.",
+    "estimateActionsLeft": "Uses up to {{actions}} screening action(s) — {{remaining}} left this period.",
+    "estimateActions": "Uses up to {{actions}} screening action(s).",
+    "notEnoughActions": "Not enough screening actions left this period. Select fewer jobs or fewer candidates per job.",
+    "indexing": "{{count}} job(s) are still being indexed and will be skipped. Try again in a minute.",
+    "start": "Run matching",
+    "cancel": "Cancel",
+    "stale": {
+      "NEVER_RUN": "Never matched",
+      "JOB_CHANGED": "Job changed since the last run",
+      "NEW_CANDIDATES": "{{count}} new candidate(s) would enter the top {{topN}}",
+      "CANDIDATE_CHANGED": "Candidate profiles changed since the last run",
+      "UNKNOWN": "Results out of date"
+    },
+    "staleShort": "Out of date",
+    "bannerPending": "{{count}} job(s) have out-of-date matching results",
+    "bannerUpToDate": "Matching results are up to date.",
+    "hideOutdated": "Hide outdated",
+    "deleteOutdated": "Delete outdated ({{count}})",
+    "deleteOutdatedTitle": "Delete outdated reports",
+    "deleteOutdatedBody": "Delete the {{count}} outdated report(s) of this job? Their notes and chats are deleted too. This cannot be undone.",
+    "queued": "Matching is queued and starts in a moment…",
+    "progress": "Matching {{jobs}} job(s)… {{processed}} of ~{{total}} candidates",
+    "canLeave": "You can leave this page — matching continues in the background.",
+    "done": "Matching finished: {{generated}} new or updated report(s), {{reused}} reused for free.",
+    "doneQuota": "It stopped early: no screening actions left this period.",
+    "doneWithIssues": "{{failed}} candidate(s) could not be scored and {{skipped}} job(s) were skipped — run it again to finish.",
+    "dismiss": "Dismiss",
+    "scoreMoved": "Change since the last run (was {{previous}}%)",
+    "outdated": "Outdated",
+    "outdatedReason": {
+      "RANKED_OUT": "No longer among the job's latest top candidates",
+      "NO_LONGER_ELIGIBLE": "No longer eligible (archived, or outside the job's availability rules)"
+    },
+    "outdatedSince": "since {{date}}",
+    "outdatedNotice": "This report is outdated: {{reason}}. It stays until you delete it.",
+    "startedFollow": "Matching started — open Matching",
+    "showMore": "Show top {{topN}}"
   }
 }

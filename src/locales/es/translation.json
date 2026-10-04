@@ -511,17 +511,8 @@
     "sortDesc": "Ordenar: Descendente",
     "startMatching": "Iniciar análisis",
     "matchingInProgress": "Análisis en curso…",
-    "matchingNeeded": "{{count}} oferta(s) pendiente(s) de análisis",
     "noMatchingNeeded": "Todas las ofertas están actualizadas — no se requiere análisis.",
     "reportCount": "{{count}} informe(s)",
-    "remaining": "restantes",
-    "almostDone": "Casi listo…",
-    "matchingPhase1": "Analizando las necesidades de contratación…",
-    "matchingPhase2": "Descubriendo talentos cualificados…",
-    "matchingPhase3": "Construyendo la lista de candidatos…",
-    "matchingPhase4": "Generando análisis de candidatos…",
-    "matchingPhase5": "Preparando las recomendaciones finales…",
-    "matchingReportsReady": "Informes listos.",
     "exportCsv": "Exportar CSV",
     "exportCsvSelectJob": "Seleccione un puesto para exportar"
   },
@@ -1761,7 +1752,7 @@
     "meters": {
       "screeningActions": {
         "what": "Una por currículum analizado y una por candidato evaluado para una oferta.",
-        "details": "Se cuenta cuando se sube un currículum o se importa desde su ATS, cuando una ejecución de coincidencias evalúa a un candidato para una oferta abierta (hasta 10 por oferta y ejecución — añadir currículums vuelve a poner en cola todas las ofertas abiertas), cuando Salud de datos reanaliza un currículum y cuando la IA sugiere reglas de puntuación.",
+        "details": "Se cuenta cuando se sube un currículum o se importa desde su ATS, cuando una ejecución de coincidencias evalúa a un candidato para una oferta abierta (solo candidatos nuevos y currículums u ofertas modificados — los informes sin cambios se reutilizan gratis — hasta el Top N elegido por oferta), cuando Salud de datos reanaliza un currículum y cuando la IA sugiere reglas de puntuación.",
         "atLimit": "Al llegar al límite, las subidas, importaciones del ATS, coincidencias y reanálisis se pausan hasta que se renueve el periodo."
       },
       "aiResumeChats": {
@@ -1912,7 +1903,8 @@
         "cost": "Coste",
         "estimate": "Hasta {{count}} análisis",
         "left": "Quedan",
-        "unmetered": "Sin límite"
+        "unmetered": "Sin límite",
+        "reused": "{{count}} informe(s) sin cambios reutilizado(s) gratis"
       },
       "ats": {
         "title": "¿Iniciar una importación ATS?",
@@ -1944,7 +1936,8 @@
         "goal": "Tarea",
         "cap": "Límite",
         "perDay": "Hasta {{count}} tareas al día",
-        "note": "Solo a partir de ahora: no se procesa nada de lo que ya existe. Puedes pausarla o editarla en Copilot → Reglas."
+        "note": "Solo a partir de ahora: no se procesa nada de lo que ya existe. Puedes pausarla o editarla en Copilot → Reglas.",
+        "matching": "Matching"
       }
     },
     "rules": {
@@ -1983,7 +1976,8 @@
         "CV_ADDED": "Se añade un candidato",
         "CV_SCORED": "Un candidato es evaluado en una oferta",
         "SCHEDULE": "Según un horario",
-        "ATS_SYNC_FINISHED": "Termina una importación del ATS"
+        "ATS_SYNC_FINISHED": "Termina una importación del ATS",
+        "JOB_NEEDS_MATCHING": "Una oferta necesita matching"
       },
       "sources": {
         "ANY": "Subido o importado",
@@ -2020,7 +2014,8 @@
         "recommended": "recomendado para entrevista",
         "daily": "Cada día a las {{time}} ({{zone}})",
         "weekly": "Cada {{day}} a las {{time}} ({{zone}})",
-        "atsSync": "Cuando termina una importación de {{name}}"
+        "atsSync": "Cuando termina una importación de {{name}}",
+        "jobNeedsMatching": "Cuando {{job}} necesita matching"
       },
       "errors": {
         "name": "Ponle un nombre a la regla (máx. 100 caracteres).",
@@ -2029,7 +2024,9 @@
         "trigger": "Elige un desencadenante.",
         "score": "Entre 0 y 100.",
         "hour": "Elige una hora.",
-        "weekday": "Elige un día."
+        "weekday": "Elige un día.",
+        "staleReasons": "Elige al menos un motivo.",
+        "autoApproveMax": "Entre 1 y 500."
       },
       "dialog": {
         "newTitle": "Nueva regla",
@@ -2051,10 +2048,22 @@
         "insert": "Insertar:",
         "cap": "Tareas por día (máx.)",
         "capHelp": "Por encima, la regla espera hasta mañana",
-        "note": "La regla solo actúa sobre lo que ocurra a partir de ahora. Actúa en tu nombre; los correos, el matching y las importaciones esperan tu aprobación (hasta 72 horas), y recibes un correo cuando algo espera.",
+        "note": "La regla solo actúa sobre lo que ocurra a partir de ahora. Actúa en tu nombre; los correos, las importaciones y — salvo que lo autorices arriba — el matching esperan tu aprobación (hasta 72 horas), y recibes un correo cuando algo espera.",
         "save": "Guardar",
-        "create": "Crear regla"
-      }
+        "create": "Crear regla",
+        "staleReasons": "Porque",
+        "autoApprove": "Ejecutar el matching sin preguntarme",
+        "autoApproveMax": "Máx. acciones por matching",
+        "autoApproveHelp": "Un matching más costoso sigue esperando tu aprobación"
+      },
+      "staleReasons": {
+        "NEVER_RUN": "Oferta nueva",
+        "JOB_CHANGED": "Oferta modificada",
+        "NEW_CANDIDATES": "Nuevos candidatos relevantes",
+        "CANDIDATE_CHANGED": "Perfiles de candidatos modificados"
+      },
+      "autoApproved": "El matching se ejecuta sin preguntar (hasta {{count}} acciones)",
+      "stepAutoApproved": "Ejecutado sin preguntar — autorizado de antemano por la regla"
     }
   },
   "agent": {
@@ -2086,5 +2095,60 @@
       "propose_rule": "Regla «{{name}}»",
       "rule_created": "Regla «{{name}}» creada"
     }
+  },
+  "matchingRun": {
+    "title": "Iniciar análisis",
+    "subtitle": "Elija las ofertas que quiere analizar y cuántos de los mejores candidatos obtener en cada una. Solo se cobran los informes nuevos o modificados.",
+    "searchJobs": "Buscar ofertas abiertas",
+    "selectAllOutdated": "Seleccionar todas las ofertas desactualizadas",
+    "clearSelection": "Borrar selección",
+    "noOpenJobs": "No hay ofertas abiertas.",
+    "lastMatched": "Último análisis el {{date}} · Top {{topN}}",
+    "neverMatched": "Nunca analizada",
+    "tooManyJobs": "Seleccione como máximo {{max}} ofertas por análisis.",
+    "selectedCount": "{{count}} oferta(s) seleccionada(s)",
+    "topNLabel": "Candidatos por oferta",
+    "topNOption": "Top {{n}}",
+    "topNLocked": "Disponible en un plan superior",
+    "selectJobsFirst": "Seleccione al menos una oferta para ver el coste.",
+    "estimating": "Calculando el coste…",
+    "estimateCandidates": "{{candidates}} candidato(s): {{newReports}} informe(s) nuevo(s) o modificado(s), {{reused}} sin cambios y reutilizado(s) gratis.",
+    "estimateActionsLeft": "Usa hasta {{actions}} acción(es) de screening — quedan {{remaining}} en este periodo.",
+    "estimateActions": "Usa hasta {{actions}} acción(es) de screening.",
+    "notEnoughActions": "No quedan suficientes acciones de screening en este periodo. Seleccione menos ofertas o menos candidatos por oferta.",
+    "indexing": "{{count}} oferta(s) aún se están indexando y se omitirán. Vuelva a intentarlo en un minuto.",
+    "start": "Iniciar análisis",
+    "cancel": "Cancelar",
+    "stale": {
+      "NEVER_RUN": "Nunca analizada",
+      "JOB_CHANGED": "Oferta modificada desde el último análisis",
+      "NEW_CANDIDATES": "{{count}} candidato(s) nuevo(s) entrarían en el top {{topN}}",
+      "CANDIDATE_CHANGED": "Perfiles de candidatos modificados desde el último análisis",
+      "UNKNOWN": "Resultados desactualizados"
+    },
+    "staleShort": "Desactualizada",
+    "bannerPending": "{{count}} oferta(s) tienen resultados de análisis desactualizados",
+    "bannerUpToDate": "Los resultados de análisis están al día.",
+    "hideOutdated": "Ocultar obsoletos",
+    "deleteOutdated": "Eliminar obsoletos ({{count}})",
+    "deleteOutdatedTitle": "Eliminar informes obsoletos",
+    "deleteOutdatedBody": "¿Eliminar los {{count}} informe(s) obsoleto(s) de esta oferta? También se eliminan sus notas y chats. No se puede deshacer.",
+    "queued": "El análisis está en cola y empieza en un momento…",
+    "progress": "Analizando {{jobs}} oferta(s)… {{processed}} de ~{{total}} candidatos",
+    "canLeave": "Puede salir de esta página: el análisis continúa en segundo plano.",
+    "done": "Análisis terminado: {{generated}} informe(s) nuevo(s) o actualizado(s), {{reused}} reutilizado(s) gratis.",
+    "doneQuota": "Se detuvo antes de terminar: no quedan acciones de screening en este periodo.",
+    "doneWithIssues": "{{failed}} candidato(s) no se pudieron evaluar y se omitieron {{skipped}} oferta(s): vuelva a lanzarlo para terminar.",
+    "dismiss": "Cerrar",
+    "scoreMoved": "Cambio desde el último análisis (antes {{previous}} %)",
+    "outdated": "Obsoleto",
+    "outdatedReason": {
+      "RANKED_OUT": "Ya no está entre los mejores candidatos del último análisis",
+      "NO_LONGER_ELIGIBLE": "Ya no es elegible (archivado o fuera de las reglas de disponibilidad de la oferta)"
+    },
+    "outdatedSince": "desde el {{date}}",
+    "outdatedNotice": "Este informe está obsoleto: {{reason}}. Se conserva hasta que lo elimine.",
+    "startedFollow": "Análisis iniciado — abrir informes",
+    "showMore": "Ver el top {{topN}}"
   }
 }
