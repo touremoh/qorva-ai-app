@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import LeaderboardOutlinedIcon from '@mui/icons-material/LeaderboardOutlined';
 import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
+import ViewKanbanOutlinedIcon from '@mui/icons-material/ViewKanbanOutlined';
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
@@ -26,6 +27,7 @@ import {
 	COMP_ID_JOBS,
 	COMP_ID_LIBRARY_QUALITY,
 	COMP_ID_REPORTS,
+	COMP_ID_PIPELINE,
 	COMP_ID_SETTINGS,
 	COMP_ID_USAGE_MONITORING,
 } from '../../../constants.js';
@@ -86,6 +88,7 @@ const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, isAgen
 			badgeTooltip: t('libraryQuality.badgeTooltip', '{{count}} issues to fix', { count: qualityIssueCount }) },
 		{ id: COMP_ID_JOBS,             Icon: WorkOutlineOutlinedIcon,     label: t('menu.jobs', 'Jobs'),                              display: true },
 		{ id: COMP_ID_REPORTS,          Icon: AssessmentOutlinedIcon,      label: t('menu.reports', 'Match Reports'),                  display: true },
+		{ id: COMP_ID_PIPELINE,         Icon: ViewKanbanOutlinedIcon,      label: t('menu.pipeline', 'Pipeline'),                      display: true },
 		{ id: COMP_ID_INTELLIGENCE,     Icon: PsychologyOutlinedIcon,      label: t('menu.intelligence', 'Talent Intelligence'),       display: true },
 		{ id: COMP_ID_COPILOT,          Icon: SmartToyOutlinedIcon,        label: t('menu.copilot', 'Copilot'),                        display: isAgentAllowed,
 			badge: agentPendingCount,

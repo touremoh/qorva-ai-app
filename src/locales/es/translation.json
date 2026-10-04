@@ -98,7 +98,8 @@
     "expandMenu": "Expandir",
     "collapseMenu": "Contraer",
     "configuration": "Configuración",
-    "copilot": "Copilot"
+    "copilot": "Copilot",
+    "pipeline": "Pipeline de candidatos"
   },
   "jobContent": {
     "createJobPost": "Nueva oferta",
@@ -1809,7 +1810,8 @@
     "usage": "Consumo",
     "configuration": "Configuración",
     "accountSettings": "Cuenta",
-    "copilot": "Copilot"
+    "copilot": "Copilot",
+    "pipeline": "Pipeline"
   },
   "copilot": {
     "tabs": {
@@ -2205,5 +2207,46 @@
     "never": "{{name}}: aún sin sincronizar",
     "failed": "La última sincronización con {{name}} falló",
     "failedHint": "Un administrador puede revisar la conexión en Ajustes → Integraciones."
+  },
+  "pipeline": {
+    "title": "Pipeline",
+    "total": "{{count}} candidato(s)",
+    "job": "Oferta",
+    "allJobs": "Todas las ofertas",
+    "search": "Buscar candidatos",
+    "refresh": "Actualizar",
+    "readOnly": "Puedes ver el pipeline; mover candidatos requiere el permiso «modificar informes».",
+    "retry": "Reintentar",
+    "empty": "Aún no hay candidatos en el pipeline. Ejecuta una coincidencia en una oferta para llenarlo.",
+    "undo": "Deshacer",
+    "moved": "{{name}} movido a {{status}}",
+    "report": "Informe",
+    "close": "Cerrar",
+    "card": {
+      "label": "{{name}}, {{status}}. Intro abre el informe, Espacio lo toma para moverlo.",
+      "moveTo": "Mover a…",
+      "movedBy": "Movido por {{name}}"
+    },
+    "column": {
+      "expand": "Expandir",
+      "expandNamed": "Expandir {{status}}",
+      "collapse": "Contraer",
+      "collapseNamed": "Contraer {{status}}",
+      "empty": "Ningún candidato",
+      "emptyDrop": "Suelta un candidato aquí",
+      "loadMore": "Cargar más ({{count}})"
+    },
+    "errors": {
+      "load": "No se pudo cargar el pipeline.",
+      "move": "No se pudo mover al candidato. Ha vuelto a su lugar.",
+      "conflict": "Otra persona movió a este candidato mientras tanto. El tablero muestra ahora dónde está.",
+      "report": "No se pudo abrir este informe."
+    },
+    "a11y": {
+      "picked": "{{name}} tomado. Usa las flechas para elegir una columna, Espacio para soltar, Escape para cancelar.",
+      "over": "{{name}} sobre {{status}}.",
+      "dropped": "{{name}} soltado en {{status}}.",
+      "cancelled": "Se canceló el movimiento de {{name}}."
+    }
   }
 }

@@ -98,7 +98,8 @@
     "expandMenu": "Expandir",
     "collapseMenu": "Recolher",
     "configuration": "Configuração",
-    "copilot": "Copilot"
+    "copilot": "Copilot",
+    "pipeline": "Pipeline de candidatos"
   },
   "jobContent": {
     "createJobPost": "Nova vaga",
@@ -1809,7 +1810,8 @@
     "usage": "Consumo",
     "configuration": "Configuração",
     "accountSettings": "Definições da Conta",
-    "copilot": "Copilot"
+    "copilot": "Copilot",
+    "pipeline": "Pipeline"
   },
   "copilot": {
     "tabs": {
@@ -2205,5 +2207,46 @@
     "never": "{{name}}: ainda não sincronizado",
     "failed": "A última sincronização com {{name}} falhou",
     "failedHint": "Um administrador pode verificar a ligação em Definições → Integrações."
+  },
+  "pipeline": {
+    "title": "Pipeline",
+    "total": "{{count}} candidato(s)",
+    "job": "Oferta",
+    "allJobs": "Todas as ofertas",
+    "search": "Pesquisar candidatos",
+    "refresh": "Atualizar",
+    "readOnly": "Pode ver o pipeline; mover candidatos requer a permissão «modificar relatórios».",
+    "retry": "Tentar novamente",
+    "empty": "Ainda não há candidatos no pipeline. Execute a correspondência numa oferta para o preencher.",
+    "undo": "Anular",
+    "moved": "{{name}} movido para {{status}}",
+    "report": "Relatório",
+    "close": "Fechar",
+    "card": {
+      "label": "{{name}}, {{status}}. Enter abre o relatório, Espaço pega no cartão para o mover.",
+      "moveTo": "Mover para…",
+      "movedBy": "Movido por {{name}}"
+    },
+    "column": {
+      "expand": "Expandir",
+      "expandNamed": "Expandir {{status}}",
+      "collapse": "Recolher",
+      "collapseNamed": "Recolher {{status}}",
+      "empty": "Nenhum candidato",
+      "emptyDrop": "Largue aqui um candidato",
+      "loadMore": "Carregar mais ({{count}})"
+    },
+    "errors": {
+      "load": "Não foi possível carregar o pipeline.",
+      "move": "Não foi possível mover o candidato. Voltou ao seu lugar.",
+      "conflict": "Outra pessoa moveu este candidato entretanto. O quadro mostra agora onde está.",
+      "report": "Não foi possível abrir este relatório."
+    },
+    "a11y": {
+      "picked": "{{name}} selecionado. Use as setas para escolher uma coluna, Espaço para largar, Escape para cancelar.",
+      "over": "{{name}} sobre {{status}}.",
+      "dropped": "{{name}} largado em {{status}}.",
+      "cancelled": "O movimento de {{name}} foi cancelado."
+    }
   }
 }

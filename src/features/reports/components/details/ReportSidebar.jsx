@@ -5,7 +5,7 @@ import { Box, Chip, Divider, Paper, Stack, Typography } from '@mui/material';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
 import HubOutlinedIcon from '@mui/icons-material/HubOutlined';
-import { THEME_GREEN } from '../../model/reportDetails.js';
+import { REPORT_TWO_COLUMNS_PX, THEME_GREEN } from '../../model/reportDetails.js';
 import { useTranslation } from 'react-i18next';
 import { SKILL_DEPTH_STYLE, STYLE_UNKNOWN, getSeniorityStyle, getLeadershipStyle, getVelocityStyle } from '../../../../shared/lib/clustering.js';
 import * as tokens from '../../../../theme/tokens.js';
@@ -16,7 +16,11 @@ const ReportSidebar = ({ candidate }) => {
 	const { t } = useTranslation();
 	return (
 		<>
-		<Box sx={{ width: { xs: '100%', md: '30%' }, maxWidth: { md: 340 }, flexShrink: 0, alignSelf: 'flex-start', display: 'flex', flexDirection: 'column', gap: 2 }}>
+		<Box data-testid="report-sidebar" sx={{ width: '100%', flexShrink: 0, alignSelf: 'flex-start', display: 'flex', flexDirection: 'column', gap: 2,
+			// Beside the main column only when the report has room for both (container query on the report).
+			[`@container report (min-width: ${REPORT_TWO_COLUMNS_PX}px)`]: { width: '30%', maxWidth: 340 },
+			// A long value never runs past the card: it ends in "…".
+			'& .MuiChip-root': { maxWidth: '100%' } }}>
 
 			{/* Candidate Profile */}
 			<Paper elevation={0} sx={{ border: `1px solid ${tokens.line.main}`, borderRadius: 2.5, p: 2.5 }}>
@@ -106,7 +110,7 @@ const ReportSidebar = ({ candidate }) => {
 											<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.muted, flexShrink: 0 }}>
 												{row.label}
 											</Typography>
-											<Chip label={toLabel(row.value)} size="small" sx={{ height: 18, fontSize: tokens.fontSize.micro, fontWeight: 600, backgroundColor: row.bg, color: row.color, border: `1px solid ${row.bdr}` }} />
+											<Chip label={toLabel(row.value)} size="small" title={toLabel(row.value)} sx={{ minWidth: 0, maxWidth: '60%', height: 18, fontSize: tokens.fontSize.micro, fontWeight: 600, backgroundColor: row.bg, color: row.color, border: `1px solid ${row.bdr}` }} />
 										</Box>
 									))}
 								</Box>

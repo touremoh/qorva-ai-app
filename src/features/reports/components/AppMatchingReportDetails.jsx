@@ -23,6 +23,7 @@ import ReportMainColumn from './details/ReportMainColumn.jsx';
 import ReportCandidateHeader from './details/ReportCandidateHeader.jsx';
 import ReportActionBar from './details/ReportActionBar.jsx';
 import * as tokens from '../../../theme/tokens.js';
+import { REPORT_TWO_COLUMNS_PX } from '../model/reportDetails.js';
 
 /** {@code onStatusChange}: moves the candidate on the job; without it the status is shown read-only. */
 const AppMatchingReportDetails = ({ reportData, onStatusChange }) => {
@@ -93,8 +94,9 @@ const AppMatchingReportDetails = ({ reportData, onStatusChange }) => {
 				</Box>
 			)}
 
-			{/* ── Printable content ── */}
-			<Box ref={componentRef} sx={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
+			{/* ── Printable content ── a size container: the layout follows the room the report has (Match Reports pane,
+			     pipeline side panel, chat panel), not the window's width. ── */}
+			<Box ref={componentRef} sx={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', containerType: 'inline-size', containerName: 'report' }}>
 
 				{/* Company branding */}
 				{tenant && <TenantBrandHeader tenant={tenant} logoUrl={tenantLogoUrl} sx={{ px: 3, flexShrink: 0, borderBottom: '1px solid', borderColor: 'line.main' }} />}
@@ -103,7 +105,8 @@ const AppMatchingReportDetails = ({ reportData, onStatusChange }) => {
 				<ReportCandidateHeader candidate={candidate} jobTitle={jobTitle} nameInitials={nameInitials} />
 
 				{/* Report body */}
-				<Box sx={{ flex: 1, p: 3, display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 2.5, alignItems: 'flex-start' }}>
+				<Box data-testid="report-body" sx={{ flex: 1, p: 3, display: 'flex', flexDirection: 'column', gap: 2.5, alignItems: 'stretch',
+					[`@container report (min-width: ${REPORT_TWO_COLUMNS_PX}px)`]: { flexDirection: 'row', alignItems: 'flex-start' } }}>
 
 					{/* ── Left main column ── */}
 					<ReportMainColumn

@@ -98,7 +98,8 @@
     "expandMenu": "Espandi",
     "collapseMenu": "Comprimi",
     "configuration": "Configurazione",
-    "copilot": "Copilot"
+    "copilot": "Copilot",
+    "pipeline": "Pipeline dei candidati"
   },
   "jobContent": {
     "createJobPost": "Nuovo annuncio",
@@ -1809,7 +1810,8 @@
     "usage": "Consumi",
     "configuration": "Configurazione",
     "accountSettings": "Account",
-    "copilot": "Copilot"
+    "copilot": "Copilot",
+    "pipeline": "Pipeline"
   },
   "copilot": {
     "tabs": {
@@ -2205,5 +2207,46 @@
     "never": "{{name}}: non ancora sincronizzato",
     "failed": "L’ultima sincronizzazione con {{name}} non è riuscita",
     "failedHint": "Un amministratore può verificare la connessione in Impostazioni → Integrazioni."
+  },
+  "pipeline": {
+    "title": "Pipeline",
+    "total": "{{count}} candidato/i",
+    "job": "Offerta",
+    "allJobs": "Tutte le offerte",
+    "search": "Cerca candidati",
+    "refresh": "Aggiorna",
+    "readOnly": "Puoi vedere la pipeline; per spostare i candidati serve il permesso «modificare i report».",
+    "retry": "Riprova",
+    "empty": "Ancora nessun candidato nella pipeline. Avvia una corrispondenza su un’offerta per riempirla.",
+    "undo": "Annulla",
+    "moved": "{{name}} spostato in {{status}}",
+    "report": "Report",
+    "close": "Chiudi",
+    "card": {
+      "label": "{{name}}, {{status}}. Invio apre il report, Spazio lo prende per spostarlo.",
+      "moveTo": "Sposta in…",
+      "movedBy": "Spostato da {{name}}"
+    },
+    "column": {
+      "expand": "Espandi",
+      "expandNamed": "Espandi {{status}}",
+      "collapse": "Comprimi",
+      "collapseNamed": "Comprimi {{status}}",
+      "empty": "Nessun candidato",
+      "emptyDrop": "Rilascia qui un candidato",
+      "loadMore": "Carica altri ({{count}})"
+    },
+    "errors": {
+      "load": "Impossibile caricare la pipeline.",
+      "move": "Impossibile spostare il candidato. È tornato al suo posto.",
+      "conflict": "Qualcun altro ha spostato questo candidato nel frattempo. La bacheca ora mostra dove si trova.",
+      "report": "Impossibile aprire questo report."
+    },
+    "a11y": {
+      "picked": "{{name}} preso. Usa le frecce per scegliere una colonna, Spazio per rilasciare, Esc per annullare.",
+      "over": "{{name}} sopra {{status}}.",
+      "dropped": "{{name}} rilasciato in {{status}}.",
+      "cancelled": "Spostamento di {{name}} annullato."
+    }
   }
 }

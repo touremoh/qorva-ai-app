@@ -7,6 +7,7 @@ import {
 	COMP_ID_CONFIGURATION,
 	COMP_ID_LIBRARY_QUALITY,
 	COMP_ID_REPORTS,
+	COMP_ID_PIPELINE,
 	COMP_ID_SETTINGS,
 	COMP_ID_JOBS,
 	COMP_ID_DASHBOARD,
@@ -20,6 +21,7 @@ import { isDemoUser } from "../../utils/demoMode.js";
 import * as tokens from '../../theme/tokens.js';
 
 // Each tab's screen is its own chunk: the first load only fetches the tab being opened.
+const AppPipelineBoard = lazy(() => import('../../features/pipeline/components/AppPipelineBoard.jsx'));
 const JobContent = lazy(() => import('../../features/jobs/components/JobsContent.jsx'));
 const AppCVContent = lazy(() => import('../../features/cv/components/AppCVContent.jsx'));
 const AppLibraryQuality = lazy(() => import('../../features/library-quality/components/AppLibraryQuality.jsx'));
@@ -58,6 +60,8 @@ const AppContent = ({ content, isSidebarCollapsed }) => {
 				return <AppCopilot />;
 			case COMP_ID_REPORTS:
 				return <AppMatchingReports />;
+			case COMP_ID_PIPELINE:
+				return <AppPipelineBoard />;
 			case COMP_ID_CHAT:
 				return <AppAIResumeChat />;
 			case COMP_ID_USAGE_MONITORING:

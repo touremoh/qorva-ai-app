@@ -12561,5 +12561,103 @@
     "body" : {
       "connections" : [ ]
     }
+  },
+  "GET /matching-reports/pipeline" : {
+    "status" : 200,
+    "body" : {
+      "columns" : [
+        {
+          "status" : "NEW",
+          "count" : 3,
+          "items" : [
+            {
+              "id" : "6ab7190e28a8f342d03d97a6",
+              "jobPostId" : "6ab7190e28a8f342d03d97a1",
+              "jobPostTitle" : "Senior Backend Engineer (Java/Spring)",
+              "candidateId" : "6ab7190e28a8f342d03d978b",
+              "candidateName" : "Oliver Whitfield",
+              "score" : 82.0,
+              "recommendation" : "interview",
+              "outdated" : false,
+              "status" : "NEW",
+              "statusChangedAt" : null,
+              "createdAt" : "2026-09-15T08:00:00Z",
+              "lastMove" : null
+            },
+            {
+              "id" : "6ab7190e28a8f342d03d97a7",
+              "jobPostId" : "6ab7190e28a8f342d03d97a1",
+              "jobPostTitle" : "Senior Backend Engineer (Java/Spring)",
+              "candidateId" : "6ab7190e28a8f342d03d978c",
+              "candidateName" : "Hannah Fletcher",
+              "score" : 64.0,
+              "recommendation" : "may_be",
+              "outdated" : false,
+              "status" : "NEW",
+              "statusChangedAt" : null,
+              "createdAt" : "2026-09-15T08:01:00Z",
+              "lastMove" : null
+            },
+            {
+              "id" : "6ab7190e28a8f342d03d97a8",
+              "jobPostId" : "6ab7190e28a8f342d03d97a1",
+              "jobPostTitle" : "Senior Backend Engineer (Java/Spring)",
+              "candidateId" : "6ab7190e28a8f342d03d978d",
+              "candidateName" : "Cian O'Sullivan",
+              "score" : 41.0,
+              "recommendation" : "reject",
+              "outdated" : false,
+              "status" : "NEW",
+              "statusChangedAt" : null,
+              "createdAt" : "2026-09-15T08:02:00Z",
+              "lastMove" : null
+            }
+          ],
+          "nextCursor" : null
+        },
+        {
+          "status" : "CONTACTED",
+          "count" : 0,
+          "items" : [ ],
+          "nextCursor" : null
+        },
+        {
+          "status" : "SHORTLISTED",
+          "count" : 0,
+          "items" : [ ],
+          "nextCursor" : null
+        },
+        {
+          "status" : "INTERVIEWING",
+          "count" : 0,
+          "items" : [ ],
+          "nextCursor" : null
+        },
+        {
+          "status" : "OFFERED",
+          "count" : 0,
+          "items" : [ ],
+          "nextCursor" : null
+        },
+        {
+          "status" : "HIRED",
+          "count" : 0,
+          "items" : [ ],
+          "nextCursor" : null
+        },
+        {
+          "status" : "REJECTED",
+          "count" : 0,
+          "items" : [ ],
+          "nextCursor" : null
+        },
+        {
+          "status" : "WITHDRAWN",
+          "count" : 0,
+          "items" : [ ],
+          "nextCursor" : null
+        }
+      ]
+    }
   }
 }

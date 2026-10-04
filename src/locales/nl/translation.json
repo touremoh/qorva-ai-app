@@ -98,7 +98,8 @@
     "expandMenu": "Uitklappen",
     "collapseMenu": "Inklappen",
     "configuration": "Configuratie",
-    "copilot": "Copilot"
+    "copilot": "Copilot",
+    "pipeline": "Kandidatenpijplijn"
   },
   "jobContent": {
     "createJobPost": "Nieuwe vacature",
@@ -1809,7 +1810,8 @@
     "usage": "Verbruik",
     "configuration": "Configuratie",
     "accountSettings": "Account",
-    "copilot": "Copilot"
+    "copilot": "Copilot",
+    "pipeline": "Pijplijn"
   },
   "copilot": {
     "tabs": {
@@ -2205,5 +2207,46 @@
     "never": "{{name}}: nog niet gesynchroniseerd",
     "failed": "Laatste synchronisatie met {{name}} mislukt",
     "failedHint": "Een beheerder kan de koppeling controleren in Instellingen → Integraties."
+  },
+  "pipeline": {
+    "title": "Pijplijn",
+    "total": "{{count}} kandidaat/kandidaten",
+    "job": "Vacature",
+    "allJobs": "Alle vacatures",
+    "search": "Kandidaten zoeken",
+    "refresh": "Vernieuwen",
+    "readOnly": "U kunt de pijplijn bekijken; kandidaten verplaatsen vereist de machtiging \"rapporten wijzigen\".",
+    "retry": "Opnieuw proberen",
+    "empty": "Nog geen kandidaten in de pijplijn. Start matching op een vacature om hem te vullen.",
+    "undo": "Ongedaan maken",
+    "moved": "{{name}} verplaatst naar {{status}}",
+    "report": "Rapport",
+    "close": "Sluiten",
+    "card": {
+      "label": "{{name}}, {{status}}. Enter opent het rapport, spatie pakt het op om te verplaatsen.",
+      "moveTo": "Verplaatsen naar…",
+      "movedBy": "Verplaatst door {{name}}"
+    },
+    "column": {
+      "expand": "Uitklappen",
+      "expandNamed": "{{status}} uitklappen",
+      "collapse": "Inklappen",
+      "collapseNamed": "{{status}} inklappen",
+      "empty": "Geen kandidaten",
+      "emptyDrop": "Zet hier een kandidaat neer",
+      "loadMore": "Meer laden ({{count}})"
+    },
+    "errors": {
+      "load": "De pijplijn kon niet worden geladen.",
+      "move": "De kandidaat kon niet worden verplaatst. Die staat weer op de oude plek.",
+      "conflict": "Iemand anders heeft deze kandidaat intussen verplaatst. Het bord toont nu waar die staat.",
+      "report": "Dit rapport kon niet worden geopend."
+    },
+    "a11y": {
+      "picked": "{{name}} opgepakt. Kies met de pijltjestoetsen een kolom, spatie om neer te zetten, Escape om te annuleren.",
+      "over": "{{name}} boven {{status}}.",
+      "dropped": "{{name}} neergezet in {{status}}.",
+      "cancelled": "Verplaatsen van {{name}} geannuleerd."
+    }
   }
 }

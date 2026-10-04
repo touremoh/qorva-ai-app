@@ -34,6 +34,9 @@ export const deleteOutdatedReports = (jobPostId) =>
 export const exportCsv = (jobPostId, format) =>
     apiClient.get('/matching-reports/export/csv', { params: { jobPostId, format }, responseType: 'blob' });
 
-/** Moves the candidate along the pipeline on this job; answers with the updated report. */
-export const setReportStatus = (id, status) =>
-    apiClient.patch(`/matching-reports/${id}/status`, { status });
+/**
+ * Moves the candidate along the pipeline on this job; answers with the updated report. With `expectedStatus` (where
+ * the caller saw the candidate) the server answers 409 if someone else moved them in the meantime.
+ */
+export const setReportStatus = (id, status, expectedStatus) =>
+    apiClient.patch(`/matching-reports/${id}/status`, expectedStatus ? { status, expectedStatus } : { status });
