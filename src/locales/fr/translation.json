@@ -98,7 +98,8 @@
     "expandMenu": "Déplier",
     "collapseMenu": "Replier",
     "configuration": "Configuration",
-    "copilot": "Copilot"
+    "copilot": "Copilot",
+    "pipeline": "Pipeline des candidats"
   },
   "jobContent": {
     "createJobPost": "Nouvelle offre",
@@ -1809,7 +1810,8 @@
     "usage": "Consommation",
     "configuration": "Configuration",
     "accountSettings": "Compte",
-    "copilot": "Copilot"
+    "copilot": "Copilot",
+    "pipeline": "Pipeline"
   },
   "copilot": {
     "tabs": {
@@ -2205,5 +2207,46 @@
     "never": "{{name}} : pas encore synchronisé",
     "failed": "La dernière synchronisation avec {{name}} a échoué",
     "failedHint": "Un administrateur peut vérifier la connexion dans Paramètres → Intégrations."
+  },
+  "pipeline": {
+    "title": "Pipeline",
+    "total": "{{count}} candidat(s)",
+    "job": "Poste",
+    "allJobs": "Tous les postes",
+    "search": "Rechercher un candidat",
+    "refresh": "Actualiser",
+    "readOnly": "Vous pouvez consulter le pipeline ; déplacer des candidats nécessite la permission « modifier les rapports ».",
+    "retry": "Réessayer",
+    "empty": "Aucun candidat dans le pipeline pour l’instant. Lancez une correspondance sur un poste pour le remplir.",
+    "undo": "Annuler",
+    "moved": "{{name}} déplacé vers {{status}}",
+    "report": "Rapport",
+    "close": "Fermer",
+    "card": {
+      "label": "{{name}}, {{status}}. Entrée ouvre le rapport, Espace le saisit pour le déplacer.",
+      "moveTo": "Déplacer vers…",
+      "movedBy": "Déplacé par {{name}}"
+    },
+    "column": {
+      "expand": "Déplier",
+      "expandNamed": "Déplier {{status}}",
+      "collapse": "Replier",
+      "collapseNamed": "Replier {{status}}",
+      "empty": "Aucun candidat",
+      "emptyDrop": "Déposez un candidat ici",
+      "loadMore": "Afficher plus ({{count}})"
+    },
+    "errors": {
+      "load": "Le pipeline n’a pas pu être chargé.",
+      "move": "Le candidat n’a pas pu être déplacé. Il est revenu à sa place.",
+      "conflict": "Quelqu’un d’autre a déplacé ce candidat entre-temps. Le tableau montre maintenant où il se trouve.",
+      "report": "Ce rapport n’a pas pu être ouvert."
+    },
+    "a11y": {
+      "picked": "{{name}} saisi. Choisissez une colonne avec les flèches, Espace pour déposer, Échap pour annuler.",
+      "over": "{{name}} au-dessus de {{status}}.",
+      "dropped": "{{name}} déposé dans {{status}}.",
+      "cancelled": "Le déplacement de {{name}} est annulé."
+    }
   }
 }

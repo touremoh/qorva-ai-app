@@ -98,7 +98,8 @@
     "expandMenu": "Expand",
     "collapseMenu": "Collapse",
     "configuration": "Configuration",
-    "copilot": "Copilot"
+    "copilot": "Copilot",
+    "pipeline": "Candidate Pipeline"
   },
   "jobContent": {
     "createJobPost": "New Job Post",
@@ -1809,7 +1810,8 @@
     "usage": "Usage",
     "configuration": "Configuration",
     "accountSettings": "Account Settings",
-    "copilot": "Copilot"
+    "copilot": "Copilot",
+    "pipeline": "Pipeline"
   },
   "copilot": {
     "tabs": {
@@ -2205,5 +2207,46 @@
     "never": "{{name}}: not synced yet",
     "failed": "Last sync with {{name}} failed",
     "failedHint": "An admin can check the connection in Settings → Integrations."
+  },
+  "pipeline": {
+    "title": "Pipeline",
+    "total": "{{count}} candidate(s)",
+    "job": "Job",
+    "allJobs": "All jobs",
+    "search": "Search candidates",
+    "refresh": "Refresh",
+    "readOnly": "You can view the pipeline; moving candidates needs the \"modify reports\" permission.",
+    "retry": "Try again",
+    "empty": "No candidate in the pipeline yet. Run matching on a job to fill it.",
+    "undo": "Undo",
+    "moved": "{{name}} moved to {{status}}",
+    "report": "Report",
+    "close": "Close",
+    "card": {
+      "label": "{{name}}, {{status}}. Enter opens the report, Space picks it up to move it.",
+      "moveTo": "Move to…",
+      "movedBy": "Moved by {{name}}"
+    },
+    "column": {
+      "expand": "Expand",
+      "expandNamed": "Expand {{status}}",
+      "collapse": "Collapse",
+      "collapseNamed": "Collapse {{status}}",
+      "empty": "No candidate",
+      "emptyDrop": "Drop a candidate here",
+      "loadMore": "Load more ({{count}})"
+    },
+    "errors": {
+      "load": "The pipeline couldn't be loaded.",
+      "move": "The candidate couldn't be moved. They're back where they were.",
+      "conflict": "Someone else moved this candidate in the meantime. The board now shows where they are.",
+      "report": "This report couldn't be opened."
+    },
+    "a11y": {
+      "picked": "Picked up {{name}}. Use the arrow keys to choose a column, Space to drop, Escape to cancel.",
+      "over": "{{name}} is over {{status}}.",
+      "dropped": "{{name}} dropped on {{status}}.",
+      "cancelled": "Moving {{name}} was cancelled."
+    }
   }
 }

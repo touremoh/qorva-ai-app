@@ -98,7 +98,8 @@
     "expandMenu": "Ausklappen",
     "collapseMenu": "Einklappen",
     "configuration": "Konfiguration",
-    "copilot": "Copilot"
+    "copilot": "Copilot",
+    "pipeline": "Kandidaten-Pipeline"
   },
   "jobContent": {
     "createJobPost": "Neue Stelle",
@@ -1809,7 +1810,8 @@
     "usage": "Nutzung",
     "configuration": "Konfiguration",
     "accountSettings": "Kontoeinstellungen",
-    "copilot": "Copilot"
+    "copilot": "Copilot",
+    "pipeline": "Pipeline"
   },
   "copilot": {
     "tabs": {
@@ -2205,5 +2207,46 @@
     "never": "{{name}}: noch nicht synchronisiert",
     "failed": "Letzte Synchronisierung mit {{name}} fehlgeschlagen",
     "failedHint": "Ein Admin kann die Verbindung unter Einstellungen → Integrationen prüfen."
+  },
+  "pipeline": {
+    "title": "Pipeline",
+    "total": "{{count}} Kandidat(en)",
+    "job": "Stelle",
+    "allJobs": "Alle Stellen",
+    "search": "Kandidaten suchen",
+    "refresh": "Aktualisieren",
+    "readOnly": "Sie können die Pipeline ansehen; zum Verschieben von Kandidaten ist die Berechtigung „Berichte ändern“ nötig.",
+    "retry": "Erneut versuchen",
+    "empty": "Noch keine Kandidaten in der Pipeline. Starten Sie ein Matching für eine Stelle.",
+    "undo": "Rückgängig",
+    "moved": "{{name}} nach {{status}} verschoben",
+    "report": "Bericht",
+    "close": "Schließen",
+    "card": {
+      "label": "{{name}}, {{status}}. Eingabe öffnet den Bericht, Leertaste nimmt die Karte zum Verschieben auf.",
+      "moveTo": "Verschieben nach…",
+      "movedBy": "Verschoben von {{name}}"
+    },
+    "column": {
+      "expand": "Aufklappen",
+      "expandNamed": "{{status}} aufklappen",
+      "collapse": "Zuklappen",
+      "collapseNamed": "{{status}} zuklappen",
+      "empty": "Keine Kandidaten",
+      "emptyDrop": "Kandidaten hier ablegen",
+      "loadMore": "Mehr laden ({{count}})"
+    },
+    "errors": {
+      "load": "Die Pipeline konnte nicht geladen werden.",
+      "move": "Der Kandidat konnte nicht verschoben werden. Er ist wieder an seinem Platz.",
+      "conflict": "Jemand anderes hat diesen Kandidaten inzwischen verschoben. Die Tafel zeigt jetzt, wo er steht.",
+      "report": "Dieser Bericht konnte nicht geöffnet werden."
+    },
+    "a11y": {
+      "picked": "{{name}} aufgenommen. Mit den Pfeiltasten eine Spalte wählen, Leertaste zum Ablegen, Escape zum Abbrechen.",
+      "over": "{{name}} über {{status}}.",
+      "dropped": "{{name}} in {{status}} abgelegt.",
+      "cancelled": "Verschieben von {{name}} abgebrochen."
+    }
   }
 }

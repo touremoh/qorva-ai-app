@@ -38,3 +38,10 @@ export const CONFIDENCE_CONFIG = {
 export const getColor = (v) => scoreColorsFor(v).main;
 
 export const getBg    = (v) => scoreColorsFor(v).tint;
+
+/**
+ * Report widths (px, the report's own — container queries, not the window): two columns from here; the
+ * detail score cards two per row from the second.
+ */
+export const REPORT_TWO_COLUMNS_PX = 900;
+export const REPORT_SCORE_PAIRS_PX = 560;

@@ -23,6 +23,7 @@ import {
 	COMP_ID_JOBS,
 	COMP_ID_LIBRARY_QUALITY,
 	COMP_ID_REPORTS,
+	COMP_ID_PIPELINE,
 	COMP_ID_SETTINGS,
 	COMP_ID_USAGE_MONITORING,
 } from "../constants.js";
@@ -38,6 +39,7 @@ const TAB_TO_COMP = {
 	'intelligence': COMP_ID_INTELLIGENCE,
 	'copilot': COMP_ID_COPILOT,
 	'reports': COMP_ID_REPORTS,
+	'pipeline': COMP_ID_PIPELINE,
 	'chat': COMP_ID_CHAT,
 	'usage': COMP_ID_USAGE_MONITORING,
 	'settings': COMP_ID_SETTINGS,

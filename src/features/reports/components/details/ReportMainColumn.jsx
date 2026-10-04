@@ -12,7 +12,7 @@ import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined';
 import NotesPanel from '../../../notes/components/NotesPanel.jsx';
 import ScoreGaugeLarge from './ScoreGaugeLarge.jsx';
 import DetailScoreCard from './DetailScoreCard.jsx';
-import { THEME_GREEN, importanceKey, importanceChipSx, severityChipSx } from '../../model/reportDetails.js';
+import { REPORT_SCORE_PAIRS_PX, THEME_GREEN, importanceKey, importanceChipSx, severityChipSx } from '../../model/reportDetails.js';
 import { useTranslation } from 'react-i18next';
 import * as tokens from '../../../../theme/tokens.js';
 import { alpha } from '@mui/material/styles';
@@ -72,7 +72,8 @@ const ReportMainColumn = ({ finalColor, confConfig, confKey, decision, detailSco
 			</Paper>
 
 			{/* 2×2 detail score grid */}
-			<Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 2 }}>
+			<Box sx={{ display: 'grid', gridTemplateColumns: '1fr', gap: 2,
+				[`@container report (min-width: ${REPORT_SCORE_PAIRS_PX}px)`]: { gridTemplateColumns: '1fr 1fr' } }}>
 				{detailScores.map(item => (
 					<DetailScoreCard key={item.key} icon={item.icon} label={item.label} score={item.score} explanation={item.explanation} />
 				))}
