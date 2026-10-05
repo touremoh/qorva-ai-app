@@ -705,7 +705,13 @@
       "loading": "Caricamento…",
       "sending": "Invio del codice…"
     },
-    "billingOwnerOnly": "La fatturazione è gestita da un titolare dell’account. Chiedigli di modificare il piano o i dati di pagamento."
+    "billingOwnerOnly": "La fatturazione è gestita da un titolare dell’account. Chiedigli di modificare il piano o i dati di pagamento.",
+    "users": {
+      "invitePending": "Invito in sospeso",
+      "resendInvite": "Invia di nuovo l'invito",
+      "inviteSent": "È stato inviato un nuovo invito a {{email}}. Il link precedente non funziona più.",
+      "invited": "Invito inviato a {{email}}: sceglierà la password dal link (valido 3 giorni)."
+    }
   },
   "dashboard": {
     "errors": {
