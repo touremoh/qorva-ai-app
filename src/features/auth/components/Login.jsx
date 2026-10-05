@@ -1,10 +1,10 @@
-import { useCallback, useState, useMemo } from "react";
+import { useCallback, useEffect, useRef, useState, useMemo } from "react";
 import {
 	Grid2,
 	Box,
 } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { login as loginUser } from '../api/authService.js';
+import { exchangeSsoCode, getSsoAvailability, login as loginUser, microsoftSignInUrl } from '../api/authService.js';
 import { createCheckoutSession } from '../api/registrationService.js';
 import { useTranslation } from 'react-i18next';
 import { setAuthResults } from "../../../shared/lib/session.js";
@@ -34,6 +34,37 @@ const Login = () => {
 	const [status, setStatus] = useState('idle');
 	// Set when the password was right but the account has email MFA on: the form becomes the code step.
 	const [mfaChallenge, setMfaChallenge] = useState(null);
+	const [ssoAvailable, setSsoAvailable] = useState(false);
+	const ssoHandled = useRef(false);
+
+	useEffect(() => {
+		getSsoAvailability().then((res) => setSsoAvailable(res?.data?.microsoft === true)).catch(() => {});
+	}, []);
+
+	// Back from Microsoft: ?sso=<one-time code> signs in like a password would; ?ssoError=<reason> explains why not.
+	useEffect(() => {
+		if (ssoHandled.current) return;
+		ssoHandled.current = true;
+		const params = new URLSearchParams(location.search);
+		const code = params.get('sso');
+		const ssoError = params.get('ssoError');
+		if (!code && !ssoError) return;
+		navigate('/login', { replace: true });
+		if (ssoError) {
+			setFormError(t(`login.sso.errors.${ssoError}`, t('login.sso.errors.failed')));
+			return;
+		}
+		setStatus('loading');
+		exchangeSsoCode(code)
+			.then((res) => completeLogin(res.data.data))
+			.catch((error) => failLogin(error?.response?.data?.message || t('login.sso.errors.failed')));
+	// eslint-disable-next-line react-hooks/exhaustive-deps -- once, on arrival
+	}, []);
+
+	const signInWithMicrosoft = () => {
+		setStatus('loading');
+		window.location.assign(microsoftSignInUrl(EMAIL_REGEX.test(email) ? email : ''));
+	};
 
 	const validate = useCallback((values) => {
 		const next = { email: "", password: "" };
@@ -183,12 +214,14 @@ const Login = () => {
 						handleLogin={handleLogin}
 						liveErrors={liveErrors}
 						mfaChallenge={mfaChallenge}
+						onMicrosoft={signInWithMicrosoft}
 						password={password}
 						restartLogin={restartLogin}
 						setEmail={setEmail}
 						setPassword={setPassword}
 						setShowPassword={setShowPassword}
 						showPassword={showPassword}
+						ssoAvailable={ssoAvailable}
 						status={status}
 						touched={touched}
 					/>

@@ -39,7 +39,17 @@
       "codeRequired": "Enter the 6-digit code",
       "help": "Didn't get it? Check your spam folder, or resend the code."
     },
-    "sessionExpired": "Your session expired. Please sign in again."
+    "sessionExpired": "Your session expired. Please sign in again.",
+    "sso": {
+      "microsoft": "Sign in with Microsoft",
+      "errors": {
+        "not_configured": "Sign-in with Microsoft is not available here.",
+        "failed": "Sign-in with Microsoft did not complete. Please try again.",
+        "no_account": "No active Qorva account uses this Microsoft identity. Ask your administrator to invite you with your work email.",
+        "cancelled": "Sign-in with Microsoft was cancelled."
+      },
+      "or": "or"
+    }
   },
   "registration": {
     "freeTrialTitle": "Free Trial",
@@ -598,7 +608,17 @@
       "billingMonthly": "Monthly",
       "subscriptionPrice": "Price",
       "subscriptionStart": "Current Period Start",
-      "subscriptionRenewal": "Renewal Date"
+      "subscriptionRenewal": "Renewal Date",
+      "sso": {
+        "title": "Microsoft sign-in",
+        "require": "Require Microsoft sign-in",
+        "help": "Everyone signs in with their company Microsoft account. The account owner keeps their password, as a way in if Microsoft sign-in ever fails.",
+        "confirmTitle": "Require Microsoft sign-in?",
+        "confirmBody": "Your teammates will no longer be able to sign in with a password. Make sure they all use their company Microsoft account with the same email as in Qorva.",
+        "confirm": "Require it",
+        "cancel": "Cancel",
+        "error": "The setting couldn't be saved."
+      }
     },
     "editProfile": "Edit Profile",
     "saveChanges": "Save Changes",

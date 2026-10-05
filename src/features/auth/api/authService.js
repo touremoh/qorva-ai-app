@@ -33,3 +33,16 @@ export const verifyMfa = (challengeId, code) =>
 // Public — emails a fresh code for the same challenge (the previous code stops working).
 export const resendMfa = (challengeId) =>
     apiClient.post('/auth/mfa/resend', { challengeId });
+
+// Public — whether "Sign in with Microsoft" is offered on this environment: { microsoft: boolean }.
+export const getSsoAvailability = () =>
+    apiClient.get('/auth/sso/availability');
+
+// The browser leaves for Microsoft through the API (a full-page navigation, not an XHR); the email, when typed,
+// pre-fills Microsoft's account picker.
+export const microsoftSignInUrl = (email) =>
+    `${import.meta.env.VITE_APP_API_BASE_URL}/auth/sso/microsoft/start${email ? `?email=${encodeURIComponent(email)}` : ''}`;
+
+// Public — the single-use code Microsoft's callback put in /login?sso= → the same { jwt, user } a password login returns.
+export const exchangeSsoCode = (code) =>
+    apiClient.post('/auth/sso/exchange', { code });

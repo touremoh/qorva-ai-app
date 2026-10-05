@@ -16,6 +16,7 @@ import CompanyProfileCard from './company/CompanyProfileCard.jsx';
 import CompanyLogoCard from './company/CompanyLogoCard.jsx';
 import SubscriptionSummary from './company/SubscriptionSummary.jsx';
 import CompanySystemInfo from './company/CompanySystemInfo.jsx';
+import CompanySsoCard from './company/CompanySsoCard.jsx';
 import { formatUsdCents } from '../../../shared/lib/format.js';
 import * as tokens from '../../../theme/tokens.js';
 import { hasPermission } from '../../../shared/lib/session.js';
@@ -48,6 +49,7 @@ const AccountCompanyTab = () => {
     const [isDragging, setIsDragging] = useState(false);
 
     const [tenantReadOnly, setTenantReadOnly] = useState({ organizationId: '', subscriptionInfo: null });
+    const [ssoRequired, setSsoRequired] = useState(false);
 
     useEffect(() => {
         let objectUrl = '';
@@ -77,6 +79,7 @@ const AccountCompanyTab = () => {
                 setProfile(p);
                 setSavedProfile(p);
                 setSavedLogoUrl(data.companyLogoUrl ?? '');
+                setSsoRequired(data.ssoRequired === true);
                 setTenantReadOnly({
                     organizationId: data.organizationId ?? '',
                     subscriptionInfo: data.subscriptionInfo ?? null,
@@ -179,6 +182,9 @@ const AccountCompanyTab = () => {
 
             {/* System information — read-only */}
             <CompanySystemInfo tenantReadOnly={tenantReadOnly} />
+
+            {/* Microsoft sign-in — admins only */}
+            <CompanySsoCard ssoRequired={ssoRequired} readOnly={readOnly} onChange={setSsoRequired} />
 
             {/* Subscription — read-only */}
             <SubscriptionSummary billingCycleLabel={billingCycleLabel} priceLabel={priceLabel} sub={sub} />

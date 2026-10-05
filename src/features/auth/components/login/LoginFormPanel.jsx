@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import MicrosoftSignInButton from './MicrosoftSignInButton.jsx';
 import { Grid2, Typography, TextField, Button, Box, InputAdornment, Alert, IconButton, Divider } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -15,7 +16,7 @@ import * as tokens from '../../../../theme/tokens.js';
 import { alpha } from '@mui/material/styles';
 
 /** Sign-in form: email, password, errors, and the MFA code step when required. */
-const LoginFormPanel = ({ completeLogin, email, formError, handleBlur, handleLogin, liveErrors, mfaChallenge, password, restartLogin, setEmail, setPassword, setShowPassword, showPassword, status, touched }) => {
+const LoginFormPanel = ({ completeLogin, email, formError, handleBlur, handleLogin, liveErrors, mfaChallenge, onMicrosoft, password, restartLogin, setEmail, setPassword, setShowPassword, showPassword, ssoAvailable, status, touched }) => {
 	const { t } = useTranslation();
 	return (
 		<>
@@ -202,6 +203,7 @@ const LoginFormPanel = ({ completeLogin, email, formError, handleBlur, handleLog
 						{status === 'idle' && t('login.signInButton')}
 					</Button>
 				</Box>
+				{ssoAvailable && <MicrosoftSignInButton onClick={onMicrosoft} disabled={status !== 'idle'} />}
 				</>
 			)}
 
@@ -223,12 +225,14 @@ LoginFormPanel.propTypes = {
 	handleLogin: PropTypes.func,
 	liveErrors: PropTypes.any,
 	mfaChallenge: PropTypes.any,
+	onMicrosoft: PropTypes.func,
 	password: PropTypes.any,
 	restartLogin: PropTypes.any,
 	setEmail: PropTypes.func,
 	setPassword: PropTypes.func,
 	setShowPassword: PropTypes.func,
 	showPassword: PropTypes.bool,
+	ssoAvailable: PropTypes.bool,
 	status: PropTypes.any,
 	touched: PropTypes.any,
 };

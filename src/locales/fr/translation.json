@@ -39,7 +39,17 @@
       "codeRequired": "Saisissez le code à 6 chiffres",
       "help": "Rien reçu ? Vérifiez vos spams ou renvoyez le code."
     },
-    "sessionExpired": "Votre session a expiré. Veuillez vous reconnecter."
+    "sessionExpired": "Votre session a expiré. Veuillez vous reconnecter.",
+    "sso": {
+      "microsoft": "Se connecter avec Microsoft",
+      "errors": {
+        "not_configured": "La connexion avec Microsoft n’est pas disponible ici.",
+        "failed": "La connexion avec Microsoft n’a pas abouti. Veuillez réessayer.",
+        "no_account": "Aucun compte Qorva actif n’utilise cette identité Microsoft. Demandez à votre administrateur de vous inviter avec votre e-mail professionnel.",
+        "cancelled": "La connexion avec Microsoft a été annulée."
+      },
+      "or": "ou"
+    }
   },
   "registration": {
     "freeTrialTitle": "Essai gratuit",
@@ -598,7 +608,17 @@
       "billingMonthly": "Mensuel",
       "subscriptionPrice": "Prix",
       "subscriptionStart": "Début de la période",
-      "subscriptionRenewal": "Date de renouvellement"
+      "subscriptionRenewal": "Date de renouvellement",
+      "sso": {
+        "title": "Connexion Microsoft",
+        "require": "Exiger la connexion Microsoft",
+        "help": "Chacun se connecte avec le compte Microsoft de l’entreprise. Le propriétaire du compte garde son mot de passe, comme accès de secours si la connexion Microsoft échoue.",
+        "confirmTitle": "Exiger la connexion Microsoft ?",
+        "confirmBody": "Vos collègues ne pourront plus se connecter avec un mot de passe. Vérifiez qu’ils utilisent tous leur compte Microsoft professionnel avec le même e-mail que dans Qorva.",
+        "confirm": "L’exiger",
+        "cancel": "Annuler",
+        "error": "Le réglage n’a pas pu être enregistré."
+      }
     },
     "editProfile": "Modifier le profil",
     "saveChanges": "Enregistrer",

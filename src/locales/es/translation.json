@@ -39,7 +39,17 @@
       "codeRequired": "Introduce el código de 6 dígitos",
       "help": "¿No lo has recibido? Revisa la carpeta de spam o reenvía el código."
     },
-    "sessionExpired": "Su sesión ha caducado. Vuelva a iniciar sesión."
+    "sessionExpired": "Su sesión ha caducado. Vuelva a iniciar sesión.",
+    "sso": {
+      "microsoft": "Iniciar sesión con Microsoft",
+      "errors": {
+        "not_configured": "El inicio de sesión con Microsoft no está disponible aquí.",
+        "failed": "El inicio de sesión con Microsoft no se completó. Inténtalo de nuevo.",
+        "no_account": "Ninguna cuenta activa de Qorva usa esta identidad de Microsoft. Pide a tu administrador que te invite con tu correo de trabajo.",
+        "cancelled": "Se canceló el inicio de sesión con Microsoft."
+      },
+      "or": "o"
+    }
   },
   "registration": {
     "freeTrialTitle": "Prueba gratuita",
@@ -598,7 +608,17 @@
       "billingMonthly": "Mensual",
       "subscriptionPrice": "Precio",
       "subscriptionStart": "Inicio del período actual",
-      "subscriptionRenewal": "Fecha de renovación"
+      "subscriptionRenewal": "Fecha de renovación",
+      "sso": {
+        "title": "Inicio de sesión con Microsoft",
+        "require": "Exigir el inicio de sesión con Microsoft",
+        "help": "Todos inician sesión con la cuenta Microsoft de la empresa. El propietario de la cuenta conserva su contraseña, como acceso de emergencia si el inicio con Microsoft falla.",
+        "confirmTitle": "¿Exigir el inicio de sesión con Microsoft?",
+        "confirmBody": "Tus compañeros ya no podrán iniciar sesión con una contraseña. Comprueba que todos usan su cuenta Microsoft de trabajo con el mismo correo que en Qorva.",
+        "confirm": "Exigirlo",
+        "cancel": "Cancelar",
+        "error": "No se pudo guardar el ajuste."
+      }
     },
     "editProfile": "Editar perfil",
     "saveChanges": "Guardar cambios",

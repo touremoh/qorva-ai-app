@@ -39,7 +39,17 @@
       "codeRequired": "Geben Sie den 6-stelligen Code ein",
       "help": "Nichts erhalten? Prüfen Sie Ihren Spam-Ordner oder senden Sie den Code erneut."
     },
-    "sessionExpired": "Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an."
+    "sessionExpired": "Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.",
+    "sso": {
+      "microsoft": "Mit Microsoft anmelden",
+      "errors": {
+        "not_configured": "Die Anmeldung mit Microsoft ist hier nicht verfügbar.",
+        "failed": "Die Anmeldung mit Microsoft wurde nicht abgeschlossen. Bitte versuchen Sie es erneut.",
+        "no_account": "Kein aktives Qorva-Konto verwendet diese Microsoft-Identität. Bitten Sie Ihren Administrator, Sie mit Ihrer geschäftlichen E-Mail einzuladen.",
+        "cancelled": "Die Anmeldung mit Microsoft wurde abgebrochen."
+      },
+      "or": "oder"
+    }
   },
   "registration": {
     "freeTrialTitle": "Kostenlose Testphase",
@@ -598,7 +608,17 @@
       "billingMonthly": "Monatlich",
       "subscriptionPrice": "Preis",
       "subscriptionStart": "Beginn des aktuellen Zeitraums",
-      "subscriptionRenewal": "Verlängerungsdatum"
+      "subscriptionRenewal": "Verlängerungsdatum",
+      "sso": {
+        "title": "Microsoft-Anmeldung",
+        "require": "Microsoft-Anmeldung verlangen",
+        "help": "Alle melden sich mit dem Microsoft-Konto des Unternehmens an. Der Kontoinhaber behält sein Passwort als Notzugang, falls die Microsoft-Anmeldung ausfällt.",
+        "confirmTitle": "Microsoft-Anmeldung verlangen?",
+        "confirmBody": "Ihre Kolleginnen und Kollegen können sich nicht mehr mit einem Passwort anmelden. Stellen Sie sicher, dass alle ihr geschäftliches Microsoft-Konto mit derselben E-Mail wie in Qorva nutzen.",
+        "confirm": "Verlangen",
+        "cancel": "Abbrechen",
+        "error": "Die Einstellung konnte nicht gespeichert werden."
+      }
     },
     "editProfile": "Profil bearbeiten",
     "saveChanges": "Speichern",
