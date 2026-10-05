@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import PropTypes from 'prop-types';
-import * as tokens from '../../../theme/tokens.js';
+import * as tokens from '../../../../theme/tokens.js';
 
 const DisclaimerBanner = ({ text }) => {
     if (!text) return null;

@@ -4,7 +4,7 @@ import { PieChart } from '@mui/x-charts/PieChart';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import * as tokens from '../../../theme/tokens.js';
+import * as tokens from '../../../../theme/tokens.js';
 
 const COLORS = [`${tokens.brand.main}`, `${tokens.status.accent.main}`, `${tokens.status.info.bright}`, `${tokens.status.warning.main}`, `${tokens.status.error.main}`, `${tokens.status.accent.violet}`, `${tokens.status.success.teal}`];
 

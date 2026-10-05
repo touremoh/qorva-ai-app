@@ -18,12 +18,10 @@ import BulkImportChip from './BulkImportChip.jsx';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { useTranslation } from 'react-i18next';
 import {
-	COMP_ID_CHAT,
 	COMP_ID_COPILOT,
 	COMP_ID_CONFIGURATION,
 	COMP_ID_CVLIB,
 	COMP_ID_DASHBOARD,
-	COMP_ID_INTELLIGENCE,
 	COMP_ID_JOBS,
 	COMP_ID_LIBRARY_QUALITY,
 	COMP_ID_REPORTS,
@@ -58,8 +56,6 @@ const AppHeader = ({ handleContentChange, contentTitle, isSidebarCollapsed }) =>
 		[COMP_ID_JOBS]:             t('header.jobs'),
 		[COMP_ID_REPORTS]:          t('header.reports'),
 		[COMP_ID_PIPELINE]:         t('header.pipeline', 'Candidate Pipeline'),
-		[COMP_ID_INTELLIGENCE]:     t('header.intelligence', 'Talent Intelligence'),
-		[COMP_ID_CHAT]:             t('header.aiResumeChat'),
 		[COMP_ID_COPILOT]:          t('header.copilot', 'Copilot'),
 		[COMP_ID_USAGE_MONITORING]: t('header.usageMonitoring', 'Usage Monitoring'),
 		[COMP_ID_CONFIGURATION]:    t('header.configuration', 'Configuration'),

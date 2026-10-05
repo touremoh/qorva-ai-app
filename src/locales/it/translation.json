@@ -16,9 +16,9 @@
       "badge": "Piattaforma Talenti con IA",
       "headline": "Trasforma il tuo cimitero di CV in una miniera d'oro.",
       "subtext": "Qorva AI estrae, raggruppa e classifica fino a 100 CV in una volta sola — con regole di punteggio personalizzate e insight sui talenti in tempo reale.",
-      "bullet1": "Motore Talent Intelligence",
+      "bullet1": "Copilot per candidati, banca CV e azioni",
       "bullet2": "Matching offerte-candidati",
-      "bullet3": "AI Resume Chat",
+      "bullet3": "Grafici e analisi del tuo bacino di talenti",
       "freeToStart": "Inizia gratis."
     },
     "signingIn": "Accesso in corso…",
@@ -99,8 +99,6 @@
     "reports": "Report di matching",
     "accountSettings": "Account",
     "logout": "Disconnetti",
-    "aiResumeChat": "Chat CV IA",
-    "intelligence": "Talent Intelligence",
     "usageMonitoring": "Monitoraggio utilizzo",
     "libraryQuality": "Salute dei dati",
     "emailTemplates": "Modelli e-mail",
@@ -379,10 +377,10 @@
     "clearLibrary": {
       "tooltip": "Svuota tutta la libreria…",
       "title": "Svuotare l'intera libreria di CV?",
-      "summary": "Questa azione elimina definitivamente {{cvs}} CV, {{reports}} report di matching e {{chats}} chat IA — inclusi i documenti archiviati. Le offerte di lavoro e la cronologia di utilizzo vengono conservate. Irreversibile.",
+      "summary": "Questa operazione elimina definitivamente {{cvs}} CV, {{reports}} report di matching e {{conversations}} conversazioni Copilot, inclusi i documenti archiviati. Le offerte di lavoro e lo storico dei consumi vengono mantenuti. Non è reversibile.",
       "typeToConfirm": "Digita DELETE per confermare.",
       "confirm": "Svuota libreria",
-      "done": "Libreria svuotata — {{cvs}} CV, {{reports}} report e {{chats}} chat rimossi."
+      "done": "Banca svuotata: rimossi {{cvs}} CV, {{reports}} report e {{conversations}} conversazioni Copilot."
     },
     "filters": {
       "button": "Filtri",
@@ -392,7 +390,6 @@
       "any": "Tutti",
       "noMatch": "Nessun CV corrisponde a questi filtri.",
       "needMore": "Serve qualcosa di più ampio — tutti i profili finanziari, un livello di studi, un ex datore di lavoro?",
-      "askIntelligence": "Chiedi a Talent Intelligence",
       "notAnalysed": "Non analizzato",
       "industries": "Settore",
       "locations": "Località",
@@ -451,7 +448,8 @@
         "manual": "Caricato manualmente"
       },
       "pickDate": "Scegli una data",
-      "quickSearch": "Ricerca rapida — nome, ruolo, competenza…"
+      "quickSearch": "Ricerca rapida — nome, ruolo, competenza…",
+      "askCopilot": "Chiedi a Copilot"
     },
     "dropHere": "Trascina qui i file",
     "browseHint": "o fai clic per sfogliare — .pdf o .docx, fino a {{max}} file",
@@ -649,13 +647,11 @@
       "resumes": "CV",
       "jobPosts": "Offerte di lavoro",
       "reports": "Report",
-      "aiChat": "AI Chat",
       "users": "Gestione utenti",
       "atsExport": "Esportazione ATS",
       "billing": "Fatturazione",
       "integrations": "Integrazioni ATS",
       "outreach": "Contatto candidati",
-      "intelligence": "Talent Intelligence",
       "copilot": "Copilot"
     },
     "authorities": {
@@ -672,12 +668,6 @@
       "VIEW_REPORT": "Visualizza report",
       "MODIFY_REPORT": "Modifica report",
       "DELETE_REPORT": "Elimina report",
-      "START_CHAT": "Avvia chat",
-      "VIEW_CHAT": "Visualizza chat",
-      "VIEW_MESSAGE": "Visualizza messaggi",
-      "REPLY_MESSAGE": "Rispondi ai messaggi",
-      "MODIFY_CHAT": "Aggiorna chat",
-      "DELETE_CHAT": "Elimina chat",
       "VIEW_USERS": "Visualizza utenti",
       "MANAGE_USERS": "Gestisci utenti",
       "ATS_REPORT_EXPORT": "Esporta ATS",
@@ -685,7 +675,6 @@
       "CANCEL_SUBSCRIPTION": "Annulla abbonamento",
       "MANAGE_INTEGRATIONS": "Gestire le integrazioni ATS",
       "CONTACT_CANDIDATE": "Scrivere ai candidati",
-      "VIEW_LIBRARY_INSIGHTS": "Interrogare Talent Intelligence",
       "USE_AGENT": "Usare Copilot"
     },
     "mfa": {
@@ -776,8 +765,8 @@
     },
     "usage": {
       "matchingActions": "Azioni di matching",
-      "aiResumeChats": "Chat IA CV",
-      "talentIntelligenceQueries": "Talent Intelligence",
+      "aiResumeChats": "Copilot · domande sui candidati",
+      "talentIntelligenceQueries": "Copilot · analisi della banca CV",
       "used": "utilizzato",
       "cumulativeTooltip": "Totale cumulativo di tutti i periodi",
       "allTime": "totale",
@@ -787,7 +776,7 @@
       "templatesTooltip": "Modelli di invito salvati — una quota del piano, non mensile",
       "noPeriodTitle": "Nessun periodo di utilizzo attivo per questo account",
       "noPeriodHint": "L'utilizzo viene misurato per periodo di fatturazione. Un periodo si apre automaticamente pochi minuti dopo l'inizio o il rinnovo di un abbonamento; se il messaggio persiste, contatta il supporto.",
-      "agentRuns": "Attività Copilot"
+      "agentRuns": "Copilot · attività"
     },
     "pipeline": {
       "job": "Offerta",
@@ -801,70 +790,6 @@
       "copilot": "Copilot",
       "empty": "Nessun candidato è ancora stato spostato nella pipeline. Imposta uno stato su un report di corrispondenza per iniziare."
     }
-  },
-  "appAIResumeChat": {
-    "typing": "L’assistente scrive…",
-    "createChat": "Nuova chat",
-    "refresh": "Aggiorna",
-    "chats": "Chat",
-    "loadMore": "Carica altro",
-    "selectChat": "Seleziona una chat",
-    "loadOlder": "Carica precedenti",
-    "you": "Tu",
-    "assistant": "Assistente",
-    "noChatSelected": "Nessuna chat selezionata. Creane o selezionane una.",
-    "placeholder": "Domanda su CV e annuncio…",
-    "send": "Invia",
-    "createChatTitle": "Avvia chat",
-    "createChatHelp": "Seleziona un CV e un annuncio. Il report correlato verrà collegato se disponibile.",
-    "noCVFound": "Nessun CV trovato",
-    "cvSearch": "Cerca CV (per nome)",
-    "cvSearchPlaceholder": "Digita un nome…",
-    "jobPost": "Annuncio",
-    "relatedMatchingReport": "Report correlato",
-    "resumeMatchHint": "Seleziona CV e annuncio per verificare corrispondenze.",
-    "searching": "Ricerca…",
-    "job": "Posizione",
-    "score": "Punteggio",
-    "noResumeMatch": "Nessuna corrispondenza trovata",
-    "chatTitle": "Titolo chat",
-    "chatTitleHelp2": "Predefinito: “Nome Cognome - Posizione”",
-    "language": "Lingua",
-    "cancel": "Annulla",
-    "create": "Crea",
-    "selectCvAndJob": "Seleziona un CV e un annuncio",
-    "closed": "Chiuso",
-    "closeChat": "Chiudi conversazione",
-    "deleteChat": "Elimina conversazione",
-    "chatClosed": "Questa conversazione è chiusa e non può ricevere nuovi messaggi.",
-    "confirmDeleteChat": "Elimina conversazione",
-    "confirmDeleteChatMessage": "Sei sicuro di voler eliminare questa conversazione? Questa azione non può essere annullata.",
-    "delete": "Elimina",
-    "chatOptions": "Opzioni conversazione",
-    "filterAll": "Tutti",
-    "open": "Aperto",
-    "archived": "Archiviato",
-    "archiveChat": "Archivia conversazione",
-    "reopenChat": "Riapri conversazione",
-    "chatArchived": "Questa conversazione è archiviata e non può ricevere nuovi messaggi.",
-    "copyReference": "Copia riferimento",
-    "copied": "Copiato!",
-    "sendFailed": "Impossibile ottenere una risposta.",
-    "retry": "Riprova",
-    "screeningScore": "Punteggio di screening",
-    "screeningScoreHint": "Punteggio ufficiale del report di screening — la chat cita questo valore.",
-    "runScreening": "Nessun report di screening — avvia screening",
-    "noReportYetHint": "Non esiste ancora un report di screening per questo candidato e questa posizione, quindi la chat non può fornire un punteggio. Avvia uno screening per ottenerlo.",
-    "copyAnswer": "Copia risposta",
-    "composerHint": "Invio per inviare · Maiusc+Invio per andare a capo",
-    "showChats": "Mostra elenco chat",
-    "hideChats": "Nascondi elenco chat",
-    "showContext": "Mostra CV, report e posizione",
-    "hideContext": "Nascondi CV, report e posizione",
-    "tabResume": "CV",
-    "tabReport": "Report di matching",
-    "tabJob": "Descrizione della posizione",
-    "refreshReport": "Aggiorna"
   },
   "pricing": {
     "monthly": "Mensile",
@@ -886,23 +811,26 @@
     "starter": {
       "users": "2 utenti",
       "matchingActions": "2.000 azioni di matching / mese",
-      "aiChat": "500 messaggi AI chat / mese",
-      "queries": "1.000 query del talent pool / mese",
-      "emailTemplates": "3 modelli e-mail"
+      "aiChat": "Copilot: 500 domande sui candidati / mese",
+      "queries": "Copilot: 1.000 analisi della banca CV / mese",
+      "emailTemplates": "3 modelli e-mail",
+      "copilotTasks": "Copilot: 100 attività / mese"
     },
     "pro": {
       "users": "5 utenti",
       "matchingActions": "10.000 azioni di matching / mese",
-      "aiChat": "1.500 messaggi AI chat / mese",
-      "queries": "3.000 query del talent pool / mese",
-      "emailTemplates": "15 modelli e-mail"
+      "aiChat": "Copilot: 1.500 domande sui candidati / mese",
+      "queries": "Copilot: 3.000 analisi della banca CV / mese",
+      "emailTemplates": "15 modelli e-mail",
+      "copilotTasks": "Copilot: 500 attività / mese"
     },
     "scale": {
       "users": "15 utenti",
       "matchingActions": "25.000 azioni di matching / mese",
-      "aiChat": "4.000 messaggi AI chat / mese",
-      "queries": "8.000 query del talent pool / mese",
-      "emailTemplates": "50 modelli e-mail"
+      "aiChat": "Copilot: 4.000 domande sui candidati / mese",
+      "queries": "Copilot: 8.000 analisi della banca CV / mese",
+      "emailTemplates": "50 modelli e-mail",
+      "copilotTasks": "Copilot: 2.000 attività / mese"
     }
   },
   "registrationSuccess": {
@@ -1007,25 +935,6 @@
         "CANDIDATE_COMPARISON": "Confronta @Alice e @Bob rispetto a #Senior Java Developer. Chi è più adatto?"
       }
     },
-    "intro": {
-      "title": "Avvia una nuova conversazione",
-      "subtitle": "Scegli un tema qui sotto o poni la tua domanda. Usa @ per menzionare candidati e # per offerte."
-    },
-    "intentsShort": {
-      "TALENT_POOL_INTELLIGENCE": "Pool talenti",
-      "TALENT_CLUSTERING": "Raggruppamento",
-      "CANDIDATE_RANKING": "Classifica",
-      "CANDIDATE_REDISCOVERY": "Riscoperta",
-      "SKILL_GAP_ANALYSIS": "Lacune",
-      "GENERAL_RECRUITING_QUESTION": "Generale",
-      "LOCATION_INTELLIGENCE": "Posizione",
-      "SALARY_EXPECTATION_ANALYSIS": "Stipendio",
-      "CANDIDATE_COMPARISON": "Confronto",
-      "JOB_DESCRIPTION_ANALYSIS": "Descrizione",
-      "RESUME_DATA_QUALITY_ANALYSIS": "Qualità dati",
-      "SENIORITY_DISTRIBUTION_ANALYSIS": "Seniority",
-      "SKILLS_DISTRIBUTION": "Competenze"
-    },
     "comparison": {
       "yearsExperience": "anni esp.",
       "differentiatingSkills": "Competenze differenzianti",
@@ -1033,17 +942,7 @@
       "jobContext": "Contesto lavorativo",
       "certifications": "Certificazioni"
     },
-    "candidates": "Candidati",
-    "deleteConversation": {
-      "title": "Elimina conversazione",
-      "message": "Sei sicuro di voler eliminare questa conversazione? Questa azione non può essere annullata.",
-      "cancel": "Annulla",
-      "confirm": "Elimina"
-    },
-    "input": {
-      "placeholder": "Interroga il tuo bacino di talenti… @ per i candidati, # per le offerte",
-      "hint": "Invio per inviare · Maiusc+Invio per nuova riga · @ candidati · # offerte"
-    }
+    "candidates": "Candidati"
   },
   "error": {
     "auth": {
@@ -1796,22 +1695,22 @@
         "atLimit": "Al limite, caricamenti, importazioni ATS, matching e rianalisi vengono sospesi fino al rinnovo del periodo."
       },
       "aiResumeChats": {
-        "what": "Uno per messaggio inviato nella Chat IA sui curriculum.",
-        "details": "Ogni domanda inviata su un curriculum conta una volta; le risposte sono gratuite.",
-        "atLimit": "Al limite, i nuovi messaggi vengono rifiutati fino al rinnovo del periodo."
+        "what": "Una per ogni risposta di Copilot su un candidato.",
+        "details": "Ogni domanda a cui Copilot risponde dal CV completo, dalla posizione e dal suo report di matching conta una volta.",
+        "atLimit": "Al limite, Copilot non può rispondere a domande sui candidati fino al rinnovo del periodo."
       },
       "talentIntelligenceQueries": {
-        "what": "Una per domanda posta in Talent Intelligence.",
-        "details": "Ogni domanda sull'intera libreria conta una volta, comprese quelle di approfondimento.",
-        "atLimit": "Viene scalata dalla quota del tuo piano per il periodo."
+        "what": "Una per ogni analisi di Copilot di tutta la banca CV.",
+        "details": "Ogni domanda sulla banca CV a cui Copilot risponde con numeri, grafici o schede candidato conta una volta, domande successive comprese.",
+        "atLimit": "Al limite, Copilot non può analizzare la banca CV fino al rinnovo del periodo."
       },
       "emailTemplates": {
         "what": "Modelli di invito salvati — una quota del piano, non azzerata a ogni periodo."
       },
       "agentRuns": {
-        "what": "Una per ogni attività su cui lavora Copilot.",
-        "details": "Ogni attività conta una volta, sia che l'abbia chiesta in chat sia che l'abbia avviata una regola. Ciò che Copilot fa nel frattempo, come un'analisi di corrispondenza, conta anche sul relativo limite.",
-        "atLimit": "Le nuove attività Copilot vengono rifiutate fino al rinnovo del periodo."
+        "what": "Una per ogni altra richiesta a Copilot: ricerca, tag, bozze, matching, regole.",
+        "details": "Ogni attività conta una volta, che tu l’abbia data in chat o che l’abbia avviata una regola. Le domande su un candidato o sulla banca CV contano invece sui propri contatori. Ciò che Copilot fa nel frattempo, come un matching, conta anche sulla propria quota.",
+        "atLimit": "Le nuove attività di Copilot vengono rifiutate fino al rinnovo del periodo; le domande su un candidato o sulla banca CV continuano a funzionare."
       }
     },
     "pace": {
@@ -1831,8 +1730,6 @@
     "dataHealth": "Salute dei dati",
     "jobs": "Annunci",
     "reports": "Report",
-    "intelligence": "Talent Intelligence",
-    "aiResumeChat": "Chat CV IA",
     "usage": "Consumi",
     "configuration": "Configurazione",
     "accountSettings": "Account",
@@ -1858,16 +1755,16 @@
     },
     "empty": {
       "title": "Cosa deve fare Copilot?",
-      "subtitle": "Affida a Copilot un'attività con parole tue. Cerca tra CV, offerte e report di corrispondenza, può etichettare candidati, aggiungere note, creare o modificare offerte e scrivere email. L'invio di un'email, un'analisi di corrispondenza o un'importazione ATS attendono sempre la tua approvazione. Non elimina mai nulla.",
+      "subtitle": "Chiedi di un candidato o di tutta la tua banca CV, oppure affida un’attività a Copilot a parole tue. Risponde dal CV completo, dalla posizione e dal suo report di matching, analizza la banca con grafici e può taggare candidati, aggiungere note, creare o aggiornare posizioni e preparare email. L’invio di un’email, un matching o un’importazione ATS attende sempre la tua approvazione. Non elimina mai nulla.",
       "examples": {
         "topCandidates": "Chi sono i 5 candidati più adatti alla nostra offerta aperta più recente, e perché?",
         "count": "Quanti sviluppatori Java senior aperti a nuove opportunità abbiamo a Lisbona?",
         "tag": "Etichetta come «shortlist» i 3 candidati più adatti alla nostra offerta aperta più recente.",
-        "usage": "Quanto del nostro piano abbiamo usato in questo periodo?"
+        "skills": "Quali sono le competenze più comuni tra i nostri sviluppatori senior?"
       }
     },
     "input": {
-      "placeholder": "Descrivi un'attività… @ per un candidato, # per un'offerta",
+      "placeholder": "Fai una domanda o descrivi un'attività… @ per un candidato, # per un'offerta",
       "hint": "Copilot legge i tuoi dati per rispondere. Può sbagliare: verifica i risultati importanti.",
       "tooLong": "L'attività deve avere meno di {{max}} caratteri."
     },
@@ -2109,6 +2006,15 @@
       },
       "autoApproved": "Il matching parte senza chiedere (fino a {{count}} azioni)",
       "stepAutoApproved": "Eseguito senza chiedere — autorizzato in anticipo dalla regola"
+    },
+    "focus": {
+      "label": "Su {{name}} · {{job}}",
+      "unnamed": "questo candidato",
+      "untitled": "questa posizione"
+    },
+    "ask": {
+      "aboutCandidate": "Chiedi a Copilot di questo candidato",
+      "aboutCandidateForJob": "Chiedi a Copilot di questo candidato per questa posizione"
     }
   },
   "agent": {
@@ -2139,7 +2045,9 @@
       "list_ats_connections": "Integrazioni ATS controllate: {{count}} trovate",
       "propose_rule": "Regola «{{name}}»",
       "rule_created": "Regola «{{name}}» creata",
-      "set_report_status": "{{count}} candidato/i spostato/i a {{status}}"
+      "set_report_status": "{{count}} candidato/i spostato/i a {{status}}",
+      "ask_about_candidate": "Risposta su {{name}} per «{{job}}»",
+      "analyze_library": "Banca CV analizzata"
     }
   },
   "matchingRun": {

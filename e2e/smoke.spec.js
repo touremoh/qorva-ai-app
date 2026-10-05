@@ -9,11 +9,9 @@ const TABS = [
 	['library-quality', 'Data Health'],
 	['configuration', 'Configuration'],
 	['jobs', 'Jobs'],
-	['intelligence', 'Talent Intelligence'],
 	['copilot', 'Copilot'],
 	['reports', 'Match Reports'],
 	['pipeline', 'Candidate Pipeline'],
-	['chat', 'AI Resume Chat'],
 	['usage', 'Usage Monitoring'],
 	['settings', 'Account Settings'],
 ];
@@ -33,6 +31,15 @@ test.describe('app shell', () => {
 		await expect(page.getByText('Email Templates', { exact: true }).first()).toBeVisible();
 		expect(unknown, 'API calls missing from e2e/fixtures/api.json').toEqual([]);
 	});
+
+	for (const tab of ['chat', 'intelligence']) {
+		test(`the old ${tab} address opens Copilot`, async ({ page }) => {
+			const unknown = await openApp(page, `/app/${tab}`);
+			await expect(page).toHaveURL(/\/app\/copilot$/);
+			await expect(page.getByText('Copilot', { exact: true }).first()).toBeVisible();
+			expect(unknown, 'API calls missing from e2e/fixtures/api.json').toEqual([]);
+		});
+	}
 
 	test('dashboard shows the seeded tenant', async ({ page }) => {
 		await openApp(page, '/app/dashboard');

@@ -85,8 +85,8 @@ test.describe('copilot', () => {
 		await page.goto('/app/copilot');
 
 		await expect(page.getByTestId('copilot-empty')).toBeVisible();
-		await page.getByPlaceholder(/Describe a task/).fill(GOAL);
-		await page.getByPlaceholder(/Describe a task/).press('Enter');
+		await page.getByPlaceholder(/describe a task/i).fill(GOAL);
+		await page.getByPlaceholder(/describe a task/i).press('Enter');
 
 		await expect(page.getByText(GOAL, { exact: true }).first()).toBeVisible();
 		await expect(page.getByText('Searched the resume library: 7 found')).toBeVisible({ timeout: 10000 });
@@ -113,8 +113,8 @@ test.describe('copilot', () => {
 		await signIn(page);
 		await page.goto('/app/copilot');
 
-		await page.getByPlaceholder(/Describe a task/).fill('Tag the top 2 and draft an intro');
-		await page.getByPlaceholder(/Describe a task/).press('Enter');
+		await page.getByPlaceholder(/describe a task/i).fill('Tag the top 2 and draft an intro');
+		await page.getByPlaceholder(/describe a task/i).press('Enter');
 
 		await expect(page.getByText('Tagged 2 candidate(s): shortlist')).toBeVisible();
 		await expect(page.getByText('Drafted an email to Ana Ruiz (not sent)')).toBeVisible();
@@ -147,8 +147,8 @@ test.describe('copilot', () => {
 		});
 		await signIn(page);
 		await page.goto('/app/copilot');
-		await page.getByPlaceholder(/Describe a task/).fill('Email Ana an intro');
-		await page.getByPlaceholder(/Describe a task/).press('Enter');
+		await page.getByPlaceholder(/describe a task/i).fill('Email Ana an intro');
+		await page.getByPlaceholder(/describe a task/i).press('Enter');
 
 		const card = page.getByTestId('copilot-action-card');
 		await expect(card).toContainText('Ana Ruiz <ana@x.test>', { timeout: 10000 });
@@ -174,8 +174,8 @@ test.describe('copilot', () => {
 		});
 		await signIn(page);
 		await page.goto('/app/copilot');
-		await page.getByPlaceholder(/Describe a task/).fill('Email Ana an intro');
-		await page.getByPlaceholder(/Describe a task/).press('Enter');
+		await page.getByPlaceholder(/describe a task/i).fill('Email Ana an intro');
+		await page.getByPlaceholder(/describe a task/i).press('Enter');
 
 		await page.getByTestId('copilot-action-reject').click();
 		await page.getByTestId('copilot-action-reason').fill('Not before Friday');
@@ -196,8 +196,8 @@ test.describe('copilot', () => {
 		});
 		await signIn(page);
 		await page.goto('/app/copilot');
-		await page.getByPlaceholder(/Describe a task/).fill('Draft an intro to Oliver');
-		await page.getByPlaceholder(/Describe a task/).press('Enter');
+		await page.getByPlaceholder(/describe a task/i).fill('Draft an intro to Oliver');
+		await page.getByPlaceholder(/describe a task/i).press('Enter');
 
 		await page.getByTestId('copilot-open-draft').click();
 
@@ -236,7 +236,7 @@ test.describe('copilot', () => {
 		await page.goto('/app/copilot');
 
 		await page.getByTestId('copilot-example').first().click();
-		await page.getByPlaceholder(/Describe a task/).press('Enter');
+		await page.getByPlaceholder(/describe a task/i).press('Enter');
 
 		await expect(page.getByTestId('copilot-error')).toContainText("Copilot task limit for this period has been reached");
 		await expect(page.locator('[data-sonner-toast]')).toHaveCount(0);
@@ -249,7 +249,54 @@ test.describe('copilot', () => {
 
 		await page.getByTestId('copilot-conversation').first().click();
 		await expect(page.getByText('Who are our best Java candidates?', { exact: true })).toBeVisible();
-		await expect(page.getByTestId('copilot-answer')).toContainText('One strong Java candidate.');
+		await expect(page.getByTestId('copilot-answer').first()).toContainText('One strong Java candidate.');
+	});
+
+	test('a candidate question and a library analysis answer in the conversation, with charts and cards', async ({ page }) => {
+		const unknown = await mockApi(page, enabled);
+		await signIn(page);
+		await page.goto('/app/copilot');
+
+		await page.getByTestId('copilot-conversation').first().click();
+		await expect(page.getByText('Answered about Cian O\'Sullivan for “Senior Backend Engineer (Java/Spring)”')).toBeVisible();
+		await expect(page.getByTestId('copilot-answer').nth(1)).toContainText('The screening report scores this match at 82%.');
+		await expect(page.getByText('Analysed the resume library')).toBeVisible();
+		const blocks = page.getByTestId('copilot-answer-blocks');
+		await expect(blocks).toContainText('Seniority');
+		await expect(blocks).toContainText('Senior backend engineers');
+		// The conversation keeps its focus for the next question.
+		await expect(page.getByTestId('copilot-focus')).toContainText('Cian O\'Sullivan');
+
+		await blocks.getByText('Cian O\'Sullivan').click();
+		await expect(page.getByText('Senior Backend Engineer (Java/Spring)').first()).toBeVisible();
+		expect(unknown).toEqual([]);
+	});
+
+	test('asking Copilot from a match report opens a conversation focused on the candidate and the job', async ({ page }) => {
+		let started = null;
+		const unknown = await mockApi(page, {
+			...enabled,
+			'POST /agent/runs': (request) => {
+				started = request.postDataJSON();
+				return json(202, run('COMPLETED', { goal: started.goal, finalAnswer: 'Yes, a strong fit.', finishedAt: '2026-09-16T10:00:00Z' }));
+			},
+		});
+		await signIn(page);
+		await page.goto('/app/reports');
+		await page.getByText('Oliver Whitfield').first().click();
+		await page.getByTestId('ask-copilot').click();
+
+		await expect(page).toHaveURL(/\/app\/copilot\?tab=chat$/);
+		const focus = page.getByTestId('copilot-focus');
+		await expect(focus).toContainText('Oliver Whitfield');
+		await expect(focus).toContainText('Senior Backend Engineer (Java/Spring)');
+		await page.getByPlaceholder(/describe a task/i).fill('Is he a fit?');
+		await page.getByPlaceholder(/describe a task/i).press('Enter');
+
+		await expect.poll(() => started).not.toBeNull();
+		expect(started.focus).toEqual({ cvId: '6ab7190e28a8f342d03d978b', jobPostId: '6ab7190e28a8f342d03d97a1' });
+		expect(started.conversationId).toBeUndefined();
+		expect(unknown).toEqual([]);
 	});
 
 	test('activity lists tasks, the team view adds the user, a row opens the task', async ({ page }) => {

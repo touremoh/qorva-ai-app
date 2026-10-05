@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import * as tokens from '../../../theme/tokens.js';
+import * as tokens from '../../../../theme/tokens.js';
 import { alpha } from '@mui/material/styles';
 
 // Legacy camelCase fallback maps (pre-i18n-key era)

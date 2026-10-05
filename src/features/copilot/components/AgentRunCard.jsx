@@ -6,14 +6,15 @@ import LinearProgress from '@mui/material/LinearProgress';
 import SmartToyOutlinedIcon from '@mui/icons-material/SmartToyOutlined';
 import { useTranslation } from 'react-i18next';
 import { alpha } from '@mui/material/styles';
-import ChatMarkdown from '../../chat/components/ChatMarkdown.jsx';
+import AnswerMarkdown from './answer/AnswerMarkdown.jsx';
+import AnswerBlocks from './answer/AnswerBlocks.jsx';
 import AgentRunTimeline from './AgentRunTimeline.jsx';
 import AgentActionCards from './AgentActionCards.jsx';
 import RunStatusChip from './RunStatusChip.jsx';
 import * as tokens from '../../../theme/tokens.js';
 import { failureMessage, isWorking, RUN_STATUS } from '../model/agentRun.js';
 
-/** One task of a conversation: the goal, what Copilot did, and its answer. */
+/** One request of a conversation: the goal, what Copilot did, and its answer (with a library analysis's charts and cards). */
 const AgentRunCard = ({ run, onCancel, onLinkClick, onRunUpdate, showGoal = true }) => {
 	const { t } = useTranslation();
 	const working = isWorking(run);
@@ -65,7 +66,8 @@ const AgentRunCard = ({ run, onCancel, onLinkClick, onRunUpdate, showGoal = true
 					<AgentActionCards run={run} onRunUpdate={onRunUpdate} />
 					{run.status === RUN_STATUS.COMPLETED && run.finalAnswer && (
 						<Box data-testid="copilot-answer" sx={{ pt: run.steps?.length ? 1 : 0, borderTop: run.steps?.length ? `1px dashed ${tokens.line.main}` : 'none' }}>
-							<ChatMarkdown content={run.finalAnswer} />
+							<AnswerMarkdown content={run.finalAnswer} />
+							{run.blocks && <AnswerBlocks blocks={run.blocks} onCandidateClick={onLinkClick} />}
 						</Box>
 					)}
 					{run.stoppedEarly && (
@@ -101,6 +103,7 @@ AgentRunCard.propTypes = {
 		status: PropTypes.string,
 		steps: PropTypes.array,
 		finalAnswer: PropTypes.string,
+		blocks: PropTypes.object,
 		failureReason: PropTypes.string,
 		stoppedEarly: PropTypes.bool,
 		canCancel: PropTypes.bool,

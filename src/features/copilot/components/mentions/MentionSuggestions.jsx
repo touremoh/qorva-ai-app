@@ -11,8 +11,8 @@ import ClickAwayListener from '@mui/material/ClickAwayListener';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
 import { alpha } from '@mui/material/styles';
-import * as tokens from '../../../theme/tokens.js';
-import { mentionKey } from '../model/mentions.js';
+import * as tokens from '../../../../theme/tokens.js';
+import { mentionKey } from '../../model/mentions.js';
 
 /** The mention search results, above the composer; the highlighted row follows the keyboard. */
 const MentionSuggestions = ({ open, anchorEl, loading, options, highlightedIdx, onHighlight, onPick, onClose }) => {

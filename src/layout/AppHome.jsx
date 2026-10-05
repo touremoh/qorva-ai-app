@@ -14,12 +14,10 @@ import CandidateOutreachDock from "../features/outreach/components/CandidateOutr
 import {logPageView} from "../utils/analytics.js";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {
-	COMP_ID_CHAT,
 	COMP_ID_COPILOT,
 	COMP_ID_CVLIB,
 	COMP_ID_CONFIGURATION,
 	COMP_ID_DASHBOARD,
-	COMP_ID_INTELLIGENCE,
 	COMP_ID_JOBS,
 	COMP_ID_LIBRARY_QUALITY,
 	COMP_ID_REPORTS,
@@ -36,11 +34,9 @@ const TAB_TO_COMP = {
 	'library-quality': COMP_ID_LIBRARY_QUALITY,
 	'configuration': COMP_ID_CONFIGURATION,
 	'jobs': COMP_ID_JOBS,
-	'intelligence': COMP_ID_INTELLIGENCE,
 	'copilot': COMP_ID_COPILOT,
 	'reports': COMP_ID_REPORTS,
 	'pipeline': COMP_ID_PIPELINE,
-	'chat': COMP_ID_CHAT,
 	'usage': COMP_ID_USAGE_MONITORING,
 	'settings': COMP_ID_SETTINGS,
 };
@@ -49,6 +45,9 @@ const COMP_TO_TAB = Object.fromEntries(Object.entries(TAB_TO_COMP).map(([tab, co
 // Tabs that moved: old slug → where it lives now, so bookmarks keep working.
 const MOVED_TABS = {
 	'email-templates': { comp: COMP_ID_CONFIGURATION, to: '/app/configuration?section=email-templates' },
+	// AI Resume Chat and Talent Intelligence are Copilot now (2026-10-05).
+	'chat': { comp: COMP_ID_COPILOT, to: '/app/copilot' },
+	'intelligence': { comp: COMP_ID_COPILOT, to: '/app/copilot' },
 };
 
 const AppHome = () => {

@@ -187,8 +187,8 @@ test.describe('copilot rules', () => {
 		});
 		await signIn(page);
 		await page.goto('/app/copilot');
-		await page.getByPlaceholder(/Describe a task/).fill(proposed.goal);
-		await page.getByPlaceholder(/Describe a task/).press('Enter');
+		await page.getByPlaceholder(/describe a task/i).fill(proposed.goal);
+		await page.getByPlaceholder(/describe a task/i).press('Enter');
 
 		const card = page.getByTestId('copilot-action-card');
 		await expect(card).toContainText('Create this rule?', { timeout: 10000 });

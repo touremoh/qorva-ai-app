@@ -105,30 +105,6 @@
             "permission" : "ALLOWED"
           }, {
             "role" : "ACCOUNT_OWNER",
-            "action" : "START_CHAT",
-            "permission" : "ALLOWED"
-          }, {
-            "role" : "ACCOUNT_OWNER",
-            "action" : "VIEW_CHAT",
-            "permission" : "ALLOWED"
-          }, {
-            "role" : "ACCOUNT_OWNER",
-            "action" : "VIEW_MESSAGE",
-            "permission" : "ALLOWED"
-          }, {
-            "role" : "ACCOUNT_OWNER",
-            "action" : "REPLY_MESSAGE",
-            "permission" : "ALLOWED"
-          }, {
-            "role" : "ACCOUNT_OWNER",
-            "action" : "MODIFY_CHAT",
-            "permission" : "ALLOWED"
-          }, {
-            "role" : "ACCOUNT_OWNER",
-            "action" : "DELETE_CHAT",
-            "permission" : "ALLOWED"
-          }, {
-            "role" : "ACCOUNT_OWNER",
             "action" : "VIEW_USERS",
             "permission" : "ALLOWED"
           }, {
@@ -150,10 +126,6 @@
           }, {
             "role" : "ACCOUNT_OWNER",
             "action" : "CANCEL_SUBSCRIPTION",
-            "permission" : "ALLOWED"
-          }, {
-            "role" : "ACCOUNT_OWNER",
-            "action" : "VIEW_LIBRARY_INSIGHTS",
             "permission" : "ALLOWED"
           }, {
             "role" : "ACCOUNT_OWNER",
@@ -4841,9 +4813,9 @@
   "GET /cvs/clear-library/preflight" : {
     "status" : 200,
     "body" : {
+      "conversations" : 1,
       "cvs" : 22,
-      "reports" : 3,
-      "chats" : 1
+      "reports" : 3
     }
   },
   "GET /cvs/search" : {
@@ -6914,63 +6886,6 @@
       "timestamp" : "2026-09-26T01:00:00.076783Z"
     }
   },
-  "GET /chats" : {
-    "status" : 200,
-    "body" : {
-      "content" : [ {
-        "id" : "6ab7190e28a8f342d03d97ac",
-        "tenantId" : "6ab7190d28a8f342d03d9788",
-        "title" : "Screening follow-up",
-        "status" : "OPEN",
-        "context" : {
-          "cvId" : "6ab7190e28a8f342d03d978b",
-          "jobPostId" : "6ab7190e28a8f342d03d97a1",
-          "matchingReportId" : "6ab7190e28a8f342d03d97a6"
-        },
-        "participants" : [ {
-          "userId" : "6ab7190d28a8f342d03d9789",
-          "role" : "OWNER"
-        } ],
-        "metadata" : {
-          "language" : "en",
-          "tags" : [ ]
-        },
-        "createdAt" : "2026-09-15T08:00:00Z",
-        "lastUpdatedAt" : "2026-09-15T08:00:00Z",
-        "createdBy" : "owner@a.qorva.test",
-        "lastUpdatedBy" : "owner@a.qorva.test"
-      } ],
-      "pageable" : {
-        "pageNumber" : 0,
-        "pageSize" : 25,
-        "sort" : {
-          "empty" : false,
-          "unsorted" : false,
-          "sorted" : true
-        },
-        "offset" : 0,
-        "unpaged" : false,
-        "paged" : true
-      },
-      "totalPages" : 1,
-      "totalElements" : 1,
-      "last" : true,
-      "size" : 25,
-      "number" : 0,
-      "sort" : {
-        "empty" : false,
-        "unsorted" : false,
-        "sorted" : true
-      },
-      "numberOfElements" : 1,
-      "first" : true,
-      "empty" : false
-    }
-  },
-  "GET /chats/allowed" : {
-    "status" : 200,
-    "body" : true
-  },
   "GET /dashboard/data" : {
     "status" : 200,
     "body" : {
@@ -7138,30 +7053,6 @@
       } ],
       "limit" : null
     }
-  },
-  "GET /library-insights/conversations" : {
-    "status" : 200,
-    "body" : [ {
-      "conversationId" : "6ab7190e28a8f342d03d97af",
-      "title" : "Senior backend engineers",
-      "turns" : [ {
-        "id" : "6ab7190e28a8f342d03d97b0",
-        "conversationId" : "6ab7190e28a8f342d03d97af",
-        "initiatedBy" : "owner@a.qorva.test",
-        "question" : "How many senior backend engineers do we have?",
-        "intent" : "TALENT_POOL_INTELLIGENCE",
-        "answerText" : "You have 4 senior backend engineers.",
-        "candidates" : [ ],
-        "totalCandidateCount" : 4,
-        "metrics" : [ ],
-        "charts" : [ ],
-        "followUpQuestions" : [ "Which of them are available now?" ],
-        "disclaimer" : null,
-        "rawData" : { },
-        "createdAt" : "2026-09-15T08:00:00Z"
-      } ],
-      "lastActivityAt" : "2026-09-15T08:00:00Z"
-    } ]
   },
   "GET /library-quality" : {
     "status" : 200,
@@ -7502,30 +7393,6 @@
             "permission" : "ALLOWED"
           }, {
             "role" : "ACCOUNT_OWNER",
-            "action" : "START_CHAT",
-            "permission" : "ALLOWED"
-          }, {
-            "role" : "ACCOUNT_OWNER",
-            "action" : "VIEW_CHAT",
-            "permission" : "ALLOWED"
-          }, {
-            "role" : "ACCOUNT_OWNER",
-            "action" : "VIEW_MESSAGE",
-            "permission" : "ALLOWED"
-          }, {
-            "role" : "ACCOUNT_OWNER",
-            "action" : "REPLY_MESSAGE",
-            "permission" : "ALLOWED"
-          }, {
-            "role" : "ACCOUNT_OWNER",
-            "action" : "MODIFY_CHAT",
-            "permission" : "ALLOWED"
-          }, {
-            "role" : "ACCOUNT_OWNER",
-            "action" : "DELETE_CHAT",
-            "permission" : "ALLOWED"
-          }, {
-            "role" : "ACCOUNT_OWNER",
             "action" : "VIEW_USERS",
             "permission" : "ALLOWED"
           }, {
@@ -7547,10 +7414,6 @@
           }, {
             "role" : "ACCOUNT_OWNER",
             "action" : "CANCEL_SUBSCRIPTION",
-            "permission" : "ALLOWED"
-          }, {
-            "role" : "ACCOUNT_OWNER",
-            "action" : "VIEW_LIBRARY_INSIGHTS",
             "permission" : "ALLOWED"
           }, {
             "role" : "ACCOUNT_OWNER",
@@ -7752,102 +7615,6 @@
       "mailbox" : "NONE",
       "mailboxAddress" : null,
       "history" : [ ]
-    }
-  },
-  "GET /library-insights/conversations/6ab7190e28a8f342d03d97af" : {
-    "status" : 200,
-    "body" : [ {
-      "id" : "6ab7190e28a8f342d03d97b0",
-      "conversationId" : "6ab7190e28a8f342d03d97af",
-      "initiatedBy" : "owner@a.qorva.test",
-      "question" : "How many senior backend engineers do we have?",
-      "intent" : "TALENT_POOL_INTELLIGENCE",
-      "answerText" : "You have 4 senior backend engineers.",
-      "candidates" : [ ],
-      "totalCandidateCount" : 4,
-      "metrics" : [ ],
-      "charts" : [ ],
-      "followUpQuestions" : [ "Which of them are available now?" ],
-      "disclaimer" : null,
-      "rawData" : { },
-      "createdAt" : "2026-09-15T08:00:00Z"
-    } ]
-  },
-  "GET /chats/6ab7190e28a8f342d03d97ac" : {
-    "status" : 200,
-    "body" : {
-      "id" : "6ab7190e28a8f342d03d97ac",
-      "tenantId" : "6ab7190d28a8f342d03d9788",
-      "title" : "Screening follow-up",
-      "status" : "OPEN",
-      "context" : {
-        "cvId" : "6ab7190e28a8f342d03d978b",
-        "jobPostId" : "6ab7190e28a8f342d03d97a1",
-        "matchingReportId" : "6ab7190e28a8f342d03d97a6"
-      },
-      "participants" : [ {
-        "userId" : "6ab7190d28a8f342d03d9789",
-        "role" : "OWNER"
-      } ],
-      "metadata" : {
-        "language" : "en",
-        "tags" : [ ]
-      },
-      "createdAt" : "2026-09-15T08:00:00Z",
-      "lastUpdatedAt" : "2026-09-15T08:00:00Z",
-      "createdBy" : "owner@a.qorva.test",
-      "lastUpdatedBy" : "owner@a.qorva.test"
-    }
-  },
-  "GET /chats/6ab7190e28a8f342d03d97ac/messages" : {
-    "status" : 200,
-    "body" : {
-      "content" : [ {
-        "id" : "6ab7190e28a8f342d03d97ae",
-        "tenantId" : "6ab7190d28a8f342d03d9788",
-        "chatId" : "6ab7190e28a8f342d03d97ac",
-        "role" : "ASSISTANT",
-        "participantId" : null,
-        "content" : "Kubernetes, Go and incident response stand out.",
-        "tokens" : null,
-        "metadata" : null,
-        "createdAt" : "2026-09-15T08:01:00Z"
-      }, {
-        "id" : "6ab7190e28a8f342d03d97ad",
-        "tenantId" : "6ab7190d28a8f342d03d9788",
-        "chatId" : "6ab7190e28a8f342d03d97ac",
-        "role" : "USER",
-        "participantId" : "6ab7190d28a8f342d03d9789",
-        "content" : "What are this candidate's strongest skills for the role?",
-        "tokens" : null,
-        "metadata" : null,
-        "createdAt" : "2026-09-15T08:00:00Z"
-      } ],
-      "pageable" : {
-        "pageNumber" : 0,
-        "pageSize" : 50,
-        "sort" : {
-          "empty" : false,
-          "unsorted" : false,
-          "sorted" : true
-        },
-        "offset" : 0,
-        "unpaged" : false,
-        "paged" : true
-      },
-      "totalPages" : 1,
-      "totalElements" : 2,
-      "last" : true,
-      "size" : 50,
-      "number" : 0,
-      "sort" : {
-        "empty" : false,
-        "unsorted" : false,
-        "sorted" : true
-      },
-      "numberOfElements" : 2,
-      "first" : true,
-      "empty" : false
     }
   },
   "GET /cvs/6ab7190e28a8f342d03d978b" : {
@@ -12419,6 +12186,8 @@
       "enabled" : false,
       "rulesEnabled" : false,
       "runsRemaining" : 500,
+      "candidateQuestionsRemaining" : 1500,
+      "libraryAnalysesRemaining" : 3000,
       "canViewTeam" : true
     }
   },
@@ -12464,6 +12233,7 @@
       "status" : "COMPLETED",
       "goal" : "Who are our best Java candidates?",
       "mentions" : [ ],
+      "focus" : null,
       "steps" : [ {
         "seq" : 1,
         "kind" : "TOOL_CALL",
@@ -12480,12 +12250,123 @@
         } ]
       } ],
       "finalAnswer" : "One strong Java candidate.",
+      "blocks" : null,
       "failureReason" : null,
       "stoppedEarly" : false,
       "canCancel" : false,
       "canApprove" : false,
       "createdAt" : "2026-09-15T08:00:00Z",
       "finishedAt" : "2026-09-15T08:00:00Z"
+    }, {
+      "id" : "6abc25f00243ffb2599331c8",
+      "conversationId" : "6abc25f00243ffb2599331c6",
+      "title" : "Best Java candidates",
+      "origin" : "CHAT",
+      "userEmail" : "owner@a.qorva.test",
+      "status" : "COMPLETED",
+      "goal" : "What are this candidate's strongest skills for the role?",
+      "mentions" : [ ],
+      "focus" : {
+        "cvId" : "6ab7190e28a8f342d03d978d",
+        "cvName" : "Cian O'Sullivan",
+        "jobPostId" : "6ab7190e28a8f342d03d97a1",
+        "jobTitle" : "Senior Backend Engineer (Java/Spring)"
+      },
+      "steps" : [ {
+        "seq" : 1,
+        "kind" : "TOOL_CALL",
+        "tool" : "ask_about_candidate",
+        "state" : "OK",
+        "summaryKey" : "agent.step.ask_about_candidate",
+        "summaryParams" : {
+          "name" : "Cian O'Sullivan",
+          "job" : "Senior Backend Engineer (Java/Spring)"
+        },
+        "links" : [ {
+          "type" : "CV",
+          "id" : "6ab7190e28a8f342d03d978d",
+          "label" : "Cian O'Sullivan"
+        }, {
+          "type" : "JOB",
+          "id" : "6ab7190e28a8f342d03d97a1",
+          "label" : "Senior Backend Engineer (Java/Spring)"
+        }, {
+          "type" : "REPORT",
+          "id" : "6ab7190e28a8f342d03d97a8",
+          "label" : "Senior Backend Engineer (Java/Spring)"
+        } ]
+      } ],
+      "finalAnswer" : "**Kubernetes, Go and incident response** stand out. The screening report scores this match at 82%.",
+      "blocks" : null,
+      "failureReason" : null,
+      "stoppedEarly" : false,
+      "canCancel" : false,
+      "canApprove" : false,
+      "createdAt" : "2026-09-15T08:01:00Z",
+      "finishedAt" : "2026-09-15T08:01:00Z"
+    }, {
+      "id" : "6abc25f00243ffb2599331c9",
+      "conversationId" : "6abc25f00243ffb2599331c6",
+      "title" : "Best Java candidates",
+      "origin" : "CHAT",
+      "userEmail" : "owner@a.qorva.test",
+      "status" : "COMPLETED",
+      "goal" : "How many senior backend engineers do we have?",
+      "mentions" : [ ],
+      "focus" : {
+        "cvId" : "6ab7190e28a8f342d03d978d",
+        "cvName" : "Cian O'Sullivan",
+        "jobPostId" : "6ab7190e28a8f342d03d97a1",
+        "jobTitle" : "Senior Backend Engineer (Java/Spring)"
+      },
+      "steps" : [ {
+        "seq" : 1,
+        "kind" : "TOOL_CALL",
+        "tool" : "analyze_library",
+        "state" : "OK",
+        "summaryKey" : "agent.step.analyze_library",
+        "summaryParams" : {
+          "intent" : "TALENT_POOL_INTELLIGENCE"
+        },
+        "links" : [ ]
+      } ],
+      "finalAnswer" : "You have 4 senior backend engineers.",
+      "blocks" : {
+        "intent" : "TALENT_POOL_INTELLIGENCE",
+        "candidates" : [ {
+          "id" : "6ab7190e28a8f342d03d978d",
+          "applicantNumber" : "A-1",
+          "name" : "Cian O'Sullivan",
+          "currentRole" : "Backend engineer",
+          "topSkills" : [ "Java", "Kubernetes" ],
+          "seniorityLevel" : "senior",
+          "matchScore" : null,
+          "locationHint" : "Dublin"
+        } ],
+        "totalCandidateCount" : 4,
+        "metrics" : [ {
+          "label" : "Senior backend engineers",
+          "key" : "count",
+          "value" : "4",
+          "unit" : null,
+          "percentage" : null
+        } ],
+        "charts" : [ {
+          "chartType" : "bar",
+          "title" : "Seniority",
+          "labels" : [ "senior", "mid" ],
+          "values" : [ 4, 6 ]
+        } ],
+        "followUpQuestions" : [ "Which of them are available now?" ],
+        "disclaimer" : null,
+        "rawData" : null
+      },
+      "failureReason" : null,
+      "stoppedEarly" : false,
+      "canCancel" : false,
+      "canApprove" : false,
+      "createdAt" : "2026-09-15T08:02:00Z",
+      "finishedAt" : "2026-09-15T08:02:00Z"
     } ]
   },
   "GET /agent/runs/6abc25f00243ffb2599331c7" : {
@@ -12499,6 +12380,7 @@
       "status" : "COMPLETED",
       "goal" : "Who are our best Java candidates?",
       "mentions" : [ ],
+      "focus" : null,
       "steps" : [ {
         "seq" : 1,
         "kind" : "TOOL_CALL",
@@ -12515,6 +12397,7 @@
         } ]
       } ],
       "finalAnswer" : "One strong Java candidate.",
+      "blocks" : null,
       "failureReason" : null,
       "stoppedEarly" : false,
       "canCancel" : false,
@@ -12565,99 +12448,204 @@
   "GET /matching-reports/pipeline" : {
     "status" : 200,
     "body" : {
-      "columns" : [
-        {
+      "columns" : [ {
+        "status" : "NEW",
+        "count" : 3,
+        "items" : [ {
+          "id" : "6ab7190e28a8f342d03d97a6",
+          "jobPostId" : "6ab7190e28a8f342d03d97a1",
+          "jobPostTitle" : "Senior Backend Engineer (Java/Spring)",
+          "candidateId" : "6ab7190e28a8f342d03d978b",
+          "candidateName" : "Oliver Whitfield",
+          "score" : 82.0,
+          "recommendation" : "interview",
+          "outdated" : false,
           "status" : "NEW",
-          "count" : 3,
-          "items" : [
-            {
-              "id" : "6ab7190e28a8f342d03d97a6",
-              "jobPostId" : "6ab7190e28a8f342d03d97a1",
-              "jobPostTitle" : "Senior Backend Engineer (Java/Spring)",
-              "candidateId" : "6ab7190e28a8f342d03d978b",
-              "candidateName" : "Oliver Whitfield",
-              "score" : 82.0,
-              "recommendation" : "interview",
-              "outdated" : false,
-              "status" : "NEW",
-              "statusChangedAt" : null,
-              "createdAt" : "2026-09-15T08:00:00Z",
-              "lastMove" : null
-            },
-            {
-              "id" : "6ab7190e28a8f342d03d97a7",
-              "jobPostId" : "6ab7190e28a8f342d03d97a1",
-              "jobPostTitle" : "Senior Backend Engineer (Java/Spring)",
-              "candidateId" : "6ab7190e28a8f342d03d978c",
-              "candidateName" : "Hannah Fletcher",
-              "score" : 64.0,
-              "recommendation" : "may_be",
-              "outdated" : false,
-              "status" : "NEW",
-              "statusChangedAt" : null,
-              "createdAt" : "2026-09-15T08:01:00Z",
-              "lastMove" : null
-            },
-            {
-              "id" : "6ab7190e28a8f342d03d97a8",
-              "jobPostId" : "6ab7190e28a8f342d03d97a1",
-              "jobPostTitle" : "Senior Backend Engineer (Java/Spring)",
-              "candidateId" : "6ab7190e28a8f342d03d978d",
-              "candidateName" : "Cian O'Sullivan",
-              "score" : 41.0,
-              "recommendation" : "reject",
-              "outdated" : false,
-              "status" : "NEW",
-              "statusChangedAt" : null,
-              "createdAt" : "2026-09-15T08:02:00Z",
-              "lastMove" : null
-            }
-          ],
-          "nextCursor" : null
+          "statusChangedAt" : null,
+          "createdAt" : "2026-09-15T08:00:00Z",
+          "lastMove" : null
+        }, {
+          "id" : "6ab7190e28a8f342d03d97a7",
+          "jobPostId" : "6ab7190e28a8f342d03d97a1",
+          "jobPostTitle" : "Senior Backend Engineer (Java/Spring)",
+          "candidateId" : "6ab7190e28a8f342d03d978c",
+          "candidateName" : "Hannah Fletcher",
+          "score" : 64.0,
+          "recommendation" : "may_be",
+          "outdated" : false,
+          "status" : "NEW",
+          "statusChangedAt" : null,
+          "createdAt" : "2026-09-15T08:01:00Z",
+          "lastMove" : null
+        }, {
+          "id" : "6ab7190e28a8f342d03d97a8",
+          "jobPostId" : "6ab7190e28a8f342d03d97a1",
+          "jobPostTitle" : "Senior Backend Engineer (Java/Spring)",
+          "candidateId" : "6ab7190e28a8f342d03d978d",
+          "candidateName" : "Cian O'Sullivan",
+          "score" : 41.0,
+          "recommendation" : "reject",
+          "outdated" : false,
+          "status" : "NEW",
+          "statusChangedAt" : null,
+          "createdAt" : "2026-09-15T08:02:00Z",
+          "lastMove" : null
+        } ],
+        "nextCursor" : null
+      }, {
+        "status" : "CONTACTED",
+        "count" : 0,
+        "items" : [ ],
+        "nextCursor" : null
+      }, {
+        "status" : "SHORTLISTED",
+        "count" : 0,
+        "items" : [ ],
+        "nextCursor" : null
+      }, {
+        "status" : "INTERVIEWING",
+        "count" : 0,
+        "items" : [ ],
+        "nextCursor" : null
+      }, {
+        "status" : "OFFERED",
+        "count" : 0,
+        "items" : [ ],
+        "nextCursor" : null
+      }, {
+        "status" : "HIRED",
+        "count" : 0,
+        "items" : [ ],
+        "nextCursor" : null
+      }, {
+        "status" : "REJECTED",
+        "count" : 0,
+        "items" : [ ],
+        "nextCursor" : null
+      }, {
+        "status" : "WITHDRAWN",
+        "count" : 0,
+        "items" : [ ],
+        "nextCursor" : null
+      } ]
+    }
+  },
+  "GET /agent/runs/6abc25f00243ffb2599331c8" : {
+    "status" : 200,
+    "body" : {
+      "id" : "6abc25f00243ffb2599331c8",
+      "conversationId" : "6abc25f00243ffb2599331c6",
+      "title" : "Best Java candidates",
+      "origin" : "CHAT",
+      "userEmail" : "owner@a.qorva.test",
+      "status" : "COMPLETED",
+      "goal" : "What are this candidate's strongest skills for the role?",
+      "mentions" : [ ],
+      "focus" : {
+        "cvId" : "6ab7190e28a8f342d03d978d",
+        "cvName" : "Cian O'Sullivan",
+        "jobPostId" : "6ab7190e28a8f342d03d97a1",
+        "jobTitle" : "Senior Backend Engineer (Java/Spring)"
+      },
+      "steps" : [ {
+        "seq" : 1,
+        "kind" : "TOOL_CALL",
+        "tool" : "ask_about_candidate",
+        "state" : "OK",
+        "summaryKey" : "agent.step.ask_about_candidate",
+        "summaryParams" : {
+          "name" : "Cian O'Sullivan",
+          "job" : "Senior Backend Engineer (Java/Spring)"
         },
-        {
-          "status" : "CONTACTED",
-          "count" : 0,
-          "items" : [ ],
-          "nextCursor" : null
+        "links" : [ {
+          "type" : "CV",
+          "id" : "6ab7190e28a8f342d03d978d",
+          "label" : "Cian O'Sullivan"
+        }, {
+          "type" : "JOB",
+          "id" : "6ab7190e28a8f342d03d97a1",
+          "label" : "Senior Backend Engineer (Java/Spring)"
+        }, {
+          "type" : "REPORT",
+          "id" : "6ab7190e28a8f342d03d97a8",
+          "label" : "Senior Backend Engineer (Java/Spring)"
+        } ]
+      } ],
+      "finalAnswer" : "**Kubernetes, Go and incident response** stand out. The screening report scores this match at 82%.",
+      "blocks" : null,
+      "failureReason" : null,
+      "stoppedEarly" : false,
+      "canCancel" : false,
+      "canApprove" : false,
+      "createdAt" : "2026-09-15T08:01:00Z",
+      "finishedAt" : "2026-09-15T08:01:00Z"
+    }
+  },
+  "GET /agent/runs/6abc25f00243ffb2599331c9" : {
+    "status" : 200,
+    "body" : {
+      "id" : "6abc25f00243ffb2599331c9",
+      "conversationId" : "6abc25f00243ffb2599331c6",
+      "title" : "Best Java candidates",
+      "origin" : "CHAT",
+      "userEmail" : "owner@a.qorva.test",
+      "status" : "COMPLETED",
+      "goal" : "How many senior backend engineers do we have?",
+      "mentions" : [ ],
+      "focus" : {
+        "cvId" : "6ab7190e28a8f342d03d978d",
+        "cvName" : "Cian O'Sullivan",
+        "jobPostId" : "6ab7190e28a8f342d03d97a1",
+        "jobTitle" : "Senior Backend Engineer (Java/Spring)"
+      },
+      "steps" : [ {
+        "seq" : 1,
+        "kind" : "TOOL_CALL",
+        "tool" : "analyze_library",
+        "state" : "OK",
+        "summaryKey" : "agent.step.analyze_library",
+        "summaryParams" : {
+          "intent" : "TALENT_POOL_INTELLIGENCE"
         },
-        {
-          "status" : "SHORTLISTED",
-          "count" : 0,
-          "items" : [ ],
-          "nextCursor" : null
-        },
-        {
-          "status" : "INTERVIEWING",
-          "count" : 0,
-          "items" : [ ],
-          "nextCursor" : null
-        },
-        {
-          "status" : "OFFERED",
-          "count" : 0,
-          "items" : [ ],
-          "nextCursor" : null
-        },
-        {
-          "status" : "HIRED",
-          "count" : 0,
-          "items" : [ ],
-          "nextCursor" : null
-        },
-        {
-          "status" : "REJECTED",
-          "count" : 0,
-          "items" : [ ],
-          "nextCursor" : null
-        },
-        {
-          "status" : "WITHDRAWN",
-          "count" : 0,
-          "items" : [ ],
-          "nextCursor" : null
-        }
-      ]
+        "links" : [ ]
+      } ],
+      "finalAnswer" : "You have 4 senior backend engineers.",
+      "blocks" : {
+        "intent" : "TALENT_POOL_INTELLIGENCE",
+        "candidates" : [ {
+          "id" : "6ab7190e28a8f342d03d978d",
+          "applicantNumber" : "A-1",
+          "name" : "Cian O'Sullivan",
+          "currentRole" : "Backend engineer",
+          "topSkills" : [ "Java", "Kubernetes" ],
+          "seniorityLevel" : "senior",
+          "matchScore" : null,
+          "locationHint" : "Dublin"
+        } ],
+        "totalCandidateCount" : 4,
+        "metrics" : [ {
+          "label" : "Senior backend engineers",
+          "key" : "count",
+          "value" : "4",
+          "unit" : null,
+          "percentage" : null
+        } ],
+        "charts" : [ {
+          "chartType" : "bar",
+          "title" : "Seniority",
+          "labels" : [ "senior", "mid" ],
+          "values" : [ 4, 6 ]
+        } ],
+        "followUpQuestions" : [ "Which of them are available now?" ],
+        "disclaimer" : null,
+        "rawData" : null
+      },
+      "failureReason" : null,
+      "stoppedEarly" : false,
+      "canCancel" : false,
+      "canApprove" : false,
+      "createdAt" : "2026-09-15T08:02:00Z",
+      "finishedAt" : "2026-09-15T08:02:00Z"
     }
   }
 }

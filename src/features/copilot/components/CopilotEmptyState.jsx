@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { alpha } from '@mui/material/styles';
 import * as tokens from '../../../theme/tokens.js';
 
-const EXAMPLES = ['copilot.empty.examples.topCandidates', 'copilot.empty.examples.count', 'copilot.empty.examples.tag', 'copilot.empty.examples.usage'];
+const EXAMPLES = ['copilot.empty.examples.topCandidates', 'copilot.empty.examples.count', 'copilot.empty.examples.skills', 'copilot.empty.examples.tag'];
 
 /** First screen of a conversation: what Copilot can do today, and example tasks to start from. */
 const CopilotEmptyState = ({ onPick }) => {

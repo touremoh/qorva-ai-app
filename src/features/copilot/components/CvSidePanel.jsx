@@ -5,7 +5,7 @@ import AppCVDetails from '../../cv/components/AppCVDetails.jsx';
 import * as tokens from '../../../theme/tokens.js';
 
 /** Side panel with the resume opened from an insight. */
-const InsightCvPanel = ({ cvLoading, selectedCV, setSelectedCV }) => {
+const CvSidePanel = ({ cvLoading, selectedCV, setSelectedCV }) => {
     return (
         <>
         {(selectedCV || cvLoading) && (
@@ -35,10 +35,10 @@ const InsightCvPanel = ({ cvLoading, selectedCV, setSelectedCV }) => {
     );
 };
 
-InsightCvPanel.propTypes = {
+CvSidePanel.propTypes = {
     cvLoading: PropTypes.any,
     selectedCV: PropTypes.any,
     setSelectedCV: PropTypes.func,
 };
 
-export default InsightCvPanel;
+export default CvSidePanel;

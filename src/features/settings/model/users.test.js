@@ -9,12 +9,10 @@ const BACKEND_ACTIONS = [
 	'ADD_CV', 'VIEW_CV', 'MODIFY_CV', 'DELETE_CV',
 	'ADD_JOB', 'VIEW_JOB', 'MODIFY_JOB', 'DELETE_JOB',
 	'GENERATE_REPORT', 'VIEW_REPORT', 'MODIFY_REPORT', 'DELETE_REPORT',
-	'START_CHAT', 'VIEW_CHAT', 'VIEW_MESSAGE', 'REPLY_MESSAGE', 'MODIFY_CHAT', 'DELETE_CHAT',
 	'VIEW_USERS', 'MANAGE_USERS',
 	'ATS_REPORT_EXPORT',
 	'MANAGE_INTEGRATIONS',
 	'UPDATE_SUBSCRIPTION', 'CANCEL_SUBSCRIPTION',
-	'VIEW_LIBRARY_INSIGHTS',
 	'CONTACT_CANDIDATE',
 	'USE_AGENT',
 ];
@@ -31,13 +29,13 @@ describe('permission model', () => {
 		expect([...grouped].sort()).toEqual([...ALL_ACTIONS].sort());
 	});
 
-	it('keeps Talent Intelligence through an edit round-trip', () => {
-		const current = [allowed('VIEW_CV'), allowed('VIEW_LIBRARY_INSIGHTS')];
+	it('keeps Copilot through an edit round-trip', () => {
+		const current = [allowed('VIEW_CV'), allowed('USE_AGENT')];
 		const perms = { ...permsFromAuthorities(current), VIEW_DASHBOARD: true };
 
 		const saved = permsToAuthorities(perms, 'ACCOUNT_MANAGER', current).map(a => a.action);
 
-		expect(saved).toEqual(expect.arrayContaining(['VIEW_CV', 'VIEW_LIBRARY_INSIGHTS', 'VIEW_DASHBOARD']));
+		expect(saved).toEqual(expect.arrayContaining(['VIEW_CV', 'USE_AGENT', 'VIEW_DASHBOARD']));
 	});
 
 	it('carries over actions it does not know instead of revoking them', () => {

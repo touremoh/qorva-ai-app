@@ -1,13 +1,13 @@
 import Box from '@mui/material/Box';
-import { scoreColorsFor } from '../../../shared/lib/score.js';
-import { getInitials, toLabel } from '../../../shared/lib/text.js';
+import { scoreColorsFor } from '../../../../shared/lib/score.js';
+import { getInitials, toLabel } from '../../../../shared/lib/text.js';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import Chip from '@mui/material/Chip';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import RecyclingOutlinedIcon from '@mui/icons-material/RecyclingOutlined';
 import PropTypes from 'prop-types';
-import * as tokens from '../../../theme/tokens.js';
+import * as tokens from '../../../../theme/tokens.js';
 import { alpha } from '@mui/material/styles';
 
 // matchScore is on a 0–1 scale from the API

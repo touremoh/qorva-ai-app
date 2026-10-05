@@ -107,6 +107,7 @@ const AppCVDetails = ({ cv, onClose, onUpdate }) => {
 
 			{/* Sticky action bar — not printed */}
 			<CvActionBar
+				cvId={cv.id}
 				anonymized={anonymized}
 				canContact={canContact}
 				handleDownload={handleDownload}

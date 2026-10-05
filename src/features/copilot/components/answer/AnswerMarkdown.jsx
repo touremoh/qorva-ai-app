@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Box, Typography } from '@mui/material';
-import { fontFamilyMono } from '../../../theme/tokens.js';
-import * as tokens from '../../../theme/tokens.js';
+import { fontFamilyMono } from '../../../../theme/tokens.js';
+import * as tokens from '../../../../theme/tokens.js';
 import { alpha } from '@mui/material/styles';
 
 // Assistant replies are Markdown (headings, bullets, blockquoted questions, small tables).
@@ -59,7 +59,7 @@ const components = {
 	img: ({ alt }) => (alt ? <span>{alt}</span> : null),
 };
 
-export default function ChatMarkdown({ content }) {
+export default function AnswerMarkdown({ content }) {
 	return (
 		<Box className="chat-markdown" sx={{ textAlign: 'left', '& *': { textAlign: 'left' } }}>
 			<ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
@@ -69,4 +69,4 @@ export default function ChatMarkdown({ content }) {
 	);
 }
 
-ChatMarkdown.propTypes = { content: PropTypes.string };
+AnswerMarkdown.propTypes = { content: PropTypes.string };

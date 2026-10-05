@@ -9,21 +9,17 @@ import LeaderboardOutlinedIcon from '@mui/icons-material/LeaderboardOutlined';
 import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import ViewKanbanOutlinedIcon from '@mui/icons-material/ViewKanbanOutlined';
-import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
-import PsychologyOutlinedIcon from '@mui/icons-material/PsychologyOutlined';
 import SpeedOutlinedIcon from '@mui/icons-material/SpeedOutlined';
 import FactCheckOutlinedIcon from '@mui/icons-material/FactCheckOutlined';
 import SettingsSuggestOutlinedIcon from '@mui/icons-material/SettingsSuggestOutlined';
 import SmartToyOutlinedIcon from '@mui/icons-material/SmartToyOutlined';
 import {
-	COMP_ID_CHAT,
 	COMP_ID_CONFIGURATION,
 	COMP_ID_COPILOT,
 	COMP_ID_CVLIB,
 	COMP_ID_DASHBOARD,
-	COMP_ID_INTELLIGENCE,
 	COMP_ID_JOBS,
 	COMP_ID_LIBRARY_QUALITY,
 	COMP_ID_REPORTS,
@@ -35,7 +31,7 @@ import PropTypes from 'prop-types';
 import * as tokens from '../../../theme/tokens.js';
 import { alpha } from '@mui/material/styles';
 
-const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, isAgentAllowed = false, agentPendingCount = 0, collapsed, onToggleCollapse }) => {
+const AppMenuList = ({ handleContentChange, activeContent, isAgentAllowed = false, agentPendingCount = 0, collapsed, onToggleCollapse }) => {
 	const { t } = useTranslation();
 	// Selection is derived from the URL-driven content (via AppHome), so the highlight
 	// survives refreshes and deep links instead of resetting to Dashboard.
@@ -89,11 +85,9 @@ const AppMenuList = ({ handleContentChange, activeContent, isChatAllowed, isAgen
 		{ id: COMP_ID_JOBS,             Icon: WorkOutlineOutlinedIcon,     label: t('menu.jobs', 'Jobs'),                              display: true },
 		{ id: COMP_ID_REPORTS,          Icon: AssessmentOutlinedIcon,      label: t('menu.reports', 'Match Reports'),                  display: true },
 		{ id: COMP_ID_PIPELINE,         Icon: ViewKanbanOutlinedIcon,      label: t('menu.pipeline', 'Pipeline'),                      display: true },
-		{ id: COMP_ID_INTELLIGENCE,     Icon: PsychologyOutlinedIcon,      label: t('menu.intelligence', 'Talent Intelligence'),       display: true },
 		{ id: COMP_ID_COPILOT,          Icon: SmartToyOutlinedIcon,        label: t('menu.copilot', 'Copilot'),                        display: isAgentAllowed,
 			badge: agentPendingCount,
 			badgeTooltip: t('copilot.badgeTooltip', '{{count}} actions to approve', { count: agentPendingCount }) },
-		{ id: COMP_ID_CHAT,             Icon: AutoAwesomeOutlinedIcon,     label: t('menu.aiResumeChat', 'AI Resume Chat'),            display: isChatAllowed },
 		{ id: COMP_ID_USAGE_MONITORING, Icon: SpeedOutlinedIcon,           label: t('menu.usage', 'Usage'),                            display: true },
 		{ id: COMP_ID_CONFIGURATION,    Icon: SettingsSuggestOutlinedIcon, label: t('menu.configuration', 'Configuration'),            display: true },
 		{ id: COMP_ID_SETTINGS,         Icon: TuneOutlinedIcon,            label: t('menu.accountSettings', 'Account Settings'),       display: true },
@@ -293,7 +287,6 @@ export default AppMenuList;
 AppMenuList.propTypes = {
 	handleContentChange: PropTypes.func.isRequired,
 	activeContent: PropTypes.string,
-	isChatAllowed: PropTypes.bool.isRequired,
 	isAgentAllowed: PropTypes.bool,
 	agentPendingCount: PropTypes.number,
 	collapsed: PropTypes.bool,

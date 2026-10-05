@@ -4,8 +4,8 @@ import Chip from '@mui/material/Chip';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
 import { alpha } from '@mui/material/styles';
-import * as tokens from '../../../theme/tokens.js';
-import { mentionKey } from '../model/mentions.js';
+import * as tokens from '../../../../theme/tokens.js';
+import { mentionKey } from '../../model/mentions.js';
 
 /** The attached mentions under the composer, each removable. */
 const MentionChips = ({ mentions, onRemove }) => (

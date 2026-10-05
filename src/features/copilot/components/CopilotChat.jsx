@@ -3,7 +3,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
 import ConfirmDialog from '../../../shared/ui/ConfirmDialog.jsx';
-import InsightCvPanel from '../../intelligence/components/InsightCvPanel.jsx';
+import CvSidePanel from './CvSidePanel.jsx';
 import { useAgentRun } from '../../../contexts/AgentRunContext.jsx';
 import useCopilotConversation from '../hooks/useCopilotConversation.js';
 import { isActive } from '../model/agentRun.js';
@@ -13,7 +13,7 @@ import CopilotConversationList from './CopilotConversationList.jsx';
 import CopilotEmptyState from './CopilotEmptyState.jsx';
 import CopilotInputBar from './CopilotInputBar.jsx';
 
-/** Chat tab: conversations on the left, the active conversation's tasks in the middle, a resume on the right. */
+/** Chat tab: conversations on the left, the active conversation's requests in the middle, a resume on the right. */
 const CopilotChat = () => {
 	const { t } = useTranslation();
 	const { activeRun } = useAgentRun();
@@ -64,10 +64,12 @@ const CopilotChat = () => {
 						disabled={busy}
 						focusToken={chat.inputFocusToken}
 						error={chat.error}
+						focus={chat.focus}
+						onClearFocus={chat.clearFocus}
 					/>
 				</Box>
 
-				<InsightCvPanel cvLoading={chat.cvLoading} selectedCV={chat.selectedCV} setSelectedCV={chat.setSelectedCV} />
+				<CvSidePanel cvLoading={chat.cvLoading} selectedCV={chat.selectedCV} setSelectedCV={chat.setSelectedCV} />
 			</Box>
 
 			<ConfirmDialog

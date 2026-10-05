@@ -11,9 +11,7 @@ import {
 	COMP_ID_SETTINGS,
 	COMP_ID_JOBS,
 	COMP_ID_DASHBOARD,
-	COMP_ID_CHAT,
 	COMP_ID_COPILOT,
-	COMP_ID_INTELLIGENCE,
 	COMP_ID_USAGE_MONITORING,
 } from "../../constants.js";
 import DemoBanner from "../demo/DemoBanner.jsx";
@@ -29,8 +27,6 @@ const AppConfiguration = lazy(() => import('../../features/configuration/compone
 const AppMatchingReports = lazy(() => import('../../features/reports/components/AppMatchingReports.jsx'));
 const QorvaDashboard = lazy(() => import('../../features/dashboard/components/QorvaDashboard.jsx'));
 const AccountSettings = lazy(() => import('../../features/settings/components/AccountSettings.jsx'));
-const AppAIResumeChat = lazy(() => import('../../features/chat/components/AppAIResumeChat.jsx'));
-const AppLibraryInsights = lazy(() => import('../../features/intelligence/components/AppLibraryInsights.jsx'));
 const AppCopilot = lazy(() => import('../../features/copilot/components/AppCopilot.jsx'));
 const UsageMonitoringContent = lazy(() => import('../../features/usage/components/UsageMonitoringContent.jsx'));
 
@@ -54,16 +50,12 @@ const AppContent = ({ content, isSidebarCollapsed }) => {
 				return <AppConfiguration />;
 			case COMP_ID_JOBS:
 				return <JobContent />;
-			case COMP_ID_INTELLIGENCE:
-				return <AppLibraryInsights />;
 			case COMP_ID_COPILOT:
 				return <AppCopilot />;
 			case COMP_ID_REPORTS:
 				return <AppMatchingReports />;
 			case COMP_ID_PIPELINE:
 				return <AppPipelineBoard />;
-			case COMP_ID_CHAT:
-				return <AppAIResumeChat />;
 			case COMP_ID_USAGE_MONITORING:
 				return <UsageMonitoringContent />;
 			case COMP_ID_SETTINGS:

@@ -1,11 +1,11 @@
 import { Box, Link, Typography } from '@mui/material';
-import PsychologyOutlinedIcon from '@mui/icons-material/PsychologyOutlined';
+import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { GREEN } from '../../model/filterRail.js';
 import * as tokens from '../../../../theme/tokens.js';
 
-/** Rail footer: points at Talent Intelligence for questions the facets can't answer. */
+/** Rail footer: points at Copilot for questions the facets can't answer. */
 const FilterRailFooter = () => {
 	const { t } = useTranslation();
 	const navigate = useNavigate();
@@ -16,11 +16,11 @@ const FilterRailFooter = () => {
 				<Link
 					component="button"
 					type="button"
-					onClick={() => navigate('/app/intelligence')}
+					onClick={() => navigate('/app/copilot')}
 					sx={{ fontSize: tokens.fontSize.caption, fontWeight: 600, color: GREEN, verticalAlign: 'baseline', display: 'inline-flex', alignItems: 'center', gap: 0.25 }}
 				>
-					<PsychologyOutlinedIcon sx={{ fontSize: tokens.iconSize.sm }} />
-					{t('appCVContent.filters.askIntelligence')}
+					<AutoAwesomeOutlinedIcon sx={{ fontSize: tokens.iconSize.sm }} />
+					{t('appCVContent.filters.askCopilot')}
 				</Link>
 			</Typography>
 		</Box>

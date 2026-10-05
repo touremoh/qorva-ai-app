@@ -16,9 +16,9 @@
       "badge": "AI-gedreven Talentplatform",
       "headline": "Verander uw CV-begraafplaats in een goudmijn.",
       "subtext": "Qorva AI extraheert, groepeert en rangschikt tot 100 CV's tegelijk — met aangepaste scoringsregels en real-time talentinzichten.",
-      "bullet1": "Talent Intelligence Engine",
+      "bullet1": "Copilot voor kandidaten, uw cv-bank en acties",
       "bullet2": "Vacature-kandidaat matching",
-      "bullet3": "AI CV-chat",
+      "bullet3": "Grafieken en inzichten in uw talentpool",
       "freeToStart": "Gratis starten."
     },
     "signingIn": "U wordt aangemeld…",
@@ -99,8 +99,6 @@
     "reports": "Matchingrapporten",
     "accountSettings": "Account",
     "logout": "Uitloggen",
-    "aiResumeChat": "AI CV-chat",
-    "intelligence": "Talent Intelligence",
     "usageMonitoring": "Gebruiksmonitoring",
     "libraryQuality": "Datakwaliteit",
     "emailTemplates": "E-mailsjablonen",
@@ -379,10 +377,10 @@
     "clearLibrary": {
       "tooltip": "Hele bibliotheek leegmaken…",
       "title": "De hele CV-bibliotheek leegmaken?",
-      "summary": "Dit verwijdert permanent {{cvs}} CV's, {{reports}} matchingrapporten en {{chats}} AI-chats — inclusief de opgeslagen documenten. Vacatures en gebruiksgeschiedenis blijven behouden. Kan niet ongedaan worden gemaakt.",
+      "summary": "Hiermee worden {{cvs}} cv’s, {{reports}} matchrapporten en {{conversations}} Copilot-gesprekken definitief verwijderd, inclusief de opgeslagen documenten. Vacatures en gebruiksgeschiedenis blijven behouden. Dit kan niet ongedaan worden gemaakt.",
       "typeToConfirm": "Typ DELETE om te bevestigen.",
       "confirm": "Bibliotheek leegmaken",
-      "done": "Bibliotheek geleegd — {{cvs}} CV's, {{reports}} rapporten en {{chats}} chats verwijderd."
+      "done": "Cv-bank geleegd: {{cvs}} cv’s, {{reports}} rapporten en {{conversations}} Copilot-gesprekken verwijderd."
     },
     "filters": {
       "button": "Filters",
@@ -392,7 +390,6 @@
       "any": "Alle",
       "noMatch": "Geen cv’s komen overeen met deze filters.",
       "needMore": "Iets ruimer nodig — alle financiële profielen, een opleidingsniveau, een vorige werkgever?",
-      "askIntelligence": "Vraag Talent Intelligence",
       "notAnalysed": "Niet geanalyseerd",
       "industries": "Sector",
       "locations": "Locatie",
@@ -451,7 +448,8 @@
         "manual": "Handmatig geüpload"
       },
       "pickDate": "Kies een datum",
-      "quickSearch": "Snel zoeken — naam, rol, vaardigheid…"
+      "quickSearch": "Snel zoeken — naam, rol, vaardigheid…",
+      "askCopilot": "Vraag Copilot"
     },
     "dropHere": "Sleep bestanden hierheen",
     "browseHint": "of klik om te bladeren — .pdf of .docx, tot {{max}} bestanden",
@@ -649,13 +647,11 @@
       "resumes": "CV's",
       "jobPosts": "Vacatures",
       "reports": "Rapporten",
-      "aiChat": "AI Chat",
       "users": "Gebruikersbeheer",
       "atsExport": "ATS-export",
       "billing": "Facturering",
       "integrations": "ATS-integraties",
       "outreach": "Kandidaten benaderen",
-      "intelligence": "Talent Intelligence",
       "copilot": "Copilot"
     },
     "authorities": {
@@ -672,12 +668,6 @@
       "VIEW_REPORT": "Rapporten bekijken",
       "MODIFY_REPORT": "Rapporten bewerken",
       "DELETE_REPORT": "Rapporten verwijderen",
-      "START_CHAT": "Chat starten",
-      "VIEW_CHAT": "Chats bekijken",
-      "VIEW_MESSAGE": "Berichten bekijken",
-      "REPLY_MESSAGE": "Berichten beantwoorden",
-      "MODIFY_CHAT": "Chat bijwerken",
-      "DELETE_CHAT": "Chat verwijderen",
       "VIEW_USERS": "Gebruikers bekijken",
       "MANAGE_USERS": "Gebruikers beheren",
       "ATS_REPORT_EXPORT": "ATS-export",
@@ -685,7 +675,6 @@
       "CANCEL_SUBSCRIPTION": "Abonnement opzeggen",
       "MANAGE_INTEGRATIONS": "ATS-integraties beheren",
       "CONTACT_CANDIDATE": "Kandidaten mailen",
-      "VIEW_LIBRARY_INSIGHTS": "Talent Intelligence bevragen",
       "USE_AGENT": "Copilot gebruiken"
     },
     "mfa": {
@@ -776,8 +765,8 @@
     },
     "usage": {
       "matchingActions": "Matching-acties",
-      "aiResumeChats": "AI CV-chats",
-      "talentIntelligenceQueries": "Talent Intelligence",
+      "aiResumeChats": "Copilot · vragen over kandidaten",
+      "talentIntelligenceQueries": "Copilot · analyses van de cv-bank",
       "used": "gebruikt",
       "cumulativeTooltip": "Totaal over alle perioden",
       "allTime": "totaal",
@@ -787,7 +776,7 @@
       "templatesTooltip": "Opgeslagen uitnodigingssjablonen — een plantegoed, geen maandelijks quotum",
       "noPeriodTitle": "Er is geen actieve gebruiksperiode voor dit account",
       "noPeriodHint": "Gebruik wordt per factureringsperiode gemeten. Een periode wordt automatisch geopend enkele minuten na de start of verlenging van een abonnement; blijft dit bericht staan, neem dan contact op met support.",
-      "agentRuns": "Copilot-taken"
+      "agentRuns": "Copilot · taken"
     },
     "pipeline": {
       "job": "Vacature",
@@ -801,70 +790,6 @@
       "copilot": "Copilot",
       "empty": "Er is nog geen kandidaat door de pijplijn verplaatst. Stel een status in op een matchingrapport om te beginnen."
     }
-  },
-  "appAIResumeChat": {
-    "typing": "Assistent typt…",
-    "createChat": "Nieuwe chat",
-    "refresh": "Vernieuwen",
-    "chats": "Chats",
-    "loadMore": "Meer laden",
-    "selectChat": "Selecteer een chat",
-    "loadOlder": "Oudere laden",
-    "you": "Jij",
-    "assistant": "Assistent",
-    "noChatSelected": "Geen chat geselecteerd. Maak of kies er een.",
-    "placeholder": "Vraag over CV en vacature…",
-    "send": "Versturen",
-    "createChatTitle": "Nieuwe chatsessie",
-    "createChatHelp": "Selecteer een CV en een vacature. Indien beschikbaar koppelen we het screeningrapport.",
-    "noCVFound": "Geen CV gevonden",
-    "cvSearch": "Zoek CV (op naam)",
-    "cvSearchPlaceholder": "Typ een naam…",
-    "jobPost": "Vacature",
-    "relatedMatchingReport": "Gekoppeld rapport",
-    "resumeMatchHint": "Selecteer CV en vacature om een match te zoeken.",
-    "searching": "Zoeken…",
-    "job": "Functie",
-    "score": "Score",
-    "noResumeMatch": "Geen match gevonden",
-    "chatTitle": "Chattitel",
-    "chatTitleHelp2": "Standaard: “Voornaam Achternaam - Functie”",
-    "language": "Taal",
-    "cancel": "Annuleren",
-    "create": "Aanmaken",
-    "selectCvAndJob": "Selecteer een CV en een vacature",
-    "closed": "Gesloten",
-    "closeChat": "Chat sluiten",
-    "deleteChat": "Chat verwijderen",
-    "chatClosed": "Dit gesprek is gesloten en kan geen nieuwe berichten ontvangen.",
-    "confirmDeleteChat": "Chat verwijderen",
-    "confirmDeleteChatMessage": "Weet u zeker dat u dit gesprek wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.",
-    "delete": "Verwijderen",
-    "chatOptions": "Gespreksopties",
-    "filterAll": "Alle",
-    "open": "Open",
-    "archived": "Gearchiveerd",
-    "archiveChat": "Gesprek archiveren",
-    "reopenChat": "Gesprek heropenen",
-    "chatArchived": "Dit gesprek is gearchiveerd en kan geen nieuwe berichten ontvangen.",
-    "copyReference": "Referentie kopiëren",
-    "copied": "Gekopieerd!",
-    "sendFailed": "Kon geen antwoord krijgen.",
-    "retry": "Opnieuw proberen",
-    "screeningScore": "Screeningscore",
-    "screeningScoreHint": "Officiële score uit het screeningrapport — de chat citeert dit cijfer.",
-    "runScreening": "Geen screeningrapport — screening starten",
-    "noReportYetHint": "Er is nog geen screeningrapport voor deze kandidaat en vacature, dus de chat kan geen score geven. Start een screening om er een te krijgen.",
-    "copyAnswer": "Antwoord kopiëren",
-    "composerHint": "Enter om te verzenden · Shift+Enter voor een nieuwe regel",
-    "showChats": "Chatlijst tonen",
-    "hideChats": "Chatlijst verbergen",
-    "showContext": "CV, rapport en vacature tonen",
-    "hideContext": "CV, rapport en vacature verbergen",
-    "tabResume": "CV",
-    "tabReport": "Matchingrapport",
-    "tabJob": "Functieomschrijving",
-    "refreshReport": "Vernieuwen"
   },
   "pricing": {
     "monthly": "Maandelijks",
@@ -886,23 +811,26 @@
     "starter": {
       "users": "2 gebruikers",
       "matchingActions": "2.000 matching-acties / maand",
-      "aiChat": "500 AI chat-berichten / maand",
-      "queries": "1.000 talentpool-zoekopdrachten / maand",
-      "emailTemplates": "3 e-mailsjablonen"
+      "aiChat": "Copilot: 500 vragen over kandidaten / maand",
+      "queries": "Copilot: 1.000 analyses van de cv-bank / maand",
+      "emailTemplates": "3 e-mailsjablonen",
+      "copilotTasks": "Copilot: 100 taken / maand"
     },
     "pro": {
       "users": "5 gebruikers",
       "matchingActions": "10.000 matching-acties / maand",
-      "aiChat": "1.500 AI chat-berichten / maand",
-      "queries": "3.000 talentpool-zoekopdrachten / maand",
-      "emailTemplates": "15 e-mailsjablonen"
+      "aiChat": "Copilot: 1.500 vragen over kandidaten / maand",
+      "queries": "Copilot: 3.000 analyses van de cv-bank / maand",
+      "emailTemplates": "15 e-mailsjablonen",
+      "copilotTasks": "Copilot: 500 taken / maand"
     },
     "scale": {
       "users": "15 gebruikers",
       "matchingActions": "25.000 matching-acties / maand",
-      "aiChat": "4.000 AI chat-berichten / maand",
-      "queries": "8.000 talentpool-zoekopdrachten / maand",
-      "emailTemplates": "50 e-mailsjablonen"
+      "aiChat": "Copilot: 4.000 vragen over kandidaten / maand",
+      "queries": "Copilot: 8.000 analyses van de cv-bank / maand",
+      "emailTemplates": "50 e-mailsjablonen",
+      "copilotTasks": "Copilot: 2.000 taken / maand"
     }
   },
   "registrationSuccess": {
@@ -1007,25 +935,6 @@
         "CANDIDATE_COMPARISON": "Vergelijk @Alice en @Bob tegen #Senior Java Developer. Wie past beter?"
       }
     },
-    "intro": {
-      "title": "Nieuwe conversatie starten",
-      "subtitle": "Kies een thema hieronder of stel je eigen vraag. Gebruik @ voor kandidaten en # voor vacatures."
-    },
-    "intentsShort": {
-      "TALENT_POOL_INTELLIGENCE": "Talentpool",
-      "TALENT_CLUSTERING": "Clustering",
-      "CANDIDATE_RANKING": "Rangschikking",
-      "CANDIDATE_REDISCOVERY": "Herontdekking",
-      "SKILL_GAP_ANALYSIS": "Vaardigheidskloof",
-      "GENERAL_RECRUITING_QUESTION": "Algemeen",
-      "LOCATION_INTELLIGENCE": "Locatie",
-      "SALARY_EXPECTATION_ANALYSIS": "Salaris",
-      "CANDIDATE_COMPARISON": "Vergelijking",
-      "JOB_DESCRIPTION_ANALYSIS": "Functiebeschrijving",
-      "RESUME_DATA_QUALITY_ANALYSIS": "Datakwaliteit",
-      "SENIORITY_DISTRIBUTION_ANALYSIS": "Senioriteit",
-      "SKILLS_DISTRIBUTION": "Vaardigheden"
-    },
     "comparison": {
       "yearsExperience": "jr. erv.",
       "differentiatingSkills": "Onderscheidende vaardigheden",
@@ -1033,17 +942,7 @@
       "jobContext": "Vacaturecontext",
       "certifications": "Certificeringen"
     },
-    "candidates": "Kandidaten",
-    "deleteConversation": {
-      "title": "Gesprek verwijderen",
-      "message": "Weet u zeker dat u dit gesprek wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.",
-      "cancel": "Annuleren",
-      "confirm": "Verwijderen"
-    },
-    "input": {
-      "placeholder": "Vraag over je talentenpool… @ voor kandidaten, # voor vacatures",
-      "hint": "Enter om te verzenden · Shift+Enter voor nieuwe regel · @ kandidaten · # vacatures"
-    }
+    "candidates": "Kandidaten"
   },
   "error": {
     "auth": {
@@ -1796,22 +1695,22 @@
         "atLimit": "Bij de limiet worden uploads, ATS-imports, matching en heranalyses gepauzeerd tot de periode wordt vernieuwd."
       },
       "aiResumeChats": {
-        "what": "Eén per bericht dat u in de AI-cv-chat verstuurt.",
-        "details": "Elke vraag over een cv telt één keer; de antwoorden zijn gratis.",
-        "atLimit": "Bij de limiet worden nieuwe berichten geweigerd tot de periode wordt vernieuwd."
+        "what": "Eén per Copilot-antwoord over één kandidaat.",
+        "details": "Elke vraag die Copilot beantwoordt op basis van het volledige cv, de vacature en het matchrapport telt één keer.",
+        "atLimit": "Bij de limiet kan Copilot geen vragen over kandidaten beantwoorden tot de periode wordt vernieuwd."
       },
       "talentIntelligenceQueries": {
-        "what": "Eén per vraag in Talent Intelligence.",
-        "details": "Elke vraag over uw hele bibliotheek telt één keer, vervolgvragen inbegrepen.",
-        "atLimit": "Telt mee voor de tegoed van uw abonnement in deze periode."
+        "what": "Eén per Copilot-analyse van uw hele cv-bank.",
+        "details": "Elke vraag over de cv-bank die Copilot beantwoordt met aantallen, grafieken of kandidaatkaarten telt één keer, vervolgvragen inbegrepen.",
+        "atLimit": "Bij de limiet kan Copilot de cv-bank niet analyseren tot de periode wordt vernieuwd."
       },
       "emailTemplates": {
         "what": "Opgeslagen uitnodigingssjablonen — een abonnementstegoed dat niet per periode wordt gereset."
       },
       "agentRuns": {
-        "what": "Eén per taak waaraan Copilot werkt.",
-        "details": "Elke taak telt één keer, of u hem in de chat gaf of een regel hem startte. Wat Copilot onderweg doet, zoals een matchingronde, telt ook mee voor het eigen tegoed.",
-        "atLimit": "Nieuwe Copilot-taken worden geweigerd tot de periode wordt vernieuwd."
+        "what": "Eén per ander Copilot-verzoek: zoeken, taggen, opstellen, matching, regels.",
+        "details": "Elke taak telt één keer, of u hem in de chat gaf of een regel hem startte. Vragen over één kandidaat of de cv-bank tellen op hun eigen tellers. Wat Copilot onderweg doet, zoals een matching, telt ook mee voor de eigen toewijzing.",
+        "atLimit": "Nieuwe Copilot-taken worden geweigerd tot de periode wordt vernieuwd; vragen over kandidaten of de cv-bank werken nog wel."
       }
     },
     "pace": {
@@ -1831,8 +1730,6 @@
     "dataHealth": "Datakwaliteit",
     "jobs": "Vacatures",
     "reports": "Matchingrapporten",
-    "intelligence": "Talent Intelligence",
-    "aiResumeChat": "AI CV-chat",
     "usage": "Verbruik",
     "configuration": "Configuratie",
     "accountSettings": "Account",
@@ -1858,16 +1755,16 @@
     },
     "empty": {
       "title": "Wat moet Copilot doen?",
-      "subtitle": "Geef Copilot een taak in gewone woorden. Het doorzoekt uw cv's, vacatures en matchrapporten, kan kandidaten taggen, notities toevoegen, vacatures aanmaken of wijzigen en e-mails opstellen. Een e-mail versturen, een matchingronde of een ATS-import wacht altijd op uw goedkeuring. Het verwijdert nooit iets.",
+      "subtitle": "Stel een vraag over één kandidaat of uw hele cv-bank, of geef Copilot een taak in gewone woorden. Het antwoordt op basis van het volledige cv, de vacature en het matchrapport, analyseert uw cv-bank met grafieken en kan kandidaten taggen, notities toevoegen, vacatures aanmaken of wijzigen en e-mails opstellen. Een e-mail versturen, matching of een ATS-import starten wacht altijd op uw goedkeuring. Het verwijdert nooit iets.",
       "examples": {
         "topCandidates": "Wie zijn de 5 best passende kandidaten voor onze nieuwste openstaande vacature, en waarom?",
         "count": "Hoeveel senior Java-ontwikkelaars die openstaan voor werk hebben we in Lissabon?",
         "tag": "Tag de 3 best passende kandidaten voor onze nieuwste openstaande vacature als ‘shortlist’.",
-        "usage": "Hoeveel van ons abonnement hebben we deze periode gebruikt?"
+        "skills": "Wat zijn de meest voorkomende vaardigheden bij onze senior ontwikkelaars?"
       }
     },
     "input": {
-      "placeholder": "Beschrijf een taak… @ voor een kandidaat, # voor een vacature",
+      "placeholder": "Stel een vraag of beschrijf een taak… @ voor een kandidaat, # voor een vacature",
       "hint": "Copilot leest uw gegevens om te antwoorden. Het kan zich vergissen, dus controleer belangrijke resultaten.",
       "tooLong": "Houd de taak korter dan {{max}} tekens."
     },
@@ -2109,6 +2006,15 @@
       },
       "autoApproved": "Matching start zonder te vragen (tot {{count}} acties)",
       "stepAutoApproved": "Uitgevoerd zonder te vragen — vooraf goedgekeurd door de regel"
+    },
+    "focus": {
+      "label": "Over {{name}} · {{job}}",
+      "unnamed": "deze kandidaat",
+      "untitled": "deze vacature"
+    },
+    "ask": {
+      "aboutCandidate": "Vraag Copilot over deze kandidaat",
+      "aboutCandidateForJob": "Vraag Copilot over deze kandidaat voor deze vacature"
     }
   },
   "agent": {
@@ -2139,7 +2045,9 @@
       "list_ats_connections": "ATS-integraties bekeken: {{count}} gevonden",
       "propose_rule": "Regel ‘{{name}}’",
       "rule_created": "Regel ‘{{name}}’ aangemaakt",
-      "set_report_status": "{{count}} kandidaat/kandidaten naar {{status}} verplaatst"
+      "set_report_status": "{{count}} kandidaat/kandidaten naar {{status}} verplaatst",
+      "ask_about_candidate": "Antwoord over {{name}} voor ‘{{job}}’",
+      "analyze_library": "Cv-bank geanalyseerd"
     }
   },
   "matchingRun": {
