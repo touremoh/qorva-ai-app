@@ -705,7 +705,13 @@
       "loading": "Loading…",
       "sending": "Sending code…"
     },
-    "billingOwnerOnly": "Billing is managed by an account owner. Ask them to change the plan or payment details."
+    "billingOwnerOnly": "Billing is managed by an account owner. Ask them to change the plan or payment details.",
+    "users": {
+      "invitePending": "Invite pending",
+      "resendInvite": "Re-send invite",
+      "inviteSent": "A new invite was sent to {{email}}. The previous link no longer works.",
+      "invited": "Invite sent to {{email}}: they will choose their password from the link (valid 3 days)."
+    }
   },
   "dashboard": {
     "errors": {

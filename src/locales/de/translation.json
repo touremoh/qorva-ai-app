@@ -705,7 +705,13 @@
       "loading": "Wird geladen…",
       "sending": "Code wird gesendet…"
     },
-    "billingOwnerOnly": "Die Abrechnung wird von einem Kontoinhaber verwaltet. Bitten Sie ihn, den Tarif oder die Zahlungsdaten zu ändern."
+    "billingOwnerOnly": "Die Abrechnung wird von einem Kontoinhaber verwaltet. Bitten Sie ihn, den Tarif oder die Zahlungsdaten zu ändern.",
+    "users": {
+      "invitePending": "Einladung ausstehend",
+      "resendInvite": "Einladung erneut senden",
+      "inviteSent": "Eine neue Einladung wurde an {{email}} gesendet. Der vorherige Link funktioniert nicht mehr.",
+      "invited": "Einladung an {{email}} gesendet: Das Passwort wird über den Link festgelegt (3 Tage gültig)."
+    }
   },
   "dashboard": {
     "errors": {

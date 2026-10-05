@@ -1,6 +1,8 @@
 import { expect, test } from '@playwright/test';
 import { NOW } from './support/app.js';
-import { loginResponse, mockApi, signIn } from './support/api.js';
+import { loginResponse, mockApi, recorded, signIn } from './support/api.js';
+
+const FIXTURE_USERS = () => recorded('GET /users').body;
 
 /** Opens the app like openApp(), with per-test API overrides. */
 async function open(page, path, overrides = {}) {
@@ -57,5 +59,31 @@ test.describe('account settings', () => {
 
 		await expect(page.getByText('Billing is managed by an account owner.', { exact: false })).toHaveCount(0);
 		await expect(page.getByRole('button').filter({ hasText: 'Billing' }).first()).toBeVisible();
+	});
+
+	test('a pending invite is marked and can be re-sent; too soon is explained', async ({ page }) => {
+		const users = structuredClone(FIXTURE_USERS());
+		users.data.content[0].invitePending = true;
+		let resent = 0;
+		await open(page, '/app/settings?tab=users', {
+			'GET /users': () => ({ status: 200, body: users }),
+			'POST /users/6ab7190d28a8f342d03d978a/invite/resend': () => {
+				resent += 1;
+				return resent === 1
+					? { status: 202, body: null }
+					: { status: 429, body: { errorCode: 'error.user.invite_resend_too_soon', message: 'An invite was just sent to this user. Please wait two minutes before sending another.' } };
+			},
+		});
+
+		const row = page.getByRole('row').filter({ hasText: 'viewer@a.qorva.test' });
+		await expect(row.getByTestId('invite-pending')).toHaveText('Invite pending');
+		await row.getByRole('button', { name: 'Re-send invite' }).click();
+		await expect(page.getByText(/A new invite was sent to viewer@a\.qorva\.test/).first()).toBeVisible();
+
+		await row.getByRole('button', { name: 'Re-send invite' }).click();
+		await expect(page.getByText(/Please wait two minutes/).first()).toBeVisible();
+		expect(resent).toBe(2);
+		// Users who have joined get no re-send action.
+		await expect(page.getByRole('row').filter({ hasText: 'owner@a.qorva.test' }).getByRole('button', { name: 'Re-send invite' })).toHaveCount(0);
 	});
 });

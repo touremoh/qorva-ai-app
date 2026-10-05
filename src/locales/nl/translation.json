@@ -705,7 +705,13 @@
       "loading": "Laden…",
       "sending": "Code wordt verstuurd…"
     },
-    "billingOwnerOnly": "Facturatie wordt beheerd door een accounteigenaar. Vraag hen het abonnement of de betaalgegevens te wijzigen."
+    "billingOwnerOnly": "Facturatie wordt beheerd door een accounteigenaar. Vraag hen het abonnement of de betaalgegevens te wijzigen.",
+    "users": {
+      "invitePending": "Uitnodiging openstaand",
+      "resendInvite": "Uitnodiging opnieuw sturen",
+      "inviteSent": "Er is een nieuwe uitnodiging naar {{email}} gestuurd. De vorige link werkt niet meer.",
+      "invited": "Uitnodiging verstuurd naar {{email}}: het wachtwoord wordt via de link gekozen (3 dagen geldig)."
+    }
   },
   "dashboard": {
     "errors": {

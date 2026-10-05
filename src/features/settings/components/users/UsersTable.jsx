@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { getInitials } from '../../../../shared/lib/text.js';
 import { Avatar, Box, Chip, CircularProgress, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import ForwardToInboxOutlinedIcon from '@mui/icons-material/ForwardToInboxOutlined';
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import { getRoleFromAuthorities, ROLE_LABELS } from '../../model/users.js';
 import { useTranslation } from 'react-i18next';
@@ -9,7 +10,7 @@ import * as tokens from '../../../../theme/tokens.js';
 import { alpha } from '@mui/material/styles';
 
 /** The team: one row per user with role and actions. */
-const UsersTable = ({ currentEmail, demo, loadingUsers, openEditPermissions, setUserToDelete, userDisplayName, users }) => {
+const UsersTable = ({ currentEmail, demo, loadingUsers, onResendInvite, openEditPermissions, resendingId, setUserToDelete, userDisplayName, users }) => {
 	const { t } = useTranslation();
 	return (
 		<>
@@ -59,6 +60,10 @@ const UsersTable = ({ currentEmail, demo, loadingUsers, openEditPermissions, set
 													<Chip size="small" label={t('accountSettings.you', 'You')}
 														sx={{ fontSize: tokens.fontSize.micro, height: 16, backgroundColor: alpha(tokens.brand.main, 0.12), color: tokens.brand.text, fontWeight: 700, '& .MuiChip-label': { px: 0.75 } }} />
 												)}
+												{user.invitePending && (
+													<Chip size="small" data-testid="invite-pending" label={t('accountSettings.users.invitePending')}
+														sx={{ fontSize: tokens.fontSize.micro, height: 16, backgroundColor: tokens.status.warning.tint, color: tokens.status.warning.text, fontWeight: 600, '& .MuiChip-label': { px: 0.75 } }} />
+												)}
 											</Box>
 										</TableCell>
 										<TableCell sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.soft, py: 1.25 }}>
@@ -79,6 +84,16 @@ const UsersTable = ({ currentEmail, demo, loadingUsers, openEditPermissions, set
 										</TableCell>
 										<TableCell sx={{ py: 1.25 }}>
 											<Box sx={{ display: 'flex', gap: 0.5 }}>
+												{!demo && user.invitePending && (
+													<Tooltip title={t('accountSettings.users.resendInvite')}>
+														<span>
+															<IconButton size="small" aria-label={t('accountSettings.users.resendInvite')} onClick={() => onResendInvite(user)}
+																disabled={resendingId === user.id} sx={{ color: tokens.ink.muted, '&:hover': { color: tokens.brand.text } }}>
+																<ForwardToInboxOutlinedIcon sx={{ fontSize: tokens.iconSize.md }} />
+															</IconButton>
+														</span>
+													</Tooltip>
+												)}
 												{!demo && (
 													<Tooltip title={t('accountSettings.managePermissions')}>
 														<IconButton size="small" onClick={() => openEditPermissions(user)} sx={{ color: tokens.ink.muted, '&:hover': { color: tokens.brand.text } }}>
@@ -114,7 +129,9 @@ UsersTable.propTypes = {
 	currentEmail: PropTypes.any,
 	demo: PropTypes.bool,
 	loadingUsers: PropTypes.any,
+	onResendInvite: PropTypes.func,
 	openEditPermissions: PropTypes.func,
+	resendingId: PropTypes.string,
 	setUserToDelete: PropTypes.func,
 	userDisplayName: PropTypes.any,
 	users: PropTypes.any,

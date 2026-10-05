@@ -705,7 +705,13 @@
       "loading": "Cargando…",
       "sending": "Enviando código…"
     },
-    "billingOwnerOnly": "La facturación la gestiona un propietario de la cuenta. Pídale que cambie el plan o los datos de pago."
+    "billingOwnerOnly": "La facturación la gestiona un propietario de la cuenta. Pídale que cambie el plan o los datos de pago.",
+    "users": {
+      "invitePending": "Invitación pendiente",
+      "resendInvite": "Reenviar invitación",
+      "inviteSent": "Se envió una nueva invitación a {{email}}. El enlace anterior ya no funciona.",
+      "invited": "Invitación enviada a {{email}}: elegirá su contraseña desde el enlace (válido 3 días)."
+    }
   },
   "dashboard": {
     "errors": {

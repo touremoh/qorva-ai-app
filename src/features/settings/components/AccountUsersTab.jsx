@@ -8,8 +8,8 @@ import {
 import PersonAddOutlinedIcon from '@mui/icons-material/PersonAddOutlined';
 import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
 import { useTranslation } from 'react-i18next';
-import { getUsers, createUser, updateUserAuthorities, deleteUser } from '../api/userService.js';
-import { toastError } from '../../../utils/errorHandler.js';
+import { getUsers, createUser, updateUserAuthorities, deleteUser, resendInvite } from '../api/userService.js';
+import { toastError, toastSuccess } from '../../../utils/errorHandler.js';
 import { USER_EMAIL } from '../../../constants.js';
 import { isDemoUser } from '../../../utils/demoMode.js';
 import UpgradeButton from '../../../components/demo/UpgradeButton.jsx';
@@ -38,6 +38,7 @@ const AccountUsersTab = () => {
 
 	const [userToDelete, setUserToDelete] = useState(null);
 	const [deleting, setDeleting] = useState(false);
+	const [resendingId, setResendingId] = useState(null);
 
 	const fetchUsers = async () => {
 		try {
@@ -64,6 +65,7 @@ const AccountUsersTab = () => {
 				authorities: permsToAuthorities(addPerms, addRole),
 			});
 			setUsers(prev => [...prev, resp.data?.data ?? resp.data]);
+			toastSuccess('accountSettings.users.invited', { email: addForm.email.trim() });
 			setOpenAdd(false);
 			setAddForm({ email: '', firstName: '', lastName: '' });
 			setAddRole('ACCOUNT_MANAGER');
@@ -72,6 +74,20 @@ const AccountUsersTab = () => {
 			toastError(e);
 		} finally {
 			setSaving(false);
+		}
+	};
+
+	// A fresh invite link; the previous one stops working. A user who has joined meanwhile drops the action.
+	const handleResendInvite = async (user) => {
+		try {
+			setResendingId(user.id);
+			await resendInvite(user.id);
+			toastSuccess('accountSettings.users.inviteSent', { email: user.email });
+		} catch (e) {
+			toastError(e);
+			if (e?.response?.status === 409) fetchUsers();
+		} finally {
+			setResendingId(null);
 		}
 	};
 
@@ -141,7 +157,9 @@ const AccountUsersTab = () => {
 				currentEmail={currentEmail}
 				demo={demo}
 				loadingUsers={loadingUsers}
+				onResendInvite={handleResendInvite}
 				openEditPermissions={openEditPermissions}
+				resendingId={resendingId}
 				setUserToDelete={setUserToDelete}
 				userDisplayName={userDisplayName}
 				users={users}

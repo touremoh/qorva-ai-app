@@ -102,3 +102,6 @@ export const seededTenant = () => {
 
 /** A recorded matching report of tenant A, as the API returns it on its own. */
 export const seededReport = (id) => FIXTURE[`GET /matching-reports/${id}`].body.data;
+
+/** A recorded response of the fake API, as stored in the fixture. */
+export const recorded = (key) => FIXTURE[key];

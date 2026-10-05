@@ -705,7 +705,13 @@
       "loading": "A carregar…",
       "sending": "A enviar o código…"
     },
-    "billingOwnerOnly": "A faturação é gerida por um proprietário da conta. Peça-lhe para alterar o plano ou os dados de pagamento."
+    "billingOwnerOnly": "A faturação é gerida por um proprietário da conta. Peça-lhe para alterar o plano ou os dados de pagamento.",
+    "users": {
+      "invitePending": "Convite pendente",
+      "resendInvite": "Reenviar convite",
+      "inviteSent": "Foi enviado um novo convite a {{email}}. A ligação anterior já não funciona.",
+      "invited": "Convite enviado a {{email}}: a pessoa escolhe a palavra-passe a partir da ligação (válida 3 dias)."
+    }
   },
   "dashboard": {
     "errors": {
