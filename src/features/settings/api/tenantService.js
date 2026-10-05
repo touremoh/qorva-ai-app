@@ -13,3 +13,6 @@ export const getTenantById = (tenantId) => apiClient.get(`/tenants/${tenantId}`)
 
 /** The tenant's logo as a blob (for branding the CV and report views), or a rejected promise when none is set. */
 export const getTenantLogo = () => apiClient.get('/tenants/logo', { responseType: 'blob' });
+
+/** "Require Microsoft sign-in" for the company (MANAGE_USERS); answers the updated tenant. */
+export const setTenantSsoRequired = (ssoRequired) => apiClient.patch('/tenants/sso', { ssoRequired });

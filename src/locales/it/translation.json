@@ -39,7 +39,17 @@
       "codeRequired": "Inserisci il codice di 6 cifre",
       "help": "Non lo trovi? Controlla lo spam o invia di nuovo il codice."
     },
-    "sessionExpired": "La sessione è scaduta. Accedi di nuovo."
+    "sessionExpired": "La sessione è scaduta. Accedi di nuovo.",
+    "sso": {
+      "microsoft": "Accedi con Microsoft",
+      "errors": {
+        "not_configured": "L’accesso con Microsoft non è disponibile qui.",
+        "failed": "L’accesso con Microsoft non è stato completato. Riprova.",
+        "no_account": "Nessun account Qorva attivo usa questa identità Microsoft. Chiedi al tuo amministratore di invitarti con la tua email di lavoro.",
+        "cancelled": "L’accesso con Microsoft è stato annullato."
+      },
+      "or": "oppure"
+    }
   },
   "registration": {
     "freeTrialTitle": "Prova gratuita",
@@ -598,7 +608,17 @@
       "billingMonthly": "Mensile",
       "subscriptionPrice": "Prezzo",
       "subscriptionStart": "Inizio del periodo corrente",
-      "subscriptionRenewal": "Data di rinnovo"
+      "subscriptionRenewal": "Data di rinnovo",
+      "sso": {
+        "title": "Accesso Microsoft",
+        "require": "Richiedi l’accesso Microsoft",
+        "help": "Tutti accedono con l’account Microsoft aziendale. Il titolare dell’account conserva la password, come accesso di emergenza se l’accesso Microsoft non funziona.",
+        "confirmTitle": "Richiedere l’accesso Microsoft?",
+        "confirmBody": "I tuoi colleghi non potranno più accedere con una password. Verifica che usino tutti l’account Microsoft di lavoro con la stessa email che in Qorva.",
+        "confirm": "Richiedilo",
+        "cancel": "Annulla",
+        "error": "Impossibile salvare l’impostazione."
+      }
     },
     "editProfile": "Modifica profilo",
     "saveChanges": "Salva modifiche",

@@ -39,7 +39,17 @@
       "codeRequired": "Voer de 6-cijferige code in",
       "help": "Niets ontvangen? Kijk in uw spammap of stuur de code opnieuw."
     },
-    "sessionExpired": "Je sessie is verlopen. Log opnieuw in."
+    "sessionExpired": "Je sessie is verlopen. Log opnieuw in.",
+    "sso": {
+      "microsoft": "Aanmelden met Microsoft",
+      "errors": {
+        "not_configured": "Aanmelden met Microsoft is hier niet beschikbaar.",
+        "failed": "Aanmelden met Microsoft is niet voltooid. Probeer het opnieuw.",
+        "no_account": "Geen actief Qorva-account gebruikt deze Microsoft-identiteit. Vraag uw beheerder u uit te nodigen met uw zakelijke e-mail.",
+        "cancelled": "Aanmelden met Microsoft is geannuleerd."
+      },
+      "or": "of"
+    }
   },
   "registration": {
     "freeTrialTitle": "Gratis proefperiode",
@@ -598,7 +608,17 @@
       "billingMonthly": "Maandelijks",
       "subscriptionPrice": "Prijs",
       "subscriptionStart": "Begin huidige periode",
-      "subscriptionRenewal": "Verlengingsdatum"
+      "subscriptionRenewal": "Verlengingsdatum",
+      "sso": {
+        "title": "Microsoft-aanmelding",
+        "require": "Microsoft-aanmelding vereisen",
+        "help": "Iedereen meldt zich aan met het Microsoft-account van het bedrijf. De accounteigenaar houdt zijn wachtwoord, als noodtoegang als Microsoft-aanmelding ooit faalt.",
+        "confirmTitle": "Microsoft-aanmelding vereisen?",
+        "confirmBody": "Uw collega’s kunnen zich niet meer aanmelden met een wachtwoord. Zorg dat ze allemaal hun zakelijke Microsoft-account gebruiken met hetzelfde e-mailadres als in Qorva.",
+        "confirm": "Vereisen",
+        "cancel": "Annuleren",
+        "error": "De instelling kon niet worden opgeslagen."
+      }
     },
     "editProfile": "Profiel bewerken",
     "saveChanges": "Wijzigingen opslaan",

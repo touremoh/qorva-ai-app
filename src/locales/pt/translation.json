@@ -39,7 +39,17 @@
       "codeRequired": "Introduza o código de 6 dígitos",
       "help": "Não recebeu? Verifique a pasta de spam ou reenvie o código."
     },
-    "sessionExpired": "A sua sessão expirou. Inicie sessão novamente."
+    "sessionExpired": "A sua sessão expirou. Inicie sessão novamente.",
+    "sso": {
+      "microsoft": "Iniciar sessão com a Microsoft",
+      "errors": {
+        "not_configured": "O início de sessão com a Microsoft não está disponível aqui.",
+        "failed": "O início de sessão com a Microsoft não foi concluído. Tente novamente.",
+        "no_account": "Nenhuma conta Qorva ativa usa esta identidade Microsoft. Peça ao seu administrador que o convide com o seu e-mail profissional.",
+        "cancelled": "O início de sessão com a Microsoft foi cancelado."
+      },
+      "or": "ou"
+    }
   },
   "registration": {
     "freeTrialTitle": "Período gratuito",
@@ -598,7 +608,17 @@
       "billingMonthly": "Mensal",
       "subscriptionPrice": "Preço",
       "subscriptionStart": "Início do período atual",
-      "subscriptionRenewal": "Data de renovação"
+      "subscriptionRenewal": "Data de renovação",
+      "sso": {
+        "title": "Início de sessão Microsoft",
+        "require": "Exigir o início de sessão Microsoft",
+        "help": "Todos iniciam sessão com a conta Microsoft da empresa. O proprietário da conta mantém a palavra-passe, como acesso de emergência se o início de sessão Microsoft falhar.",
+        "confirmTitle": "Exigir o início de sessão Microsoft?",
+        "confirmBody": "Os seus colegas deixarão de poder iniciar sessão com palavra-passe. Confirme que todos usam a conta Microsoft profissional com o mesmo e-mail que no Qorva.",
+        "confirm": "Exigir",
+        "cancel": "Cancelar",
+        "error": "Não foi possível guardar a definição."
+      }
     },
     "editProfile": "Editar perfil",
     "saveChanges": "Guardar alterações",
