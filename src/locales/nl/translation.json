@@ -2182,5 +2182,67 @@
       "dropped": "{{name}} neergezet in {{status}}.",
       "cancelled": "Verplaatsen van {{name}} geannuleerd."
     }
+  },
+  "help": {
+    "open": "Help",
+    "title": "Qorva Help",
+    "close": "Help sluiten",
+    "newConversation": "Nieuw gesprek",
+    "placeholder": "Vraag hoe je iets doet in Qorva…",
+    "send": "Versturen",
+    "disclaimer": "Antwoorden komen uit de Qorva-help en kunnen onvolledig zijn.",
+    "thinking": "Even opzoeken…",
+    "contactSupport": "Contact met support",
+    "openPage": "{{page}} openen",
+    "empty": {
+      "title": "Waarmee kunnen we helpen?",
+      "subtitle": "Vraag alles over het gebruik van Qorva: functies, integraties, Copilot, abonnementen of een probleem. Antwoorden zijn in jouw taal."
+    },
+    "starters": {
+      "connectAts": "Hoe koppel ik mijn ATS (bijvoorbeeld Recruitee) aan Qorva?",
+      "automate": "Hoe kan Qorva mijn wervingsproces automatiseren?",
+      "createRule": "Hoe maak ik een Copilot-regel?",
+      "runMatching": "Hoe start ik matching voor een vacature?",
+      "inviteUser": "Hoe nodig ik een collega uit en stel ik rechten in?",
+      "usage": "Wat telt mee voor de limieten van mijn abonnement?",
+      "uploadCvs": "Hoe upload ik veel cv's tegelijk?",
+      "dataHealth": "Wat controleert Datakwaliteit en hoe los ik problemen op?",
+      "pipeline": "Hoe verplaats ik kandidaten in de pijplijn?"
+    },
+    "errors": {
+      "generic": "Qorva Help kon nu niet antwoorden. Probeer het zo opnieuw of neem contact op met support."
+    },
+    "ticket": {
+      "title": "Contact met support",
+      "intro": "Vertel ons wat er gebeurde. Ons team antwoordt per e-mail op het adres van je account.",
+      "subject": "Onderwerp",
+      "description": "Beschrijving",
+      "descriptionPlaceholder": "Wat je probeerde te doen, wat er gebeurde en eventuele foutmeldingen.",
+      "noSecrets": "Vermeld nooit wachtwoorden, API-sleutels of andere geheimen.",
+      "includeConversation": "Dit helpgesprek toevoegen",
+      "send": "Verzoek versturen",
+      "sending": "Versturen…",
+      "cancel": "Annuleren",
+      "done": "Klaar",
+      "sent": "Verzoek {{reference}} verstuurd. We antwoorden per e-mail; vermeld deze referentie als je ons opnieuw schrijft."
+    },
+    "links": {
+      "dashboard": "Dashboard",
+      "cvs": "CV-archief",
+      "library_quality": "Datakwaliteit",
+      "jobs": "Vacatures",
+      "reports": "Matchingrapporten",
+      "pipeline": "Pijplijn",
+      "usage": "Verbruik",
+      "copilot": "Copilot",
+      "copilot_activity": "Copilot → Activiteit",
+      "copilot_rules": "Copilot → Regels",
+      "configuration_email_templates": "E-mailsjablonen",
+      "settings_profile": "Mijn Profiel",
+      "settings_company": "Bedrijf",
+      "settings_users": "Gebruikers",
+      "settings_integrations": "Integraties",
+      "settings_billing": "Facturering"
+    }
   }
 }

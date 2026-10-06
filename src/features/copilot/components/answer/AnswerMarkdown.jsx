@@ -59,14 +59,18 @@ const components = {
 	img: ({ alt }) => (alt ? <span>{alt}</span> : null),
 };
 
-export default function AnswerMarkdown({ content }) {
+// Qorva Help answers never carry links: the help panel offers in-app pages as buttons instead, so a link the
+// model was talked into writing renders as its text only.
+const plainLinkComponents = { ...components, a: ({ children }) => <span>{children}</span> };
+
+export default function AnswerMarkdown({ content, plainLinks = false }) {
 	return (
 		<Box className="chat-markdown" sx={{ textAlign: 'left', '& *': { textAlign: 'left' } }}>
-			<ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
+			<ReactMarkdown remarkPlugins={[remarkGfm]} components={plainLinks ? plainLinkComponents : components}>
 				{content || ''}
 			</ReactMarkdown>
 		</Box>
 	);
 }
 
-AnswerMarkdown.propTypes = { content: PropTypes.string };
+AnswerMarkdown.propTypes = { content: PropTypes.string, plainLinks: PropTypes.bool };

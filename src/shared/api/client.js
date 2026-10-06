@@ -57,6 +57,12 @@ const SILENT_ERROR_CODES = new Set([
 	'error.agent.rule_invalid',                  // the rule dialog shows these inline
 	'error.agent.rule_limit_reached',
 	'error.agent.rules_disabled',
+	'error.help.disabled',                       // the help panel shows these inline
+	'error.help.message_invalid',
+	'error.help.rate_limited',
+	'error.help.unavailable',
+	'error.help.ticket_invalid',
+	'error.help.ticket_rate_limited',
 ]);
 
 const handleResponseError = (error) => {

@@ -43,6 +43,11 @@ const AccountSettings = () => {
 		const requested = new URLSearchParams(location.search).get('tab');
 		return SETTINGS_TABS.includes(requested) ? requested : 'profile';
 	});
+	// …and follows it when a link changes it while Settings is already open (Qorva Help's "Open" buttons).
+	useEffect(() => {
+		const requested = new URLSearchParams(location.search).get('tab');
+		if (SETTINGS_TABS.includes(requested)) setActiveTab(requested);
+	}, [location.search]);
 	const [loadingPortal, setLoadingPortal] = useState(false);
 	const [userInfo, setUserInfo] = useState({
 		id: '', email: '', firstName: '', lastName: '', tenantId: '',

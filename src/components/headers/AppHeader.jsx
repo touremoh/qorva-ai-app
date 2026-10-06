@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import BulkImportChip from './BulkImportChip.jsx';
+import HelpLauncher from '../../features/help/components/HelpLauncher.jsx';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { useTranslation } from 'react-i18next';
 import {
@@ -99,6 +100,8 @@ const AppHeader = ({ handleContentChange, contentTitle, isSidebarCollapsed }) =>
 				<Box sx={{ flexGrow: 1 }} />
 
 				<BulkImportChip />
+
+				<HelpLauncher />
 
 				<IconButton onClick={(e) => setAnchorEl(e.currentTarget)} sx={{ p: 0.5 }}>
 					<Avatar

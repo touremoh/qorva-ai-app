@@ -2182,5 +2182,67 @@
       "dropped": "{{name}} in {{status}} abgelegt.",
       "cancelled": "Verschieben von {{name}} abgebrochen."
     }
+  },
+  "help": {
+    "open": "Hilfe",
+    "title": "Qorva-Hilfe",
+    "close": "Hilfe schließen",
+    "newConversation": "Neue Unterhaltung",
+    "placeholder": "Fragen Sie, wie etwas in Qorva funktioniert…",
+    "send": "Senden",
+    "disclaimer": "Die Antworten stammen aus der Qorva-Hilfe und können unvollständig sein.",
+    "thinking": "Wird nachgeschlagen…",
+    "contactSupport": "Support kontaktieren",
+    "openPage": "{{page}} öffnen",
+    "empty": {
+      "title": "Wie können wir helfen?",
+      "subtitle": "Fragen Sie alles zur Nutzung von Qorva – Funktionen, Integrationen, Copilot, Tarife oder ein Problem. Die Antworten kommen in Ihrer Sprache."
+    },
+    "starters": {
+      "connectAts": "Wie verbinde ich mein ATS (zum Beispiel Recruitee) mit Qorva?",
+      "automate": "Wie kann Qorva meinen Recruiting-Ablauf automatisieren?",
+      "createRule": "Wie erstelle ich eine Copilot-Regel?",
+      "runMatching": "Wie starte ich das Matching für eine Stelle?",
+      "inviteUser": "Wie lade ich Kollegen ein und lege ihre Berechtigungen fest?",
+      "usage": "Was wird auf die Limits meines Tarifs angerechnet?",
+      "uploadCvs": "Wie lade ich viele Lebensläufe auf einmal hoch?",
+      "dataHealth": "Was prüft die Datenqualität und wie behebe ich Probleme?",
+      "pipeline": "Wie verschiebe ich Kandidaten in der Pipeline?"
+    },
+    "errors": {
+      "generic": "Die Qorva-Hilfe konnte gerade nicht antworten. Versuchen Sie es gleich noch einmal oder wenden Sie sich an den Support."
+    },
+    "ticket": {
+      "title": "Support kontaktieren",
+      "intro": "Beschreiben Sie, was passiert ist. Unser Team antwortet per E-Mail an Ihre Kontoadresse.",
+      "subject": "Betreff",
+      "description": "Beschreibung",
+      "descriptionPlaceholder": "Was wollten Sie tun, was ist passiert, und welche Fehlermeldung haben Sie gesehen?",
+      "noSecrets": "Geben Sie niemals Passwörter, API-Schlüssel oder andere Geheimnisse an.",
+      "includeConversation": "Diese Hilfe-Unterhaltung beifügen",
+      "send": "Anfrage senden",
+      "sending": "Wird gesendet…",
+      "cancel": "Abbrechen",
+      "done": "Fertig",
+      "sent": "Anfrage {{reference}} gesendet. Wir antworten per E-Mail – nennen Sie diese Referenz, wenn Sie uns erneut schreiben."
+    },
+    "links": {
+      "dashboard": "Dashboard",
+      "cvs": "Lebenslauf-Archiv",
+      "library_quality": "Datenqualität",
+      "jobs": "Stellen",
+      "reports": "Match-Berichte",
+      "pipeline": "Pipeline",
+      "usage": "Nutzung",
+      "copilot": "Copilot",
+      "copilot_activity": "Copilot → Aktivität",
+      "copilot_rules": "Copilot → Regeln",
+      "configuration_email_templates": "E-Mail-Vorlagen",
+      "settings_profile": "Mein Profil",
+      "settings_company": "Unternehmen",
+      "settings_users": "Benutzer",
+      "settings_integrations": "Integrationen",
+      "settings_billing": "Abrechnung"
+    }
   }
 }
