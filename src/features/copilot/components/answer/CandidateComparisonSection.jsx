@@ -1,12 +1,12 @@
 import Box from '@mui/material/Box';
-import { getInitials } from '../../../shared/lib/text.js';
+import { getInitials } from '../../../../shared/lib/text.js';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import Chip from '@mui/material/Chip';
 import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import * as tokens from '../../../theme/tokens.js';
+import * as tokens from '../../../../theme/tokens.js';
 
 const ACCENT = tokens.status.info.bright;
 

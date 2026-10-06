@@ -33,8 +33,8 @@ export default function useClearLibrary(onCleared) {
 			setClearing(true);
 			const resp = await clearLibrary();
 			const result = resp.data;
-			toast.success(t('appCVContent.clearLibrary.done', 'Library cleared — {{cvs}} resumes, {{reports}} reports and {{chats}} chats removed.', {
-				cvs: result?.cvs ?? 0, reports: result?.reports ?? 0, chats: result?.chats ?? 0 }));
+			toast.success(t('appCVContent.clearLibrary.done', 'Library cleared — {{cvs}} resumes, {{reports}} reports and {{conversations}} Copilot conversations removed.', {
+				cvs: result?.cvs ?? 0, reports: result?.reports ?? 0, conversations: result?.conversations ?? 0 }));
 			setClearDialogOpen(false);
 			onCleared();
 			notifyQualityChanged();

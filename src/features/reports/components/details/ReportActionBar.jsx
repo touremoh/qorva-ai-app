@@ -6,11 +6,12 @@ import { useTranslation } from 'react-i18next';
 import * as tokens from '../../../../theme/tokens.js';
 import dayjs from '../../../../shared/lib/dayjs.js';
 import ReportStatusChip from '../status/ReportStatusChip.jsx';
+import AskCopilotButton from '../../../copilot/components/AskCopilotButton.jsx';
 import { lastMove } from '../../model/reportStatus.js';
 
 /**
  * Above the report (not printed): where the candidate stands on the job and who moved them last, then the
- * email-candidate and download actions.
+ * ask-Copilot, email-candidate and download actions.
  */
 const ReportActionBar = ({ canContact, candidate, finalScore, handleDownload, jobTitle, onStatusChange, outreach, reportData }) => {
 	const { t, i18n } = useTranslation();
@@ -34,6 +35,7 @@ const ReportActionBar = ({ canContact, candidate, finalScore, handleDownload, jo
 					</Typography>
 				)}
 			</Box>
+			<AskCopilotButton cvId={candidate?.candidateId} jobPostId={reportData?.jobPostId} />
 			{canContact && (
 				<Tooltip title={t('candidateOutreach.emailCandidate')}>
 					<IconButton

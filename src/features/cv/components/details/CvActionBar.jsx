@@ -7,9 +7,10 @@ import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { useTranslation } from 'react-i18next';
 import * as tokens from '../../../../theme/tokens.js';
+import AskCopilotButton from '../../../copilot/components/AskCopilotButton.jsx';
 
-/** Anonymize, email, download and close actions above the resume (not printed). */
-const CvActionBar = ({ anonymized, canContact, handleDownload, onClose, openEmailComposer, setAnonymized }) => {
+/** Anonymize, ask-Copilot, email, download and close actions above the resume (not printed). */
+const CvActionBar = ({ anonymized, canContact, cvId, handleDownload, onClose, openEmailComposer, setAnonymized }) => {
 	const { t } = useTranslation();
 	return (
 		<>
@@ -49,6 +50,8 @@ const CvActionBar = ({ anonymized, canContact, handleDownload, onClose, openEmai
 			</Tooltip>
 
 			<Box sx={{ flexGrow: 1 }} />
+
+			<AskCopilotButton cvId={cvId} />
 
 			{/* Email the candidate — hidden while anonymized (the address is hidden too) */}
 			{canContact && !anonymized && (
@@ -107,6 +110,7 @@ const CvActionBar = ({ anonymized, canContact, handleDownload, onClose, openEmai
 CvActionBar.propTypes = {
 	anonymized: PropTypes.any,
 	canContact: PropTypes.bool,
+	cvId: PropTypes.string,
 	handleDownload: PropTypes.func,
 	onClose: PropTypes.func,
 	openEmailComposer: PropTypes.func,

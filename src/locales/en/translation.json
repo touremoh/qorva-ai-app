@@ -18,9 +18,9 @@
       "badge": "AI-Powered Talent Platform",
       "headline": "Transform your CV graveyard into a goldmine.",
       "subtext": "Qorva AI extracts, clusters, and ranks up to 100 CVs at once — matching jobs to candidates with custom scoring rules and real-time talent insights.",
-      "bullet1": "Talent Intelligence Engine",
+      "bullet1": "Copilot for candidates, your library and actions",
       "bullet2": "Job to candidate matching",
-      "bullet3": "AI Resume Chat",
+      "bullet3": "Charts and insights on your talent pool",
       "freeToStart": "Free to start"
     },
     "signingIn": "Signing you in…",
@@ -99,8 +99,6 @@
     "reports": "Match Reports",
     "accountSettings": "Account Settings",
     "logout": "Sign Out",
-    "aiResumeChat": "AI Resume Chat",
-    "intelligence": "Talent Intelligence",
     "usageMonitoring": "Usage Monitoring",
     "libraryQuality": "Data Health",
     "emailTemplates": "Email Templates",
@@ -379,10 +377,10 @@
     "clearLibrary": {
       "tooltip": "Clear the whole library…",
       "title": "Clear the whole resume library?",
-      "summary": "This permanently deletes {{cvs}} resumes, {{reports}} matching reports and {{chats}} AI chats — including their stored documents. Job posts and usage history are kept. This cannot be undone.",
+      "summary": "This permanently deletes {{cvs}} resumes, {{reports}} matching reports and {{conversations}} Copilot conversations — including their stored documents. Job posts and usage history are kept. This cannot be undone.",
       "typeToConfirm": "Type DELETE to confirm.",
       "confirm": "Clear library",
-      "done": "Library cleared — {{cvs}} resumes, {{reports}} reports and {{chats}} chats removed."
+      "done": "Library cleared — {{cvs}} resumes, {{reports}} reports and {{conversations}} Copilot conversations removed."
     },
     "filters": {
       "button": "Filters",
@@ -392,7 +390,6 @@
       "any": "Any",
       "noMatch": "No resumes match these filters.",
       "needMore": "Need something fuzzier — all finance-related profiles, a degree level, a past employer?",
-      "askIntelligence": "Ask Talent Intelligence",
       "notAnalysed": "Not analysed",
       "industries": "Industry",
       "locations": "Location",
@@ -451,7 +448,8 @@
         "manual": "Uploaded manually"
       },
       "pickDate": "Pick a date",
-      "quickSearch": "Quick search — name, role, skill…"
+      "quickSearch": "Quick search — name, role, skill…",
+      "askCopilot": "Ask Copilot"
     },
     "dropHere": "Drag & drop files here",
     "browseHint": "or click to browse — .pdf or .docx, up to {{max}} files",
@@ -649,13 +647,11 @@
       "resumes": "Resumes",
       "jobPosts": "Job Posts",
       "reports": "Reports",
-      "aiChat": "AI Chat",
       "users": "User Management",
       "atsExport": "ATS Export",
       "billing": "Billing",
       "integrations": "ATS Integrations",
       "outreach": "Candidate outreach",
-      "intelligence": "Talent Intelligence",
       "copilot": "Copilot"
     },
     "authorities": {
@@ -672,12 +668,6 @@
       "VIEW_REPORT": "View Reports",
       "MODIFY_REPORT": "Edit Reports",
       "DELETE_REPORT": "Delete Reports",
-      "START_CHAT": "Start Chat",
-      "VIEW_CHAT": "View Chats",
-      "VIEW_MESSAGE": "View Messages",
-      "REPLY_MESSAGE": "Reply to Messages",
-      "MODIFY_CHAT": "Update Chat",
-      "DELETE_CHAT": "Delete Chat",
       "VIEW_USERS": "View Users",
       "MANAGE_USERS": "Manage Users",
       "ATS_REPORT_EXPORT": "ATS Export",
@@ -685,7 +675,6 @@
       "CANCEL_SUBSCRIPTION": "Cancel Subscription",
       "MANAGE_INTEGRATIONS": "Manage ATS integrations",
       "CONTACT_CANDIDATE": "Email candidates",
-      "VIEW_LIBRARY_INSIGHTS": "Ask Talent Intelligence",
       "USE_AGENT": "Use Copilot"
     },
     "mfa": {
@@ -776,8 +765,8 @@
     },
     "usage": {
       "matchingActions": "Matching Actions",
-      "aiResumeChats": "AI Resume Chats",
-      "talentIntelligenceQueries": "Talent Intelligence",
+      "aiResumeChats": "Copilot · candidate questions",
+      "talentIntelligenceQueries": "Copilot · library analyses",
       "used": "used",
       "cumulativeTooltip": "All-time total across all periods",
       "allTime": "all-time",
@@ -787,7 +776,7 @@
       "templatesTooltip": "Saved invitation templates — a plan allowance, not a monthly quota",
       "noPeriodTitle": "No usage period is active for this account",
       "noPeriodHint": "Usage is metered per billing period. A period is opened automatically a few minutes after a subscription starts or renews; if this message persists, contact support.",
-      "agentRuns": "Copilot tasks"
+      "agentRuns": "Copilot · tasks"
     },
     "pipeline": {
       "job": "Job",
@@ -801,70 +790,6 @@
       "copilot": "Copilot",
       "empty": "No candidate has been moved along the pipeline yet. Set a status on a matching report to start."
     }
-  },
-  "appAIResumeChat": {
-    "typing": "Assistant typing…",
-    "createChat": "New Chat",
-    "refresh": "Refresh",
-    "chats": "Chats",
-    "loadMore": "Load More",
-    "selectChat": "Select a chat to begin",
-    "loadOlder": "Load Older",
-    "you": "You",
-    "assistant": "Assistant",
-    "noChatSelected": "No chat selected. Create or select one.",
-    "placeholder": "Ask about resume vs job…",
-    "send": "Send",
-    "createChatTitle": "Start a New Chat",
-    "createChatHelp": "Pick a resume and job post. We’ll link a screening report if available.",
-    "noCVFound": "No resume found",
-    "cvSearch": "Search Resume (by name)",
-    "cvSearchPlaceholder": "Type a name…",
-    "jobPost": "Job Post",
-    "relatedMatchingReport": "Linked Matching Report",
-    "resumeMatchHint": "Select a resume and job to find a match.",
-    "searching": "Searching…",
-    "job": "Job Title",
-    "score": "Score",
-    "noResumeMatch": "No matching resume found.",
-    "chatTitle": "Chat Title",
-    "chatTitleHelp2": "Defaults to “First Last - Job Title”.",
-    "language": "Language",
-    "cancel": "Cancel",
-    "create": "Create",
-    "selectCvAndJob": "Please select a resume and a job post.",
-    "closed": "Closed",
-    "closeChat": "Close Chat",
-    "deleteChat": "Delete Chat",
-    "chatClosed": "This chat is closed and cannot receive new messages.",
-    "confirmDeleteChat": "Delete Chat",
-    "confirmDeleteChatMessage": "Are you sure you want to delete this chat? This action cannot be undone.",
-    "delete": "Delete",
-    "chatOptions": "Chat options",
-    "filterAll": "All",
-    "open": "Open",
-    "archived": "Archived",
-    "archiveChat": "Archive Chat",
-    "reopenChat": "Reopen Chat",
-    "chatArchived": "This chat is archived and cannot receive new messages.",
-    "copyReference": "Copy reference",
-    "copied": "Copied!",
-    "sendFailed": "Could not get an answer.",
-    "retry": "Retry",
-    "screeningScore": "Screening score",
-    "screeningScoreHint": "Official score from the screening report — the chat quotes this figure.",
-    "runScreening": "No screening report — run screening",
-    "noReportYetHint": "No screening report exists for this candidate and job yet, so the chat cannot give a fit score. Run a screening to get one.",
-    "copyAnswer": "Copy answer",
-    "composerHint": "Enter to send · Shift+Enter for a new line",
-    "showChats": "Show chat list",
-    "hideChats": "Hide chat list",
-    "showContext": "Show resume, report and job",
-    "hideContext": "Hide resume, report and job",
-    "tabResume": "Resume",
-    "tabReport": "Matching report",
-    "tabJob": "Job description",
-    "refreshReport": "Refresh"
   },
   "pricing": {
     "monthly": "Monthly",
@@ -886,23 +811,26 @@
     "starter": {
       "users": "2 users",
       "matchingActions": "2,000 matching actions / month",
-      "aiChat": "500 AI Resume Chat messages / month",
-      "queries": "1,000 Talent Intelligence Queries / month",
-      "emailTemplates": "3 email templates"
+      "aiChat": "Copilot: 500 candidate questions / month",
+      "queries": "Copilot: 1,000 library analyses / month",
+      "emailTemplates": "3 email templates",
+      "copilotTasks": "Copilot: 100 tasks / month"
     },
     "pro": {
       "users": "5 users",
       "matchingActions": "10,000 matching actions / month",
-      "aiChat": "1,500 AI Resume Chat messages / month",
-      "queries": "3,000 Talent Intelligence Queries / month",
-      "emailTemplates": "15 email templates"
+      "aiChat": "Copilot: 1,500 candidate questions / month",
+      "queries": "Copilot: 3,000 library analyses / month",
+      "emailTemplates": "15 email templates",
+      "copilotTasks": "Copilot: 500 tasks / month"
     },
     "scale": {
       "users": "15 users",
       "matchingActions": "25,000 matching actions / month",
-      "aiChat": "4,000 AI Resume Chat messages / month",
-      "queries": "8,000 Talent Intelligence Queries / month",
-      "emailTemplates": "50 email templates"
+      "aiChat": "Copilot: 4,000 candidate questions / month",
+      "queries": "Copilot: 8,000 library analyses / month",
+      "emailTemplates": "50 email templates",
+      "copilotTasks": "Copilot: 2,000 tasks / month"
     }
   },
   "checkoutSuccess": {
@@ -1029,25 +957,6 @@
         "CANDIDATE_COMPARISON": "Compare @Alice and @Bob against #Senior Java Developer. Who is the better fit?"
       }
     },
-    "intro": {
-      "title": "Start a new conversation",
-      "subtitle": "Pick an insight below or ask your own question. Use @ to mention candidates and # to mention jobs."
-    },
-    "intentsShort": {
-      "TALENT_POOL_INTELLIGENCE": "Talent Pool",
-      "TALENT_CLUSTERING": "Clustering",
-      "CANDIDATE_RANKING": "Ranking",
-      "CANDIDATE_REDISCOVERY": "Rediscovery",
-      "SKILL_GAP_ANALYSIS": "Skill Gap",
-      "GENERAL_RECRUITING_QUESTION": "General",
-      "LOCATION_INTELLIGENCE": "Location",
-      "SALARY_EXPECTATION_ANALYSIS": "Salary",
-      "CANDIDATE_COMPARISON": "Comparison",
-      "JOB_DESCRIPTION_ANALYSIS": "Job Description",
-      "RESUME_DATA_QUALITY_ANALYSIS": "Data Quality",
-      "SENIORITY_DISTRIBUTION_ANALYSIS": "Seniority",
-      "SKILLS_DISTRIBUTION": "Skills"
-    },
     "comparison": {
       "yearsExperience": "yrs exp",
       "differentiatingSkills": "Differentiating Skills",
@@ -1055,17 +964,7 @@
       "jobContext": "Job Context",
       "certifications": "Certifications"
     },
-    "candidates": "Candidates",
-    "deleteConversation": {
-      "title": "Delete Conversation",
-      "message": "Are you sure you want to delete this conversation? This action cannot be undone.",
-      "cancel": "Cancel",
-      "confirm": "Delete"
-    },
-    "input": {
-      "placeholder": "Ask about your talent pool… @ for candidates, # for jobs",
-      "hint": "Enter to send · Shift+Enter for new line · @ candidates · # jobs"
-    }
+    "candidates": "Candidates"
   },
   "error": {
     "auth": {
@@ -1796,22 +1695,22 @@
         "atLimit": "At the limit, uploads, ATS imports, matching and re-analysis pause until the period renews."
       },
       "aiResumeChats": {
-        "what": "One per message you send in AI Resume Chat.",
-        "details": "Each question you send about a resume counts once; the answers are free.",
-        "atLimit": "At the limit, new chat messages are refused until the period renews."
+        "what": "One per Copilot answer about one candidate.",
+        "details": "Each question Copilot answers from a candidate’s full resume, the job and its match report counts once.",
+        "atLimit": "At the limit, Copilot can’t answer questions about a candidate until the period renews."
       },
       "talentIntelligenceQueries": {
-        "what": "One per question asked in Talent Intelligence.",
-        "details": "Each question you ask about your whole library counts once, follow-ups included.",
-        "atLimit": "Counts against your plan allowance for the period."
+        "what": "One per Copilot analysis of your whole library.",
+        "details": "Each library question Copilot answers with counts, charts or candidate cards counts once, follow-ups included.",
+        "atLimit": "At the limit, Copilot can’t analyse the library until the period renews."
       },
       "emailTemplates": {
         "what": "Saved invitation templates — a plan allowance, not reset each period."
       },
       "agentRuns": {
-        "what": "One per task Copilot works on.",
-        "details": "Each task counts once, whether you gave it in chat or a rule started it. What Copilot does along the way, such as a matching run, also counts against its own allowance.",
-        "atLimit": "New Copilot tasks are refused until the period renews."
+        "what": "One per other Copilot request: searching, tagging, drafting, matching, rules.",
+        "details": "Each task counts once, whether you gave it in chat or a rule started it. Questions about one candidate or the library count on their own meters instead. What Copilot does along the way, such as a matching run, also counts against its own allowance.",
+        "atLimit": "New Copilot tasks are refused until the period renews; questions about a candidate or the library still work."
       }
     },
     "pace": {
@@ -1831,8 +1730,6 @@
     "dataHealth": "Data Health",
     "jobs": "Jobs",
     "reports": "Match Reports",
-    "intelligence": "Talent Intelligence",
-    "aiResumeChat": "AI Resume Chat",
     "usage": "Usage",
     "configuration": "Configuration",
     "accountSettings": "Account Settings",
@@ -1858,16 +1755,16 @@
     },
     "empty": {
       "title": "What should Copilot do?",
-      "subtitle": "Give Copilot a task in plain words. It searches your resumes, jobs and match reports, can tag candidates, add notes, create or update jobs and draft emails. Sending an email, running matching or an ATS import always waits for your approval. It never deletes anything.",
+      "subtitle": "Ask about one candidate or your whole library, or give Copilot a task in plain words. It answers from the full resume, the job and its match report, analyses your library with charts, and can tag candidates, add notes, create or update jobs and draft emails. Sending an email, running matching or an ATS import always waits for your approval. It never deletes anything.",
       "examples": {
         "topCandidates": "Who are the 5 best-matched candidates for our newest open job, and why?",
         "count": "How many senior Java developers open to work do we have in Lisbon?",
         "tag": "Tag the 3 best-matched candidates for our newest open job as “shortlist”.",
-        "usage": "How much of our plan have we used this period?"
+        "skills": "What are the most common skills among our senior developers?"
       }
     },
     "input": {
-      "placeholder": "Describe a task… Use @ for a candidate, # for a job",
+      "placeholder": "Ask a question or describe a task… Use @ for a candidate, # for a job",
       "hint": "Copilot reads your data to answer. It can make mistakes, so check important results.",
       "tooLong": "Keep the task under {{max}} characters."
     },
@@ -2109,6 +2006,15 @@
       },
       "autoApproved": "Matching runs without asking (up to {{count}} actions)",
       "stepAutoApproved": "Ran without asking — pre-approved by the rule"
+    },
+    "focus": {
+      "label": "About {{name}} · {{job}}",
+      "unnamed": "this candidate",
+      "untitled": "this job"
+    },
+    "ask": {
+      "aboutCandidate": "Ask Copilot about this candidate",
+      "aboutCandidateForJob": "Ask Copilot about this candidate for this job"
     }
   },
   "agent": {
@@ -2139,7 +2045,9 @@
       "list_ats_connections": "Checked ATS integrations: {{count}} found",
       "propose_rule": "Rule “{{name}}”",
       "rule_created": "Created the rule “{{name}}”",
-      "set_report_status": "Moved {{count}} candidate(s) to {{status}}"
+      "set_report_status": "Moved {{count}} candidate(s) to {{status}}",
+      "ask_about_candidate": "Answered about {{name}} for “{{job}}”",
+      "analyze_library": "Analysed the resume library"
     }
   },
   "matchingRun": {

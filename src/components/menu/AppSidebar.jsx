@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
 import { Drawer, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import AppMenuList from './AppMenuList/AppMenuList.jsx';
-import { getChatAllowedStatus } from '../../features/chat/api/chatService.js';
 import { useAgentRun } from '../../contexts/AgentRunContext.jsx';
 import PropTypes from 'prop-types';
 
@@ -12,7 +10,6 @@ export const SIDEBAR_WIDTH_COLLAPSED = 64;
 const AppSidebar = ({ isSidebarOpen, isSidebarCollapsed, handleSidebarToggle, handleSidebarCollapse, handleContentChange, activeContent }) => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
-	const [isChatAllowed, setIsChatAllowed] = useState(false);
 	const { available: isAgentAllowed, pendingApprovals } = useAgentRun();
 
 	const handleNavigation = (newContent) => {
@@ -21,12 +18,6 @@ const AppSidebar = ({ isSidebarOpen, isSidebarCollapsed, handleSidebarToggle, ha
 			handleSidebarToggle();
 		}
 	};
-
-	useEffect(() => {
-		getChatAllowedStatus()
-			.then((res) => setIsChatAllowed(res.data))
-			.catch(() => setIsChatAllowed(false));
-	}, []);
 
 	const collapsed = isLargeScreen && isSidebarCollapsed;
 	const width = collapsed ? SIDEBAR_WIDTH_COLLAPSED : SIDEBAR_WIDTH;
@@ -47,11 +38,11 @@ const AppSidebar = ({ isSidebarOpen, isSidebarCollapsed, handleSidebarToggle, ha
 
 	return isLargeScreen ? (
 		<Drawer variant="permanent" open sx={drawerSx}>
-			<AppMenuList handleContentChange={handleNavigation} activeContent={activeContent} isChatAllowed={isChatAllowed} isAgentAllowed={isAgentAllowed} agentPendingCount={pendingApprovals} collapsed={collapsed} onToggleCollapse={handleSidebarCollapse} />
+			<AppMenuList handleContentChange={handleNavigation} activeContent={activeContent} isAgentAllowed={isAgentAllowed} agentPendingCount={pendingApprovals} collapsed={collapsed} onToggleCollapse={handleSidebarCollapse} />
 		</Drawer>
 	) : (
 		<Drawer variant="temporary" open={isSidebarOpen} onClose={handleSidebarToggle} sx={drawerSx}>
-			<AppMenuList handleContentChange={handleNavigation} activeContent={activeContent} isChatAllowed={isChatAllowed} isAgentAllowed={isAgentAllowed} agentPendingCount={pendingApprovals} collapsed={false} onToggleCollapse={handleSidebarToggle} />
+			<AppMenuList handleContentChange={handleNavigation} activeContent={activeContent} isAgentAllowed={isAgentAllowed} agentPendingCount={pendingApprovals} collapsed={false} onToggleCollapse={handleSidebarToggle} />
 		</Drawer>
 	);
 };

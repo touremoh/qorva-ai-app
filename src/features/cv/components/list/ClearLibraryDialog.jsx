@@ -25,8 +25,8 @@ const ClearLibraryDialog = ({ clearConfirmText, clearDialogOpen, clearPreflight,
 			<DialogContentText component="div" sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.body }}>
 				{clearPreflight ? (
 					t('appCVContent.clearLibrary.summary',
-						'This permanently deletes {{cvs}} resumes, {{reports}} matching reports and {{chats}} AI chats — including their stored documents. Job posts and usage history are kept. This cannot be undone.',
-						{ cvs: clearPreflight.cvs, reports: clearPreflight.reports, chats: clearPreflight.chats })
+						'This permanently deletes {{cvs}} resumes, {{reports}} matching reports and {{conversations}} Copilot conversations — including their stored documents. Job posts and usage history are kept. This cannot be undone.',
+						{ cvs: clearPreflight.cvs, reports: clearPreflight.reports, conversations: clearPreflight.conversations })
 				) : (
 					<Box sx={{ display: 'flex', justifyContent: 'center', py: 1 }}>
 						<CircularProgress size={18} sx={{ color: tokens.status.error.main }} />

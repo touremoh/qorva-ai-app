@@ -3,12 +3,13 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
 import { alpha } from '@mui/material/styles';
-import MentionInput from '../../intelligence/components/MentionInput.jsx';
+import MentionInput from './mentions/MentionInput.jsx';
+import FocusChip from './FocusChip.jsx';
 import * as tokens from '../../../theme/tokens.js';
 import { MAX_GOAL_LENGTH } from '../model/agentRun.js';
 
-/** Task box with @candidate / #job mentions. Disabled while a task of this user is still working. */
-const CopilotInputBar = ({ goal, setGoal, mentions, setMentions, submit, disabled, focusToken, error }) => {
+/** Request box with @candidate / #job mentions and the conversation's focus. Disabled while a request of this user is working. */
+const CopilotInputBar = ({ goal, setGoal, mentions, setMentions, submit, disabled, focusToken, error, focus, onClearFocus }) => {
 	const { t } = useTranslation();
 	const tooLong = goal.length > MAX_GOAL_LENGTH;
 	return (
@@ -22,6 +23,7 @@ const CopilotInputBar = ({ goal, setGoal, mentions, setMentions, submit, disable
 						{error}
 					</Typography>
 				)}
+				{focus && <FocusChip focus={focus} onClear={onClearFocus} />}
 				<Box sx={{
 					backgroundColor: tokens.surface.subtle,
 					border: `1.5px solid ${tooLong ? tokens.status.error.main : tokens.line.main}`,
@@ -62,6 +64,8 @@ CopilotInputBar.propTypes = {
 	disabled: PropTypes.bool,
 	focusToken: PropTypes.any,
 	error: PropTypes.string,
+	focus: PropTypes.object,
+	onClearFocus: PropTypes.func,
 };
 
 export default CopilotInputBar;

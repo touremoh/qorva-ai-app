@@ -5,12 +5,15 @@ import { mockApi } from './support/api.js';
 // Design baselines. Font rendering differs per OS, so these run locally (macOS baselines are
 // committed) and CI skips them with --grep-invert @visual. Any diff must be an intended design change.
 
-const TABS = ['dashboard', 'cvs', 'library-quality', 'configuration', 'jobs', 'intelligence', 'copilot', 'reports', 'pipeline', 'chat', 'usage', 'settings'];
+const TABS = ['dashboard', 'cvs', 'library-quality', 'configuration', 'jobs', 'copilot', 'reports', 'pipeline', 'usage', 'settings'];
 
 test.describe('screens @visual', () => {
 	for (const tab of TABS) {
 		test(`tab ${tab}`, async ({ page }) => {
 			await openApp(page, `/app/${tab}`);
+			// Lazy tabs show a spinner until their code and data arrive: shoot the settled screen.
+			await page.waitForLoadState('networkidle');
+			await expect(page.locator('.MuiCircularProgress-root')).toHaveCount(0);
 			await expect(page).toHaveScreenshot(`tab-${tab}.png`, { fullPage: true });
 		});
 	}

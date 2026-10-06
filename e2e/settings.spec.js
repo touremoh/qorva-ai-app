@@ -15,7 +15,7 @@ async function open(page, path, overrides = {}) {
 }
 
 test.describe('account settings', () => {
-	test('saving a user\'s permissions keeps and can grant Talent Intelligence', async ({ page }) => {
+	test('saving a user\'s permissions keeps the others and can grant Copilot', async ({ page }) => {
 		let saved = null;
 		await open(page, '/app/settings?tab=users', {
 			'PUT /users/6ab7190d28a8f342d03d978a/authorities': (request) => {
@@ -26,14 +26,14 @@ test.describe('account settings', () => {
 
 		const row = page.getByRole('row').filter({ hasText: 'viewer@a.qorva.test' });
 		await row.getByRole('button', { name: 'Manage Permissions' }).click();
-		const toggle = page.getByText('Ask Talent Intelligence', { exact: true }).locator('..').getByRole('checkbox');
+		const toggle = page.getByText('Use Copilot', { exact: true }).locator('..').getByRole('checkbox');
 		await expect(toggle).not.toBeChecked();
 		await toggle.check();
 		await page.getByRole('button', { name: 'Save Changes' }).click();
 
 		await expect.poll(() => saved).not.toBeNull();
 		const actions = saved.authorities.map((a) => a.action);
-		expect(actions).toEqual(expect.arrayContaining(['VIEW_CV', 'VIEW_LIBRARY_INSIGHTS']));
+		expect(actions).toEqual(expect.arrayContaining(['VIEW_CV', 'USE_AGENT']));
 	});
 
 	test('the ATS OAuth callback lands on Integrations and shows its result', async ({ page }) => {

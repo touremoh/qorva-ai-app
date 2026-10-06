@@ -5,9 +5,9 @@ import IconButton from '@mui/material/IconButton';
 import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
-import { searchMentions } from '../api/mentionSearchService.js';
-import * as tokens from '../../../theme/tokens.js';
-import { findActiveMention, mentionKey, mentionPrefix } from '../model/mentions.js';
+import { searchMentions } from '../../api/mentionSearchService.js';
+import * as tokens from '../../../../theme/tokens.js';
+import { findActiveMention, mentionKey, mentionPrefix } from '../../model/mentions.js';
 import MentionChips from './MentionChips.jsx';
 import MentionSuggestions from './MentionSuggestions.jsx';
 

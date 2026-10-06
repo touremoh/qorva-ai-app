@@ -4,8 +4,6 @@ export const ALL_ACTIONS = [
 	'ADD_CV', 'VIEW_CV', 'MODIFY_CV', 'DELETE_CV',
 	'ADD_JOB', 'VIEW_JOB', 'MODIFY_JOB', 'DELETE_JOB',
 	'GENERATE_REPORT', 'VIEW_REPORT', 'MODIFY_REPORT', 'DELETE_REPORT',
-	'START_CHAT', 'VIEW_CHAT', 'VIEW_MESSAGE', 'REPLY_MESSAGE', 'MODIFY_CHAT', 'DELETE_CHAT',
-	'VIEW_LIBRARY_INSIGHTS',
 	'VIEW_USERS', 'MANAGE_USERS',
 	'ATS_REPORT_EXPORT',
 	'MANAGE_INTEGRATIONS',
@@ -19,8 +17,6 @@ export const AUTHORITY_GROUPS = [
 	{ key: 'resumes', actions: ['ADD_CV', 'VIEW_CV', 'MODIFY_CV', 'DELETE_CV'] },
 	{ key: 'jobPosts', actions: ['ADD_JOB', 'VIEW_JOB', 'MODIFY_JOB', 'DELETE_JOB'] },
 	{ key: 'reports', actions: ['GENERATE_REPORT', 'VIEW_REPORT', 'MODIFY_REPORT', 'DELETE_REPORT'] },
-	{ key: 'aiChat', actions: ['START_CHAT', 'VIEW_CHAT', 'VIEW_MESSAGE', 'REPLY_MESSAGE', 'MODIFY_CHAT', 'DELETE_CHAT'] },
-	{ key: 'intelligence', actions: ['VIEW_LIBRARY_INSIGHTS'] },
 	{ key: 'users', actions: ['VIEW_USERS', 'MANAGE_USERS'] },
 	{ key: 'atsExport', actions: ['ATS_REPORT_EXPORT'] },
 	// Saving this editor rewrites the whole authority list, so an action missing from here
