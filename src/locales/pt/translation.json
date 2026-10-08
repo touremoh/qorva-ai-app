@@ -2182,5 +2182,67 @@
       "dropped": "{{name}} largado em {{status}}.",
       "cancelled": "O movimento de {{name}} foi cancelado."
     }
+  },
+  "help": {
+    "open": "Ajuda",
+    "title": "Ajuda do Qorva",
+    "close": "Fechar a ajuda",
+    "newConversation": "Nova conversa",
+    "placeholder": "Pergunte como fazer algo no Qorva…",
+    "send": "Enviar",
+    "disclaimer": "As respostas vêm da ajuda do Qorva e podem ser imperfeitas.",
+    "thinking": "A procurar…",
+    "contactSupport": "Contactar o suporte",
+    "openPage": "Abrir {{page}}",
+    "empty": {
+      "title": "Como podemos ajudar?",
+      "subtitle": "Pergunte o que quiser sobre a utilização do Qorva: funcionalidades, integrações, Copilot, planos ou um problema. As respostas vêm no seu idioma."
+    },
+    "starters": {
+      "connectAts": "Como ligo o meu ATS (por exemplo Recruitee) ao Qorva?",
+      "automate": "Como pode o Qorva ajudar a automatizar o meu recrutamento?",
+      "createRule": "Como crio uma regra do Copilot?",
+      "runMatching": "Como executo o matching para uma vaga?",
+      "inviteUser": "Como convido um colega e defino as permissões dele?",
+      "usage": "O que conta para os limites do meu plano?",
+      "uploadCvs": "Como carrego muitos CV de uma vez?",
+      "dataHealth": "O que verifica a Saúde dos dados e como corrijo os problemas?",
+      "pipeline": "Como movo candidatos no pipeline?"
+    },
+    "errors": {
+      "generic": "A ajuda do Qorva não conseguiu responder. Tente novamente daqui a pouco ou contacte o suporte."
+    },
+    "ticket": {
+      "title": "Contactar o suporte",
+      "intro": "Conte-nos o que aconteceu. A nossa equipa responde por e-mail para o endereço da sua conta.",
+      "subject": "Assunto",
+      "description": "Descrição",
+      "descriptionPlaceholder": "O que estava a tentar fazer, o que aconteceu e a mensagem de erro que viu, se houver.",
+      "noSecrets": "Nunca inclua palavras-passe, chaves de API ou outros segredos.",
+      "includeConversation": "Incluir esta conversa de ajuda",
+      "send": "Enviar pedido",
+      "sending": "A enviar…",
+      "cancel": "Cancelar",
+      "done": "Concluído",
+      "sent": "Pedido {{reference}} enviado. Responderemos por e-mail; indique esta referência se nos voltar a escrever."
+    },
+    "links": {
+      "dashboard": "Painel",
+      "cvs": "Base de CV",
+      "library_quality": "Saúde dos dados",
+      "jobs": "Vagas",
+      "reports": "Relatórios",
+      "pipeline": "Pipeline",
+      "usage": "Consumo",
+      "copilot": "Copilot",
+      "copilot_activity": "Copilot → Atividade",
+      "copilot_rules": "Copilot → Regras",
+      "configuration_email_templates": "Modelos de e-mail",
+      "settings_profile": "Meu Perfil",
+      "settings_company": "Empresa",
+      "settings_users": "Utilizadores",
+      "settings_integrations": "Integrações",
+      "settings_billing": "Faturação"
+    }
   }
 }

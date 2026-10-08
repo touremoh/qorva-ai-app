@@ -11,6 +11,8 @@ import { BulkImportProvider } from "../contexts/BulkImportContext.jsx";
 import { CandidateOutreachProvider } from "../contexts/CandidateOutreachContext.jsx";
 import { AgentRunProvider } from "../contexts/AgentRunContext.jsx";
 import CandidateOutreachDock from "../features/outreach/components/CandidateOutreachDock.jsx";
+import HelpDrawer from '../features/help/components/HelpDrawer.jsx';
+import { HelpProvider } from '../features/help/hooks/HelpContext.jsx';
 import {logPageView} from "../utils/analytics.js";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {
@@ -76,6 +78,7 @@ const AppHome = () => {
 		<BulkImportProvider>
 		<CandidateOutreachProvider>
 		<AgentRunProvider>
+		<HelpProvider>
 		<Box sx={{ display: 'flex', height: '100vh', bottom: 0 }}>
 
 			{/* Sidebar */}
@@ -106,7 +109,11 @@ const AppHome = () => {
 
 			{/* Candidate email composer — docked bottom-right, survives panel switches */}
 			<CandidateOutreachDock />
+
+			{/* Qorva Help — product questions and support requests, opened from the header's "?" */}
+			<HelpDrawer />
 		</Box>
+		</HelpProvider>
 		</AgentRunProvider>
 		</CandidateOutreachProvider>
 		</BulkImportProvider>

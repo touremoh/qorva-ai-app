@@ -2182,5 +2182,67 @@
       "dropped": "{{name}} rilasciato in {{status}}.",
       "cancelled": "Spostamento di {{name}} annullato."
     }
+  },
+  "help": {
+    "open": "Aiuto",
+    "title": "Aiuto Qorva",
+    "close": "Chiudi l'aiuto",
+    "newConversation": "Nuova conversazione",
+    "placeholder": "Chiedi come fare qualcosa in Qorva…",
+    "send": "Invia",
+    "disclaimer": "Le risposte provengono dall'aiuto di Qorva e possono essere imperfette.",
+    "thinking": "Sto cercando…",
+    "contactSupport": "Contatta il supporto",
+    "openPage": "Apri {{page}}",
+    "empty": {
+      "title": "Come possiamo aiutarti?",
+      "subtitle": "Chiedi qualsiasi cosa sull'uso di Qorva: funzioni, integrazioni, Copilot, piani o un problema. Le risposte sono nella tua lingua."
+    },
+    "starters": {
+      "connectAts": "Come collego il mio ATS (ad esempio Recruitee) a Qorva?",
+      "automate": "Come può Qorva aiutarmi ad automatizzare il mio processo di selezione?",
+      "createRule": "Come creo una regola di Copilot?",
+      "runMatching": "Come avvio il matching per un annuncio?",
+      "inviteUser": "Come invito un collega e imposto i suoi permessi?",
+      "usage": "Cosa conta per i limiti del mio piano?",
+      "uploadCvs": "Come carico molti CV in una volta?",
+      "dataHealth": "Cosa controlla Salute dei dati e come risolvo i problemi?",
+      "pipeline": "Come sposto i candidati nella pipeline?"
+    },
+    "errors": {
+      "generic": "L'aiuto di Qorva non è riuscito a rispondere. Riprova tra poco o contatta il supporto."
+    },
+    "ticket": {
+      "title": "Contatta il supporto",
+      "intro": "Raccontaci cosa è successo. Il nostro team risponde via e-mail all'indirizzo del tuo account.",
+      "subject": "Oggetto",
+      "description": "Descrizione",
+      "descriptionPlaceholder": "Cosa stavi cercando di fare, cosa è successo ed eventuali messaggi di errore.",
+      "noSecrets": "Non inserire mai password, chiavi API o altri segreti.",
+      "includeConversation": "Includi questa conversazione di aiuto",
+      "send": "Invia richiesta",
+      "sending": "Invio…",
+      "cancel": "Annulla",
+      "done": "Fatto",
+      "sent": "Richiesta {{reference}} inviata. Ti risponderemo via e-mail: cita questo riferimento se ci scrivi di nuovo."
+    },
+    "links": {
+      "dashboard": "Dashboard",
+      "cvs": "Archivio CV",
+      "library_quality": "Salute dei dati",
+      "jobs": "Annunci",
+      "reports": "Report",
+      "pipeline": "Pipeline",
+      "usage": "Consumi",
+      "copilot": "Copilot",
+      "copilot_activity": "Copilot → Attività",
+      "copilot_rules": "Copilot → Regole",
+      "configuration_email_templates": "Modelli e-mail",
+      "settings_profile": "Il mio profilo",
+      "settings_company": "Azienda",
+      "settings_users": "Utenti",
+      "settings_integrations": "Integrazioni",
+      "settings_billing": "Fatturazione"
+    }
   }
 }

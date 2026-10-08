@@ -2182,5 +2182,67 @@
       "dropped": "{{name}} dropped on {{status}}.",
       "cancelled": "Moving {{name}} was cancelled."
     }
+  },
+  "help": {
+    "open": "Help",
+    "title": "Qorva Help",
+    "close": "Close help",
+    "newConversation": "New conversation",
+    "placeholder": "Ask how to do something in Qorva…",
+    "send": "Send",
+    "disclaimer": "Answers come from Qorva's help and can be imperfect.",
+    "thinking": "Looking it up…",
+    "contactSupport": "Contact support",
+    "openPage": "Open {{page}}",
+    "empty": {
+      "title": "How can we help?",
+      "subtitle": "Ask anything about using Qorva — features, integrations, Copilot, plans or a problem you're having. Answers are in your language."
+    },
+    "starters": {
+      "connectAts": "How do I connect my ATS (for example Recruitee) to Qorva?",
+      "automate": "How can Qorva help me automate my recruiting workflow?",
+      "createRule": "How do I create a Copilot rule?",
+      "runMatching": "How do I run matching for a job?",
+      "inviteUser": "How do I invite a colleague and set their permissions?",
+      "usage": "What counts against my plan's limits?",
+      "uploadCvs": "How do I upload resumes in bulk?",
+      "dataHealth": "What does Data Health check and how do I fix issues?",
+      "pipeline": "How do I move candidates on the pipeline?"
+    },
+    "errors": {
+      "generic": "Qorva Help could not answer right now. Try again in a moment, or contact support."
+    },
+    "ticket": {
+      "title": "Contact support",
+      "intro": "Tell us what happened. Our team replies by email to your account address.",
+      "subject": "Subject",
+      "description": "Description",
+      "descriptionPlaceholder": "What were you trying to do, what happened, and any error message you saw.",
+      "noSecrets": "Never include passwords, API keys or other secrets.",
+      "includeConversation": "Include this help conversation",
+      "send": "Send request",
+      "sending": "Sending…",
+      "cancel": "Cancel",
+      "done": "Done",
+      "sent": "Request {{reference}} sent. We'll reply by email — quote this reference if you write to us again."
+    },
+    "links": {
+      "dashboard": "Dashboard",
+      "cvs": "Resume Library",
+      "library_quality": "Data Health",
+      "jobs": "Jobs",
+      "reports": "Match Reports",
+      "pipeline": "Pipeline",
+      "usage": "Usage",
+      "copilot": "Copilot",
+      "copilot_activity": "Copilot → Activity",
+      "copilot_rules": "Copilot → Rules",
+      "configuration_email_templates": "Email Templates",
+      "settings_profile": "My Profile",
+      "settings_company": "Company",
+      "settings_users": "Users",
+      "settings_integrations": "Integrations",
+      "settings_billing": "Billing"
+    }
   }
 }

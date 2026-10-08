@@ -2182,5 +2182,67 @@
       "dropped": "{{name}} déposé dans {{status}}.",
       "cancelled": "Le déplacement de {{name}} est annulé."
     }
+  },
+  "help": {
+    "open": "Aide",
+    "title": "Aide Qorva",
+    "close": "Fermer l'aide",
+    "newConversation": "Nouvelle conversation",
+    "placeholder": "Demandez comment faire quelque chose dans Qorva…",
+    "send": "Envoyer",
+    "disclaimer": "Les réponses viennent de l'aide Qorva et peuvent être imparfaites.",
+    "thinking": "Recherche en cours…",
+    "contactSupport": "Contacter le support",
+    "openPage": "Ouvrir {{page}}",
+    "empty": {
+      "title": "Comment pouvons-nous vous aider ?",
+      "subtitle": "Posez toute question sur l'utilisation de Qorva : fonctionnalités, intégrations, Copilot, offres ou un problème rencontré. Les réponses sont dans votre langue."
+    },
+    "starters": {
+      "connectAts": "Comment connecter mon ATS (par exemple Recruitee) à Qorva ?",
+      "automate": "Comment Qorva peut-il m'aider à automatiser mon recrutement ?",
+      "createRule": "Comment créer une règle Copilot ?",
+      "runMatching": "Comment lancer le matching pour une offre ?",
+      "inviteUser": "Comment inviter un collègue et définir ses droits ?",
+      "usage": "Qu'est-ce qui est décompté des limites de mon offre ?",
+      "uploadCvs": "Comment importer des CV en masse ?",
+      "dataHealth": "Que vérifie la Santé des données et comment corriger les problèmes ?",
+      "pipeline": "Comment déplacer des candidats dans le pipeline ?"
+    },
+    "errors": {
+      "generic": "L'aide Qorva n'a pas pu répondre. Réessayez dans un instant ou contactez le support."
+    },
+    "ticket": {
+      "title": "Contacter le support",
+      "intro": "Expliquez-nous ce qui s'est passé. Notre équipe vous répond par e-mail à l'adresse de votre compte.",
+      "subject": "Objet",
+      "description": "Description",
+      "descriptionPlaceholder": "Ce que vous essayiez de faire, ce qui s'est passé et le message d'erreur éventuel.",
+      "noSecrets": "N'incluez jamais de mot de passe, de clé API ni d'autre secret.",
+      "includeConversation": "Joindre cette conversation d'aide",
+      "send": "Envoyer la demande",
+      "sending": "Envoi…",
+      "cancel": "Annuler",
+      "done": "Terminé",
+      "sent": "Demande {{reference}} envoyée. Nous vous répondrons par e-mail — indiquez cette référence si vous nous écrivez à nouveau."
+    },
+    "links": {
+      "dashboard": "Tableau de bord",
+      "cvs": "CVthèque",
+      "library_quality": "Santé des données",
+      "jobs": "Offres",
+      "reports": "Rapports",
+      "pipeline": "Pipeline",
+      "usage": "Consommation",
+      "copilot": "Copilot",
+      "copilot_activity": "Copilot → Activité",
+      "copilot_rules": "Copilot → Règles",
+      "configuration_email_templates": "Modèles d'e-mails",
+      "settings_profile": "Mon Profil",
+      "settings_company": "Entreprise",
+      "settings_users": "Utilisateurs",
+      "settings_integrations": "Intégrations",
+      "settings_billing": "Facturation"
+    }
   }
 }

@@ -19,6 +19,8 @@ const SYNTHETIC = {
 	'GET /agent/runs/pending-approval/count': () => ({ status: 200, body: { count: 0 } }),
 	// Environment config, not tenant data: Microsoft sign-in is off unless a test turns it on.
 	'GET /auth/sso/availability': () => ({ status: 200, body: { microsoft: false } }),
+	// Qorva Help is off unless a test turns it on (keeps the header in the visual baselines unchanged).
+	'GET /help/availability': () => ({ status: 200, body: { enabled: false } }),
 	// Model output: never recorded by the backend export, so a fixed, representative answer.
 	'GET /library-quality/insight': () => ({ status: 200, body: {
 		headline: 'Your library is in fair shape, held back by missing contact details.',
