@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { alpha } from '@mui/material/styles';
 import AnswerMarkdown from './answer/AnswerMarkdown.jsx';
 import AnswerBlocks from './answer/AnswerBlocks.jsx';
+import SaveAnswerAsNote from './answer/SaveAnswerAsNote.jsx';
 import AgentRunTimeline from './AgentRunTimeline.jsx';
 import AgentActionCards from './AgentActionCards.jsx';
 import RunStatusChip from './RunStatusChip.jsx';
@@ -68,6 +69,7 @@ const AgentRunCard = ({ run, onCancel, onLinkClick, onRunUpdate, showGoal = true
 						<Box data-testid="copilot-answer" sx={{ pt: run.steps?.length ? 1 : 0, borderTop: run.steps?.length ? `1px dashed ${tokens.line.main}` : 'none' }}>
 							<AnswerMarkdown content={run.finalAnswer} />
 							{run.blocks && <AnswerBlocks blocks={run.blocks} onCandidateClick={onLinkClick} />}
+							<SaveAnswerAsNote run={run} onRunUpdate={onRunUpdate} />
 						</Box>
 					)}
 					{run.stoppedEarly && (
@@ -107,6 +109,8 @@ AgentRunCard.propTypes = {
 		failureReason: PropTypes.string,
 		stoppedEarly: PropTypes.bool,
 		canCancel: PropTypes.bool,
+		canSaveAnswerAsNote: PropTypes.bool,
+		answerNoteId: PropTypes.string,
 	}).isRequired,
 	onCancel: PropTypes.func,
 	onLinkClick: PropTypes.func,

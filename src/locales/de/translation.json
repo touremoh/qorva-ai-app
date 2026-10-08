@@ -1535,7 +1535,8 @@
     "empty": "Noch keine Notizen.",
     "you": "Sie",
     "edited": "bearbeitet",
-    "readOnlyHint": "Upgraden Sie, um Notizen für Ihr Team hinzuzufügen."
+    "readOnlyHint": "Upgraden Sie, um Notizen für Ihr Team hinzuzufügen.",
+    "copilotAuthor": "Copilot (für {{name}})"
   },
   "candidateOutreach": {
     "title": "Kandidat anschreiben",
@@ -1875,7 +1876,21 @@
         "cap": "Limit",
         "perDay": "Bis zu {{count}} Aufgaben pro Tag",
         "note": "Nur ab jetzt: Bereits Vorhandenes wird nicht verarbeitet. Sie können sie in Copilot → Regeln pausieren oder bearbeiten.",
-        "matching": "Matching"
+        "matching": "Matching",
+        "profileUpdates": "Profilaktualisierungen"
+      },
+      "profileUpdate": {
+        "title": "Kandidaten bitten, ihr Profil zu aktualisieren?",
+        "template": "Vorlage",
+        "standard": "Standardnachricht von Qorva",
+        "note": "{{count}} Kandidat(en) erhalten eine E-Mail mit einem privaten Link zur Aktualisierung ihres Profils. Sonst ändert sich nichts.",
+        "outcome": {
+          "SENT": "Wird angefragt",
+          "SKIPPED_NO_EMAIL": "Keine E-Mail",
+          "SKIPPED_SUPPRESSED": "Abgemeldet",
+          "SKIPPED_ACTIVE": "Anfrage läuft",
+          "SKIPPED_RECENT": "Kürzlich angefragt"
+        }
       }
     },
     "rules": {
@@ -1916,7 +1931,12 @@
         "SCHEDULE": "Nach Zeitplan",
         "ATS_SYNC_FINISHED": "Ein ATS-Import endet",
         "JOB_NEEDS_MATCHING": "Eine Stelle braucht ein Matching",
-        "REPORT_STATUS_CHANGED": "Der Status eines Kandidaten ändert sich"
+        "REPORT_STATUS_CHANGED": "Der Status eines Kandidaten ändert sich",
+        "REPORT_STATUS_IDLE": "Ein Kandidat bleibt in einem Status",
+        "CV_OUTDATED": "Ein Lebenslauf veraltet",
+        "JOB_CLOSED": "Eine Stelle wird geschlossen",
+        "DUPLICATE_FOUND": "Ein Duplikat wird gefunden",
+        "CANDIDATE_PROFILE_UPDATED": "Ein Kandidat aktualisiert sein Profil"
       },
       "sources": {
         "ANY": "Hochgeladen oder importiert",
@@ -1955,7 +1975,15 @@
         "weekly": "Jeden {{day}} um {{time}} ({{zone}})",
         "atsSync": "Wenn ein Import aus {{name}} endet",
         "jobNeedsMatching": "Wenn {{job}} ein Matching braucht",
-        "statusChanged": "Wenn sich der Status eines Kandidaten bei {{job}} ändert"
+        "statusChanged": "Wenn sich der Status eines Kandidaten bei {{job}} ändert",
+        "verdicts": "Empfehlung {{list}}",
+        "maxScore": "Score {{score}} oder weniger",
+        "scoreRange": "Score {{min}}–{{max}}",
+        "idle": "Wenn ein Kandidat {{days}} Tage in {{statuses}} bei {{job}} bleibt",
+        "outdated": "Wenn ein Lebenslauf {{months}} Monate alt wird",
+        "jobClosed": "Wenn {{job}} geschlossen wird",
+        "duplicate": "Wenn ein neuer Kandidat einem bestehenden entspricht",
+        "profileUpdated": "Wenn ein Kandidat sein Profil aktualisiert"
       },
       "errors": {
         "name": "Geben Sie der Regel einen Namen (max. 100 Zeichen).",
@@ -1967,7 +1995,12 @@
         "weekday": "Wählen Sie einen Tag.",
         "staleReasons": "Wählen Sie mindestens einen Grund.",
         "autoApproveMax": "Zwischen 1 und 500.",
-        "toStatuses": "Wählen Sie mindestens einen Status."
+        "toStatuses": "Wählen Sie mindestens einen Status.",
+        "maxScore": "Zwischen 0 und 100, nicht unter dem Minimum.",
+        "idleStatuses": "Wählen Sie mindestens einen Status.",
+        "idleDays": "Zwischen 1 und 90 Tagen.",
+        "staleMonths": "Wählen Sie ein Alter.",
+        "autoApproveProfileUpdatesMax": "Zwischen 1 und 25."
       },
       "dialog": {
         "newTitle": "Neue Regel",
@@ -1996,7 +2029,22 @@
         "autoApprove": "Matching ohne Rückfrage starten",
         "autoApproveMax": "Max. Aktionen pro Matching",
         "autoApproveHelp": "Ein teureres Matching wartet weiterhin auf Ihre Freigabe",
-        "toStatuses": "Status, die die Regel auslösen"
+        "toStatuses": "Status, die die Regel auslösen",
+        "maxScore": "Höchstwert",
+        "recommendations": "Empfehlung",
+        "recommendationsHelp": "Keine angekreuzt = jede Empfehlung.",
+        "idleStatuses": "Zu beobachtende Status",
+        "idleDays": "Tage ohne Änderung",
+        "idleHelp": "Löst einmal pro Wartezeit aus; eine neue Verschiebung startet die Zählung neu.",
+        "staleMonths": "Alter des Lebenslaufs",
+        "staleMonthsOption": "{{months}} Monate",
+        "outdatedNote": "Heute bereits veraltete Lebensläufe sind nicht enthalten: Nutzen Sie dafür Datenqualität → Aktualisierung anfordern.",
+        "jobClosedNote": "Die Aufgabe listet die Kandidaten auf, die noch auf die Stelle warten (Neu, Kontaktiert oder Vorausgewählt).",
+        "duplicateNote": "Ein neuer Kandidat hat dieselbe E-Mail oder Telefonnummer wie ein bestehender. Die Aufgabe nennt beide Profile.",
+        "profileUpdatedNote": "Ein Kandidat hat eine Profilaktualisierung abgeschlossen (aus Datenqualität oder Copilot).",
+        "autoApproveProfileUpdates": "Aktualisierungsanfragen ohne Rückfrage senden",
+        "autoApproveProfileUpdatesMax": "Max. Kandidaten pro Anfrage",
+        "autoApproveProfileUpdatesHelp": "Größere Mengen warten weiterhin auf Ihre Freigabe"
       },
       "staleReasons": {
         "NEVER_RUN": "Neue Stelle",
@@ -2005,7 +2053,8 @@
         "CANDIDATE_CHANGED": "Kandidatenprofile geändert"
       },
       "autoApproved": "Matching läuft ohne Rückfrage (bis zu {{count}} Aktionen)",
-      "stepAutoApproved": "Ohne Rückfrage ausgeführt — von der Regel vorab freigegeben"
+      "stepAutoApproved": "Ohne Rückfrage ausgeführt — von der Regel vorab freigegeben",
+      "autoApprovedProfileUpdates": "Aktualisierungsanfragen ohne Rückfrage (bis zu {{count}} Kandidaten)"
     },
     "focus": {
       "label": "Zu {{name}} · {{job}}",
@@ -2015,6 +2064,10 @@
     "ask": {
       "aboutCandidate": "Copilot zu diesem Kandidaten fragen",
       "aboutCandidateForJob": "Copilot zu diesem Kandidaten für diese Stelle fragen"
+    },
+    "answer": {
+      "saveAsNote": "Als Notiz speichern",
+      "savedAsNote": "Als Notiz im Match-Bericht gespeichert"
     }
   },
   "agent": {
@@ -2047,7 +2100,10 @@
       "rule_created": "Regel „{{name}}“ erstellt",
       "set_report_status": "{{count}} Kandidat(en) auf {{status}} gesetzt",
       "ask_about_candidate": "Antwort zu {{name}} für „{{job}}“",
-      "analyze_library": "Lebenslaufdatenbank analysiert"
+      "analyze_library": "Lebenslaufdatenbank analysiert",
+      "request_profile_update": "Aktualisierungsanfrage für {{count}} Kandidat(en)",
+      "request_profile_update_done": "{{count}} Kandidat(en) um Profilaktualisierung gebeten ({{skipped}} übersprungen)",
+      "ask_about_candidate_saved": "Antwort zu {{name}} für „{{job}}“ als Notiz gespeichert"
     }
   },
   "matchingRun": {

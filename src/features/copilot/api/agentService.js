@@ -10,6 +10,9 @@ export const getAgentRun = (id) => apiClient.get(`/agent/runs/${id}`);
 
 export const cancelAgentRun = (id) => apiClient.post(`/agent/runs/${id}/cancel`);
 
+/** "Save as note": keeps a candidate answer as a Copilot note on the report (or the candidate); returns the run. */
+export const saveAgentAnswerAsNote = (id) => apiClient.post(`/agent/runs/${id}/answer-note`);
+
 /** params: { scope: 'mine' | 'team', status, origin, ruleId, userEmail, page, size } */
 export const listAgentRuns = (params) => apiClient.get('/agent/runs', { params });
 

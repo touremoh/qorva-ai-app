@@ -20,6 +20,7 @@ import { addNote, editNote, getNotes, removeNote } from '../api/noteService.js';
 import { USER_EMAIL } from '../../../constants.js';
 import { isActionAllowed, openUpgradeDialog } from '../../../utils/demoMode.js';
 import { brandButtonSx, textButtonSx } from '../../../shared/ui/buttonSx.js';
+import { noteAuthor } from '../model/noteAuthor.js';
 import * as tokens from '../../../theme/tokens.js';
 
 const THEME_GREEN = tokens.brand.main;
@@ -216,7 +217,7 @@ const NotesPanel = ({ targetType, targetId, sx }) => {
 							>
 								<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, mb: 0.5 }}>
 									<Typography sx={{ fontSize: tokens.fontSize.small, fontWeight: 700, color: tokens.ink.strong }}>
-										{own ? t('notes.you', 'You') : (note.authorName || note.authorEmail)}
+										{noteAuthor(t, note, own)}
 									</Typography>
 									<Tooltip title={absolute(note.createdAt)}>
 										<Typography sx={{ fontSize: tokens.fontSize.caption, color: tokens.ink.subtle }}>

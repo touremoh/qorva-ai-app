@@ -29,7 +29,7 @@ describe('validateRule', () => {
 describe('toRuleRequest', () => {
 	it('sends only the fields of the chosen trigger', () => {
 		expect(toRuleRequest(form({}, { jobPostId: 'j1', minScore: 75 })).trigger)
-			.toEqual({ type: 'CV_SCORED', jobPostId: 'j1', minScore: 75, recommendedOnly: true });
+			.toEqual({ type: 'CV_SCORED', jobPostId: 'j1', minScore: 75, recommendations: ['strong_interview', 'interview'] });
 		expect(toRuleRequest(form({}, { type: TRIGGER.SCHEDULE, frequency: 'DAILY', hour: '8', zoneId: 'Europe/Paris' })).trigger)
 			.toEqual({ type: 'SCHEDULE', frequency: 'DAILY', hour: 8, zoneId: 'Europe/Paris' });
 		expect(toRuleRequest(form({}, { type: TRIGGER.ATS_SYNC_FINISHED, connectionId: '' })).trigger).toEqual({ type: 'ATS_SYNC_FINISHED' });
@@ -110,5 +110,62 @@ describe('a rule on jobs that need matching', () => {
 			expect(triggerSummary(t, { type: 'REPORT_STATUS_CHANGED', toStatuses: ['HIRED'] }))
 				.toBe('copilot.rules.summary.statusChanged:{"job":"copilot.rules.anyJob"} · reportStatus.values.HIRED');
 		});
+	});
+});
+
+describe('new triggers (2026-10-08)', () => {
+	it('filters scored candidates by verdict and score range', () => {
+		const request = toRuleRequest(form({}, { minScore: '', maxScore: 40, recommendations: ['reject'] }));
+		expect(request.trigger).toEqual({ type: 'CV_SCORED', maxScore: 40, recommendations: ['reject'] });
+		// Every verdict ticked, or none: any verdict.
+		expect(toRuleRequest(form({}, { recommendations: [] })).trigger.recommendations).toBeUndefined();
+		expect(toRuleRequest(form({}, { recommendations: ['reject', 'may_be', 'interview', 'strong_interview'] })).trigger.recommendations).toBeUndefined();
+		expect(validateRule(form({}, { minScore: 60, maxScore: 50 })).maxScore).toBeDefined();
+		expect(validateRule(form({}, { minScore: 40, maxScore: 60 })).maxScore).toBeUndefined();
+	});
+
+	it('reads an older "recommended for interview" rule as the interview verdicts', () => {
+		const loaded = ruleToForm({ name: 'n', goalTemplate: 'g', trigger: { type: 'CV_SCORED', recommendedOnly: true } });
+		expect(loaded.trigger.recommendations).toEqual(['strong_interview', 'interview']);
+		expect(ruleToForm({ name: 'n', goalTemplate: 'g', trigger: { type: 'CV_SCORED' } }).trigger.recommendations).toEqual([]);
+	});
+
+	it('sends an idle rule with the statuses it watches and its days', () => {
+		const idle = form({}, { type: TRIGGER.REPORT_STATUS_IDLE, idleStatuses: ['CONTACTED'], idleDays: '7', jobPostId: 'j1' });
+		expect(toRuleRequest(idle).trigger).toEqual({ type: 'REPORT_STATUS_IDLE', jobPostId: 'j1', toStatuses: ['CONTACTED'], idleDays: 7 });
+		expect(validateRule(form({}, { type: TRIGGER.REPORT_STATUS_IDLE, idleStatuses: [] })).idleStatuses).toBeDefined();
+		expect(validateRule(form({}, { type: TRIGGER.REPORT_STATUS_IDLE, idleDays: 91 })).idleDays).toBeDefined();
+		const loaded = ruleToForm({ name: 'n', goalTemplate: 'g', trigger: { type: 'REPORT_STATUS_IDLE', toStatuses: ['NEW'], idleDays: 3 } });
+		expect(loaded.trigger.idleStatuses).toEqual(['NEW']);
+		expect(loaded.trigger.toStatuses.length).toBeGreaterThan(1);
+	});
+
+	it('sends the other new triggers with only their own fields', () => {
+		expect(toRuleRequest(form({}, { type: TRIGGER.CV_OUTDATED, staleMonths: 12, source: 'ATS' })).trigger)
+			.toEqual({ type: 'CV_OUTDATED', source: 'ATS', staleMonths: 12 });
+		expect(validateRule(form({}, { type: TRIGGER.CV_OUTDATED, staleMonths: 7 })).staleMonths).toBeDefined();
+		expect(toRuleRequest(form({}, { type: TRIGGER.JOB_CLOSED, jobPostId: '' })).trigger).toEqual({ type: 'JOB_CLOSED' });
+		expect(toRuleRequest(form({}, { type: TRIGGER.DUPLICATE_FOUND })).trigger).toEqual({ type: 'DUPLICATE_FOUND', source: 'ANY' });
+		expect(toRuleRequest(form({}, { type: TRIGGER.CANDIDATE_PROFILE_UPDATED })).trigger).toEqual({ type: 'CANDIDATE_PROFILE_UPDATED' });
+	});
+
+	it('sends the profile-update pre-approval and checks its cap', () => {
+		const request = toRuleRequest(form({ autoApproveProfileUpdates: true, autoApproveProfileUpdatesMax: '5' }));
+		expect(request).toMatchObject({ autoApproveProfileUpdates: true, autoApproveProfileUpdatesMax: 5 });
+		expect(validateRule(form({ autoApproveProfileUpdates: true, autoApproveProfileUpdatesMax: 26 })).autoApproveProfileUpdatesMax).toBeDefined();
+		expect(toRuleRequest(form()).autoApproveProfileUpdates).toBeUndefined();
+	});
+
+	it('describes the new triggers', () => {
+		expect(triggerSummary(t, { type: 'CV_SCORED', jobTitle: 'Java', minScore: 40, maxScore: 60, recommendations: ['reject'] }))
+			.toBe('copilot.rules.summary.cvScored {"job":"Java"} · copilot.rules.summary.scoreRange {"min":40,"max":60} · '
+				+ 'copilot.rules.summary.verdicts {"list":"appCVMatching.recommendation.reject"}');
+		expect(triggerSummary(t, { type: 'REPORT_STATUS_IDLE', idleDays: 7, toStatuses: ['CONTACTED'] }))
+			.toBe('copilot.rules.summary.idle {"days":7,"statuses":"reportStatus.values.CONTACTED","job":"copilot.rules.anyJob"}');
+		expect(triggerSummary(t, { type: 'CV_OUTDATED', staleMonths: 18, source: 'ATS' }))
+			.toBe('copilot.rules.summary.outdated {"months":18} · copilot.rules.sources.ATS');
+		expect(triggerSummary(t, { type: 'JOB_CLOSED', jobTitle: 'Java' })).toBe('copilot.rules.summary.jobClosed {"job":"Java"}');
+		expect(triggerSummary(t, { type: 'DUPLICATE_FOUND', source: 'ANY' })).toBe('copilot.rules.summary.duplicate');
+		expect(triggerSummary(t, { type: 'CANDIDATE_PROFILE_UPDATED' })).toBe('copilot.rules.summary.profileUpdated');
 	});
 });
