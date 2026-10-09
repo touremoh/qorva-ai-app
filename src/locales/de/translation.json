@@ -2300,5 +2300,12 @@
       "settings_integrations": "Integrationen",
       "settings_billing": "Abrechnung"
     }
+  },
+  "cookieConsent": {
+    "title": "Wir verwenden Cookies",
+    "description": "Wir verwenden essenzielle Cookies für den Betrieb dieser Website. Mit Ihrer Einwilligung verwenden wir außerdem Analyse-Cookies (Google) und Werbe-Cookies (Google, Meta), um unsere Anzeigen zu messen. Sie können Ihre Auswahl jederzeit unter Cookie-Einstellungen ändern.",
+    "acceptAll": "Alle akzeptieren",
+    "essentialOnly": "Nur essenzielle",
+    "learnMore": "Datenschutzerklärung"
   }
 }

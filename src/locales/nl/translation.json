@@ -2300,5 +2300,12 @@
       "settings_integrations": "Integraties",
       "settings_billing": "Facturering"
     }
+  },
+  "cookieConsent": {
+    "title": "Wij gebruiken cookies",
+    "description": "Wij gebruiken essentiële cookies om deze site te laten werken. Met uw toestemming gebruiken we ook analytische cookies (Google) en advertentiecookies (Google, Meta) om onze advertenties te meten. U kunt uw keuze altijd wijzigen via Cookie-instellingen.",
+    "acceptAll": "Alles accepteren",
+    "essentialOnly": "Alleen essentiële",
+    "learnMore": "Privacybeleid"
   }
 }

@@ -2300,5 +2300,12 @@
       "settings_integrations": "Integrations",
       "settings_billing": "Billing"
     }
+  },
+  "cookieConsent": {
+    "title": "We use cookies",
+    "description": "We use essential cookies to run this site. With your consent, we also use analytics cookies (Google) and advertising cookies (Google, Meta) to measure our ads. You can change your choice at any time under Cookie settings.",
+    "acceptAll": "Accept All",
+    "essentialOnly": "Essential Only",
+    "learnMore": "Privacy Policy"
   }
 }
