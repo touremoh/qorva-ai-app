@@ -2300,5 +2300,12 @@
       "settings_integrations": "Integrazioni",
       "settings_billing": "Fatturazione"
     }
+  },
+  "cookieConsent": {
+    "title": "Utilizziamo i cookie",
+    "description": "Utilizziamo cookie essenziali per il funzionamento di questo sito. Con il tuo consenso, utilizziamo anche cookie analitici (Google) e pubblicitari (Google, Meta) per misurare i nostri annunci. Puoi modificare la tua scelta in qualsiasi momento in Impostazioni cookie.",
+    "acceptAll": "Accetta tutti",
+    "essentialOnly": "Solo essenziali",
+    "learnMore": "Informativa sulla privacy"
   }
 }

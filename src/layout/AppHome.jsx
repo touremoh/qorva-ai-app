@@ -13,8 +13,7 @@ import { AgentRunProvider } from "../contexts/AgentRunContext.jsx";
 import CandidateOutreachDock from "../features/outreach/components/CandidateOutreachDock.jsx";
 import HelpDrawer from '../features/help/components/HelpDrawer.jsx';
 import { HelpProvider } from '../features/help/hooks/HelpContext.jsx';
-import {logPageView} from "../utils/analytics.js";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {
 	COMP_ID_COPILOT,
 	COMP_ID_CVLIB,
@@ -53,7 +52,6 @@ const MOVED_TABS = {
 };
 
 const AppHome = () => {
-	const location = useLocation();
 	const navigate = useNavigate();
 	const { tab } = useParams();
 	const content = TAB_TO_COMP[tab] ?? MOVED_TABS[tab]?.comp ?? COMP_ID_DASHBOARD;
@@ -69,10 +67,6 @@ const AppHome = () => {
 	useEffect(() => {
 		if (MOVED_TABS[tab]) navigate(MOVED_TABS[tab].to, { replace: true });
 	}, [tab, navigate]);
-
-	useEffect(() => {
-		logPageView();
-	}, [location]);
 
 	return (
 		<BulkImportProvider>

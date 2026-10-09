@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, {useEffect} from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import Login from "./features/auth/components/Login.jsx";
 import Register from "./features/auth/components/Register.jsx";
@@ -14,17 +14,31 @@ import CheckoutCancelPage from "./features/billing/components/CheckoutCancelPage
 import SetPassword from "./features/auth/components/SetPassword.jsx";
 import EmailLinkRequest from "./features/auth/components/EmailLinkRequest.jsx";
 import CandidateUpdatePage from "./features/candidate-update/components/CandidateUpdatePage.jsx";
-import {initGA} from "./utils/analytics.js";
+import CookieConsent from "./shared/ui/CookieConsent.jsx";
+import {initTracking, trackPageView} from "./utils/tracking.js";
+
+// One virtual page view per route change, public pages included (tracking.js strips tokens).
+const RouteTracker = () => {
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        trackPageView(pathname);
+    }, [pathname]);
+
+    return null;
+};
 
 function App() {
 
     useEffect(() => {
-        initGA();
+        initTracking();
     }, []);
 
     return (
       <Router>
           <Toaster position="top-right" richColors closeButton />
+          <RouteTracker />
+          <CookieConsent />
           <Routes>
               <Route
                   path="/"

@@ -11,6 +11,7 @@ import RegisterBrandPanel from './register/RegisterBrandPanel.jsx';
 import RegisterFormPanel from './register/RegisterFormPanel.jsx';
 import RegisterTopBar from './register/RegisterTopBar.jsx';
 import { PROGRESS_STEPS } from '../model/registration.js';
+import { trackEvent } from '../../../utils/tracking.js';
 import * as tokens from '../../../theme/tokens.js';
 
 const UserRegistration = () => {
@@ -85,6 +86,7 @@ const UserRegistration = () => {
 		try {
 			const response = await registerUser(userInfo);
 			if (response.status === 200 && response.data?.data?.success) {
+				trackEvent('sign_up', { method: 'email' });
 				// Flash the green success state so the user sees the API responded before we move on.
 				setStatus('success');
 				setTimeout(() => navigate('/success', { state: { email: userInfo.email } }), 900);
