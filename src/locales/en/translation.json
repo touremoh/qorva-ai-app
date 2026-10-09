@@ -1543,7 +1543,8 @@
     "empty": "No notes yet.",
     "you": "You",
     "edited": "edited",
-    "readOnlyHint": "Upgrade to add notes for your team."
+    "readOnlyHint": "Upgrade to add notes for your team.",
+    "copilotAuthor": "Copilot (for {{name}})"
   },
   "candidateOutreach": {
     "title": "Email candidate",
@@ -1875,7 +1876,21 @@
         "cap": "Limit",
         "perDay": "Up to {{count}} tasks a day",
         "note": "From now on only: nothing that already exists is processed. You can pause or edit it in Copilot → Rules.",
-        "matching": "Matching"
+        "matching": "Matching",
+        "profileUpdates": "Profile updates"
+      },
+      "profileUpdate": {
+        "title": "Ask candidates to update their profile?",
+        "template": "Template",
+        "standard": "Standard Qorva message",
+        "note": "{{count}} candidate(s) will get an email with a private link to update their profile. Nothing else changes.",
+        "outcome": {
+          "SENT": "Will be asked",
+          "SKIPPED_NO_EMAIL": "No email",
+          "SKIPPED_SUPPRESSED": "Unsubscribed",
+          "SKIPPED_ACTIVE": "Request in progress",
+          "SKIPPED_RECENT": "Asked recently"
+        }
       }
     },
     "rules": {
@@ -1916,7 +1931,12 @@
         "SCHEDULE": "On a schedule",
         "ATS_SYNC_FINISHED": "An ATS import finishes",
         "JOB_NEEDS_MATCHING": "A job needs matching",
-        "REPORT_STATUS_CHANGED": "A candidate's status changes"
+        "REPORT_STATUS_CHANGED": "A candidate's status changes",
+        "REPORT_STATUS_IDLE": "A candidate stays in a status",
+        "CV_OUTDATED": "A CV becomes outdated",
+        "JOB_CLOSED": "A job is closed",
+        "DUPLICATE_FOUND": "A duplicate is found",
+        "CANDIDATE_PROFILE_UPDATED": "A candidate updates their profile"
       },
       "sources": {
         "ANY": "Uploaded or imported",
@@ -1955,7 +1975,15 @@
         "weekly": "Every {{day}} at {{time}} ({{zone}})",
         "atsSync": "When an import from {{name}} finishes",
         "jobNeedsMatching": "When {{job}} needs matching",
-        "statusChanged": "When a candidate's status changes on {{job}}"
+        "statusChanged": "When a candidate's status changes on {{job}}",
+        "verdicts": "recommendation {{list}}",
+        "maxScore": "score {{score}} or less",
+        "scoreRange": "score {{min}}–{{max}}",
+        "idle": "When a candidate stays {{days}} days in {{statuses}} on {{job}}",
+        "outdated": "When a CV becomes {{months}} months old",
+        "jobClosed": "When {{job}} is closed",
+        "duplicate": "When a new candidate matches an existing one",
+        "profileUpdated": "When a candidate updates their profile"
       },
       "errors": {
         "name": "Give the rule a name (up to 100 characters).",
@@ -1967,7 +1995,12 @@
         "weekday": "Choose a day.",
         "staleReasons": "Choose at least one reason.",
         "autoApproveMax": "Between 1 and 500.",
-        "toStatuses": "Choose at least one status."
+        "toStatuses": "Choose at least one status.",
+        "maxScore": "Between 0 and 100, and not below the minimum.",
+        "idleStatuses": "Choose at least one status.",
+        "idleDays": "Between 1 and 90 days.",
+        "staleMonths": "Choose an age.",
+        "autoApproveProfileUpdatesMax": "Between 1 and 25."
       },
       "dialog": {
         "newTitle": "New rule",
@@ -1996,7 +2029,22 @@
         "autoApprove": "Run matching without asking me",
         "autoApproveMax": "Max actions per matching",
         "autoApproveHelp": "A dearer matching still waits for your approval",
-        "toStatuses": "Statuses that start the rule"
+        "toStatuses": "Statuses that start the rule",
+        "maxScore": "Maximum score",
+        "recommendations": "Recommendation",
+        "recommendationsHelp": "None ticked = any recommendation.",
+        "idleStatuses": "Statuses to watch",
+        "idleDays": "Days without change",
+        "idleHelp": "Starts once per waiting period; a new move starts the count again.",
+        "staleMonths": "Age of the CV",
+        "staleMonthsOption": "{{months}} months",
+        "outdatedNote": "CVs that are already outdated today are not included: use Data Health → Request updates for those.",
+        "jobClosedNote": "The task lists the candidates still waiting on the job (New, Contacted or Shortlisted).",
+        "duplicateNote": "A new candidate with the same email or phone as an existing one. The task mentions both profiles.",
+        "profileUpdatedNote": "A candidate completed a profile-update request (from Data Health or Copilot).",
+        "autoApproveProfileUpdates": "Send update requests without asking me",
+        "autoApproveProfileUpdatesMax": "Max candidates per request",
+        "autoApproveProfileUpdatesHelp": "Larger batches still wait for your approval"
       },
       "staleReasons": {
         "NEVER_RUN": "New job",
@@ -2005,7 +2053,8 @@
         "CANDIDATE_CHANGED": "Candidate profiles changed"
       },
       "autoApproved": "Matching runs without asking (up to {{count}} actions)",
-      "stepAutoApproved": "Ran without asking — pre-approved by the rule"
+      "stepAutoApproved": "Ran without asking — pre-approved by the rule",
+      "autoApprovedProfileUpdates": "Update requests sent without asking (up to {{count}} candidates)"
     },
     "focus": {
       "label": "About {{name}} · {{job}}",
@@ -2015,6 +2064,10 @@
     "ask": {
       "aboutCandidate": "Ask Copilot about this candidate",
       "aboutCandidateForJob": "Ask Copilot about this candidate for this job"
+    },
+    "answer": {
+      "saveAsNote": "Save as note",
+      "savedAsNote": "Saved as a note on the match report"
     }
   },
   "agent": {
@@ -2047,7 +2100,10 @@
       "rule_created": "Created the rule “{{name}}”",
       "set_report_status": "Moved {{count}} candidate(s) to {{status}}",
       "ask_about_candidate": "Answered about {{name}} for “{{job}}”",
-      "analyze_library": "Analysed the resume library"
+      "analyze_library": "Analysed the resume library",
+      "request_profile_update": "Profile-update request for {{count}} candidate(s)",
+      "request_profile_update_done": "Asked {{count}} candidate(s) to update their profile ({{skipped}} skipped)",
+      "ask_about_candidate_saved": "Answered about {{name}} for “{{job}}” and saved it as a note"
     }
   },
   "matchingRun": {

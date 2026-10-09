@@ -1535,7 +1535,8 @@
     "empty": "Aún no hay notas.",
     "you": "Tú",
     "edited": "editada",
-    "readOnlyHint": "Mejora tu plan para añadir notas para tu equipo."
+    "readOnlyHint": "Mejora tu plan para añadir notas para tu equipo.",
+    "copilotAuthor": "Copilot (para {{name}})"
   },
   "candidateOutreach": {
     "title": "Escribir al candidato",
@@ -1875,7 +1876,21 @@
         "cap": "Límite",
         "perDay": "Hasta {{count}} tareas al día",
         "note": "Solo a partir de ahora: no se procesa nada de lo que ya existe. Puedes pausarla o editarla en Copilot → Reglas.",
-        "matching": "Matching"
+        "matching": "Matching",
+        "profileUpdates": "Actualizaciones de perfil"
+      },
+      "profileUpdate": {
+        "title": "¿Pedir a los candidatos que actualicen su perfil?",
+        "template": "Plantilla",
+        "standard": "Mensaje estándar de Qorva",
+        "note": "{{count}} candidato(s) recibirán un correo con un enlace privado para actualizar su perfil. Nada más cambia.",
+        "outcome": {
+          "SENT": "Se le pedirá",
+          "SKIPPED_NO_EMAIL": "Sin correo",
+          "SKIPPED_SUPPRESSED": "Dado de baja",
+          "SKIPPED_ACTIVE": "Solicitud en curso",
+          "SKIPPED_RECENT": "Solicitado recientemente"
+        }
       }
     },
     "rules": {
@@ -1916,7 +1931,12 @@
         "SCHEDULE": "Según un horario",
         "ATS_SYNC_FINISHED": "Termina una importación del ATS",
         "JOB_NEEDS_MATCHING": "Una oferta necesita matching",
-        "REPORT_STATUS_CHANGED": "Cambia el estado de un candidato"
+        "REPORT_STATUS_CHANGED": "Cambia el estado de un candidato",
+        "REPORT_STATUS_IDLE": "Un candidato permanece en un estado",
+        "CV_OUTDATED": "Un CV queda desactualizado",
+        "JOB_CLOSED": "Se cierra una oferta",
+        "DUPLICATE_FOUND": "Se detecta un duplicado",
+        "CANDIDATE_PROFILE_UPDATED": "Un candidato actualiza su perfil"
       },
       "sources": {
         "ANY": "Subido o importado",
@@ -1955,7 +1975,15 @@
         "weekly": "Cada {{day}} a las {{time}} ({{zone}})",
         "atsSync": "Cuando termina una importación de {{name}}",
         "jobNeedsMatching": "Cuando {{job}} necesita matching",
-        "statusChanged": "Cuando cambia el estado de un candidato en {{job}}"
+        "statusChanged": "Cuando cambia el estado de un candidato en {{job}}",
+        "verdicts": "recomendación {{list}}",
+        "maxScore": "puntuación {{score}} o menos",
+        "scoreRange": "puntuación {{min}}–{{max}}",
+        "idle": "Cuando un candidato permanece {{days}} días en {{statuses}} en {{job}}",
+        "outdated": "Cuando un CV cumple {{months}} meses",
+        "jobClosed": "Cuando se cierra {{job}}",
+        "duplicate": "Cuando un candidato nuevo coincide con uno existente",
+        "profileUpdated": "Cuando un candidato actualiza su perfil"
       },
       "errors": {
         "name": "Ponle un nombre a la regla (máx. 100 caracteres).",
@@ -1967,7 +1995,12 @@
         "weekday": "Elige un día.",
         "staleReasons": "Elige al menos un motivo.",
         "autoApproveMax": "Entre 1 y 500.",
-        "toStatuses": "Elige al menos un estado."
+        "toStatuses": "Elige al menos un estado.",
+        "maxScore": "Entre 0 y 100, y no por debajo del mínimo.",
+        "idleStatuses": "Elige al menos un estado.",
+        "idleDays": "Entre 1 y 90 días.",
+        "staleMonths": "Elige una antigüedad.",
+        "autoApproveProfileUpdatesMax": "Entre 1 y 25."
       },
       "dialog": {
         "newTitle": "Nueva regla",
@@ -1996,7 +2029,22 @@
         "autoApprove": "Ejecutar el matching sin preguntarme",
         "autoApproveMax": "Máx. acciones por matching",
         "autoApproveHelp": "Un matching más costoso sigue esperando tu aprobación",
-        "toStatuses": "Estados que activan la regla"
+        "toStatuses": "Estados que activan la regla",
+        "maxScore": "Puntuación máxima",
+        "recommendations": "Recomendación",
+        "recommendationsHelp": "Ninguna marcada = cualquier recomendación.",
+        "idleStatuses": "Estados a vigilar",
+        "idleDays": "Días sin cambios",
+        "idleHelp": "Se activa una vez por periodo de espera; un nuevo cambio reinicia la cuenta.",
+        "staleMonths": "Antigüedad del CV",
+        "staleMonthsOption": "{{months}} meses",
+        "outdatedNote": "Los CV que ya están desactualizados hoy no se incluyen: usa Salud de datos → Solicitar actualizaciones para ellos.",
+        "jobClosedNote": "La tarea lista los candidatos que aún esperan en la oferta (Nuevo, Contactado o Preseleccionado).",
+        "duplicateNote": "Un candidato nuevo tiene el mismo correo o teléfono que uno existente. La tarea menciona ambos perfiles.",
+        "profileUpdatedNote": "Un candidato completó una solicitud de actualización de perfil (desde Salud de datos o Copilot).",
+        "autoApproveProfileUpdates": "Enviar solicitudes de actualización sin preguntarme",
+        "autoApproveProfileUpdatesMax": "Máx. candidatos por solicitud",
+        "autoApproveProfileUpdatesHelp": "Los lotes mayores siguen esperando tu aprobación"
       },
       "staleReasons": {
         "NEVER_RUN": "Oferta nueva",
@@ -2005,7 +2053,8 @@
         "CANDIDATE_CHANGED": "Perfiles de candidatos modificados"
       },
       "autoApproved": "El matching se ejecuta sin preguntar (hasta {{count}} acciones)",
-      "stepAutoApproved": "Ejecutado sin preguntar — autorizado de antemano por la regla"
+      "stepAutoApproved": "Ejecutado sin preguntar — autorizado de antemano por la regla",
+      "autoApprovedProfileUpdates": "Solicitudes de actualización enviadas sin preguntar (hasta {{count}} candidatos)"
     },
     "focus": {
       "label": "Sobre {{name}} · {{job}}",
@@ -2015,6 +2064,10 @@
     "ask": {
       "aboutCandidate": "Preguntar a Copilot sobre este candidato",
       "aboutCandidateForJob": "Preguntar a Copilot sobre este candidato para este puesto"
+    },
+    "answer": {
+      "saveAsNote": "Guardar como nota",
+      "savedAsNote": "Guardado como nota en el informe"
     }
   },
   "agent": {
@@ -2047,7 +2100,10 @@
       "rule_created": "Regla «{{name}}» creada",
       "set_report_status": "{{count}} candidato(s) movido(s) a {{status}}",
       "ask_about_candidate": "Respuesta sobre {{name}} para «{{job}}»",
-      "analyze_library": "Base de CV analizada"
+      "analyze_library": "Base de CV analizada",
+      "request_profile_update": "Solicitud de actualización para {{count}} candidato(s)",
+      "request_profile_update_done": "Se pidió a {{count}} candidato(s) actualizar su perfil ({{skipped}} omitido(s))",
+      "ask_about_candidate_saved": "Respuesta sobre {{name}} para «{{job}}» guardada como nota"
     }
   },
   "matchingRun": {

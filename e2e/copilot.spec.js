@@ -161,6 +161,72 @@ test.describe('copilot', () => {
 		await expect(page.getByText('Sent an email to Ana Ruiz')).toBeVisible();
 	});
 
+	test('a profile-update request shows who is asked and who is skipped before approval', async ({ page }) => {
+		const awaitingUpdates = run('AWAITING_APPROVAL', {
+			canApprove: true,
+			approvalExpiresAt: '2026-09-17T10:00:00Z',
+			steps: [{ seq: 1, kind: 'TOOL_CALL', tool: 'request_profile_update', state: 'PENDING', summaryKey: 'agent.step.request_profile_update',
+				summaryParams: { count: '1' }, links: [] }],
+			pendingActions: [{ actionId: 'act-2', stepSeq: 1, tool: 'request_profile_update', status: 'PENDING', argsHash: 'h2', reason: null,
+				preview: { toSend: 1, templateName: null, candidates: [
+					{ cvId: 'cv-1', name: 'Ana Ruiz', email: 'a***@x.test', outcome: 'SENT' },
+					{ cvId: 'cv-2', name: 'Ben Ode', email: null, outcome: 'SKIPPED_NO_EMAIL' }] } }],
+		});
+		let decided = false;
+		await mockApi(page, {
+			...enabled,
+			'POST /agent/runs': () => json(202, run('QUEUED')),
+			[`GET /agent/runs/${RUN_ID}`]: () => json(200, decided ? run('COMPLETED', {
+				steps: [{ seq: 1, kind: 'TOOL_CALL', tool: 'request_profile_update', state: 'OK', summaryKey: 'agent.step.request_profile_update_done',
+					summaryParams: { count: '1', skipped: '1' }, links: [] }],
+				finalAnswer: 'Asked Ana Ruiz to update her profile.', finishedAt: '2026-09-16T10:01:00Z',
+			}) : awaitingUpdates),
+			[`POST /agent/runs/${RUN_ID}/actions/act-2/approve`]: () => {
+				decided = true;
+				return json(200, run('QUEUED'));
+			},
+		});
+		await signIn(page);
+		await page.goto('/app/copilot');
+		await page.getByPlaceholder(/describe a task/i).fill('Ask outdated candidates to update their profile');
+		await page.getByPlaceholder(/describe a task/i).press('Enter');
+
+		const card = page.getByTestId('copilot-profile-update-card');
+		await expect(card).toContainText('Ana Ruiz <a***@x.test>', { timeout: 10000 });
+		await expect(card).toContainText('No email');
+		await expect(card).toContainText('Standard Qorva message');
+		await page.getByTestId('copilot-action-approve').click();
+		await expect(page.getByText('Asked 1 candidate(s) to update their profile (1 skipped)')).toBeVisible({ timeout: 10000 });
+	});
+
+	test('a candidate answer is saved as a note once', async ({ page }) => {
+		const answered = run('COMPLETED', {
+			steps: [{ seq: 1, kind: 'TOOL_CALL', tool: 'ask_about_candidate', state: 'OK', summaryKey: 'agent.step.ask_about_candidate',
+				summaryParams: { name: 'Ana Ruiz', job: 'Java' }, links: [{ type: 'REPORT', id: 'rep-1', label: 'Java' }] }],
+			finalAnswer: 'A short interview plan.', finishedAt: '2026-09-16T10:00:00Z', canSaveAnswerAsNote: true, answerNoteId: null,
+		});
+		let saved = false;
+		await mockApi(page, {
+			...enabled,
+			'POST /agent/runs': () => json(202, run('QUEUED')),
+			[`GET /agent/runs/${RUN_ID}`]: () => json(200, saved ? { ...answered, canSaveAnswerAsNote: false, answerNoteId: 'note-1' } : answered),
+			[`POST /agent/runs/${RUN_ID}/answer-note`]: () => {
+				saved = true;
+				return json(200, { ...answered, canSaveAnswerAsNote: false, answerNoteId: 'note-1' });
+			},
+		});
+		await signIn(page);
+		await page.goto('/app/copilot');
+		await page.getByPlaceholder(/describe a task/i).fill('Prepare an interview plan for Ana');
+		await page.getByPlaceholder(/describe a task/i).press('Enter');
+
+		await expect(page.getByTestId('copilot-answer')).toContainText('A short interview plan.', { timeout: 10000 });
+		await page.getByTestId('copilot-answer-save-note').click();
+		await expect(page.getByTestId('copilot-answer-saved')).toContainText('Saved as a note on the match report');
+		await expect(page.getByTestId('copilot-answer-save-note')).toHaveCount(0);
+		expect(saved).toBe(true);
+	});
+
 	test('rejecting a card sends the reason to Copilot', async ({ page }) => {
 		let decision = null;
 		await mockApi(page, {

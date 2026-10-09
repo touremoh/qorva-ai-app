@@ -86,9 +86,51 @@ test.describe('copilot rules', () => {
 			name: 'Invite strong matches',
 			goalTemplate: 'Draft an interview invitation for {{candidates}}',
 			dailyRunCap: 20,
-			trigger: { type: 'CV_SCORED', jobPostId: JOB_ID, minScore: 70, recommendedOnly: true },
+			trigger: { type: 'CV_SCORED', jobPostId: JOB_ID, minScore: 70, recommendations: ['strong_interview', 'interview'] },
 		});
 		expect(unknown).toEqual([]);
+	});
+
+	test('new triggers send only their own fields: an idle candidate, and a rejected one', async ({ page }) => {
+		const sent = [];
+		await mockApi(page, {
+			...availability(true),
+			'GET /agent/rules': () => json(200, []),
+			'POST /agent/rules': (request) => {
+				sent.push(request.postDataJSON());
+				return json(201, rule({ trigger: request.postDataJSON().trigger }));
+			},
+		});
+		await signIn(page);
+		await page.goto('/app/copilot?tab=rules');
+		await expect(page.getByTestId('copilot-rules-empty')).toBeVisible({ timeout: 15_000 });
+
+		// Contacted for 7 days with no progress → follow-up.
+		await page.getByTestId('copilot-rule-new').click();
+		const dialog = page.getByTestId('copilot-rule-dialog');
+		await page.getByTestId('copilot-rule-name').fill('Nudge stalled candidates');
+		await page.getByTestId('copilot-rule-trigger').click();
+		await page.getByRole('option', { name: 'A candidate stays in a status' }).click();
+		await expect(dialog.getByTestId('copilot-rule-idle-statuses').getByRole('checkbox', { name: 'Contacted' })).toBeChecked();
+		await page.getByTestId('copilot-rule-idle-days').fill('7');
+		await page.getByTestId('copilot-rule-goal').fill('Draft a follow-up for {{candidates}}.');
+		await page.getByTestId('copilot-rule-save').click();
+		await expect(dialog).toHaveCount(0);
+		expect(sent[0].trigger).toEqual({ type: 'REPORT_STATUS_IDLE', toStatuses: ['CONTACTED'], idleDays: 7 });
+
+		// Rejected at matching → move to Rejected.
+		await page.getByTestId('copilot-rule-new').click();
+		await page.getByTestId('copilot-rule-name').fill('Reject');
+		await page.getByTestId('copilot-rule-min-score').fill('');
+		await page.getByTestId('copilot-rule-max-score').fill('40');
+		const verdicts = page.getByTestId('copilot-rule-recommendations');
+		await verdicts.getByRole('checkbox', { name: 'Strong Interview' }).uncheck();
+		await verdicts.getByRole('checkbox', { name: 'Interview', exact: true }).uncheck();
+		await verdicts.getByRole('checkbox', { name: 'Reject' }).check();
+		await page.getByTestId('copilot-rule-goal').fill('Move {{candidates}} to Rejected.');
+		await page.getByTestId('copilot-rule-save').click();
+		await expect(page.getByTestId('copilot-rule-dialog')).toHaveCount(0);
+		expect(sent[1].trigger).toEqual({ type: 'CV_SCORED', maxScore: 40, recommendations: ['reject'] });
 	});
 
 	test('a rule re-matches a changed job with its top 5, without asking, within a cost cap', async ({ page }) => {

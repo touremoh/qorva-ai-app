@@ -95,8 +95,35 @@ export const RuleActionBody = ({ preview }) => {
 			{preview.autoApproveMatching && (
 				<Row name={t('copilot.action.rule.matching')}>{t('copilot.rules.autoApproved', { count: preview.autoApproveMaxActions ?? 50 })}</Row>
 			)}
+			{preview.autoApproveProfileUpdates && (
+				<Row name={t('copilot.action.rule.profileUpdates')}>
+					{t('copilot.rules.autoApprovedProfileUpdates', { count: preview.autoApproveProfileUpdatesMax ?? 10 })}
+				</Row>
+			)}
 			<Typography sx={{ fontSize: tokens.fontSize.micro, color: tokens.ink.subtle }}>{t('copilot.action.rule.note')}</Typography>
 		</Box>
 	);
 };
 RuleActionBody.propTypes = { preview: PropTypes.object.isRequired };
+
+/**
+ * Profile-update request card: each candidate with their (masked) address and what will happen — asked, or skipped
+ * and why — and the email template. Nothing is editable: the request is the standard Data Health form.
+ */
+export const ProfileUpdateActionBody = ({ preview }) => {
+	const { t } = useTranslation();
+	return (
+		<Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.75 }} data-testid="copilot-profile-update-card">
+			{(preview.candidates ?? []).map((c) => (
+				<Row key={c.cvId} name={t(`copilot.action.profileUpdate.outcome.${c.outcome}`)}>
+					{c.email ? `${c.name} <${c.email}>` : c.name}
+				</Row>
+			))}
+			<Row name={t('copilot.action.profileUpdate.template')}>{preview.templateName || t('copilot.action.profileUpdate.standard')}</Row>
+			<Typography sx={{ fontSize: tokens.fontSize.micro, color: tokens.ink.subtle }}>
+				{t('copilot.action.profileUpdate.note', { count: preview.toSend ?? 0 })}
+			</Typography>
+		</Box>
+	);
+};
+ProfileUpdateActionBody.propTypes = { preview: PropTypes.object.isRequired };

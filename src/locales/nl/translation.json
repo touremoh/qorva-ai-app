@@ -1535,7 +1535,8 @@
     "empty": "Nog geen notities.",
     "you": "Jij",
     "edited": "bewerkt",
-    "readOnlyHint": "Upgrade om notities voor je team toe te voegen."
+    "readOnlyHint": "Upgrade om notities voor je team toe te voegen.",
+    "copilotAuthor": "Copilot (voor {{name}})"
   },
   "candidateOutreach": {
     "title": "Kandidaat mailen",
@@ -1875,7 +1876,21 @@
         "cap": "Limiet",
         "perDay": "Tot {{count}} taken per dag",
         "note": "Alleen vanaf nu: wat al bestaat wordt niet verwerkt. U kunt de regel pauzeren of bewerken in Copilot → Regels.",
-        "matching": "Matching"
+        "matching": "Matching",
+        "profileUpdates": "Profielupdates"
+      },
+      "profileUpdate": {
+        "title": "Kandidaten vragen hun profiel bij te werken?",
+        "template": "Sjabloon",
+        "standard": "Standaardbericht van Qorva",
+        "note": "{{count}} kandida(a)t(en) krijgen een e-mail met een privélink om hun profiel bij te werken. Verder verandert er niets.",
+        "outcome": {
+          "SENT": "Wordt gevraagd",
+          "SKIPPED_NO_EMAIL": "Geen e-mail",
+          "SKIPPED_SUPPRESSED": "Afgemeld",
+          "SKIPPED_ACTIVE": "Verzoek loopt",
+          "SKIPPED_RECENT": "Onlangs gevraagd"
+        }
       }
     },
     "rules": {
@@ -1916,7 +1931,12 @@
         "SCHEDULE": "Volgens een schema",
         "ATS_SYNC_FINISHED": "Een ATS-import is klaar",
         "JOB_NEEDS_MATCHING": "Een vacature moet gematcht worden",
-        "REPORT_STATUS_CHANGED": "De status van een kandidaat verandert"
+        "REPORT_STATUS_CHANGED": "De status van een kandidaat verandert",
+        "REPORT_STATUS_IDLE": "Een kandidaat blijft in een status",
+        "CV_OUTDATED": "Een cv raakt verouderd",
+        "JOB_CLOSED": "Een vacature wordt gesloten",
+        "DUPLICATE_FOUND": "Een duplicaat wordt gevonden",
+        "CANDIDATE_PROFILE_UPDATED": "Een kandidaat werkt zijn profiel bij"
       },
       "sources": {
         "ANY": "Geüpload of geïmporteerd",
@@ -1955,7 +1975,15 @@
         "weekly": "Elke {{day}} om {{time}} ({{zone}})",
         "atsSync": "Als een import uit {{name}} klaar is",
         "jobNeedsMatching": "Als {{job}} gematcht moet worden",
-        "statusChanged": "Wanneer de status van een kandidaat verandert bij {{job}}"
+        "statusChanged": "Wanneer de status van een kandidaat verandert bij {{job}}",
+        "verdicts": "aanbeveling {{list}}",
+        "maxScore": "score {{score}} of lager",
+        "scoreRange": "score {{min}}–{{max}}",
+        "idle": "Als een kandidaat {{days}} dagen in {{statuses}} blijft bij {{job}}",
+        "outdated": "Als een cv {{months}} maanden oud wordt",
+        "jobClosed": "Als {{job}} wordt gesloten",
+        "duplicate": "Als een nieuwe kandidaat overeenkomt met een bestaande",
+        "profileUpdated": "Als een kandidaat zijn profiel bijwerkt"
       },
       "errors": {
         "name": "Geef de regel een naam (max. 100 tekens).",
@@ -1967,7 +1995,12 @@
         "weekday": "Kies een dag.",
         "staleReasons": "Kies minstens één reden.",
         "autoApproveMax": "Tussen 1 en 500.",
-        "toStatuses": "Kies minstens één status."
+        "toStatuses": "Kies minstens één status.",
+        "maxScore": "Tussen 0 en 100, en niet onder het minimum.",
+        "idleStatuses": "Kies minstens één status.",
+        "idleDays": "Tussen 1 en 90 dagen.",
+        "staleMonths": "Kies een leeftijd.",
+        "autoApproveProfileUpdatesMax": "Tussen 1 en 25."
       },
       "dialog": {
         "newTitle": "Nieuwe regel",
@@ -1996,7 +2029,22 @@
         "autoApprove": "Matching starten zonder het mij te vragen",
         "autoApproveMax": "Max. acties per matching",
         "autoApproveHelp": "Een duurdere matching wacht nog steeds op uw goedkeuring",
-        "toStatuses": "Statussen die de regel starten"
+        "toStatuses": "Statussen die de regel starten",
+        "maxScore": "Maximumscore",
+        "recommendations": "Aanbeveling",
+        "recommendationsHelp": "Niets aangevinkt = elke aanbeveling.",
+        "idleStatuses": "Te volgen statussen",
+        "idleDays": "Dagen zonder wijziging",
+        "idleHelp": "Gaat één keer af per wachtperiode; een nieuwe verplaatsing start de telling opnieuw.",
+        "staleMonths": "Leeftijd van het cv",
+        "staleMonthsOption": "{{months}} maanden",
+        "outdatedNote": "Cv’s die vandaag al verouderd zijn, worden niet meegenomen: gebruik daarvoor Datakwaliteit → Updates aanvragen.",
+        "jobClosedNote": "De taak toont de kandidaten die nog op de vacature wachten (Nieuw, Gecontacteerd of Shortlist).",
+        "duplicateNote": "Een nieuwe kandidaat heeft hetzelfde e-mailadres of telefoonnummer als een bestaande. De taak noemt beide profielen.",
+        "profileUpdatedNote": "Een kandidaat heeft een verzoek om profielupdate afgerond (vanuit Datakwaliteit of Copilot).",
+        "autoApproveProfileUpdates": "Updateverzoeken versturen zonder het mij te vragen",
+        "autoApproveProfileUpdatesMax": "Max. kandidaten per verzoek",
+        "autoApproveProfileUpdatesHelp": "Grotere groepen wachten nog op je goedkeuring"
       },
       "staleReasons": {
         "NEVER_RUN": "Nieuwe vacature",
@@ -2005,7 +2053,8 @@
         "CANDIDATE_CHANGED": "Kandidaatprofielen gewijzigd"
       },
       "autoApproved": "Matching start zonder te vragen (tot {{count}} acties)",
-      "stepAutoApproved": "Uitgevoerd zonder te vragen — vooraf goedgekeurd door de regel"
+      "stepAutoApproved": "Uitgevoerd zonder te vragen — vooraf goedgekeurd door de regel",
+      "autoApprovedProfileUpdates": "Updateverzoeken verstuurd zonder te vragen (tot {{count}} kandidaten)"
     },
     "focus": {
       "label": "Over {{name}} · {{job}}",
@@ -2015,6 +2064,10 @@
     "ask": {
       "aboutCandidate": "Vraag Copilot over deze kandidaat",
       "aboutCandidateForJob": "Vraag Copilot over deze kandidaat voor deze vacature"
+    },
+    "answer": {
+      "saveAsNote": "Opslaan als notitie",
+      "savedAsNote": "Opgeslagen als notitie bij het rapport"
     }
   },
   "agent": {
@@ -2047,7 +2100,10 @@
       "rule_created": "Regel ‘{{name}}’ aangemaakt",
       "set_report_status": "{{count}} kandidaat/kandidaten naar {{status}} verplaatst",
       "ask_about_candidate": "Antwoord over {{name}} voor ‘{{job}}’",
-      "analyze_library": "Cv-bank geanalyseerd"
+      "analyze_library": "Cv-bank geanalyseerd",
+      "request_profile_update": "Updateverzoek voor {{count}} kandida(a)t(en)",
+      "request_profile_update_done": "{{count}} kandida(a)t(en) gevraagd hun profiel bij te werken ({{skipped}} overgeslagen)",
+      "ask_about_candidate_saved": "Antwoord over {{name}} voor ‘{{job}}’ opgeslagen als notitie"
     }
   },
   "matchingRun": {
