@@ -1,0 +1,86 @@
+name: Deploy
+
+# Every push to a release branch deploys to production once CI passes: the commit is pushed to the
+# `prod` branch (the one the Amplify app serves, auto-build off) and the Amplify build is started here.
+# "Run workflow" on an older release branch redeploys it (rollback).
+on:
+  push:
+    branches: ['release/**']
+  workflow_dispatch:
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+
+  deploy:
+    needs: ci
+    runs-on: ubuntu-latest
+    # Only release/* branches may use this environment, and only it may assume the AWS role.
+    environment:
+      name: production
+      url: https://app.qorva.ai
+    permissions:
+      id-token: write
+      contents: write
+    env:
+      APP_ID: ${{ vars.AMPLIFY_APP_ID }}
+    steps:
+      - name: Amplify app configured?
+        id: gate
+        run: |
+          if [ -z "$APP_ID" ]; then
+            echo "::notice::AMPLIFY_APP_ID is not set for the production environment: nothing deployed."
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.gate.outputs.enabled == 'true'
+        with:
+          fetch-depth: 0
+
+      - name: Move prod to this commit
+        if: steps.gate.outputs.enabled == 'true'
+        run: git push --force origin "HEAD:refs/heads/prod"
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        if: steps.gate.outputs.enabled == 'true'
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Build and deploy on Amplify
+        if: steps.gate.outputs.enabled == 'true'
+        run: |
+          job=$(aws amplify start-job --app-id "$APP_ID" --branch-name prod --job-type RELEASE \
+            --commit-id "$GITHUB_SHA" --commit-message "${GITHUB_REF_NAME} (${GITHUB_SHA::7})" \
+            --query jobSummary.jobId --output text)
+          echo "Amplify job $job"
+          echo "AMPLIFY_JOB=$job" >> "$GITHUB_ENV"
+          for _ in $(seq 1 80); do
+            status=$(aws amplify get-job --app-id "$APP_ID" --branch-name prod --job-id "$job" \
+              --query job.summary.status --output text)
+            echo "Status: $status"
+            case "$status" in
+              SUCCEED) exit 0 ;;
+              FAILED|CANCELLED) echo "::error::Amplify job $job $status"; exit 1 ;;
+            esac
+            sleep 15
+          done
+          echo "::error::Amplify job $job did not finish in 20 minutes"
+          exit 1
+
+      - name: Summary
+        if: steps.gate.outputs.enabled == 'true'
+        run: |
+          {
+            echo "### Deployed"
+            echo "- Release: \`${GITHUB_REF_NAME}\` (${GITHUB_SHA::7})"
+            echo "- Amplify job: https://${AWS_REGION}.console.aws.amazon.com/amplify/apps/${APP_ID}/branches/prod/deployments/${AMPLIFY_JOB}"
+            echo "- Site: https://app.qorva.ai"
+          } >> "$GITHUB_STEP_SUMMARY"
