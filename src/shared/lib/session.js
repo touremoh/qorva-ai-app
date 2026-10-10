@@ -2,6 +2,8 @@ import {
 	AUTH_TOKEN,
 	QORVA_USER_LANGUAGE,
 	SUBSCRIPTION_STATUS,
+	TENANT_ACCESS_EXPIRES_AT,
+	TENANT_ACCOUNT_TYPE,
 	TENANT_ID,
 	TOKEN_EXPIRY,
 	USER_ACCOUNT_STATUS,
@@ -34,6 +36,9 @@ const writeSession = (authResults) => {
 	localStorage.setItem(SUBSCRIPTION_STATUS, subscriptionStatus ?? '');
 	localStorage.setItem(USER_ACCOUNT_STATUS, userAccountStatus ?? '');
 	localStorage.setItem(USER_AUTHORITIES, JSON.stringify(authorities ?? []));
+	// Test accounts (created from the admin console): no Stripe, access until a set date.
+	localStorage.setItem(TENANT_ACCOUNT_TYPE, user.tenant?.accountType ?? '');
+	localStorage.setItem(TENANT_ACCESS_EXPIRES_AT, user.tenant?.accessExpiresAt ?? '');
 	if (priceId) {
 		localStorage.setItem(SELECTED_PRICE_ID, priceId);
 	}

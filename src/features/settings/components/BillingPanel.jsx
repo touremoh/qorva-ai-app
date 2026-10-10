@@ -6,15 +6,20 @@ import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
 import UpgradeButton from '../../../components/demo/UpgradeButton.jsx';
 import { useTranslation } from 'react-i18next';
 import * as tokens from '../../../theme/tokens.js';
+import { formatLongDate } from '../../../shared/lib/format.js';
 
 /** Subscription management: opens the Stripe billing portal. */
-const BillingPanel = ({ demo, canManage, handleOpenBillingPortal, loadingPortal }) => {
+const BillingPanel = ({ demo, testAccessEndsAt, canManage, handleOpenBillingPortal, loadingPortal }) => {
 	const { t } = useTranslation();
 	return (
 		<>
 		<Box sx={{ maxWidth: 480 }}>
 			{demo ? (
 				<UpgradeButton reason="billing" variant="outlined" size="small" />
+			) : testAccessEndsAt !== undefined ? (
+				<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.soft, lineHeight: 1.65 }}>
+					{t('accountSettings.testAccountBilling', { date: testAccessEndsAt ? formatLongDate(testAccessEndsAt) : '—' })}
+				</Typography>
 			) : !canManage ? (
 				<Typography sx={{ fontSize: tokens.fontSize.body2, color: tokens.ink.soft, lineHeight: 1.65 }}>
 					{t('accountSettings.billingOwnerOnly')}
@@ -68,6 +73,8 @@ const BillingPanel = ({ demo, canManage, handleOpenBillingPortal, loadingPortal 
 
 BillingPanel.propTypes = {
 	demo: PropTypes.bool,
+	/** Set (date or null) only for a test account: no billing portal, the access end is shown instead. */
+	testAccessEndsAt: PropTypes.string,
 	canManage: PropTypes.bool,
 	handleOpenBillingPortal: PropTypes.func,
 	loadingPortal: PropTypes.any,

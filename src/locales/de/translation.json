@@ -700,7 +700,8 @@
       "resendInvite": "Einladung erneut senden",
       "inviteSent": "Eine neue Einladung wurde an {{email}} gesendet. Der vorherige Link funktioniert nicht mehr.",
       "invited": "Einladung an {{email}} gesendet: Das Passwort wird über den Link festgelegt (3 Tage gültig)."
-    }
+    },
+    "testAccountBilling": "Dies ist ein Testkonto: Es gibt kein Abonnement zu verwalten. Ihr Zugang endet am {{date}}."
   },
   "dashboard": {
     "errors": {

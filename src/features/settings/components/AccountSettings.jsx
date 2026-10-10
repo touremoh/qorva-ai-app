@@ -20,6 +20,7 @@ import AccountIntegrationsTab from './AccountIntegrationsTab.jsx';
 import ConnectedMailboxCard from './ConnectedMailboxCard.jsx';
 import MfaCard from './MfaCard.jsx';
 import { isDemoUser } from '../../../utils/demoMode.js';
+import { isTestAccount, testAccessEndsAt } from '../../../shared/lib/testAccount.js';
 import BillingPanel from './BillingPanel.jsx';
 import PasswordCard from './profile/PasswordCard.jsx';
 import ProfileDetailsCard from './profile/ProfileDetailsCard.jsx';
@@ -218,7 +219,7 @@ const AccountSettings = () => {
 
 				{/* ══ Billing Tab ══ */}
 				{activeTab === 'billing' && (
-					<BillingPanel demo={demo} canManage={hasPermission('UPDATE_SUBSCRIPTION')} handleOpenBillingPortal={handleOpenBillingPortal} loadingPortal={loadingPortal} />
+					<BillingPanel demo={demo} testAccessEndsAt={isTestAccount() ? testAccessEndsAt() : undefined} canManage={hasPermission('UPDATE_SUBSCRIPTION')} handleOpenBillingPortal={handleOpenBillingPortal} loadingPortal={loadingPortal} />
 				)}
 			</Box>
 		</Box>
