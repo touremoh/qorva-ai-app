@@ -700,7 +700,8 @@
       "resendInvite": "Invia di nuovo l'invito",
       "inviteSent": "È stato inviato un nuovo invito a {{email}}. Il link precedente non funziona più.",
       "invited": "Invito inviato a {{email}}: sceglierà la password dal link (valido 3 giorni)."
-    }
+    },
+    "testAccountBilling": "Questo è un account di prova: non c’è alcun abbonamento da gestire. Il tuo accesso termina il {{date}}."
   },
   "dashboard": {
     "errors": {

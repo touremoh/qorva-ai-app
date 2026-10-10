@@ -700,7 +700,8 @@
       "resendInvite": "Reenviar invitación",
       "inviteSent": "Se envió una nueva invitación a {{email}}. El enlace anterior ya no funciona.",
       "invited": "Invitación enviada a {{email}}: elegirá su contraseña desde el enlace (válido 3 días)."
-    }
+    },
+    "testAccountBilling": "Esta es una cuenta de prueba: no hay ninguna suscripción que gestionar. Tu acceso termina el {{date}}."
   },
   "dashboard": {
     "errors": {

@@ -700,7 +700,8 @@
       "resendInvite": "Reenviar convite",
       "inviteSent": "Foi enviado um novo convite a {{email}}. A ligação anterior já não funciona.",
       "invited": "Convite enviado a {{email}}: a pessoa escolhe a palavra-passe a partir da ligação (válida 3 dias)."
-    }
+    },
+    "testAccountBilling": "Esta é uma conta de teste: não há nenhuma subscrição para gerir. O seu acesso termina a {{date}}."
   },
   "dashboard": {
     "errors": {

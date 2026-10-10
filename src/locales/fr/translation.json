@@ -700,7 +700,8 @@
       "resendInvite": "Renvoyer l'invitation",
       "inviteSent": "Une nouvelle invitation a été envoyée à {{email}}. Le lien précédent ne fonctionne plus.",
       "invited": "Invitation envoyée à {{email}} : la personne choisira son mot de passe depuis le lien (valable 3 jours)."
-    }
+    },
+    "testAccountBilling": "Ceci est un compte de test : il n’y a pas d’abonnement à gérer. Votre accès prend fin le {{date}}."
   },
   "dashboard": {
     "errors": {

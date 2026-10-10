@@ -700,7 +700,8 @@
       "resendInvite": "Re-send invite",
       "inviteSent": "A new invite was sent to {{email}}. The previous link no longer works.",
       "invited": "Invite sent to {{email}}: they will choose their password from the link (valid 3 days)."
-    }
+    },
+    "testAccountBilling": "This is a test account: there is no subscription to manage. Your access ends on {{date}}."
   },
   "dashboard": {
     "errors": {
